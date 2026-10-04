@@ -12,7 +12,7 @@ from typing import Optional
 
 from . import config
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
-from .http import GAP, OK, Fetcher, RateLimiter, Response
+from .http import BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response
 from .images import blob_path, resolve_image, sniff_image, store_blob
 from .media import MEDIA_CAPTURE_FILE, MediaIndex, hosts_for, scan_host, stems_of
 from .parsing import parse_post_page, post_id_from_url

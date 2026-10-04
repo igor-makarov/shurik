@@ -140,8 +140,10 @@ def scan_host(
             break
     kept = [c for c in kept if c.statuscode in ("200", "") and within_cutoff(c.timestamp)]
     new = index.add(kept)
+    # `error == "ok"` is success, not failure: do not read it as "incomplete".
+    err = last.get("error")
+    complete = bool(short_page and err in (None, "ok"))
     info = {"rows": seen_rows, "kept": len(kept), "new": new, "pages": pages,
-            "complete": bool(short_page and not last.get("error")),
-            "response": last}
+            "complete": complete, "response": last}
     index.mark_host(host, info)
     return {"host": host, **info}
