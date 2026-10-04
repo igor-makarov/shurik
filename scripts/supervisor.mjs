@@ -96,15 +96,28 @@ export async function start(options) {
   await store.mutate(c => ({ ...c, pr, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
   console.log(`Draft PR: ${pr}`); await dispatch({ ...control, pr });
 }
+export async function expireUnstartedIteration(store, generation, iteration, invocationRunId) {
+  // Recheck the fence inside CAS: a skipped invocation must never stop a resumed generation or another owner.
+  return store.mutate(c => {
+    if (c.generation !== generation || c.next !== iteration || c.status !== 'running'
+      || !c.deadline || !stopped(c) || (c.owner && c.owner.runId !== invocationRunId)) return null;
+    return { ...c, status: 'deadline', owner: null, lastDispatchAt: null };
+  }, 'shurik: deadline expired before agent start');
+}
 export async function iterate(options) {
   const id = validateId(options.loop_id); const generation = Number(options.generation); const iteration = Number(options.iteration);
   const ctl = await clone('control'); const store = new ControlStore(ctl, id);
   let control = (await store.read()).value;
   if (control.supervisor !== await git(stable, 'rev-parse', 'HEAD')) throw new Error('Supervisor revision mismatch');
-  if (!claimable(control, generation, iteration, runId)) { console.log('Duplicate, stale, or stopped invocation skipped'); return; }
+  if (!claimable(control, generation, iteration, runId)) {
+    await expireUnstartedIteration(store, generation, iteration, runId);
+    console.log('Duplicate, stale, or stopped invocation skipped'); return;
+  }
   control = await store.mutate(c => claimable(c, generation, iteration, runId) ? { ...c,
     owner: { runId, generation, iteration, claimedAt: new Date().toISOString() } } : null, `shurik: claim ${id} ${generation}/${iteration}`);
-  if (control.owner?.runId !== runId || !claimable(control, generation, iteration, runId)) return;
+  if (control.owner?.runId !== runId || !claimable(control, generation, iteration, runId)) {
+    await expireUnstartedIteration(store, generation, iteration, runId); return;
+  }
   const workspace = await clone('workspace'); await git(workspace, 'checkout', control.branch);
   emergencyWorkspace = workspace;
   const initial = await git(workspace, 'rev-parse', 'HEAD'); const state = join(workspace, '.shurik/state', id);

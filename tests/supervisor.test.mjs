@@ -3,9 +3,25 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { ControlStore, git, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.mjs';
+import { ControlStore, git, command, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.mjs';
 import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot } from '../scripts/policy.mjs';
 import { retainBundle, verifyBundle } from '../scripts/runtime.mjs';
+import { expireUnstartedIteration } from '../scripts/supervisor.mjs';
+
+async function expiredFixture() {
+  const dir = await mkdtemp(join(tmpdir(), 'shurik-expiry-')); const remote = join(dir, 'remote'); const seed = join(dir, 'seed');
+  await mkdir(seed); await git(dir, 'init', '--bare', remote); await git(seed, 'init'); await configureGit(seed);
+  await git(seed, 'remote', 'add', 'origin', remote);
+  await writeFile(join(seed, 'fixture.txt'), 'pinned supervisor fixture\n'); const supervisor = await commit(seed, 'baseline');
+  await saveJson(join(seed, 'control.json'), { version: 1, supervisor, status: 'running', generation: 2, next: 4, owner: null,
+    deadline: '2020-01-01T00:00:00Z', lastDispatchAt: '2019-12-31T23:59:59Z', lastRunId: 'previous' });
+  await commit(seed, 'expired handoff'); await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/expiry');
+  await git(seed, 'checkout', '--detach', supervisor);
+  async function reader(name) {
+    const cwd = join(dir, name); await git(dir, 'clone', remote, cwd); await configureGit(cwd); return new ControlStore(cwd, 'expiry');
+  }
+  return { dir, seed, remote, reader, store: await reader('worker') };
+}
 
 test('repository root API URL has no trailing slash; nested endpoints retain their path', () => {
   assert.equal(repositoryURL('owner/repo'), 'https://api.github.com/repos/owner/repo');
@@ -18,6 +34,52 @@ test('claim fence rejects duplicates, stale generations, stopped loops, and elap
   assert.ok(!claimable(c, 1, 4, 'one')); assert.ok(!claimable(c, 2, 3, 'one'));
   assert.ok(!claimable({ ...c, status: 'stopped' }, 2, 4, 'one'));
   assert.ok(!claimable({ ...c, deadline: '2020-01-01T00:00:00Z' }, 2, 4, 'one'));
+});
+test('an expired skipped invocation records deadline without starting work or disturbing another owner', async () => {
+  const f = await expiredFixture(); const { store } = f; const original = (await store.read()).revision;
+  await expireUnstartedIteration(store, 1, 4, 'stale');
+  await expireUnstartedIteration(store, 2, 3, 'stale');
+  assert.equal((await store.read()).revision, original, 'stale invocations leave control untouched');
+  const module = new URL('../scripts/supervisor.mjs', import.meta.url).href;
+  const code = `import { iterate } from ${JSON.stringify(module)}; await iterate({ loop_id: 'expiry', generation: '2', iteration: '4' });`;
+  const output = await command(process.execPath, ['--input-type=module', '-e', code], f.dir, { env: {
+    ...process.env, GITHUB_WORKSPACE: f.seed, SHURIK_REMOTE: f.remote, GITHUB_REPOSITORY: '', GITHUB_RUN_ID: 'queued',
+    GH_TOKEN: '', GITHUB_TOKEN: '', OPENCODE_API_KEY: ''
+  } });
+  assert.match(output, /invocation skipped/);
+  assert.equal(await git(f.dir, '--git-dir', f.remote, 'for-each-ref', '--format=%(refname)', 'refs/heads/codex/shurik/'), '',
+    'expired invocation never creates a work branch or launches an agent');
+  let c = (await store.read()).value;
+  assert.equal(c.status, 'deadline'); assert.equal(c.owner, null); assert.equal(c.lastDispatchAt, null);
+  assert.equal(c.next, 4); assert.equal(c.lastRunId, 'previous');
+  await store.mutate(v => ({ ...v, status: 'running', owner: { runId: 'queued', generation: 2, iteration: 4 } }));
+  await expireUnstartedIteration(store, 2, 4, 'queued');
+  c = (await store.read()).value;
+  assert.equal(c.status, 'deadline'); assert.equal(c.owner, null, 'expiry during claim clears only this unstarted owner');
+  await store.mutate(v => ({ ...v, status: 'running', owner: { runId: 'active', generation: 2, iteration: 4 } }));
+  const owned = (await store.read()).revision;
+  await expireUnstartedIteration(store, 2, 4, 'duplicate');
+  assert.equal((await store.read()).revision, owned, 'another owner retains its cleanup responsibility');
+  await store.mutate(v => ({ ...v, status: 'stopped', owner: null }));
+  await expireUnstartedIteration(store, 2, 4, 'queued');
+  assert.equal((await store.read()).value.status, 'stopped', 'manual stop retains its reason');
+});
+test('an expired invocation racing resume cannot overwrite the new generation or deadline', async () => {
+  const f = await expiredFixture(); const resume = await f.reader('resume'); let resumed = false; let attempts = 0;
+  const future = '2099-01-01T08:00:00Z';
+  const racingStore = { mutate: (change, message) => f.store.mutate(async c => {
+    attempts++;
+    if (!resumed) {
+      resumed = true;
+      await resume.mutate(v => ({ ...v, status: 'running', generation: 3, deadline: future,
+        owner: null, lastDispatchAt: new Date().toISOString() }));
+    }
+    return change(c);
+  }, message) };
+  await expireUnstartedIteration(racingStore, 2, 4, 'old-invocation');
+  const c = (await resume.read()).value;
+  assert.equal(c.status, 'running'); assert.equal(c.generation, 3); assert.equal(c.deadline, future);
+  assert.equal(c.next, 4); assert.ok(attempts >= 2, 'failed stale push rechecks the latest fence');
 });
 test('agent loop snapshot omits scheduling while the control record still enforces the deadline', () => {
   const control = { version: 1, id: 'task', branch: 'codex/shurik/task', status: 'running',
