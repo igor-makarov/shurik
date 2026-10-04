@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { execFile, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
+import { createRequire } from 'node:module';
 const exec = promisify(execFile);
 const bundle = resolve(process.env.SHURIK_BUNDLE ?? 'dist/worker.cjs');
 async function fixture() {
@@ -16,7 +17,7 @@ async function run(f, id, script, sessions = [], extra = {}) {
   const output = join(f.dir, id); const req = { version: 1, id, cwd: f.cwd, journal: f.journal,
     output, prompt: `Iteration ${id}. Use the available tools.`, model: 'space-bunny-free', seconds: 10, sessions, script, ...extra };
   const file = join(f.dir, `${id}.json`); await writeFile(file, JSON.stringify(req));
-  await exec(process.execPath, [bundle, file], { timeout: 20000 });
+  await exec(process.execPath, [bundle, file], { timeout: Math.max(20000, (req.seconds + 10) * 1000) });
   return JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
 }
 test('standalone bundle: coding tools, native JSONL reopen, fresh context, all history tools', async () => {
@@ -50,11 +51,22 @@ test('time budget aborts work and journal opens in a new process', async () => {
   assert.equal(await readFile(join(f.cwd, 'partial.txt'), 'utf8'), 'partial');
   assert.equal((await run(f, 'after-timeout', [{ text: 'Fresh' }])).outcome, 'yielded');
 });
-test('candidate can reopen a COPY of the real journal without replaying work', async () => {
-  if (!process.env.SHURIK_REAL_JOURNAL) return;
+test('candidate can reopen a COPY of the real journal without replaying work', { skip: !process.env.SHURIK_REAL_JOURNAL }, async () => {
   const f = await fixture(); await cp(process.env.SHURIK_REAL_JOURNAL, f.journal, { recursive: true });
   assert.equal((await run(f, 'real-state-canary', [{ tool: 'bash', args: { command: 'printf canary > canary.txt' } }, { text: 'canary done' }])).outcome, 'yielded');
   assert.equal(await readFile(join(f.cwd, 'canary.txt'), 'utf8'), 'canary');
+});
+test('session boundaries survive more than 200 entries and oldest entries remain searchable', async () => {
+  const f = await fixture();
+  const script = [{ tool: 'write', args: { path: 'many.txt', content: 'OLDEST_RETAINED_ENTRY' } },
+    ...Array.from({ length: 102 }, () => ({ tool: 'read', args: { path: 'many.txt' } })), { text: 'many rounds done' }];
+  const first = await run(f, 'many', script, [], { seconds: 45 });
+  assert.equal(first.outcome, 'yielded');
+  assert.ok(first.maxEntryId - first.minEntryId > 200);
+  const second = await run(f, 'search-many', [{ tool: 'search_sessions', args: { query: 'OLDEST_RETAINED_ENTRY', limit: 1 } }, { text: 'retrieved' }],
+    [{ id: 'many', outcome: first.outcome, minEntryId: first.minEntryId, maxEntryId: first.maxEntryId }]);
+  assert.equal(second.outcome, 'yielded');
+  assert.ok(JSON.stringify(second.captured.at(-1)).includes('OLDEST_RETAINED_ENTRY'));
 });
 test('abrupt worker death leaves pending work that the next process aborts before fresh input', async () => {
   const f = await fixture(); const output = join(f.dir, 'killed'); const file = join(f.dir, 'kill.json');
@@ -71,4 +83,33 @@ test('abrupt worker death leaves pending work that the next process aborts befor
   assert.equal(fresh.outcome, 'yielded');
   assert.equal(fresh.captured.length, 1, 'pending generation must not replay against new provider script');
   assert.ok(!JSON.stringify(fresh.captured[0]).includes('OLD_INPUT_MUST_NOT_REPLAY'));
+});
+test('native OpenCode requests identify Shurik and retain session header across reset', async () => {
+  const f = await fixture(); const fetchOriginal = globalThis.fetch; const keyOriginal = process.env.OPENCODE_API_KEY;
+  const requests = [];
+  process.env.OPENCODE_API_KEY = 'FAKE_KEY_FOR_REQUEST_CONTRACT_TEST';
+  globalThis.fetch = async (url, options) => {
+    requests.push({ url: String(url), headers: new Headers(options.headers) });
+    const chunks = [
+      { id: 'test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: { role: 'assistant', content: 'Done.' }, finish_reason: null }] },
+      { id: 'test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: {}, finish_reason: 'stop' }], usage: { prompt_tokens: 10, completion_tokens: 2, total_tokens: 12 } }
+    ];
+    return new Response(chunks.map(c => `data: ${JSON.stringify(c)}\n\n`).join('') + 'data: [DONE]\n\n', { headers: { 'content-type': 'text/event-stream' } });
+  };
+  try {
+    const { runIteration } = createRequire(import.meta.url)(bundle);
+    for (const id of ['headers-first', 'headers-second']) {
+      const output = join(f.dir, id);
+      await runIteration({ version: 1, id, cwd: f.cwd, journal: f.journal, output, prompt: 'Use coding tools as needed; then yield.', model: 'space-bunny-free', seconds: 10, sessions: [] });
+      assert.equal(JSON.parse(await readFile(join(output, 'result.json'), 'utf8')).outcome, 'yielded');
+    }
+    assert.equal(requests.length, 2);
+    assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/0.1.0');
+    const session = requests[0].headers.get('x-opencode-session');
+    assert.ok(session); assert.equal(requests[1].headers.get('x-opencode-session'), session);
+  } finally {
+    globalThis.fetch = fetchOriginal;
+    if (keyOriginal === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = keyOriginal;
+  }
 });

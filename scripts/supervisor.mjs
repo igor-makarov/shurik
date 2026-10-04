@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, command, configureGit, saveJson, readJson, commit, ControlStore } from './github.mjs';
 import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest } from './policy.mjs';
-import { retainBundle, verifyBundle, validateCandidate, launchWorker, repairJournal } from './runtime.mjs';
+import { retainBundle, verifyBundle, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
 
 const stable = resolve(process.env.GITHUB_WORKSPACE ?? '.');
 const repo = process.env.GITHUB_REPOSITORY;
@@ -140,12 +140,17 @@ export async function iterate(options) {
         checkpointSeconds: (await readJson(join(stable, '.shurik/config.json'))).checkpointSeconds,
         sessions, prompt: `${await readFile(join(workspace, 'PROMPT.md'), 'utf8')}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(previous)}\nUse history tools for earlier transcripts.` },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
-      onCheckpoint: async () => { await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial); }
+      onCheckpoint: async () => {
+        // Update rollback only after a readable, published checkpoint. A later corruption restores this boundary.
+        if (!await inspectJournal(await verifyBundle(state, runtime.fallback), journal, stable)) throw new Error('Checkpoint journal is not readable by retained runtime');
+        await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial);
+        await rm(before, { recursive: true, force: true }); await cp(journal, before, { recursive: true });
+      }
     });
   } catch (e) { report.log = String(e); }
   finally {
     record.outcome = report.outcome; record.finishedAt = new Date().toISOString();
-    record.error = redact(JSON.stringify(report.result?.error ?? report.log).slice(0, 16000), secrets);
+    record.error = report.outcome === 'yielded' ? undefined : redact(JSON.stringify(report.result?.error ?? report.log).slice(0, 16000), secrets);
     record.usage = report.result?.usage;
     await sanitizeTree(workspace, secrets);
     const fallback = await verifyBundle(state, runtime.fallback);

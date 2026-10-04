@@ -27,8 +27,8 @@ export async function api(path, method = 'GET', body) {
   return response.status === 204 ? undefined : response.json();
 }
 export async function configureGit(cwd) {
-  await git(cwd, 'config', 'user.name', 'shurik[bot]');
-  await git(cwd, 'config', 'user.email', 'shurik@users.noreply.github.com');
+  await git(cwd, 'config', 'user.name', 'github-actions[bot]');
+  await git(cwd, 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com');
 }
 export async function saveJson(path, value) { await mkdir(join(path, '..'), { recursive: true }); await writeFile(path, JSON.stringify(value, null, 2) + '\n'); }
 export async function readJson(path, fallback) { try { return JSON.parse(await readFile(path, 'utf8')); } catch (e) { if (e.code === 'ENOENT' && fallback !== undefined) return fallback; throw e; } }
