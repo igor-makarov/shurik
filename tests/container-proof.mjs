@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, cp, readFile, writeFile, access, readdir } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
-import { launchWorker, validateCandidate, retainBundle, verifyBundle, inspectJournal } from '../scripts/runtime.mjs';
+import { launchWorker, validateCandidate, retainBundle, verifyBundle, inspectJournal, repairJournal } from '../scripts/runtime.mjs';
 import { nextRuntime } from '../scripts/policy.mjs';
 const stable = resolve('.'); await mkdir(join(stable, '.shurik-local'), { recursive: true });
 const dir = await mkdtemp(join(stable, '.shurik-local/shurik-container-proof-'));
@@ -54,6 +54,22 @@ assert.equal(await readFile(join(workspace, 'partial.txt'), 'utf8'), 'repaired')
 const accepted = await validateCandidate(workspace, stable, join(state, 'pi-jsonl'), join(dir, 'candidate.cjs'));
 assert.equal(accepted.passed, true, accepted.log);
 console.log('PASS: probation rollback, actual coding-tool repair, real-state canary and re-adoption');
+const checkpoint = join(dir, 'checkpoint');
+let checkpoints = 0;
+const checkpointRun = await launchWorker({ workspace, state, bundle, stable, req: {
+  ...baseReq, id: 'checkpoint', checkpointSeconds: 0.001,
+  script: [{ tool: 'write', args: { path: 'checkpoint.txt', content: 'consistent' } }, { text: 'checkpoint saved' }]
+}, onCheckpoint: async () => {
+  checkpoints++; await cp(join(state, 'pi-jsonl'), checkpoint, { recursive: true });
+  assert.ok(await inspectJournal(bundle, checkpoint, stable));
+} });
+assert.equal(checkpointRun.outcome, 'yielded'); assert.equal(checkpoints, 1);
+await writeFile(join(state, 'pi-jsonl/main.jsonl'), 'NOT_VALID_JSON\n');
+assert.ok(await repairJournal({ bundle, journal: join(state, 'pi-jsonl'), backup: checkpoint, diagnostics: join(dir, 'malformed'), stable }));
+assert.equal(await readFile(join(dir, 'malformed/main.jsonl'), 'utf8'), 'NOT_VALID_JSON\n');
+const afterCorruption = await launchWorker({ workspace, state, bundle, stable, req: { ...baseReq, id: 'after-corruption', script: [{ text: 'fresh after restored checkpoint' }] } });
+assert.equal(afterCorruption.outcome, 'yielded');
+console.log('PASS: paused consistent checkpoint, malformed journal retained, checkpoint restored and fresh iteration starts');
 await writeFile(join(dir, 'proof.json'), JSON.stringify({ failed: failed.outcome, rejected: !rejected.passed, probation: badRun.outcome,
   repair: repair.outcome, accepted: accepted.passed }, null, 2));
 console.log(`Evidence: ${join(dir, 'proof.json')}`);

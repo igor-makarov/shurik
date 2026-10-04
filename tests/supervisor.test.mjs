@@ -41,7 +41,7 @@ test('redacts exact credentials and common encoded forms before publication', as
   assert.ok(!String(await readFile(join(dir, 'journal.jsonl'))).includes(key));
   assert.equal(JSON.parse(await readFile(join(dir, 'journal.jsonl'), 'utf8')).text.length, key.length);
 });
-test('retained bundle boots independently of candidate dependencies; digest tampering is rejected', async () => {
+test('retained bundle digest is checked independently of candidate dependencies; tampering is rejected', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-runtime-')); const sha = await retainBundle('dist/worker.cjs', dir, 'source');
   const path = await verifyBundle(dir, sha); assert.ok(path.endsWith('worker.cjs'));
   await writeFile(path, 'broken'); await assert.rejects(verifyBundle(dir, sha), /digest mismatch/);

@@ -16,7 +16,8 @@ export async function verifyBundle(state, sha) {
   const path = join(state, 'runtimes', sha, 'worker.cjs');
   if (digest(await readFile(path)) !== sha) throw new Error('Runtime bundle digest mismatch'); return path;
 }
-const base = ['run', '--rm', '--init', '--cap-drop=ALL', '--security-opt=no-new-privileges', '--pids-limit=256', '--memory=3g', '--cpus=2'];
+const base = ['run', '--rm', '--init', '--cap-drop=ALL', '--security-opt=no-new-privileges', '--pids-limit=256', '--memory=3g', '--cpus=2',
+  '--user', `${process.getuid?.() ?? 1001}:${process.getgid?.() ?? 1001}`, '-e', 'HOME=/tmp'];
 async function temporary(name, stable) {
   const root = process.env.RUNNER_TEMP ?? join(stable, '.shurik-local');
   await mkdir(root, { recursive: true }); return mkdtemp(join(root, name));
@@ -43,7 +44,7 @@ export async function launchWorker({ workspace, state, bundle, req, onCheckpoint
   const io = await temporary('shurik-io-', stable); await mkdir(join(io, 'output'));
   await saveJson(join(io, 'request.json'), { ...req, cwd: '/workspace', journal: '/journal', output: '/io/output' });
   const name = `shurik-${process.pid}-${Date.now()}`;
-  const args = [...base, '--name', name, '--read-only', '--user', `${process.getuid?.() ?? 1001}:${process.getgid?.() ?? 1001}`,
+  const args = [...base, '--name', name, '--read-only',
     '--tmpfs', '/tmp:rw,nosuid,nodev,size=512m,mode=1777', '-e', 'HOME=/tmp', '-e', 'OPENCODE_API_KEY',
     '-v', `${workspace}:/workspace`, '-v', `${join(workspace, '.github')}:/workspace/.github:ro`,
     '-v', `${join(workspace, '.git')}:/workspace/.git:ro`, '-v', `${join(workspace, '.shurik')}:/workspace/.shurik:ro`,
@@ -89,4 +90,12 @@ export async function inspectJournal(bundle, journal, stable) {
     return (await readJson(join(io, 'result.json'))).outcome === 'readable';
   } catch { return false; }
   finally { await rm(io, { recursive: true, force: true }); }
+}
+export async function repairJournal({ bundle, journal, backup, diagnostics, stable }) {
+  if (await inspectJournal(bundle, journal, stable)) return false;
+  await cp(journal, diagnostics, { recursive: true });
+  await rm(journal, { recursive: true, force: true });
+  await cp(backup, journal, { recursive: true });
+  if (!await inspectJournal(bundle, journal, stable)) throw new Error('Retained journal checkpoint is unreadable');
+  return true;
 }

@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, command, configureGit, saveJson, readJson, commit, ControlStore } from './github.mjs';
 import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest } from './policy.mjs';
-import { retainBundle, verifyBundle, validateCandidate, launchWorker, inspectJournal, IMAGE } from './runtime.mjs';
+import { retainBundle, verifyBundle, validateCandidate, launchWorker, repairJournal } from './runtime.mjs';
 
 const stable = resolve(process.env.GITHUB_WORKSPACE ?? '.');
 const repo = process.env.GITHUB_REPOSITORY;
@@ -149,9 +149,7 @@ export async function iterate(options) {
     record.usage = report.result?.usage;
     await sanitizeTree(workspace, secrets);
     const fallback = await verifyBundle(state, runtime.fallback);
-    if (!await inspectJournal(fallback, journal, stable)) {
-      await cp(journal, join(state, 'diagnostics', `${sequence}-malformed-journal`), { recursive: true });
-      await rm(journal, { recursive: true, force: true }); await cp(before, journal, { recursive: true });
+    if (await repairJournal({ bundle: fallback, journal, backup: before, diagnostics: join(state, 'diagnostics', `${sequence}-malformed-journal`), stable })) {
       record.outcome = 'runner_failure'; record.error += '\nJournal invalid; restored last readable checkpoint. Malformed files retained.';
     }
     runtime = nextRuntime(runtime, record.outcome);

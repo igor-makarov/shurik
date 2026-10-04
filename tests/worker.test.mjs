@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtemp, readFile, writeFile, cp, mkdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { execFile } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 const exec = promisify(execFile);
 const bundle = resolve(process.env.SHURIK_BUNDLE ?? 'dist/worker.cjs');
@@ -55,4 +55,20 @@ test('candidate can reopen a COPY of the real journal without replaying work', a
   const f = await fixture(); await cp(process.env.SHURIK_REAL_JOURNAL, f.journal, { recursive: true });
   assert.equal((await run(f, 'real-state-canary', [{ tool: 'bash', args: { command: 'printf canary > canary.txt' } }, { text: 'canary done' }])).outcome, 'yielded');
   assert.equal(await readFile(join(f.cwd, 'canary.txt'), 'utf8'), 'canary');
+});
+test('abrupt worker death leaves pending work that the next process aborts before fresh input', async () => {
+  const f = await fixture(); const output = join(f.dir, 'killed'); const file = join(f.dir, 'kill.json');
+  await writeFile(file, JSON.stringify({ version: 1, id: 'killed', cwd: f.cwd, journal: f.journal, output,
+    prompt: 'OLD_INPUT_MUST_NOT_REPLAY', model: 'space-bunny-free', seconds: 10, sessions: [], script: [{ delayMs: 10000, text: 'old' }] }));
+  const child = spawn(process.execPath, [bundle, file], { stdio: 'ignore' });
+  const closed = new Promise(resolve => child.once('close', resolve));
+  for (let i = 0; i < 100; i++) {
+    try { if ((await readFile(join(f.journal, 'main.jsonl'), 'utf8')).includes('OLD_INPUT_MUST_NOT_REPLAY')) break; } catch {}
+    await new Promise(resolve => setTimeout(resolve, 20));
+  }
+  child.kill('SIGKILL'); await closed;
+  const fresh = await run(f, 'fresh', [{ text: 'new' }]);
+  assert.equal(fresh.outcome, 'yielded');
+  assert.equal(fresh.captured.length, 1, 'pending generation must not replay against new provider script');
+  assert.ok(!JSON.stringify(fresh.captured[0]).includes('OLD_INPUT_MUST_NOT_REPLAY'));
 });
