@@ -14,7 +14,7 @@ This branch contains the task prompt for Shurik to implement and run its own cra
 
 Launch the workflow from **main** and pass this branch through `source_ref`. The supervisor stays pinned to main, and the loop creates its own work and control branches from this task source. Subsequent iterations read the working branch's updated prompt and full retained session history.
 
-Set a deadline **30 minutes from launch**, as agreed for the first live test. Use a **600-second iteration budget** to exercise multiple fresh sessions within that deadline. Keep fault-injection `verification` disabled: this task is the real crawl, not the synthetic runner-fault test.
+Set a deadline **15 minutes from launch**, as agreed for the first live test. Use a **600-second iteration budget** to exercise multiple fresh sessions within that deadline. Keep fault-injection `verification` disabled: this task is the real crawl, not the synthetic runner-fault test.
 
 ```sh
 gh workflow run ralph.yml --repo igor-makarov/shurik --ref main \
@@ -23,12 +23,12 @@ gh workflow run ralph.yml --repo igor-makarov/shurik --ref main \
   -f loop_id=hazfalafel-UNIQUE-LOWERCASE-ID \
   -f model=space-bunny-free \
   -f seconds=600 \
-  -f deadline=ABSOLUTE-UTC-TIMESTAMP-30-MINUTES-FROM-NOW
+  -f deadline=ABSOLUTE-UTC-TIMESTAMP-15-MINUTES-FROM-NOW
 ```
 
 Replace both placeholders before running. The default 30-minute per-iteration budget is separate from the overall deadline. There is no new token or secret to create: the native worker receives `GITHUB_TOKEN` with `packages: write`, `GHCR_USERNAME`, and the existing `OPENCODE_API_KEY`. It must use credentials from the environment without printing or saving them. GitHub still rejects workflow edits made with this token.
 
-## Review after 30 minutes
+## Review after 15 minutes
 
 Inspect the loop's draft PR, session history, iteration outcomes, missing-item ledger, method log and GHCR package. Record the actual discovered, recovered, partially recovered, published and missing counts; do not treat unknown captures as completed work.
 
