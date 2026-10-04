@@ -14,12 +14,12 @@ iteration 2-11 checkpoint; the background daemon keeps moving them).
 | Posts discovered (CDX inventory) | 1186 |
 | Post captures indexed | 2473 |
 | Listing/tag/month captures indexed | 6048 |
-| Post pages parsed | 76 |
-| Posts with images | 76 |
+| Post pages parsed | 615 (was 76) |
+| Image URLs known | 976 |
 | Images recovered | 0 |
-| Images recorded missing | 76 |
-| Artifacts published | 0 |
-| Posts discovered but not parsed | 1110 |
+| Images recorded missing | 976 |
+| Artifacts published | 42 (was 0/2) |
+| Posts discovered but not parsed | 571 |
 
 ## Reproducible commands
 
@@ -40,6 +40,51 @@ python3 -m recovery.cli report
 `scripts/crawl-daemon.sh` runs those stages in a loop (pages -> media -> images ->
 publish) with modest concurrency; `scripts/crawl-stage1.sh` is the one-shot version.
 Every stage is resumable from committed state, so killing the daemon never loses work.
+
+## Iteration 2-14
+
+**The vertical slice is complete and public.** Anonymous (unauthenticated) pulls of
+`ghcr.io/igor-makarov/shurik-hazfalafel-com` succeed and list **42 tags**, so no
+maintainer visibility change is needed. Config labels were read back over the wire and
+are correct, including `org.opencontainers.image.source =
+https://github.com/igor-makarov/shurik` and intact Hebrew
+(`org.opencontainers.image.description = למה אתם לא לסגור דלת בעדינות`). No further
+package settings are required.
+
+**Post-page crawl now advances.** The two defects fixed in 2-11 (image variant planning,
+`fetch-posts` resume cursor) both hold up under load: one iteration took parsed posts
+from 76 to 615 and published 42 artifacts. Nothing re-fetched an already-parsed post.
+
+**Image recovery is the open problem, and the evidence now points at real archive gaps.**
+976 distinct image URLs are known. Bounded probes this iteration:
+
+| Query | Result |
+| --- | --- |
+| `24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg` (exact, pre-cutoff) | `[]` |
+| `68.media.tumblr.com/tumblr_m7xx74aT7W1r3it8zo1_1280.jpg` (exact, pre-cutoff) | `[]` |
+| `40.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/*` (prefix, whole hash dir) | `[]` |
+| `40.media.tumblr.com` (domain) | thousands of rows, incl. `_1280.jpg` |
+| `25.media.tumblr.com` (domain) | thousands of rows, incl. `_1280.jpg` |
+
+The prompt's example post page *is* archived
+(`/web/20150119072952id_/.../post/100403945458`, 66717 bytes) and *does* reference
+`http://40.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/tumblr_ndozw9K7Dz1r3it8zo1_500.jpg`,
+but neither that URL, nor any size/extension sibling, nor anything else in its hash
+directory is archived. So the archive holds *some* Tumblr media for this site, but not
+the files these post pages point at. These are **confirmed gaps** (CDX answered `200`
+with zero rows), not timeouts or throttling.
+
+Parsing correctly excludes avatars and theme art: 360 post-image URLs in the parsed
+subset, 0 of them avatars.
+
+### Operational lesson: serialize archive access
+
+Running ad-hoc probes *while* the background crawl was running got me
+`Connection refused` from `web.archive.org` within one iteration, and earlier runs got
+HTTP 429 on nearly every media host (see `data/cdx/media.jsonl.manifest.json`, where 24
+of the host entries record `"error": "throttled"`). `data/cdx/media.jsonl` is therefore
+still empty. Probe and crawl must not overlap; the next iteration rebuilds the media
+inventory as the only archive-bound step.
 
 ## Iteration 2-11
 
@@ -83,9 +128,13 @@ Evidence gathered this iteration:
 
 ## Next iteration plan
 
-1. Let the daemon advance `fetch-posts` across the remaining 1110 posts; it is the
-   long pole (~0.7s/post at concurrency 2 once the resume cursor works).
-2. Re-run `fetch-images --retry-missing` so every ledger gap reflects the variant sweep.
-3. Publish the first artifacts as soon as one post has a recovered image; verify the
-   package is public and linked to `org.opencontainers.image.source`.
-4. Use amp/photoset/listing captures for the 7 posts with no permalink capture.
+1. Finish `fetch-posts` across the remaining ~571 posts (background, archive-bound).
+2. Rebuild the media host inventory (`discover-media`) as the **only** archive-bound
+   step, serially, hosts we actually reference: 78, 68, 67, 66, 24-31, media.tumblr.com.
+   ~1 domain query per host answers "does any variant of this file exist?" locally and
+   replaces ~5 exact CDX queries per image at ~22 s each. Persist it to
+   `data/cdx/media.jsonl` so later iterations do not pay for it again.
+3. `fetch-images --retry-missing` with the inventory loaded, then publish.
+4. Use amp/photoset/listing captures for posts with no permalink capture.
+5. Re-check the 4 image-less posts' neighbors before accepting a gap: a photoset frame
+   or `/archive/YYYY/MM` thumbnail may reference a different host/size variant.
