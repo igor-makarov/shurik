@@ -1,10 +1,11 @@
-import { mkdtemp, mkdir, readFile, writeFile, cp, rm, readdir } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, command, configureGit, saveJson, readJson, commit, ControlStore } from './github.mjs';
-import { validateId, stopped, claimable, trustedRecovery, cancelledForLoop, nextRuntime, sanitizeTree, redact, digest } from './policy.mjs';
+import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest } from './policy.mjs';
 import { retainBundle, verifyBundle, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
+import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt } from './failures.mjs';
 
 const stable = resolve(process.env.GITHUB_WORKSPACE ?? '.');
 const repo = process.env.GITHUB_REPOSITORY;
@@ -108,21 +109,17 @@ export async function iterate(options) {
   const initial = await git(workspace, 'rev-parse', 'HEAD'); const state = join(workspace, '.shurik/state', id);
   const sequence = `${generation}-${iteration}`; const recordPath = join(state, 'iterations', `${sequence}.json`);
   let runtime = await readJson(join(state, 'runtime.json')); let sessions = await readJson(join(state, 'history-index.json'));
-  for (const name of await readdir(join(state, 'iterations')).catch(() => [])) {
-    const old = await readJson(join(state, 'iterations', name));
-    if (old.outcome === 'running') {
-      old.outcome = 'interrupted'; old.error = 'Actions run ended before final publication; recovered from latest committed checkpoint.';
-      await saveJson(join(state, 'iterations', name), old);
-      if (!sessions.some(s => s.id === old.id)) sessions.push({ id: old.id, outcome: old.outcome, error: old.error });
-    }
-  }
+  const failures = await importFailures(store, state);
+  await recoverInterrupted(state, sessions, failures);
   const record = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
     outcome: 'running', source: initial, runtime: runtime.selected };
-  await saveJson(recordPath, record); await saveJson(join(state, 'loop.json'), control);
+  await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
+  await saveJson(join(state, 'loop.json'), control);
   await publish(workspace, store, generation, state, `shurik: begin iteration ${sequence}`, initial);
   const journal = join(state, 'pi-jsonl'); await mkdir(journal, { recursive: true });
   const before = await mkdtemp(join(tmpdir(), 'shurik-journal-'));
   await cp(journal, before, { recursive: true });
+  let publishedBounds;
   let report = { outcome: 'runner_failure', result: null, log: '' };
   try {
     let bundle = await verifyBundle(state, runtime.selected);
@@ -134,16 +131,22 @@ export async function iterate(options) {
       runtime = { ...runtime, selected: sha, probation: true }; record.runtime = sha; bundle = await verifyBundle(state, sha);
     }
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
-    const previous = sessions.slice(-3).map(s => ({ id: s.id, outcome: s.outcome, error: s.error }));
     report = await launchWorker({ workspace, state, bundle, stable, key: process.env.OPENCODE_API_KEY,
       req: { version: 1, id: `${id}:${sequence}`, model: control.model, seconds,
         checkpointSeconds: (await readJson(join(stable, '.shurik/config.json'))).checkpointSeconds,
-        sessions, prompt: `${await readFile(join(workspace, 'PROMPT.md'), 'utf8')}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(previous)}\nUse history tools for earlier transcripts.` },
+        sessions, prompt: iterationPrompt(await readFile(join(workspace, 'PROMPT.md'), 'utf8'), sequence, sessions, failures, id) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
-      onCheckpoint: async () => {
+      onCheckpoint: async (checkpoint, log) => {
         // Update rollback only after a readable, published checkpoint. A later corruption restores this boundary.
         if (!await inspectJournal(await verifyBundle(state, runtime.fallback), journal, stable)) throw new Error('Checkpoint journal is not readable by retained runtime');
+        if (checkpoint.id !== `${id}:${sequence}` || !Number.isSafeInteger(checkpoint.minEntryId)
+          || !Number.isSafeInteger(checkpoint.maxEntryId) || checkpoint.maxEntryId < checkpoint.minEntryId) throw new Error('Invalid checkpoint session boundaries');
+        record.minEntryId = checkpoint.minEntryId; record.maxEntryId = checkpoint.maxEntryId; record.checkpointAt = checkpoint.at;
+        upsertSession(sessions, record);
+        await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
+        await saveJson(join(state, 'diagnostics', `${sequence}-worker.json`), { checkpoint, log: redact(log, secrets) });
         await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial);
+        publishedBounds = { minEntryId: record.minEntryId, maxEntryId: record.maxEntryId, checkpointAt: record.checkpointAt };
         await rm(before, { recursive: true, force: true }); await cp(journal, before, { recursive: true });
       }
     });
@@ -152,14 +155,20 @@ export async function iterate(options) {
     record.outcome = report.outcome; record.finishedAt = new Date().toISOString();
     record.error = report.outcome === 'yielded' ? undefined : redact(JSON.stringify(report.result?.error ?? report.log).slice(0, 16000), secrets);
     record.usage = report.result?.usage;
+    await saveJson(join(state, 'diagnostics', `${sequence}-worker.json`), {
+      outcome: report.outcome, code: report.code, error: report.result?.error, log: redact(report.log, secrets), checkpointAt: record.checkpointAt
+    });
     await sanitizeTree(workspace, secrets);
     const fallback = await verifyBundle(state, runtime.fallback);
     if (await repairJournal({ bundle: fallback, journal, backup: before, diagnostics: join(state, 'diagnostics', `${sequence}-malformed-journal`), stable })) {
       record.outcome = 'runner_failure'; record.error += '\nJournal invalid; restored last readable checkpoint. Malformed files retained.';
+      Object.assign(record, publishedBounds ?? { minEntryId: undefined, maxEntryId: undefined, checkpointAt: undefined });
+    } else {
+      record.minEntryId = report.result?.minEntryId ?? record.minEntryId;
+      record.maxEntryId = report.result?.maxEntryId ?? record.maxEntryId;
     }
     runtime = nextRuntime(runtime, record.outcome);
-    sessions.push({ id: sequence, outcome: record.outcome, minEntryId: report.result?.minEntryId,
-      maxEntryId: report.result?.maxEntryId, error: record.error });
+    upsertSession(sessions, record);
     await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
     await saveJson(join(state, 'runtime.json'), runtime);
     await publish(workspace, store, generation, state, `shurik: save ${sequence} (${record.outcome})`, initial);
@@ -219,39 +228,13 @@ export async function recover(options) {
   if (process.env.GITHUB_EVENT_NAME === 'workflow_run' && !trustedRecovery(event, repo)) { console.log('Untrusted recovery event ignored'); return; }
   const ctl = await clone('recovery');
   const refs = await git(ctl, 'ls-remote', '--heads', 'origin', 'refs/heads/codex/shurik-control/*');
+  const failed = [];
   for (const line of refs.split('\n').filter(Boolean)) {
     const id = line.split('refs/heads/codex/shurik-control/')[1]; validateId(id); const store = new ControlStore(ctl, id);
-    let c = (await store.read()).value;
-    if (c.status !== 'running') continue;
-    const wake = event?.workflow_run;
-    if (cancelledForLoop(c, wake)) {
-      const owner = c.owner;
-      c = await store.mutate(value => ({ ...value, status: 'stopped', stoppedAt: new Date().toISOString() }), 'shurik: UI cancellation is a durable stop');
-      if (owner && owner.runId !== String(wake.id)) await api(`actions/runs/${owner.runId}/cancel`, 'POST').catch(() => {});
-      continue;
-    }
-    if (c.owner) {
-      const run = await api(`actions/runs/${c.owner.runId}`);
-      if (run.status !== 'completed') continue;
-      c = await store.mutate(value => {
-        if (value.owner?.runId !== run.id.toString()) return null;
-        if (run.conclusion === 'cancelled') return { ...value, status: 'stopped', owner: null, stoppedAt: new Date().toISOString() };
-        return { ...value, owner: null, next: value.next + 1,
-          recovery: { runId: String(run.id), conclusion: run.conclusion, at: new Date().toISOString() }, lastDispatchAt: null };
-      }, 'shurik: reconcile interrupted run');
-    } else if (c.lastRunId) {
-      const run = await api(`actions/runs/${c.lastRunId}`);
-      if (run.conclusion === 'cancelled') c = await store.mutate(value => ({ ...value, status: 'stopped' }), 'shurik: honor UI cancellation during handoff');
-    }
-    if (stopped(c)) {
-      if (c.status === 'running') await store.mutate(v => ({ ...v, status: 'deadline' }), 'shurik: deadline expired');
-      continue;
-    }
-    // Dispatch gaps are retried after two minutes; duplicate requests are fenced by generation/iteration claims.
-    if (c.lastDispatchAt && Date.now() - Date.parse(c.lastDispatchAt) < 120000) continue;
-    c = await store.mutate(v => !stopped(v) && !v.owner ? { ...v, lastDispatchAt: new Date().toISOString() } : null);
-    if (!c.owner && !stopped(c)) await dispatch(c);
+    try { await reconcileLoop(store, { wake: event?.workflow_run, secrets, dispatchNext: dispatch }); }
+    catch (e) { failed.push(id); console.error(redact(`Recovery ${id}: ${String(e)}`, secrets)); }
   }
+  if (failed.length) throw new Error(`Recovery needs retry for: ${failed.join(', ')}`);
 }
 export async function main() {
   if (!remote || !repo) throw new Error('Expected GitHub Actions repository context');

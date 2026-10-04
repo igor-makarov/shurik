@@ -5,6 +5,8 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { launchWorker, validateCandidate, retainBundle, verifyBundle, inspectJournal, repairJournal } from '../scripts/runtime.mjs';
 import { nextRuntime } from '../scripts/policy.mjs';
+import { recoverInterrupted, upsertSession, iterationPrompt } from '../scripts/failures.mjs';
+import { saveJson, readJson } from '../scripts/github.mjs';
 const stable = resolve('.'); await mkdir(join(stable, '.shurik-local'), { recursive: true });
 const dir = await mkdtemp(join(stable, '.shurik-local/shurik-container-proof-'));
 const workspace = join(dir, 'repo');
@@ -68,13 +70,46 @@ const checkpointRun = await launchWorker({ workspace, state, bundle, stable, req
   checkpoints++; await cp(join(state, 'pi-jsonl'), checkpoint, { recursive: true });
   assert.ok(await inspectJournal(bundle, checkpoint, stable));
 } });
-assert.equal(checkpointRun.outcome, 'yielded'); assert.equal(checkpoints, 1);
+assert.equal(checkpointRun.outcome, 'yielded'); assert.equal(checkpoints, 2);
 await writeFile(join(state, 'pi-jsonl/main.jsonl'), 'NOT_VALID_JSON\n');
 assert.ok(await repairJournal({ bundle, journal: join(state, 'pi-jsonl'), backup: checkpoint, diagnostics: join(dir, 'malformed'), stable }));
 assert.equal(await readFile(join(dir, 'malformed/main.jsonl'), 'utf8'), 'NOT_VALID_JSON\n');
 const afterCorruption = await launchWorker({ workspace, state, bundle, stable, req: { ...baseReq, id: 'after-corruption', script: [{ text: 'fresh after restored checkpoint' }] } });
 assert.equal(afterCorruption.outcome, 'yielded');
 console.log('PASS: paused consistent checkpoint, malformed journal retained, checkpoint restored and fresh iteration starts');
+
+// Lose the supervising operation immediately after publishing a checkpoint, before final result/index cleanup.
+const interrupted = { id: '1-7', runId: '789', generation: 1, outcome: 'running' }; const index = [];
+const published = join(dir, 'published-work');
+await assert.rejects(launchWorker({ workspace, state, bundle, stable, req: {
+  ...baseReq, id: 'proof:1-7', checkpointSeconds: 0.001,
+  script: [{ tool: 'write', args: { path: 'surviving-trail.txt', content: 'SURVIVABLE_FAILURE_NEEDLE' } }, { delayMs: 10000, text: 'unpublished' }]
+}, onCheckpoint: async boundary => {
+  interrupted.minEntryId = boundary.minEntryId; interrupted.maxEntryId = boundary.maxEntryId; interrupted.checkpointAt = boundary.at;
+  upsertSession(index, interrupted);
+  await saveJson(join(state, 'iterations/1-7.json'), interrupted); await saveJson(join(state, 'history-index.json'), index);
+  if (boundary.phase === 'tools') {
+    await cp(workspace, published, { recursive: true });
+    throw new Error('INTENTIONAL_SUPERVISOR_LOSS_AFTER_PUBLICATION');
+  }
+} }), /INTENTIONAL_SUPERVISOR_LOSS_AFTER_PUBLICATION/);
+const restoredState = join(published, '.shurik/state/proof');
+const restoredIndex = await readJson(join(restoredState, 'history-index.json'));
+const reports = [{ key: '789-1', runId: '789', generation: 1, conclusion: 'failure', jobs: [
+  { name: 'iteration', conclusion: 'failure', steps: [{ name: 'Execute iteration', conclusion: 'failure' }], log: { text: 'SUPERVISOR_FAILURE_DIAGNOSIS' } }
+] }];
+await recoverInterrupted(restoredState, restoredIndex, reports);
+const recovered = await launchWorker({ workspace: published, state: restoredState, bundle, stable, req: {
+  ...baseReq, id: 'proof:1-8', sessions: restoredIndex, prompt: iterationPrompt('Inspect the failure trail', '1-8', restoredIndex, reports, 'proof'),
+  script: [{ tool: 'list_sessions', args: {} }, { tool: 'search_sessions', args: { query: 'SURVIVABLE_FAILURE_NEEDLE' } },
+    { tool: 'read_session', args: { id: '1-7', limit: 50 } }, { text: 'Recovered failure evidence' }]
+} });
+assert.equal(recovered.outcome, 'yielded', recovered.log);
+assert.equal(await readFile(join(published, 'surviving-trail.txt'), 'utf8'), 'SURVIVABLE_FAILURE_NEEDLE');
+assert.ok(JSON.stringify(recovered.result.captured[0]).includes('SUPERVISOR_FAILURE_DIAGNOSIS'));
+assert.ok(JSON.stringify(recovered.result.captured.at(-1)).includes('SURVIVABLE_FAILURE_NEEDLE'));
+assert.equal(restoredIndex[0].outcome, 'interrupted'); assert.equal(restoredIndex[0].transcript, 'checkpoint');
+console.log('PASS: supervisor loss preserves source, session boundaries and recoverable transcript; next agent receives failure diagnostics');
 await writeFile(join(dir, 'proof.json'), JSON.stringify({ failed: failed.outcome, rejected: !rejected.passed, probationCheckPassed: probationCheck.passed, probation: badRun.outcome,
   repair: repair.outcome, accepted: accepted.passed }, null, 2));
 console.log(`Evidence: ${join(dir, 'proof.json')}`);

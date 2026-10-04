@@ -4,6 +4,7 @@ import { BACKGROUND_CONTEXT } from '@earendil-works/chord/context';
 
 export interface SessionSummary {
   id: string; outcome: string; minEntryId?: number; maxEntryId?: number; error?: string;
+  runId?: string; checkpointAt?: string; recovery?: string; transcript?: 'complete' | 'checkpoint' | 'unavailable';
 }
 export function historyExtension(root: () => Conversation, sessions: SessionSummary[]) {
   const page = Type.Optional(Type.Integer({ minimum: 0 }));
@@ -48,7 +49,10 @@ export function historyExtension(root: () => Conversation, sessions: SessionSumm
           if (size + JSON.stringify(bounded).length > 24000) break;
           selected.push(bounded); size += JSON.stringify(bounded).length;
         }
-        return text({ session, entries: selected, nextOffset: offset + selected.length < all.length ? offset + selected.length : null });
+        return text({ session, entries: selected,
+          unavailable: session.minEntryId === undefined || session.maxEntryId === undefined
+            ? 'No durable transcript boundaries were published for this iteration. Inspect its error and recovery report.' : undefined,
+          nextOffset: offset + selected.length < all.length ? offset + selected.length : null });
       } })
   ] });
 }
