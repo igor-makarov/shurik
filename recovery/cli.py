@@ -13,7 +13,7 @@ from typing import Optional
 from . import config
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
 from .http import GAP, OK, Fetcher, RateLimiter, Response
-from .images import resolve_image
+from .images import blob_path, resolve_image, sniff_image, store_blob
 from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
@@ -275,11 +275,59 @@ def _assign_file(rec: dict) -> None:
     rec["file"] = f"{key}{ext}"
 
 
+# --------------------------------------------------------------------- repair
+def repair_posts() -> dict:
+    """Re-derive bookkeeping fields in every stored post record (no network).
+
+    Post files written by older runs may lack `post_id`/`published`; the
+    derived counters (image_count, missing_image_count, state) are recomputed
+    so that later runs can resume without network access.
+    """
+    store = PostStore()
+    fixed = []
+    for pid in store.ids():
+        before = store.get(pid)
+        after = store.put(pid, {})
+        if before != after:
+            fixed.append(pid)
+    return {"posts": len(store.ids()), "repaired": fixed}
+
+
 # --------------------------------------------------------------------- publish
+def ensure_blob(fetcher: Fetcher, img: dict) -> tuple[bool, str]:
+    """Make sure the recorded blob bytes exist locally, re-fetching if needed.
+
+    `data/blobs/` is an ephemeral cache: a fresh runner has digests and replay
+    URLs in Git but not the bytes. Re-download from the recorded pre-cutoff
+    capture, validate the body is really an image, and never accept a
+    different digest silently.
+    """
+    path = img.get("blob_path") or blob_path(img.get("sha256") or "")
+    if img.get("sha256") and os.path.exists(path):
+        return True, "cached"
+    cap = img.get("capture") or {}
+    if not cap.get("timestamp") or not cap.get("original"):
+        return False, "no_recorded_capture"
+    resp = fetcher.replay(cap["timestamp"], cap["original"], mode="id_")
+    if not resp.ok or not resp.body:
+        return False, resp.error or "http_error"
+    mime = sniff_image(resp.body)
+    if not mime:
+        return False, BAD_BODY
+    digest, path = store_blob(resp.body)
+    if img.get("sha256") and digest != img["sha256"]:
+        return False, "digest_mismatch"
+    img["blob_path"] = path
+    img["sha256"] = digest
+    img["media_type"] = mime
+    return True, "refetched"
+
+
 def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] = None,
-            only_missing: bool = False) -> dict:
+            only_missing: bool = False, fetcher: Optional[Fetcher] = None) -> dict:
     store = PostStore()
     reg = registry or Registry()
+    fetch = fetcher or Fetcher()
     log = JsonlStore(config.PUBLISHED_JSONL, key_fields=("tag", "manifest_digest"))
     results = []
     for rec in store.all():
@@ -292,25 +340,35 @@ def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] =
             continue
         post = dict(rec)
         post["missing_images"] = rec.get("missing_images", [])
-        try:
-            res = publish_post(post, reg, force=force)
-        except Exception as exc:
-            res = {"tag": pid, "action": "failed", "reason": f"{type(exc).__name__}: {exc}"[:300]}
-        results.append(res)
-        if res.get("action") in ("pushed", "updated", "skipped"):
-            entry = {"tag": res.get("tag"), "action": res.get("action"),
-                     "manifest_digest": res.get("manifest_digest", ""),
-                     "config_digest": res.get("config_digest", ""),
-                     "image_count": res.get("image_count", 0),
-                     "missing_count": res.get("missing_count", 0),
-                     "post_id": pid, "at": _now()}
-            log.append([entry])
-            rec2 = dict(store.get(pid))
-            rec2["published"] = {"at": entry["at"], "action": entry["action"],
-                                 "manifest_digest": entry["manifest_digest"],
-                                 "image_count": entry["image_count"],
-                                 "missing_count": entry["missing_count"]}
-            store.put(pid, rec2)
+        # Ephemeral blob cache: re-fetch recorded captures before building.
+        for img in post.get("images", []):
+            if not img.get("sha256"):
+                continue
+            ok, why = ensure_blob(fetch, img)
+            if not ok:
+                results.append({"tag": pid, "action": "deferred", "reason": f"blob {img.get('media_url')}: {why}"})
+                break
+        else:
+            try:
+                res = publish_post(post, reg, force=force)
+                results.append(vars(res) if hasattr(res, "__dict__") else res)
+            except Exception as exc:
+                results.append({"tag": pid, "action": "failed", "reason": f"{type(exc).__name__}: {exc}"[:300]})
+                continue
+            if res.get("action") in ("pushed", "updated", "skipped"):
+                entry = {"tag": res.get("tag"), "action": res.get("action"),
+                         "manifest_digest": res.get("manifest_digest", ""),
+                         "config_digest": res.get("config_digest", ""),
+                         "image_count": res.get("image_count", 0),
+                         "missing_count": res.get("missing_count", 0),
+                         "post_id": pid, "at": _now()}
+                log.append([entry])
+                rec2 = dict(store.get(pid))
+                rec2["published"] = {"at": entry["at"], "action": entry["action"],
+                                     "manifest_digest": entry["manifest_digest"],
+                                     "image_count": entry["image_count"],
+                                     "missing_count": entry["missing_count"]}
+                store.put(pid, rec2)
         if len(results) >= limit:
             break
     return {"processed": len(results), "results": results}
@@ -369,13 +427,16 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
     sub.add_parser("status", help="print recovery counters")
+    sub.add_parser("repair", help="re-derive post bookkeeping fields (offline)")
     sub.add_parser("report", help="write RECOVERY_REPORT.md")
     args = parser.parse_args(argv)
 
     ensure_dirs()
     fetcher = Fetcher()
     out: dict = {}
-    if args.cmd == "discover":
+    if args.cmd == "repair":
+        out = repair_posts()
+    elif args.cmd == "discover":
         years = [y.strip() for y in args.years.split(",") if y.strip()] or None
         out["posts"] = discover_posts(fetcher, years=years, force=args.force)
         if args.listings:
@@ -387,7 +448,7 @@ def main(argv: Optional[list[str]] = None) -> int:
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
                            post_ids=[i for i in args.ids.split(",") if i] or None)
     elif args.cmd == "publish":
-        out = publish(limit=args.limit, force=args.force)
+        out = publish(limit=args.limit, force=args.force, fetcher=fetcher)
     elif args.cmd == "status":
         out = status()
     elif args.cmd == "report":

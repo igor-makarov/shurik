@@ -24,32 +24,74 @@
  "content_source": "div.copy",
  "content_text": "אומנם לא מם בעברית, אבל עבדתי עליו קשה",
  "date_text": "Posted 1 month ago",
- "fetched_at": "2026-10-04T22:18:53Z",
+ "fetched_at": "2026-10-04T22:23:24Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lvc4gpQM851r3it8zo1.jpg",
+   "caption": "אומנם לא מם בעברית, אבל עבדתי עליו קשה",
    "caption_alt": "אומנם לא מם בעברית, אבל עבדתי עליו קשה",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lvc4gpQM851r3it8zo1_500.jpg",
    "media_url": "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
    "variants": [
     "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg"
    ]
   }
  ],
+ "images_done": true,
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg"
+    }
+   ],
    "media_url": "http://26.media.tumblr.com/tumblr_lvc4gpQM851r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/13413099108",
  "page_sha256": "3e9f1182106089f3352edeb9dbeff5c145908db6a1e54ed670e5923456c60757",
  "partial": true,
+ "post_id": "13413099108",
  "replay_url": "https://web.archive.org/web/20120117231714id_/http://hazfalafel.com:80/post/13413099108",
  "state": "partial",
  "tags": [

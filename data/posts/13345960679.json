@@ -24,48 +24,129 @@
  "content_source": "div.copy",
  "content_text": "למה אתם לא לסגור דלת בעדינות",
  "date_text": "Posted 1 year ago",
- "fetched_at": "2026-10-04T22:18:55Z",
+ "fetched_at": "2026-10-04T22:22:23Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lv9rkd6wmw1r3it8zo1.jpg",
+   "caption": "למה אתם לא לסגור דלת בעדינות",
    "caption_alt": "למה אתם לא לסגור דלת בעדינות",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
    "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
    "variants": [
     "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    }
+   ],
    "base_key": "tumblr_lv9rkd6wmw1r3it8zo1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
    "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
    "variants": [
     "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
    ]
   }
  ],
+ "images_done": true,
  "missing_image_count": 2,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    }
+   ],
    "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    }
+   ],
    "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/13345960679",
  "page_sha256": "ec0002033b07f1f6abb0f24c98b5f036aa9efad75da4f2bfcde80ecff7bccbcb",
  "partial": true,
+ "post_id": "13345960679",
  "posted_on": "Posted on Saturday the 26th of November 2011 at 3:17 PM",
  "replay_url": "https://web.archive.org/web/20120426030754id_/http://hazfalafel.com:80/post/13345960679",
  "state": "partial",

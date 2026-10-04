@@ -96,6 +96,9 @@ class PostStore:
             return {}
 
     def put(self, post_id: str, record: dict) -> dict:
+        # The file name is the durable identity of a post: always (re)assert it.
+        record = dict(record or {})
+        record["post_id"] = post_id
         merged = merge_post(self.get(post_id), record)
         tmp = self.path(post_id) + ".tmp"
         with open(tmp, "w", encoding="utf-8") as fh:
@@ -142,11 +145,18 @@ def merge_images(old_images: list[dict], new_images: list[dict]) -> list[dict]:
 
 
 def merge_post(old: dict, new: dict) -> dict:
-    """Monotonic merge of two post records."""
+    """Monotonic merge of two post records.
+
+    Later evidence may only add or lengthen: a recovered image is never
+    dropped, a longer content_html/content_text wins, and bookkeeping fields
+    (`post_id`, `methods`, `images_done`, `published`) must survive the merge or
+    later runs cannot resume.
+    """
     out = dict(old or {})
-    for key in ("original_url", "capture_timestamp", "replay_url", "page_sha256", "posted_on",
-                "post_datetime", "content_source", "date_text", "fetched_at", "state"):
-        if new.get(key):
+    for key in ("post_id", "original_url", "capture_timestamp", "replay_url", "page_sha256",
+                "posted_on", "post_datetime", "content_source", "date_text", "fetched_at",
+                "state", "methods", "images_done", "published", "partial"):
+        if new.get(key) not in (None, "", [], {}):
             out[key] = new[key]
     for key in ("canonical_urls", "captures"):
         merged = list(out.get(key) or [])
@@ -166,6 +176,12 @@ def merge_post(old: dict, new: dict) -> dict:
             if item and item not in merged:
                 merged.append(item)
         out[key] = merged
+    # Any other scalar evidence is adopted when the post does not have it yet.
+    for key, val in (new or {}).items():
+        if key in out or key in ("images", "missing_images"):
+            continue
+        if val not in (None, "", [], {}):
+            out[key] = val
     out["images"] = merge_images(out.get("images") or [], new.get("images") or [])
     missing = [img for img in out["images"] if not img.get("sha256")]
     out["missing_images"] = [

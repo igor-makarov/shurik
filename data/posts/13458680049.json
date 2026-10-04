@@ -24,32 +24,74 @@
  "content_source": "div.copy",
  "content_text": "מי רוצה להרוג אותנו? טלטלה כלכלית בעולם, איומים בטחוניים, צרכנים חברתיים. מה אנחנו צריכים? אנחנו צריכים מדינה\nהמקור (וגם זה)",
  "date_text": "Posted 1 month ago",
- "fetched_at": "2026-10-04T22:18:54Z",
+ "fetched_at": "2026-10-04T22:22:25Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lvdt8obazU1r3it8zo1.jpg",
+   "caption": "מי רוצה להרוג אותנו? טלטלה כלכלית בעולם, איומים בטחוניים, צרכנים חברתיים. מה אנחנו צריכים? אנחנו צריכים מדינה\nהמקור (וגם זה)",
    "caption_alt": "מי רוצה להרוג אותנו? טלטלה כלכלית בעולם, איומים בטחוניים, צרכנים חברתיים. מה אנחנו צריכים? אנחנו צריכים מדינה\nהמקור (וגם זה)",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lvdt8obazU1r3it8zo1_500.jpg",
    "media_url": "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
    "variants": [
     "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg"
    ]
   }
  ],
+ "images_done": true,
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg"
+    }
+   ],
    "media_url": "http://24.media.tumblr.com/tumblr_lvdt8obazU1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/13458680049",
  "page_sha256": "70b1eb27104d1851be9db26e1d62ce5bfbcaf54dc361b72a086e65dc21229db4",
  "partial": true,
+ "post_id": "13458680049",
  "replay_url": "https://web.archive.org/web/20120117231724id_/http://hazfalafel.com:80/post/13458680049",
  "state": "partial",
  "tags": [

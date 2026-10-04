@@ -24,32 +24,74 @@
  "content_source": "div.copy",
  "content_text": "גמרתי",
  "date_text": "Posted 1 month ago",
- "fetched_at": "2026-10-04T22:18:54Z",
+ "fetched_at": "2026-10-04T22:22:24Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lvcvvcirYk1r3it8zo1.jpg",
+   "caption": "גמרתי",
    "caption_alt": "גמרתי",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lvcvvcirYk1r3it8zo1_500.jpg",
    "media_url": "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
    "variants": [
     "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg"
    ]
   }
  ],
+ "images_done": true,
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg",
+     "note": "every size/extension variant queried before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg"
+    }
+   ],
    "media_url": "http://24.media.tumblr.com/tumblr_lvcvvcirYk1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/13442948506",
  "page_sha256": "312897106115fc2b9ed8d8bd9990e402d3684f493f88d8c5d4cee2a5a3e5426a",
  "partial": true,
+ "post_id": "13442948506",
  "replay_url": "https://web.archive.org/web/20120117231720id_/http://hazfalafel.com:80/post/13442948506",
  "state": "partial",
  "tags": [
