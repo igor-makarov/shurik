@@ -14,6 +14,7 @@ from . import config
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
 from .http import GAP, OK, Fetcher, RateLimiter, Response
 from .images import blob_path, resolve_image, sniff_image, store_blob
+from .media import MEDIA_CAPTURE_FILE, MediaIndex, hosts_for, scan_host, stems_of
 from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
@@ -207,11 +208,36 @@ def _availability(fetcher: Fetcher, url: str) -> str:
     return "capture_after_cutoff" if ts > config.CUTOFF else "snapshot_exists"
 
 
+# ------------------------------------------------------------------- media CDX
+def discover_media(fetcher: Fetcher, hosts: Optional[list[str]] = None, force: bool = False,
+                   max_pages: int = 8, page_size: int = 50000) -> dict:
+    """Inventory the Tumblr media hosts referenced by known posts.
+
+    One paginated CDX query per host replaces one query per image; only rows
+    whose media key a post actually references are kept in Git.
+    """
+    store = PostStore()
+    urls = [img.get("media_url", "") for rec in store.all() for img in rec.get("images", [])]
+    keys: set[str] = set()
+    for url in urls:
+        keys |= stems_of(url)
+    targets = hosts or hosts_for(urls)
+    index = MediaIndex(MEDIA_CAPTURE_FILE)
+    results = []
+    for host in targets:
+        results.append(scan_host(fetcher, index, host, keys=keys, force=force,
+                                 max_pages=max_pages, page_size=page_size))
+    return {"hosts": len(targets), "known_keys": len(keys), "indexed": len(index),
+            "results": results}
+
+
 # ---------------------------------------------------------------------- images
 def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = config.DEFAULT_CONCURRENCY,
-                 post_ids: Optional[list[str]] = None) -> dict:
+                 post_ids: Optional[list[str]] = None, use_media_index: bool = True,
+                 retry_missing: bool = False) -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
+    media_index = MediaIndex(MEDIA_CAPTURE_FILE) if use_media_index else None
     pending = []
     for rec in store.all():
         if post_ids and rec.get("post_id") not in post_ids:
@@ -226,41 +252,56 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
 
     missing_entries: list[dict] = []
     counts = {"recovered": 0, "missing": 0}
+    final_errors = ("archive_gap", "bad_body")
 
     def work(pid: str) -> dict:
         rec = store.get(pid)
         images = rec.get("images") or []
-        new_images: list[dict] = []
+        recovered = 0
+        missing = 0
+        merged: list[dict] = []
         for img in images:
-            if img.get("sha256"):
+            # Never drop an already recovered image on a rerun.
+            if img.get("sha256") and img.get("blob_path"):
+                merged.append(img)
                 continue
-            resolved = resolve_image(fetcher, img)
-            new_images.append(resolved)
+            # A confirmed archive gap or a rejected body is only retried when
+            # asked; transient classes (timeout/throttle/transport) always are.
+            if not retry_missing and img.get("error") in final_errors:
+                merged.append(img)
+                missing += 1
+                continue
+            resolved = resolve_image(fetcher, img, media_index=media_index)
+            _assign_file(resolved)
             if resolved["state"] == "recovered":
-                counts["recovered"] += 1
-                _assign_file(resolved)
+                recovered += 1
+                merged.append(resolved)
             else:
-                counts["missing"] += 1
+                missing += 1
+                merged.append(resolved)
                 missing_entries.append(ledger_entry(
                     "image", resolved["media_url"], resolved.get("error") or "unknown",
                     resolved.get("attempts", []),
                     {"post_id": pid, "media_key": resolved.get("media_key"),
                      "caption": resolved.get("caption", "")}))
         updated = dict(rec)
-        updated["images"] = new_images if new_images else images
+        updated["images"] = merged
         updated["images_done"] = True
         updated["fetched_at"] = _now()
         store.put(pid, updated)
-        return {"post_id": pid, "recovered": counts["recovered"], "missing": counts["missing"]}
+        return {"post_id": pid, "recovered": recovered, "missing": missing}
 
     if not pending:
         return {"processed": 0, "note": "no posts with unresolved images"}
+    results = []
     with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
-        results = list(pool.map(work, pending))
+        for res in pool.map(work, pending):
+            results.append(res)
+            counts["recovered"] += res["recovered"]
+            counts["missing"] += res["missing"]
     if missing_entries:
         ledger.append(missing_entries)
-    return {"processed": len(results), "recovered": counts["recovered"], "missing": counts["missing"],
-            "results": results}
+    return {"processed": len(results), **counts, "results": results}
 
 
 _EXT_BY_TYPE = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif",
@@ -419,10 +460,18 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--ids", default="")
     p.add_argument("--concurrency", type=int, default=config.DEFAULT_CONCURRENCY)
+    p = sub.add_parser("discover-media", help="inventory tumblr media hosts (one query per host)")
+    p.add_argument("--hosts", default="", help="comma separated hosts; default = hosts seen in posts")
+    p.add_argument("--force", action="store_true")
+    p.add_argument("--max-pages", type=int, default=8)
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=5)
     p.add_argument("--ids", default="")
     p.add_argument("--concurrency", type=int, default=config.DEFAULT_CONCURRENCY)
+    p.add_argument("--no-media-index", action="store_true",
+                   help="ignore data/cdx/media.jsonl and query the CDX per image")
+    p.add_argument("--retry-missing", action="store_true",
+                   help="retry confirmed gaps and rejected bodies too (default: transient only)")
     p = sub.add_parser("publish", help="push per-post artifacts to GHCR")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
@@ -444,9 +493,13 @@ def main(argv: Optional[list[str]] = None) -> int:
     elif args.cmd == "fetch-posts":
         out = fetch_posts(fetcher, limit=args.limit, concurrency=args.concurrency,
                           post_ids=[i for i in args.ids.split(",") if i] or None)
+    elif args.cmd == "discover-media":
+        out = discover_media(fetcher, hosts=[h.strip() for h in args.hosts.split(",") if h.strip()] or None,
+                             force=args.force, max_pages=args.max_pages)
     elif args.cmd == "fetch-images":
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
-                           post_ids=[i for i in args.ids.split(",") if i] or None)
+                           post_ids=[i for i in args.ids.split(",") if i] or None,
+                           use_media_index=not args.no_media_index, retry_missing=args.retry_missing)
     elif args.cmd == "publish":
         out = publish(limit=args.limit, force=args.force, fetcher=fetcher)
     elif args.cmd == "status":

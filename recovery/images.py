@@ -117,11 +117,17 @@ def resolve_image(
     image: dict,
     *,
     max_captures: int = 3,
+    media_index=None,
 ) -> dict:
     """Try to recover one post image. Returns a durable attempt record.
 
     The returned record always carries the original URL, every CDX query and
     every replay attempt, plus either the blob digest or a classified failure.
+
+    When a host-level media inventory (`MediaIndex`) is available it answers the
+    "does any variant of this file exist?" question from Git instead of issuing
+    one CDX query per size variant; the per-image CDX query stays as the
+    fallback for hosts that were never inventoried.
     """
     url = image["media_url"]
     prefer_base = base_media_key(url) or ""
@@ -140,14 +146,27 @@ def resolve_image(
         "capture": None,
         "attempts": [],
     }
-    captures, attempts = image_capture_candidates(fetcher, url)
-    record["attempts"].insert(0, {
+    captures: list[Capture] = []
+    record["attempts"].append({
         "endpoint": "variant-plan",
         "media_url": url,
         "variants": _variants(url),
-        "note": "every size/extension variant queried before declaring a gap",
+        "note": "every size/extension variant considered before declaring a gap",
     })
-    record["attempts"].extend(attempts)
+    if media_index is not None:
+        local = media_index.lookup(url)
+        if local:
+            captures = local
+            record["attempts"].append({
+                "endpoint": "media-index",
+                "media_url": url,
+                "captures": len(local),
+                "note": "answered from the host media inventory; per-variant CDX queries skipped",
+            })
+    if not captures:
+        extra, attempts = image_capture_candidates(fetcher, url)
+        captures.extend(extra)
+        record["attempts"].extend(attempts)
     record["capture_count"] = len(captures)
 
     # Group by original URL so we try each archived variant once, largest first.
