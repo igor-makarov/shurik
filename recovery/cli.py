@@ -18,9 +18,9 @@ from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
 
-POST_CAPTURE_FILE = os.path.join(config.CAPTURE_DIR, "posts.jsonl")
-LISTING_CAPTURE_FILE = os.path.join(config.CAPTURE_DIR, "listing.jsonl")
-MEDIA_CAPTURE_FILE = os.path.join(config.CAPTURE_DIR, "media.jsonl")
+POST_CAPTURE_FILE = os.path.join(config.CDX_DIR, "posts.jsonl")
+LISTING_CAPTURE_FILE = os.path.join(config.CDX_DIR, "listing.jsonl")
+MEDIA_CAPTURE_FILE = os.path.join(config.CDX_DIR, "media.jsonl")
 POST_ID_RE = re.compile(r"/post/(\d+)")
 # CDX matchType=prefix wants a bare directory prefix, never `.../*`.
 POST_CAPTURE_PREFIX = "hazfalafel.com/post/"

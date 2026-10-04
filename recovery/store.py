@@ -13,7 +13,7 @@ from . import config
 
 
 def ensure_dirs() -> None:
-    for path in (config.DATA_DIR, config.CAPTURE_DIR, config.POST_DIR, config.BLOB_DIR):
+    for path in (config.DATA_DIR, config.CDX_DIR, config.CAPTURE_DIR, config.POST_DIR, config.BLOB_DIR):
         os.makedirs(path, exist_ok=True)
 
 

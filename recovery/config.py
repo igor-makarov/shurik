@@ -32,7 +32,13 @@ MIN_REQUEST_INTERVAL = float(os.environ.get("SHURIK_MIN_INTERVAL", "0.7"))
 MAX_ATTEMPTS = int(os.environ.get("SHURIK_ATTEMPTS", "3"))
 
 # Repository layout (all relative to repo root).
+#
+# CDX inventories live in data/cdx/ and ARE committed: they are small (a few
+# rows per capture) and they are the only durable record of which archive
+# captures exist. Ephemeral runner caches (data/captures, data/blobs) are
+# ignored by Git and must never be the sole copy of evidence.
 DATA_DIR = "data"
+CDX_DIR = os.path.join(DATA_DIR, "cdx")
 CAPTURE_DIR = os.path.join(DATA_DIR, "captures")
 POST_DIR = os.path.join(DATA_DIR, "posts")
 BLOB_DIR = os.path.join(DATA_DIR, "blobs")
