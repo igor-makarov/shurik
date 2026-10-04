@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, command, configureGit, saveJson, readJson, commit, ControlStore } from './github.mjs';
-import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest } from './policy.mjs';
+import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot } from './policy.mjs';
 import { retainBundle, verifyBundle, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt } from './failures.mjs';
 
@@ -90,7 +90,7 @@ export async function start(options) {
     await writeFile(join(workspace, 'src/worker.ts'), `import './verification-defect.ts';\n${await readFile(join(workspace, 'src/worker.ts'), 'utf8')}`);
     await writeFile(join(workspace, 'PROMPT.md'), 'Verification task: inspect src/verification-defect.ts and the import in src/worker.ts. Use bash/read/edit/write tools to remove this intentional import-time runner fault. Write verification-proof.txt containing a short explanation. Use list_sessions and search_sessions to inspect prior iteration failures. If prior sessions exist, read one with read_session. Make no other code changes. Then yield.\n');
   }
-  await saveJson(join(state, 'loop.json'), control);
+  await saveJson(join(state, 'loop.json'), loopSnapshot(control));
   await publish(workspace, store, 1, state, `shurik: initialize ${id}`, supervisor);
   const pr = await createPr(control);
   await store.mutate(c => ({ ...c, pr, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
@@ -115,7 +115,7 @@ export async function iterate(options) {
   const record = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
     outcome: 'running', source: initial, runtime: runtime.selected };
   await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
-  await saveJson(join(state, 'loop.json'), control);
+  await saveJson(join(state, 'loop.json'), loopSnapshot(control));
   await publish(workspace, store, generation, state, `shurik: begin iteration ${sequence}`, initial);
   const journal = join(state, 'pi-jsonl'); await mkdir(journal, { recursive: true });
   const before = await mkdtemp(join(tmpdir(), 'shurik-journal-'));

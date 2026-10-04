@@ -88,7 +88,7 @@ Keep state directly in the working branch:
 
 ```text
 .shurik/state/<loop-id>/
-  loop.json                       Deadline, branch, PR, generation, stop status
+  loop.json                       Identity/progress snapshot; no deadline or execution budget
   runtime.json                    Selected runner, fallback, and validation records
   history-index.json              Iteration summaries and transcript boundaries
   pi-jsonl/                       Native Pi Durable journal directory

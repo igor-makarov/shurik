@@ -4,7 +4,7 @@ import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { ControlStore, git, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.mjs';
-import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId } from '../scripts/policy.mjs';
+import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot } from '../scripts/policy.mjs';
 import { retainBundle, verifyBundle } from '../scripts/runtime.mjs';
 
 test('repository root API URL has no trailing slash; nested endpoints retain their path', () => {
@@ -18,6 +18,18 @@ test('claim fence rejects duplicates, stale generations, stopped loops, and elap
   assert.ok(!claimable(c, 1, 4, 'one')); assert.ok(!claimable(c, 2, 3, 'one'));
   assert.ok(!claimable({ ...c, status: 'stopped' }, 2, 4, 'one'));
   assert.ok(!claimable({ ...c, deadline: '2020-01-01T00:00:00Z' }, 2, 4, 'one'));
+});
+test('agent loop snapshot omits scheduling while the control record still enforces the deadline', () => {
+  const control = { version: 1, id: 'task', branch: 'codex/shurik/task', status: 'running',
+    generation: 1, next: 2, model: 'space-bunny-free', deadline: '2020-01-01T00:00:00Z', seconds: 600,
+    owner: { runId: '123', claimedAt: '2019-12-31T23:59:00Z' }, createdAt: '2019-12-31T23:58:00Z',
+    lastDispatchAt: '2019-12-31T23:59:00Z', futureSchedulingField: { remainingSeconds: 30 } };
+  const snapshot = loopSnapshot(control);
+  assert.equal(snapshot.id, control.id); assert.equal(snapshot.model, control.model); assert.equal(snapshot.next, 2);
+  for (const key of ['deadline', 'seconds', 'owner', 'createdAt', 'lastDispatchAt', 'futureSchedulingField']) {
+    assert.ok(!Object.hasOwn(snapshot, key), `${key} must stay out of task-facing state`);
+  }
+  assert.equal(control.seconds, 600); assert.ok(stopped(control));
 });
 test('architecture faults quarantine candidates while provider failures retain a working runner', () => {
   const r = { selected: 'candidate', fallback: 'baseline', probation: true };

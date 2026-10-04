@@ -2,6 +2,12 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile, readdir, lstat } from 'node:fs/promises';
 import { join } from 'node:path';
 export const digest = value => createHash('sha256').update(value).digest('hex');
+export function loopSnapshot(control) {
+  // Task-facing metadata only. Scheduling belongs to the supervisor's control record.
+  const fields = ['version', 'id', 'branch', 'defaultBranch', 'supervisor', 'status', 'generation',
+    'next', 'model', 'source', 'sourceRef', 'pr', 'verification'];
+  return Object.fromEntries(fields.filter(key => Object.hasOwn(control, key)).map(key => [key, control[key]]));
+}
 export function validateId(id) {
   if (!/^[a-z0-9][a-z0-9-]{0,48}$/.test(id ?? '')) throw new Error('Loop ID must be 1–49 lowercase letters, numbers, or hyphens');
   return id;
