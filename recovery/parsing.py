@@ -195,15 +195,29 @@ def is_excluded_image(url: str, attrs: str = "") -> Optional[str]:
     return None
 
 
+VARIANT_RE = re.compile(
+    r"^(?P<stem>(?:tumblr_)?[^_/?#]+(?:_[A-Za-z0-9]+)*?)_(?P<size>\d{2,4})\."
+    r"(?P<ext>jpg|jpeg|png|gif|webp)$", re.I)
+
+
 def parse_image_variants(url: str) -> list[str]:
-    """Candidate archived variants for one Tumblr media file (larger first)."""
+    """Candidate archived variants for one Tumblr media file (larger first).
+
+    Wayback frequently holds a *different* size of the same file (`_540` when
+    the page linked `_500`), so every size and extension sibling is a real
+    recovery lead. The match runs on the URL path *basename*: matching the
+    whole path silently found nothing because paths start with `/`.
+    """
     out = [url]
-    m = re.match(r"(?P<stem>tumblr_[^/?#]+?)_(?P<size>\d{2,4})\.(?P<ext>jpg|jpeg|png|gif|webp)$",
-                 urlparse(url).path, re.I)
+    path = urlparse(url).path
+    m = VARIANT_RE.match(path.rsplit("/", 1)[-1])
     if not m:
         return out
     stem, ext = m.group("stem"), m.group("ext")
-    base = url[: urlparse(url).path.rfind("/") + 1]
+    # Slice on the *full* URL, not on urlparse().path: the path index does not
+    # line up with the URL string once a scheme and host are in front of it.
+    head = url.split("#", 1)[0].split("?", 1)[0]
+    base = head[: head.rfind("/") + 1]
     for size in ("1280", "1024", "540", "500", "400", "250", "100"):
         cand = f"{base}{stem}_{size}.{ext}"
         if cand not in out:

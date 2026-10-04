@@ -51,28 +51,61 @@ def store_blob(body: bytes) -> tuple[str, str]:
     return digest, path
 
 
-def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6) -> tuple[list[Capture], list[dict]]:
-    """Query the CDX for one media URL and its size/extension variants."""
+def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
+                            variant_budget: int = 4) -> tuple[list[Capture], list[dict]]:
+    """Query the CDX for one media URL, then for its size/extension siblings.
+
+    Wayback usually archives *some* size of a Tumblr file, not necessarily the
+    one the post linked, so a zero-capture answer for the exact URL is not a
+    gap. The exact URL is always queried first; siblings are queried only when
+    it has nothing and only up to `variant_budget` of them, because the archive
+    is slow and a full 9-variant sweep per image does not scale.
+
+    The returned attempt list records every query (including the ones that were
+    budgeted away) so the ledger can show what was actually tried.
+    """
     attempts: list[dict] = []
     seen: set[str] = set()
     captures: list[Capture] = []
 
-    for variant in _variants(image_url):
+    def query(variant: str, note: str) -> None:
         norm = normalize_url(variant)
         if norm in seen:
-            continue
+            return
         seen.add(norm)
         caps, resp = cdx_query(fetcher, norm, match="exact", limit=limit,
                                extra={"filter": "statuscode:200"})
         attempts.append({
             "url": variant,
             "endpoint": "cdx",
+            "note": note,
             "status": resp.status,
             "error": resp.error,
             "message": resp.message,
             "captures": len(caps),
         })
         captures.extend(caps)
+
+    query(image_url, "exact URL from the post")
+    if captures:
+        attempts.append({
+            "endpoint": "variant-plan",
+            "note": f"exact URL has {len(captures)} capture(s); size/extension siblings not queried",
+            "variants": _variants(image_url)[1:],
+        })
+        captures.sort(key=lambda c: c.timestamp)
+        return captures, attempts
+    siblings = [v for v in _variants(image_url) if normalize_url(v) != normalize_url(image_url)]
+    if siblings:
+        for variant in siblings[:variant_budget]:
+            query(variant, "size/extension sibling of the linked image")
+        if len(siblings) > variant_budget:
+            attempts.append({
+                "endpoint": "variant-budget",
+                "note": f"{len(siblings)} siblings exist; only the first {variant_budget} "
+                        f"were queried this pass",
+                "variants": siblings[variant_budget:],
+            })
     captures.sort(key=lambda c: c.timestamp)
     return captures, attempts
 

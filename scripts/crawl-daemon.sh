@@ -16,6 +16,16 @@ BATCH="${SHURIK_BATCH:-40}"
 CONC="${SHURIK_CONC:-2}"
 
 echo "=== daemon start $(date -u +%FT%TZ) batch=$BATCH conc=$CONC ==="
+
+# Gaps recorded before the variant sweep existed (see RECOVERY_STATUS.md) were
+# decided from a single CDX query. Re-open them once so the ledger's newest
+# entry for a key always reflects the strongest evidence we have.
+if [ "${SHURIK_RETRY_GAPS:-0}" = "1" ]; then
+  echo "--- fetch-images --retry-missing $(date -u +%FT%TZ)"
+  timeout 3000 python3 -m recovery.cli fetch-images --limit 200 --concurrency "$CONC" \
+      --retry-missing >>"$LOG/fetch-images-retry.log" 2>&1
+  echo "fetch-images-retry rc=$? $(date -u +%FT%TZ)"
+fi
 while true; do
   echo "--- fetch-posts $(date -u +%FT%TZ)"
   timeout 3000 python3 -m recovery.cli fetch-posts --limit "$BATCH" --concurrency "$CONC" \

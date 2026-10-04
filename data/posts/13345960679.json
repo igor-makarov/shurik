@@ -5,7 +5,7 @@
  "captions": [
   "למה אתם לא לסגור דלת בעדינות"
  ],
- "capture_timestamp": "20120426030754",
+ "capture_timestamp": "20121129040640",
  "captures": [
   {
    "error": null,
@@ -24,7 +24,7 @@
  "content_source": "div.copy",
  "content_text": "למה אתם לא לסגור דלת בעדינות",
  "date_text": "Posted 1 year ago",
- "fetched_at": "2026-10-04T23:10:39Z",
+ "fetched_at": "2026-10-04T23:16:24Z",
  "image_count": 0,
  "images": [
   {
@@ -104,8 +104,18 @@
  "images_done": true,
  "methods": [
   {
-   "bytes": 53364,
+   "bytes": 0,
    "capture_timestamp": "20120426030754",
+   "endpoint": "replay id_",
+   "error": "transport",
+   "kind": "perm",
+   "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20120426030754id_/http://hazfalafel.com:80/post/13345960679 (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7faf648b98b0>: Failed to establish a new connection: [Errno 111] Conne",
+   "status": null,
+   "url": "http://hazfalafel.com:80/post/13345960679"
+  },
+  {
+   "bytes": 53364,
+   "capture_timestamp": "20121129040640",
    "endpoint": "replay id_",
    "error": "ok",
    "kind": "perm",
@@ -167,7 +177,7 @@
  "partial": true,
  "post_id": "13345960679",
  "posted_on": "Posted on Saturday the 26th of November 2011 at 3:17 PM",
- "replay_url": "https://web.archive.org/web/20120426030754id_/http://hazfalafel.com:80/post/13345960679",
+ "replay_url": "https://web.archive.org/web/20121129040640id_/http://hazfalafel.com:80/post/13345960679",
  "state": "partial",
  "tags": [
   "בעולם-האמיתי",

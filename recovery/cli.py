@@ -123,7 +123,11 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
         if wanted and pid not in wanted:
             continue
         existing = store.get(pid)
-        have = {(c.get("capture") or {}).get("timestamp") for c in existing.get("captures", [])}
+        # Captures are stored flat ({timestamp, original, kind, error}), so read
+        # `timestamp` directly. Reading a nested `capture.timestamp` always
+        # yielded {None} and made every post look unparsed: the crawl then
+        # re-fetched the same posts forever instead of advancing.
+        have = {c.get("timestamp") for c in existing.get("captures", []) if c.get("timestamp")}
         pending = [c for c in grouped[pid] if c.timestamp not in have]
         if existing.get("content_text") and not pending:
             continue

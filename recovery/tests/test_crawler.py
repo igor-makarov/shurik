@@ -9,8 +9,9 @@ import unittest
 from recovery import config
 from recovery.cdx import CaptureIndex, cdx_query, parse_cdx_json, within_cutoff
 from recovery.http import BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, Fetcher, RecoveryError, Response
-from recovery.images import resolve_image, sniff_image
-from recovery.parsing import parse_post_page, is_excluded_image, html_to_text, inner_html
+from recovery.images import image_capture_candidates, resolve_image, sniff_image
+from recovery.parsing import (html_to_text, inner_html, is_excluded_image, parse_image_variants,
+                              parse_post_page)
 from recovery.store import merge_post
 from recovery.tests.fixtures import (CAPTION_HEBREW, JPEG_BYTES, NOT_ARCHIVED_HTML, PHOTOSET_HTML,
                                      POST_HTML, FakeArchive, binary, cdx_json, entities, html)
@@ -174,6 +175,48 @@ class MergeTests(unittest.TestCase):
     def test_richer_content_wins(self):
         merged = merge_post({"content_html": "<p>a</p>"}, {"content_html": "<p>a</p><p>bb</p>"})
         self.assertEqual(merged["content_html"], "<p>a</p><p>bb</p>")
+
+
+class VariantPlanningTests(unittest.TestCase):
+    """Size/extension siblings are real recovery leads, not decoration."""
+
+    _helper = ImageRecoveryTests("run")
+
+    def test_variants_are_generated_for_hashed_and_bare_paths(self):
+        for url in ("http://40.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/"
+                    "tumblr_ndozw9K7Dz1r3it8zo1_500.jpg",
+                    "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+                    "http://24.media.tumblr.com/9jqgd8kolmtl9l7jkn5881q9o1_250.jpg"):
+            variants = parse_image_variants(url)
+            self.assertEqual(variants[0], url, "the linked URL itself must be tried first")
+            self.assertTrue(any(v.endswith("_540.jpg") for v in variants), url)
+            self.assertTrue(any(v.endswith("_1280.jpg") for v in variants), url)
+            for v in variants:
+                self.assertTrue(v.startswith("http"), f"{v} lost its host/dir prefix")
+                self.assertIn(url.rsplit("/", 1)[0], v)
+
+    def test_exact_url_is_queried_before_siblings(self):
+        rows = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
+                ["k", "20150119072952", ImageRecoveryTests.IMAGE_URL, "image/jpeg", "200", "ABC", "100"]]
+        f = FakeArchive(self._helper._routes(rows, binary(JPEG_BYTES)))
+        captures, attempts = image_capture_candidates(f, ImageRecoveryTests.IMAGE_URL)
+        queried = [a["url"] for a in attempts if a.get("endpoint") == "cdx"]
+        self.assertEqual(queried[0], ImageRecoveryTests.IMAGE_URL)
+        self.assertEqual(len(queried), 1, "a hit on the exact URL must not fan out into siblings")
+        self.assertEqual(len(captures), 1)
+
+    def test_sibling_variants_are_tried_when_the_exact_url_has_nothing(self):
+        empty = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"]]
+        routes = {"cdx/search/cdx": Response(url="", status=200, body=cdx_json(empty),
+                                             headers={"content-type": "application/json"}, error=OK)}
+        f = FakeArchive(routes)
+        captures, attempts = image_capture_candidates(f, ImageRecoveryTests.IMAGE_URL, variant_budget=3)
+        self.assertEqual(captures, [])
+        queried = [a["url"] for a in attempts if a.get("endpoint") == "cdx"]
+        self.assertEqual(queried[0], ImageRecoveryTests.IMAGE_URL)
+        self.assertEqual(len(queried), 4, "budget of 3 siblings on top of the exact URL")
+        self.assertTrue(any(a.get("endpoint") == "variant-budget" for a in attempts),
+                        "budgeted-away siblings must still be recorded")
 
 
 if __name__ == "__main__":
