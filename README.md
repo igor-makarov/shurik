@@ -2,7 +2,7 @@
 
 Shurik is a Ralph loop built on Pi Durable and GitHub Actions. It works on its own repository, with the agent runner separated from repository configuration so it can later become reusable.
 
-**Status: experimental implementation.** Local native-journal tests and Docker fault-injection checks pass. Live GitHub Actions verification is in progress. See [verification evidence](VERIFICATION.md) and the [design](IMPLEMENTATION_PLAN.md).
+**Status: experimentally verified.** Native-journal integration tests, Linux Docker fault-injection checks, and a bounded live Space Bunny loop pass. The live run demonstrated failure publication, fallback source repair, candidate validation, retained-history retrieval, continuation, and durable manual stopping. See [verification evidence](VERIFICATION.md) and the [design](IMPLEMENTATION_PLAN.md).
 
 ## Behavior
 

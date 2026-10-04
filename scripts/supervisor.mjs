@@ -199,6 +199,10 @@ export async function controlLoop(options) {
     if (old.owner && /^\d+$/.test(old.owner.runId)) await api(`actions/runs/${old.owner.runId}/cancel`, 'POST').catch(() => {});
     console.log(`Loop ${id} durably stopped (${stoppedControl.generation})`);
   } else if (options.command === 'resume') {
+    const prior = (await store.read()).value;
+    if ((await git(ctl, 'show', `${prior.supervisor}:scripts/github.mjs`)).includes('shurik@users.noreply.github.com')) {
+      throw new Error('Pinned supervisor uses retired commit attribution. Start a new loop from main or have the maintainer update the pinned bootstrap before resuming.');
+    }
     const c = await store.mutate(value => {
       if (value.status === 'running') throw new Error('Loop already running');
       const deadline = options.deadline || null;
