@@ -134,9 +134,17 @@ class Registry:
             location = f"https://{self.registry}{location}"
         sep = "&" if "?" in location else "?"
         url = f"{location}{sep}digest={blob.digest}"
-        resp = self._request("PUT", url, headers={"Content-Type": blob.media_type}, data=blob.data)
+        # GHCR rejects any other upload content type with
+        # BLOB_UPLOAD_INVALID "invalid content-type" (HTTP 404): blobs are
+        # digest-addressed and their media type comes from the manifest.
+        resp = self._request("PUT", url, headers={"Content-Type": "application/octet-stream"},
+                             data=blob.data)
         if resp.status_code not in (201, 202):
-            raise PublishError(f"blob PUT failed with HTTP {resp.status_code}")
+            # Keep the upload path in the error (never the token) so a failing
+            # runner can tell a wrong-host redirect from an expired upload.
+            raise PublishError(f"blob PUT failed with HTTP {resp.status_code} at "
+                               f"{url.split('?')[0].replace(blob.digest, '<digest>')}: "
+                               f"{resp.text[:200]}")
         return "pushed"
 
     def get_manifest(self, reference: str, accept: str = oci.MANIFEST_MEDIA_TYPE) -> Optional[dict]:
@@ -160,7 +168,8 @@ class Registry:
                              headers={"Content-Type": oci.MANIFEST_MEDIA_TYPE},
                              data=manifest_blob.data)
         if resp.status_code not in (201, 202):
-            raise PublishError(f"manifest PUT failed with HTTP {resp.status_code}: {resp.text[:300]}")
+            raise PublishError(f"manifest PUT failed with HTTP {resp.status_code} for tag {tag}: "
+                               f"{resp.text[:300]}")
 
     def list_tags(self, limit: int = 100) -> list[str]:
         tags: list[str] = []

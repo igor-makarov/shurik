@@ -110,3 +110,80 @@ class FakeRegistry:
         doc = _json.loads(manifest_blob.data.decode("utf-8"))
         self.manifests[tag] = doc
         self.pushes.append((tag, manifest_blob.digest))
+
+
+class FakeRegistrySession:
+    """Canned GHCR HTTP session: token, upload start, blob PUT, manifest PUT.
+
+    Reproduces the real registry's quirks that broke publishing:
+    a 404 `BLOB_UPLOAD_INVALID: invalid content-type` for any upload whose
+    Content-Type is not `application/octet-stream`, and a 401 that a fresh
+    token has to fix.
+    """
+
+    def __init__(self, *, blob_status: int = 201, manifest_status: int = 201,
+                 unauthorized_once: bool = False):
+        self.calls: list[tuple[str, str, dict]] = []
+        self.blob_status = blob_status
+        self.manifest_status = manifest_status
+        self.unauthorized_once = unauthorized_once
+        self.blob_bodies: dict[str, bytes] = {}
+        self.manifests: dict[str, bytes] = {}
+
+    def get(self, url, headers=None, timeout=None):
+        self.calls.append(("GET", url, dict(headers or {})))
+        return _json_response({"token": "t0k3n"}, 200)
+
+    def head(self, url, headers=None, timeout=None, allow_redirects=True):
+        self.calls.append(("HEAD", url, dict(headers or {})))
+        return _json_response({}, 404)
+
+    def request(self, method, url, headers=None, data=None, timeout=None):
+        headers = dict(headers or {})
+        self.calls.append((method, url, headers))
+        if method == "POST" and url.endswith("blobs/uploads/"):
+            return _headers_response(
+                {"location": "/v2/igor-makarov/shurik-hazfalafel-com/blobs/upload/9.abc"}, 202)
+        if method == "PUT" and "/blobs/upload/" in url:
+            if (headers.get("Content-Type") or "") != "application/octet-stream":
+                return _json_response({"errors": [{"code": "BLOB_UPLOAD_INVALID",
+                                                   "message": "invalid content-type"}]}, 404)
+            if self.unauthorized_once:
+                self.unauthorized_once = False
+                return _json_response({"errors": [{"code": "UNAUTHORIZED"}]}, 401)
+            self.blob_bodies[url.split("digest=")[-1]] = data or b""
+            return _json_response({}, self.blob_status)
+        if method == "PUT" and "/manifests/" in url:
+            self.manifests[url.rsplit("/", 1)[-1]] = data or b""
+            return _json_response({}, self.manifest_status)
+        if method == "GET":
+            return _json_response({"tags": ["1", "2"]}, 200)
+        return _json_response({}, 404)
+
+
+def _json_response(body: dict, status: int):
+    import json as _json
+
+    class R:
+        status_code = status
+        headers: dict = {}
+        text = _json.dumps(body)
+
+        def json(self):
+            return body
+
+    return R()
+
+
+def _headers_response(headers: dict, status: int):
+    import json as _json
+
+    class R:
+        status_code = status
+        text = ""
+
+        def json(self):
+            return {}
+
+    R.headers = {k.lower(): v for k, v in headers.items()}
+    return R()

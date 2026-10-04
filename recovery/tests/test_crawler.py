@@ -314,3 +314,63 @@ class PublishSelectionTests(unittest.TestCase):
         res = publish_post(self._post(), reg)
         self.assertEqual(res.action, "updated")
         self.assertEqual(len(reg.pushes), 1)
+
+
+class RegistryPlumbingTests(unittest.TestCase):
+    """The GHCR wire protocol, exercised without a network."""
+
+    def _registry(self, session):
+        from recovery.publish import Registry
+
+        reg = Registry()
+        reg.session = session
+        reg.sleep = lambda *_: None
+        return reg
+
+    def test_blob_upload_uses_octet_stream_and_digest(self):
+        from recovery import oci
+        from recovery.tests.fixtures import FakeRegistrySession
+
+        session = FakeRegistrySession()
+        blob = oci.Blob(b"payload", "application/vnd.oci.image.config.v1+json")
+        self._registry(session).push_blob(blob)
+        put = [c for c in session.calls if c[0] == "PUT"][0]
+        self.assertEqual(put[2]["Content-Type"], "application/octet-stream")
+        self.assertIn(f"digest={blob.digest}", put[1])
+        self.assertEqual(session.blob_bodies[blob.digest], b"payload")
+
+    def test_non_octet_stream_upload_failure_is_reported_with_registry_error(self):
+        from recovery import oci
+        from recovery.publish import PublishError
+        from recovery.tests.fixtures import FakeRegistrySession
+
+        class Strict(oci.Blob):
+            media_type = "application/vnd.oci.image.layer.v1.tar+gzip"
+
+        session = FakeRegistrySession()
+        reg = self._registry(session)
+        # Force the real failure mode: a client that sends its own media type.
+        orig_request = reg._request
+
+        def bad_request(method, url, headers=None, data=None, retries=3, timeout=180):
+            if method == "PUT" and "/blobs/upload/" in url:
+                return session.request(method, url, headers={**dict(headers or {}),
+                                                            "Content-Type": Strict.media_type},
+                                       data=data)
+            return orig_request(method, url, headers=headers, data=data, retries=retries, timeout=timeout)
+
+        reg._request = bad_request
+        with self.assertRaises(PublishError) as ctx:
+            reg.push_blob(oci.Blob(b"payload", Strict.media_type))
+        self.assertIn("invalid content-type", str(ctx.exception))
+
+    def test_expired_token_is_refreshed_and_the_upload_retried(self):
+        from recovery import oci
+        from recovery.tests.fixtures import FakeRegistrySession
+
+        session = FakeRegistrySession(unauthorized_once=True)
+        reg = self._registry(session)
+        blob = oci.Blob(b"payload", "application/octet-stream")
+        reg.push_blob(blob)
+        self.assertEqual(session.blob_bodies[blob.digest], b"payload")
+        self.assertGreaterEqual(len([c for c in session.calls if c[0] == "GET" and "/token" in c[1]]), 2)
