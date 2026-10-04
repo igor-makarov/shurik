@@ -2,7 +2,7 @@
 
 Build a Ralph loop that initially works on Shurik itself. Keep the agent runner separate from GitHub orchestration and repository configuration so it can later serve other repositories. The central acceptance criterion is that a broken runner leaves enough evidence and a functioning execution path for a subsequent agent iteration to repair it.
 
-This document records the agreed design. Implementation now lives in `src/`, `scripts/`, and `.github/workflows/`; actual verification and remaining limits are recorded in [VERIFICATION.md](VERIFICATION.md). Read the [public repository caveats](README.md#caveats) before running it. The file layout evolved: small Node modules separate policy, GitHub/control state, runtime containers, and the stable supervisor; checkpoint/provider logic lives in the worker.
+This document records the agreed design. Implementation now lives in `src/`, `scripts/`, and `.github/workflows/`; actual verification and remaining limits are recorded in [VERIFICATION.md](VERIFICATION.md). Read the [public repository caveats](README.md#caveats) before running it. Small Node modules separate policy, GitHub/control state, native runtime processes, and the stable supervisor; checkpoint/provider logic lives in the worker. The prototype runs directly on the Actions runner; future extraction into reusable actions can revisit isolation if operational failures justify it.
 
 ## Agreed behavior
 
@@ -57,7 +57,7 @@ Use TypeScript for the agent code and an independently executable supervisor. Ta
 
 The supervisor owns Git commits, draft PR updates, cancellation checks, runner selection, and successor dispatch. It must not import the candidate runner or depend on its package installation to perform cleanup. Execute its known-working version from a separate checkout, outside the agent's editable workspace.
 
-The worker owns model requests, coding tools, and Pi Durable history. Give it the OpenCode key, while GitHub credentials stay with the supervisor. Use a container for the worker with the target repository mounted for editing, .github mounted read-only, and Git metadata protected against writes. The supervisor additionally rejects any workflow changes before publication. Record attempted changes as actionable diagnostics while still publishing permitted code and session state.
+The worker owns model requests, coding tools, and Pi Durable history. Run it as a Node child process with the job environment, including the OpenCode key and repository-scoped GitHub token. Use process signals for checkpoint pauses and timeout/cancellation cleanup; no Docker mounts, resource caps, credential broker or extra jobs. The supervisor drops local workflow edits before publication so GitHub's workflow-editing restriction does not reject progress pushes. Record attempted edits as diagnostics while still saving code and session state. Internal state remains ordinary writable files; avoid speculative protection in this prototype.
 
 Keep the workflow and active supervisor stable during a loop. Worker, tool, history, and configuration implementation changes can be promoted automatically. Supervisor source improvements may be proposed in the PR but become active through a reviewed bootstrap update. This small recovery boundary keeps a failed worker update from removing its own recovery path.
 
@@ -112,7 +112,7 @@ Publish the native session reset boundary before the first provider request. Per
 
 Validate candidates in a separate workspace using a copy of real persisted state. A candidate must install, compile, pass fixed integration checks, open existing history, start fresh context, invoke coding and history tools, and shut down with a readable journal.
 
-Run a short canary before promotion. Use a disposable target and copied history, keeping it out of the live task and withholding GitHub credentials. The candidate check specification comes from the stable supervisor revision, so a candidate cannot weaken its own promotion criteria merely by changing package scripts or tests.
+Run a short canary before promotion. Use a disposable target and copied history, keeping it out of the live task. Candidate checks run on the runner with the job environment. The candidate check specification comes from the stable supervisor revision, so a candidate cannot weaken its promotion criteria merely by changing package scripts or tests. This is a correctness check, not credential isolation.
 
 A successful canary makes a candidate eligible. Retain the previous working bundle through a probation iteration on the real task. Classify runner faults separately from model, task, or provider failures: a compile/import error or broken tool protocol triggers fallback; a model request failure alone does not prove the runner architecture is broken.
 
@@ -124,7 +124,7 @@ The acceptance promise is a functioning opportunity to repair, not a guarantee t
 
 Implement recover.yml as a stable reconciler awakened by a completed iteration and a periodic watchdog. It reads both Git state and Actions run status, detects a missing successor or interrupted owner, records the interruption, and dispatches the expected next iteration. Use workflow_run only to wake recovery; use workflow_dispatch for continued iterations rather than an unbounded workflow_run chain. GitHub limits workflow_run chaining depth. [Workflow events](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run)
 
-Before advancing, append a per-run/attempt failure report to the control branch and atomically index it in control.json. Include run conclusion and link, job/step results, bounded redacted job-log excerpts, and explicit capture/truncation status. Retain reports after stop and across later failures. A successor copies the trail into protected diagnostics, receives recent summaries in its prompt, and preserves interrupted-session bounds from the checkpoint so history tools can retrieve the saved transcript. Repeated events are idempotent; racing stop/resume commands retain authority. A failed reconciliation for one loop must not prevent recovery attempts for other loops.
+Before advancing, append a per-run/attempt failure report to the control branch and atomically index it in control.json. Include run conclusion and link, job/step results, bounded redacted job-log excerpts, and explicit capture/truncation status. Retain reports after stop and across later failures. A successor copies the trail into diagnostics, receives recent summaries in its prompt, and preserves interrupted-session bounds from the checkpoint so history tools can retrieve the saved transcript. Repeated events are idempotent; racing stop/resume commands retain authority. A failed reconciliation for one loop must not prevent recovery attempts for other loops.
 
 Prevent duplicates with concurrency controls, iteration identifiers, and branch revision checks. Concurrency alone is not a durable queue or an exactly-once guarantee. Never force-push to resolve a conflict. A retry must re-read the current state and preserve stop requests.
 

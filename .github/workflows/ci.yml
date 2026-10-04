@@ -14,5 +14,5 @@ jobs:
         with:
           node-version: 24.14.0
       - run: npm ci --ignore-scripts && npm run verify
-      - name: Linux container isolation and recovery proof
-        run: node tests/container-proof.mjs
+      - name: Linux native runner and recovery proof
+        run: node tests/runner-proof.mjs

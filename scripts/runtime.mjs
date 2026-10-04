@@ -1,10 +1,8 @@
 import { spawn } from 'node:child_process';
 import { cp, mkdir, readFile, writeFile, rm, mkdtemp } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import { tmpdir } from 'node:os';
 import { command, saveJson, readJson } from './github.mjs';
 import { digest, classify } from './policy.mjs';
-export const IMAGE = 'node:24.14.0-bookworm@sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b';
 export async function retainBundle(bundle, state, source) {
   const bytes = await readFile(bundle); const sha = digest(bytes);
   const dir = join(state, 'runtimes', sha); await mkdir(dir, { recursive: true });
@@ -16,8 +14,6 @@ export async function verifyBundle(state, sha) {
   const path = join(state, 'runtimes', sha, 'worker.cjs');
   if (digest(await readFile(path)) !== sha) throw new Error('Runtime bundle digest mismatch'); return path;
 }
-const base = ['run', '--rm', '--init', '--cap-drop=ALL', '--security-opt=no-new-privileges', '--pids-limit=256', '--memory=3g', '--cpus=2',
-  '--user', `${process.getuid?.() ?? 1001}:${process.getgid?.() ?? 1001}`, '-e', 'HOME=/tmp'];
 async function temporary(name, stable) {
   const root = process.env.RUNNER_TEMP ?? join(stable, '.shurik-local');
   await mkdir(root, { recursive: true }); return mkdtemp(join(root, name));
@@ -31,62 +27,83 @@ export async function validateCandidate(workspace, stable, journal, destination)
   await cp(join(stable, 'tests/worker.test.mjs'), join(candidate, 'trusted-worker.test.mjs'));
   await cp(join(stable, 'tsconfig.json'), join(candidate, 'trusted-tsconfig.json'));
   await mkdir(join(candidate, 'real-journal')); await cp(journal, join(candidate, 'real-journal'), { recursive: true });
+  const env = { ...process.env, SHURIK_BUNDLE: join(candidate, 'dist/worker.cjs'), SHURIK_REAL_JOURNAL: join(candidate, 'real-journal') };
+  const end = Date.now() + 240000; let log = '';
+  async function check(cmd, args) {
+    log += await command(cmd, args, candidate, { env, timeout: Math.max(1, end - Date.now()) }) + '\n';
+  }
   try {
-    const output = await command('docker', [...base, '--network=bridge', '-e', 'SHURIK_BUNDLE=/candidate/dist/worker.cjs',
-      '-e', 'SHURIK_REAL_JOURNAL=/candidate/real-journal', '-v', `${candidate}:/candidate`, '-w', '/candidate', IMAGE,
-      'sh', '-c', 'npm ci --ignore-scripts && node node_modules/typescript/bin/tsc --project trusted-tsconfig.json && node trusted-build.mjs && node --test trusted-worker.test.mjs'], stable, { timeout: 240000 });
+    await check('npm', ['ci', '--ignore-scripts']);
+    await check(process.execPath, ['node_modules/typescript/bin/tsc', '--project', 'trusted-tsconfig.json']);
+    await check(process.execPath, ['trusted-build.mjs']);
+    await check(process.execPath, ['--test', 'trusted-worker.test.mjs']);
     await cp(join(candidate, 'dist/worker.cjs'), destination);
-    return { passed: true, log: output.slice(-16000) };
-  } catch (error) { return { passed: false, log: `${error.stdout ?? ''}\n${error.stderr ?? ''}\n${error.message}`.slice(-16000) }; }
+    return { passed: true, log: log.slice(-16000) };
+  } catch (error) { return { passed: false, log: `${log}${error.stdout ?? ''}\n${error.stderr ?? ''}\n${error.message}`.slice(-16000) }; }
   finally { await rm(tmp, { recursive: true, force: true }); }
 }
 export async function launchWorker({ workspace, state, bundle, req, onCheckpoint, onPoll, key, stable }) {
   const io = await temporary('shurik-io-', stable); await mkdir(join(io, 'output'));
-  await saveJson(join(io, 'request.json'), { ...req, checkpointHandshake: true, cwd: '/workspace', journal: '/journal', output: '/io/output' });
-  const name = `shurik-${process.pid}-${Date.now()}`;
-  const args = [...base, '--name', name, '--read-only',
-    '--tmpfs', '/tmp:rw,nosuid,nodev,size=512m,mode=1777', '-e', 'HOME=/tmp', '-e', 'OPENCODE_API_KEY',
-    '-v', `${workspace}:/workspace`, '-v', `${join(workspace, '.github')}:/workspace/.github:ro`,
-    '-v', `${join(workspace, '.git')}:/workspace/.git:ro`, '-v', `${join(workspace, '.shurik')}:/workspace/.shurik:ro`,
-    '-v', `${join(state, 'pi-jsonl')}:/journal`, '-v', `${io}:/io`, '-v', `${bundle}:/worker.cjs:ro`,
-    '-w', '/workspace', IMAGE, 'node', '/worker.cjs', '/io/request.json'];
-  // No host GitHub credentials, Docker socket, or Git credential config in this process environment/container.
-  const env = { PATH: process.env.PATH, HOME: process.env.HOME, DOCKER_HOST: process.env.DOCKER_HOST,
-    DOCKER_CONTEXT: process.env.DOCKER_CONTEXT, OPENCODE_API_KEY: key };
-  const child = spawn('docker', args, { cwd: stable, env, stdio: ['ignore', 'pipe', 'pipe'] });
+  await saveJson(join(io, 'request.json'), { ...req, checkpointHandshake: true, cwd: resolve(workspace),
+    journal: resolve(state, 'pi-jsonl'), output: join(io, 'output') });
+  // Prototype: run directly on the Actions runner, including its repository-scoped GitHub token.
+  // A process group supports checkpoint pauses and worker cleanup; Pi aborts active shell tools.
+  const child = spawn(process.execPath, [resolve(bundle), join(io, 'request.json')], { cwd: workspace,
+    env: { ...process.env, ...(key === undefined ? {} : { OPENCODE_API_KEY: key }) }, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
   let log = ''; for (const stream of [child.stdout, child.stderr]) stream.on('data', d => { log = (log + d).slice(-16000); });
-  let exited = false; const done = new Promise((resolve, reject) => { child.once('error', reject); child.once('close', code => { exited = true; resolve(code); }); });
+  let exited = false; const done = new Promise((resolve, reject) => {
+    child.once('error', error => { exited = true; reject(error); });
+    child.once('exit', code => { exited = true; resolve(code); });
+  });
+  function signal(value) {
+    if (!child.pid) return;
+    try { process.kill(-child.pid, value); } catch (e) { if (e.code !== 'ESRCH') throw e; }
+  }
+  async function stop() {
+    signal('SIGCONT'); signal('SIGTERM');
+    let timer;
+    try { await Promise.race([done, new Promise(resolve => { timer = setTimeout(resolve, 45000); })]); }
+    finally { clearTimeout(timer); signal('SIGKILL'); }
+    await done;
+  }
+  let interrupted = false;
+  const interrupt = () => { interrupted = true; signal('SIGCONT'); signal('SIGTERM'); };
+  process.once('SIGINT', interrupt); process.once('SIGTERM', interrupt);
   const hardEnd = Date.now() + (req.seconds + 75) * 1000; let nonce; let lastPoll = 0;
   try {
     while (!exited) {
       await new Promise(resolve => setTimeout(resolve, 1000));
+      if (interrupted) { await stop(); break; }
       if (Date.now() - lastPoll >= 10000) {
         lastPoll = Date.now();
-        if (await onPoll?.()) { await command('docker', ['stop', '-t', '45', name], stable).catch(() => {}); break; }
+        if (await onPoll?.()) { await stop(); break; }
       }
       const checkpoint = await readJson(join(io, 'output/checkpoint.json'), null);
-      if (checkpoint && checkpoint.nonce !== nonce) {
+      if (!exited && checkpoint && checkpoint.nonce !== nonce) {
         nonce = checkpoint.nonce;
-        await command('docker', ['pause', name], stable);
+        signal('SIGSTOP');
         try { await onCheckpoint?.(checkpoint, log); }
-        finally { await writeFile(join(io, 'output/checkpoint.ack'), nonce); await command('docker', ['unpause', name], stable).catch(() => {}); }
+        finally { await writeFile(join(io, 'output/checkpoint.ack'), nonce); signal('SIGCONT'); }
       }
-      if (Date.now() >= hardEnd) { await command('docker', ['stop', '-t', '10', name], stable).catch(() => {}); break; }
+      if (!exited && Date.now() >= hardEnd) { await stop(); break; }
     }
     const code = await done;
     const result = await readJson(join(io, 'output/result.json'), null);
     return { result, outcome: classify(result, code), code, log };
-  } finally { await command('docker', ['rm', '-f', name], stable).catch(() => {}); await rm(io, { recursive: true, force: true }); }
+  } finally {
+    process.removeListener('SIGINT', interrupt); process.removeListener('SIGTERM', interrupt);
+    signal('SIGCONT'); signal('SIGKILL'); await done.catch(() => {});
+    await rm(io, { recursive: true, force: true });
+  }
 }
 export async function inspectJournal(bundle, journal, stable) {
   const io = await temporary('shurik-inspect-', stable);
   await saveJson(join(io, 'request.json'), { version: 1, id: 'inspect', model: 'space-bunny-free', seconds: 1,
-    cwd: '/tmp', journal: '/journal', output: '/io', mode: 'inspect', sessions: [] });
+    cwd: io, journal: join(io, 'journal'), output: io, mode: 'inspect', sessions: [] });
   try {
-    // Inspection is read-only at the Pi API; mount a disposable copy because opening can reclaim sidecars.
+    // Inspection is read-only at the Pi API; use a disposable copy because opening can reclaim sidecars.
     await cp(journal, join(io, 'journal'), { recursive: true });
-    await command('docker', [...base, '--network=none', '-v', `${io}:/io`, '-v', `${join(io, 'journal')}:/journal`,
-      '-v', `${resolve(bundle)}:/worker.cjs:ro`, IMAGE, 'node', '/worker.cjs', '/io/request.json'], stable);
+    await command(process.execPath, [resolve(bundle), join(io, 'request.json')], stable);
     return (await readJson(join(io, 'result.json'))).outcome === 'readable';
   } catch { return false; }
   finally { await rm(io, { recursive: true, force: true }); }

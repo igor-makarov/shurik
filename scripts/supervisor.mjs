@@ -32,11 +32,11 @@ async function dispatch(control) {
   });
 }
 async function pruneAndGuard(workspace, state, initial) {
-  const attempted = await git(workspace, 'status', '--porcelain', '--', '.github');
-  // The container denies writes; this is a second publication guard for every .github path.
+  const attempted = await git(workspace, 'status', '--porcelain', '--', '.github/workflows');
+  // Drop local workflow edits so GitHub's workflow restriction does not reject progress/state pushes.
   if (attempted) {
-    await rm(join(workspace, '.github'), { recursive: true, force: true });
-    await git(workspace, 'restore', '--source', initial, '--staged', '--worktree', '--', '.github');
+    await rm(join(workspace, '.github/workflows'), { recursive: true, force: true });
+    await git(workspace, 'restore', '--source', initial, '--staged', '--worktree', '--', '.github/workflows');
   }
   const redactions = await sanitizeTree(workspace, secrets);
   return { attempted, redactions };
@@ -72,12 +72,13 @@ export async function start(options) {
   const ctl = await clone('control'); const store = new ControlStore(ctl, id);
   const branch = `codex/shurik/${id}`;
   const supervisor = await git(stable, 'rev-parse', 'HEAD');
+  const source = options.source_ref ? (await api(`commits/${encodeURIComponent(options.source_ref)}`)).sha : supervisor;
   const control = { version: 1, id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
-    owner: null, deadline, seconds, model, createdAt: new Date().toISOString(), lastDispatchAt: null };
+    owner: null, deadline, seconds, model, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, supervisor);
   await saveJson(join(ctl, 'control.json'), control); await commit(ctl, `shurik: start ${id}`);
   await git(ctl, 'push', 'origin', `HEAD:refs/heads/${store.branch}`);
-  const workspace = await clone('workspace'); await git(workspace, 'checkout', '-b', branch, supervisor);
+  const workspace = await clone('workspace'); await git(workspace, 'checkout', '-b', branch, source);
   const state = join(workspace, '.shurik/state', id); await mkdir(join(state, 'pi-jsonl'), { recursive: true });
   const bundle = await retainBundle(join(stable, 'dist/worker.cjs'), state, supervisor);
   await saveJson(join(state, 'runtime.json'), { version: 1, selected: bundle, fallback: bundle, probation: false, quarantined: [], validatedSource: supervisor });
