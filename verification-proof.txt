@@ -1,65 +1,87 @@
 VERIFICATION PROOF — intentional import-time runner fault removed
-Loop: verify-20261004-1436 / iteration 1-2
+Loop: verify-20261004-1436 (branch codex/shurik/verify-20261004-1436)
 
-SYMPTOM (from iteration 1-1, outcome: runner_failure)
+STATUS: the fault is absent from HEAD. Iteration 1-2 applied the repair and
+committed it (3067fba "shurik: save 1-2 (runner_failure)"); iteration 1-3
+re-verified that state independently and changed no source files. No further
+edit to src/ was needed or made.
+
+SYMPTOM (iteration 1-1, outcome: runner_failure)
   Error: SHURIK_VERIFICATION_RUNNER_FAULT
       at Object.<anonymous> (/worker.cjs:1:7)
       at Module._compile (node:internal/modules/cjs/loader:1812:14)
-  The process died during module evaluation, before runIteration() was ever
-  entered, so no result.json was written and the journal was left invalid.
+  The process died during module evaluation, before runIteration() was entered,
+  so no result.json was written and the journal was left invalid.
 
-ROOT CAUSE
-  Two files together formed the fault:
-
+ROOT CAUSE — two files together formed the fault
   1. src/verification-defect.ts (entire contents, 1 line):
          throw new Error("SHURIK_VERIFICATION_RUNNER_FAULT");
-     A top-level `throw` in a module body executes at import/evaluation time.
-     The module has no exports, no guard, and no top-level await — so merely
-     naming it in an import list is sufficient to abort process startup.
-
+     A top-level `throw` in a module body runs at import/evaluation time. The
+     module has no exports, no guard and no top-level await, so merely naming
+     it in an import list aborts process startup.
   2. src/worker.ts line 1:
          import './verification-defect.ts';
-     A bare side-effect import. Because src/cli.ts imports ./worker.ts and
-     scripts/build.mjs bundles from src/cli.ts, esbuild inlined the defect
-     into dist/worker.cjs at position 1, which is why the reported frame is
-     (/worker.cjs:1:7) rather than a frame inside worker.ts. The fault was
-     therefore indistinguishable from a corrupted runtime bundle at the
-     point of failure, which is what the recorded runtime digest
-     fd2c8d7f... (a bundle whose line 1 is the same throw) shows.
+     A bare side-effect import. src/cli.ts imports ./worker.ts and
+     scripts/build.mjs bundles from src/cli.ts, so esbuild inlined the defect
+     into dist/worker.cjs at position 1. That is why the reported frame is
+     (/worker.cjs:1:7) instead of a frame inside worker.ts: at the point of
+     failure the fault was indistinguishable from a corrupted bundle.
 
-REPAIR APPLIED (2 deletions, no other changes)
-  - Removed the side-effect import from src/worker.ts line 1.
-  - Deleted src/verification-defect.ts.
+REPAIR APPLIED IN ITERATION 1-2 (2 deletions, nothing else)
+  git show 3067fba -- src/  ->
+      deleted file  src/verification-defect.ts   (the lone throw line)
+      src/worker.ts  @@ -1,2 +1 @@  -import './verification-defect.ts';
+  Both halves were required: removing only the import would leave a file whose
+  whole body is a top-level throw with no referent — a live trap for any future
+  import; removing only the file would leave a dangling specifier that breaks
+  tsc/esbuild resolution. Every other import in worker.ts is untouched, so the
+  exported Request interface and runIteration() are behaviourally unchanged.
 
-  Removing only the import would have left a file whose entire body is a
-  top-level throw with no remaining referent — a live trap for any future
-  import. Removing only the file would have left a dangling specifier that
-  breaks `tsc`/esbuild resolution. Both halves were required for a sound
-  module graph, so both were removed.
+INDEPENDENT VERIFICATION PERFORMED IN ITERATION 1-3
+  - src/ contains only cli.ts, history.ts, worker.ts; verification-defect.ts
+    is absent.
+  - src/worker.ts line 1 is now the node:fs/promises import; no defect import.
+  - grep -rnE "^import '\./" src/  -> none (no bare side-effect imports remain).
+  - grep -rnE "^throw " src/       -> none (no top-level throws remain).
+  - Module-graph soundness: every relative specifier resolves —
+    src/cli.ts -> ./worker.ts OK, src/worker.ts -> ./history.ts OK. No dangling
+    import, so tsc and esbuild resolution stay intact.
+  - Repo-wide grep for "verification-defect" / "VERIFICATION_RUNNER_FAULT"
+    returns only expected non-source locations: PROMPT.md (task text written by
+    the injector), the quarantined bundle below, and this run's own JSONL
+    journal (harness state).
+  - git status --porcelain shows a clean tree apart from the untracked
+    .shurik/state/.../pi-jsonl/ journal, i.e. no pending uncommitted drift.
 
-  Verified: git diff --stat => "2 files changed, 2 deletions(-)" and
-  grep for "verification-defect" across src/ returns nothing. Every other
-  import in worker.ts is untouched, so the exported Request interface and
-  runIteration() are behaviourally unchanged.
+THE FAULT IS NOT LIVE IN THE EXECUTING RUNTIME
+  .shurik/state/verify-20261004-1436/runtime.json records
+  quarantined: ["fd2c8d7f..."] while selected == fallback ==
+  30507ef6..., the digest-verified retained worker. The file
+  runtimes/fd2c8d7f.../worker.cjs still begins with the throw, and that is
+  correct: it is the deliberately broken probation bundle (manifest source
+  1b34569, "initialize verify-...") created by supervisor.mjs:132 to exercise
+  structural-failure classification and fallback selection. Iteration 1-3 is
+  executing under 30507ef6, which is why the model runs normally even though
+  the fault string still exists on disk in quarantined state.
 
-DELIBERATELY NOT CHANGED (protected harness/control state, not the defect)
-  - scripts/supervisor.mjs:87-89 — the injector. This runs once at loop start
-    in verification mode and is what created the fault; it is the harness
-    under test, not the defect, and editing it would defeat the verification
-    and corrupt future runs.
-  - scripts/supervisor.mjs:132 — the deliberately broken probation bundle
-    (runtimes/broken.cjs) used to exercise structural-failure classification
-    and fallback selection. Expected to contain the throw.
-  - .shurik/state/** — loop control state, retained runtime bundles, and the
-    iteration/journal records, including the 1-1 failure evidence.
+DELIBERATELY NOT CHANGED (harness/control state, not the defect)
+  - scripts/supervisor.mjs:87-89 — the injector that created the fault. It runs
+    once at loop start in verification mode; editing it would defeat the
+    verification and corrupt future runs.
+  - scripts/supervisor.mjs:132 — the broken probation bundle writer.
+  - .shurik/state/** — loop control state, retained/quarantined runtimes,
+    iteration and journal records, including the 1-1 failure evidence.
   - PROMPT.md — the task statement written by the injector.
+  - node_modules/dist were not installed or rebuilt: creating them would perturb
+    the harness's own candidate validation. The checks above are static and
+    dependency-free, which is sufficient to prove the import-time fault is gone.
 
-NOTE ON AN UNRELATED FAILURE
-  .shurik/state/verify-20261004-1436/diagnostics/1-1-validation.json shows
-  "passed": false, but for an environmental reason, not a code defect:
-  `npm ci --ignore-scripts` inside the validation container aborted with
+NOTE ON AN UNRELATED FAILURE (not this fault, not modified)
+  diagnostics/1-1-validation.json and diagnostics/1-2-validation.json both
+  report "passed": false for an environmental reason:
+  `npm ci --ignore-scripts` inside the validation container aborts with
   EACCES: permission denied, mkdir '/candidate/node_modules'. The candidate
-  container's source mount is not writable by the running user, so
-  validation never reached tsc, esbuild, or the tests. This is independent
-  of the import-time fault and was not modified, per the no-other-changes
-  constraint; it is recorded here so it is not misattributed to this repair.
+  source mount is owned by the host runner user and is not writable by the
+  container user, so validation never reached tsc, esbuild or the tests. This
+  is independent of the import-time fault and is recorded here so the two
+  candidate-validation failures are not misattributed to this repair.
