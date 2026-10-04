@@ -2,7 +2,7 @@
 
 Build a Ralph loop that initially works on Shurik itself. Keep the agent runner separate from GitHub orchestration and repository configuration so it can later serve other repositories. The central acceptance criterion is that a broken runner leaves enough evidence and a functioning execution path for a subsequent agent iteration to repair it.
 
-This document records the agreed behavior and proposed implementation. The repository currently has no application code, commits, or GitHub remote. This is a plan, not an implemented or tested system.
+This document records the agreed behavior and proposed implementation. The repository contains planning documentation and has a configured GitHub remote; application code and workflows have not been created. This is a plan, not an implemented or tested system. Read the [public repository caveats](README.md#caveats) before using or implementing the design.
 
 ## Agreed behavior
 
@@ -101,6 +101,8 @@ Implement list_sessions, search_sessions, and read_session tools. Search all rel
 
 Treat supervisor metadata as authoritative and verify it independently of worker output. Preserve old committed history and validate journal integrity before accepting an updated snapshot. Retain malformed files for diagnosis and use the last readable checkpoint if needed. Provide explicit state format versions and preserve rollback-compatible snapshots when adopting a migration.
 
+The repository is intended to be public. Committed sessions and diagnostics must contain only material suitable for public disclosure. Keep credentials out of prompts and journals, implement publication checks and redaction, and test that secrets cannot enter committed snapshots. These checks reduce accidental exposure; they do not make private task content suitable for publication or guarantee detection of every secret.
+
 Periodic checkpoints should be serialized at worker turn boundaries, with the worker paused while its state is snapshotted. Start with a configurable five-minute checkpoint interval. Abrupt host loss can still lose work since the latest published checkpoint; local durability cannot preserve an unpublished disk after the runner disappears.
 
 ## Runner updates and correction
@@ -155,7 +157,7 @@ For the live provider check, verify the requested model, tool calling, client id
 2. Implement one local iteration, history tools, supervisor protocol, checkpointing, and failure records. Make it runnable without GitHub so integration tests can exercise the real code.
 3. Implement candidate validation, copied-state canaries, promotion, probation, and fallback. Complete the deliberate broken-runner repair test before adding long-running automation.
 4. Add the fixed Actions workflows, working branch and draft PR setup, successor dispatch, recovery reconciliation, stop, resume, and workflow edit enforcement.
-5. Connect a GitHub remote and configure OPENCODE_API_KEY, the requested model, Actions permissions, and PROMPT.md. Prove a short live loop, cancellation, and recovery before a longer deadline-driven run.
+5. Configure OPENCODE_API_KEY, the requested model, Actions permissions, and a publication-safe PROMPT.md on the GitHub repository. Verify state publication checks, then prove a short live loop, cancellation, and recovery before a longer deadline-driven run.
 6. Document launch and repair procedures. Preserve the orchestration/configuration boundary so a later release can expose the runner through workflow_call or a reusable action without rewriting the agent engine.
 
 Completion of v1 requires demonstrated failure recovery and live continuation behavior. Adding the YAML files alone does not satisfy this plan.
