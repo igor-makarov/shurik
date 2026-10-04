@@ -1,0 +1,46 @@
+Verification proof: import-time runner fault removed
+Iteration 1-2
+
+FAULT
+scripts/supervisor.mjs:87-88 (verification mode only) injected two things:
+  1. src/verification-defect.ts containing a single top-level statement:
+       throw new Error("SHURIK_VERIFICATION_RUNNER_FAULT");
+  2. src/worker.ts line 1: import './verification-defect.ts';
+src/cli.ts imports ./worker.ts, so the worker bundle (dist/worker.cjs, built from
+src/cli.ts by scripts/build.mjs) threw during module evaluation, before runIteration()
+was ever called. Every dispatch therefore recorded outcome "runner_failure".
+
+FIX (two changes, nothing else)
+  - Removed the import line from src/worker.ts.
+  - Deleted src/verification-defect.ts, which existed only to carry the fault.
+git diff -- src/ shows exactly these two changes: one deleted line in worker.ts and
+one deleted file. No other source, workflow, or loop-control file was touched.
+
+VERIFICATION
+  - grep for "verification-defect" / "VERIFICATION_RUNNER_FAULT" across src/:
+    no matches remain.
+  - src/verification-defect.ts was imported only by src/worker.ts:1 (confirmed by
+    grep over the whole repo), so no dangling reference is left.
+  - Static load check (`node src/worker.ts`, Node 24.14.0): the only error is
+    ERR_MODULE_NOT_FOUND for @earendil-works/chord, because node_modules is not
+    installed in this offline container. There is no module-not-found error for
+    ./verification-defect.ts and no SHURIK_VERIFICATION_RUNNER_FAULT throw, so the
+    local import graph resolves and worker.ts parses.
+  - `npm run check` / `npm run build` were not runnable (typescript and esbuild are
+    devDependencies and dependencies are not installed); no install was attempted.
+
+PRIOR SESSION HISTORY
+  - list_sessions returned one prior iteration, 1-1, with outcome "runner_failure".
+  - read_session on 1-1 returned zero transcript entries: the fault fired at import
+    time, so no agent turn was ever recorded. Its error matches this defect exactly:
+    /worker.cjs:1 throw new Error("SHURIK_VERIFICATION_RUNNER_FAULT").
+  - search_sessions for "verification-defect" returned no hits, consistent with 1-1
+    having produced no transcript text.
+  - Per scripts/supervisor.mjs:130-135, iteration 1 also boots a deliberately broken
+    probation bundle (broken.cjs) to exercise candidate rejection and fallback to the
+    digest-verified retained worker; the source-level fault above was the durable cause
+    and is now removed.
+
+RESULT
+The import-time runner fault is removed. A rebuilt worker will no longer throw during
+module evaluation, so runIteration() can be entered and the iteration can yield.

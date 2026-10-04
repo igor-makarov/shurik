@@ -1,1 +1,0 @@
-throw new Error("SHURIK_VERIFICATION_RUNNER_FAULT");
