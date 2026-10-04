@@ -14,7 +14,8 @@ from recovery.parsing import (html_to_text, inner_html, is_excluded_image, parse
                               parse_post_page)
 from recovery.store import merge_post
 from recovery.tests.fixtures import (CAPTION_HEBREW, JPEG_BYTES, NOT_ARCHIVED_HTML, PHOTOSET_HTML,
-                                     POST_HTML, FakeArchive, binary, cdx_json, entities, html)
+                                     POST_HTML, FakeArchive, FakeRegistry, binary, cdx_json,
+                                     entities, html)
 
 
 class CutoffTests(unittest.TestCase):
@@ -221,3 +222,95 @@ class VariantPlanningTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PublishSelectionTests(unittest.TestCase):
+    """Progressive publishing: text now, images when they are recovered."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self._saved = {k: getattr(config, k) for k in
+                       ("DATA_DIR", "POST_DIR", "PUBLISHED_JSONL", "BLOB_DIR")}
+        config.DATA_DIR = self._tmp.name
+        config.POST_DIR = os.path.join(self._tmp.name, "posts")
+        config.PUBLISHED_JSONL = os.path.join(self._tmp.name, "published.jsonl")
+        config.BLOB_DIR = os.path.join(self._tmp.name, "blobs")
+        self.addCleanup(self._restore)
+
+    def _restore(self):
+        for k, v in self._saved.items():
+            setattr(config, k, v)
+
+    def _post(self, pid: str = "100403945458", **kw) -> dict:
+        rec = {"post_id": pid, "content_text": "שלום", "captions": ["שלום"], "tags": ["שלום"],
+               "original_url": f"http://hazfalafel.com/post/{pid}",
+               "capture": {"timestamp": "20150119072952"}, "images": []}
+        rec.update(kw)
+        return rec
+
+    def _run(self, registry=None):
+        from recovery import cli
+
+        return cli.publish(limit=50, registry=registry or FakeRegistry(), fetcher=FakeArchive({}))
+
+    def test_text_only_post_is_published_as_partial(self):
+        from recovery import oci
+        from recovery.store import PostStore
+
+        store = PostStore(config.POST_DIR)
+        store.put("100403945458", self._post(images=[
+            {"media_url": "http://40.media.tumblr.com/x/tumblr_a_500.jpg", "state": "missing",
+             "error": GAP, "attempts": [{"endpoint": "cdx", "captures": 0}]}]))
+        out = self._run()
+        self.assertEqual(out["processed"], 1, "a post with recovered text must publish")
+        self.assertEqual(out["results"][0]["action"], "pushed")
+        self.assertEqual(out["results"][0]["image_count"], 0)
+        self.assertEqual(out["results"][0]["missing_count"], 1)
+        rec = store.get("100403945458")
+        self.assertTrue(rec["published"]["quality"], "publish quality is recorded for reruns")
+        # The artifact itself must admit that the image is missing.
+        config_blob, layers, tag, manifest, _ = oci.build_artifact(rec)
+        import json as _json
+        doc = _json.loads(config_blob.data.decode("utf-8"))
+        self.assertTrue(doc["shurik"]["post"]["recovery"]["partial"])
+        self.assertEqual(tag, "100403945458")
+        self.assertEqual(manifest["annotations"]["shurik.post.missing_images"], "1")
+        self.assertEqual(manifest["annotations"]["org.opencontainers.image.source"],
+                         config.REPO_SOURCE_LABEL)
+        self.assertIn("שלום", _json.dumps(doc, ensure_ascii=False))
+
+    def test_rerun_skips_published_post_and_never_regresses(self):
+        from recovery import cli
+        from recovery.store import PostStore
+
+        store = PostStore(config.POST_DIR)
+        store.put("1", self._post(pid="1"))
+        self._run()
+        self.assertEqual(self._run()["processed"], 0, "an unchanged post must not be republished")
+        # Simulate a worse local record (e.g. a re-parse that lost the text):
+        # the publish loop must refuse to replace richer published metadata.
+        rec = store.get("1")
+        rec["content_text"] = ""
+        store.put("1", rec)
+        self.assertEqual(self._run()["processed"], 0)
+
+    def test_registry_skip_when_published_artifact_has_more_data(self):
+        from recovery.publish import publish_post
+
+        reg = FakeRegistry(manifests={"100403945458": {
+            "annotations": {"shurik.post.images": "2", "shurik.post.content_len": "50",
+                            "shurik.post.cutoff": config.CUTOFF}}})
+        res = publish_post(self._post(), reg)
+        self.assertEqual(res.action, "skipped")
+        self.assertEqual(reg.pushes, [], "nothing may be pushed over a richer artifact")
+
+    def test_registry_republishes_when_more_text_is_recovered(self):
+        from recovery.publish import publish_post
+
+        reg = FakeRegistry(manifests={"100403945458": {
+            "annotations": {"shurik.post.images": "0", "shurik.post.content_len": "2",
+                            "shurik.post.cutoff": config.CUTOFF}}})
+        res = publish_post(self._post(), reg)
+        self.assertEqual(res.action, "updated")
+        self.assertEqual(len(reg.pushes), 1)

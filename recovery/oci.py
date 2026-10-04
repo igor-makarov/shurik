@@ -155,6 +155,7 @@ def build_artifact(post: dict) -> tuple[Blob, list[Blob], str, dict, Blob]:
                 "shurik.post.tags": ",".join(post.get("tags", []))[:1024],
                 "shurik.post.images": str(len(images)),
                 "shurik.post.missing_images": str(len(missing_images)),
+                "shurik.post.content_len": str(len(post.get("content_text") or "")),
                 "shurik.post.cutoff": config.CUTOFF,
             })
         },
@@ -182,7 +183,9 @@ def build_artifact(post: dict) -> tuple[Blob, list[Blob], str, dict, Blob]:
         "shurik.post.original_url": post.get("original_url", ""),
         "shurik.post.captures": json.dumps(post.get("captures", []), ensure_ascii=False),
         "shurik.post.image_sha256": json.dumps([img["sha256"] for img in images]),
+        "shurik.post.missing_images": str(len(missing_images)),
         "shurik.post.partial": "true" if missing_images else "false",
+        "shurik.post.content_len": str(len(post.get("content_text") or "")),
         "shurik.post.cutoff": config.CUTOFF,
     })
 

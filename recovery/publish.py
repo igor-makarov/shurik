@@ -188,10 +188,19 @@ def _image_count(manifest: dict) -> int:
         return -1
 
 
+def _content_len(manifest: dict) -> int:
+    ann = (manifest or {}).get("annotations") or {}
+    try:
+        return int(ann.get("shurik.post.content_len", "-1"))
+    except Exception:
+        return -1
+
+
 def publish_post(post: dict, registry: Registry, *, force: bool = False) -> PushResult:
     """Idempotent per-post publish: never regress an already-published artifact."""
     config_blob, layers, tag, manifest, manifest_blob = oci.build_artifact(post)
-    missing = len(post.get("missing_images") or [])
+    missing = len(post.get("missing_images") or []) or len(
+        [i for i in post.get("images", []) if not i.get("sha256")])
     result = PushResult(tag=tag, action="", layers=[], config_digest=config_blob.digest,
                         image_count=len([i for i in post.get("images", []) if i.get("sha256")]),
                         missing_count=missing)
@@ -203,15 +212,24 @@ def publish_post(post: dict, registry: Registry, *, force: bool = False) -> Push
         existing = None
     if existing is not None and not force:
         prev_images = _image_count(existing)
+        prev_text = _content_len(existing)
         prev_ann = (existing.get("annotations") or {})
-        prev_digest = "sha256:" + __import__("hashlib").sha256(
+        prev_digest = existing.get("__digest") or "sha256:" + __import__("hashlib").sha256(
             json.dumps(existing.get("annotations", {}), sort_keys=True).encode()).hexdigest()
-        if prev_images == result.image_count and prev_ann.get("shurik.post.cutoff") == config.CUTOFF:
+        new_text = len(post.get("content_text") or "")
+        # Never regress: only skip when the published artifact already carries at
+        # least this many recovered images and at least this much recovered text.
+        if (prev_images >= result.image_count and prev_text >= new_text
+                and prev_ann.get("shurik.post.cutoff") == config.CUTOFF):
             result.action = "skipped"
             result.manifest_digest = prev_digest
-            result.reason = "already published with the same recovered image count"
+            result.reason = (f"already published with >= recovered data "
+                             f"(images {prev_images}>={result.image_count}, "
+                             f"text {prev_text}>={new_text})")
             return result
         result.action = "updated"
+        result.reason = (f"republished with more recovered data "
+                         f"(images {result.image_count}>{prev_images}, text {new_text}>{prev_text})")
 
     for blob in [config_blob] + list(layers):
         registry.push_blob(blob)

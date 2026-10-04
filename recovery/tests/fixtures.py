@@ -81,3 +81,32 @@ def html(body: str, status: int = 200) -> Response:
 
 def binary(data: bytes, ctype: str = "image/jpeg", status: int = 200) -> Response:
     return Response(url="", status=status, body=data, headers={"content-type": ctype}, error=OK)
+
+
+class FakeRegistry:
+    """In-memory OCI registry: records pushes, replays manifests, no network."""
+
+    def __init__(self, blobs: dict[str, bytes] | None = None, manifests: dict | None = None):
+        self.blobs: dict[str, bytes] = dict(blobs or {})
+        self.manifests: dict = dict(manifests or {})
+        self.pushes: list[tuple[str, str]] = []
+        self.gets: list[str] = []
+
+    # -- Registry API used by recovery.publish.publish_post ----------------
+    def get_manifest(self, reference: str, accept: str | None = None):
+        self.gets.append(reference)
+        return self.manifests.get(reference)
+
+    def has_blob(self, digest: str) -> bool:
+        return digest in self.blobs
+
+    def push_blob(self, blob) -> str:
+        self.blobs[blob.digest] = blob.data
+        return "pushed"
+
+    def push_manifest(self, manifest_blob, tag: str) -> None:
+        import json as _json
+
+        doc = _json.loads(manifest_blob.data.decode("utf-8"))
+        self.manifests[tag] = doc
+        self.pushes.append((tag, manifest_blob.digest))

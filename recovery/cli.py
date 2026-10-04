@@ -394,21 +394,40 @@ def ensure_blob(fetcher: Fetcher, img: dict) -> tuple[bool, str]:
     return True, "refetched"
 
 
+def post_quality(post: dict) -> tuple[int, int, int]:
+    """How much of a post an artifact would carry: (images, text, captions).
+
+    Used so that a rerun can never replace a published artifact with one that
+    carries fewer recovered images or less recovered text.
+    """
+    images = sum(1 for i in post.get("images", []) if i.get("sha256"))
+    return images, len(post.get("content_text") or ""), len(post.get("captions") or [])
+
+
 def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] = None,
             only_missing: bool = False, fetcher: Optional[Fetcher] = None) -> dict:
-    store = PostStore()
+    # Explicit path: PostStore's default argument binds config at import time,
+    # so tests (and future multi-workspace runs) could not redirect the store.
+    store = PostStore(config.POST_DIR)
     reg = registry or Registry()
     fetch = fetcher or Fetcher()
     log = JsonlStore(config.PUBLISHED_JSONL, key_fields=("tag", "manifest_digest"))
     results = []
     for rec in store.all():
         pid = rec.get("post_id")
-        if not pid or not rec.get("images"):
+        if not pid:
             continue
-        if not any(i.get("sha256") for i in rec["images"]):
+        # A post with captured text (or a recovered image) is publishable while
+        # some of its images are still missing: the artifact says so explicitly
+        # (`recovery.partial`, `missing_images`) and a later run republishes it
+        # as soon as an image is recovered. Publishing nothing until the image
+        # ledger drained would throw the recovered text away for no reason.
+        if not rec.get("images") and not rec.get("content_text"):
             continue
-        if rec.get("published") and not force:
-            continue
+        if not only_missing and rec.get("published") and not force:
+            prev = tuple(rec["published"].get("quality") or ())
+            if prev >= post_quality(rec):
+                continue
         post = dict(rec)
         post["missing_images"] = rec.get("missing_images", [])
         # Ephemeral blob cache: re-fetch recorded captures before building.
@@ -421,8 +440,10 @@ def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] =
                 break
         else:
             try:
-                res = publish_post(post, reg, force=force)
-                results.append(vars(res) if hasattr(res, "__dict__") else res)
+                pushed = publish_post(post, reg, force=force)
+                # PushResult is a dataclass; every caller below works on a dict.
+                res = dict(vars(pushed))
+                results.append(res)
             except Exception as exc:
                 results.append({"tag": pid, "action": "failed", "reason": f"{type(exc).__name__}: {exc}"[:300]})
                 continue
@@ -432,13 +453,15 @@ def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] =
                          "config_digest": res.get("config_digest", ""),
                          "image_count": res.get("image_count", 0),
                          "missing_count": res.get("missing_count", 0),
+                         "quality": list(post_quality(post)),
                          "post_id": pid, "at": _now()}
                 log.append([entry])
                 rec2 = dict(store.get(pid))
                 rec2["published"] = {"at": entry["at"], "action": entry["action"],
                                      "manifest_digest": entry["manifest_digest"],
                                      "image_count": entry["image_count"],
-                                     "missing_count": entry["missing_count"]}
+                                     "missing_count": entry["missing_count"],
+                                     "quality": list(post_quality(post))}
                 store.put(pid, rec2)
         if len(results) >= limit:
             break
