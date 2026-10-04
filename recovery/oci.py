@@ -28,7 +28,7 @@ OS = "linux"
 
 
 class Blob:
-    __init__(self, data: bytes, media_type: str):
+    def __init__(self, data: bytes, media_type: str):
         self.data = data
         self.media_type = media_type
         self.digest = "sha256:" + hashlib.sha256(data).hexdigest()

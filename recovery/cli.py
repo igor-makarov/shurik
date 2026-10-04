@@ -22,6 +22,8 @@ POST_CAPTURE_FILE = os.path.join(config.CAPTURE_DIR, "posts.jsonl")
 LISTING_CAPTURE_FILE = os.path.join(config.CAPTURE_DIR, "listing.jsonl")
 MEDIA_CAPTURE_FILE = os.path.join(config.CAPTURE_DIR, "media.jsonl")
 POST_ID_RE = re.compile(r"/post/(\d+)")
+# CDX matchType=prefix wants a bare directory prefix, never `.../*`.
+POST_CAPTURE_PREFIX = "hazfalafel.com/post/"
 
 
 def _now() -> str:
@@ -30,7 +32,12 @@ def _now() -> str:
 
 # --------------------------------------------------------------------- discover
 def discover_posts(fetcher: Fetcher, years: Optional[list[str]] = None, force: bool = False) -> dict:
-    """Resumable CDX inventory of /post/* captures (year windows)."""
+    """Resumable CDX inventory of /post/* captures (year windows).
+
+    NOTE: the CDX `prefix` match type must not be combined with a `*` suffix;
+    `url=hazfalafel.com/post/*&matchType=prefix` returns `[]` while
+    `url=hazfalafel.com/post/&matchType=prefix` returns every post capture.
+    """
     index = CaptureIndex(POST_CAPTURE_FILE)
     stats = {"new": 0, "queries": 0, "skipped": 0}
     for start in (years or year_windows()):
@@ -39,7 +46,7 @@ def discover_posts(fetcher: Fetcher, years: Optional[list[str]] = None, force: b
             stats["skipped"] += 1
             continue
         params_year = start[:4]
-        caps, resp = _cdx_window(fetcher, f"hazfalafel.com/post/*", params_year)
+        caps, resp = _cdx_window(fetcher, POST_CAPTURE_PREFIX, params_year)
         stats["queries"] += 1
         new = index.add(caps)
         stats["new"] += new
@@ -52,7 +59,7 @@ def discover_listings(fetcher: Fetcher, force: bool = False) -> dict:
     """Archive/tag/monthly pages: discovery leads for posts without permalinks."""
     index = CaptureIndex(LISTING_CAPTURE_FILE)
     stats = {"new": 0, "queries": 0, "skipped": 0}
-    for prefix in ("hazfalafel.com/archive/", "hazfalafel.com/tagged/", "hazfalafel.com/"):
+    for prefix in ("hazfalafel.com/archive/", "hazfalafel.com/tagged/", POST_CAPTURE_PREFIX):
         name = f"listing:{prefix}"
         if index.query_done(name) and not force:
             stats["skipped"] += 1
