@@ -1,0 +1,78 @@
+name: Shurik Ralph
+run-name: Ralph ${{ inputs.loop_id }} / ${{ inputs.command }} ${{ inputs.generation }}-${{ inputs.iteration }}
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        type: choice
+        options: [start, iterate]
+        default: start
+      loop_id:
+        description: Unique loop ID (lowercase letters, digits, hyphens)
+        required: true
+        type: string
+      model:
+        description: OpenCode Go model ID
+        default: space-bunny-free
+        type: string
+      seconds:
+        description: Agent budget per iteration (10–1800 seconds)
+        default: '1800'
+        type: string
+      deadline:
+        description: Optional absolute UTC deadline, e.g. 2026-10-04T16:00:00Z
+        type: string
+      generation:
+        description: Internal continuation fence
+        default: '1'
+        type: string
+      iteration:
+        description: Internal continuation sequence
+        default: '1'
+        type: string
+      supervisor_ref:
+        description: Internal trusted supervisor revision
+        type: string
+      verification:
+        description: Disposable live runner-fault verification (requires a deadline)
+        default: false
+        type: boolean
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+concurrency:
+  group: shurik-worker-${{ inputs.loop_id }}
+  cancel-in-progress: false
+jobs:
+  iteration:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ inputs.supervisor_ref || github.sha }}
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 24.14.0
+      - name: Build and validate trusted bootstrap
+        if: inputs.command == 'start'
+        run: npm ci --ignore-scripts && npm run verify
+      - name: Execute one iteration or initialize loop
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          SHURIK_INPUTS: ${{ toJSON(inputs) }}
+        run: node scripts/supervisor.mjs
+      - name: Preserve emergency snapshot after publication failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shurik-emergency-${{ github.run_id }}
+          path: .shurik-emergency/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7

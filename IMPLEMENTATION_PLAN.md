@@ -2,7 +2,7 @@
 
 Build a Ralph loop that initially works on Shurik itself. Keep the agent runner separate from GitHub orchestration and repository configuration so it can later serve other repositories. The central acceptance criterion is that a broken runner leaves enough evidence and a functioning execution path for a subsequent agent iteration to repair it.
 
-This document records the agreed behavior and proposed implementation. The repository contains planning documentation and has a configured GitHub remote; application code and workflows have not been created. This is a plan, not an implemented or tested system. Read the [public repository caveats](README.md#caveats) before using or implementing the design.
+This document records the agreed design. Implementation now lives in `src/`, `scripts/`, and `.github/workflows/`; actual verification and remaining limits are recorded in [VERIFICATION.md](VERIFICATION.md). Read the [public repository caveats](README.md#caveats) before running it. The file layout evolved: small Node modules separate policy, GitHub/control state, runtime containers, and the stable supervisor; checkpoint/provider logic lives in the worker.
 
 ## Agreed behavior
 
