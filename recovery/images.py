@@ -9,7 +9,7 @@ from typing import Optional
 
 from . import config
 from .cdx import Capture, cdx_query, normalize_url, within_cutoff
-from .http import BAD_BODY, GAP, OK, Fetcher, Response
+from .http import (BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, TRANSPORT, Fetcher, Response)
 from .parsing import base_media_key, media_key
 
 IMAGE_MAGIC = (
@@ -141,6 +141,12 @@ def resolve_image(
         "attempts": [],
     }
     captures, attempts = image_capture_candidates(fetcher, url)
+    record["attempts"].insert(0, {
+        "endpoint": "variant-plan",
+        "media_url": url,
+        "variants": _variants(url),
+        "note": "every size/extension variant queried before declaring a gap",
+    })
     record["attempts"].extend(attempts)
     record["capture_count"] = len(captures)
 
@@ -158,6 +164,7 @@ def resolve_image(
     candidates.sort(key=lambda c: c.timestamp, reverse=True)
 
     tried = 0
+    saw_non_image_body = False
     for cap in candidates[:max_captures]:
         tried += 1
         resp = fetch_capture(fetcher, cap)
@@ -170,29 +177,39 @@ def resolve_image(
             "message": resp.message,
             "bytes": len(resp.body or b""),
         }
-        if resp.ok:
-            mime = sniff_image(resp.body)
-            if mime:
-                digest, path = store_blob(resp.body)
-                attempt["sha256"] = digest
-                attempt["media_type"] = mime
-                record["attempts"].append(attempt)
-                record.update(
-                    state="recovered",
-                    error=None,
-                    sha256=digest,
-                    bytes=len(resp.body),
-                    media_type=mime,
-                    blob_path=path,
-                    capture={
-                        "timestamp": cap.timestamp,
-                        "original": cap.original,
-                        "replay_url": resp.url,
-                        "archive_digest": cap.digest,
-                    },
-                )
-                return record
-            attempt["media_type"] = sniff_image(resp.body) or "not-an-image"
+        mime = sniff_image(resp.body or b"")
+        if mime and resp.ok:
+            digest, path = store_blob(resp.body)
+            attempt["sha256"] = digest
+            attempt["media_type"] = mime
+            record["attempts"].append(attempt)
+            record.update(
+                state="recovered",
+                error=None,
+                sha256=digest,
+                bytes=len(resp.body),
+                media_type=mime,
+                blob_path=path,
+                capture={
+                    "timestamp": cap.timestamp,
+                    "original": cap.original,
+                    "replay_url": resp.url,
+                    "archive_digest": cap.digest,
+                },
+            )
+            return record
+        attempt["media_type"] = mime or "not-an-image"
+        if resp.body and not mime and resp.error not in (TIMEOUT, THROTTLED, TRANSPORT):
+            # The archive answered with a body, and that body is not an image:
+            # its "this page has not been archived" HTML, a toolbar page, or an
+            # error page. Confirmed unusable bytes -- not a transient failure.
+            saw_non_image_body = True
+            attempt["error"] = BAD_BODY
+            attempt["message"] = (
+                "archived body is not an image: "
+                f"{len(resp.body)} bytes of "
+                f"{resp.headers.get('content-type', 'unknown')}"
+            )
         record["attempts"].append(attempt)
 
     # Only *failed* attempts classify the outcome. A successful CDX query that
@@ -200,7 +217,12 @@ def resolve_image(
     # is not an image is a bad body. Neither is a timeout or a throttle.
     failures = [a.get("error") for a in record["attempts"]
                 if a.get("error") and a.get("error") != OK]
-    if not captures:
+    if saw_non_image_body:
+        # The archive answered, but with HTML (its "not archived" page) instead of
+        # image bytes. That is a confirmed unusable body, not a transient failure.
+        record.update(state="missing", error=BAD_BODY,
+                      note="captures existed but replays returned non-image bodies")
+    elif not captures:
         record.update(
             state="missing",
             error=failures[-1] if failures else GAP,

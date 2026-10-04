@@ -6,6 +6,18 @@ from typing import Optional
 
 from recovery.http import BAD_BODY, GAP, HTTP_ERROR, OK, THROTTLED, TIMEOUT, Fetcher, Response
 
+# Provenance for the Hebrew below: real capture
+# https://web.archive.org/web/20150119072952id_/http://hazfalafel.com:80/post/100403945458
+# Its <img> alt is stored in *logical* order, exactly as shown here. The archive
+# never stores bidi-visual text, so the recovery must not "reorder" anything.
+CAPTION_HEBREW = "האם ציפי ואיילת יבטלו את טיולי השבת?"
+
+
+def entities(text: str) -> str:
+    """Numeric character references, so fixtures exercise entity decoding."""
+    return "".join(f"&#{ord(c)};" if ord(c) > 127 else c for c in text)
+
+
 POST_HTML = """<!DOCTYPE html><html><head>
 <meta property="og:image" content="http://40.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/tumblr_ndozw9K7Dz1r3it8zo1_500.jpg" />
 </head><body>
@@ -13,7 +25,7 @@ POST_HTML = """<!DOCTYPE html><html><head>
 <meta property="og:image" content="http://40.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/tumblr_ndozw9K7Dz1r3it8zo1_500.jpg" />
 <div class="media"><a href="http://hazfalafel.com/post/100403945458">
 <img src="http://40.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/tumblr_ndozw9K7Dz1r3it8zo1_500.jpg"
- alt="&#1502;&#1500;&#1499;&#1496; &#1510;&#1494;&#1508;&#1499; &#1510;&#1489;&#1491;&#1501;&#1493;&#1500;?" />
+ alt="__CAPTION__" />
 </a></div>
 <div class="copy" style="direction:rtl;"><p>שלום עולם<br>שורה שנייה</p>
 <p><a href="http://hazfalafel.com/tagged/%D7%A9%D7%9C%D7%95%D7%9D">שלום</a></p></div>
@@ -26,7 +38,7 @@ POST_HTML = """<!DOCTYPE html><html><head>
 <img src="http://33.media.tumblr.com/avatar_dfb97ff13316_16.png" class="avatar " alt="" />
 <img style="position:absolute" src="https://px.srvcs.tumblr.com/impixu?T=1&amp;J=abc" />
 <img src="http://www.narendramodi.in/images/fb_share_button.jpg">
-</body></html>"""
+</body></html>""".replace("__CAPTION__", entities(CAPTION_HEBREW))
 
 PHOTOSET_HTML = """<html><body><div class="photoset">
 <img src="http://40.media.tumblr.com/ebf1e6a81c86cae8055a79a7c8d027d8/tumblr_ng1vkjYFIB1r3it8zo6_500.jpg" alt="" />

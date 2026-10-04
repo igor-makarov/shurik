@@ -12,8 +12,8 @@ from recovery.http import BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, Fetcher, Recove
 from recovery.images import resolve_image, sniff_image
 from recovery.parsing import parse_post_page, is_excluded_image, html_to_text, inner_html
 from recovery.store import merge_post
-from recovery.tests.fixtures import (JPEG_BYTES, NOT_ARCHIVED_HTML, PHOTOSET_HTML, POST_HTML,
-                                     FakeArchive, binary, cdx_json, html)
+from recovery.tests.fixtures import (CAPTION_HEBREW, JPEG_BYTES, NOT_ARCHIVED_HTML, PHOTOSET_HTML,
+                                     POST_HTML, FakeArchive, binary, cdx_json, entities, html)
 
 
 class CutoffTests(unittest.TestCase):
@@ -57,9 +57,17 @@ class ParsingTests(unittest.TestCase):
             self.assertNotIn(bad, " ".join(urls))
 
     def test_caption_comes_from_alt_without_invention(self):
+        # Archived HTML stores Hebrew in logical order; recovery must reproduce
+        # the captured characters exactly and never reorder or "correct" them.
         rec = parse_post_page(POST_HTML, "http://hazfalafel.com/post/100403945458", "20150119072952")
-        self.assertEqual(rec["captions"], ["מה זה שאני רואה?"])
-        self.assertEqual(rec["images"][0]["caption_alt"], "מה זה שאני רואה?")
+        self.assertEqual(rec["captions"], [CAPTION_HEBREW])
+        self.assertEqual(rec["images"][0]["caption_alt"], CAPTION_HEBREW)
+
+    def test_entity_encoded_hebrew_round_trips(self):
+        rec = parse_post_page(POST_HTML, "http://hazfalafel.com/post/100403945458", "20150119072952")
+        self.assertIn("&#", POST_HTML, "fixture must exercise numeric character references")
+        self.assertEqual(rec["captions"][0], CAPTION_HEBREW)
+        self.assertEqual(entities(CAPTION_HEBREW), entities(rec["captions"][0]))
 
     def test_photoset_page_yields_every_photo(self):
         rec = parse_post_page(PHOTOSET_HTML, "http://hazfalafel.com/post/104317036098/photoset_iframe/x/500/false",
