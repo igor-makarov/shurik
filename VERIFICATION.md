@@ -4,7 +4,7 @@ Tested implementation: Node 24.14.0, Pi Durable / Pi AI / Chord 1.0.2, a standal
 
 ## Local evidence
 
-`npm run verify` passes 15 checks, with one real-state canary skipped locally and exercised inside the Docker proof. Checks cover native JSONL reopening across processes, fresh context with retained history retrieval through all three tools, more than 200 entries in one session, real coding-tool edits, partial edits after model failure, timeout abort and reopen, abrupt process death without replaying pending input, candidate/fallback classification, secret redaction, digest validation, fork event rejection, dispatch fencing, queued cancellation and handoff races, canonical API URL construction, and a real Git push conflict where finalization preserves a racing stop request. A mocked HTTP transport exercises the native OpenCode request path and verifies Shurik's user agent and a persistent `x-opencode-session` across context resets without using real credentials.
+`npm run verify` passes 24 checks, with one real-state canary skipped locally and exercised inside the Docker proof. Checks cover native JSONL reopening across processes, fresh context with retained history retrieval through all three tools, more than 200 entries in one session, real coding-tool edits, partial edits after model failure, timeout abort and reopen, abrupt process death without replaying pending input, candidate/fallback classification, secret redaction, digest validation, fork event rejection, dispatch fencing, queued cancellation and handoff races, canonical API URL construction, durable failure reports, checkpointed interrupted transcripts, and a real Git push conflict where finalization preserves a racing stop request. A mocked HTTP transport exercises the native OpenCode request path and verifies Shurik's user agent and a persistent `x-opencode-session` across context resets without using real credentials.
 
 `node tests/container-proof.mjs` passes the complete scripted repair proof:
 
@@ -14,6 +14,11 @@ Tested implementation: Node 24.14.0, Pi Durable / Pi AI / Chord 1.0.2, a standal
 4. Use that worker's actual history and coding tools to repair the latest source.
 5. Validate the repaired candidate, including a canary that opens a copy of real persisted history, and permit re-adoption.
 6. Pause at a tool-round boundary, copy a readable checkpoint, corrupt the live journal, retain the damaged files, restore the checkpoint, and start a fresh iteration. CI also runs this complete proof on Linux to catch platform-specific mount/ownership failures.
+7. Publish a tool-round snapshot containing source, native journal, iteration record, and history index; interrupt the supervising operation before finalization and kill the container. Restore only the published snapshot, mark its session interrupted, and start a fresh worker. Its actual history tools retrieve the interrupted transcript, its initial prompt contains structured recovery diagnostics, and the partial source edit survives.
+
+The failure-trail tests use real temporary Git remotes. They verify that report files and their control index are committed before dispatch; evidence survives a lost work checkout and failed dispatch; another process imports the full report and interrupted-session boundaries; repeated events and later run attempts preserve earlier reports; stopped/cancelled loops retain evidence; and racing stop/resume commands keep their intended state. Jobs/log API failures remain explicit evidence without suppressing continuation. A mocked redirect verifies that the GitHub token is not forwarded to log storage and both retained excerpts and download sizes are bounded.
+
+The collector was also tested against the existing [cancelled live iteration](https://github.com/igor-makarov/shurik/actions/runs/37211182079), using the configured GitHub login. It retrieved one job's step results and a 16 KiB log excerpt, recorded `cancelled`, and passed known-token redaction. This is a real API check; the new interruption/recovery proofs use a scripted provider and do not claim an additional live Space Bunny recovery run.
 
 ## Live evidence
 

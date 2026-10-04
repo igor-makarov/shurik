@@ -26,6 +26,29 @@ export async function api(path, method = 'GET', body) {
   if (!response.ok) throw new Error(`GitHub ${method} ${path}: ${response.status} ${await response.text()}`);
   return response.status === 204 ? undefined : response.json();
 }
+export async function jobLog(jobId, fetcher = fetch) {
+  if (!/^\d+$/.test(String(jobId))) throw new Error('Invalid job ID');
+  const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
+  if (!token) throw new Error('Supervisor GitHub token missing');
+  let response = await fetcher(repositoryURL(process.env.GITHUB_REPOSITORY, `actions/jobs/${jobId}/logs`), {
+    headers: { authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28' },
+    redirect: 'manual', signal: AbortSignal.timeout(30000)
+  });
+  if (response.status === 302) {
+    const location = new URL(response.headers.get('location'));
+    if (location.protocol !== 'https:') throw new Error('Invalid job log redirect');
+    // GitHub returns a short-lived storage URL. Never forward the API credential there.
+    response = await fetcher(location, { signal: AbortSignal.timeout(30000) });
+  }
+  if (!response.ok) throw new Error(`GitHub job logs: ${response.status}`);
+  let tail = Buffer.alloc(0); let bytes = 0;
+  // Keep a bounded tail; cap download cost independently of the retained excerpt.
+  for await (const chunk of response.body) {
+    bytes += chunk.length; tail = Buffer.concat([tail, chunk]).subarray(-16384);
+    if (bytes >= 2 * 1024 * 1024) return { text: tail.toString('utf8'), truncated: true, downloadLimited: true };
+  }
+  return { text: tail.toString('utf8'), truncated: bytes > 16384, downloadLimited: false };
+}
 export async function configureGit(cwd) {
   await git(cwd, 'config', 'user.name', 'github-actions[bot]');
   await git(cwd, 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com');
@@ -44,12 +67,16 @@ export class ControlStore {
     const revision = await git(this.cwd, 'rev-parse', 'FETCH_HEAD');
     return { revision, value: JSON.parse(await git(this.cwd, 'show', `${revision}:control.json`)) };
   }
-  async mutate(change, message = 'shurik: update loop control') {
+  async mutate(change, message = 'shurik: update loop control', evidence = {}) {
     for (let i = 0; i < 5; i++) {
       const { revision, value } = await this.read();
       const next = await change(structuredClone(value)); if (!next) return value;
       // A private checkout is reset to the fetched parent, never the user's source checkout.
       await git(this.cwd, 'checkout', '--detach', revision);
+      for (const [path, report] of Object.entries(evidence)) {
+        if (!/^failures\/\d+-\d+\.json$/.test(path)) throw new Error('Invalid evidence path');
+        await saveJson(join(this.cwd, path), report);
+      }
       await saveJson(join(this.cwd, 'control.json'), next); await commit(this.cwd, message);
       try { await git(this.cwd, 'push', 'origin', `HEAD:refs/heads/${this.branch}`); return next; }
       catch (e) { if (i === 4) throw e; }

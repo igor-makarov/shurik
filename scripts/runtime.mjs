@@ -42,7 +42,7 @@ export async function validateCandidate(workspace, stable, journal, destination)
 }
 export async function launchWorker({ workspace, state, bundle, req, onCheckpoint, onPoll, key, stable }) {
   const io = await temporary('shurik-io-', stable); await mkdir(join(io, 'output'));
-  await saveJson(join(io, 'request.json'), { ...req, cwd: '/workspace', journal: '/journal', output: '/io/output' });
+  await saveJson(join(io, 'request.json'), { ...req, checkpointHandshake: true, cwd: '/workspace', journal: '/journal', output: '/io/output' });
   const name = `shurik-${process.pid}-${Date.now()}`;
   const args = [...base, '--name', name, '--read-only',
     '--tmpfs', '/tmp:rw,nosuid,nodev,size=512m,mode=1777', '-e', 'HOME=/tmp', '-e', 'OPENCODE_API_KEY',
@@ -68,7 +68,7 @@ export async function launchWorker({ workspace, state, bundle, req, onCheckpoint
       if (checkpoint && checkpoint.nonce !== nonce) {
         nonce = checkpoint.nonce;
         await command('docker', ['pause', name], stable);
-        try { await onCheckpoint?.(); }
+        try { await onCheckpoint?.(checkpoint, log); }
         finally { await writeFile(join(io, 'output/checkpoint.ack'), nonce); await command('docker', ['unpause', name], stable).catch(() => {}); }
       }
       if (Date.now() >= hardEnd) { await command('docker', ['stop', '-t', '10', name], stable).catch(() => {}); break; }

@@ -94,6 +94,7 @@ Keep state directly in the working branch:
   pi-jsonl/                       Native Pi Durable journal directory
   iterations/<iteration-id>.json  Outcome, source revision, runner revision, diagnostics
   diagnostics/                    Error output and candidate check reports
+  diagnostics/recovery/           Imported immutable Actions failure reports
   runtimes/                       Tested fallback bundles and their manifests
 ```
 
@@ -105,7 +106,7 @@ Treat supervisor metadata as authoritative and verify it independently of worker
 
 The repository is intended to be public. Committed sessions and diagnostics must contain only material suitable for public disclosure. Keep credentials out of prompts and journals, implement publication checks and redaction, and test that secrets cannot enter committed snapshots. These checks reduce accidental exposure; they do not make private task content suitable for publication or guarantee detection of every secret.
 
-Periodic checkpoints should be serialized at worker turn boundaries, with the worker paused while its state is snapshotted. Start with a configurable five-minute checkpoint interval. Abrupt host loss can still lose work since the latest published checkpoint; local durability cannot preserve an unpublished disk after the runner disappears.
+Publish the native session reset boundary before the first provider request. Periodic checkpoints should be serialized at worker tool-round boundaries, with the worker paused while source, journal, transcript boundaries, history index, and available output are snapshotted together. Use the configurable checkpoint interval. Abrupt host loss can still lose work since the latest published checkpoint; local durability cannot preserve an unpublished disk after the runner disappears.
 
 ## Runner updates and correction
 
@@ -122,6 +123,8 @@ The acceptance promise is a functioning opportunity to repair, not a guarantee t
 ## Recovery and stopping
 
 Implement recover.yml as a stable reconciler awakened by a completed iteration and a periodic watchdog. It reads both Git state and Actions run status, detects a missing successor or interrupted owner, records the interruption, and dispatches the expected next iteration. Use workflow_run only to wake recovery; use workflow_dispatch for continued iterations rather than an unbounded workflow_run chain. GitHub limits workflow_run chaining depth. [Workflow events](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run)
+
+Before advancing, append a per-run/attempt failure report to the control branch and atomically index it in control.json. Include run conclusion and link, job/step results, bounded redacted job-log excerpts, and explicit capture/truncation status. Retain reports after stop and across later failures. A successor copies the trail into protected diagnostics, receives recent summaries in its prompt, and preserves interrupted-session bounds from the checkpoint so history tools can retrieve the saved transcript. Repeated events are idempotent; racing stop/resume commands retain authority. A failed reconciliation for one loop must not prevent recovery attempts for other loops.
 
 Prevent duplicates with concurrency controls, iteration identifiers, and branch revision checks. Concurrency alone is not a durable queue or an exactly-once guarantee. Never force-push to resolve a conflict. A retry must re-read the current state and preserve stop requests.
 

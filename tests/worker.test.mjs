@@ -84,6 +84,45 @@ test('abrupt worker death leaves pending work that the next process aborts befor
   assert.equal(fresh.captured.length, 1, 'pending generation must not replay against new provider script');
   assert.ok(!JSON.stringify(fresh.captured[0]).includes('OLD_INPUT_MUST_NOT_REPLAY'));
 });
+test('published checkpoint boundaries make a killed session searchable from a fresh process', async () => {
+  const f = await fixture(); const output = join(f.dir, 'checkpoint-output'); const file = join(f.dir, 'checkpoint-request.json');
+  await writeFile(file, JSON.stringify({ version: 1, id: 'loop:1-1', cwd: f.cwd, journal: f.journal, output,
+    prompt: 'Write checkpoint evidence', model: 'space-bunny-free', seconds: 20, sessions: [],
+    checkpointHandshake: true, checkpointSeconds: 0.001,
+    script: [{ tool: 'write', args: { path: 'survived.txt', content: 'INTERRUPTED_SESSION_NEEDLE' } }, { delayMs: 10000, text: 'never finishes' }] }));
+  const child = spawn(process.execPath, [bundle, file], { stdio: 'ignore' });
+  const closed = new Promise(resolve => child.once('close', resolve));
+  const snapshot = join(f.dir, 'published-journal'); let boundary; let initial = false;
+  try {
+    for (let n = 0; n < 500; n++) {
+      let checkpoint;
+      try { checkpoint = JSON.parse(await readFile(join(output, 'checkpoint.json'), 'utf8')); } catch {}
+      if (checkpoint?.phase === 'started' && !initial) {
+        initial = true; assert.ok(checkpoint.minEntryId <= checkpoint.maxEntryId);
+        await writeFile(join(output, 'checkpoint.ack'), checkpoint.nonce);
+      }
+      if (checkpoint?.phase === 'tools') {
+        boundary = checkpoint; await cp(f.journal, snapshot, { recursive: true }); break;
+      }
+      await new Promise(resolve => setTimeout(resolve, 20));
+    }
+    assert.ok(initial, 'a session boundary is available before any model request');
+    assert.ok(boundary, 'a durable tool-round checkpoint was produced');
+  } finally { child.kill('SIGKILL'); await closed; }
+  await assert.rejects(readFile(join(output, 'result.json')), 'no final result survived');
+  const fresh = await fixture(); await cp(snapshot, fresh.journal, { recursive: true });
+  const session = { id: '1-1', outcome: 'interrupted', minEntryId: boundary.minEntryId, maxEntryId: boundary.maxEntryId,
+    checkpointAt: boundary.at, transcript: 'checkpoint', recovery: 'diagnostics/recovery/123-1.json' };
+  const after = await run(fresh, 'after-interruption', [
+    { tool: 'list_sessions', args: {} }, { tool: 'search_sessions', args: { query: 'INTERRUPTED_SESSION_NEEDLE' } },
+    { tool: 'read_session', args: { id: '1-1', limit: 50 } }, { text: 'Recovered' }
+  ], [session]);
+  assert.equal(after.outcome, 'yielded');
+  assert.ok(!JSON.stringify(after.captured[0]).includes('INTERRUPTED_SESSION_NEEDLE'));
+  const history = JSON.stringify(after.captured.at(-1));
+  assert.ok(history.includes('INTERRUPTED_SESSION_NEEDLE')); assert.ok(history.includes('checkpoint'));
+  assert.ok(history.includes('123-1.json'));
+});
 test('native OpenCode requests identify Shurik and retain session header across reset', async () => {
   const f = await fixture(); const fetchOriginal = globalThis.fetch; const keyOriginal = process.env.OPENCODE_API_KEY;
   const requests = [];
