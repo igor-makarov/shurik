@@ -4861,3 +4861,5 @@
 {"format":1,"type":"commit","seq":4861,"writes":[{"type":"document.change","id":2,"ordinal":0}]}
 {"format":1,"type":"commit","seq":4862,"writes":[{"type":"task.sidecar","id":641,"ordinal":0}]}
 {"format":1,"type":"commit","seq":4863,"writes":[{"type":"submission","value":{"conversationId":1,"requestId":"hazfalafel-20261004t213311:2-5","type":"input","status":"unanswered","entry":396,"id":397,"reason":"aborted"}},{"type":"task","value":{"id":641,"conversationId":1,"kind":"pi.generation","version":1,"input":{},"background":false,"abortRequested":true,"state":{"status":"terminal","outcome":{"status":"aborted"}}}},{"type":"document.change","id":2,"ordinal":0}]}
+{"format":1,"type":"commit","seq":4864,"writes":[{"type":"entry","value":{"kind":"pi.reset","id":642,"conversationId":1,"head":642}},{"type":"submission","value":{"conversationId":1,"type":"write","status":"done","entry":642,"id":643}}]}
+{"format":1,"type":"commit","seq":4865,"writes":[{"type":"document.change","id":6,"ordinal":0}]}
