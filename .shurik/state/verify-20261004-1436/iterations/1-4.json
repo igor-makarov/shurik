@@ -5,7 +5,29 @@
   "generation": 1,
   "iteration": 4,
   "startedAt": "2026-10-04T14:42:24.693Z",
-  "outcome": "running",
+  "outcome": "runner_failure",
   "source": "db5e6f01b3a05a5254736a28dc23065025ee2596",
-  "runtime": "30507ef65394e9691feb3e8139d9c93f6da0276f1b81df6904cd282cd994ec89"
+  "runtime": "30507ef65394e9691feb3e8139d9c93f6da0276f1b81df6904cd282cd994ec89",
+  "finishedAt": "2026-10-04T14:42:57.850Z",
+  "error": "\"Unable to find image 'node:24.14.0-bookworm@sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b' locally\\ndocker.io/library/node@sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b: Pulling from library/node\\n9d2f29087bcd: Pulling fs layer\\n26fa3468d221: Pulling fs layer\\n6cf051f1897b: Pulling fs layer\\n505954b66245: Pulling fs layer\\n032bd4a44f8b: Pulling fs layer\\na107638c11ea: Pulling fs layer\\n3190b545336d: Pulling fs layer\\na1b280b7f381: Pulling fs layer\\n032bd4a44f8b: Waiting\\na107638c11ea: Waiting\\n3190b545336d: Waiting\\na1b280b7f381: Waiting\\n505954b66245: Waiting\\n26fa3468d221: Verifying Checksum\\n26fa3468d221: Download complete\\n9d2f29087bcd: Verifying Checksum\\n9d2f29087bcd: Download complete\\n032bd4a44f8b: Verifying Checksum\\n032bd4a44f8b: Download complete\\n6cf051f1897b: Verifying Checksum\\n6cf051f1897b: Download complete\\n3190b545336d: Verifying Checksum\\n3190b545336d: Download complete\\na1b280b7f381: Verifying Checksum\\na1b280b7f381: Download complete\\na107638c11ea: Verifying Checksum\\na107638c11ea: Download complete\\n505954b66245: Verifying Checksum\\n505954b66245: Download complete\\n9d2f29087bcd: Pull complete\\n26fa3468d221: Pull complete\\n6cf051f1897b: Pull complete\\n505954b66245: Pull complete\\n032bd4a44f8b: Pull complete\\na107638c11ea: Pull complete\\n3190b545336d: Pull complete\\na1b280b7f381: Pull complete\\nDigest: sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b\\nStatus: Downloaded newer image for node@sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b\\n\"\nJournal invalid; restored last readable checkpoint. Malformed files retained.",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 6333,
+        "output": 265,
+        "cacheRead": 3766,
+        "cacheWrite": 0,
+        "reasoning": 67,
+        "totalTokens": 10364,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
