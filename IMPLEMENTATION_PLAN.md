@@ -61,6 +61,8 @@ The worker owns model requests, coding tools, and Pi Durable history. Give it th
 
 Keep the workflow and active supervisor stable during a loop. Worker, tool, history, and configuration implementation changes can be promoted automatically. Supervisor source improvements may be proposed in the PR but become active through a reviewed bootstrap update. This small recovery boundary keeps a failed worker update from removing its own recovery path.
 
+Separate outside-contributor CI from credentialed loop execution. Fork pull request checks get no OpenCode secret and no write token. Authorize loop starts through maintainer-controlled dispatch, and validate source provenance before adopting code or dependencies supplied by contributors; passing tests is not an authorization to run unreviewed changes with credentials. Privileged recovery must accept only the expected first-party loop workflow, repository, branch, run identifier, and generation, and must ignore fork PR artifacts and outputs. This policy does not by itself keep the key hidden from a self-modified worker that receives it; stronger isolation would require a trusted credential broker outside that worker.
+
 Preserve a tested fallback worker bundle independently of candidate dependencies. The implementation spike must prove that the bundle starts in a clean environment without the candidate's node_modules. Track its immutable source revision, bundle digest, dependency versions, and state compatibility. If self-contained bundling proves unsuitable, resolve the packaging strategy before implementing promotion.
 
 ## Iteration lifecycle
@@ -145,6 +147,7 @@ Use real temporary Git repositories, the actual Pi Durable JSONL backend, and a 
 | Duplicate dispatch or push conflict | One owner advances; no overwritten state or duplicate agents |
 | Deadline or manual stop during finalization | Save what is available; no successor survives the stop |
 | Attempted workflow modification | Block publication of the workflow change while retaining permitted state |
+| Fork PR or unreviewed contributor artifacts reach recovery | Ignore the untrusted inputs; no privileged execution or secret access |
 | Push or dispatch failure and abrupt runner loss | Reconciler resumes from durable evidence without resurrecting a stopped loop |
 
 The main recovery demonstration deliberately breaks a runner, observes its failure, launches the retained runner against the broken source, performs a repair through actual coding tools, validates it, and adopts it. Run this offline with a scripted provider, then demonstrate it with a real OpenCode Go model on a disposable branch.
