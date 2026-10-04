@@ -210,11 +210,12 @@ def _availability(fetcher: Fetcher, url: str) -> str:
 
 # ------------------------------------------------------------------- media CDX
 def discover_media(fetcher: Fetcher, hosts: Optional[list[str]] = None, force: bool = False,
-                   max_pages: int = 8, page_size: int = 50000) -> dict:
+                   max_pages: int = 40, page_size: int = 50000) -> dict:
     """Inventory the Tumblr media hosts referenced by known posts.
 
     One paginated CDX query per host replaces one query per image; only rows
-    whose media key a post actually references are kept in Git.
+    whose media key a post actually references are kept in Git, while the full
+    host dump stays in the ephemeral `data/work/media-dumps/` cache.
     """
     store = PostStore()
     urls = [img.get("media_url", "") for rec in store.all() for img in rec.get("images", [])]
@@ -227,6 +228,31 @@ def discover_media(fetcher: Fetcher, hosts: Optional[list[str]] = None, force: b
     for host in targets:
         results.append(scan_host(fetcher, index, host, keys=keys, force=force,
                                  max_pages=max_pages, page_size=page_size))
+    return {"hosts": len(targets), "known_keys": len(keys), "indexed": len(index),
+            "results": results}
+
+
+def reindex_media(hosts: Optional[list[str]] = None) -> dict:
+    """Rebuild the committed media index from surviving host dumps (no network).
+
+    Newly parsed posts bring new media keys; when a host dump from earlier in
+    the run is still on disk the new keys can be answered without new CDX
+    requests.
+    """
+    store = PostStore()
+    urls = [img.get("media_url", "") for rec in store.all() for img in rec.get("images", [])]
+    keys: set[str] = set()
+    for url in urls:
+        keys |= stems_of(url)
+    targets = hosts or hosts_for(urls)
+    index = MediaIndex(MEDIA_CAPTURE_FILE)
+    results = []
+    for host in targets:
+        state = index.hosts_done().get(f"host:{host}") or {}
+        if not state.get("complete"):
+            results.append({"host": host, "skipped": "not fully scanned"})
+            continue
+        results.append(scan_host(None, index, host, keys=keys, force=False))
     return {"hosts": len(targets), "known_keys": len(keys), "indexed": len(index),
             "results": results}
 
@@ -463,7 +489,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     p = sub.add_parser("discover-media", help="inventory tumblr media hosts (one query per host)")
     p.add_argument("--hosts", default="", help="comma separated hosts; default = hosts seen in posts")
     p.add_argument("--force", action="store_true")
-    p.add_argument("--max-pages", type=int, default=8)
+    p.add_argument("--max-pages", type=int, default=40)
+    p = sub.add_parser("reindex-media", help="rebuild media index from host dumps (offline)")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=5)
     p.add_argument("--ids", default="")
@@ -494,8 +521,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         out = fetch_posts(fetcher, limit=args.limit, concurrency=args.concurrency,
                           post_ids=[i for i in args.ids.split(",") if i] or None)
     elif args.cmd == "discover-media":
-        out = discover_media(fetcher, hosts=[h.strip() for h in args.hosts.split(",") if h.strip()] or None,
-                             force=args.force, max_pages=args.max_pages)
+        out["media"] = discover_media(fetcher, hosts=[h.strip() for h in args.hosts.split(",") if h.strip()] or None,
+                                      force=args.force, max_pages=args.max_pages)
+    elif args.cmd == "reindex-media":
+        out["media"] = reindex_media()
     elif args.cmd == "fetch-images":
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
                            post_ids=[i for i in args.ids.split(",") if i] or None,

@@ -10,6 +10,7 @@ small while still recording the capture that produced each recovered image.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 from typing import Iterable, Optional
@@ -19,6 +20,8 @@ from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff
 from .parsing import base_media_key, media_key, parse_image_variants
 
 MEDIA_CAPTURE_FILE = os.path.join(config.CDX_DIR, "media.jsonl")
+# Ephemeral per-run cache of whole-host CDX rows (gitignored, never required).
+MEDIA_DUMP_DIR = os.path.join(config.DATA_DIR, "work", "media-dumps")
 HOST_RE = re.compile(r"^([a-z0-9-]+(?:\.[a-z0-9-]+)*\.media\.tumblr\.com)$", re.I)
 
 
@@ -111,19 +114,49 @@ def scan_host(
     *,
     keys: Optional[set[str]] = None,
     page_size: int = 50000,
-    max_pages: int = 8,
+    max_pages: int = 40,
     force: bool = False,
+    dump_dir: str = MEDIA_DUMP_DIR,
 ) -> dict:
-    """Inventory one media host, keeping rows that match a known media key."""
+    """Inventory one media host, keeping rows that match a known media key.
+
+    Two stores are involved on purpose:
+
+    * an **ephemeral dump** (`data/work/media-dumps/<host>.jsonl`, gitignored)
+      holding every pre-cutoff row of the host, so the same pages are never
+      re-downloaded and so new media keys can be answered offline;
+    * the **committed index** (`data/cdx/media.jsonl`) holding only the rows
+      whose media key a recovered post actually references.
+
+    Pages are a cursor, not a restart: an interrupted scan resumes at the first
+    unscanned page, and `complete` in the manifest says whether the host was
+    paged to its end.
+    """
     name = f"host:{host}"
-    if index.hosts_done().get(name) and not force:
-        return {"host": host, "skipped": True}
+    state = index.hosts_done().get(name) or {}
+    dump_path = os.path.join(dump_dir, f"{host}.jsonl")
+    os.makedirs(dump_dir, exist_ok=True)
+
+    if state.get("complete") and not force:
+        # No new network work: re-filter whatever dump survived on this runner.
+        if os.path.exists(dump_path):
+            kept, rows, reindexed = _reindex_dump(dump_path, index, keys)
+            info = {"host": host, "rows": rows, "kept": len(kept), "new": reindexed,
+                    "pages": state.get("pages", 0), "complete": True,
+                    "source": "dump", "response": {"error": "ok", "status": 200}}
+            index.mark_host(name, info)
+            return info
+        return {"host": host, "skipped": True, "complete": True, "note": "no dump on this runner"}
+
+    start_page = 1 if force else int(state.get("pages", 0)) + 1
+    if force and os.path.exists(dump_path):
+        os.remove(dump_path)
     kept: list[Capture] = []
-    seen_rows = 0
-    pages = 0
+    seen_rows = int(state.get("rows", 0)) if start_page > 1 else 0
+    pages = start_page - 1
     short_page = False
     last: dict = {}
-    for page in range(1, max_pages + 1):
+    for page in range(start_page, start_page + max_pages):
         caps, resp = cdx_query(fetcher, host, match="prefix", limit=page_size,
                                extra={"filter": "statuscode:200", "collapse": "urlkey",
                                       "page": str(page)})
@@ -132,6 +165,9 @@ def scan_host(
         if not resp.ok:
             break
         seen_rows += len(caps)
+        with open(dump_path, "a", encoding="utf-8") as fh:
+            for cap in caps:
+                fh.write(json.dumps(cap.to_row(), ensure_ascii=False) + "\n")
         for cap in caps:
             if keys is None or key_of(cap.original) in keys:
                 kept.append(cap)
@@ -143,7 +179,39 @@ def scan_host(
     # `error == "ok"` is success, not failure: do not read it as "incomplete".
     err = last.get("error")
     complete = bool(short_page and err in (None, "ok"))
-    info = {"rows": seen_rows, "kept": len(kept), "new": new, "pages": pages,
+    info = {"host": host, "rows": seen_rows, "kept": len(kept), "new": new, "pages": pages,
             "complete": complete, "response": last}
-    index.mark_host(host, info)
-    return {"host": host, **info}
+    index.mark_host(name, info)
+    return info
+
+
+def _reindex_dump(dump_path: str, index: MediaIndex, keys: Optional[set[str]]) -> tuple[list[Capture], int, int]:
+    """Answer a fresh key set from an already downloaded host dump (no network)."""
+    kept: list[Capture] = []
+    rows = 0
+    with open(dump_path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except Exception:
+                continue
+            rows += 1
+            cap = Capture(
+                timestamp=rec.get("timestamp", ""),
+                original=rec.get("original", ""),
+                statuscode=rec.get("statuscode", ""),
+                mimetype=rec.get("mimetype", ""),
+                digest=rec.get("digest", ""),
+                length=rec.get("length", ""),
+                urlkey=rec.get("urlkey", ""),
+                redirect=rec.get("redirect", ""),
+                source_query=rec.get("source_query", ""),
+            )
+            if not within_cutoff(cap.timestamp):
+                continue
+            if keys is None or key_of(cap.original) in keys:
+                kept.append(cap)
+    return kept, rows, index.add(kept)
