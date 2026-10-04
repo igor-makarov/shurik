@@ -80,3 +80,49 @@ The runner fault remains removed; the source tree and the selected runtime bundl
 are both free of SHURIK_VERIFICATION_RUNNER_FAULT, so runIteration() can be entered
 and this iteration yields normally. `npm run check` / `npm run build` remain
 unrunnable offline (typescript/esbuild are devDependencies); no install attempted.
+
+================================================================
+RE-VERIFICATION — iteration 1-4 (no code changes required)
+================================================================
+Re-checked independently rather than trusting the 1-2/1-3 transcripts: the
+import-time fault is still gone, so no source file was modified this iteration.
+
+STATE FOUND
+  - src/verification-defect.ts: absent. src/ contains only cli.ts, history.ts,
+    worker.ts.
+  - src/worker.ts line 1 is `import { mkdir, readFile, writeFile, rename } from
+    'node:fs/promises';` — no ./verification-defect.ts import remains.
+  - grep -rn "verification-defect|VERIFICATION_RUNNER_FAULT" src/ -> no matches.
+  - git log 85a46db..HEAD -- src/ lists exactly one commit, bc0157c
+    ("shurik: save 1-2 (yielded)"), and git diff 85a46db..HEAD -- src/ is exactly
+    2 deletions: the deleted verification-defect.ts and the single import line.
+    Nothing else in src/ has changed since the fault was injected.
+
+CHECKS RUN THIS ITERATION (Node v24.14.0)
+  - `node --check` on the currently SELECTED bundle
+    runtimes/30507ef6.../worker.cjs -> parses OK, 0 occurrences of the fault
+    throw. runtime.json shows that digest as both `selected` and `fallback`
+    with probation: false.
+  - The only remaining copy of the throw in the tree is in
+    runtimes/fd2c8d7f.../worker.cjs, which is listed in `quarantined` and is the
+    deliberately broken probation bundle the supervisor writes for iteration 1
+    only. It is not the bundle executed here, and it is loop-control state, so
+    it was deliberately left untouched.
+  - `node src/worker.ts` fails only with ERR_MODULE_NOT_FOUND for the
+    third-party @earendil-works/chord, because node_modules is not installed in
+    this offline container. There is no error for ./verification-defect.ts and
+    no fault throw, so the local import graph resolves and worker.ts parses.
+  - `npm run check` / `npm run build` remain unrunnable offline (typescript and
+    esbuild are devDependencies); no install was attempted.
+
+PRIOR SESSION HISTORY
+  - list_sessions: 1-1 runner_failure, 1-2 yielded, 1-3 yielded.
+  - read_session 1-1: zero transcript entries, corroborating that the fault fired
+    at import time before any agent turn could be recorded.
+  - search_sessions "verification-defect": 35 hits, all inside 1-2 (the iteration
+    that found and removed it) and its prompt echo in 1-3; none indicate a
+    surviving defect.
+
+CONCLUSION
+The runner fault remains removed in both the source tree and the active runtime
+bundle, so runIteration() can be entered and this iteration yields normally.
