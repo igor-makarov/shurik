@@ -29,11 +29,12 @@
   },
   {
     "id": "2-4",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37238207976",
     "minEntryId": 333,
-    "maxEntryId": 333,
+    "maxEntryId": 393,
     "checkpointAt": "2026-10-04T21:58:50.255Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:2-4\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":335,\"id\":336,\"reason\":\"model_error\",\"detail\":\"Request timed out.\"}",
+    "transcript": "complete"
   }
 ]

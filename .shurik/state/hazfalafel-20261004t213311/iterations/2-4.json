@@ -5,10 +5,32 @@
   "generation": 2,
   "iteration": 4,
   "startedAt": "2026-10-04T21:58:48.369Z",
-  "outcome": "running",
+  "outcome": "agent_failure",
   "source": "c5acba844ffe99a316d47deee2e99e318f972c23",
   "runtime": "0174cfbf2f4de608b290428e9d644861d0d01e871a34455d2aad8f5c40f55064",
   "minEntryId": 333,
-  "maxEntryId": 333,
-  "checkpointAt": "2026-10-04T21:58:50.255Z"
+  "maxEntryId": 393,
+  "checkpointAt": "2026-10-04T21:58:50.255Z",
+  "finishedAt": "2026-10-04T22:03:30.386Z",
+  "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:2-4\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":335,\"id\":336,\"reason\":\"model_error\",\"detail\":\"Request timed out.\"}",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 114778,
+        "output": 57649,
+        "cacheRead": 2041425,
+        "cacheWrite": 0,
+        "reasoning": 19324,
+        "totalTokens": 2213852,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
