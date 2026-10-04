@@ -37,21 +37,48 @@
  "content_source": "div.copy",
  "content_text": "עושה קניות ביום שישי, אומר “שבת שלום” לקופאית הערביה\nתודה לנעה. שלחו גם אתם!",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T22:45:23Z",
+ "fetched_at": "2026-10-04T23:11:01Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png"
+    }
+   ],
    "base_key": "tumblr_lws2ivzuN81r3it8zo1.png",
+   "caption": "עושה קניות ביום שישי, אומר &#8220;שבת שלום&#8221; לקופאית הערביה\nתודה לנעה. שלחו גם אתם!",
    "caption_alt": "עושה קניות ביום שישי, אומר &#8220;שבת שלום&#8221; לקופאית הערביה\nתודה לנעה. שלחו גם אתם!",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lws2ivzuN81r3it8zo1_500.png",
    "media_url": "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
+   "url_forms": [
+    "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png"
+   ],
    "variants": [
     "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png"
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 50006,
@@ -67,9 +94,26 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png"
+    }
+   ],
    "media_url": "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14802024545",

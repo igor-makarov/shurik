@@ -37,21 +37,48 @@
  "content_source": "div.copy",
  "content_text": "אתה יכול לעשות לי לייק על הסטטוס? אני אעשה לך בחזרה!",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T22:45:17Z",
+ "fetched_at": "2026-10-04T23:10:50Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png"
+    }
+   ],
    "base_key": "tumblr_lwlpaqiTi11r3it8zo1.png",
+   "caption": "אתה יכול לעשות לי לייק על הסטטוס? אני אעשה לך בחזרה!",
    "caption_alt": "אתה יכול לעשות לי לייק על הסטטוס? אני אעשה לך בחזרה!",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lwlpaqiTi11r3it8zo1_500.png",
    "media_url": "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
+   "url_forms": [
+    "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png"
+   ],
    "variants": [
     "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png"
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 50402,
@@ -67,9 +94,26 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png"
+    }
+   ],
    "media_url": "http://24.media.tumblr.com/tumblr_lwlpaqiTi11r3it8zo1_500.png",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14611615984",

@@ -38,21 +38,48 @@
  "content_source": "div.copy",
  "content_text": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T22:45:24Z",
+ "fetched_at": "2026-10-04T23:11:08Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
+    }
+   ],
    "base_key": "tumblr_lwtsp27G2f1r3it8zo1.png",
+   "caption": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
    "caption_alt": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lwtsp27G2f1r3it8zo1_400.png",
    "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
+   "url_forms": [
+    "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
+   ],
    "variants": [
     "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 52775,
@@ -68,9 +95,26 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
+    }
+   ],
    "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14852375260",

@@ -24,21 +24,48 @@
  "content_source": "div.copy",
  "content_text": "הכינו נפשותיכם, הניוז-פיד יחשך כמו הליל מכמות הפוסטים הזועמים",
  "date_text": "Posted 1 month ago",
- "fetched_at": "2026-10-04T22:45:10Z",
+ "fetched_at": "2026-10-04T23:10:39Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lw9h3rZqYB1r3it8zo1.jpg",
+   "caption": "הכינו נפשותיכם, הניוז-פיד יחשך כמו הליל מכמות הפוסטים הזועמים",
    "caption_alt": "הכינו נפשותיכם, הניוז-פיד יחשך כמו הליל מכמות הפוסטים הזועמים",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lw9h3rZqYB1r3it8zo1_500.jpg",
    "media_url": "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg",
+   "note": "CDX returned zero captures for this media URL and its known variants",
+   "state": "missing",
+   "url_forms": [
+    "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg"
+   ],
    "variants": [
     "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg"
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 50521,
@@ -54,9 +81,26 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg"
+    }
+   ],
    "media_url": "http://24.media.tumblr.com/tumblr_lw9h3rZqYB1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14272250861",
