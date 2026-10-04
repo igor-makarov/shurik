@@ -56,7 +56,7 @@ def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6) -
     attempts: list[dict] = []
     seen: set[str] = set()
     captures: list[Capture] = []
-    urls = [image_url] + re.sub(r"^(.*)$", r"\1", [])
+
     for variant in _variants(image_url):
         norm = normalize_url(variant)
         if norm in seen:

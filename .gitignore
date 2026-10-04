@@ -3,3 +3,11 @@ dist/
 .shurik-local/
 .shurik-emergency/
 *.log
+
+# Hazfalafel recovery: inventories/state are committed, caches are not.
+__pycache__/
+*.pyc
+data/captures/
+data/blobs/
+data/work/
+data/*.tmp
