@@ -3,10 +3,14 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { ControlStore, git, configureGit, saveJson, commit } from '../scripts/github.mjs';
+import { ControlStore, git, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.mjs';
 import { claimable, stopped, nextRuntime, classify, trustedRecovery, redact, sanitizeTree, validateId } from '../scripts/policy.mjs';
 import { retainBundle, verifyBundle } from '../scripts/runtime.mjs';
 
+test('repository root API URL has no trailing slash; nested endpoints retain their path', () => {
+  assert.equal(repositoryURL('owner/repo'), 'https://api.github.com/repos/owner/repo');
+  assert.equal(repositoryURL('owner/repo', 'actions/runs'), 'https://api.github.com/repos/owner/repo/actions/runs');
+});
 test('claim fence rejects duplicates, stale generations, stopped loops, and elapsed deadline', () => {
   const c = { status: 'running', generation: 2, next: 4, owner: null };
   assert.ok(claimable(c, 2, 4, 'one'));

@@ -14,10 +14,11 @@ export async function command(cmd, args, cwd, options = {}) {
     env, ...options })).stdout.trim();
 }
 export const git = (cwd, ...args) => command('git', args, cwd);
+export const repositoryURL = (repo, path = '') => `https://api.github.com/repos/${repo}${path ? '/' + path : ''}`;
 export async function api(path, method = 'GET', body) {
   const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
   if (!token) throw new Error('Supervisor GitHub token missing');
-  const response = await fetch(`https://api.github.com/repos/${process.env.GITHUB_REPOSITORY}/${path}`, {
+  const response = await fetch(repositoryURL(process.env.GITHUB_REPOSITORY, path), {
     method, headers: { authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28',
       accept: 'application/vnd.github+json', 'content-type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(30000)
