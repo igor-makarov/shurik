@@ -5,7 +5,29 @@
   "generation": 1,
   "iteration": 3,
   "startedAt": "2026-10-04T14:54:01.317Z",
-  "outcome": "running",
+  "outcome": "yielded",
   "source": "da20d90f195ed02efb5f4077cc9754b6810220ea",
-  "runtime": "30507ef65394e9691feb3e8139d9c93f6da0276f1b81df6904cd282cd994ec89"
+  "runtime": "30507ef65394e9691feb3e8139d9c93f6da0276f1b81df6904cd282cd994ec89",
+  "finishedAt": "2026-10-04T14:55:47.386Z",
+  "error": "\"Unable to find image 'node:24.14.0-bookworm@sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b' locally\\ndocker.io/library/node@sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b: Pulling from library/node\\n9d2f29087bcd: Pulling fs layer\\n26fa3468d221: Pulling fs layer\\n6cf051f1897b: Pulling fs layer\\n505954b66245: Pulling fs layer\\n032bd4a44f8b: Pulling fs layer\\na107638c11ea: Pulling fs layer\\n3190b545336d: Pulling fs layer\\na1b280b7f381: Pulling fs layer\\na107638c11ea: Waiting\\n505954b66245: Waiting\\n3190b545336d: Waiting\\n032bd4a44f8b: Waiting\\na1b280b7f381: Waiting\\n26fa3468d221: Verifying Checksum\\n26fa3468d221: Download complete\\n9d2f29087bcd: Download complete\\n6cf051f1897b: Verifying Checksum\\n6cf051f1897b: Download complete\\n032bd4a44f8b: Verifying Checksum\\n032bd4a44f8b: Download complete\\n3190b545336d: Verifying Checksum\\n3190b545336d: Download complete\\na107638c11ea: Verifying Checksum\\na107638c11ea: Download complete\\na1b280b7f381: Verifying Checksum\\na1b280b7f381: Download complete\\n505954b66245: Verifying Checksum\\n505954b66245: Download complete\\n9d2f29087bcd: Pull complete\\n26fa3468d221: Pull complete\\n6cf051f1897b: Pull complete\\n505954b66245: Pull complete\\n032bd4a44f8b: Pull complete\\na107638c11ea: Pull complete\\n3190b545336d: Pull complete\\na1b280b7f381: Pull complete\\nDigest: sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b\\nStatus: Downloaded newer image for node@sha256:5a593d74b632d1c6f816457477b6819760e13624455d587eef0fa418c8d0777b\\n\"",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 46400,
+        "output": 9401,
+        "cacheRead": 278920,
+        "cacheWrite": 0,
+        "reasoning": 4297,
+        "totalTokens": 334721,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
