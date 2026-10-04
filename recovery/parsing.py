@@ -250,6 +250,20 @@ class _ImageCollector(HTMLParser):
             entry["excluded_reason"] = reason
             self.images.append(entry)
             self._cur_entry = entry
+            # srcset / data-srcset carry the other CDN URL forms of the same
+            # photo (Tumblr switched between bare and /<md5>/ paths). They are
+            # the only way to learn a hash-directory URL when the <img src>
+            # is the bare form, and hash-form URLs are the ones the archive
+            # actually crawled.
+            for attr in ("srcset", "data-srcset"):
+                for extra in _srcset_urls(a.get(attr, "")):
+                    if extra == src:
+                        continue
+                    self.images.append({
+                        "url": extra, "alt": entry["alt"], "title": entry["title"],
+                        "class": a.get("class", ""), "attrs": f'{attr}="{a.get(attr, "")}"',
+                        "via": attr, "excluded_reason": is_excluded_image(extra, ""),
+                    })
         elif tag == "a":
             href = a.get("href", "")
             if href:
@@ -268,6 +282,16 @@ class _ImageCollector(HTMLParser):
     def handle_data(self, data):
         if self._cur_entry and data.strip() and self._cur_entry["via"] == "a-href":
             self._cur_entry.setdefault("link_text", data.strip())
+
+
+def _srcset_urls(raw: str) -> list[str]:
+    """URLs of an HTML srcset attribute, in document order."""
+    out: list[str] = []
+    for part in (raw or "").split(","):
+        url = part.strip().split(" ")[0].strip()
+        if url:
+            out.append(url)
+    return out
 
 
 def _decode_tag(raw: str) -> str:
@@ -296,6 +320,8 @@ def extract_images(html: str) -> list[dict]:
     ordered: list[dict] = []
     seen: set[str] = set()
 
+    by_key: dict[str, dict] = {}
+
     def add(entry: dict, source: str) -> None:
         url = entry.get("url", "")
         if entry.get("excluded_reason"):
@@ -305,7 +331,13 @@ def extract_images(html: str) -> list[dict]:
         key = media_key(url)
         if not key:
             return
-        if key in seen:
+        record = by_key.get(key)
+        if record is not None:
+            # Same photo, different CDN URL form (bare vs /<md5>/ path, other
+            # size, other extension). Keep every form as recovery evidence
+            # instead of dropping it: the archived capture is often only
+            # indexed under a form we have not seen as <img src> yet.
+            _merge_url(record, url, source)
             return
         seen.add(key)
         record = {
@@ -315,8 +347,10 @@ def extract_images(html: str) -> list[dict]:
             "caption_alt": entry.get("alt") or entry.get("title") or "",
             "link_text": entry.get("link_text", ""),
             "found_in": source,
+            "url_forms": [url],
             "variants": parse_image_variants(url),
         }
+        by_key[key] = record
         ordered.append(record)
 
     for entry in col.images:
@@ -327,6 +361,17 @@ def extract_images(html: str) -> list[dict]:
     for url in og:
         add({"url": url, "alt": "", "title": "", "excluded_reason": None, "via": "og:image"}, "og:image")
     return ordered
+
+
+def _merge_url(record: dict, url: str, source: str) -> None:
+    """Record an alternative CDN URL form for an already known media key."""
+    forms = record.setdefault("url_forms", [record["media_url"]])
+    if url not in forms:
+        forms.append(url)
+        record.setdefault("alt_sources", []).append(source)
+    for variant in parse_image_variants(url):
+        if variant not in record["variants"]:
+            record["variants"].append(variant)
 
 
 def extract_captions(html: str, images: list[dict]) -> list[str]:
