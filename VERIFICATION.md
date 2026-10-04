@@ -4,13 +4,13 @@ Tested implementation: Node 24.14.0, Pi Durable / Pi AI / Chord 1.0.2, a standal
 
 ## Local evidence
 
-`npm run verify` passes 14 checks, with one real-state canary skipped locally and exercised inside the Docker proof. Checks cover native JSONL reopening across processes, fresh context with retained history retrieval through all three tools, more than 200 entries in one session, real coding-tool edits, partial edits after model failure, timeout abort and reopen, abrupt process death without replaying pending input, candidate/fallback classification, secret redaction, digest validation, fork event rejection, dispatch fencing, canonical API URL construction, and a real Git push conflict where finalization preserves a racing stop request. A mocked HTTP transport exercises the native OpenCode request path and verifies Shurik's user agent and a persistent `x-opencode-session` across context resets without using real credentials.
+`npm run verify` passes 15 checks, with one real-state canary skipped locally and exercised inside the Docker proof. Checks cover native JSONL reopening across processes, fresh context with retained history retrieval through all three tools, more than 200 entries in one session, real coding-tool edits, partial edits after model failure, timeout abort and reopen, abrupt process death without replaying pending input, candidate/fallback classification, secret redaction, digest validation, fork event rejection, dispatch fencing, queued cancellation and handoff races, canonical API URL construction, and a real Git push conflict where finalization preserves a racing stop request. A mocked HTTP transport exercises the native OpenCode request path and verifies Shurik's user agent and a persistent `x-opencode-session` across context resets without using real credentials.
 
 `node tests/container-proof.mjs` passes the complete scripted repair proof:
 
 1. Run real Pi Durable coding tools in the worker container. GitHub credentials and the Docker socket are absent; a workflow write fails on the read-only mount. Partial code and native history survive an intentional model failure.
 2. Introduce an import-time runner defect. Fixed candidate checks reject it.
-3. Boot a deliberately broken probation bundle. Classify the structural failure and select the digest-verified retained worker.
+3. Validate a candidate that passes the actual fixed tests and copied-state canary, then boot it on a different live request that triggers a structural fault. Quarantine it and select the digest-verified retained worker.
 4. Use that worker's actual history and coding tools to repair the latest source.
 5. Validate the repaired candidate, including a canary that opens a copy of real persisted history, and permit re-adoption.
 6. Pause at a tool-round boundary, copy a readable checkpoint, corrupt the live journal, retain the damaged files, restore the checkpoint, and start a fresh iteration. CI also runs this complete proof on Linux to catch platform-specific mount/ownership failures.
@@ -32,7 +32,7 @@ Inspection of the committed native journal confirmed it remained readable, sessi
 
 The first attempt in [draft PR #1](https://github.com/igor-makarov/shurik/pull/1) exposed Linux container ownership errors. Its false journal failures retained native data in diagnostic archives; that loop was stopped and the ownership fix was verified in Linux CI before the corrected run. The launch also found and corrected a repository-API trailing-slash bug. Normal PR CI triggered by GITHUB_TOKEN requires GitHub approval; independent fixed candidate checks ran inside each loop without that approval.
 
-Git authors now use the verified official Actions bot ID `41898282`. The original test commits used an incorrect placeholder that matched a real account. Corrected author metadata for the four stopped test branches has been prepared separately; publication awaits the maintainer's explicit history-rewrite decision. Legacy test loops cannot resume their pinned supervisor until its retired identity is updated.
+Git authors now use the verified official Actions bot ID `41898282`. The original test commits used an incorrect placeholder that matched a real account. With explicit maintainer approval, all 48 affected commits on the four stopped test branches were corrected using one atomic, lease-checked push. Every file tree stayed identical, and main was untouched by the rewrite. GitHub now matches these commits to `github-actions[bot]`. Legacy test loops cannot resume their pinned supervisor until its retired identity is updated.
 
 ## Scope and limits
 

@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, command, configureGit, saveJson, readJson, commit, ControlStore } from './github.mjs';
-import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest } from './policy.mjs';
+import { validateId, stopped, claimable, trustedRecovery, cancelledForLoop, nextRuntime, sanitizeTree, redact, digest } from './policy.mjs';
 import { retainBundle, verifyBundle, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
 
 const stable = resolve(process.env.GITHUB_WORKSPACE ?? '.');
@@ -224,7 +224,7 @@ export async function recover(options) {
     let c = (await store.read()).value;
     if (c.status !== 'running') continue;
     const wake = event?.workflow_run;
-    if (wake?.conclusion === 'cancelled' && [c.lastRunId, c.owner?.runId].includes(String(wake.id))) {
+    if (cancelledForLoop(c, wake)) {
       const owner = c.owner;
       c = await store.mutate(value => ({ ...value, status: 'stopped', stoppedAt: new Date().toISOString() }), 'shurik: UI cancellation is a durable stop');
       if (owner && owner.runId !== String(wake.id)) await api(`actions/runs/${owner.runId}/cancel`, 'POST').catch(() => {});

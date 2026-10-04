@@ -19,6 +19,14 @@ export function trustedRecovery(event, repo) {
     && r.repository?.full_name === repo && r.head_repository?.full_name === repo
     && r.head_branch === event.repository?.default_branch;
 }
+export function cancelledForLoop(control, run) {
+  if (run?.conclusion !== 'cancelled') return false;
+  if ([control.lastRunId, control.owner?.runId].filter(Boolean).includes(String(run.id))) return true;
+  // A queued successor has not claimed ownership yet. Its fixed run name carries the fence.
+  const match = /^Ralph ([a-z0-9-]+) \/ (start|iterate) (\d+)-(\d+)$/.exec(run.display_title ?? '');
+  return !control.owner && !!match && match[1] === control.id
+    && Number(match[3]) === control.generation && Number(match[4]) === control.next;
+}
 export function classify(result, exitCode) {
   if (!result || exitCode !== 0 || result.version !== 1) return 'runner_failure';
   return ['yielded', 'agent_failure', 'timeout', 'runner_failure'].includes(result.outcome) ? result.outcome : 'runner_failure';

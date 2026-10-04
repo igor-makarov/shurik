@@ -36,8 +36,13 @@ const rejected = await validateCandidate(workspace, stable, join(state, 'pi-json
 assert.equal(rejected.passed, false); assert.ok(rejected.log.includes('INTENTIONAL_ARCHITECTURE_BREAK'), rejected.log);
 console.log('PASS: broken import rejected by immutable candidate checks');
 
-const brokenPath = join(dir, 'broken.cjs'); await writeFile(brokenPath, 'throw new Error("PROBATION_RUNNER_FAULT");');
-const bad = await retainBundle(brokenPath, state, 'candidate');
+// This candidate really passes the immutable canary, then fails for a live request it did not encounter there.
+const faultLine = "  if (req.id === 'probation') throw new Error('PROBATION_RUNNER_FAULT');\n";
+await writeFile(join(workspace, 'src/worker.ts'), original.replace('export async function runIteration(req: Request) {\n', 'export async function runIteration(req: Request) {\n' + faultLine));
+const probationPath = join(dir, 'probation.cjs');
+const probationCheck = await validateCandidate(workspace, stable, join(state, 'pi-jsonl'), probationPath);
+assert.equal(probationCheck.passed, true, probationCheck.log);
+const bad = await retainBundle(probationPath, state, 'validated-probation-candidate');
 const badRun = await launchWorker({ workspace, state, bundle: await verifyBundle(state, bad), stable,
   req: { ...baseReq, id: 'probation', script: [{ text: 'should never run' }] } });
 assert.equal(badRun.outcome, 'runner_failure');
@@ -46,14 +51,14 @@ assert.equal(runtime.selected, good); assert.ok(runtime.quarantined.includes(bad
 const repair = await launchWorker({ workspace, state, bundle: await verifyBundle(state, runtime.selected), stable, req: {
   ...baseReq, id: 'repair', sessions: [{ id: 'failure', outcome: 'agent_failure', minEntryId: failed.result.minEntryId, maxEntryId: failed.result.maxEntryId }],
   script: [{ tool: 'search_sessions', args: { query: 'Intentional model failure' } },
-    { tool: 'edit', args: { path: 'src/worker.ts', oldText: "import './broken.ts';\n", newText: '' } },
+    { tool: 'edit', args: { path: 'src/worker.ts', oldText: faultLine, newText: '' } },
     { tool: 'write', args: { path: 'partial.txt', content: 'repaired' } }, { text: 'Repaired using retained runtime' }]
 } });
 assert.equal(repair.outcome, 'yielded', repair.log); assert.equal(await readFile(join(workspace, 'src/worker.ts'), 'utf8'), original);
 assert.equal(await readFile(join(workspace, 'partial.txt'), 'utf8'), 'repaired');
 const accepted = await validateCandidate(workspace, stable, join(state, 'pi-jsonl'), join(dir, 'candidate.cjs'));
 assert.equal(accepted.passed, true, accepted.log);
-console.log('PASS: probation rollback, actual coding-tool repair, real-state canary and re-adoption');
+console.log('PASS: passing candidate then live fault, probation rollback, actual coding-tool repair and re-adoption');
 const checkpoint = join(dir, 'checkpoint');
 let checkpoints = 0;
 const checkpointRun = await launchWorker({ workspace, state, bundle, stable, req: {
@@ -70,6 +75,6 @@ assert.equal(await readFile(join(dir, 'malformed/main.jsonl'), 'utf8'), 'NOT_VAL
 const afterCorruption = await launchWorker({ workspace, state, bundle, stable, req: { ...baseReq, id: 'after-corruption', script: [{ text: 'fresh after restored checkpoint' }] } });
 assert.equal(afterCorruption.outcome, 'yielded');
 console.log('PASS: paused consistent checkpoint, malformed journal retained, checkpoint restored and fresh iteration starts');
-await writeFile(join(dir, 'proof.json'), JSON.stringify({ failed: failed.outcome, rejected: !rejected.passed, probation: badRun.outcome,
+await writeFile(join(dir, 'proof.json'), JSON.stringify({ failed: failed.outcome, rejected: !rejected.passed, probationCheckPassed: probationCheck.passed, probation: badRun.outcome,
   repair: repair.outcome, accepted: accepted.passed }, null, 2));
 console.log(`Evidence: ${join(dir, 'proof.json')}`);
