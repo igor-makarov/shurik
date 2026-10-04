@@ -10,6 +10,7 @@ from recovery import config
 from recovery.cdx import CaptureIndex, cdx_query, parse_cdx_json, within_cutoff
 from recovery.http import BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, Fetcher, RecoveryError, Response
 from recovery.images import image_capture_candidates, resolve_image, sniff_image
+from recovery.media import MediaIndex
 from recovery.parsing import (html_to_text, inner_html, is_excluded_image, parse_image_variants,
                               parse_post_page)
 from recovery.store import merge_post
@@ -218,6 +219,64 @@ class VariantPlanningTests(unittest.TestCase):
         self.assertEqual(len(queried), 4, "budget of 3 siblings on top of the exact URL")
         self.assertTrue(any(a.get("endpoint") == "variant-budget" for a in attempts),
                         "budgeted-away siblings must still be recorded")
+
+    def test_media_index_answers_without_any_cdx_query(self):
+        """A host inventory in Git must replace per-image CDX queries.
+
+        The archive stores the same media file under a *different* CDN host and
+        with a hash directory (observed: 25/40.media.tumblr.com hold
+        `<hash>/tumblr_xxx_1280.jpg` while the post page links a bare
+        `_500.jpg`). Keying the inventory by media file rather than full URL is
+        what lets those be found at all, and answering locally avoids the ~22 s
+        per-query cost that throttles the crawl.
+        """
+        link = "http://78.media.tumblr.com/tumblr_m90i69qEHH1r3it8zo1_500.jpg"
+        archived = ("http://25.media.tumblr.com/0000060e2bc8f4709c4bf6e7f233f7c1/"
+                    "tumblr_m90i69qEHH1r3it8zo1_1280.jpg")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "media.jsonl")
+            index = MediaIndex(path)
+            index.add(parse_cdx_json([["urlkey", "timestamp", "original", "mimetype",
+                                       "statuscode", "digest", "length"],
+                                      ["k", "20180101000000", archived, "image/jpeg",
+                                       "200", "ABC", "100"]], source_query="host:25"))
+            # Reload from disk: the inventory has to survive to the next runner.
+            reloaded = MediaIndex(path)
+            self.assertEqual(len(reloaded.lookup(link)), 1)
+            self.assertEqual(reloaded.lookup(link)[0].original, archived)
+
+            # Resolving the image must now hit the archive once (the replay) and
+            # must not issue a single CDX query.
+            routes = {"web/20180101000000id_": Response(
+                url="", status=200, body=JPEG_BYTES,
+                headers={"content-type": "image/jpeg"}, error=OK)}
+            f = FakeArchive(routes)
+            rec = resolve_image(f, {"media_url": link, "caption_alt": "תמונה",
+                                    "found_in": "img"}, media_index=reloaded)
+            self.assertEqual(rec["state"], "recovered", rec.get("note"))
+            self.assertEqual(rec["capture"]["original"], archived)
+            self.assertFalse([a for a in rec["attempts"] if a.get("endpoint") == "cdx"],
+                             "the media inventory must suppress per-variant CDX queries")
+
+    def test_media_index_ignores_post_cutoff_captures(self):
+        link = "http://78.media.tumblr.com/tumblr_m90i69qEHH1r3it8zo1_500.jpg"
+        after = ("http://25.media.tumblr.com/0000060e2bc8f4709c4bf6e7f233f7c1/"
+                 "tumblr_m90i69qEHH1r3it8zo1_1280.jpg")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "media.jsonl")
+            index = MediaIndex(path)
+            index.add(parse_cdx_json([["urlkey", "timestamp", "original", "mimetype",
+                                       "statuscode", "digest", "length"],
+                                      ["k", "20210101000000", after, "image/jpeg",
+                                       "200", "ABC", "100"]], source_query="host:25"))
+            routes = {"web/20210101000000id_": Response(
+                url="", status=200, body=JPEG_BYTES,
+                headers={"content-type": "image/jpeg"}, error=OK)}
+            rec = resolve_image(FakeArchive(routes),
+                                {"media_url": link, "found_in": "img"},
+                                media_index=MediaIndex(path))
+            self.assertNotEqual(rec["state"], "recovered",
+                                "a post-cutoff capture must never be used")
 
 
 if __name__ == "__main__":
