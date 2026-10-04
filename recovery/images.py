@@ -85,13 +85,27 @@ def _variants(image_url: str) -> list[str]:
 
 def pick_capture(captures: list[Capture], prefer_base: str) -> Optional[Capture]:
     """Newest pre-cutoff capture whose media type looks like an image."""
-    images = [c for c in captures if within_cutoff(c.timestamp) and c.statuscode == "200"
-              and (not c.mimetype or c.mimetype.startswith(("image/", "application/octet-stream")))]
+    images = [c for c in captures if _usable(c)]
+    if not images:
+        # CDX media types are frequently wrong for Tumblr CDN URLs: an image can
+        # be indexed as text/plain. Never let that hide the capture -- fall back
+        # to any successful pre-cutoff capture so the body can be validated.
+        images = [c for c in captures if c.statuscode == "200" and within_cutoff(c.timestamp)]
     if not images:
         return None
     same = [c for c in images if prefer_base and prefer_base in normalize_url(c.original)]
     pool = same or images
     return pool[-1]
+
+
+def _usable(capture: Capture) -> bool:
+    """A capture worth replaying first: pre-cutoff, 200, plausibly an image."""
+    return (
+        within_cutoff(capture.timestamp)
+        and capture.statuscode == "200"
+        and (not capture.mimetype or capture.mimetype.startswith(
+            ("image/", "application/octet-stream")))
+    )
 
 
 def fetch_capture(fetcher: Fetcher, capture: Capture) -> Response:
@@ -181,13 +195,19 @@ def resolve_image(
             attempt["media_type"] = sniff_image(resp.body) or "not-an-image"
         record["attempts"].append(attempt)
 
-    errors = [a.get("error") for a in record["attempts"] if a.get("error")]
-    if not candidates:
-        # No capture at all is a confirmed archive gap for the exact URL family.
-        record.update(state="missing", error=GAP if GAP in errors else (errors[-1] if errors else GAP),
-                      note="no archived capture for this media URL or its known variants")
+    # Only *failed* attempts classify the outcome. A successful CDX query that
+    # simply returned nothing is a confirmed gap; a successful replay whose body
+    # is not an image is a bad body. Neither is a timeout or a throttle.
+    failures = [a.get("error") for a in record["attempts"]
+                if a.get("error") and a.get("error") != OK]
+    if not captures:
+        record.update(
+            state="missing",
+            error=failures[-1] if failures else GAP,
+            note="CDX returned zero captures for this media URL and its known variants",
+        )
     else:
-        last = errors[-1] if errors else BAD_BODY
+        last = failures[-1] if failures else BAD_BODY
         record.update(state="missing", error=last,
                       note="captures existed but no replay produced a valid image body")
     return record

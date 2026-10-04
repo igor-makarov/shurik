@@ -50,6 +50,21 @@ MEDIA_PATH_RE = re.compile(r"/(tumblr_[^/?#]+)\.(jpg|jpeg|png|gif|webp)$", re.I)
 
 
 # ---------------------------------------------------------------- raw slicing
+# `class` may be double quoted, single quoted or bare in archived HTML.
+CLASS_ATTR_RE = re.compile(
+    r"""(?<![\w-])class\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""", re.I
+)
+
+
+def _attr_classes(attrs: str) -> list[str]:
+    """Every value of every class= attribute in a raw tag-attribute string."""
+    found: list[str] = []
+    for m in CLASS_ATTR_RE.finditer(attrs or ""):
+        value = m.group(1) or m.group(2) or m.group(3) or ""
+        found.extend(value.split())
+    return found
+
+
 def _find_open_tag(html: str, tag: str, class_name: Optional[str]) -> Optional[int]:
     """Index of the opening tag for <tag ...> carrying class_name, else None."""
     pattern = re.compile(r"<" + tag + r"\b([^>]*)>", re.I)
@@ -57,7 +72,7 @@ def _find_open_tag(html: str, tag: str, class_name: Optional[str]) -> Optional[i
         attrs = m.group(1)
         if class_name is None:
             return m.start()
-        if re.search(r'class="[^"]*\b' + re.escape(class_name) + r'\b[^"]*"', attrs, re.I):
+        if class_name in _attr_classes(attrs):
             return m.start()
     return None
 
@@ -73,9 +88,6 @@ def inner_html(html: str, tag: str, class_name: Optional[str] = None) -> tuple[s
     if m.group(0).rstrip().endswith("/>"):
         return "", start
     open_end = start + m.end()
-    if class_name is None:
-        # For class-less selectors match any tag of that name.
-        opener_re = re.compile(r"<" + tag + r"\b([^>]*)>", re.I)
     depth = 1
     pos = open_end
     scan = re.compile(r"<(/?)" + tag + r"\b([^>]*)>", re.I)
@@ -95,11 +107,6 @@ def inner_html(html: str, tag: str, class_name: Optional[str] = None) -> tuple[s
             if not self_closing and tag.lower() not in VOID_TAGS:
                 depth += 1
             pos = m2.end()
-        if class_name is not None and not closing:
-            # A sibling with a different class does not affect nesting, but an
-            # opening tag of the same class at depth 1 is what we track; keep
-            # scanning (depth counting above handles it).
-            continue
 
 
 class _TextExtractor(HTMLParser):
@@ -212,11 +219,20 @@ def parse_image_variants(url: str) -> list[str]:
 
 # ------------------------------------------------------------------ extraction
 class _ImageCollector(HTMLParser):
+    """Collects <img> and photo <a href> evidence.
+
+    NOTE: the pending-entry attribute is deliberately *not* called `_pending`.
+    Since Python 3.12 `html.parser.HTMLParser` owns a private `_pending`
+    token buffer and `close()` does `self.rawdata += ''.join(self._pending)`
+    followed by `self._pending.clear()`. Shadowing it with our own dict made
+    `close()` splice the dict keys into the parser buffer and wipe the entry.
+    """
+
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.images: list[dict] = []
         self.links: list[dict] = []
-        self._pending: dict | None = None
+        self._cur_entry: dict | None = None
 
     def handle_starttag(self, tag, attrs):
         a = {k.lower(): (v or "") for k, v in attrs}
@@ -233,25 +249,25 @@ class _ImageCollector(HTMLParser):
             reason = is_excluded_image(src, entry["attrs"])
             entry["excluded_reason"] = reason
             self.images.append(entry)
-            self._pending = entry
+            self._cur_entry = entry
         elif tag == "a":
             href = a.get("href", "")
             if href:
-                self._pending = {"url": href, "alt": "", "title": a.get("title", ""),
-                                 "class": a.get("class", ""), "attrs": "", "via": "a-href",
-                                 "excluded_reason": is_excluded_image(href, "")}
-                self.links.append(self._pending)
+                self._cur_entry = {"url": href, "alt": "", "title": a.get("title", ""),
+                                   "class": a.get("class", ""), "attrs": "", "via": "a-href",
+                                   "excluded_reason": is_excluded_image(href, "")}
+                self.links.append(self._cur_entry)
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
 
     def handle_endtag(self, tag):
         if tag in ("a", "img"):
-            self._pending = None
+            self._cur_entry = None
 
     def handle_data(self, data):
-        if self._pending and data.strip() and self._pending["via"] == "a-href":
-            self._pending.setdefault("link_text", data.strip())
+        if self._cur_entry and data.strip() and self._cur_entry["via"] == "a-href":
+            self._cur_entry.setdefault("link_text", data.strip())
 
 
 def _decode_tag(raw: str) -> str:
