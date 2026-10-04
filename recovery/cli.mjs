@@ -112,7 +112,7 @@ async function main() {
       break;
     }
     case 'images': {
-      const res = await recovery.crawlImages({ postIds: positional.slice(1).length ? positional.slice(1) : null });
+      const res = await recovery.crawlImages({ postIds: positional.slice(1).length ? positional.slice(1) : null, strategyLimit: numericFlag('image-strategies', 4) });
       log(`images: ${JSON.stringify(res)}`);
       break;
     }
@@ -130,7 +130,7 @@ async function main() {
       if (!postIds.length) await recovery.discover();
       const targets = postIds.length ? postIds : [...recovery.inventoryPostIds().keys()].sort().slice(0, limit);
       await recovery.crawlPosts({ postIds: targets, perPostCaptures: numericFlag('captures', 1) });
-      await recovery.crawlImages({ postIds: targets });
+      await recovery.crawlImages({ postIds: targets, strategyLimit: numericFlag('image-strategies', 4) });
       await publishAll({ recovery, registry, postIds: targets, dryRun });
       break;
     }

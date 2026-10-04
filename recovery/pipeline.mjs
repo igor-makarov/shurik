@@ -9,7 +9,7 @@ import { OUTCOME, WaybackClient } from './lib/wayback.mjs';
 import { CUTOFF, appendJsonl, assertPreCutoff, isoFromTimestamp, log, readJsonl, sha256 } from './lib/util.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-export const ROOT = join(HERE, '..');
+export const ROOT = HERE; // the recovery/ directory itself
 export const DATA = join(ROOT, 'data');
 export const CACHE = join(ROOT, '.cache');
 
@@ -124,7 +124,16 @@ export class Recovery {
     let added = 0;
     for (const { name, query } of queries) {
       if (limit && added >= limit) break;
-      const res = await this.client.cdx({ ...query, to: CUTOFF });
+      let res;
+      try {
+        res = await this.client.cdx({ ...query, to: CUTOFF });
+      } catch (err) {
+        // One failing inventory query must not abort discovery; record and continue.
+        this.logMethod({ stage: 'discover', query: name, outcome: err.outcome ?? OUTCOME.ERROR, error: String(err.message).slice(0, 300), url: err.detail?.url ?? null });
+        this.noteMissing({ kind: 'inventory-query', query: name, outcome: err.outcome ?? OUTCOME.ERROR, attempts: [{ method: 'cdx', query: name, outcome: err.outcome ?? OUTCOME.ERROR, error: String(err.message).slice(0, 200) }] });
+        log(`discover ${name} failed: ${err.message}`);
+        continue;
+      }
       this.logMethod({ stage: 'discover', query: name, outcome: res.outcome, rows: res.rows.length, url: res.url });
       log(`discover ${name}: ${res.rows.length} rows (${res.outcome})`);
       for (const row of res.rows) {
@@ -236,7 +245,7 @@ export class Recovery {
   }
 
   /** Stage 3 — resolve every post image to archived bytes, cache, and ledger. */
-  async crawlImages({ postIds = null, maxPerPost = 12 } = {}) {
+  async crawlImages({ postIds = null, maxPerPost = 12, strategyLimit = 4 } = {}) {
     const targets = (postIds ?? [...this.posts.keys()]).filter((id) => (this.posts.get(id)?.images?.length ?? 0) > 0);
     const pendingImages = [];
     for (const postId of targets) {
@@ -252,16 +261,18 @@ export class Recovery {
     const worker = async () => {
       while (index < pendingImages.length) {
         const item = pendingImages[index++];
-        await this.ingestImage(item);
+        await this.ingestImage({ ...item, strategyLimit });
       }
     };
     await Promise.all(Array.from({ length: this.concurrency }, worker));
     return { resolved: [...this.images.values()].filter((i) => i.resolved).length };
   }
 
-  async ingestImage({ postId, image, near }) {
+  async ingestImage({ postId, image, near, strategyLimit = 4 }) {
     const attempts = [];
-    const strategies = imageStrategies(image.url);
+    const allStrategies = imageStrategies(image.url);
+    const strategies = allStrategies.slice(0, Math.max(1, strategyLimit));
+    const deferred = allStrategies.slice(strategies.length);
     for (const strategy of strategies) {
       try {
         const { captures, outcome, queryUrl } = await this.client.capturesFor(strategy.url);
@@ -298,6 +309,7 @@ export class Recovery {
           alt: image.alt ?? '',
           cachePath,
           attempts,
+          deferredStrategies: deferred.map((s) => s.method),
           nearCapture: near,
         };
         this.images.set(`${postId}|${image.url}`, record);
@@ -311,7 +323,7 @@ export class Recovery {
         if (outcome === OUTCOME.AFTER_CUTOFF) continue;
       }
     }
-    const confirmedGap = attempts.every((a) => a.outcome === OUTCOME.ARCHIVE_GAP || a.outcome === OUTCOME.NOT_FOUND);
+    const confirmedGap = attempts.length > 0 && attempts.every((a) => a.outcome === OUTCOME.ARCHIVE_GAP || a.outcome === OUTCOME.NOT_FOUND);
     const record = {
       postId,
       originalUrl: image.url,
@@ -319,6 +331,7 @@ export class Recovery {
       outcome: confirmedGap ? OUTCOME.ARCHIVE_GAP : (attempts.at(-1)?.outcome ?? OUTCOME.ERROR),
       caption: image.alt ?? '',
       attempts,
+      deferredStrategies: deferred.map((s) => s.method),
     };
     this.images.set(`${postId}|${image.url}`, record);
     appendJsonl(PATHS.images, record);
