@@ -1,10 +1,10 @@
 {
  "global": {
-  "last_at": "2026-10-05T10:31:41Z",
-  "last_error": "13 posts deferred by an open circuit breaker",
+  "last_at": "2026-10-05T11:02:42Z",
+  "last_error": "1 transient image failures in this pass",
   "recovered_at": "2026-10-05T10:30:13Z",
-  "throttled_until": "2026-10-05T10:46:41Z",
-  "transient_streak": 1
+  "throttled_until": "2026-10-05T11:32:42Z",
+  "transient_streak": 2
  },
  "posts": {
   "100403945458": {
@@ -8104,49 +8104,84 @@
    }
   },
   "25494663349": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T11:01:40Z",
+   "last_outcome": "settled",
    "next_at": "",
    "recovered": 0,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://78.media.tumblr.com/tumblr_m5wpi5v3sX1r3it8zo1_1280.jpg": {
+     "_updated_at": "2026-10-05T11:01:40Z"
+    },
+    "http://78.media.tumblr.com/tumblr_m5wpi5v3sX1r3it8zo1_500.jpg": {
+     "_updated_at": "2026-10-05T11:01:40Z"
+    }
+   }
   },
   "25660502309": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T11:02:00Z",
+   "last_outcome": "settled",
    "next_at": "",
    "recovered": 0,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://24.media.tumblr.com/tumblr_m618gzrfYf1r3it8zo1_r1_250.png": {
+     "_updated_at": "2026-10-05T11:02:00Z"
+    },
+    "http://25.media.tumblr.com/tumblr_m618gzrfYf1r3it8zo1_r1_500.png": {
+     "_updated_at": "2026-10-05T11:02:00Z"
+    }
+   }
   },
   "25932525969": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T11:02:20Z",
+   "last_outcome": "settled",
    "next_at": "",
    "recovered": 0,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://24.media.tumblr.com/tumblr_m5gwmok3qI1r3it8zo1_r2_250.jpg": {
+     "_updated_at": "2026-10-05T11:02:20Z"
+    },
+    "http://24.media.tumblr.com/tumblr_m5gwmok3qI1r3it8zo1_r2_500.jpg": {
+     "_updated_at": "2026-10-05T11:02:20Z"
+    }
+   }
   },
   "26156706382": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T11:02:40Z",
+   "last_outcome": "settled",
    "next_at": "",
    "recovered": 0,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://25.media.tumblr.com/tumblr_m68g0ahVeV1r3it8zo1_250.jpg": {
+     "_updated_at": "2026-10-05T11:02:40Z"
+    },
+    "http://25.media.tumblr.com/tumblr_m68g0ahVeV1r3it8zo1_500.jpg": {
+     "_updated_at": "2026-10-05T11:02:40Z"
+    }
+   }
   },
   "26214656970": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
-   "next_at": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T11:02:42Z",
+   "last_outcome": "transient",
+   "next_at": "2026-10-05T11:47:42Z",
    "recovered": 0,
-   "transient_streak": 0,
-   "variants": {}
+   "transient_streak": 1,
+   "variants": {
+    "http://24.media.tumblr.com/tumblr_m68g3yqd491r3it8zo1_500.jpg": {
+     "_updated_at": "2026-10-05T11:02:42Z"
+    },
+    "http://25.media.tumblr.com/tumblr_m68g3yqd491r3it8zo1_250.jpg": {
+     "_updated_at": "2026-10-05T11:02:42Z"
+    }
+   }
   },
   "26269518628": {
    "attempts": 0,
