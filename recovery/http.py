@@ -235,26 +235,29 @@ class Fetcher:
                 )
             except Exception as exc:  # requests raises many concrete types
                 kind, message = classify_exception(exc)
-                return self._maybe_downgrade(
-                    Response(url=url, status=None, error=kind, message=message), timeout)
+                return Response(url=url, status=None, error=kind, message=message)
         return self._urllib_get(url, timeout)
 
-    def _maybe_downgrade(self, resp: Response, timeout: float) -> Response:
-        """One plain-HTTP retry when HTTPS never reached the archive.
+    def _retry_plain(self, url: str, raw: Response, timeout: float,
+                     *, noredirect: bool = False) -> Response:
+        """One plain-HTTP retry when HTTPS never reached the archive at all.
 
-        Only a request that got *no HTTP answer at all* is retried: a 429/503
-        from a reachable front end is real throttling and must back off, not be
-        replayed on another port.
+        Only a request that got *no HTTP answer* is retried: a 429/503 from a
+        reachable front end is real throttling and must back off rather than be
+        replayed on another port. The downgrade happens before the response is
+        classified, so a refusal that plain HTTP then answers never trips the
+        circuit breaker -- the evidence is "recovered", not "throttled".
         """
-        if resp.status is not None or resp.error not in (TRANSPORT, THROTTLED):
-            return resp
-        alt = plain_http_variant(resp.url)
+        if raw.status is not None or raw.error not in (None, OK, TRANSPORT, THROTTLED):
+            return raw
+        alt = plain_http_variant(url)
         if alt is None:
-            return resp
+            return raw
         self.stats["scheme_fallback"] = self.stats.get("scheme_fallback", 0) + 1
-        fallback = self._get(alt, timeout)
-        fallback.message = (f"{fallback.message} (after https failure: {resp.message[:120]})"
-                            if fallback.ok and resp.message else fallback.message)
+        fallback = self._get_noredirect(alt, timeout) if noredirect else self._get(alt, timeout)
+        fallback.attempts = raw.attempts + fallback.attempts
+        if fallback.ok and raw.message:
+            fallback.message = f"{fallback.message} (plain HTTP after: {raw.message[:120]})"
         return fallback
 
     def _urllib_get(self, url: str, timeout: float) -> Response:  # pragma: no cover
@@ -321,7 +324,7 @@ class Fetcher:
         last: Optional[Response] = None
         for attempt in range(1, max(1, attempts) + 1):
             self.limiter.wait()
-            resp = self.classify(self._get(url, timeout))
+            resp = self.classify(self._retry_plain(url, self._get(url, timeout), timeout))
             resp.attempts = attempt
             last = resp
             self._note_outcome(resp)
@@ -394,7 +397,9 @@ class Fetcher:
             self.stats[THROTTLED] = self.stats.get(THROTTLED, 0) + 1
             return blocked
         self.limiter.wait()
-        resp = self._get_noredirect(target, self.timeout if timeout is None else timeout)
+        wait = self.timeout if timeout is None else timeout
+        resp = self._retry_plain(target, self._get_noredirect(target, wait), wait,
+                                 noredirect=True)
         resp.url = target
         resp.error = self.classify_probe(resp)
         self._note_outcome(resp)
@@ -417,8 +422,7 @@ class Fetcher:
                                 elapsed=time.monotonic() - start)
             except Exception as exc:  # requests raises many concrete types
                 kind, message = classify_exception(exc)
-                return self._maybe_downgrade(
-                    Response(url=url, status=None, error=kind, message=message), timeout)
+                return Response(url=url, status=None, error=kind, message=message)
         return self._urllib_get_noredirect(url, timeout)
 
     def _urllib_get_noredirect(self, url: str, timeout: float) -> Response:  # pragma: no cover

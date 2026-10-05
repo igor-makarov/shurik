@@ -917,6 +917,62 @@ class AvailabilityMethodTests(unittest.TestCase):
         self.assertEqual(rec["capture"]["timestamp"], "20150119072952")
 
 
+class PlainHttpFallbackTests(unittest.TestCase):
+    """A runner whose HTTPS route to web.archive.org is refused must still work.
+
+    Real evidence: on this runner `https://web.archive.org` refused the TCP
+    connection on every attempt while `http://web.archive.org` answered 200 with
+    the exact bytes of post 15577014830's image. Without a downgrade every URL
+    looked "throttled" and the queue cooled down with nothing recovered.
+    """
+
+    URL = ("https://web.archive.org/web/20130930175155im_/"
+           "http://29.media.tumblr.com/tumblr_lxjrbav0Ye1r3it8zo1_500.jpg")
+
+    def _fetcher(self):
+        from recovery.tests.fixtures import FakeArchive
+
+        class Refused(FakeArchive):
+            def _get(self, url, timeout):
+                self.requests.append(url)
+                if url.startswith("https://"):
+                    return Response(url=url, status=None, error=THROTTLED,
+                                    message="archive refused the connection")
+                return Response(url=url, status=200, body=JPEG_BYTES,
+                                headers={"content-type": "image/jpeg"})
+
+            _get_noredirect = _get
+
+        return Refused({}, sleep=lambda _s: None)
+
+    def test_get_downgrades_to_plain_http_once(self):
+        f = self._fetcher()
+        resp = f.get(self.URL)
+        self.assertEqual(resp.status, 200)
+        self.assertTrue(resp.ok)
+        self.assertEqual(f.requests[0], self.URL)
+        self.assertEqual(f.requests[1], self.URL.replace("https://", "http://", 1))
+        self.assertEqual(f.stats.get("scheme_fallback"), 1)
+        self.assertFalse(f.blocked, "a refusal that plain HTTP answers must not trip the breaker")
+
+    def test_probe_replay_downgrades_and_reports_the_capture(self):
+        f = self._fetcher()
+        resp = f.probe_replay("http://29.media.tumblr.com/tumblr_lxjrbav0Ye1r3it8zo1_500.jpg",
+                              at_ts="20130930175155")
+        self.assertTrue(resp.ok)
+        self.assertTrue(any(u.startswith("http://web.archive.org") for u in f.requests))
+
+    def test_a_reachable_https_answer_is_never_downgraded(self):
+        from recovery.tests.fixtures import FakeArchive
+
+        f = FakeArchive({"im_/": Response(url="", status=200, body=JPEG_BYTES,
+                                          headers={"content-type": "image/jpeg"})})
+        resp = f.get(self.URL)
+        self.assertEqual(resp.status, 200)
+        self.assertEqual(f.requests, [self.URL])
+        self.assertNotIn("scheme_fallback", f.stats)
+
+
 class ArchiveBlockTests(unittest.TestCase):
     """A refused archive connection is a throttle, and it must stop the hammering.
 
