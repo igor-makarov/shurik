@@ -624,7 +624,7 @@ class ReplayProbeTests(unittest.TestCase):
                 return Response(url="", status=404, error=GAP)
             if "_1280.jpg" in url:
                 return Response(url="", status=302,
-                                headers={"location": f"https://web.archive.org/web/20160201im_/{url}"},
+                                headers={"location": f"https://web.archive.org/web/20160201120000im_/{url}"},
                                 error=OK)
             return Response(url="", status=404, error=GAP)
 
@@ -633,13 +633,13 @@ class ReplayProbeTests(unittest.TestCase):
                 self.requests.append(url)
                 return probe(url, timeout)
 
-        f = ProbeArchive({"/web/20160201id_/": binary(JPEG_BYTES)})
+        f = ProbeArchive({"/web/20160201120000id_/": binary(JPEG_BYTES)})
         rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", variant_budget=4,
                             max_captures=1)
         self.assertEqual(rec["state"], "recovered")
         self.assertTrue(rec["capture"]["original"].endswith("_1280.jpg"),
                         "the recovered capture must name the variant that exists")
-        self.assertEqual(rec["capture"]["timestamp"], "20160201")
+        self.assertEqual(rec["capture"]["timestamp"], "20160201120000")
 
     def test_post_cutoff_only_capture_is_refused_and_never_downloaded(self):
         f = FakeArchive({"im_/": self.redirect("20210304000000"), "id_/": binary(JPEG_BYTES)})
@@ -715,6 +715,8 @@ class ReplayProbeTests(unittest.TestCase):
 
     def test_posts_are_attempted_closest_to_complete_first(self):
         """Finishing a one-image-away post beats starting a twelve-image one."""
-        src = __import__("inspect").getsource(self.cli.fetch_images)
-        self.assertIn('missing_image_count") or 0', src)
+        import inspect
+        from recovery import cli
+        src = inspect.getsource(cli.fetch_images)
         self.assertIn('order == "closest"', src)
+        self.assertIn('missing_image_count', src)

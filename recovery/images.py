@@ -9,8 +9,8 @@ from typing import Optional
 
 from . import config
 from .cdx import Capture, cdx_query, normalize_url, within_cutoff
-from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, TRANSPORT,
-                   Fetcher, Response)
+from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, HTTP_ERROR, OK, THROTTLED, TIMEOUT,
+                   TRANSPORT, Fetcher, Response)
 from .parsing import base_media_key, media_key
 
 # The Wayback replay redirect embeds the real capture timestamp:
@@ -224,16 +224,17 @@ def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_bud
         after_cutoff_only = after_cutoff_only or after
         if cap:
             captures.append(cap)
-            if cap.original == url_norm(image_url):
+            # A hit on the exact URL settles the image: probing the remaining
+            # siblings would only spend requests. Compare the probed variant
+            # itself -- normalize_url() strips the scheme, so comparing it to
+            # the capture's original URL never matched and the sweep never
+            # stopped early.
+            if variant == image_url:
                 attempts.append({"endpoint": "probe-stop",
                                  "note": "exact URL is archived; remaining siblings not probed"})
                 break
     captures.sort(key=lambda c: c.timestamp)
     return captures, attempts, after_cutoff_only
-
-
-def url_norm(url: str) -> str:
-    return normalize_url(url)
 
 
 def pick_capture(captures: list[Capture], prefer_base: str) -> Optional[Capture]:
