@@ -610,6 +610,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--hosts", default="", help="comma separated hosts; default = hosts seen in posts")
     p.add_argument("--force", action="store_true")
     p.add_argument("--max-pages", type=int, default=40)
+    p.add_argument("--page-size", type=int, default=2000,
+                   help="rows per paginated CDX page; 50000 504s on media hosts, 2000 is fast")
     p = sub.add_parser("reindex-media", help="rebuild media index from host dumps (offline)")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=5)
@@ -648,7 +650,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                           post_ids=[i for i in args.ids.split(",") if i] or None)
     elif args.cmd == "discover-media":
         out["media"] = discover_media(fetcher, hosts=[h.strip() for h in args.hosts.split(",") if h.strip()] or None,
-                                      force=args.force, max_pages=args.max_pages)
+                                      force=args.force, max_pages=args.max_pages,
+                                      page_size=args.page_size)
     elif args.cmd == "reindex-media":
         out["media"] = reindex_media()
     elif args.cmd == "fetch-images":

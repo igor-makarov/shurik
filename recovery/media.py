@@ -188,8 +188,18 @@ def scan_host(
             return info
         return {"host": host, "skipped": True, "complete": True, "note": "no dump on this runner"}
 
-    start_page = 1 if force else int(state.get("pages", 0)) + 1
-    if force and os.path.exists(dump_path):
+    # A page cursor is only meaningful together with the page size it was built
+    # with: page 2 at limit=50000 resumes after row 50000, page 2 at limit=2000
+    # resumes after row 2000, so rows in between are silently skipped. Records
+    # written before this was known carry no `page_size` and are therefore
+    # re-scanned from page 1 rather than trusted.
+    prior_size = state.get("page_size")
+    if force or (prior_size is not None and int(prior_size) != int(page_size)) or prior_size is None:
+        start_page = 1
+        state = {}
+    else:
+        start_page = int(state.get("pages", 0)) + 1
+    if start_page == 1 and os.path.exists(dump_path):
         os.remove(dump_path)
     kept: list[Capture] = []
     seen_rows = int(state.get("rows", 0)) if start_page > 1 else 0
@@ -223,7 +233,7 @@ def scan_host(
     err = last.get("error")
     complete = bool(short_page and err in (None, "ok"))
     info = {"host": host, "rows": seen_rows, "kept": len(kept), "new": new, "pages": pages,
-            "complete": complete, "response": last,
+            "complete": complete, "page_size": page_size, "response": last,
             "scanned_at": _now(), "keys_at_scan": len(keys) if keys is not None else 0}
     index.mark_host(name, info)
     return info
