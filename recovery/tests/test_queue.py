@@ -211,5 +211,74 @@ class QueueFileTests(unittest.TestCase):
             self.assertEqual(q.attempts("1"), 1)
 
 
+class ArchiveLivenessTests(unittest.TestCase):
+    """A recorded global cooldown must not strand the queue past the outage.
+
+    The queue file records a cooldown *deadline*, set during whatever archive
+    outage happened in an earlier iteration. web.archive.org routinely recovers
+    long before that deadline expires, and while it is in force `fetch_images`
+    returns before selecting anything -- so a whole iteration can do nothing at
+    all while 1186 never-attempted images stay untouched. One bounded probe of a
+    known-archived URL is enough to tell the two cases apart.
+    """
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.tmp = self._tmp.name
+        self.queue_path = os.path.join(self.tmp, "image-queue.json")
+
+    def _cooled_queue(self) -> ImageQueue:
+        q = ImageQueue(self.queue_path)
+        q.note_global_failure("8 transient image failures in this pass")
+        q.save()
+        return ImageQueue(self.queue_path)
+
+    def test_healthy_archive_clears_a_stale_cooldown_and_work_runs(self):
+        from recovery.cli import fetch_images
+
+        q = self._cooled_queue()
+        self.assertTrue(q.global_cooldown_active())
+        routes = {"lxjrbav0Ye1r3it8zo1": Response(  # the liveness probe URL
+            url="", status=302, error=OK,
+            headers={"location": "https://web.archive.org/web/20130930175155im_/http://29.media"
+                                ".tumblr.com/tumblr_lxjrbav0Ye1r3it8zo1_500.jpg"})}
+        out = fetch_images(FakeArchive(routes, sleep=lambda _s: None), limit_posts=1,
+                           post_ids=["1"], queue=ImageQueue(self.queue_path),
+                           publish_on_recovery=False, health_check=True)
+        self.assertIn("cooldown_cleared_by_health_check", out)
+        self.assertTrue(out["cooldown_cleared_by_health_check"]["healthy"])
+        self.assertIsNone(ImageQueue(self.queue_path).global_cooldown_active(),
+                          "a cleared cooldown must not survive in the committed queue file")
+
+    def test_unhealthy_archive_keeps_the_cooldown_and_sends_no_image_request(self):
+        from recovery.cli import fetch_images
+
+        q = self._cooled_queue()
+        fetcher = FakeArchive({}, sleep=lambda _s: None)
+        out = fetch_images(fetcher, limit_posts=1, queue=ImageQueue(self.queue_path),
+                           publish_on_recovery=False, health_check=True)
+        self.assertEqual(out["processed"], 0)
+        self.assertIn("global archive cooldown", out["note"])
+        self.assertFalse(out["health_check"]["healthy"])
+        self.assertTrue(ImageQueue(self.queue_path).global_cooldown_active(),
+                        "an unanswered probe must leave the back-off in force")
+
+    def test_health_check_is_one_request_and_can_be_disabled(self):
+        from recovery.cli import archive_health
+
+        fetcher = FakeArchive({"lxjrbav": Response(url="", status=302, error=OK,
+                                                  headers={"location": "https://web.archive.org"
+                                                           "/web/20130930175155im_/http://x"})})
+        out = archive_health(fetcher)
+        self.assertTrue(out["healthy"])
+        self.assertEqual(len(fetcher.requests), 1, "liveness costs exactly one request")
+        self.assertEqual(fetcher.requests[0].count("im_"), 1)
+
+        blocked = FakeArchive({"lxjrbav": Response(url="", status=504, error=THROTTLED,
+                                                  message="gateway timeout")})
+        self.assertFalse(archive_health(blocked)["healthy"])
+
+
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

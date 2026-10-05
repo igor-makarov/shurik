@@ -482,13 +482,41 @@ def probe_availability(fetcher: Fetcher, limit: int = 0, concurrency: int = 3,
                               progress=progress)
 
 
+# A URL that is known to have a pre-cutoff capture, used only as a liveness
+# probe when a global cooldown is in force. Recovered from post 15577014830
+# (see data/verification/15577014830.json): capture 20130930175155.
+HEALTHCHECK_URL = "http://29.media.tumblr.com/tumblr_lxjrbav0Ye1r3it8zo1_500.jpg"
+
+
+def archive_health(fetcher: Fetcher, url: str = HEALTHCHECK_URL,
+                   timeout: Optional[float] = 30.0) -> dict:
+    """One bounded request: is the archive answering again?
+
+    A global cooldown recorded by an earlier iteration is a *time* promise, not
+    a live measurement, and web.archive.org outages routinely end long before
+    the back-off expires. Without this check a whole iteration can do nothing at
+    all -- `fetch_images` returns before selecting anything -- even though the
+    archive is healthy, and the 1186 never-attempted images stay untouched.
+
+    The probe asks the replay endpoint about a URL we already know is archived
+    and treats only a real answer as health: a timeout, throttle or transport
+    failure keeps the cooldown in force.
+    """
+    resp = fetcher.probe_replay(url, timeout=timeout)
+    healthy = resp.error == OK and bool(resp.headers.get("location"))
+    return {"url": url, "status": resp.status, "error": resp.error,
+            "healthy": healthy, "message": resp.message[:200],
+            "elapsed": round(resp.elapsed, 2),
+            "at": _now()}
+
+
 def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = config.DEFAULT_CONCURRENCY,
                  post_ids: Optional[list[str]] = None, use_media_index: bool = True,
                  retry_missing: bool = False, method: str = "probe",
                  variant_budget: int = 4, order: str = "closest",
                  availability: Optional[AvailabilityIndex] = None,
                  queue: Optional[ImageQueue] = None, dry_run: bool = False,
-                 publish_on_recovery: bool = True) -> dict:
+                 publish_on_recovery: bool = True, health_check: bool = True) -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
     media_index = MediaIndex(capture_file("media.jsonl")) if use_media_index else None
@@ -509,6 +537,16 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
     batch, stats = q.select(records, limit=limit_posts, retry_missing=retry_missing,
                             stale_fn=needs_probe, final_errors=final_errors, order=order)
     cooldown = q.global_cooldown_active()
+    if cooldown and not (retry_missing or post_ids):
+        # The recorded cooldown may outlive the outage that set it. Spend one
+        # bounded request to find out before surrendering the whole iteration.
+        health = archive_health(fetcher) if health_check else {"healthy": False}
+        if health.get("healthy"):
+            q.note_global_success()
+            cooldown = None
+            stats["cooldown_cleared_by_health_check"] = health
+        else:
+            stats["health_check"] = health
     if cooldown and not (retry_missing or post_ids):
         q.save()
         return {"processed": 0, "note": "global archive cooldown", "cooldown": cooldown,
@@ -1026,6 +1064,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="report which posts the next pass would touch, without any request")
     p.add_argument("--no-publish", action="store_true",
                    help="do not push a post's artifact while its recovered bytes are in memory")
+    p.add_argument("--no-health-check", action="store_true",
+                   help="obey a recorded global cooldown without probing archive liveness")
     p = sub.add_parser("publish", help="push per-post artifacts to GHCR")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
@@ -1082,7 +1122,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                            use_media_index=not args.no_media_index, retry_missing=args.retry_missing,
                            method=args.method, variant_budget=args.variant_budget,
                            order=args.order, queue=queue, dry_run=args.dry_run,
-                           publish_on_recovery=not args.no_publish)
+                           publish_on_recovery=not args.no_publish,
+                           health_check=not args.no_health_check)
     elif args.cmd == "publish":
         ids = [i.strip() for i in args.ids.split(",") if i.strip()]
         if ids:
