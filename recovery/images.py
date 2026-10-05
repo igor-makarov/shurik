@@ -483,8 +483,8 @@ def resolve_image(
                 if a.get("error") and a.get("error") != OK]
     record["attempts"] = cap_attempts(record["attempts"])
     if saw_non_image_body:
-        # The archive answered, but with HTML (its "not archived" page) instead of
-        # image bytes. That is a confirmed unusable body, not a transient failure.
+        # The archive answered, but with HTML (its "not archived" page) instead
+        # of image bytes. That is a confirmed unusable body, not a transient failure.
         record.update(state="missing", error=BAD_BODY,
                       note="captures existed but replays returned non-image bodies")
     elif not captures and after_cutoff_only:
@@ -492,19 +492,61 @@ def resolve_image(
                       note="the only capture(s) the archive has for this URL (or its variants) "
                            f"are newer than the cutoff {config.CUTOFF}; using them is forbidden")
     elif not captures:
-        record.update(
-            state="missing",
-            error=failures[-1] if failures else GAP,
-            note=("replay probes answered for this URL and its known size/extension variants "
-                  "and none of them has a capture at or before the cutoff"
-                  if method != "cdx" else
-                  "CDX returned zero captures for this media URL and its known variants"),
-        )
+        error, note = verdict_for_no_capture(record, failures, method)
+        record.update(state="missing", error=error, note=note)
     else:
         last = failures[-1] if failures else BAD_BODY
         record.update(state="missing", error=last,
                       note="captures existed but no replay produced a valid image body")
     return record
+
+
+ANSWERED_ENDPOINTS = ("replay-probe", "cdx", "availability-api", "media-index")
+TRANSIENT_CLASSES = (TIMEOUT, THROTTLED, TRANSPORT, HTTP_ERROR)
+
+
+def probed_variants(record: dict) -> list[str]:
+    """Every URL this record actually asked the archive about."""
+    out: list[str] = []
+    for att in record.get("attempts") or []:
+        if att.get("endpoint") not in ANSWERED_ENDPOINTS:
+            continue
+        url = att.get("media_url") or att.get("url")
+        if url and url not in out:
+            out.append(url)
+    return out
+
+
+def verdict_for_no_capture(record: dict, failures: list, method: str = "probe") -> tuple[str, str]:
+    """Classify "no capture found" from the attempt log alone, honestly.
+
+    The old code wrote a single note claiming the archive "answered ... and
+    none of them has a capture" even when every attempt had failed to connect.
+    A transport error, timeout, throttle or 5xx is the *absence* of an answer:
+    it says nothing about whether a capture exists. Those records keep their
+    transient class and get a note that states the scope of what was asked.
+    """
+    asked = probed_variants(record)
+    scope = (f"{len(asked)} URL form(s) asked (exact URL plus every size/extension sibling that "
+             f"was queried)" if asked else "no URL query completed")
+    answered = [a for a in record.get("attempts") or []
+                if a.get("endpoint") in ANSWERED_ENDPOINTS
+                and a.get("error") in (OK, GAP)]
+    transient = [f for f in failures if f in TRANSIENT_CLASSES]
+    if not answered and transient:
+        return (transient[-1],
+                f"inconclusive: the archive did not answer for this URL or its size/extension "
+                f"siblings ({', '.join(sorted(set(transient)))}); {scope}. No conclusion about "
+                f"whether a capture exists")
+    if not asked and failures:
+        return (failures[-1],
+                f"inconclusive: every attempt failed before an answer ({failures[-1]}); "
+                f"existence is unknown")
+    source = "CDX" if method == "cdx" else "the archive"
+    return (GAP,
+            f"archive_gap: {source} answered with zero captures at or before the cutoff for "
+            f"{scope}. This is evidence about those queries only, not about every possible "
+            f"capture of this image")
 
 
 def _conclusive(state: dict, key_known_at: str) -> bool:

@@ -5,7 +5,7 @@ are never written to disk, logs or artifacts.
 """
 from __future__ import annotations
 
-import json
+import hashlib
 import os
 import time
 from dataclasses import dataclass, field
@@ -156,9 +156,13 @@ class Registry:
         if resp.status_code != 200:
             raise PublishError(f"manifest GET failed with HTTP {resp.status_code}")
         try:
-            return resp.json()
+            manifest = resp.json()
         except Exception as exc:
             raise PublishError(f"manifest JSON parse failed: {exc}")
+        if isinstance(manifest, dict):
+            manifest["__digest"] = (parse_digest_header(resp.headers.get("docker-content-digest", ""))
+                                    or "sha256:" + hashlib.sha256(resp.content).hexdigest())
+        return manifest
 
     def tag_exists(self, tag: str) -> bool:
         return self.get_manifest(tag) is not None
@@ -205,6 +209,10 @@ def _content_len(manifest: dict) -> int:
         return -1
 
 
+def _config_digest(manifest: dict) -> str:
+    return ((manifest or {}).get("config") or {}).get("digest", "") or ""
+
+
 def publish_post(post: dict, registry: Registry, *, force: bool = False) -> PushResult:
     """Idempotent per-post publish: never regress an already-published artifact."""
     config_blob, layers, tag, manifest, manifest_blob = oci.build_artifact(post)
@@ -223,9 +231,15 @@ def publish_post(post: dict, registry: Registry, *, force: bool = False) -> Push
         prev_images = _image_count(existing)
         prev_text = _content_len(existing)
         prev_ann = (existing.get("annotations") or {})
-        prev_digest = existing.get("__digest") or "sha256:" + __import__("hashlib").sha256(
-            json.dumps(existing.get("annotations", {}), sort_keys=True).encode()).hexdigest()
         new_text = len(post.get("content_text") or "")
+        # Identical config digest == byte-identical artifact content. Rebuilding
+        # it would create a pointless new registry version, so stop here. This
+        # check is what makes a restarted process idempotent.
+        if _config_digest(existing) == config_blob.digest:
+            result.action = "skipped"
+            result.manifest_digest = existing.get("__digest", "") or ""
+            result.reason = "already published with identical content (same config digest)"
+            return result
         # Never regress: only skip when the published artifact already carries at
         # least this many recovered images and at least this much recovered text.
         if (prev_images >= result.image_count and prev_text >= new_text

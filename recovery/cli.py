@@ -661,17 +661,23 @@ def post_quality(post: dict) -> tuple[int, int, int]:
 
 
 def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] = None,
-            only_missing: bool = False, fetcher: Optional[Fetcher] = None) -> dict:
+            only_missing: bool = False, fetcher: Optional[Fetcher] = None,
+            post_ids: Optional[list[str]] = None) -> dict:
     # Explicit path: PostStore's default argument binds config at import time,
     # so tests (and future multi-workspace runs) could not redirect the store.
     store = PostStore(config.POST_DIR)
     reg = registry or Registry()
     fetch = fetcher or Fetcher()
     log = JsonlStore(config.PUBLISHED_JSONL, key_fields=("tag", "manifest_digest"))
+    wanted = set(post_ids or [])
     results = []
     for rec in store.all():
         pid = rec.get("post_id")
         if not pid:
+            continue
+        # Targeted publication: `--ids` names exactly which tags to (re)push, so a
+        # specific recovered post can be updated no matter where it sorts.
+        if wanted and pid not in wanted:
             continue
         # A post with captured text (or a recovered image) is publishable while
         # some of its images are still missing: the artifact says so explicitly
@@ -948,7 +954,16 @@ def main(argv: Optional[list[str]] = None) -> int:
     p = sub.add_parser("publish", help="push per-post artifacts to GHCR")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
-    sub.add_parser("status", help="print recovery counters")
+    p.add_argument("--ids", default="",
+                   help="comma separated post ids to (re)publish, ignoring sort order")
+    p.add_argument("--include-published", action="store_true",
+                   help="also consider posts whose published quality already matches")
+    p = sub.add_parser("verify-artifact",
+                       help="pull a published tag anonymously and check the real image bytes")
+    p.add_argument("--ids", default="", help="comma separated post ids; default = every verified tag")
+    p.add_argument("--limit", type=int, default=0, help="0 = all given ids")
+    p.add_argument("--package", default="", help="override ghcr repo (owner/name)")
+    p = sub.add_parser("status", help="print recovery counters")
     sub.add_parser("repair", help="re-derive post bookkeeping fields (offline)")
     sub.add_parser("report", help="write RECOVERY_REPORT.md")
     args = parser.parse_args(argv)
@@ -991,7 +1006,38 @@ def main(argv: Optional[list[str]] = None) -> int:
                            method=args.method, variant_budget=args.variant_budget,
                            order=args.order)
     elif args.cmd == "publish":
-        out = publish(limit=args.limit, force=args.force, fetcher=fetcher)
+        ids = [i.strip() for i in args.ids.split(",") if i.strip()]
+        if ids:
+            args.limit = max(args.limit, len(ids))
+        out = publish(limit=args.limit, force=args.force, fetcher=fetcher,
+                      only_missing=args.include_published, post_ids=ids or None)
+    elif args.cmd == "verify-artifact":
+        from .verify import verify_tag
+
+        ids = [i.strip() for i in args.ids.split(",") if i.strip()]
+        if not ids:
+            log = JsonlStore(config.PUBLISHED_JSONL, key_fields=("tag", "manifest_digest"))
+            seen = []
+            for row in log.records():
+                tag = str(row.get("tag") or "")
+                if tag and tag not in seen:
+                    seen.append(tag)
+            ids = seen[: args.limit or len(seen)]
+        reports = []
+        for pid in ids:
+            kw = {}
+            if args.package:
+                repo, _, reg = args.package.partition("/")
+                kw = {"repo": args.package}
+            rep = verify_tag(pid, **kw)
+            reports.append({"tag": rep.get("tag"), "passed": rep.get("passed"),
+                            "manifest_digest": rep.get("manifest_digest", ""),
+                            "images_verified": rep.get("images_verified", 0),
+                            "checks": f"{rep.get('checks_passed', 0)}/{rep.get('checks_total', 0)}",
+                            "failed_checks": rep.get("failed_checks", [])})
+        out = {"verified": len(reports),
+               "passed": sum(1 for r in reports if r["passed"]),
+               "results": reports}
     elif args.cmd == "status":
         out = status()
     elif args.cmd == "report":

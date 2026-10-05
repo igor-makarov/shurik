@@ -56,6 +56,33 @@ def _ann(pairs: dict) -> dict:
     return {k: v for k, v in pairs.items() if v}
 
 
+def artifact_created(post: dict) -> str:
+    """A content-derived `created` timestamp.
+
+    It used to be wall-clock time, which meant every rerun produced a new
+    manifest digest for byte-identical post data: restarting a process invented
+    a new registry version. Deriving it from the newest capture actually used
+    keeps the artifact reproducible -- same recovered data, same digest, and the
+    registry can then skip the upload entirely.
+    """
+    stamps: list[str] = []
+    for img in post.get("images", []):
+        if img.get("sha256"):
+            ts = (img.get("capture") or {}).get("timestamp")
+            if ts and str(ts).isdigit():
+                stamps.append(str(ts))
+    ts = (post.get("capture") or {}).get("timestamp")
+    if ts and str(ts).isdigit():
+        stamps.append(str(ts))
+    for cap in post.get("captures", []) or []:
+        if cap.get("timestamp") and str(cap["timestamp"]).isdigit():
+            stamps.append(str(cap["timestamp"]))
+    if not stamps:
+        return "1970-01-01T00:00:00Z"
+    newest = max(stamps)[:14]
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.strptime(newest, "%Y%m%d%H%M%S"))
+
+
 def build_artifact(post: dict) -> tuple[Blob, list[Blob], str, dict, Blob]:
     """Build (config, layers, tag, manifest_dict, manifest_blob) for one post."""
     post_id = str(post["post_id"])
@@ -106,7 +133,7 @@ def build_artifact(post: dict) -> tuple[Blob, list[Blob], str, dict, Blob]:
 
     layers: list[Blob] = []
     history: list[dict] = []
-    created = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+    created = artifact_created(post)
     for img in images:
         with open(img["blob_path"], "rb") as fh:
             body = fh.read()
@@ -183,6 +210,10 @@ def build_artifact(post: dict) -> tuple[Blob, list[Blob], str, dict, Blob]:
         "shurik.post.original_url": post.get("original_url", ""),
         "shurik.post.captures": json.dumps(post.get("captures", []), ensure_ascii=False),
         "shurik.post.image_sha256": json.dumps([img["sha256"] for img in images]),
+        # The publisher's idempotence check reads `shurik.post.images` from the
+        # manifest annotations; it used to live only in the config labels, so the
+        # check always saw -1 and republished on every single run.
+        "shurik.post.images": str(len(images)),
         "shurik.post.missing_images": str(len(missing_images)),
         "shurik.post.partial": "true" if missing_images else "false",
         "shurik.post.content_len": str(len(post.get("content_text") or "")),
