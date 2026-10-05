@@ -30,16 +30,40 @@
  "content_source": "div.copy",
  "content_text": "משה פרץ - טיסת יונייטד איירליינס 175",
  "date_text": "Posted 4 days ago",
- "fetched_at": "2026-10-05T03:10:23Z",
+ "fetched_at": "2026-10-05T04:20:20Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg (Caused by NewConnectionError('",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg"
+    }
+   ],
    "base_key": "tumblr_o7mhhqnVYU1r3it8z_frame1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "transport",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_o7mhhqnVYU1r3it8z_frame1.jpg",
    "media_url": "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "state": "missing",
    "url_forms": [
     "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg"
    ],
@@ -48,6 +72,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 75783,
@@ -63,9 +88,28 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg (Caused by NewConnectionError('",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg"
+    }
+   ],
    "media_url": "http://media.tumblr.com/tumblr_o7mhhqnVYU1r3it8z_frame1.jpg",
-   "reason": null
+   "reason": "transport"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/144799240513",

@@ -24,7 +24,7 @@
  "content_source": "div.copy",
  "content_text": "אם קונים ספה בשוק הפשפשי, זה אומר שיהיו בה פשפשים?",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T23:14:48Z",
+ "fetched_at": "2026-10-05T04:20:19Z",
  "image_count": 0,
  "images": [
   {
@@ -44,6 +44,30 @@
      "message": "",
      "status": 200,
      "url": "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_1280.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_1024.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_540.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_400.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_250.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_100.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1.png",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_lwjp1whwVb1r3it8zo1.jpg",
@@ -55,7 +79,7 @@
    "link_text": "",
    "media_key": "tumblr_lwjp1whwVb1r3it8zo1_500.jpg",
    "media_url": "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_500.jpg",
-   "note": "CDX returned zero captures for this media URL and its known variants",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
    "state": "missing",
    "url_forms": [
     "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_500.jpg"
@@ -96,6 +120,30 @@
      "error": "ok",
      "message": "",
      "status": 200,
+     "url": "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_1280.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_1024.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_540.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_400.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_250.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_100.jpg",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1.png",
+      "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
      "url": "http://29.media.tumblr.com/tumblr_lwjp1whwVb1r3it8zo1_500.jpg"
     }
    ],

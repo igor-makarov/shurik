@@ -24,7 +24,7 @@
  "content_source": "div.copy",
  "content_text": "ברור שאני מגנה את נוער שוליים, אבל הם מיעוט קיצוני שאין סיבה שיכתים את התיישבות שלמה",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T23:14:48Z",
+ "fetched_at": "2026-10-05T04:19:28Z",
  "image_count": 0,
  "images": [
   {
@@ -44,18 +44,42 @@
      "message": "",
      "status": 200,
      "url": "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_1280.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_1024.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_400.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_lwqbe4Icwi1r3it8zo1.jpg",
    "caption": "ברור שאני מגנה את נוער שוליים, אבל הם מיעוט קיצוני שאין סיבה שיכתים את התיישבות שלמה",
    "caption_alt": "ברור שאני מגנה את נוער שוליים, אבל הם מיעוט קיצוני שאין סיבה שיכתים את התיישבות שלמה",
    "capture_count": 0,
-   "error": "archive_gap",
+   "error": "transport",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lwqbe4Icwi1r3it8zo1_500.jpg",
    "media_url": "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg",
-   "note": "CDX returned zero captures for this media URL and its known variants",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
    "state": "missing",
    "url_forms": [
     "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg"
@@ -97,10 +121,34 @@
      "message": "",
      "status": 200,
      "url": "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_1280.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_1024.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_400.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg"
     }
    ],
    "media_url": "http://28.media.tumblr.com/tumblr_lwqbe4Icwi1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
+   "reason": "transport"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14740936571",

@@ -18,16 +18,63 @@
  "content_source": "div.copy",
  "content_text": "הסרטון של סתיו שפיר",
  "date_text": "Posted 2 days ago",
- "fetched_at": "2026-10-04T23:47:46Z",
+ "fetched_at": "2026-10-05T04:19:36Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1280.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1024.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_540.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_400.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_250.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_100.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.png",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1280.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1024.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_540.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_400.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_250.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_100.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.png",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_nez9qqF5aT1r3it8zo1.jpg",
+   "caption": "הסרטון של סתיו שפיר",
    "caption_alt": "הסרטון של סתיו שפיר",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_nez9qqF5aT1r3it8zo1_500.jpg",
    "media_url": "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "state": "missing",
    "url_forms": [
     "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg"
    ],
@@ -44,6 +91,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 63005,
@@ -59,9 +107,50 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1280.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1024.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_540.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_400.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_250.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_100.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.png",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1280.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_1024.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_540.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_400.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_250.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_100.jpg",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.png",
+      "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg"
+    }
+   ],
    "media_url": "http://33.media.tumblr.com/4cbb8f3f11a893c97a968539500ad1f3/tumblr_nez9qqF5aT1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/102525853953",

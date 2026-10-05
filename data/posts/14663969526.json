@@ -31,7 +31,7 @@
  "content_source": "div.copy",
  "content_text": "זה למה אין לנו דברים נחמדים",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T23:14:48Z",
+ "fetched_at": "2026-10-05T04:20:22Z",
  "image_count": 0,
  "images": [
   {
@@ -51,18 +51,42 @@
      "message": "",
      "status": 200,
      "url": "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_1280.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_1024.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_540.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_400.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_250.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_100.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1.gif",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png"
     }
    ],
    "base_key": "tumblr_lwnh2609TJ1r3it8zo1.png",
    "caption": "זה למה אין לנו דברים נחמדים",
    "caption_alt": "זה למה אין לנו דברים נחמדים",
    "capture_count": 0,
-   "error": "archive_gap",
+   "error": "transport",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lwnh2609TJ1r3it8zo1_500.png",
    "media_url": "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png",
-   "note": "CDX returned zero captures for this media URL and its known variants",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
    "state": "missing",
    "url_forms": [
     "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png"
@@ -104,10 +128,34 @@
      "message": "",
      "status": 200,
      "url": "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_1280.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_1024.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_540.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_400.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_250.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_100.png",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1.gif",
+      "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png"
     }
    ],
    "media_url": "http://25.media.tumblr.com/tumblr_lwnh2609TJ1r3it8zo1_500.png",
-   "reason": "archive_gap"
+   "reason": "transport"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14663969526",

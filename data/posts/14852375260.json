@@ -38,7 +38,7 @@
  "content_source": "div.copy",
  "content_text": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T23:14:48Z",
+ "fetched_at": "2026-10-05T04:19:29Z",
  "image_count": 0,
  "images": [
   {
@@ -58,18 +58,42 @@
      "message": "",
      "status": 200,
      "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1280.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_500.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
     }
    ],
    "base_key": "tumblr_lwtsp27G2f1r3it8zo1.png",
    "caption": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
    "caption_alt": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
    "capture_count": 0,
-   "error": "archive_gap",
+   "error": "transport",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lwtsp27G2f1r3it8zo1_400.png",
    "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
-   "note": "CDX returned zero captures for this media URL and its known variants",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
    "state": "missing",
    "url_forms": [
     "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
@@ -111,10 +135,34 @@
      "message": "",
      "status": 200,
      "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1280.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_500.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
     }
    ],
    "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
-   "reason": "archive_gap"
+   "reason": "transport"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14852375260",

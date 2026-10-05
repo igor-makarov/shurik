@@ -16,16 +16,40 @@
  "content_source": "div.copy",
  "content_text": "הסרטון המקורי",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T23:48:14Z",
+ "fetched_at": "2026-10-05T04:19:42Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg (Caused by NewConnectionError('",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    }
+   ],
    "base_key": "tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "transport",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
    "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "state": "missing",
    "url_forms": [
     "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
    ],
@@ -34,6 +58,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 65230,
@@ -49,9 +74,28 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg (Caused by NewConnectionError('",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    }
+   ],
    "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
-   "reason": null
+   "reason": "transport"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/108091419708",
