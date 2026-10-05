@@ -32,16 +32,55 @@
  "content_source": "div.copy",
  "content_text": "Ummm, I’m gonna need you to go ahead come in tomorrow\nתודה לאסף שגיא",
  "date_text": "Posted 5 years ago",
- "fetched_at": "2026-10-04T23:42:24Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T08:05:38Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "78.media.tumblr.com",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 101723
+    }
+   ],
    "base_key": "tumblr_m4ddyxZ6uu1r3it8zo1.jpg",
+   "caption": "Ummm, I’m gonna need you to go ahead come in tomorrow\nתודה לאסף שגיא",
    "caption_alt": "Ummm, I’m gonna need you to go ahead come in tomorrow\nתודה לאסף שגיא",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
+   "host_inventory": {
+    "host": "78.media.tumblr.com",
+    "keys_at_scan": 3692,
+    "pages": 52,
+    "rows": 101723,
+    "scanned_at": "2026-10-05T03:50:42+00:00"
+   },
    "link_text": "",
    "media_key": "tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
    "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+   "note": "host media inventory is complete and lists no capture for this key (or any size variant) on this CDN host",
+   "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg"
    ],
@@ -58,12 +97,49 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "78.media.tumblr.com",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 101723
+    }
+   ],
    "base_key": "tumblr_m4ddyxZ6uu1r3it8zo1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "og:image",
+   "host_inventory": {
+    "host": "78.media.tumblr.com",
+    "keys_at_scan": 3692,
+    "pages": 52,
+    "rows": 101723,
+    "scanned_at": "2026-10-05T03:50:42+00:00"
+   },
    "link_text": "",
    "media_key": "tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
    "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+   "note": "host media inventory is complete and lists no capture for this key (or any size variant) on this CDN host",
+   "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg"
    ],
@@ -80,6 +156,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 4674,
@@ -105,14 +182,64 @@
  "missing_image_count": 2,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "78.media.tumblr.com",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 101723
+    }
+   ],
    "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "78.media.tumblr.com",
+     "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 101723
+    }
+   ],
    "media_url": "http://78.media.tumblr.com/tumblr_m4ddyxZ6uu1r3it8zo1_1280.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/23475122399",
@@ -134,6 +261,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20171111101259id_/http://hazfalafel.com/post/23475122399",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "כלבה-בבקשה",
