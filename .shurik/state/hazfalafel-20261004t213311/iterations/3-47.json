@@ -5,10 +5,32 @@
   "generation": 3,
   "iteration": 47,
   "startedAt": "2026-10-05T06:04:06.831Z",
-  "outcome": "running",
+  "outcome": "timeout",
   "source": "170f6ebce6158070a6c916b4c37cf5cceddd029b",
   "runtime": "0174cfbf2f4de608b290428e9d644861d0d01e871a34455d2aad8f5c40f55064",
   "minEntryId": 6587,
-  "maxEntryId": 6679,
-  "checkpointAt": "2026-10-05T06:09:14.410Z"
+  "maxEntryId": 6755,
+  "checkpointAt": "2026-10-05T06:09:14.410Z",
+  "finishedAt": "2026-10-05T06:14:13.202Z",
+  "error": "\"\"",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 2184915,
+        "output": 781291,
+        "cacheRead": 40728182,
+        "cacheWrite": 0,
+        "reasoning": 416743,
+        "totalTokens": 43694388,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }

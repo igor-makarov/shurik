@@ -15,7 +15,7 @@ import unittest
 from recovery import config
 from recovery.http import GAP, OK, THROTTLED, TIMEOUT
 from recovery.images import image_capture_candidates_probe
-from recovery.queue import ImageQueue, variant_outcomes
+from recovery.queue import QUEUE_VERSION, ImageQueue, variant_outcomes
 from recovery.tests.fixtures import FakeArchive, Response
 
 MEDIA = "http://29.media.tumblr.com/tumblr_aaa_500.jpg"
@@ -133,7 +133,9 @@ class QueueSelectionTests(unittest.TestCase):
         self.assertIn("901", picked, "the cap must not starve the other post")
         again, stats = q.select(records, limit=5)
         self.assertNotIn("900", [pid for pid, _ in again])
-        self.assertEqual(stats["attempt_capped"], 1)
+        # Both posts are equally hopeless here, so both are capped -- the point
+        # is that neither is retried forever and neither starves the other.
+        self.assertEqual(stats["attempt_capped"], 2)
 
     def test_global_cooldown_is_recorded_and_blocks_archive_work(self):
         q = self.queue()
@@ -196,9 +198,17 @@ class QueueFileTests(unittest.TestCase):
             q.save()
             with open(path, encoding="utf-8") as fh:
                 data = json.load(fh)
-            self.assertEqual(data["version"], 2)
+            self.assertEqual(data["version"], QUEUE_VERSION)
             self.assertEqual(data["posts"]["1"]["attempts"], 1)
             self.assertEqual(data["posts"]["1"]["recovered"], 1)
+
+    def test_an_older_queue_file_still_loads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "image-queue.json")
+            with open(path, "w", encoding="utf-8") as fh:
+                json.dump({"version": 2, "posts": {"1": {"attempts": 1, "variants": {}}}, "global": {}}, fh)
+            q = ImageQueue(path)
+            self.assertEqual(q.attempts("1"), 1)
 
 
 if __name__ == "__main__":  # pragma: no cover

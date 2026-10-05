@@ -26,14 +26,23 @@ from typing import Callable, Iterable, Optional
 from . import config
 from .http import AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK
 
-QUEUE_VERSION = 2
+QUEUE_VERSION = 3
 DEFAULT_COOLDOWN_MINUTES = 45
 DEFAULT_MAX_ATTEMPTS = 12
 
-# Variant outcomes that will never change on their own. `GAP`/`BAD_BODY`/
-# `AFTER_CUTOFF_ONLY` are the canonical error names the HTTP layer uses.
-TERMINAL_OUTCOMES = ("gap", "archive_gap", "bad_body", "after_cutoff_only",
-                     "capture_after_cutoff", "recovered", "http_404")
+# Canonical outcome tokens. The HTTP layer names an empty capture `archive_gap`
+# and a too-late-only capture `capture_after_cutoff`; the queue normalises both
+# to short tokens so a verdict read from a post record and one read from the
+# queue file compare equal. The legacy spellings stay in the terminal set so
+# queue files written by an earlier version keep their meaning.
+GAP_TOKEN = "gap"
+BAD_BODY_TOKEN = "bad_body"
+AFTER_CUTOFF_TOKEN = "capture_after_cutoff"
+_OUTCOME_BY_ERROR = {GAP: GAP_TOKEN, BAD_BODY: BAD_BODY_TOKEN,
+                     AFTER_CUTOFF_ONLY: AFTER_CUTOFF_TOKEN}
+# Outcomes that will never change on their own.
+TERMINAL_OUTCOMES = (GAP_TOKEN, BAD_BODY_TOKEN, AFTER_CUTOFF_TOKEN, "recovered",
+                     "http_404", GAP, BAD_BODY, AFTER_CUTOFF_ONLY)
 
 
 def now_iso() -> str:
@@ -66,11 +75,10 @@ def variant_outcomes(image: dict) -> dict[str, str]:
         if att.get("capture_timestamp"):
             outcome = "recovered"
         elif err in (None, "", OK):
-            outcome = "gap"
-        elif err in (BAD_BODY, AFTER_CUTOFF_ONLY, GAP):
-            outcome = str(err)
+            outcome = GAP_TOKEN
         else:
-            outcome = str(err)
+            # Transient classes keep their own name so they stay retryable.
+            outcome = _OUTCOME_BY_ERROR.get(err, str(err))
         out[url] = outcome
     return out
 
@@ -91,7 +99,9 @@ class ImageQueue:
             try:
                 with open(self.path, encoding="utf-8") as fh:
                     data = json.load(fh)
-                if isinstance(data, dict) and data.get("version") == QUEUE_VERSION:
+                # v2 -> v3 only renames the outcome tokens; a v2 file is still
+                # readable, so an older checkout resumes instead of restarting.
+                if isinstance(data, dict) and data.get("version") in (2, QUEUE_VERSION):
                     data.setdefault("posts", {})
                     data.setdefault("global", {})
                     return data
@@ -141,7 +151,10 @@ class ImageQueue:
         pid = str(record.get("post_id"))
         row = self.row(pid)
         tried = row.setdefault("variants", {})
-        final = tuple(final_errors or ())
+        # Without an explicit list, the canonical terminal verdicts are final:
+        # a caller that does not know them still gets the "settled posts are
+        # filtered before the batch limit" rule.
+        final = tuple(final_errors) if final_errors else TERMINAL_OUTCOMES
         out: list[dict] = []
         if self.attempts(pid) >= self.max_attempts and not retry_missing:
             return out, row

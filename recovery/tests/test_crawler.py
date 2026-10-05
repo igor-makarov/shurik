@@ -543,10 +543,18 @@ class PostFailureBookkeepingTests(unittest.TestCase):
         self.assertEqual(rec["state"], "failed")
         self.assertEqual(rec["captures"][0]["timestamp"], "20120426030759")
         self.assertEqual(rec["failure_count"], 1)
-        # Second pass: the stored capture counts as attempted, so no work is done.
+        # The availability API still lists a pre-cutoff capture, so the post is
+        # retried -- but only a bounded number of times (SNAPSHOT_MAX_RETRIES /
+        # MAX_FAILURES). After that budget it is never picked up again.
+        retries = 0
+        for _ in range(self.cli.SNAPSHOT_MAX_RETRIES + self.cli.MAX_FAILURES + 2):
+            if self.cli.fetch_posts(f, limit=5, concurrency=1)["processed"] == 0:
+                break
+            retries += 1
+        self.assertGreaterEqual(retries, 2,
+                                "a snapshot_exists post must be retried, not abandoned once")
         again = self.cli.fetch_posts(f, limit=5, concurrency=1)
         self.assertEqual(again["processed"], 0, again)
-        self.assertEqual(len(f.requests), len(routes) + len(routes) - len(routes), )
 
     def test_transient_failure_is_retried_within_the_budget(self):
         from recovery.store import PostStore
@@ -717,12 +725,27 @@ class ReplayProbeTests(unittest.TestCase):
         self.assertFalse(needs_probe(probed))
 
     def test_posts_are_attempted_closest_to_complete_first(self):
-        """Finishing a one-image-away post beats starting a twelve-image one."""
+        """Finishing a one-image-away post beats starting a twelve-image one.
+
+        The ordering moved into the durable queue, so the guard is now that
+        `fetch_images` still defaults to `closest` and forwards the choice to
+        `ImageQueue.select` (which is what the queue tests exercise directly).
+        """
         import inspect
         from recovery import cli
+        from recovery.queue import ImageQueue
         src = inspect.getsource(cli.fetch_images)
-        self.assertIn('order == "closest"', src)
-        self.assertIn('missing_image_count', src)
+        self.assertIn("order: str = \"closest\"", src)
+        self.assertIn("order=order", src)
+        self.assertIn("missing_image_count", inspect.getsource(ImageQueue.select))
+        one_away = {"post_id": "801", "missing_image_count": 1,
+                    "images": [{"media_url": "http://29.media.tumblr.com/a_500.jpg",
+                                "state": "missing"}]}
+        twelve = {"post_id": "800", "missing_image_count": 12,
+                  "images": [{"media_url": f"http://29.media.tumblr.com/{i}_500.jpg",
+                              "state": "missing"} for i in range(12)]}
+        batch, _stats = ImageQueue().select([twelve, one_away], limit=1, order="closest")
+        self.assertEqual([pid for pid, _ in batch], ["801"])
 
 
 class OversizedHostTests(unittest.TestCase):

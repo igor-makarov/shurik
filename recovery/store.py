@@ -220,6 +220,13 @@ def merge_post(old: dict, new: dict) -> dict:
             if item and item not in merged:
                 merged.append(item)
         out[key] = merged
+    # Failure counters must advance on every failed pass. They are scalars that
+    # already exist in the old record, so the "adopt when absent" rule below
+    # silently froze them at 1 -- a `snapshot_exists` post (replay 404, the
+    # availability API still lists a pre-cutoff capture) was then retried
+    # forever, spending archive requests on a verdict that cannot change.
+    for key in ("failure_count", "snapshot_retries"):
+        out[key] = max(int(out.get(key) or 0), int((new or {}).get(key) or 0))
     # Any other scalar evidence is adopted when the post does not have it yet.
     for key, val in (new or {}).items():
         if key in out or key in ("images", "missing_images"):
