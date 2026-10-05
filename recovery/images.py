@@ -538,13 +538,14 @@ def resolve_image(
         extra, attempts = image_capture_candidates(fetcher, url, skip_variants=skip_variants)
         captures.extend(extra)
         record["attempts"].extend(attempts)
-    if not captures and method in ("probe", "auto", "stem"):
-        # The probe is authoritative about the exact URL and about the handful
-        # of siblings the variant list names, but it cannot see a size token
-        # that list never generates. One prefix query on the size-stem covers
-        # the entire variant family for the price of a single request, which
-        # measured far better than the per-sibling sweep, so it is the last
-        # cheap chance before an image is written off as a gap.
+    if not captures and method == "stem":
+        # Opt-in only. The probe method is deliberately *not* extended with this
+        # step: an answered 404 from the exact URL and its named siblings is
+        # already the archive's own verdict for those forms, and spending a CDX
+        # query on top of it both contradicts that verdict and burns archive
+        # load (see ReplayProbeTests). A timed-out probe is transient evidence,
+        # and an empty stem query would silently overwrite it with a "gap" that
+        # no answered request supports. `--method stem` asks for it explicitly.
         extra, stem_attempts, stem_after = image_capture_candidates_stem(fetcher, url)
         captures.extend(extra)
         record["attempts"].extend(stem_attempts)
