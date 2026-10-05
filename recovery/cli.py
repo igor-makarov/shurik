@@ -564,7 +564,16 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
     """
     store = PostStore()
     index = StemIndex()
-    stems: list[str] = []
+    # Two passes over the corpus. `store.all()` is roughly *the order the
+    # crawler worked through the site*, so scanning in that order spends the
+    # first requests on the posts that were already recovered -- a stem hit
+    # there is a duplicate of bytes we hold, not a new image. Measured in
+    # 6-85: the first 66 stems answered 14 hits (21%) and **all 14** belonged to
+    # images already recovered, yielding one net new published image.
+    # Unresolved stems go first so the same 66 requests aim at work that has
+    # never had its bytes.
+    fresh_stems: list[str] = []
+    known_stems: list[str] = []
     seen: set[str] = set()
     for rec in store.all():
         for img in rec.get("images") or []:
@@ -572,9 +581,11 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
             if not url:
                 continue
             stem = stem_prefix(url)
-            if stem and stem not in seen:
-                seen.add(stem)
-                stems.append(stem)
+            if not stem or stem in seen:
+                continue
+            seen.add(stem)
+            (fresh_stems if not img.get("sha256") else known_stems).append(stem)
+    stems = fresh_stems + known_stems
     todo = index.missing(stems)
     if limit_stems:
         todo = todo[:limit_stems]
@@ -629,11 +640,14 @@ def posts_with_stem_hits() -> list[str]:
     store = PostStore()
     out: list[str] = []
     for rec in store.all():
-        for img in rec.get("images") or []:
-            url = img.get("media_url")
-            if url and stem_prefix(url) in hits:
-                out.append(rec["post_id"])
-                break
+        # Only images we do *not* already hold. A hit stem whose image is
+        # already recovered is a re-download of published bytes: it burns
+        # replay requests and, in 6-85, was the reason a stem-hit pass reported
+        # five "recoveries" while the published total moved by one image.
+        if any(not img.get("sha256") and img.get("media_url")
+               and stem_prefix(img["media_url"]) in hits
+               for img in rec.get("images") or []):
+            out.append(rec["post_id"])
     return sorted(out)
 
 
