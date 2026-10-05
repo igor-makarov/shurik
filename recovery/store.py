@@ -11,6 +11,38 @@ from typing import Iterable, Optional
 
 from . import config
 
+MAX_ATTEMPTS_PER_IMAGE = 8
+
+
+def merge_attempts(old: Optional[list], new: Optional[list]) -> list[dict]:
+    """Union two attempt logs, newest last, bounded but never silently truncated.
+
+    Without this, `merge_images` kept whichever attempt list it saw first. Every
+    replay probe written after that first CDX query was dropped on the floor, so
+    `needs_probe()` never saw a probe, every image looked undecided, and the
+    same images were re-probed forever while the ledger stayed empty.
+    """
+    out: list[dict] = []
+    seen: set[str] = set()
+    for att in list(old or []) + list(new or []):
+        if not isinstance(att, dict):
+            continue
+        key = "|".join(str(att.get(k)) for k in
+                       ("endpoint", "url", "requested_timestamp", "capture_timestamp", "status", "note"))
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(att)
+    if len(out) > MAX_ATTEMPTS_PER_IMAGE:
+        folded = len(out) - MAX_ATTEMPTS_PER_IMAGE
+        summary = {"endpoint": "attempt-log",
+                   "note": f"{folded} earlier attempt(s) folded into this summary; "
+                           "the full per-key history is in data/missing.jsonl",
+                   "n_earlier_attempts": folded,
+                   "earlier_endpoints": sorted({str(a.get("endpoint")) for a in out[:folded]})}
+        out = [summary] + out[-MAX_ATTEMPTS_PER_IMAGE:]
+    return out
+
 
 def ensure_dirs() -> None:
     for path in (config.DATA_DIR, config.CDX_DIR, config.CAPTURE_DIR, config.POST_DIR, config.BLOB_DIR):
@@ -138,12 +170,20 @@ def merge_images(old_images: list[dict], new_images: list[dict]) -> list[dict]:
         for key, val in img.items():
             if merged.get(key) in (None, "", [], {}) and val not in (None, "", [], {}):
                 merged[key] = val
-        # prefer larger / newer evidence but keep any recovered digest
         if was_recovered:
-            for key in ("sha256", "bytes", "blob_path", "media_type", "capture"):
+            # prefer larger / newer evidence but keep any recovered digest
+            for key in ("sha256", "bytes", "blob_path", "media_type", "capture", "file"):
                 if cur.get(key):
                     merged[key] = cur[key]
             merged["state"] = cur.get("state", "recovered")
+        else:
+            # The newest evaluation of a still-missing image describes why it
+            # is still missing; keeping the oldest verdict froze the record at
+            # whatever the first (weakest) method decided.
+            for key in ("state", "error", "note", "capture_count", "host_inventory"):
+                if img.get(key) not in (None, "", [], {}):
+                    merged[key] = img[key]
+        merged["attempts"] = merge_attempts(cur.get("attempts"), img.get("attempts"))
         by_url[url] = merged
     return [by_url[u] for u in order]
 
