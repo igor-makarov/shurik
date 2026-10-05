@@ -15,10 +15,10 @@ Derived from local records (`python3 -m recovery.cli status`), 2026-10-05:
 | Discovered posts | 1186 |
 | Parsed posts | 1156 |
 | Known image URLs | 2227 |
-| Recovered images (local records) | 16 |
-| Posts with recovered images | 9 (11 recorded recovered in the queue) |
+| Published images (max `image_count` per tag) | 35 across 25 posts |
+| Recovered images in this working tree | 19 |
 | Posts recorded published | 734 |
-| Unrecovered images | 2211 |
+| Unrecovered images | ~2184 |
 
 The local corpus is the bootstrap copy of `0924dd45a67e16a107c97c46b8c6282895cf6835`;
 per-post image records recovered after that commit exist in their published
@@ -42,12 +42,24 @@ transient, never evidence of an archive gap.
 
 ## Next work
 
-Run bounded `python3 -m recovery.cli fetch-images --limit N --concurrency 1
---retry-missing` passes; recovered images are published to their numeric tag
-immediately. Probe-era evidence: old-style media hosts (24-41) and 2014-2015
-hash-directory media recover; posts 13833997906-14996000761 (2010-2011,
-`27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant
-and are recorded as gaps for that exact scope only.
+`--method stem` (one CDX prefix query per image covering every size/extension
+sibling) is the cheapest known discovery method: 40 old-host posts / 127 image
+candidates cost one pass and yielded 3 images, all published and anonymously
+verified (tags `104253295493` x2, `125258061218`). Continue with bounded
+`fetch-images --method stem --retry-missing --concurrency 1` passes over posts
+whose images are still unrecovered, preferring the old media hosts 24-41.
+
+Probe-era evidence: old-style media hosts (24-41) and 2014-2015 hash-directory
+media recover; posts 13833997906-14996000761 (2010-2011, `27.media.tumblr.com`
+style) answered HTTP 404 on every size/extension variant and are recorded as
+gaps for that exact scope only.
+
+Not yet exploited: a bulk `collapse=urlkey` CDX dump of a media host
+(`scripts/hostdump.py`, ~52 pages for `78.media.tumblr.com`, which alone
+accounts for 807 of the 2184 unrecovered URLs) intersected with the parsed
+posts' media keys would yield exact capture timestamps for many images in tens
+of requests instead of one request per image. `data/cdx/media.jsonl` is still
+empty, so that inventory has never been persisted for matching.
 
 Bootstrap on a fresh runner, only when no `crawl-state` checkpoint is restored:
 
