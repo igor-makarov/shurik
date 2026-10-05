@@ -494,23 +494,3 @@ class Fetcher:
         query = dict(params)
         query.setdefault("output", "json")
         return self.get(f"{config.CDX_URL}?{urlencode(query, safe=':*/,')}", **kw)
-
-    def cdx_multi(self, urls: list[str], *, match: str = "prefix", limit: int = 1000,
-                  extra: Optional[dict] = None, **kw) -> Response:
-        """One CDX request carrying many `url=` parameters.
-
-        The CDX API accepts a repeated `url=` parameter and answers the union of
-        the queries, which turns N per-image stem queries (one archive round trip
-        each, ~10-20 s) into a single round trip. The cost is a shared `limit`,
-        so the caller must treat a response that hit the limit as *unanswered*
-        rather than as a set of negatives (see cdx.cdx_query_multi).
-        """
-        from urllib.parse import urlencode
-
-        pairs: list[tuple[str, str]] = [("url", u) for u in urls]
-        pairs.append(("matchType", match))
-        pairs.append(("output", "json"))
-        pairs.append(("limit", str(limit)))
-        for key, value in (extra or {}).items():
-            pairs.append((key, str(value)))
-        return self.get(f"{config.CDX_URL}?{urlencode(pairs, safe=':*/,')}", **kw)

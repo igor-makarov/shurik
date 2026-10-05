@@ -131,49 +131,18 @@ def cdx_query(fetcher: Fetcher, url: str, *, match: str = "prefix", limit: int =
     return parse_cdx_json(rows, source_query=url), resp
 
 
-def cdx_query_multi(fetcher: Fetcher, urls: list[str], *, match: str = "prefix",
-                    limit: int = 1000, extra: Optional[dict] = None
-                    ) -> tuple[dict[str, list[Capture]], Response, bool]:
-    """Ask the CDX about many URL prefixes in one request.
+def cdx_query_multi(*_a, **_kw):
+    """Removed on purpose: measured to answer only the *first* `url=` parameter.
 
-    Returns `(captures_by_stem, response, complete)`. `complete` is False when
-    the response hit the shared row `limit`: the union was then truncated and
-    the stems that produced no row may simply have been cut off, so the caller
-    must re-ask those in a smaller batch instead of recording a negative.
-
-    A stem with no row is a negative answer for *that* prefix under *these*
-    filters and date bounds only -- the same scope as `cdx_query`.
+    2026-10, `web.archive.org/cdx/search/cdx`: a request carrying two `url=`
+    parameters returns rows for the first one only -- verified with both
+    `matchType=prefix` and `matchType=exact`, and in both parameter orders.
+    The API looks like it accepts a repeated `url=`, so a batched scan reads as
+    working while silently reporting a *negative* for every stem after the
+    first. That produced 1656 false "no capture" answers before it was caught,
+    so there is deliberately no batch helper here: one question, one request.
     """
-    wanted = list(dict.fromkeys(urls))
-    caps: dict[str, list[Capture]] = {u: [] for u in wanted}
-    if not wanted:
-        return caps, Response(url="", status=0, error="no_request", message="empty batch"), True
-    resp = fetcher.cdx_multi(wanted, match=match, limit=limit, extra=extra)
-    if not resp.ok:
-        return caps, resp, True
-    if not (resp.body or b"").strip():
-        # A 200 with an empty body is *not* "no captures". Observed 2026-10: a
-        # multi-url CDX request sent without `filter`/`collapse` answers 200 with
-        # no body at all, which a naive parse turns into 1656 false negatives.
-        # Unanswered stays unanswered: the stems go back in the pending pile.
-        resp.error = "http_error"
-        resp.message = "empty CDX body for a multi-url request (not a negative answer)"
-        return caps, resp, False
-    try:
-        rows = resp.json()
-    except Exception as exc:
-        resp.error = "http_error"
-        resp.message = f"bad cdx json: {exc}"
-        return caps, resp, True
-    resp.cdx_rows = cdx_data_rows(rows)
-    parsed = parse_cdx_json(rows, source_query=f"batch:{len(wanted)}")
-    for cap in parsed:
-        key = normalize_url(cap.original)
-        for stem in wanted:
-            if key.startswith(normalize_url(stem)):
-                caps[stem].append(cap)
-                break
-    return caps, resp, resp.cdx_rows < limit
+    raise NotImplementedError("multi-url CDX queries answer only the first url=")
 
 
 def year_windows(start_year: int = 2007, end_year: int = 2019) -> list[str]:
