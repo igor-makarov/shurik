@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 import time
 from typing import Iterable, Optional
 
@@ -46,6 +47,7 @@ class StemIndex:
     """Append-only record of one CDX answer per size-stem prefix."""
 
     def __init__(self, path: str = ""):
+        self._lock = threading.Lock()
         # Late-bound like PostStore/MediaIndex: an import-time default would pin
         # the repository's inventory into every caller (including tests).
         self.path = path or STEM_FILE
@@ -90,15 +92,20 @@ class StemIndex:
     # ------------------------------------------------------------------ write
     def record(self, stem: str, captures: Iterable[Capture], at: str = "") -> None:
         caps = list(captures)
-        self.rows[stem] = caps
-        self.asked_at[stem] = at or _now()
-        rec = {"stem": stem, "at": self.asked_at[stem], "scope": SCOPE,
-               "key": normalize_url(stem),
-               "captures": [c.to_row() for c in caps]}
-        with open(self.path, "a", encoding="utf-8") as fh:
-            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
-            fh.flush()
-            os.fsync(fh.fileno())
+        # `fetch-images` runs the workers in a thread pool, so two images of the
+        # same post can answer the same stem at once. Serialising the append
+        # keeps the append-only file one answer per line instead of two
+        # half-written ones.
+        with self._lock:
+            self.rows[stem] = caps
+            self.asked_at[stem] = at or _now()
+            rec = {"stem": stem, "at": self.asked_at[stem], "scope": SCOPE,
+                   "key": normalize_url(stem),
+                   "captures": [c.to_row() for c in caps]}
+            with open(self.path, "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+                fh.flush()
+                os.fsync(fh.fileno())
 
     def record_many(self, answers: dict[str, list[Capture]], at: str = "") -> int:
         n = 0

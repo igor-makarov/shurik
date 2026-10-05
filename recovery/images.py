@@ -210,6 +210,15 @@ def image_capture_candidates_stem(fetcher: Fetcher, image_url: str, limit: int =
                            extra={"filter": "statuscode:200", "collapse": "urlkey"})
     attempt.update(status=resp.status, error=resp.error, message=resp.message,
                    captures=len(caps))
+    # An answered query is real evidence for this exact prefix, so keep it.
+    # Recording here (not only in `stem-scan`) is what makes a `--method stem`
+    # pass cumulative: the next runner answers the same stem from disk instead of
+    # spending a CDX request on it again, and `--only-stem-hits` can turn the
+    # recorded hits into bytes without re-asking anything. Only an answered
+    # response is recorded -- a timeout, throttle or transport failure leaves the
+    # stem pending instead of poisoning it with a false negative.
+    if stem_index is not None and resp.ok:
+        stem_index.record(stem, [c for c in caps if c.statuscode == "200"])
     caps = [c for c in caps if c.statuscode == "200"]
     return caps, [attempt], False
 
