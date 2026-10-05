@@ -44,6 +44,8 @@ POST_DIR = os.path.join(DATA_DIR, "posts")
 BLOB_DIR = os.path.join(DATA_DIR, "blobs")
 IMAGES_JSONL = os.path.join(DATA_DIR, "images.jsonl")
 MISSING_JSONL = os.path.join(DATA_DIR, "missing.jsonl")
+# File-level gap verdicts (one row per media URL; resumable ledger).
+GAPS_JSONL = os.path.join(DATA_DIR, "gaps.jsonl")
 POSTS_JSONL = os.path.join(DATA_DIR, "posts.jsonl")
 PUBLISHED_JSONL = os.path.join(DATA_DIR, "published.jsonl")
 CDX_QUERIES_JSON = os.path.join(DATA_DIR, "cdx-queries.json")

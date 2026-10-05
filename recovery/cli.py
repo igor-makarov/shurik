@@ -13,6 +13,7 @@ from typing import Optional
 from . import config
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
+from .gaps import best_capture, prove
 from .images import blob_path, resolve_image, sniff_image, store_blob
 from .listing import (listing_kind, merge_listing_evidence, parse_listing_page)
 from .media import MEDIA_CAPTURE_FILE, MediaIndex, host_of, hosts_for, scan_host, stems_of
@@ -351,6 +352,54 @@ def reindex_media(hosts: Optional[list[str]] = None) -> dict:
 
 
 # ---------------------------------------------------------------------- images
+def prove_gaps(fetcher: Fetcher, limit: int = 25, alt_hosts: int = 2,
+               force: bool = False) -> dict:
+    """Turn "this exact URL is not archived" into a file-level gap verdict.
+
+    Resumable: every verdict is appended to data/gaps.jsonl as it is reached,
+    and a verdict is only final when it is `confirmed_gap` or
+    `capture_found`. `inconclusive` rows (429/5xx/timeout) are retried on the
+    next run, so throttling can never become a permanent "missing".
+
+    Any capture a proof finds is appended to data/cdx/media.jsonl, the index
+    `fetch-images` reads, so a hit is fetchable without re-querying the CDX.
+    """
+    store = PostStore()
+    ledger = JsonlStore(config.GAPS_JSONL, key_fields=("media_url",))
+    done = {r.get("media_url"): r for r in ledger.records()}
+    media = JsonlStore(capture_file("media.jsonl"), key_fields=("timestamp", "original"))
+    seen_caps = {media.key(r) for r in media.records()}
+    counts = {"proved_gap": 0, "capture_found": 0, "inconclusive": 0, "not_media": 0}
+    found_index = 0
+    pending: list[str] = []
+    for rec in store.all():
+        for im in rec.get("images") or []:
+            url = im.get("media_url") or im.get("url")
+            if not url:
+                continue
+            prior = done.get(url)
+            if prior and not force and prior.get("result") in ("confirmed_gap", "capture_found"):
+                continue
+            if url not in pending:
+                pending.append(url)
+    for url in pending[:limit]:
+        row = prove(fetcher, url, alt_hosts=alt_hosts)
+        row["proved_at"] = _now()
+        ledger.append([row])
+        counts[row["result"]] = counts.get(row["result"], 0) + 1
+        if row["result"] == "capture_found":
+            best = best_capture(row["captures"])
+            if best:
+                index_row = dict(best)
+                index_row["source"] = "gap-proof"
+                if media.key(index_row) not in seen_caps:
+                    media.append([index_row])
+                    seen_caps.add(media.key(index_row))
+                    found_index += 1
+    return {"considered": len(pending), **counts, "indexed_captures": found_index,
+            "ledger": config.GAPS_JSONL}
+
+
 def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = config.DEFAULT_CONCURRENCY,
                  post_ids: Optional[list[str]] = None, use_media_index: bool = True,
                  retry_missing: bool = False, method: str = "probe",
@@ -746,6 +795,12 @@ def status() -> dict:
         "posts_without_permalink": len(discovered - {p.get("post_id") for p in posts}),
         "listing_evidence_rows": len(JsonlStore(LISTING_EVIDENCE_FILE).records()),
         "listing_only_posts": len([p for p in posts if p.get("state") == "listing_only"]),
+        "gaps_proved": len([r for r in JsonlStore(config.GAPS_JSONL).records()
+                            if r.get("result") == "confirmed_gap"]),
+        "gaps_capture_found": len([r for r in JsonlStore(config.GAPS_JSONL).records()
+                                   if r.get("result") == "capture_found"]),
+        "gaps_inconclusive": len([r for r in JsonlStore(config.GAPS_JSONL).records()
+                                  if r.get("result") == "inconclusive"]),
         "generated_at": _now(),
     }
 
@@ -773,6 +828,11 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--page-size", type=int, default=2000,
                    help="rows per paginated CDX page; 50000 504s on media hosts, 2000 is fast")
     p = sub.add_parser("reindex-media", help="rebuild media index from host dumps (offline)")
+    p = sub.add_parser("prove-gaps", help="file-level archive-gap proofs for known images")
+    p.add_argument("--limit", type=int, default=25)
+    p.add_argument("--alt-hosts", type=int, default=2,
+                   help="alternate tumblr CDN hosts asked per image (0-9)")
+    p.add_argument("--force", action="store_true", help="re-prove settled rows too")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=5)
     p.add_argument("--ids", default="")
@@ -818,6 +878,9 @@ def main(argv: Optional[list[str]] = None) -> int:
                                       page_size=args.page_size)
     elif args.cmd == "reindex-media":
         out["media"] = reindex_media()
+    elif args.cmd == "prove-gaps":
+        out = prove_gaps(fetcher, limit=args.limit, alt_hosts=args.alt_hosts,
+                         force=args.force)
     elif args.cmd == "fetch-images":
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
                            post_ids=[i for i in args.ids.split(",") if i] or None,
