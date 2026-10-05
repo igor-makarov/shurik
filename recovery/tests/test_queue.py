@@ -297,14 +297,16 @@ class CircuitBreakerDeferralTests(unittest.TestCase):
         self.queue_path = os.path.join(self.tmp, "image-queue.json")
         self.post_dir = os.path.join(self.tmp, "posts")
 
-    def _seed(self, n: int) -> list[str]:
+    def _seed(self, n: int, images_per_post: int = 1) -> list[str]:
         os.makedirs(self.post_dir, exist_ok=True)
         ids = []
         for i in range(n):
             pid = str(1000 + i)
             ids.append(pid)
+            images = [image(f"http://29.media.tumblr.com/tumblr_{i}_{size}.jpg")
+                      for size in range(images_per_post)]
             with open(os.path.join(self.post_dir, f"{pid}.json"), "w", encoding="utf-8") as fh:
-                json.dump(post(pid, [image(f"http://29.media.tumblr.com/tumblr_{i}_500.jpg")]), fh)
+                json.dump(post(pid, images), fh)
         return ids
 
     def _run(self, fetcher, **kw):
@@ -344,7 +346,13 @@ class CircuitBreakerDeferralTests(unittest.TestCase):
         self.assertNotEqual(rec.get("images_done"), True)
 
     def test_a_post_cut_short_mid_way_keeps_its_later_images_unasked(self):
-        ids = self._seed(2)
+        # Two images per post: the breaker has to open *inside* a post for this
+        # test to mean anything. With a single image per post the first pass
+        # trips the breaker and both posts simply end up transient -- there is
+        # no "later image" left unasked, and the original assertion compared two
+        # unrelated counters (`deferred + transient == transient + transient`,
+        # i.e. "deferred == transient") and could never hold.
+        ids = self._seed(2, images_per_post=2)
         routes = {"im_/": Response(url="", status=429, error=THROTTLED, message="slow down")}
 
         class Tripping(FakeArchive):
@@ -356,7 +364,11 @@ class CircuitBreakerDeferralTests(unittest.TestCase):
 
         out = self._run(Tripping(routes, sleep=lambda _s: None), limit_posts=2)
 
-        self.assertEqual(out["deferred"] + out["transient"], out["transient"] + out["transient"])
+        # Every post in the batch is accounted for: it either spent at least one
+        # request (so it is counted as a transient outcome) or it was deferred
+        # untouched. Nothing may vanish between the two counters.
+        self.assertEqual(out["processed"], out["deferred"] + sum(
+            1 for r in out["results"] if not r.get("deferred")), out["results"])
         self.assertGreaterEqual(out["deferred"], 1, out)
         q = ImageQueue(self.queue_path)
         deferred = [pid for pid in ids if q.attempts(pid) == 0]
@@ -364,7 +376,8 @@ class CircuitBreakerDeferralTests(unittest.TestCase):
         for pid in deferred:
             with open(os.path.join(self.post_dir, f"{pid}.json"), encoding="utf-8") as fh:
                 rec = json.load(fh)
-            self.assertEqual(rec["images"][0].get("attempts", []), [])
+            for img in rec["images"]:
+                self.assertEqual(img.get("attempts", []), [])
             self.assertNotEqual(rec.get("images_done"), True)
         self.assertIsNotNone(ImageQueue(self.queue_path).global_cooldown_active(),
                              "a pass cut short by throttling must record its cooldown")

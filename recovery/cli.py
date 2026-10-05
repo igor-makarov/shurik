@@ -537,9 +537,13 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
     batch, stats = q.select(records, limit=limit_posts, retry_missing=retry_missing,
                             stale_fn=needs_probe, final_errors=final_errors, order=order)
     cooldown = q.global_cooldown_active()
-    if cooldown and not (retry_missing or post_ids):
+    if cooldown:
         # The recorded cooldown may outlive the outage that set it. Spend one
         # bounded request to find out before surrendering the whole iteration.
+        # This probe runs for *every* pass with a cooldown in force, including
+        # an explicitly targeted one (`--ids`, `--retry-missing`): the targeted
+        # pass is a bypass of the "stop for now" answer, not a reason to skip
+        # the one request that says whether the archive is back.
         health = archive_health(fetcher) if health_check else {"healthy": False}
         if health.get("healthy"):
             q.note_global_success()
