@@ -95,6 +95,16 @@ class MediaIndex:
     def hosts_done(self) -> dict:
         return self.index.manifest.get("done", {})
 
+    def host_complete(self, host: str) -> Optional[dict]:
+        """Manifest entry when a host was scanned to its last page, else None.
+
+        A complete scan is positive evidence: every pre-cutoff `statuscode:200`
+        row of that host has been seen, so "this key is absent" is a *confirmed*
+        archive gap rather than an unexamined unknown.
+        """
+        state = (self.hosts_done().get(f"host:{host.lower()}") or {})
+        return state if state.get("complete") else None
+
     def mark_host(self, host: str, info: dict) -> None:
         self.index.mark_done(f"host:{host}", info)
 
@@ -113,7 +123,7 @@ def scan_host(
     host: str,
     *,
     keys: Optional[set[str]] = None,
-    page_size: int = 50000,
+    page_size: int = 5000,
     max_pages: int = 40,
     force: bool = False,
     dump_dir: str = MEDIA_DUMP_DIR,
@@ -157,7 +167,10 @@ def scan_host(
     short_page = False
     last: dict = {}
     for page in range(start_page, start_page + max_pages):
-        caps, resp = cdx_query(fetcher, host, match="prefix", limit=page_size,
+        # matchType=domain (not prefix on the bare host): a prefix query on the
+        # host string also matches every subdomain and returns them in a
+        # different urlkey order, which made page cursors skip rows.
+        caps, resp = cdx_query(fetcher, host, match="domain", limit=page_size,
                                extra={"filter": "statuscode:200", "collapse": "urlkey",
                                       "page": str(page)})
         pages = page
