@@ -1117,9 +1117,11 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="ignore data/cdx/media.jsonl and query the CDX per image")
     p.add_argument("--retry-missing", action="store_true",
                    help="retry confirmed gaps and rejected bodies too (default: transient only)")
-    p.add_argument("--method", default="probe", choices=("probe", "cdx", "auto", "availability"),
+    p.add_argument("--method", default="probe", choices=("probe", "cdx", "auto", "availability",
+                                                         "stem"),
                    help="existence check per image: availability sweep (cheapest, committed), "
-                        "replay probe, CDX query (slow) or auto")
+                        "replay probe, CDX query (slow), size-stem CDX prefix (one request for "
+                        "the whole variant family) or auto")
     p.add_argument("--variant-budget", type=int, default=4,
                    help="size/extension siblings probed after the exact URL misses")
     p.add_argument("--order", default="closest", choices=("closest", "post_id"),

@@ -22,6 +22,39 @@ REPLAY_TS_RE = re.compile(r"/web/(\d{14})")
 # silently (`n_earlier_attempts` says how much history was folded in).
 MAX_ATTEMPTS_PER_IMAGE = 8
 
+# A Tumblr media filename carries its size as a *suffix* of the file stem:
+# `tumblr_abc123_500.jpg`, `tumblr_abc123_1280.jpg`, `tumblr_abc123_r1.png`.
+# Stripping that suffix leaves a CDX `matchType=prefix` key that matches every
+# size and extension sibling of one image in a *single* request, which is far
+# cheaper than probing the siblings one replay request at a time and covers
+# size tokens the fixed variant list does not enumerate (`_r2`, `_s1`, ...).
+SIZE_TOKEN = re.compile(r"_(?:r|p|s|o|h|t|m|l|xl|q|v)?[0-9a-z]*[0-9][0-9a-z]*$")
+# Suffixes that are part of the identity, never a size token.
+NOT_SIZE_TOKEN = re.compile(r"^(?:r[0-9]+|p[0-9]+|s[0-9]+|o[0-9]+|[0-9]{2,4})$")
+
+
+def stem_prefix(media_url: str) -> str:
+    """CDX prefix key covering every size/extension form of one media file.
+
+    Returns the URL with its directory, file stem and extension removed, so a
+    `matchType=prefix` CDX query against it enumerates the whole variant
+    family. Falls back to the exact URL when the filename carries no size token
+    (a hash-named path such as `.../abcdef/tumblr_xyz_500.jpg` is handled the
+    same way, but a name that is *only* a token must not collapse to nothing).
+    """
+    from urllib.parse import urlsplit
+
+    parts = urlsplit(media_url)
+    directory, _, name = parts.path.rpartition("/")
+    base, dot, _ext = name.rpartition(".")
+    if not dot:
+        base = name
+    token = base.rpartition("_")[2]
+    if "_" not in base or not token or not NOT_SIZE_TOKEN.match(token) or len(token) > 4:
+        # No recognisable size token: the exact URL is its own prefix.
+        return f"{parts.scheme}://{parts.netloc}{parts.path}"
+    return f"{parts.scheme}://{parts.netloc}{directory}/{base[:len(base) - len(token) - 1]}"
+
 
 def cap_attempts(attempts: list[dict], keep: int = MAX_ATTEMPTS_PER_IMAGE) -> list[dict]:
     """Bound an attempt log without losing the fact that it was longer."""
@@ -141,6 +174,29 @@ def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
             })
     captures.sort(key=lambda c: c.timestamp)
     return captures, attempts
+
+
+def image_capture_candidates_stem(fetcher: Fetcher, image_url: str, limit: int = 8
+                                  ) -> tuple[list[Capture], list[dict], bool]:
+    """One CDX prefix query on the size-stem: the whole variant family at once.
+
+    The replay probe answers authoritatively about the *exact* URL it asked, and
+    the fixed variant list only enumerates a handful of size tokens. A stem
+    prefix query covers every size/extension sibling -- including tokens the
+    variant list never generates -- in a single request, so it both costs less
+    than the sibling sweep and reaches further.
+    """
+    stem = stem_prefix(image_url)
+    attempt: dict = {"url": image_url, "stem": stem, "endpoint": "cdx-stem",
+                     "note": "single prefix query covering every size/extension variant"}
+    if normalize_url(stem) == normalize_url(image_url):
+        attempt["note"] = ("filename carries no size token; the prefix query is the exact URL")
+    caps, resp = cdx_query(fetcher, stem, match="prefix", limit=limit,
+                           extra={"filter": "statuscode:200", "collapse": "urlkey"})
+    attempt.update(status=resp.status, error=resp.error, message=resp.message,
+                   captures=len(caps))
+    caps = [c for c in caps if c.statuscode == "200"]
+    return caps, [attempt], False
 
 
 def _variants(image_url: str) -> list[str]:
@@ -482,6 +538,17 @@ def resolve_image(
         extra, attempts = image_capture_candidates(fetcher, url, skip_variants=skip_variants)
         captures.extend(extra)
         record["attempts"].extend(attempts)
+    if not captures and method in ("probe", "auto", "stem"):
+        # The probe is authoritative about the exact URL and about the handful
+        # of siblings the variant list names, but it cannot see a size token
+        # that list never generates. One prefix query on the size-stem covers
+        # the entire variant family for the price of a single request, which
+        # measured far better than the per-sibling sweep, so it is the last
+        # cheap chance before an image is written off as a gap.
+        extra, stem_attempts, stem_after = image_capture_candidates_stem(fetcher, url)
+        captures.extend(extra)
+        record["attempts"].extend(stem_attempts)
+        after_cutoff_only = after_cutoff_only or stem_after
     record["capture_count"] = len(captures)
 
     # Group by original URL so we try each archived variant once, largest first.
@@ -582,7 +649,7 @@ def resolve_image(
     return record
 
 
-ANSWERED_ENDPOINTS = ("replay-probe", "cdx", "availability-api", "media-index")
+ANSWERED_ENDPOINTS = ("replay-probe", "cdx", "cdx-stem", "availability-api", "media-index")
 TRANSIENT_CLASSES = (TIMEOUT, THROTTLED, TRANSPORT, HTTP_ERROR)
 
 
