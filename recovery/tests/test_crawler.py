@@ -103,7 +103,8 @@ class ImageRecoveryTests(unittest.TestCase):
         rows = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
                 ["k", "20150119072952", self.IMAGE_URL, "image/jpeg", "200", "ABC", "100"]]
         f = FakeArchive(self._routes(rows, binary(JPEG_BYTES)))
-        rec = resolve_image(f, {"media_url": self.IMAGE_URL, "caption_alt": "מה זה"}, max_captures=1)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL, "caption_alt": "מה זה"}, max_captures=1,
+                            method="cdx")
         self.assertEqual(rec["state"], "recovered")
         self.assertEqual(rec["media_type"], "image/jpeg")
         self.assertEqual(rec["capture"]["timestamp"], "20150119072952")
@@ -113,7 +114,8 @@ class ImageRecoveryTests(unittest.TestCase):
         rows = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
                 ["k", "20150119072952", self.IMAGE_URL, "text/html", "200", "ABC", "100"]]
         f = FakeArchive(self._routes(rows, html(NOT_ARCHIVED_HTML)))
-        rec = resolve_image(f, {"media_url": self.IMAGE_URL, "caption_alt": ""}, max_captures=1)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL, "caption_alt": ""}, max_captures=1,
+                            method="cdx")
         self.assertEqual(rec["state"], "missing")
         self.assertEqual(rec["error"], BAD_BODY)
         self.assertIsNone(rec["sha256"])
@@ -121,7 +123,7 @@ class ImageRecoveryTests(unittest.TestCase):
     def test_confirmed_gap_when_no_capture_exists(self):
         rows = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"]]
         f = FakeArchive(self._routes(rows, binary(JPEG_BYTES)))
-        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, max_captures=1)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, max_captures=1, method="cdx")
         self.assertEqual(rec["state"], "missing")
         self.assertEqual(rec["error"], GAP)
         self.assertIn("variants", rec["attempts"][0])
@@ -131,7 +133,7 @@ class ImageRecoveryTests(unittest.TestCase):
                 ["k", "20150119072952", self.IMAGE_URL, "image/jpeg", "200", "ABC", "100"]]
         routes = self._routes(rows, Response(url="", status=None, error=TIMEOUT, message="read timeout"))
         f = FakeArchive(routes, attempts=3)
-        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, max_captures=1)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, max_captures=1, method="cdx")
         self.assertEqual(rec["error"], TIMEOUT)
         self.assertNotEqual(rec["error"], GAP, "a timeout must not be recorded as an archive gap")
         retries = [u for u in f.requests if "/web/" in u]
@@ -142,7 +144,7 @@ class ImageRecoveryTests(unittest.TestCase):
                 ["k", "20150119072952", self.IMAGE_URL, "image/jpeg", "200", "ABC", "100"]]
         routes = self._routes(rows, Response(url="", status=503, error=THROTTLED, message="slow down"))
         f = FakeArchive(routes, attempts=2)
-        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, max_captures=1)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, max_captures=1, method="cdx")
         self.assertEqual(rec["error"], THROTTLED)
 
     def test_sniff_rejects_short_and_html_bodies(self):
@@ -477,7 +479,8 @@ class HostInventoryEvidenceTests(unittest.TestCase):
             routes = {"/cdx/search/cdx": Response(url="", status=200, body=b"[]", error=OK)}
             rec = resolve_image(FakeArchive(routes),
                                 {"media_url": self.LINK, "found_in": "img"},
-                                media_index=index, key_known_at="2026-10-04T23:00:00+00:00")
+                                media_index=index, key_known_at="2026-10-04T23:00:00+00:00",
+                                method="cdx")
             self.assertTrue([a for a in rec["attempts"] if a.get("endpoint") == "cdx"],
                             "a stale host scan must fall back to per-variant CDX queries")
             self.assertEqual(rec["state"], "missing")
@@ -720,3 +723,64 @@ class ReplayProbeTests(unittest.TestCase):
         src = inspect.getsource(cli.fetch_images)
         self.assertIn('order == "closest"', src)
         self.assertIn('missing_image_count', src)
+
+
+class OversizedHostTests(unittest.TestCase):
+    """A media host shared by every Tumblr blog must not eat the budget.
+
+    Measured on this site: `24.`/`25.media.tumblr.com` served 40 full CDX pages
+    (80k rows) without ever ending, and not one row belonged to this blog. Such
+    a host is recorded as `oversized`, and its absence stays *unknown*: only a
+    scan that reached its last page (`complete`) may confirm a gap.
+    """
+
+    HOST = "24.media.tumblr.com"
+
+    def test_oversized_host_is_recorded_and_reskipped(self):
+        from recovery.media import MediaIndex, scan_host
+
+        with tempfile.TemporaryDirectory() as tmp:
+            index = MediaIndex(os.path.join(tmp, "media.jsonl"))
+            dump = os.path.join(tmp, "dumps")
+            full = [[r] for r in _rows(2000)]  # every page is full: never ends
+
+            class Sea(FakeArchive):
+                def __init__(self):
+                    super().__init__({})
+
+                def cdx(self, params, **kw):
+                    from urllib.parse import urlencode
+
+                    page = int(params.get("page", 1))
+                    body = cdx_json(full if page <= 2 else [["urlkey", "timestamp", "original",
+                                                            "mimetype", "statuscode", "digest",
+                                                            "length"]])
+                    return Response(url="", status=200, body=body, error=OK)
+
+            info = scan_host(Sea(), index, self.HOST, keys={"tumblr_x.jpg"}, page_size=2000,
+                             max_pages=2, dump_dir=dump)
+            self.assertFalse(info["complete"])
+            self.assertTrue(info["oversized"], info)
+            state = MediaIndex(os.path.join(tmp, "media.jsonl")).hosts_done()[f"host:{self.HOST}"]
+            self.assertTrue(state["oversized"])
+            self.assertIsNone(index.host_complete(self.HOST),
+                              "an oversized scan is not evidence of a gap")
+
+    def test_discover_media_skips_an_oversized_host(self):
+        import inspect
+
+        from recovery import cli
+
+        src = inspect.getsource(cli.discover_media)
+        self.assertIn("oversized", src)
+        self.assertIn("not conclusive", src)
+
+
+def _rows(n: int) -> list:
+    """`n` distinct archived media rows for a host that belongs to other blogs."""
+    rows = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"]]
+    for i in range(n):
+        rows.append([f"k{i}", "20140101000000",
+                     f"http://24.media.tumblr.com/{i:032x}/tumblr_other{i}r3it8zo1_500.jpg",
+                     "image/jpeg", "200", "ABC", "100"])
+    return rows

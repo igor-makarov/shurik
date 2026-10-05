@@ -309,6 +309,15 @@ def discover_media(fetcher: Fetcher, hosts: Optional[list[str]] = None, force: b
     index = MediaIndex(capture_file("media.jsonl"))
     results = []
     for host in targets:
+        state = index.hosts_done().get(f"host:{host}") or {}
+        # A host proven to be an ocean (shared shard, full pages forever) costs
+        # hundreds of requests to inventory and would never finish. Skip it and
+        # spend the budget on per-image replay probes instead, which are
+        # authoritative per URL.
+        if state.get("oversized") and not force:
+            results.append({"host": host, "skipped": "oversized host: inventory not conclusive",
+                            "rows": state.get("rows"), "pages": state.get("pages")})
+            continue
         results.append(scan_host(fetcher, index, host, keys=keys, force=force,
                                  max_pages=max_pages, page_size=page_size))
     return {"hosts": len(targets), "known_keys": len(keys), "indexed": len(index),

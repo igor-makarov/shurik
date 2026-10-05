@@ -240,6 +240,15 @@ def scan_host(
     info = {"host": host, "rows": seen_rows, "kept": len(kept), "new": new, "pages": pages,
             "complete": complete, "page_size": page_size, "response": last,
             "scanned_at": _now(), "keys_at_scan": len(keys) if keys is not None else 0}
+    if not complete and err in (None, "ok"):
+        # A media host is shared by *every* Tumblr blog on that shard, so a host
+        # that keeps serving full pages is an ocean (measured: 80k rows in 40
+        # pages for 24./25., with none of this blog's keys). Record that as a
+        # durable "oversized" verdict so later iterations skip it instead of
+        # re-spending hundreds of slow CDX requests. Absence of a key there
+        # stays *unknown*, never a confirmed gap: only `complete` is evidence.
+        info["oversized"] = True
+        info["rows_per_page"] = (seen_rows / pages) if pages else 0
     index.mark_host(name, info)
     return info
 
