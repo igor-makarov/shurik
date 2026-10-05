@@ -85,6 +85,7 @@ class Response:
 # the HTTPS request was refused by the kernel, so it never reached a Wayback
 # front end.
 PLAIN_HTTP_HOSTS = ("https://web.archive.org/", "https://archive.org/")
+SECURE_HTTP_HOSTS = ("http://web.archive.org/", "http://archive.org/")
 
 
 def plain_http_variant(url: str) -> Optional[str]:
@@ -93,6 +94,28 @@ def plain_http_variant(url: str) -> Optional[str]:
         if url.startswith(host):
             return "http://" + url[len("https://"):]
     return None
+
+
+def secure_http_variant(url: str) -> Optional[str]:
+    """Same resource over HTTPS, or None when no upgrade applies.
+
+    The downgrade above was added for a runner where only port 80 worked. The
+    mirror image happens too and is just as fatal if ignored: on 2026-10-05
+    plain-HTTP replays of a known-good capture hung until the request timed out
+    (curl exit 28 / 000) while HTTPS answered the very same capture in 0.3 s.
+    Whichever listener is reachable changes per runner and per minute, so both
+    directions are tried once, and only when the first request got no HTTP
+    answer at all (a real 429/503 is throttling and is never replayed).
+    """
+    for host in SECURE_HTTP_HOSTS:
+        if url.startswith(host):
+            return "https://" + url[len("http://"):]
+    return None
+
+
+def scheme_variant(url: str) -> Optional[str]:
+    """The same archive resource on the other scheme, or None."""
+    return plain_http_variant(url) or secure_http_variant(url)
 
 
 def connection_refused(exc: BaseException) -> bool:
@@ -240,17 +263,18 @@ class Fetcher:
 
     def _retry_plain(self, url: str, raw: Response, timeout: float,
                      *, noredirect: bool = False) -> Response:
-        """One plain-HTTP retry when HTTPS never reached the archive at all.
+        """One retry on the other scheme when the first request never got an answer.
 
         Only a request that got *no HTTP answer* is retried: a 429/503 from a
         reachable front end is real throttling and must back off rather than be
-        replayed on another port. The downgrade happens before the response is
-        classified, so a refusal that plain HTTP then answers never trips the
-        circuit breaker -- the evidence is "recovered", not "throttled".
+        replayed on another port. The switch happens before the response is
+        classified, so a refusal that the other listener then answers never
+        trips the circuit breaker -- the evidence is "recovered", not
+        "throttled". Both directions are covered (see `scheme_variant`).
         """
-        if raw.status is not None or raw.error not in (None, OK, TRANSPORT, THROTTLED):
+        if raw.status is not None or raw.error not in (None, OK, TRANSPORT, THROTTLED, TIMEOUT):
             return raw
-        alt = plain_http_variant(url)
+        alt = scheme_variant(url)
         if alt is None:
             return raw
         self.stats["scheme_fallback"] = self.stats.get("scheme_fallback", 0) + 1
