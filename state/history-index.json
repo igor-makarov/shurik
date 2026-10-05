@@ -757,11 +757,12 @@
   },
   {
     "id": "6-77",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37335065131",
     "minEntryId": 12001,
-    "maxEntryId": 12091,
+    "maxEntryId": 12129,
     "checkpointAt": "2026-10-05T15:48:56.789Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:6-77\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":12003,\"id\":12004,\"reason\":\"model_error\",\"detail\":\"Request timed out.\"}",
+    "transcript": "complete"
   }
 ]
