@@ -49,16 +49,82 @@
  "content_source": "div.copy",
  "content_text": "טוב ביי.",
  "date_text": "Posted 2 years ago",
- "fetched_at": "2026-10-04T23:41:07Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:22:06Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1280.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1024.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_540.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_500.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_250.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_100.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.png",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_540.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_500.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_250.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_100.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.png",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1024.jpg"
+    }
+   ],
    "base_key": "tumblr_lznlsneKf71r3it8zo1.jpg",
+   "caption": "טוב ביי.",
    "caption_alt": "טוב ביי.",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lznlsneKf71r3it8zo1_400.jpg",
    "media_url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg"
    ],
@@ -75,6 +141,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 63706,
@@ -90,9 +157,68 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1280.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1024.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_540.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_500.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_250.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_100.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.png",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_540.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_500.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_250.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_100.jpg",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.png",
+      "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_1024.jpg"
+    }
+   ],
    "media_url": "http://38.media.tumblr.com/tumblr_lznlsneKf71r3it8zo1_400.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/17894899534",
@@ -114,6 +240,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120223010932id_/http://hazfalafel.com:80/post/17894899534",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "יאיר-לפיד",

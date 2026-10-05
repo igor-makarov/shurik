@@ -32,16 +32,55 @@
  "content_source": "div.copy",
  "content_text": "עדכון חם מעצרת האו\"ם!",
  "date_text": "Posted 5 years ago",
- "fetched_at": "2026-10-04T23:43:52Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:22:14Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "78.media.tumblr.com",
+     "media_url": "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 101723
+    }
+   ],
    "base_key": "tumblr_mb2j2whuYG1r3it8zo1.jpg",
+   "caption": "עדכון חם מעצרת האו\"ם!",
    "caption_alt": "עדכון חם מעצרת האו\"ם!",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
+   "host_inventory": {
+    "host": "78.media.tumblr.com",
+    "keys_at_scan": 3692,
+    "pages": 52,
+    "rows": 101723,
+    "scanned_at": "2026-10-05T03:50:42+00:00"
+   },
    "link_text": "",
    "media_key": "tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
    "media_url": "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
+   "note": "host media inventory is complete and lists no capture for this key (or any size variant) on this CDN host",
+   "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg"
    ],
@@ -58,6 +97,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 63722,
@@ -73,9 +113,34 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "78.media.tumblr.com",
+     "media_url": "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 101723
+    }
+   ],
    "media_url": "http://78.media.tumblr.com/tumblr_mb2j2whuYG1r3it8zo1_400.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/32461739114",
@@ -97,6 +162,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20121001005230id_/http://hazfalafel.com:80/post/32461739114",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "ביבי",

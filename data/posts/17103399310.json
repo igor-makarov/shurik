@@ -25,16 +25,82 @@
  "content_source": "div.copy",
  "content_text": "תרומה של עידו קינן, אם לא הייתה לו יומולדת היום ולא היינו צריכים אותו בשביל פרסום לא היינו מעלים את זה",
  "date_text": "Posted 3 days ago",
- "fetched_at": "2026-10-04T23:40:50Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:20:42Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1280.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1024.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_540.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_400.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_250.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_100.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.png",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_540.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_400.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_250.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_100.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.png",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1024.jpg"
+    }
+   ],
    "base_key": "tumblr_lyxnqhXcJ71r3it8zo1.jpg",
+   "caption": "תרומה של עידו קינן, אם לא הייתה לו יומולדת היום ולא היינו צריכים אותו בשביל פרסום לא היינו מעלים את זה",
    "caption_alt": "תרומה של עידו קינן, אם לא הייתה לו יומולדת היום ולא היינו צריכים אותו בשביל פרסום לא היינו מעלים את זה",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lyxnqhXcJ71r3it8zo1_500.jpg",
    "media_url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg"
    ],
@@ -51,6 +117,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 53816,
@@ -66,9 +133,68 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1280.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1024.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_540.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_400.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_250.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_100.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.png",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_540.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_400.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_250.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_100.jpg",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.png",
+      "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_1024.jpg"
+    }
+   ],
    "media_url": "http://30.media.tumblr.com/tumblr_lyxnqhXcJ71r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/17103399310",
@@ -89,6 +215,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120209034236id_/http://hazfalafel.com:80/post/17103399310",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "חתול-ניאן",
