@@ -1,0 +1,57 @@
+{
+ "processed": 1,
+ "recovered": 6,
+ "missing": 0,
+ "transient": 0,
+ "deferred": 0,
+ "results": [
+  {
+   "post_id": "104317036098",
+   "recovered": 6,
+   "missing": 0,
+   "transient": 0,
+   "considered": 6,
+   "deferred": false,
+   "publish": {
+    "tag": "104317036098",
+    "action": "updated",
+    "manifest_digest": "sha256:8ab108f07cea8481bd9df3aea850ec5bd6e69e070663cea2f17a54f87e5de02d",
+    "reason": "republished with more recovered data (images 6>-1, text 60>60)",
+    "layers": [
+     "sha256:48f9d9094ab32fa3cd16bbd4bf03a2061d29e5bfb9ae2ba26c0d33a697f5798e",
+     "sha256:f7544f0a9b7908e674024e8a2fc24d644144935d093fa47d66b4e7374edc7f45",
+     "sha256:cd7a6f116a564d06efb438e90530a6c0754728881511c67563945261a2760837",
+     "sha256:1b06fbcd09713dbda5a89dc783b2fba39ed8c2025a11c855dae7bcf3a7e0532f",
+     "sha256:6f24b78637280f534ce46d5732686f5eb798baa724d24ffb8b1d1b288f3ebdda",
+     "sha256:4268cfa4c19304024b099e734ec80d0b0036301866f229164a2fb042de8f9054",
+     "sha256:268c1a2e1de078f9a10b1d749096967ca17a63aca7cbcf1b04935b6388d7e418",
+     "sha256:9cec4396724ee51b7ec8f79cb131cabc4219b356c98246515f1436c6e1eb08db"
+    ],
+    "config_digest": "sha256:48f9d9094ab32fa3cd16bbd4bf03a2061d29e5bfb9ae2ba26c0d33a697f5798e",
+    "image_count": 6,
+    "missing_count": 0
+   }
+  }
+ ],
+ "queue": {
+  "posts_seen": 1088,
+  "attempts_total": 279,
+  "posts_with_recovery": 5,
+  "posts_cooling_down": 129,
+  "global": {
+   "last_at": "2026-10-05T08:05:54Z",
+   "last_error": "2 transient image failures in this pass",
+   "recovered_at": "2026-10-05T08:09:36Z",
+   "throttled_until": "",
+   "transient_streak": 0
+  },
+  "queue_file": "data/image-queue.json"
+ },
+ "records": 1,
+ "posts_with_work": 1,
+ "cooling_down": 0,
+ "no_work_left": 0,
+ "attempt_capped": 0,
+ "selected": 1,
+ "remaining_with_work": 0
+}
