@@ -27,7 +27,7 @@ const store = new ControlStore(controlCheckout, 'proof');
 const state = join(workspace, '.shurik-local/state/proof'); await mkdir(join(state, 'pi-jsonl'), { recursive: true });
 const builds = new Map(); const bundle = await buildRuntime(workspace, good, stable, builds);
 assert.equal(await buildRuntime(workspace, good, stable, builds), bundle, 'a source revision is built once per job');
-const baseReq = { version: 1, model: 'space-bunny-free', seconds: 10, prompt: 'Test coding tools', sessions: [] };
+const baseReq = { version: 1, model: 'space-bunny-free', reasoning: 'high', seconds: 10, prompt: 'Test coding tools', sessions: [] };
 const previousToken = process.env.GITHUB_TOKEN; process.env.GITHUB_TOKEN = 'TEST_ONLY_REPOSITORY_TOKEN';
 const failed = await launchWorker({ workspace, state, bundle, stable, key: 'TEST_ONLY_NO_REAL_SECRET', req: {
   ...baseReq, id: 'failure', script: [

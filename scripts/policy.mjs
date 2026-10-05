@@ -2,10 +2,24 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile, readdir, lstat } from 'node:fs/promises';
 import { join } from 'node:path';
 export const digest = value => createHash('sha256').update(value).digest('hex');
+export const reasoningLevels = ['off', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'];
+export function validateReasoning(value) {
+  if (!reasoningLevels.includes(value)) throw new Error('Explicit reasoning level required: ' + reasoningLevels.join(', '));
+  return value;
+}
+export function resumeSettings(value, options) {
+  if (value.status === 'running') throw new Error('Loop already running');
+  const reasoning = validateReasoning(options.reasoning);
+  const deadline = options.deadline || null;
+  if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Resume deadline must be in the future');
+  return { ...value, generation: value.generation + 1, status: 'running', owner: null, deadline,
+    model: options.model?.trim() || value.model, reasoning,
+    lastRunId: null, lastDispatchAt: new Date().toISOString() };
+}
 export function loopSnapshot(control) {
   // Task-facing metadata only. Scheduling belongs to the supervisor's control record.
   const fields = ['version', 'id', 'branch', 'defaultBranch', 'supervisor', 'status', 'generation',
-    'next', 'model', 'source', 'sourceRef', 'pr', 'verification'];
+    'next', 'model', 'reasoning', 'source', 'sourceRef', 'pr', 'verification'];
   return Object.fromEntries(fields.filter(key => Object.hasOwn(control, key)).map(key => [key, control[key]]));
 }
 export function validateId(id) {

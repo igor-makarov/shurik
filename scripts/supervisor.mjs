@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, configureGit, saveJson, readJson, ControlStore } from './github.mjs';
-import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot } from './policy.mjs';
+import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, resumeSettings } from './policy.mjs';
 import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt } from './failures.mjs';
 import { loadState, publishCheckpoint, initializeCheckpoint } from './state.mjs';
@@ -29,7 +29,7 @@ async function dispatch(control) {
   await api('actions/workflows/ralph.yml/dispatches', 'POST', {
     ref: control.defaultBranch,
     inputs: { command: 'iterate', loop_id: control.id, generation: String(control.generation),
-      iteration: String(control.next), supervisor_ref: control.supervisor }
+      iteration: String(control.next), supervisor_ref: control.supervisor, reasoning: validateReasoning(control.reasoning) }
   });
 }
 async function pruneAndGuard(workspace, state, initial) {
@@ -59,6 +59,7 @@ async function createPr(control, workspace) {
   return pr.html_url;
 }
 export async function start(options) {
+  const reasoning = validateReasoning(options.reasoning);
   await authorized(); const id = validateId(options.loop_id);
   const verification = options.verification === true || options.verification === 'true';
   const metadata = await api(''); const defaultBranch = metadata.default_branch;
@@ -74,7 +75,7 @@ export async function start(options) {
   const supervisor = await git(stable, 'rev-parse', 'HEAD');
   const source = options.source_ref ? (await api(`commits/${encodeURIComponent(options.source_ref)}`)).sha : supervisor;
   const control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
-    owner: null, deadline, seconds, model, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
+    owner: null, deadline, seconds, model, reasoning, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, supervisor);
   const workspace = await clone('workspace'); await git(workspace, 'checkout', '-b', branch, source);
   emergencyWorkspace = workspace;
@@ -127,7 +128,7 @@ export async function iterate(options) {
   const failures = await importFailures(store, state);
   await recoverInterrupted(state, sessions, failures);
   const record = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
-    outcome: 'running', source: initial, runtime: runtime.selected };
+    outcome: 'running', source: initial, runtime: runtime.selected, model: control.model, reasoning: control.reasoning };
   await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
   await saveJson(join(state, 'loop.json'), loopSnapshot(control));
   await publish(workspace, store, generation, state, `shurik: begin iteration ${sequence}`, initial, record);
@@ -149,7 +150,7 @@ export async function iterate(options) {
     bundle = await buildRuntime(workspace, runtime.selected, stable, builds);
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
     report = await launchWorker({ workspace, state, bundle, stable, key: process.env.OPENCODE_API_KEY,
-      req: { version: 1, id: `${id}:${sequence}`, model: control.model, seconds,
+      req: { version: 1, id: `${id}:${sequence}`, model: control.model, reasoning: validateReasoning(control.reasoning), seconds,
         checkpointSeconds: (await readJson(join(stable, '.shurik/config.json'))).checkpointSeconds,
         sessions, prompt: iterationPrompt(await readFile(join(workspace, 'PROMPT.md'), 'utf8'), sequence, sessions, failures, id) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
@@ -228,17 +229,15 @@ export async function controlLoop(options) {
     if (old.owner && /^\d+$/.test(old.owner.runId)) await api(`actions/runs/${old.owner.runId}/cancel`, 'POST').catch(() => {});
     console.log(`Loop ${id} durably stopped (${stoppedControl.generation})`);
   } else if (options.command === 'resume') {
+    validateReasoning(options.reasoning);
     const prior = (await store.read()).value;
     if ((await git(ctl, 'show', `${prior.supervisor}:scripts/github.mjs`)).includes('shurik@users.noreply.github.com')) {
       throw new Error('Pinned supervisor uses retired commit attribution. Start a new loop from main or have the maintainer update the pinned bootstrap before resuming.');
     }
-    const c = await store.mutate(value => {
-      if (value.status === 'running') throw new Error('Loop already running');
-      const deadline = options.deadline || null;
-      if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Resume deadline must be in the future');
-      return { ...value, generation: value.generation + 1, status: 'running', owner: null, deadline,
-        lastRunId: null, lastDispatchAt: new Date().toISOString() };
-    }, 'shurik: explicit resume with new generation');
+    if (prior.stateStorage !== 'control' || !(await git(ctl, 'show', `${prior.supervisor}:src/worker.ts`)).includes('thinkingLevel: req.reasoning')) {
+      throw new Error('Pinned loop predates explicit reasoning. Have the maintainer migrate its state and upgrade supervisor/runtime source references before resuming.');
+    }
+    const c = await store.mutate(value => resumeSettings(value, options), 'shurik: explicit resume with new generation and model/reasoning');
     await dispatch(c);
   }
 }

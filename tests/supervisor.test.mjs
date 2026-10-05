@@ -4,9 +4,30 @@ import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { ControlStore, git, command, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.mjs';
-import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot } from '../scripts/policy.mjs';
+import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot, validateReasoning, resumeSettings } from '../scripts/policy.mjs';
 import { buildRuntime } from '../scripts/runtime.mjs';
-import { expireUnstartedIteration } from '../scripts/supervisor.mjs';
+import { expireUnstartedIteration, start } from '../scripts/supervisor.mjs';
+
+test('start requires an explicit reasoning level before creating any loop', async () => {
+  for (const value of [undefined, '', 'automatic']) {
+    assert.throws(() => validateReasoning(value), /Explicit reasoning level required/);
+    await assert.rejects(start({ reasoning: value }), /Explicit reasoning level required/);
+  }
+  assert.equal(validateReasoning('high'), 'high');
+});
+
+test('resume requires fresh explicit reasoning and atomically changes model with the new generation', () => {
+  const previous = Object.freeze({ status: 'stopped', generation: 3, model: 'space-bunny-free', reasoning: 'high',
+    owner: { runId: 'old' }, deadline: '2000-01-01T00:00:00Z' });
+  assert.throws(() => resumeSettings(previous, {}), /Explicit reasoning level required/);
+  const changed = resumeSettings(previous, { reasoning: 'medium', model: 'another-model' });
+  assert.equal(changed.reasoning, 'medium'); assert.equal(changed.model, 'another-model');
+  assert.equal(changed.generation, 4); assert.equal(changed.owner, null); assert.equal(changed.deadline, null);
+  assert.equal(changed.status, 'running'); assert.equal(previous.reasoning, 'high');
+  assert.equal(resumeSettings(previous, { reasoning: 'high' }).model, 'space-bunny-free');
+  assert.throws(() => resumeSettings({ ...previous, status: 'running' }, { reasoning: 'high' }), /already running/);
+  assert.throws(() => resumeSettings(previous, { reasoning: 'high', deadline: 'invalid' }), /future/);
+});
 
 async function expiredFixture() {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-expiry-')); const remote = join(dir, 'remote'); const seed = join(dir, 'seed');
