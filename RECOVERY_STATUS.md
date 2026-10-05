@@ -1,53 +1,58 @@
 # Hazfalafel recovery handoff
 
-The loop was stopped by the maintainer after iteration 3-59. It remains stopped.
-Main was merged into this branch, journals were moved to the control branch, and
-compiled runner bundles were replaced with source commit references. The maintainer
-explicitly selected high reasoning for the next resume; no default was added. The next
-continuation will use the supervisor at `b4cd2887b0f06ce92a2ccf1bed04eac3646af364`.
+Bulk post metadata, inventories and image bytes live in GHCR
+(`ghcr.io/igor-makarov/shurik-hazfalafel-com`, numeric post tags plus the
+`crawl-state` checkpoint tag). Git keeps code, tests and compact records only:
+`data/image-queue.json`, `data/missing.jsonl`, `data/gaps.jsonl`,
+`data/published.jsonl`, `data/verification/*.json`.
 
-## Last saved crawl counts
+## Current counts
 
-Computed from the corpus at `0924dd45a67e16a107c97c46b8c6282895cf6835`, before
-removing bulk content from the current tree:
+Derived from local records (`python3 -m recovery.cli status`), 2026-10-05:
 
 | Metric | Count |
 | --- | ---: |
 | Discovered posts | 1186 |
 | Parsed posts | 1156 |
 | Known image URLs | 2227 |
-| Recovered images | 16 |
-| Posts with recovered images | 9 |
-| Complete / partial image-bearing posts | 6 / 3 |
+| Recovered images (local records) | 16 |
+| Posts with recovered images | 9 (11 recorded recovered in the queue) |
 | Posts recorded published | 734 |
 | Unrecovered images | 2211 |
 
-Most numeric tags contain metadata without images. These counters describe saved
-records, not a new independent registry verification.
+The local corpus is the bootstrap copy of `0924dd45a67e16a107c97c46b8c6282895cf6835`;
+per-post image records recovered after that commit exist in their published
+registry tags, not in this working tree.
+
+## Archive connectivity (new evidence, iteration 4-66)
+
+From this runner `https://web.archive.org` refuses the TCP connection on every
+attempt (`curl` exit 7, 0 bytes), while `http://web.archive.org` answers the same
+captures with 200 and the exact bytes (post 15577014830's image still hashes to
+`44bc9b3d…6614e` over port 80). `archive.org/wayback/available` answers normally.
+
+`recovery/http.py` therefore downgrades one request to plain HTTP when HTTPS got
+no HTTP answer at all (never on a 429/503, which is real throttling), and does
+so before classification so a refusal that plain HTTP answers never trips the
+circuit breaker. Without it, every URL looked "throttled" and passes recovered
+nothing.
+
+Connection refusals still happen on port 80 as well, in bursts. Those are
+transient, never evidence of an archive gap.
 
 ## Next work
 
-Follow PROMPT.md: restore the prior corpus into ignored local files, implement the
-minimal registry checkpoint/restore path for bulk state, and focus on additional
-image recovery and anonymous byte-level verification. Full post content,
-inventories and images belong in GHCR, with only compact queue, missing-method,
-publication-digest and verification records in Git. The earlier Git corpus is
-still recoverable from the commit above; repository history was not rewritten.
+Run bounded `python3 -m recovery.cli fetch-images --limit N --concurrency 1
+--retry-missing` passes; recovered images are published to their numeric tag
+immediately. Probe-era evidence: old-style media hosts (24-41) and 2014-2015
+hash-directory media recover; posts 13833997906-14996000761 (2010-2011,
+`27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant
+and are recorded as gaps for that exact scope only.
 
-The prior archive-gap claims in this report were unreliable. Treat transport
-failures as inconclusive and successful empty CDX queries as evidence only for
-their exact scope. Reuse successful CDN URL forms and try other eligible images,
-alternate post captures and listing/photoset evidence fairly. The nine existing
-verification records are examples to preserve, not a reason to repeat the same
-posts indefinitely.
+Bootstrap on a fresh runner, only when no `crawl-state` checkpoint is restored:
 
-## Existing crawler checks to repair
+```sh
+git archive 0924dd45a67e16a107c97c46b8c6282895cf6835 data/posts data/cdx | tar -x
+```
 
-The 103-test crawler suite, with its declared dependencies installed, reported
-three failing assertions and eight errors. Three errors were missing dummy
-registry credentials: those registry plumbing tests pass when supplied fake
-credentials and mocked transport. Remaining cases concern
-AvailabilityIndex.AFTER_CUTOFF, prior_note retention, archive health/circuit
-recovery, deferral counts, and an invalid requests exception in a test fixture.
-These predate the storage cleanup. PROMPT.md directs Shurik to diagnose and fix
-the relevant code or test defects while continuing actual image recovery.
+Test suite: 103 offline tests, dummy credentials, mocked transport.
