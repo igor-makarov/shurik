@@ -38,40 +38,21 @@
  "content_source": "div.copy",
  "content_text": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-05T04:43:46Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T06:27:53Z",
  "image_count": 0,
  "images": [
   {
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx",
-     "error": "ok",
-     "message": "",
-     "status": 200,
-     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1280.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_540.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_500.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_250.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_100.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.gif",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.jpg"
-     ]
+     "earlier_endpoints": [
+      "cdx",
+      "variant-budget",
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 3,
+     "note": "3 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -124,18 +105,50 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_500.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png"
     }
    ],
    "base_key": "tumblr_lwtsp27G2f1r3it8zo1.png",
    "caption": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
    "caption_alt": "רמשטיין? הוא יהודי?\nשוב תודה לנעה. כן, כן! נעה הכינה את זה.\nגם אתם מוזמנים לשלוח תמונות.",
    "capture_count": 0,
-   "error": "transport",
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lwtsp27G2f1r3it8zo1_400.png",
    "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 2 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
     "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
@@ -163,34 +176,14 @@
   {
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx",
-     "error": "ok",
-     "message": "",
-     "status": 200,
-     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png"
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1280.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_540.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_500.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_250.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_100.png",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.gif",
-      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.jpg"
-     ]
+     "earlier_endpoints": [
+      "cdx",
+      "variant-budget",
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 3,
+     "note": "3 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -243,10 +236,42 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_500.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_1024.png"
     }
    ],
    "media_url": "http://29.media.tumblr.com/tumblr_lwtsp27G2f1r3it8zo1_400.png",
-   "reason": "transport"
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14852375260",
@@ -267,6 +292,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120117231946id_/http://hazfalafel.com:80/post/14852375260",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "תלמידת-כיתה-ח'-חסרת-מושג-במוזיקה",
