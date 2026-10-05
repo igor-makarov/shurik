@@ -170,8 +170,18 @@ class Fetcher:
                 f"after {self._throttled_streak} consecutive throttled answers "
                 f"(trip {self._breaker_trips}); no request was sent")
 
-    def _blocked_response(self, url: str) -> Optional[Response]:
-        if not self.blocked:
+    def _blocked_response(self, url: str, trial: bool = False) -> Optional[Response]:
+        """Refuse a request while the circuit is open -- unless it is a trial.
+
+        Normal traffic is never sent while the breaker is open. A *liveness
+        probe* is the single exception: the durable queue's cooldown is a
+        deadline, and the archive routinely recovers long before it expires.
+        Without one trial request the CLI health check could never tell "still
+        throttled" from "back in business", and every later iteration would be
+        spent waiting out a block that had already ended. `trial=True` sends
+        exactly one request; a good answer closes the circuit in `_note_outcome`.
+        """
+        if not self.blocked or trial:
             return None
         return Response(url=url, status=None, error=THROTTLED, message=self.breaker_note())
 
@@ -263,10 +273,11 @@ class Fetcher:
         timeout: Optional[float] = None,
         attempts: Optional[int] = None,
         idempotent: bool = True,
+        trial: bool = False,
     ) -> Response:
         timeout = self.timeout if timeout is None else timeout
         attempts = self.attempts if attempts is None else attempts
-        blocked = self._blocked_response(url)
+        blocked = self._blocked_response(url, trial=trial)
         if blocked is not None:
             self.stats[THROTTLED] = self.stats.get(THROTTLED, 0) + 1
             return blocked
@@ -327,7 +338,7 @@ class Fetcher:
         return resp
 
     def probe_replay(self, url: str, at_ts: Optional[str] = None, mode: str = "im_",
-                     timeout: Optional[float] = None) -> Response:
+                     timeout: Optional[float] = None, trial: bool = False) -> Response:
         """Non-following GET of a replay URL: does this exact URL have a capture?
 
         One bounded request answers "is this URL archived, and when?" for a
@@ -341,7 +352,7 @@ class Fetcher:
         """
         at_ts = at_ts or config.CUTOFF
         target = f"{config.REPLAY_BASE}/{at_ts}{mode}/{url}"
-        blocked = self._blocked_response(target)
+        blocked = self._blocked_response(target, trial=trial)
         if blocked is not None:
             self.stats[THROTTLED] = self.stats.get(THROTTLED, 0) + 1
             return blocked
