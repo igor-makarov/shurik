@@ -884,13 +884,31 @@ class AvailabilityMethodTests(unittest.TestCase):
     def test_all_gap_verdicts_record_a_scoped_gap_without_raising(self):
         from recovery.images import _variants
 
+        # A sweep row records the timestamp it asked about; `gap_is_trusted`
+        # only believes a "no snapshot" asked inside the era the page lived.
         for variant in _variants(self.url):
-            self.index.record(variant, self.GAPV, http_status=200)
+            self.index.record(variant, self.GAPV, http_status=200,
+                              query_ts="20150119000000")
         rec = self._resolve()
         self.assertEqual(rec["state"], "missing")
         self.assertEqual(rec["error"], "archive_gap")
         note = [a for a in rec["attempts"] if a["endpoint"] == "availability-api"][0]
         self.assertTrue(note["verdicts"], "the scope searched must be recorded")
+
+    def test_gap_verdicts_of_unknown_provenance_stay_undecided(self):
+        """A "no snapshot" row without a query timestamp proves nothing.
+
+        The API answers empty for URLs it does hold when asked with a short or
+        window-edge timestamp, so such rows were kept as `pending` and re-probed
+        rather than written off as gaps. This must not silently become a gap.
+        """
+        from recovery.images import _variants
+
+        for variant in _variants(self.url):
+            self.index.record(variant, self.GAPV, http_status=200)
+        rec = self._resolve()
+        self.assertEqual(rec["state"], "pending")
+        self.assertNotEqual(rec["error"], "archive_gap")
 
     def test_mixed_gap_and_after_cutoff_is_not_a_gap(self):
         from recovery.images import _variants
@@ -1031,7 +1049,14 @@ class ArchiveBlockTests(unittest.TestCase):
         f = Blocked({}, attempts=3, sleep=lambda _s: None)
         resp = f.get("https://web.archive.org/web/20191231235959id_/http://x/y.jpg")
         self.assertEqual(resp.error, THROTTLED)
-        self.assertEqual(len(sent), 1, "a blocked archive must not be retried in-process")
+        # One HTTPS request, plus at most the single documented plain-HTTP
+        # downgrade (see PlainHttpFallbackTests: this runner's HTTPS route to
+        # web.archive.org is refused while port 80 answers the same capture).
+        # No further in-process retry: the throttle is handed to the cooldown.
+        self.assertLessEqual(len(sent), 2, "a blocked archive must not be retried in-process")
+        self.assertEqual(sent[0].startswith("https://web.archive.org/"), True)
+        for extra in sent[1:]:
+            self.assertTrue(extra.startswith("http://web.archive.org/"), extra)
 
     def test_repeated_throttles_open_a_circuit_and_stop_sending(self):
         sent = []
