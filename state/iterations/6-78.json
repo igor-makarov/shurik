@@ -5,13 +5,35 @@
   "generation": 6,
   "iteration": 78,
   "startedAt": "2026-10-05T15:53:55.815Z",
-  "outcome": "running",
+  "outcome": "agent_failure",
   "source": "9c3a6b33694748120ea19ff4d5e2cd3fc1fde9c0",
   "runtime": "911dfda864f818c23de75b40eacee27854638051",
   "model": "space-bunny-free",
   "reasoning": "high",
   "workCommit": "9c3a6b33694748120ea19ff4d5e2cd3fc1fde9c0",
   "minEntryId": 12130,
-  "maxEntryId": 12130,
-  "checkpointAt": "2026-10-05T15:54:04.244Z"
+  "maxEntryId": 12172,
+  "checkpointAt": "2026-10-05T15:54:04.244Z",
+  "finishedAt": "2026-10-05T15:56:48.594Z",
+  "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:6-78\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":12132,\"id\":12133,\"reason\":\"model_error\",\"detail\":\"Request timed out.\"}",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 4137161,
+        "output": 1229093,
+        "cacheRead": 76662755,
+        "cacheWrite": 0,
+        "reasoning": 666710,
+        "totalTokens": 82029009,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
