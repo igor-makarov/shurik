@@ -205,16 +205,14 @@ def restore_state(root: str = ".", puller=None) -> dict:
     out = {"tag": STATE_TAG, "restored": False, "files": 0, "manifest_digest": "",
            "schema_version": None, "error": ""}
     try:
-        manifest = puller.manifest(STATE_TAG)
+        manifest, digest = puller.manifest(STATE_TAG)
     except Exception as exc:
         out["error"] = f"{type(exc).__name__}: {exc}"
         return out
     if not manifest:
         out["error"] = "no crawl-state tag in the package"
         return out
-    out["manifest_digest"] = (manifest.get("__digest")
-                              or "sha256:" + hashlib.sha256(
-                                  json.dumps(manifest, sort_keys=True).encode()).hexdigest())
+    out["manifest_digest"] = digest
     ann = manifest.get("annotations") or {}
     out["schema_version"] = int(ann.get("shurik.checkpoint.schema") or 0)
     layers = manifest.get("layers") or []

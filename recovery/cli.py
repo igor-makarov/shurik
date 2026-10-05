@@ -1154,6 +1154,10 @@ def main(argv: Optional[list[str]] = None) -> int:
                        help="pull published tags back into the local post records")
     p.add_argument("--ids", default="", help="comma separated post ids; default = known image-bearing tags")
     p.add_argument("--meta-only", action="store_true", help="do not pull image layer bytes")
+    p = sub.add_parser("checkpoint",
+                       help="push/pull the crawl-state checkpoint tag (bulk crawl state)")
+    p.add_argument("--pull", action="store_true",
+                   help="restore the checkpoint instead of pushing it")
     p = sub.add_parser("status", help="print recovery counters")
     sub.add_parser("repair", help="re-derive post bookkeeping fields (offline)")
     sub.add_parser("report", help="write RECOVERY_REPORT.md")
@@ -1214,6 +1218,11 @@ def main(argv: Optional[list[str]] = None) -> int:
             ids = sorted({r.get("post_id") for r in rows
                           if r.get("post_id") and (r.get("image_count") or 0) > 0})
         out = restore_posts(ids, with_images=not args.meta_only)
+    elif args.cmd == "checkpoint":
+        from . import state_checkpoint
+
+        out = (state_checkpoint.restore_state() if args.pull
+               else state_checkpoint.push_state())
     elif args.cmd == "publish":
         ids = [i.strip() for i in args.ids.split(",") if i.strip()]
         if ids:
