@@ -60,6 +60,9 @@ class MediaIndex:
         self._by_key: dict[str, list[Capture]] = {}
         for cap in self.index.all():
             self._remember(cap)
+        # Older runs wrote the manifest key as `host:host:<h>`, so every scan
+        # looked unfinished and got re-requested from page 1 forever.
+        self.hosts_done()
 
     def _remember(self, cap: Capture) -> None:
         self._by_url.setdefault(normalize_url(cap.original), []).append(cap)
@@ -99,7 +102,21 @@ class MediaIndex:
         return len(self.index.all())
 
     def hosts_done(self) -> dict:
-        return self.index.manifest.get("done", {})
+        """Manifest `done` map, with legacy `host:host:<h>` keys repaired.
+
+        The repair matters for more than tidiness: a host whose scan reached its
+        last page is *positive evidence* that its pre-cutoff 200 rows have all
+        been seen. With the key spelled wrongly that evidence was invisible, so
+        every run re-downloaded completed hosts (archive load) and never let the
+        crawler record a confirmed per-host gap.
+        """
+        done = self.index.manifest.setdefault("done", {})
+        stale = [k for k in done if k.startswith("host:host:")]
+        for key in stale:
+            done[key[len("host:"):]] = done.pop(key)
+        if stale:
+            self.index.save_manifest()
+        return done
 
     def host_complete(self, host: str) -> Optional[dict]:
         """Manifest entry when a host was scanned to its last page, else None.
@@ -112,6 +129,13 @@ class MediaIndex:
         return state if state.get("complete") else None
 
     def mark_host(self, host: str, info: dict) -> None:
+        # Accept `h`, `host:h` and the legacy `host:host:h` so the manifest key
+        # is always exactly `host:<h>`, whatever the caller passed.
+        host = (host or "").strip().lower()
+        while host.startswith("host:"):
+            host = host[len("host:"):]
+        if not host:
+            return
         self.index.mark_done(f"host:{host}", info)
 
 
