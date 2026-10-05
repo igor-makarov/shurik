@@ -1111,7 +1111,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="re-probe stored 'no snapshot' verdicts written before the "
                         "14-digit cutoff fix (those answers are demonstrably empty)")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
-    p.add_argument("--limit", type=int, default=5)
+    p.add_argument("--limit", type=int, default=0,
+                   help="max posts per pass (0 = 5, or every id given with --ids)")
     p.add_argument("--ids", default="")
     p.add_argument("--concurrency", type=int, default=config.DEFAULT_CONCURRENCY)
     p.add_argument("--no-media-index", action="store_true",
@@ -1193,8 +1194,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     elif args.cmd == "fetch-images":
         queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
                            max_attempts=args.max_attempts or 12)
-        out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
-                           post_ids=[i for i in args.ids.split(",") if i] or None,
+        post_ids = [i for i in args.ids.split(",") if i] or None
+        # An explicit id list is a deliberate batch: capping it at the default
+        # limit of 5 silently ignored most of the ids the caller asked for.
+        limit_posts = args.limit or (len(post_ids) if post_ids else 5)
+        out = fetch_images(fetcher, limit_posts=limit_posts, concurrency=args.concurrency,
+                           post_ids=post_ids,
                            use_media_index=not args.no_media_index, retry_missing=args.retry_missing,
                            method=args.method, variant_budget=args.variant_budget,
                            order=args.order, queue=queue, dry_run=args.dry_run,
