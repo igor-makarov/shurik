@@ -68,6 +68,17 @@ class AvailabilityIndex:
     previous verdict instead of replacing good evidence with silence.
     """
 
+    # The verdict vocabulary is also reachable from the class, because the
+    # resolution code reads it off the index it was handed (`index.HIT`,
+    # `index.AFTER_CUTOFF`, `index.NO_SNAPSHOT`). It used to exist only as a
+    # module constant, so every such reference raised AttributeError and
+    # aborted the whole `fetch-images` pass instead of resolving one image.
+    HIT = HIT
+    NO_SNAPSHOT = NO_SNAPSHOT
+    AFTER_CUTOFF = AFTER_CUTOFF
+    TRANSIENT = TRANSIENT
+    VERDICT_AFTER_CUTOFF = VERDICT_AFTER_CUTOFF
+
     def __init__(self, path: Optional[str] = None):
         self.path = path or os.path.join(config.CDX_DIR, "avail.jsonl")
         self.manifest_path = self.path + ".manifest.json"

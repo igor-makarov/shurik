@@ -930,13 +930,21 @@ class ArchiveBlockTests(unittest.TestCase):
     def _refused(self) -> Exception:
         import requests
 
-        exc = ConnectionRefusedError(111, "Connection refused")
-        new = requests.exceptions.NewConnectionError(None, "refused")
-        new.__cause__ = exc
-        maxretry = requests.exceptions.ConnectionError(
-            "HTTPSConnectionPool(host='web.archive.org', port=443)")
-        maxretry.__cause__ = new
-        return maxretry
+        # The real chain, as requests builds it: `requests` never exposes a
+        # `NewConnectionError` of its own -- that class lives in urllib3, which
+        # raises it from inside a `MaxRetryError` whose cause is the socket
+        # error. Referencing `requests.exceptions.NewConnectionError` raised
+        # AttributeError, so this refusal case never exercised the classifier.
+        import urllib3.exceptions as u3e
+
+        refused = ConnectionRefusedError(111, "Connection refused")
+        new = u3e.NewConnectionError(None, "Connection refused")
+        new.__cause__ = refused
+        maxretry = u3e.MaxRetryError(None, "https://web.archive.org/cdx", reason=new)
+        exc = requests.exceptions.ConnectionError(
+            "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded")
+        exc.__cause__ = maxretry
+        return exc
 
     def test_refused_connection_is_classified_as_throttled(self):
         from recovery.http import classify_exception
