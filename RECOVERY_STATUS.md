@@ -4,6 +4,55 @@ Working branch state for loop `hazfalafel-20261004t213311`. Target package:
 `ghcr.io/igor-makarov/shurik-hazfalafel-com`, tag = numeric Tumblr post ID, inclusive
 capture cutoff `20191231235959`.
 
+## Iteration 2-43: images ARE recoverable — the "gap" evidence was fake
+
+`images_recovered` was stuck at 0 and 678 of the 2227 known images were filed as
+`archive_gap`. That was wrong, in two separate ways.
+
+**1. A transport failure was being written up as archive evidence.**
+`data/posts/15577014830.json` held a single attempt:
+
+```json
+{"endpoint": "replay-probe", "error": "transport",
+ "message": "HTTPSConnectionPool(host='web.archive.org' ... NewConnectionError"}
+```
+
+and the record's note then claimed *"replay probes answered for this URL and its known
+size/extension variants and none of them has a capture at or before the cutoff"*. That is
+false: `Connection refused` is the absence of an answer, not an answer. The same
+transcript-era outage poisoned 678 image records.
+
+**2. The example that proved it.** Post `15577014830`'s single image is archived:
+
+| Check | Result |
+| --- | --- |
+| `cdx?url=29.media.tumblr.com/tumblr_lxjrbav0Ye1r3it8zo1_500.jpg&to=20191231235959` | `20130930175155 ... 200 45978` |
+| `web/20191231235959id_/...` (redirect follows to the 2013 capture) | `200 image/jpeg 47278 B` |
+| `file` on the body | `JPEG image data, JFIF 1.01, 500x500, baseline` |
+
+`python3 -m recovery.cli fetch-images --ids 15577014830` recovered it end to end
+(blob `sha256:44bc9b3d...`, Hebrew caption `“גשם!!!11”\nתודה לדניאל זאוטנר` kept
+intact) and the post's state moved `partial` -> `complete`. **Image bytes are in
+artifacts; the pipeline is not the blocker.**
+
+### A 42-image sample across 20 media hosts (concurrency 6)
+
+Blank bodies in that sweep were 504/timeout responses, **not** gaps, and must not be
+filed as gaps. With that caveat: `29.media.tumblr.com/tumblr_*` (old-style path, no hash
+directory) hits, while the `<32-hex-hash>/tumblr_*` form returned `[]` on every sample.
+The old-style CDN path is a second, under-probed URL form.
+
+### What to run next (resumable, archive-bound steps serialised)
+
+```sh
+python3 -m recovery.cli fetch-images --limit 200 --concurrency 4 --variant-budget 2
+python3 -m recovery.cli publish --limit 40        # republishes only quality gains
+```
+
+`fetch-images` already retries every transient class by default (`TRANSIENT_ERRORS`),
+so the 672 stale `transport` records are re-probed automatically; `--limit` counts posts.
+Keep concurrency at 4: at 6 the same sample produced 504s.
+
 ## Counts
 
 Regenerate with `python3 -m recovery.cli status` (the numbers below are from the
