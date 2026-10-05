@@ -21,6 +21,7 @@ from .media import MEDIA_CAPTURE_FILE, MediaIndex, host_of, hosts_for, scan_host
 from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .queue import ImageQueue
+from .restore import restore_posts
 from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
 
 POST_CAPTURE_FILE = os.path.join(config.CDX_DIR, "posts.jsonl")
@@ -1148,6 +1149,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--ids", default="", help="comma separated post ids; default = every verified tag")
     p.add_argument("--limit", type=int, default=0, help="0 = all given ids")
     p.add_argument("--package", default="", help="override ghcr repo (owner/name)")
+    p = sub.add_parser("restore",
+                       help="pull published tags back into the local post records")
+    p.add_argument("--ids", default="", help="comma separated post ids; default = known image-bearing tags")
+    p.add_argument("--meta-only", action="store_true", help="do not pull image layer bytes")
     p = sub.add_parser("status", help="print recovery counters")
     sub.add_parser("repair", help="re-derive post bookkeeping fields (offline)")
     sub.add_parser("report", help="write RECOVERY_REPORT.md")
@@ -1195,6 +1200,15 @@ def main(argv: Optional[list[str]] = None) -> int:
                            order=args.order, queue=queue, dry_run=args.dry_run,
                            publish_on_recovery=not args.no_publish,
                            health_check=not args.no_health_check)
+    elif args.cmd == "restore":
+        ids = [i.strip() for i in args.ids.split(",") if i.strip()]
+        if not ids:
+            # Image-bearing tags are exactly the ones whose local record can be
+            # behind the registry, and there are few of them.
+            rows = JsonlStore(config.PUBLISHED_JSONL).records()
+            ids = sorted({r.get("post_id") for r in rows
+                          if r.get("post_id") and (r.get("image_count") or 0) > 0})
+        out = restore_posts(ids, with_images=not args.meta_only)
     elif args.cmd == "publish":
         ids = [i.strip() for i in args.ids.split(",") if i.strip()]
         if ids:
