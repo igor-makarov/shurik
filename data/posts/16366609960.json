@@ -25,16 +25,91 @@
  "content_source": "div.copy",
  "content_text": "צרות של אשכנזים: העיזבון של קפקא.",
  "date_text": "Posted 4 days ago",
- "fetched_at": "2026-10-04T23:40:30Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:03:54Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1280.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1024.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_400.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_400.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_540.jpg"
+    }
+   ],
    "base_key": "tumblr_ly9tfoCCqH1r3it8zo1.jpg",
+   "caption": "צרות של אשכנזים: העיזבון של קפקא.",
    "caption_alt": "צרות של אשכנזים: העיזבון של קפקא.",
+   "capture_count": 0,
+   "error": "throttled",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_ly9tfoCCqH1r3it8zo1_500.jpg",
    "media_url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 4 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
+   "state": "missing",
    "url_forms": [
     "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg"
    ],
@@ -51,6 +126,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 49931,
@@ -66,9 +142,77 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1280.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1024.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_400.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_400.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_540.jpg"
+    }
+   ],
    "media_url": "http://28.media.tumblr.com/tumblr_ly9tfoCCqH1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "throttled"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/16366609960",
@@ -89,6 +233,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120128151504id_/http://hazfalafel.com:80/post/16366609960",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "צרות-של-אשכנזים",

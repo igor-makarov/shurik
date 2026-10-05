@@ -24,7 +24,8 @@
  "content_source": "div.copy",
  "content_text": "יגאל ידין ההיפסטר",
  "date_text": "Posted 5 days ago",
- "fetched_at": "2026-10-05T04:44:44Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:03:54Z",
  "image_count": 0,
  "images": [
   {
@@ -100,18 +101,39 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_540.jpg"
     }
    ],
    "base_key": "tumblr_lxhy8vFGda1r3it8zo1.jpg",
    "caption": "יגאל ידין ההיפסטר",
    "caption_alt": "יגאל ידין ההיפסטר",
    "capture_count": 0,
-   "error": "transport",
+   "error": "throttled",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lxhy8vFGda1r3it8zo1_400.jpg",
    "media_url": "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_400.jpg",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 4 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
    "state": "missing",
    "url_forms": [
     "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_400.jpg"
@@ -217,10 +239,31 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_540.jpg"
     }
    ],
    "media_url": "http://25.media.tumblr.com/tumblr_lxhy8vFGda1r3it8zo1_400.jpg",
-   "reason": "transport"
+   "reason": "throttled"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/15525127893",
@@ -241,6 +284,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120114065347id_/http://hazfalafel.com:80/post/15525127893",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "היפסטר",

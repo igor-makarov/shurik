@@ -24,40 +24,20 @@
  "content_source": "div.copy",
  "content_text": "דן שילון מזלזל\n(לחצו עליי)",
  "date_text": "Posted 1 week ago",
- "fetched_at": "2026-10-05T04:44:27Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:03:00Z",
  "image_count": 0,
  "images": [
   {
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1280.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_540.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_400.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_250.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_100.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.gif",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.jpg"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1280.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_540.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_400.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_250.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_100.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.gif",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.jpg"
-     ]
+     "earlier_endpoints": [
+      "variant-budget",
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -100,18 +80,60 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png"
     }
    ],
    "base_key": "tumblr_lxanewueIb1r3it8zo1.png",
    "caption": "דן שילון מזלזל\n(לחצו עליי)",
    "caption_alt": "דן שילון מזלזל\n(לחצו עליי)",
    "capture_count": 0,
-   "error": "transport",
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lxanewueIb1r3it8zo1_500.png",
    "media_url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "variants": [
     "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png"
@@ -136,34 +158,13 @@
   {
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1280.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_540.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_400.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_250.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_100.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.gif",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.jpg"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
-     "variants": [
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1280.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_540.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_400.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_250.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_100.png",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.gif",
-      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.jpg"
-     ]
+     "earlier_endpoints": [
+      "variant-budget",
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -206,10 +207,52 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_1024.png"
     }
    ],
    "media_url": "http://29.media.tumblr.com/tumblr_lxanewueIb1r3it8zo1_500.png",
-   "reason": "transport"
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/15309829231",
@@ -230,6 +273,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120117232223id_/http://hazfalafel.com:80/post/15309829231",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "דן-שילון-מזלזל"
