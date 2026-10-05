@@ -1,10 +1,10 @@
 {
  "global": {
-  "last_at": "2026-10-05T08:05:54Z",
-  "last_error": "2 transient image failures in this pass",
+  "last_at": "2026-10-05T08:15:15Z",
+  "last_error": "22 posts deferred by an open circuit breaker",
   "recovered_at": "2026-10-05T08:09:36Z",
-  "throttled_until": "",
-  "transient_streak": 0
+  "throttled_until": "2026-10-05T08:30:15Z",
+  "transient_streak": 1
  },
  "posts": {
   "100403945458": {
@@ -7698,22 +7698,36 @@
    }
   },
   "24009604407": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T08:15:13Z",
+   "last_outcome": "settled",
    "next_at": "",
    "recovered": 0,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://25.media.tumblr.com/tumblr_m4stolg4TH1r3it8zo1_250.jpg": {
+     "_updated_at": "2026-10-05T08:15:13Z"
+    },
+    "http://25.media.tumblr.com/tumblr_m4stolg4TH1r3it8zo1_400.jpg": {
+     "_updated_at": "2026-10-05T08:15:13Z"
+    }
+   }
   },
   "24072781269": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T08:15:15Z",
+   "last_outcome": "settled",
    "next_at": "",
    "recovered": 0,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://24.media.tumblr.com/tumblr_m4ulu8rpDN1r3it8zo1_500.jpg": {
+     "_updated_at": "2026-10-05T08:15:15Z"
+    },
+    "http://25.media.tumblr.com/tumblr_m4ulu8rpDN1r3it8zo1_250.jpg": {
+     "_updated_at": "2026-10-05T08:15:15Z"
+    }
+   }
   },
   "24118036209": {
    "attempts": 1,
@@ -7729,13 +7743,20 @@
    }
   },
   "24139844901": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T08:15:15Z",
+   "last_outcome": "settled",
    "next_at": "",
    "recovered": 0,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://24.media.tumblr.com/tumblr_m4swy9FYE31r3it8zo1_250.gif": {
+     "_updated_at": "2026-10-05T08:15:15Z"
+    },
+    "http://24.media.tumblr.com/tumblr_m4swy9FYE31r3it8zo1_400.gif": {
+     "_updated_at": "2026-10-05T08:15:15Z"
+    }
+   }
   },
   "24202773835": {
    "attempts": 0,
