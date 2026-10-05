@@ -53,6 +53,24 @@ NO_SNAPSHOT = "gap"
 # from GAP: the file *is* archived, we are simply not allowed to use it.
 VERDICT_AFTER_CUTOFF = "capture_after_cutoff"
 
+# A "no snapshot" answer only counts as evidence when it was asked in the era
+# the page lived.  The Availability API returns an empty snapshot set for URLs
+# it does hold when the query timestamp sits at the end of the collection
+# window (verified on 41.media/.../tumblr_ng1vkjYFIB1r3it8zo2_500.jpg: a hit
+# at ts=2015, empty at ts=20191231235959).  Verdicts asked at or after this
+# floor are therefore re-probed in the post's own era instead of being trusted.
+LATE_QUERY_FLOOR = "20190101000000"
+
+
+def gap_is_trusted(row: dict) -> bool:
+    """True when a stored `no snapshot` verdict may be believed."""
+    ts = str(row.get("query_ts") or "")
+    if not ts:
+        # Written before the timestamp was recorded: unknown provenance, and the
+        # old sweeps all used the unreliable window-edge forms.  Re-probe.
+        return False
+    return ts < LATE_QUERY_FLOOR
+
 
 def _now() -> str:
     import datetime
@@ -262,13 +280,21 @@ def sweep(fetcher: Fetcher, urls: Iterable[str], *, limit: int = 0,
           concurrency: int = 3, flush_every: int = 25,
           index: Optional[AvailabilityIndex] = None,
           retry_transient: bool = False, retry_gap: bool = False,
+          timestamps: Optional[dict] = None,
           progress: Optional[Callable[[dict], None]] = None) -> dict:
     """Probe every URL that has no final verdict yet, with bounded concurrency.
+
+    `timestamps` maps a normalised media URL to the era to ask about (usually
+    the post's own capture timestamp).  Asking at the end of the collection
+    window makes the API return an empty snapshot set for URLs it holds, so a
+    stored "no snapshot" from such a query is not treated as final and is
+    re-probed in the post's era.
 
     Results are flushed to Git every `flush_every` rows and once at the end, so
     killing the sweep at any moment keeps everything already decided.
     """
     index = index or AvailabilityIndex()
+    timestamps = timestamps or {}
     todo: list[str] = []
     seen: set[str] = set()
     for url in urls:
@@ -277,17 +303,16 @@ def sweep(fetcher: Fetcher, urls: Iterable[str], *, limit: int = 0,
             continue
         seen.add(key)
         prior = index.rows.get(key)
+        era = timestamps.get(key, config.CUTOFF)
         if prior and not (retry_transient or retry_gap):
             verdict = prior.get("verdict")
-            if verdict in (HIT, AFTER_CUTOFF, NO_SNAPSHOT):
+            if verdict == HIT or verdict == AFTER_CUTOFF:
+                continue
+            if verdict == NO_SNAPSHOT and gap_is_trusted(prior):
                 continue
         if prior and retry_gap:
-            # Re-probe a stored "no snapshot" only when it was decided by the
-            # 8-digit cutoff form (or by no recorded form at all): those
-            # answers are demonstrably empty regardless of the index.
-            if prior.get("verdict") != NO_SNAPSHOT:
-                continue
-            if prior.get("query_ts") == config.CUTOFF:
+            # Explicit re-probe of a trusted gap in the post's own era.
+            if prior.get("verdict") != NO_SNAPSHOT or gap_is_trusted(prior):
                 continue
         todo.append(url)
     if limit:
@@ -297,7 +322,8 @@ def sweep(fetcher: Fetcher, urls: Iterable[str], *, limit: int = 0,
     lock = threading.Lock()
 
     def work(url: str) -> tuple[str, dict]:
-        return probe_availability(fetcher, url)
+        return probe_availability(fetcher, url, timestamps.get(normalize_url(url),
+                                                                config.CUTOFF))
 
     done = 0
     if todo:

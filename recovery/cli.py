@@ -433,18 +433,27 @@ def prove_gaps(fetcher: Fetcher, limit: int = 25, alt_hosts: int = 2,
 
 
 def _image_candidates(store: PostStore, include_variants: bool = True,
-                      only_missing: bool = True) -> list[str]:
-    """Every media URL still worth asking the archive about.
+                      only_missing: bool = True) -> list[tuple[str, str]]:
+    """Every media URL still worth asking the archive about, with its era.
 
     A post image that is already recovered is skipped (its bytes are safe), and
     its size/extension siblings are only added when the image is still missing:
     the siblings are the only other place the same picture can hide.
+
+    The second element is the *post's own* capture timestamp, used as the
+    Availability API query timestamp.  The API answers unreliably for query
+    timestamps at the very end of the collection window (2019-12-31 returns an
+    empty snapshot set for URLs it demonstrably holds, e.g. post 15577014830's
+    image and the 41.media capture of 20150123153647), while a query near the
+    post's own capture returns the capture reliably.  Asking in the post's era
+    is both more truthful and much cheaper than re-probing.
     """
     from .images import _variants
 
-    urls: list[str] = []
+    out: list[tuple[str, str]] = []
     seen: set[str] = set()
     for rec in store.all():
+        era = era_timestamp(rec)
         for img in rec.get("images") or []:
             if only_missing and img.get("sha256"):
                 continue
@@ -456,8 +465,20 @@ def _image_candidates(store: PostStore, include_variants: bool = True,
                 if key in seen:
                     continue
                 seen.add(key)
-                urls.append(candidate)
-    return urls
+                out.append((candidate, era))
+    return out
+
+
+def era_timestamp(rec: dict) -> str:
+    """The best era hint for a post's own captures (14 digits)."""
+    for cap in rec.get("captures") or []:
+        ts = str(cap.get("timestamp") or "")
+        if len(ts) >= 14 and ts[:4].isdigit():
+            return ts
+    ts = str(rec.get("capture_timestamp") or "")
+    if len(ts) >= 14 and ts[:4].isdigit():
+        return ts
+    return config.CUTOFF
 
 
 def probe_availability(fetcher: Fetcher, limit: int = 0, concurrency: int = 3,
@@ -473,14 +494,16 @@ def probe_availability(fetcher: Fetcher, limit: int = 0, concurrency: int = 3,
     store = PostStore()
     urls = _image_candidates(store, include_variants=variants)
     index = index or AvailabilityIndex(capture_file("avail.jsonl"))
+    timestamps = {normalize_url(u): ts for u, ts in urls}
 
     def progress(stats: dict) -> None:
         sys.stderr.write(f"[avail] {stats['done']}/{stats['total']} {stats}\n")
         sys.stderr.flush()
 
-    return availability_sweep(fetcher, urls, limit=limit, concurrency=concurrency,
+    return availability_sweep(fetcher, [u for u, _ in urls], limit=limit, concurrency=concurrency,
                               index=index, retry_transient=retry_transient,
-                              retry_gap=retry_gap, progress=progress)
+                              retry_gap=retry_gap, timestamps=timestamps,
+                              progress=progress)
 
 
 # A URL that is known to have a pre-cutoff capture, used only as a liveness

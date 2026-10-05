@@ -8,6 +8,7 @@ import re
 from typing import Optional
 
 from . import config
+from .availability import gap_is_trusted
 from .cdx import Capture, cdx_query, normalize_url, within_cutoff
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, HTTP_ERROR, OK, THROTTLED, TIMEOUT,
                    TRANSPORT, Fetcher, Response)
@@ -411,10 +412,15 @@ def resolve_image(
             })
         else:
             verdicts = {}
+            trusted_gaps = []
             for variant in _variants(url):
                 verdict = availability.verdict(variant)
-                if verdict:
-                    verdicts[normalize_url(variant)] = verdict
+                if not verdict:
+                    continue
+                verdicts[normalize_url(variant)] = verdict
+                row = availability.rows.get(normalize_url(variant)) or {}
+                if verdict == availability.NO_SNAPSHOT and gap_is_trusted(row):
+                    trusted_gaps.append(normalize_url(variant))
             record["attempts"].append({
                 "endpoint": "availability-api",
                 "media_url": url,
@@ -423,10 +429,20 @@ def resolve_image(
                         + (" (a sibling is archived only after the cutoff)" if
                            availability.AFTER_CUTOFF in verdicts.values() else ""),
             })
-            if verdicts and all(v == availability.NO_SNAPSHOT for v in verdicts.values()):
+            if trusted_gaps and len(trusted_gaps) == len(verdicts):
                 record.update(state="missing", error=GAP, capture_count=0,
                               note="availability API answered with no snapshot for this URL "
                                    "or any size/extension sibling")
+                return record
+            if verdicts and not trusted_gaps and all(
+                    v == availability.NO_SNAPSHOT for v in verdicts.values()):
+                # Every "no snapshot" was asked at the end of the collection
+                # window, where the API answers empty for URLs it does hold.
+                # Undecided, not a gap: the sweep re-probes these in the era of
+                # the post's own capture.
+                record.update(state="pending", capture_count=0,
+                              note="availability API returned no snapshot only for "
+                                   "window-edge queries; re-probe in the post's era")
                 return record
             # Verdicts are the availability vocabulary ("gap"), not the HTTP
             # failure classes; comparing them against `GAP` ("archive_gap")
