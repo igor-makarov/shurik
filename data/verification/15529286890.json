@@ -1,0 +1,172 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:ed61069fe36f63b1cfde749964771902ed40c549f71bf4bf9dac37575fdc1144",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxi1p9J19n1r3it8zo1_500.jpg]",
+   "expected": "d06fda444a1c9dba30e1892488073bf921ff9d9e0e479d2753f3e7219fcb3dd3",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxi1p9J19n1r3it8zo1_500.jpg]",
+   "expected": 77804,
+   "observed": 77804,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxi1p9J19n1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "לחקור ישראלים שאוספים מידע על חיילי צה”ל…\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX",
+   "observed": "לחקור ישראלים שאוספים מידע על חיילי צה”ל…\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<353 chars>",
+   "observed": "<353 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "סטיב-החלאה",
+    "זאב-אלקין"
+   ],
+   "observed": [
+    "סטיב-החלאה",
+    "זאב-אלקין"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "לחקור ישראלים שאוספים מידע על חיילי צה&#8221;ל&#8230;\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX"
+   ],
+   "observed": [
+    "לחקור ישראלים שאוספים מידע על חיילי צה&#8221;ל&#8230;\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15529286890",
+   "observed": "http://hazfalafel.com:80/post/15529286890",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxi1p9J19n1r3it8zo1_500.jpg]",
+   "expected": "לחקור ישראלים שאוספים מידע על חיילי צה&#8221;ל&#8230;\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX",
+   "observed": "לחקור ישראלים שאוספים מידע על חיילי צה&#8221;ל&#8230;\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130930175155",
+   "observed": "20130930175155",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130930175155id_/http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20130930175155id_/http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130930175155",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:74878f158f858adcb4a43a2fbe0daa6df5a5ef53ae15c46725d678c1df40a5b9",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2013-09-30T17:51:55Z",
+  "org.opencontainers.image.description": "לחקור ישראלים שאוספים מידע על חיילי צה”ל…",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15529286890",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15529286890",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "153",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15529286890",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "סטיב-החלאה,זאב-אלקין"
+ },
+ "layers": [
+  {
+   "digest": "sha256:91d9bed6af6013852c19e2c75cd257c721ba5ce6351a9b55d91bf9be95f3b8da",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 77898
+  },
+  {
+   "digest": "sha256:ea27d7da9f2a57f9cb5c2fca100a04d978a59427501948ea5bc129d2a982d6fd",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1011
+  }
+ ],
+ "manifest_digest": "sha256:ed61069fe36f63b1cfde749964771902ed40c549f71bf4bf9dac37575fdc1144",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15529286890",
+ "pulled_files": [
+  {
+   "bytes": 77804,
+   "file": "tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:91d9bed6af6013852c19e2c75cd257c721ba5ce6351a9b55d91bf9be95f3b8da",
+   "role": "media",
+   "sha256": "d06fda444a1c9dba30e1892488073bf921ff9d9e0e479d2753f3e7219fcb3dd3"
+  },
+  {
+   "bytes": 2827,
+   "file": "post.json",
+   "layer": "sha256:ea27d7da9f2a57f9cb5c2fca100a04d978a59427501948ea5bc129d2a982d6fd",
+   "role": "post-metadata",
+   "sha256": "70e3d97874b37782c2b4478beee9f3b7c2bfc5f1e978630cf874487ad5b873a5"
+  }
+ ],
+ "tag": "15529286890",
+ "verified_at": "2026-10-05T12:37:13Z"
+}
