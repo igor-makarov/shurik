@@ -45,46 +45,38 @@
   },
   {
    "check": "metadata[content_text]",
-   "expected": "“גשם!!!11”\nתודה לדניאל זאוטנר",
-   "observed": "“גשם!!!11”\nתודה לדניאל זאוטנר",
+   "expected_sha256": "e1f0b09c4aa0866db3d0422644c33e41364dc0540007cd297e13020c7cbfd116",
+   "observed_sha256": "e1f0b09c4aa0866db3d0422644c33e41364dc0540007cd297e13020c7cbfd116",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>“גשם!!!11”</p>\n<p>תודה ל<strong>דניאל זאוטנר</strong></p>",
-   "observed": "<p>“גשם!!!11”</p>\n<p>תודה ל<strong>דניאל זאוטנר</strong></p>",
+   "expected_sha256": "b732d473935c9137886eadf6556e8aa782e22673339068ab879d0302ec2ad3fa",
+   "observed_sha256": "b732d473935c9137886eadf6556e8aa782e22673339068ab879d0302ec2ad3fa",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected": [
-    "פקאצת-פייסבוק"
-   ],
-   "observed": [
-    "פקאצת-פייסבוק"
-   ],
+   "expected_sha256": "8c103a2cda153cff1715f8cfa2fe2a900b6ed07d8357f1fec9b3b832aa18ed2a",
+   "observed_sha256": "8c103a2cda153cff1715f8cfa2fe2a900b6ed07d8357f1fec9b3b832aa18ed2a",
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected": [
-    "“גשם!!!11”\nתודה לדניאל זאוטנר"
-   ],
-   "observed": [
-    "“גשם!!!11”\nתודה לדניאל זאוטנר"
-   ],
+   "expected_sha256": "57d583508465ada57eb5bcbfcfa9da635887d394ae36f31e2935d131bee3de84",
+   "observed_sha256": "57d583508465ada57eb5bcbfcfa9da635887d394ae36f31e2935d131bee3de84",
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com:80/post/15577014830/11",
-   "observed": "http://hazfalafel.com:80/post/15577014830/11",
+   "expected_sha256": "4d4059bdd2fa2d1b4ca0437b870e272ecd3807f83d3d65d9e21e5bb824bd8361",
+   "observed_sha256": "4d4059bdd2fa2d1b4ca0437b870e272ecd3807f83d3d65d9e21e5bb824bd8361",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected": "20191231235959",
-   "observed": "20191231235959",
+   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
    "passed": true
   },
   {
@@ -145,6 +137,7 @@
   }
  ],
  "manifest_digest": "sha256:19566cf25a5a01cdc492c0b9521efce07b9184af9162cbdbcaf8bd64f9ffdeab",
+ "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "15577014830",

@@ -45,50 +45,38 @@
   },
   {
    "check": "metadata[content_text]",
-   "expected": "הסטטוס של בני אלבז\nתודה לנמרוד צוק",
-   "observed": "הסטטוס של בני אלבז\nתודה לנמרוד צוק",
+   "expected_sha256": "7473a6873488ad89095c13ed5ef0b9319f395f613b1243cb60ae758b521fa15f",
+   "observed_sha256": "7473a6873488ad89095c13ed5ef0b9319f395f613b1243cb60ae758b521fa15f",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<329 chars>",
-   "observed": "<329 chars>",
+   "expected_sha256": "2bdc4f408facdb71b6c9eed627a9cb7919044f260f3b4192d7814ee0eab3b9bf",
+   "observed_sha256": "2bdc4f408facdb71b6c9eed627a9cb7919044f260f3b4192d7814ee0eab3b9bf",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected": [
-    "csi",
-    "בני-אלבז",
-    "מתקפת-הטרור-בסידני"
-   ],
-   "observed": [
-    "csi",
-    "בני-אלבז",
-    "מתקפת-הטרור-בסידני"
-   ],
+   "expected_sha256": "f7a4e5b8ecb026abccaf93f1a4f65a140516349e409ed20e26943c9cca3b00fc",
+   "observed_sha256": "f7a4e5b8ecb026abccaf93f1a4f65a140516349e409ed20e26943c9cca3b00fc",
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected": [
-    "הסטטוס של בני אלבז\nתודה לנמרוד צוק"
-   ],
-   "observed": [
-    "הסטטוס של בני אלבז\nתודה לנמרוד צוק"
-   ],
+   "expected_sha256": "684a6be45bcd4ec9328ded03e3bb6e0d3c23c4fe186f9fb5771ef7d9ce03f3df",
+   "observed_sha256": "684a6be45bcd4ec9328ded03e3bb6e0d3c23c4fe186f9fb5771ef7d9ce03f3df",
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com/post/105261967008",
-   "observed": "http://hazfalafel.com/post/105261967008",
+   "expected_sha256": "ad1af539c798db27319f4311cb5d6202b06069ba5c168de383304bb0a51e32b9",
+   "observed_sha256": "ad1af539c798db27319f4311cb5d6202b06069ba5c168de383304bb0a51e32b9",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected": "20191231235959",
-   "observed": "20191231235959",
+   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
    "passed": true
   },
   {
@@ -149,6 +137,7 @@
   }
  ],
  "manifest_digest": "sha256:115e5d5f2016a1b57cf6ca22f3bbd2ab32d31c4e881218d1237df67a3ca252b9",
+ "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "105261967008",

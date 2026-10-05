@@ -65,50 +65,38 @@
   },
   {
    "check": "metadata[content_text]",
-   "expected": "בוקר ראשון שמח לנוסעים ברכבת ישראל",
-   "observed": "בוקר ראשון שמח לנוסעים ברכבת ישראל",
+   "expected_sha256": "a0b9f20024cbdb4d673daaddf56e00c999949bcd97ec5c2f157e97fea036b541",
+   "observed_sha256": "a0b9f20024cbdb4d673daaddf56e00c999949bcd97ec5c2f157e97fea036b541",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>בוקר ראשון שמח לנוסעים ברכבת ישראל</p>",
-   "observed": "<p>בוקר ראשון שמח לנוסעים ברכבת ישראל</p>",
+   "expected_sha256": "f69f994b51797c563f9c42ddce2c818ffd84976b35442b7a25e2abba61e0d7c2",
+   "observed_sha256": "f69f994b51797c563f9c42ddce2c818ffd84976b35442b7a25e2abba61e0d7c2",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected": [
-    "רכבת-ישראל",
-    "you-dense-motherfucker",
-    "חת'כת-בנזונה-דחוס"
-   ],
-   "observed": [
-    "רכבת-ישראל",
-    "you-dense-motherfucker",
-    "חת'כת-בנזונה-דחוס"
-   ],
+   "expected_sha256": "9e0c979a291b1ebebdddfc9532ab335de91c6aeaed19fbcd062573eb6ec079ff",
+   "observed_sha256": "9e0c979a291b1ebebdddfc9532ab335de91c6aeaed19fbcd062573eb6ec079ff",
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected": [
-    "בוקר ראשון שמח לנוסעים ברכבת ישראל"
-   ],
-   "observed": [
-    "בוקר ראשון שמח לנוסעים ברכבת ישראל"
-   ],
+   "expected_sha256": "1877a18dbe07a3de6170e08561569331991ca0842f4822877401bb816da81a72",
+   "observed_sha256": "1877a18dbe07a3de6170e08561569331991ca0842f4822877401bb816da81a72",
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com/post/104557598813",
-   "observed": "http://hazfalafel.com/post/104557598813",
+   "expected_sha256": "da8409c890492663e1de8ed0b8f9bcb2d1bb0aa3b0918c05bca6a3c172c20ecf",
+   "observed_sha256": "da8409c890492663e1de8ed0b8f9bcb2d1bb0aa3b0918c05bca6a3c172c20ecf",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected": "20191231235959",
-   "observed": "20191231235959",
+   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
    "passed": true
   },
   {
@@ -174,6 +162,7 @@
   }
  ],
  "manifest_digest": "sha256:da0ba5c514ea837916fd72c672daf2e4b537d7a7489439c25f3d67846ce8ac5f",
+ "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "104557598813",

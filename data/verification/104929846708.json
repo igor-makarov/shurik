@@ -45,50 +45,38 @@
   },
   {
    "check": "metadata[content_text]",
-   "expected": "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :(",
-   "observed": "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :(",
+   "expected_sha256": "b752dfa51e8724700c16b94f32e92dad71a91de743ac21a5c1e64a03a3bf89c8",
+   "observed_sha256": "b752dfa51e8724700c16b94f32e92dad71a91de743ac21a5c1e64a03a3bf89c8",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>שמנו את על הקיר של <a href=\"https://www.facebook.com/KidsRtheBestWriters\" title=\"ילדים הם התסריטאים הטובים בעולם\" target=\"_blank\">ילדים הם התסריטאים הטובים בעולם</a> והם מחקו לנו את זה :(</p>",
-   "observed": "<p>שמנו את על הקיר של <a href=\"https://www.facebook.com/KidsRtheBestWriters\" title=\"ילדים הם התסריטאים הטובים בעולם\" target=\"_blank\">ילדים הם התסריטאים הטובים בעולם</a> והם מחקו לנו את זה :(</p>",
+   "expected_sha256": "5490401b91052c536d20685ee07975eddfaff4117bed94d2cc6ca6ddd9865d8b",
+   "observed_sha256": "5490401b91052c536d20685ee07975eddfaff4117bed94d2cc6ca6ddd9865d8b",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected": [
-    "ילדים-הם-התסריטאים-הטובים-בעולם",
-    "זונת-קארמה",
-    "Karma-Whore"
-   ],
-   "observed": [
-    "ילדים-הם-התסריטאים-הטובים-בעולם",
-    "זונת-קארמה",
-    "Karma-Whore"
-   ],
+   "expected_sha256": "4b1aef082f74bf802076ff4012b269cf9d40b74c7c30a8647b30b4d650a42dc9",
+   "observed_sha256": "4b1aef082f74bf802076ff4012b269cf9d40b74c7c30a8647b30b4d650a42dc9",
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected": [
-    "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :("
-   ],
-   "observed": [
-    "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :("
-   ],
+   "expected_sha256": "4057bd438e57f8c09055f68309d77ce4e8f759564dfdc3dc90d320c6211a33e4",
+   "observed_sha256": "4057bd438e57f8c09055f68309d77ce4e8f759564dfdc3dc90d320c6211a33e4",
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com/post/104929846708",
-   "observed": "http://hazfalafel.com/post/104929846708",
+   "expected_sha256": "b42227a78fe5e283d27777d416b80d2095f329f06f24434bc774cce3a610e43b",
+   "observed_sha256": "b42227a78fe5e283d27777d416b80d2095f329f06f24434bc774cce3a610e43b",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected": "20191231235959",
-   "observed": "20191231235959",
+   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
    "passed": true
   },
   {
@@ -149,6 +137,7 @@
   }
  ],
  "manifest_digest": "sha256:74444d1e85f43c31e581d6849ce6e8928d78d6d10fb780924f55e27692a971c5",
+ "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "104929846708",

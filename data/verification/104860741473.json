@@ -65,52 +65,38 @@
   },
   {
    "check": "metadata[content_text]",
-   "expected": "מעוניינים לברך את כחלון ומפלגת “כולנו” ואת ציפי ובוז’י ומפלגת… ציפוז’י?\nתודה לג’ון ברנר",
-   "observed": "מעוניינים לברך את כחלון ומפלגת “כולנו” ואת ציפי ובוז’י ומפלגת… ציפוז’י?\nתודה לג’ון ברנר",
+   "expected_sha256": "9545828d8479f6cf3b87771564df7eb4f7ecc9914e34f8cfc1110075dc3bf8d6",
+   "observed_sha256": "9545828d8479f6cf3b87771564df7eb4f7ecc9914e34f8cfc1110075dc3bf8d6",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<222 chars>",
-   "observed": "<222 chars>",
+   "expected_sha256": "983fb8913bc7bc61cd3ecbc38c37d6666addc18f10c44b63f3e81e00176bc2c0",
+   "observed_sha256": "983fb8913bc7bc61cd3ecbc38c37d6666addc18f10c44b63f3e81e00176bc2c0",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected": [
-    "אני-צריך-לקנות-סירה",
-    "I-SHOULD-BUY-A-BOAT",
-    "בחירות",
-    "בחירות-2015"
-   ],
-   "observed": [
-    "אני-צריך-לקנות-סירה",
-    "I-SHOULD-BUY-A-BOAT",
-    "בחירות",
-    "בחירות-2015"
-   ],
+   "expected_sha256": "99490529b06511103134e403ba6cac866007da9b038155cda3fb67de53790213",
+   "observed_sha256": "99490529b06511103134e403ba6cac866007da9b038155cda3fb67de53790213",
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected": [
-    "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר"
-   ],
-   "observed": [
-    "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר"
-   ],
+   "expected_sha256": "bd10d85dcef1252e9986e414409c3ebddcd682b552c8650134e2960c01b493e4",
+   "observed_sha256": "bd10d85dcef1252e9986e414409c3ebddcd682b552c8650134e2960c01b493e4",
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com/post/104860741473",
-   "observed": "http://hazfalafel.com/post/104860741473",
+   "expected_sha256": "6086a3877bccf57b1d54089faf18f7b34ff90c20c1fb96428895f68ab68ed4eb",
+   "observed_sha256": "6086a3877bccf57b1d54089faf18f7b34ff90c20c1fb96428895f68ab68ed4eb",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected": "20191231235959",
-   "observed": "20191231235959",
+   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
    "passed": true
   },
   {
@@ -176,6 +162,7 @@
   }
  ],
  "manifest_digest": "sha256:543d825c5b108cd61e9518cc61c3bda1edb50aa9341f4fdd0682ec014c3d0738",
+ "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "104860741473",

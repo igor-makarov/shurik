@@ -4,10 +4,16 @@ dist/
 .shurik-emergency/
 *.log
 
-# Hazfalafel recovery: inventories/state are committed, caches are not.
+# Hazfalafel: bulk content belongs in GHCR; Git keeps compact recovery records.
 __pycache__/
 *.pyc
+data/posts/
+data/cdx/
+data/runs/
+data/posts.jsonl
+data/images.jsonl
 data/captures/
 data/blobs/
 data/work/
 data/*.tmp
+.shurik/state/

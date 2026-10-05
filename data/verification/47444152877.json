@@ -45,50 +45,38 @@
   },
   {
    "check": "metadata[content_text]",
-   "expected": "אז במקום לקרוא את “סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר” אצפה במשחקי הכס\nתודה לבאדי",
-   "observed": "אז במקום לקרוא את “סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר” אצפה במשחקי הכס\nתודה לבאדי",
+   "expected_sha256": "713d6a6e7b7609fbe1acb3cc442639efc5fb1711d9350379e8e38818a99bfb0d",
+   "observed_sha256": "713d6a6e7b7609fbe1acb3cc442639efc5fb1711d9350379e8e38818a99bfb0d",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס</p>\n<p>תודה לבאדי</p>",
-   "observed": "<p>אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס</p>\n<p>תודה לבאדי</p>",
+   "expected_sha256": "6c6ba6d785c04a84f8bb80381468682bcdd7bc35784d385ddf19c1f5f6cfe6e4",
+   "observed_sha256": "6c6ba6d785c04a84f8bb80381468682bcdd7bc35784d385ddf19c1f5f6cfe6e4",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected": [
-    "וונקה-מתנשא",
-    "condescending-wonka",
-    "מתקפת-סייבר"
-   ],
-   "observed": [
-    "וונקה-מתנשא",
-    "condescending-wonka",
-    "מתקפת-סייבר"
-   ],
+   "expected_sha256": "3075903cd141bc308cea3b303fff0c292f66ee2c62924905867ac708dbd36530",
+   "observed_sha256": "3075903cd141bc308cea3b303fff0c292f66ee2c62924905867ac708dbd36530",
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected": [
-    "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי"
-   ],
-   "observed": [
-    "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי"
-   ],
+   "expected_sha256": "812c6e1dceb15fb8ab16c091d2c20e81adf4bac48489b53b5058c774dd662470",
+   "observed_sha256": "812c6e1dceb15fb8ab16c091d2c20e81adf4bac48489b53b5058c774dd662470",
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com:80/post/47444152877",
-   "observed": "http://hazfalafel.com:80/post/47444152877",
+   "expected_sha256": "1d606e5d7c0d582ab9f30a4ec37f99cec14999b152bfabb1be00c0e242fa4181",
+   "observed_sha256": "1d606e5d7c0d582ab9f30a4ec37f99cec14999b152bfabb1be00c0e242fa4181",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected": "20191231235959",
-   "observed": "20191231235959",
+   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
    "passed": true
   },
   {
@@ -149,6 +137,7 @@
   }
  ],
  "manifest_digest": "sha256:b4d96fd9e0ef7fa7075187bbb1a40f90dd74d311a5a3c27ad1bf76b9c257f430",
+ "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "47444152877",

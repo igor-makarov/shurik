@@ -145,54 +145,38 @@
   },
   {
    "check": "metadata[content_text]",
-   "expected": "עוד רעיונות? שלחו לנו!\nתבנית: http://i.imgur.com/rQWc0EI.jpg",
-   "observed": "עוד רעיונות? שלחו לנו!\nתבנית: http://i.imgur.com/rQWc0EI.jpg",
+   "expected_sha256": "9edb91d779a44a67696388980d96041b6394007a27aa7558d753beaa48d5f134",
+   "observed_sha256": "9edb91d779a44a67696388980d96041b6394007a27aa7558d753beaa48d5f134",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>עוד רעיונות? שלחו לנו!</p>\n<p>תבנית: <a href=\"http://i.imgur.com/rQWc0EI.jpg\" title=\"יאיר לפיד מנותק\" target=\"_blank\">http://i.imgur.com/rQWc0EI.jpg</a></p>",
-   "observed": "<p>עוד רעיונות? שלחו לנו!</p>\n<p>תבנית: <a href=\"http://i.imgur.com/rQWc0EI.jpg\" title=\"יאיר לפיד מנותק\" target=\"_blank\">http://i.imgur.com/rQWc0EI.jpg</a></p>",
+   "expected_sha256": "8ab6618e69c331c63a516db17ae6aefe78d29fa412e65cc4efbd95afbe717ccf",
+   "observed_sha256": "8ab6618e69c331c63a516db17ae6aefe78d29fa412e65cc4efbd95afbe717ccf",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected": [
-    "יאיר-לפיד",
-    "יאיר-לפיד-מנותק",
-    "אתה-מנותק",
-    "משחקי-הכס",
-    "מלחמת-הכוכבים",
-    "הוט",
-    "אבודים"
-   ],
-   "observed": [
-    "יאיר-לפיד",
-    "יאיר-לפיד-מנותק",
-    "אתה-מנותק",
-    "משחקי-הכס",
-    "מלחמת-הכוכבים",
-    "הוט",
-    "אבודים"
-   ],
+   "expected_sha256": "27495ebedf0d8e47203ece9cbe4084123f1e0e450825d13c9ff8cc791c6a5437",
+   "observed_sha256": "27495ebedf0d8e47203ece9cbe4084123f1e0e450825d13c9ff8cc791c6a5437",
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected": [],
-   "observed": [],
+   "expected_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "observed_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com/post/104317036098",
-   "observed": "http://hazfalafel.com/post/104317036098",
+   "expected_sha256": "f2dee8ba0817d5b5a4d2a6ed35e4db4d04c4703dd907fefab18c78e65dc2d8c6",
+   "observed_sha256": "f2dee8ba0817d5b5a4d2a6ed35e4db4d04c4703dd907fefab18c78e65dc2d8c6",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected": "20191231235959",
-   "observed": "20191231235959",
+   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
    "passed": true
   },
   {
@@ -272,6 +256,7 @@
   }
  ],
  "manifest_digest": "sha256:8ab108f07cea8481bd9df3aea850ec5bd6e69e070663cea2f17a54f87e5de02d",
+ "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "104317036098",
