@@ -352,7 +352,13 @@ class CircuitBreakerDeferralTests(unittest.TestCase):
         # no "later image" left unasked, and the original assertion compared two
         # unrelated counters (`deferred + transient == transient + transient`,
         # i.e. "deferred == transient") and could never hold.
-        ids = self._seed(2, images_per_post=2)
+        # Three posts, two images each: the breaker needs
+        # `http.BREAKER_THRESHOLD` consecutive throttled answers before it
+        # opens, so only the *third* post can still be left entirely unasked
+        # (two throttles inside the first post, one inside the second). With two
+        # posts every post spends at least one request and nothing is deferred
+        # without having been asked.
+        ids = self._seed(3, images_per_post=2)
         routes = {"im_/": Response(url="", status=429, error=THROTTLED, message="slow down")}
 
         class Tripping(FakeArchive):
@@ -362,7 +368,7 @@ class CircuitBreakerDeferralTests(unittest.TestCase):
                 return Response(url=url, status=resp.status, error=resp.error,
                                 message=resp.message)
 
-        out = self._run(Tripping(routes, sleep=lambda _s: None), limit_posts=2)
+        out = self._run(Tripping(routes, sleep=lambda _s: None), limit_posts=3)
 
         # Every post in the batch is accounted for: it either spent at least one
         # request (so it is counted as a transient outcome) or it was deferred
