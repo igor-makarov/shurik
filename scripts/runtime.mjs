@@ -1,18 +1,20 @@
 import { spawn } from 'node:child_process';
 import { cp, mkdir, readFile, writeFile, rm, mkdtemp } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import { command, saveJson, readJson } from './github.mjs';
-import { digest, classify } from './policy.mjs';
-export async function retainBundle(bundle, state, source) {
-  const bytes = await readFile(bundle); const sha = digest(bytes);
-  const dir = join(state, 'runtimes', sha); await mkdir(dir, { recursive: true });
-  await writeFile(join(dir, 'worker.cjs'), bytes);
-  await saveJson(join(dir, 'manifest.json'), { version: 1, sha256: sha, source }); return sha;
-}
-export async function verifyBundle(state, sha) {
-  if (!/^[a-f0-9]{64}$/.test(sha)) throw new Error('Invalid runtime digest');
-  const path = join(state, 'runtimes', sha, 'worker.cjs');
-  if (digest(await readFile(path)) !== sha) throw new Error('Runtime bundle digest mismatch'); return path;
+import { command, git, saveJson, readJson } from './github.mjs';
+import { classify } from './policy.mjs';
+export async function buildRuntime(repository, source, stable, cache = new Map()) {
+  if (!/^[a-f0-9]{40}$/.test(source)) throw new Error('Invalid runtime source commit');
+  if (cache.has(source)) return cache.get(source);
+  const dir = await temporary('shurik-runtime-', stable);
+  const checkout = join(dir, 'source');
+  await git(repository, 'clone', '--no-checkout', repository, checkout);
+  await git(checkout, 'checkout', '--detach', source);
+  await cp(join(stable, 'scripts/build.mjs'), join(checkout, 'trusted-build.mjs'));
+  await command('npm', ['ci', '--ignore-scripts', '--prefer-offline'], checkout);
+  await command(process.execPath, ['trusted-build.mjs'], checkout);
+  const bundle = join(checkout, 'dist/worker.cjs');
+  cache.set(source, bundle); return bundle;
 }
 async function temporary(name, stable) {
   const root = process.env.RUNNER_TEMP ?? join(stable, '.shurik-local');
@@ -20,8 +22,10 @@ async function temporary(name, stable) {
 }
 export async function validateCandidate(workspace, stable, journal, destination) {
   const tmp = await temporary('shurik-candidate-', stable);
-  const candidate = join(tmp, 'source'); await mkdir(candidate);
-  await cp(workspace, candidate, { recursive: true, filter: path => !['.git', '.github', '.shurik', '.shurik-local', 'node_modules', 'dist'].includes(path.split('/').at(-1)) });
+  const source = await git(workspace, 'rev-parse', 'HEAD');
+  const candidate = join(tmp, 'source');
+  await git(workspace, 'clone', '--no-checkout', workspace, candidate);
+  await git(candidate, 'checkout', '--detach', source);
   // Fixed build + checks come from the trusted supervisor, irrespective of candidate package scripts/tests.
   await cp(join(stable, 'scripts/build.mjs'), join(candidate, 'trusted-build.mjs'));
   await cp(join(stable, 'tests/worker.test.mjs'), join(candidate, 'trusted-worker.test.mjs'));
@@ -38,8 +42,8 @@ export async function validateCandidate(workspace, stable, journal, destination)
     await check(process.execPath, ['trusted-build.mjs']);
     await check(process.execPath, ['--test', 'trusted-worker.test.mjs']);
     await cp(join(candidate, 'dist/worker.cjs'), destination);
-    return { passed: true, log: log.slice(-16000) };
-  } catch (error) { return { passed: false, log: `${log}${error.stdout ?? ''}\n${error.stderr ?? ''}\n${error.message}`.slice(-16000) }; }
+    return { passed: true, source, log: log.slice(-16000) };
+  } catch (error) { return { passed: false, source, log: `${log}${error.stdout ?? ''}\n${error.stderr ?? ''}\n${error.message}`.slice(-16000) }; }
   finally { await rm(tmp, { recursive: true, force: true }); }
 }
 export async function launchWorker({ workspace, state, bundle, req, onCheckpoint, onPoll, key, stable }) {

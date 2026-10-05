@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { ControlStore, git, command, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.mjs';
 import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot } from '../scripts/policy.mjs';
-import { retainBundle, verifyBundle } from '../scripts/runtime.mjs';
+import { buildRuntime } from '../scripts/runtime.mjs';
 import { expireUnstartedIteration } from '../scripts/supervisor.mjs';
 
 async function expiredFixture() {
@@ -123,10 +123,10 @@ test('redacts exact credentials and common encoded forms before publication', as
   assert.ok(!String(await readFile(join(dir, 'journal.jsonl'))).includes(key));
   assert.equal(JSON.parse(await readFile(join(dir, 'journal.jsonl'), 'utf8')).text.length, key.length);
 });
-test('retained bundle digest is checked independently of candidate dependencies; tampering is rejected', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'shurik-runtime-')); const sha = await retainBundle('dist/worker.cjs', dir, 'source');
-  const path = await verifyBundle(dir, sha); assert.ok(path.endsWith('worker.cjs'));
-  await writeFile(path, 'broken'); await assert.rejects(verifyBundle(dir, sha), /digest mismatch/);
+test('runtime selection uses immutable source commit IDs, not bundles or branch names', async () => {
+  for (const source of ['main', '../source', 'a'.repeat(64), '']) {
+    await assert.rejects(buildRuntime('.', source, '.'), /source commit/);
+  }
 });
 test('Git CAS race preserves a durable stop during worker finalization; no force push', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-cas-')); const remote = join(dir, 'remote'); const seed = join(dir, 'seed');

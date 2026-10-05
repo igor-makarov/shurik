@@ -2,10 +2,11 @@ import { mkdtemp, mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
-import { api, git, command, configureGit, saveJson, readJson, commit, ControlStore } from './github.mjs';
+import { api, git, configureGit, saveJson, readJson, ControlStore } from './github.mjs';
 import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot } from './policy.mjs';
-import { retainBundle, verifyBundle, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
+import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt } from './failures.mjs';
+import { loadState, publishCheckpoint, initializeCheckpoint } from './state.mjs';
 
 const stable = resolve(process.env.GITHUB_WORKSPACE ?? '.');
 const repo = process.env.GITHUB_REPOSITORY;
@@ -41,21 +42,20 @@ async function pruneAndGuard(workspace, state, initial) {
   const redactions = await sanitizeTree(workspace, secrets);
   return { attempted, redactions };
 }
-async function publish(workspace, controlStore, generation, state, message, initial) {
-  const control = (await controlStore.read()).value;
-  if (control.generation !== generation) throw new Error('Stale generation: preserving local evidence without publishing over resumed work');
+async function publish(workspace, controlStore, generation, state, message, initial, record) {
   const guard = await pruneAndGuard(workspace, state, initial);
   if (guard.attempted || guard.redactions) await saveJson(join(state, 'diagnostics/publication.json'), guard);
-  const sha = await commit(workspace, message);
-  // Fast-forward push is the branch compare-and-swap. Conflicts are never force-pushed.
-  await git(workspace, 'push', 'origin', `HEAD:refs/heads/${control.branch}`); return sha;
+  return publishCheckpoint({ workspace, state, store: controlStore, generation, owner: record ? runId : null,
+    sequence: record?.id ?? 'initialize', message, record });
 }
-async function createPr(control) {
+async function createPr(control, workspace) {
   const existing = await api(`pulls?state=open&head=${encodeURIComponent(repo.split('/')[0] + ':' + control.branch)}`);
   if (existing[0]) return existing[0].html_url;
+  // An empty task branch has no PR yet. State on the control branch must not manufacture a code diff.
+  if (!await git(workspace, 'diff', '--name-only', `origin/${control.defaultBranch}...HEAD`)) return null;
   const pr = await api('pulls', 'POST', { title: `Shurik loop: ${control.id}`, head: control.branch,
     base: control.defaultBranch, draft: true,
-    body: 'Autonomous Ralph loop work and public session history. Partial and failed iterations are retained. Review source, dependencies, and transcripts before merging. Workflow changes are blocked; merging is manual.' });
+    body: `Autonomous Ralph task changes. Session journals and failure diagnostics are retained on the [control branch](https://github.com/${repo}/tree/codex/shurik-control/${control.id}), including partial and failed iterations. Review source, dependencies, and transcripts before merging. Workflow changes are blocked; merging is manual.` });
   return pr.html_url;
 }
 export async function start(options) {
@@ -73,15 +73,14 @@ export async function start(options) {
   const branch = `codex/shurik/${id}`;
   const supervisor = await git(stable, 'rev-parse', 'HEAD');
   const source = options.source_ref ? (await api(`commits/${encodeURIComponent(options.source_ref)}`)).sha : supervisor;
-  const control = { version: 1, id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
+  const control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
     owner: null, deadline, seconds, model, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, supervisor);
-  await saveJson(join(ctl, 'control.json'), control); await commit(ctl, `shurik: start ${id}`);
-  await git(ctl, 'push', 'origin', `HEAD:refs/heads/${store.branch}`);
   const workspace = await clone('workspace'); await git(workspace, 'checkout', '-b', branch, source);
-  const state = join(workspace, '.shurik/state', id); await mkdir(join(state, 'pi-jsonl'), { recursive: true });
-  const bundle = await retainBundle(join(stable, 'dist/worker.cjs'), state, supervisor);
-  await saveJson(join(state, 'runtime.json'), { version: 1, selected: bundle, fallback: bundle, probation: false, quarantined: [], validatedSource: supervisor });
+  emergencyWorkspace = workspace;
+  const state = join(workspace, '.shurik-local/state', id); await mkdir(join(state, 'pi-jsonl'), { recursive: true });
+  await saveJson(join(state, 'runtime.json'), { version: 2, selected: supervisor, fallback: supervisor,
+    probation: false, quarantined: [], validatedSource: supervisor });
   await saveJson(join(state, 'history-index.json'), []);
   if (verification) {
     // Only this explicit disposable verification mode introduces a deterministic runner defect.
@@ -91,10 +90,12 @@ export async function start(options) {
     await writeFile(join(workspace, 'PROMPT.md'), 'Verification task: inspect src/verification-defect.ts and the import in src/worker.ts. Use bash/read/edit/write tools to remove this intentional import-time runner fault. Write verification-proof.txt containing a short explanation. Use list_sessions and search_sessions to inspect prior iteration failures. If prior sessions exist, read one with read_session. Make no other code changes. Then yield.\n');
   }
   await saveJson(join(state, 'loop.json'), loopSnapshot(control));
-  await publish(workspace, store, 1, state, `shurik: initialize ${id}`, supervisor);
-  const pr = await createPr(control);
+  await pruneAndGuard(workspace, state, supervisor);
+  await initializeCheckpoint({ workspace, state, store, control, message: `shurik: initialize ${id}` });
+  const pr = await createPr(control, workspace);
   await store.mutate(c => ({ ...c, pr, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
-  console.log(`Draft PR: ${pr}`); await dispatch({ ...control, pr });
+  console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}; draft PR awaits task changes`);
+  await dispatch({ ...control, pr });
 }
 export async function expireUnstartedIteration(store, generation, iteration, invocationRunId) {
   // Recheck the fence inside CAS: a skipped invocation must never stop a resumed generation or another owner.
@@ -120,7 +121,7 @@ export async function iterate(options) {
   }
   const workspace = await clone('workspace'); await git(workspace, 'checkout', control.branch);
   emergencyWorkspace = workspace;
-  const initial = await git(workspace, 'rev-parse', 'HEAD'); const state = join(workspace, '.shurik/state', id);
+  const initial = await git(workspace, 'rev-parse', 'HEAD'); const state = await loadState(store, workspace, id);
   const sequence = `${generation}-${iteration}`; const recordPath = join(state, 'iterations', `${sequence}.json`);
   let runtime = await readJson(join(state, 'runtime.json')); let sessions = await readJson(join(state, 'history-index.json'));
   const failures = await importFailures(store, state);
@@ -129,21 +130,23 @@ export async function iterate(options) {
     outcome: 'running', source: initial, runtime: runtime.selected };
   await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
   await saveJson(join(state, 'loop.json'), loopSnapshot(control));
-  await publish(workspace, store, generation, state, `shurik: begin iteration ${sequence}`, initial);
+  await publish(workspace, store, generation, state, `shurik: begin iteration ${sequence}`, initial, record);
   const journal = join(state, 'pi-jsonl'); await mkdir(journal, { recursive: true });
   const before = await mkdtemp(join(tmpdir(), 'shurik-journal-'));
   await cp(journal, before, { recursive: true });
   let publishedBounds;
+  let fallback; const builds = new Map();
   let report = { outcome: 'runner_failure', result: null, log: '' };
   try {
-    let bundle = await verifyBundle(state, runtime.selected);
+    // Build the working fallback before attempting changed runner source. All build output stays local.
+    fallback = await buildRuntime(workspace, runtime.fallback, stable, builds);
+    let bundle;
     // Verification run 1 deliberately boots a structurally broken candidate that passed a simulated probation handoff.
     // The fallback remains the real validated baseline. No fake model is used in the live repair iteration.
     if (control.verification && iteration === 1) {
-      const broken = join(state, 'runtimes/broken.cjs'); await writeFile(broken, 'throw new Error("SHURIK_VERIFICATION_RUNNER_FAULT");');
-      const sha = await retainBundle(broken, state, initial); await rm(broken);
-      runtime = { ...runtime, selected: sha, probation: true }; record.runtime = sha; bundle = await verifyBundle(state, sha);
+      runtime = { ...runtime, selected: initial, probation: true }; record.runtime = initial;
     }
+    bundle = await buildRuntime(workspace, runtime.selected, stable, builds);
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
     report = await launchWorker({ workspace, state, bundle, stable, key: process.env.OPENCODE_API_KEY,
       req: { version: 1, id: `${id}:${sequence}`, model: control.model, seconds,
@@ -152,14 +155,14 @@ export async function iterate(options) {
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
       onCheckpoint: async (checkpoint, log) => {
         // Update rollback only after a readable, published checkpoint. A later corruption restores this boundary.
-        if (!await inspectJournal(await verifyBundle(state, runtime.fallback), journal, stable)) throw new Error('Checkpoint journal is not readable by retained runtime');
+        if (!await inspectJournal(fallback, journal, stable)) throw new Error('Checkpoint journal is not readable by fallback runner');
         if (checkpoint.id !== `${id}:${sequence}` || !Number.isSafeInteger(checkpoint.minEntryId)
           || !Number.isSafeInteger(checkpoint.maxEntryId) || checkpoint.maxEntryId < checkpoint.minEntryId) throw new Error('Invalid checkpoint session boundaries');
         record.minEntryId = checkpoint.minEntryId; record.maxEntryId = checkpoint.maxEntryId; record.checkpointAt = checkpoint.at;
         upsertSession(sessions, record);
         await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
         await saveJson(join(state, 'diagnostics', `${sequence}-worker.json`), { checkpoint, log: redact(log, secrets) });
-        await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial);
+        await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial, record);
         publishedBounds = { minEntryId: record.minEntryId, maxEntryId: record.maxEntryId, checkpointAt: record.checkpointAt };
         await rm(before, { recursive: true, force: true }); await cp(journal, before, { recursive: true });
       }
@@ -173,8 +176,7 @@ export async function iterate(options) {
       outcome: report.outcome, code: report.code, error: report.result?.error, log: redact(report.log, secrets), checkpointAt: record.checkpointAt
     });
     await sanitizeTree(workspace, secrets);
-    const fallback = await verifyBundle(state, runtime.fallback);
-    if (await repairJournal({ bundle: fallback, journal, backup: before, diagnostics: join(state, 'diagnostics', `${sequence}-malformed-journal`), stable })) {
+    if (fallback && await repairJournal({ bundle: fallback, journal, backup: before, diagnostics: join(state, 'diagnostics', `${sequence}-malformed-journal`), stable })) {
       record.outcome = 'runner_failure'; record.error += '\nJournal invalid; restored last readable checkpoint. Malformed files retained.';
       Object.assign(record, publishedBounds ?? { minEntryId: undefined, maxEntryId: undefined, checkpointAt: undefined });
     } else {
@@ -185,7 +187,7 @@ export async function iterate(options) {
     upsertSession(sessions, record);
     await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
     await saveJson(join(state, 'runtime.json'), runtime);
-    await publish(workspace, store, generation, state, `shurik: save ${sequence} (${record.outcome})`, initial);
+    await publish(workspace, store, generation, state, `shurik: save ${sequence} (${record.outcome})`, initial, record);
   }
   // Candidate failure never suppresses the next iteration. Quarantine the source until it changes.
   const sourceHash = await git(workspace, 'rev-parse', 'HEAD:src');
@@ -196,12 +198,16 @@ export async function iterate(options) {
     const validation = await validateCandidate(workspace, stable, journal, candidateBundle);
     await saveJson(join(state, 'diagnostics', `${sequence}-validation.json`), validation);
     if (validation.passed) {
-      const selected = await retainBundle(candidateBundle, state, await git(workspace, 'rev-parse', 'HEAD'));
+      const selected = validation.source;
       runtime = { ...runtime, selected, fallback: runtime.selected, probation: selected !== runtime.selected,
         validatedFingerprint: fingerprint, rejectedFingerprint: null };
     } else runtime = { ...runtime, rejectedFingerprint: fingerprint };
     await saveJson(join(state, 'runtime.json'), runtime);
-    await publish(workspace, store, generation, state, `shurik: candidate validation ${sequence}`, initial);
+    await publish(workspace, store, generation, state, `shurik: candidate validation ${sequence}`, initial, record);
+  }
+  if (!control.pr) {
+    const pr = await createPr(control, workspace);
+    if (pr) await store.mutate(c => c.generation === generation ? { ...c, pr } : null);
   }
   // The stable control branch is authoritative: edits or cancellation during cleanup cannot resurrect the loop.
   control = await store.mutate(c => {

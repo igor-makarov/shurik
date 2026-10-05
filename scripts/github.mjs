@@ -1,7 +1,7 @@
 // Stable supervisor code. This module uses built-ins only and never executes worker source.
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, cp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 const exec = promisify(execFile);
 export async function command(cmd, args, cwd, options = {}) {
@@ -67,7 +67,7 @@ export class ControlStore {
     const revision = await git(this.cwd, 'rev-parse', 'FETCH_HEAD');
     return { revision, value: JSON.parse(await git(this.cwd, 'show', `${revision}:control.json`)) };
   }
-  async mutate(change, message = 'shurik: update loop control', evidence = {}) {
+  async mutate(change, message = 'shurik: update loop control', evidence = {}, checkpoint) {
     for (let i = 0; i < 5; i++) {
       const { revision, value } = await this.read();
       const next = await change(structuredClone(value)); if (!next) return value;
@@ -77,8 +77,16 @@ export class ControlStore {
         if (!/^failures\/\d+-\d+\.json$/.test(path)) throw new Error('Invalid evidence path');
         await saveJson(join(this.cwd, path), report);
       }
-      await saveJson(join(this.cwd, 'control.json'), next); await commit(this.cwd, message);
-      try { await git(this.cwd, 'push', 'origin', `HEAD:refs/heads/${this.branch}`); return next; }
+      if (checkpoint) {
+        await rm(join(this.cwd, 'state'), { recursive: true, force: true });
+        await cp(checkpoint.state, join(this.cwd, 'state'), { recursive: true });
+        // Import the task commit locally. Both remote refs are then published in one Git transaction.
+        await git(this.cwd, 'fetch', checkpoint.workspace, checkpoint.workCommit);
+      }
+      await saveJson(join(this.cwd, 'control.json'), next); const revisionToPush = await commit(this.cwd, message);
+      const refs = [`${revisionToPush}:refs/heads/${this.branch}`];
+      if (checkpoint) refs.push(`${checkpoint.workCommit}:refs/heads/${checkpoint.workBranch}`);
+      try { await git(this.cwd, 'push', ...(checkpoint ? ['--atomic'] : []), 'origin', ...refs); return next; }
       catch (e) { if (i === 4) throw e; }
     }
   }

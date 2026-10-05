@@ -12,7 +12,7 @@ This document records the agreed design. Implementation now lives in `src/`, `sc
 | Model access | OpenCode Go with an API key |
 | Context | Fresh context for every iteration |
 | Past sessions | Every iteration can search and read previous session history |
-| Persistence | JSONL history, progress, and metadata committed on the working branch |
+| Persistence | JSONL history, outcomes, and diagnostics on the control branch; task files on the work branch |
 | Publication | One working branch and draft PR per loop; merging remains manual |
 | Execution | One agent iteration per Actions run |
 | Agent failure | Preserve partial work and state, mark the failure, and start another iteration |
@@ -48,7 +48,7 @@ tests/                            Integration and failure recovery tests
 .github/workflows/control.yml      Durable stop and explicit resume commands
 .github/workflows/ci.yml           Bootstrap and runner validation
 .shurik/config.json               Repository settings and defaults
-.shurik/state/<loop-id>/           Tracked history, diagnostics, and loop metadata
+.shurik-local/state/<loop-id>/     Ignored local copy of control-branch state/
 ```
 
 Use TypeScript for the agent code and an independently executable supervisor. Target Node 24, which meets Pi Durable's documented minimum of Node 22.19.0. Resolve and pin a compatible released set of pi-durable, pi-ai, and chord during the first implementation spike; commit the lockfile and use npm ci. [Package requirements](https://github.com/earendil-works/pi/blob/main/packages/durable/package.json)
@@ -63,7 +63,7 @@ Keep the workflow and active supervisor stable during a loop. Worker, tool, hist
 
 Separate outside-contributor CI from credentialed loop execution. Fork pull request checks get no OpenCode secret and no write token. Authorize loop starts through maintainer-controlled dispatch, and validate source provenance before adopting code or dependencies supplied by contributors; passing tests is not an authorization to run unreviewed changes with credentials. Privileged recovery must accept only the expected first-party loop workflow, repository, branch, run identifier, and generation, and must ignore fork PR artifacts and outputs. This policy does not by itself keep the key hidden from a self-modified worker that receives it; stronger isolation would require a trusted credential broker outside that worker.
 
-Preserve a tested fallback worker bundle independently of candidate dependencies. The implementation spike must prove that the bundle starts in a clean environment without the candidate's node_modules. Track its immutable source revision, bundle digest, dependency versions, and state compatibility. If self-contained bundling proves unsuitable, resolve the packaging strategy before implementing promotion.
+Preserve tested selected/fallback source commit IDs on the control branch. Each fresh runner checks out the appropriate immutable revision separately, installs its own lockfile, and builds it using the pinned supervisor build script. Candidate dependencies cannot replace fallback dependencies. Bundles and node_modules remain local build output. Check history compatibility before promoting source; rebuild failure evidence must survive for the next iteration.
 
 ## Iteration lifecycle
 
@@ -84,21 +84,20 @@ Use workflow_dispatch for successors. GitHub documents that these dispatches can
 
 ## State and past session access
 
-Keep state directly in the working branch:
+Keep framework state on the control branch; hydrate an ignored local copy for the agent:
 
 ```text
-.shurik/state/<loop-id>/
+state/                            On codex/shurik-control/<loop-id>
   loop.json                       Identity/progress snapshot; no deadline or execution budget
-  runtime.json                    Selected runner, fallback, and validation records
+  runtime.json                    Selected/fallback source commits and validation records
   history-index.json              Iteration summaries and transcript boundaries
   pi-jsonl/                       Native Pi Durable journal directory
   iterations/<iteration-id>.json  Outcome, source revision, runner revision, diagnostics
   diagnostics/                    Error output and candidate check reports
   diagnostics/recovery/           Imported immutable Actions failure reports
-  runtimes/                       Tested fallback bundles and their manifests
 ```
 
-Pi Durable provides directory-based JSONL storage, retained history after reset, and a persisted provider session identity. Use its native journal format rather than inventing a substitute transcript format. Its storage has one process owner, so recovery and validation must operate on copies while a worker is active. [Persistence and storage](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md)
+Pi Durable provides directory-based JSONL storage, retained history after reset, and a persisted provider session identity. Use its native journal format rather than inventing a substitute transcript format. Store the complete state directory on the control branch under `state/`; hydrate it into ignored `.shurik-local/state/<id>/` in each task checkout. Atomically push the work commit and control checkpoint together, recording the work commit in the control record. The work branch contains task code and task-owned files. Its storage has one process owner, so recovery and validation must operate on copies while a worker is active. [Persistence and storage](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md)
 
 Implement list_sessions, search_sessions, and read_session tools. Search all relevant retained iterations, with pagination, bounded excerpts, and stable identifiers. Read transcript ranges on demand. Do not copy the entire history into every fresh prompt. The upstream history example demonstrates the basic retrieval approach; Shurik adds indexing and bounded access. [History example](https://earendil.com/posts/pi-durable/#compaction)
 
@@ -114,9 +113,9 @@ Validate candidates in a separate workspace using a copy of real persisted state
 
 Run a short canary before promotion. Use a disposable target and copied history, keeping it out of the live task. Candidate checks run on the runner with the job environment. The candidate check specification comes from the stable supervisor revision, so a candidate cannot weaken its promotion criteria merely by changing package scripts or tests. This is a correctness check, not credential isolation.
 
-A successful canary makes a candidate eligible. Retain the previous working bundle through a probation iteration on the real task. Classify runner faults separately from model, task, or provider failures: a compile/import error or broken tool protocol triggers fallback; a model request failure alone does not prove the runner architecture is broken.
+A successful canary makes a candidate source revision eligible. Retain the previous working source revision through a probation iteration on the real task. Classify runner faults separately from model, task, or provider failures: a compile/import error or broken tool protocol triggers fallback; a model request failure alone does not prove the runner architecture is broken.
 
-If an eligible candidate fails structurally in the real iteration, quarantine it and select the retained worker. The fallback still operates on the latest working source, including the broken candidate, and sees the failure report. A later agent can therefore repair the defect rather than repeatedly booting the same unusable code. Candidate validation failure does not discard its source changes or end the Ralph loop.
+If an eligible candidate fails structurally in the real iteration, quarantine its source revision and select the fallback revision. Rebuild that revision with its lockfile in a separate checkout. The fallback still operates on the latest working source, including the broken candidate, and sees the failure report. A later agent can therefore repair the defect rather than repeatedly booting the same unusable code. Candidate validation failure does not discard its source changes or end the Ralph loop.
 
 The acceptance promise is a functioning opportunity to repair, not a guarantee that the model can fix every defect.
 

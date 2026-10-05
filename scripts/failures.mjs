@@ -125,9 +125,9 @@ export async function recoverInterrupted(state, sessions, reports) {
 export function iterationPrompt(task, sequence, sessions, reports, loopId) {
   const recent = sessions.slice(-3).map(({ id, outcome, error, transcript, recovery }) => ({ id, outcome, error, transcript, recovery }));
   const failures = reports.slice(-3).map(r => ({ runId: r.runId, conclusion: r.conclusion,
-    path: `.shurik/state/${loopId}/diagnostics/recovery/${r.key}.json`, jobsUnavailable: r.jobsUnavailable,
+    path: `.shurik-local/state/${loopId}/diagnostics/recovery/${r.key}.json`, jobsUnavailable: r.jobsUnavailable,
     jobs: r.jobs.filter(j => j.conclusion !== 'success' || j.log).map(j => ({ name: j.name, conclusion: j.conclusion,
       steps: j.steps.filter(s => s.conclusion && s.conclusion !== 'success' && s.conclusion !== 'skipped'),
       logExcerpt: j.log?.text.slice(-2000), logUnavailable: j.logUnavailable })) }));
-  return `${task}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under .shurik/state/${loopId}/diagnostics/recovery/. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
+  return `${task}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under .shurik-local/state/${loopId}/diagnostics/recovery/. This local state comes from the control branch and is excluded from task commits. Use the initial coding-tool working directory for task changes; GITHUB_WORKSPACE is the separate supervisor checkout. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
 }
