@@ -2,8 +2,9 @@
 
 The loop was stopped by the maintainer after iteration 3-59. It remains stopped.
 Main was merged into this branch, journals were moved to the control branch, and
-compiled runner bundles were replaced with source commit references. The next
-continuation will use the supervisor at `1675a657e95800f2379dc0c107e695ed716b2d87`.
+compiled runner bundles were replaced with source commit references. The maintainer
+explicitly selected high reasoning for the next resume; no default was added. The next
+continuation will use the supervisor at `b4cd2887b0f06ce92a2ccf1bed04eac3646af364`.
 
 ## Last saved crawl counts
 
