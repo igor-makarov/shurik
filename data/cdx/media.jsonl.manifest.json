@@ -134,14 +134,18 @@
       "complete": true,
       "host": "66.media.tumblr.com",
       "kept": 0,
+      "keys_at_scan": 3692,
       "new": 0,
-      "pages": 1,
+      "page_size": 2000,
+      "pages": 20,
       "response": {
         "error": "ok",
         "message": "",
+        "raw_rows": 1336,
         "status": 200
       },
-      "rows": 3526
+      "rows": 39336,
+      "scanned_at": "2026-10-05T03:51:44+00:00"
     },
     "host:67.media.tumblr.com": {
       "complete": true,
@@ -170,20 +174,21 @@
       "rows": 3727
     },
     "host:78.media.tumblr.com": {
-      "complete": false,
+      "complete": true,
       "host": "78.media.tumblr.com",
       "kept": 0,
-      "keys_at_scan": 2397,
+      "keys_at_scan": 3692,
       "new": 0,
       "page_size": 2000,
-      "pages": 31,
+      "pages": 52,
       "response": {
-        "error": "throttled",
-        "message": "HTTP 429",
-        "status": 429
+        "error": "ok",
+        "message": "",
+        "raw_rows": 1723,
+        "status": 200
       },
-      "rows": 60000,
-      "scanned_at": "2026-10-05T02:07:00+00:00"
+      "rows": 101723,
+      "scanned_at": "2026-10-05T03:50:42+00:00"
     }
   },
   "stats": {

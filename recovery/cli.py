@@ -14,6 +14,7 @@ from . import config
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
 from .images import blob_path, resolve_image, sniff_image, store_blob
+from .listing import (listing_kind, merge_listing_evidence, parse_listing_page)
 from .media import MEDIA_CAPTURE_FILE, MediaIndex, host_of, hosts_for, scan_host, stems_of
 from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
@@ -590,6 +591,130 @@ def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] =
 
 
 # ---------------------------------------------------------------------- status
+# ---------------------------------------------------------------------- listings
+# `/archive/YYYY/MM` and `/tagged/<tag>` captures are indexed but were never
+# fetched. They are the only surviving evidence for permalinks that were never
+# captured, and they carry a second CDN size variant of every post image.
+LISTING_EVIDENCE_FILE = os.path.join(config.CDX_DIR, "listing-posts.jsonl")
+# Resumability lives in the evidence file itself: a capture is done when a row
+# with its `<timestamp>|<url>` key exists. A separate manifest would be one more
+# thing to drift out of sync with the data.
+LISTING_KIND_ORDER = ("archive", "tagged", "post_other", "other")
+
+
+def fetch_listings(fetcher: Fetcher, limit: int = 20, kinds: tuple[str, ...] = ("archive", "tagged"),
+                    concurrency: int = config.DEFAULT_CONCURRENCY) -> dict:
+    """Download archived listing pages and fold their evidence into the posts."""
+    ensure_dirs()
+    store = PostStore()
+    evidence = JsonlStore(LISTING_EVIDENCE_FILE, key_fields=("capture_key",))
+    done = {r.get("capture_key") for r in evidence.records()}
+    index = CaptureIndex(capture_file("listing.jsonl"))
+    caps = list(index.all())
+    # Archive months first: one page enumerates a whole month of posts, so they
+    # buy far more post ids per request than a single-tag page.
+    caps.sort(key=lambda c: (LISTING_KIND_ORDER.index(listing_kind(c.original))
+                             if listing_kind(c.original) in LISTING_KIND_ORDER else 9,
+                             c.timestamp, c.original))
+    todo = [c for c in caps
+            if listing_kind(c.original) in kinds
+            and f"{c.timestamp}|{normalize_url(c.original)}" not in done]
+    todo = todo[: max(0, limit)]
+    ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
+    stats = {"considered": len(caps), "done": len(done), "selected": len(todo),
+             "fetched": 0, "new_posts": 0, "posts_touched": 0,
+             "images_added": 0, "forms_merged": 0, "failed": 0}
+    lock = __import__("threading").Lock()
+
+    def work(cap: Capture) -> tuple[list[dict], list[dict], dict]:
+        key = f"{cap.timestamp}|{normalize_url(cap.original)}"
+        resp = fetcher.replay(cap.timestamp, cap.original, mode="id_")
+        attempt = {"url": cap.original, "endpoint": "replay id_", "kind": "listing:" + listing_kind(cap.original),
+                   "capture_timestamp": cap.timestamp, "status": resp.status,
+                   "error": resp.error, "message": resp.message, "bytes": len(resp.body or b"")}
+        if not resp.ok or not resp.body:
+            return [], [], {"capture_key": key, "error": resp.error or "no_body", "attempts": [attempt]}
+        if "html" not in resp.headers.get("content-type", "") and resp.body[:200].lstrip()[:1] not in (b"<",):
+            return [], [], {"capture_key": key, "error": "not_html", "attempts": [attempt]}
+        parsed = parse_listing_page(resp.text(), cap.original, cap.timestamp, resp.url)
+        rows: list[dict] = []
+        for post in parsed["posts"]:
+            rows.append({"capture_key": key, "post_id": post["post_id"],
+                         "listing_url": cap.original, "listing_kind": listing_kind(cap.original),
+                         "timestamp": cap.timestamp, "replay_url": resp.url,
+                         "page_sha256": parsed["page_sha256"], "urls": post.get("urls", []),
+                         "images": post.get("images", [])})
+        for pid in parsed["post_ids"]:
+            if not any(r["post_id"] == pid for r in rows):
+                rows.append({"capture_key": key, "post_id": pid, "listing_url": cap.original,
+                             "listing_kind": listing_kind(cap.original), "timestamp": cap.timestamp,
+                             "replay_url": resp.url, "page_sha256": parsed["page_sha256"],
+                             "urls": [], "images": []})
+        for img in parsed["unassigned_images"]:
+            rows.append({"capture_key": key, "post_id": "", "listing_url": cap.original,
+                         "listing_kind": listing_kind(cap.original), "timestamp": cap.timestamp,
+                         "replay_url": resp.url, "page_sha256": parsed["page_sha256"],
+                         "urls": [], "images": [img], "note": "no permalink anchor before this image"})
+        return rows, [], {"capture_key": key, "error": None, "posts": len(parsed["post_ids"]),
+                          "images": sum(len(p["images"]) for p in parsed["posts"]),
+                          "attempts": [attempt]}
+
+    if todo:
+        with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
+            for rows, _unused, summary in pool.map(work, todo):
+                if rows:
+                    evidence.append(rows)
+                    stats["fetched"] += 1
+                else:
+                    stats["failed"] += 1
+                evidence.append([{"capture_key": summary["capture_key"],
+                                  "error": summary.get("error"),
+                                  "posts": summary.get("posts", 0),
+                                  "images": summary.get("images", 0),
+                                  "attempts": summary.get("attempts", []),
+                                  "at": _now()}])
+                if summary.get("error"):
+                    ledger.append([ledger_entry("listing", summary["capture_key"], summary["error"],
+                                                summary.get("attempts", []),
+                                                {"listing_url": summary["capture_key"].split("|", 1)[-1]})])
+
+    # Fold the evidence into the post store (offline, resumable).
+    by_post: dict[str, list[dict]] = {}
+    for row in evidence.records():
+        pid = row.get("post_id")
+        if pid:
+            by_post.setdefault(pid, []).append(row)
+    for pid, evs in sorted(by_post.items(), key=lambda kv: int(kv[0])):
+        if stats["posts_touched"] >= 4000:
+            break
+        existing = store.get(pid)
+        before = len(existing.get("images") or [])
+        merged = merge_listing_evidence(existing, evs)
+        merged["post_id"] = pid
+        merged.setdefault("original_url", f"http://hazfalafel.com/post/{pid}")
+        saved = store.put(pid, merged)
+        # A post with neither text nor a recovered image is *not* recovered,
+        # even though `merge_post` calls anything with images "partial".
+        if not saved.get("content_text") and not saved.get("image_count"):
+            if saved.get("state") != "listing_only":
+                saved["state"] = "listing_only"
+                saved = store.put(pid, saved)
+            if not existing:
+                stats["new_posts"] += 1
+                ledger.append([ledger_entry("post", pid, "listing_evidence_only",
+                                            [{"endpoint": "listing", "listing_url": e.get("listing_url"),
+                                              "capture_timestamp": e.get("timestamp")} for e in evs[:5]],
+                                            {"post_url": f"http://hazfalafel.com/post/{pid}",
+                                             "listing_captures": len(evs)})])
+        stats["posts_touched"] += 1
+        stats["images_added"] += max(0, merged.get("listing_images_added", 0))
+        stats["forms_merged"] += merged.get("listing_forms_merged", 0)
+        del before
+    stats["evidence_rows"] = len(evidence.records())
+    stats["evidence_posts"] = len(by_post)
+    return stats
+
+
 def status() -> dict:
     store = PostStore()
     posts = list(store.all())
@@ -619,6 +744,8 @@ def status() -> dict:
         "images_missing": sum(p.get("missing_image_count", 0) for p in posts),
         "missing_ledger_entries": len(missing_ledger),
         "posts_without_permalink": len(discovered - {p.get("post_id") for p in posts}),
+        "listing_evidence_rows": len(JsonlStore(LISTING_EVIDENCE_FILE).records()),
+        "listing_only_posts": len([p for p in posts if p.get("state") == "listing_only"]),
         "generated_at": _now(),
     }
 
@@ -633,6 +760,11 @@ def main(argv: Optional[list[str]] = None) -> int:
     p = sub.add_parser("fetch-posts", help="download and parse archived post pages")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--ids", default="")
+    p.add_argument("--concurrency", type=int, default=config.DEFAULT_CONCURRENCY)
+    p = sub.add_parser("fetch-listings", help="mine archived archive/tag pages for post evidence")
+    p.add_argument("--limit", type=int, default=20)
+    p.add_argument("--kinds", default="archive,tagged",
+                   help="comma separated listing families: archive,tagged,post_other,other")
     p.add_argument("--concurrency", type=int, default=config.DEFAULT_CONCURRENCY)
     p = sub.add_parser("discover-media", help="inventory tumblr media hosts (one query per host)")
     p.add_argument("--hosts", default="", help="comma separated hosts; default = hosts seen in posts")
@@ -676,6 +808,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     elif args.cmd == "fetch-posts":
         out = fetch_posts(fetcher, limit=args.limit, concurrency=args.concurrency,
                           post_ids=[i for i in args.ids.split(",") if i] or None)
+    elif args.cmd == "fetch-listings":
+        out = fetch_listings(fetcher, limit=args.limit,
+                             kinds=tuple(k.strip() for k in args.kinds.split(",") if k.strip()),
+                             concurrency=args.concurrency)
     elif args.cmd == "discover-media":
         out["media"] = discover_media(fetcher, hosts=[h.strip() for h in args.hosts.split(",") if h.strip()] or None,
                                       force=args.force, max_pages=args.max_pages,
