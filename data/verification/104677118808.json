@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:03cb2c3073e623fec2c3e21071ff2210fe2c401afd82931df19031b27b94e378",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ng9t0fiXyk1r3it8zo1_500.jpg]",
+   "expected": "de8053f3160bbb4867822d669b313670257da5da4fba07439a90ad4eb365ded6",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ng9t0fiXyk1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ng9t0fiXyk1r3it8zo1_500.jpg]",
+   "expected": 62002,
+   "observed": 62002,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ng9t0fiXyk1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer",
+   "observed": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>Not sure if <em>yo-dawg.jpg</em> or <em>we-need-to-go-deeper.jpg</em></p>\n<p>תודה לנבות מ-<a href=\"http://imp.computer/\" title=\"imp.computer\" target=\"_blank\">imp.computer</a></p>",
+   "observed": "<p>Not sure if <em>yo-dawg.jpg</em> or <em>we-need-to-go-deeper.jpg</em></p>\n<p>תודה לנבות מ-<a href=\"http://imp.computer/\" title=\"imp.computer\" target=\"_blank\">imp.computer</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מגדלי-הארבעה",
+    "yo-dawg",
+    "אקזיביט"
+   ],
+   "observed": [
+    "מגדלי-הארבעה",
+    "yo-dawg",
+    "אקזיביט"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer"
+   ],
+   "observed": [
+    "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/104677118808",
+   "observed": "http://hazfalafel.com/post/104677118808",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ng9t0fiXyk1r3it8zo1_500.jpg]",
+   "expected": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer",
+   "observed": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20141221223916",
+   "observed": "20141221223916",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20141221223916id_/http://41.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20141221223916id_/http://41.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20141221223916",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:d180a7657f90e26c79e21bb5d2b6c33a361b5ef769a6b7c1232e855f060b1f4b",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2015-02-16T05:58:47Z",
+  "org.opencontainers.image.description": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 104677118808",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/104677118808",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "77",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "104677118808",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "מגדלי-הארבעה,yo-dawg,אקזיביט"
+ },
+ "layers": [
+  {
+   "digest": "sha256:4caca4458b77dc43ee5824a98f9d764bf4fed7681bfa41ba5a208a1117a41ddc",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 62051
+  },
+  {
+   "digest": "sha256:76588f4a968781239d83d021a5677b3da2bac76ea3fde5f6c5154e4e5cd3fb6b",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1270
+  }
+ ],
+ "manifest_digest": "sha256:03cb2c3073e623fec2c3e21071ff2210fe2c401afd82931df19031b27b94e378",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "104677118808",
+ "pulled_files": [
+  {
+   "bytes": 62002,
+   "file": "tumblr_ng9t0fiXyk1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:4caca4458b77dc43ee5824a98f9d764bf4fed7681bfa41ba5a208a1117a41ddc",
+   "role": "media",
+   "sha256": "de8053f3160bbb4867822d669b313670257da5da4fba07439a90ad4eb365ded6"
+  },
+  {
+   "bytes": 5187,
+   "file": "post.json",
+   "layer": "sha256:76588f4a968781239d83d021a5677b3da2bac76ea3fde5f6c5154e4e5cd3fb6b",
+   "role": "post-metadata",
+   "sha256": "ef9cacbd9bed1f70041c2d75dd3bc631ebd4a5a84eac27ecdc09b702f2df9a80"
+  }
+ ],
+ "tag": "104677118808",
+ "verified_at": "2026-10-05T12:26:25Z"
+}

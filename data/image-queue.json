@@ -2,9 +2,9 @@
  "global": {
   "last_at": "2026-10-05T12:16:56Z",
   "last_error": "1 transient image failures in this pass",
-  "recovered_at": "2026-10-05T11:23:31Z",
-  "throttled_until": "2026-10-05T12:31:56Z",
-  "transient_streak": 1
+  "recovered_at": "2026-10-05T12:25:49Z",
+  "throttled_until": "",
+  "transient_streak": 0
  },
  "posts": {
   "100403945458": {
@@ -205,13 +205,22 @@
    }
   },
   "104677118808": {
-   "attempts": 0,
-   "last_at": "",
-   "last_outcome": "",
+   "attempts": 1,
+   "last_at": "2026-10-05T12:26:07Z",
+   "last_outcome": "recovered",
    "next_at": "",
-   "recovered": 0,
+   "recovered": 1,
    "transient_streak": 0,
-   "variants": {}
+   "variants": {
+    "http://36.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_1280.jpg": {
+     "_updated_at": "2026-10-05T12:26:07Z",
+     "http://36.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_1280.jpg": "transport"
+    },
+    "http://41.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_500.jpg": {
+     "_updated_at": "2026-10-05T12:26:07Z",
+     "http://41.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_500.jpg": "transport"
+    }
+   }
   },
   "104860741473": {
    "attempts": 1,
