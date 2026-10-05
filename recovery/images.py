@@ -73,7 +73,8 @@ def store_blob(body: bytes) -> tuple[str, str]:
 
 
 def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
-                            variant_budget: int = 4) -> tuple[list[Capture], list[dict]]:
+                            variant_budget: int = 4,
+                            skip_variants: Optional[set] = None) -> tuple[list[Capture], list[dict]]:
     """Query the CDX for one media URL, then for its size/extension siblings.
 
     Wayback usually archives *some* size of a Tumblr file, not necessarily the
@@ -82,12 +83,17 @@ def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
     it has nothing and only up to `variant_budget` of them, because the archive
     is slow and a full 9-variant sweep per image does not scale.
 
+    `skip_variants` are URL forms an earlier pass already reached a terminal
+    verdict on. Skipping them is what lets a repeated pass move on to the *next*
+    size/extension sibling instead of re-asking about the first two forever.
+
     The returned attempt list records every query (including the ones that were
     budgeted away) so the ledger can show what was actually tried.
     """
     attempts: list[dict] = []
     seen: set[str] = set()
     captures: list[Capture] = []
+    skip = set(skip_variants or ())
 
     def query(variant: str, note: str) -> None:
         norm = normalize_url(variant)
@@ -107,7 +113,12 @@ def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
         })
         captures.extend(caps)
 
-    query(image_url, "exact URL from the post")
+    if image_url in skip:
+        attempts.append({"endpoint": "variant-skip", "url": image_url,
+                         "note": "exact URL already has a terminal verdict from an earlier pass; "
+                                 "siblings are queried instead"})
+    else:
+        query(image_url, "exact URL from the post")
     if captures:
         attempts.append({
             "endpoint": "variant-plan",
@@ -200,23 +211,32 @@ def probe_media_capture(fetcher: Fetcher, url: str, at_ts: Optional[str] = None,
 
 
 def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_budget: int = 4,
-                                   backsteps: int = 2) -> tuple[list[Capture], list[dict], bool]:
+                                   backsteps: int = 2,
+                                   skip_variants: Optional[set] = None
+                                   ) -> tuple[list[Capture], list[dict], bool]:
     """Exact URL first, then a bounded sweep of its size/extension siblings.
 
     Every request is one replay probe (seconds), not one CDX query (tens of
     seconds), so the sibling sweep is affordable here in a way it never was
-    with the CDX endpoint.
+    with the CDX endpoint. `skip_variants` are the URL forms an earlier pass
+    already settled, so this pass continues the sweep instead of repeating it.
     """
     attempts: list[dict] = []
     captures: list[Capture] = []
     after_cutoff_only = False
     variants = _variants(image_url)
-    siblings = [v for v in variants if normalize_url(v) != normalize_url(image_url)]
-    plan = [image_url] + siblings[: max(0, variant_budget)]
+    skip = set(skip_variants or ())
+    siblings = [v for v in variants
+                if normalize_url(v) != normalize_url(image_url) and v not in skip]
+    plan = ([] if image_url in skip else [image_url]) + siblings[: max(0, variant_budget)]
+    if not plan:
+        attempts.append({"endpoint": "variant-budget",
+                         "note": "every size/extension variant already has a terminal verdict "
+                                 "from an earlier pass; nothing new to ask"})
     if len(siblings) > variant_budget:
         attempts.append({"endpoint": "variant-budget",
-                         "note": f"{len(siblings)} siblings exist; this pass probed the first "
-                                 f"{variant_budget}; the rest stay queued for a later run",
+                         "note": f"{len(siblings)} untried siblings exist; this pass probed the "
+                                 f"first {variant_budget}; the rest stay queued for a later run",
                          "variants": siblings[variant_budget:]})
     for variant in plan:
         cap, att, after = probe_media_capture(fetcher, variant, backsteps=backsteps)
@@ -277,6 +297,7 @@ def resolve_image(
     variant_budget: int = 4,
     backsteps: int = 2,
     availability=None,
+    skip_variants: Optional[set] = None,
 ) -> dict:
     """Try to recover one post image. Returns a durable attempt record.
 
@@ -397,7 +418,8 @@ def resolve_image(
                 after_cutoff_only = True
     if not captures and method in ("probe", "auto", "availability"):
         extra, attempts, after_cutoff_only = image_capture_candidates_probe(
-            fetcher, url, variant_budget=variant_budget, backsteps=backsteps)
+            fetcher, url, variant_budget=variant_budget, backsteps=backsteps,
+            skip_variants=skip_variants)
         captures.extend(extra)
         record["attempts"].extend(attempts)
         # A probe that was answered (200/404, not a timeout/throttle) is
@@ -408,7 +430,7 @@ def resolve_image(
         # (cdx path deliberately left out of "availability": the sweep already
         # consulted the same capture index, so a second CDX query per variant
         # would only spend archive load to learn the same answer.)
-        extra, attempts = image_capture_candidates(fetcher, url)
+        extra, attempts = image_capture_candidates(fetcher, url, skip_variants=skip_variants)
         captures.extend(extra)
         record["attempts"].extend(attempts)
     record["capture_count"] = len(captures)

@@ -44,6 +44,10 @@ POST_DIR = os.path.join(DATA_DIR, "posts")
 BLOB_DIR = os.path.join(DATA_DIR, "blobs")
 IMAGES_JSONL = os.path.join(DATA_DIR, "images.jsonl")
 MISSING_JSONL = os.path.join(DATA_DIR, "missing.jsonl")
+# Durable recovery queue (attempt counts, tried URL variants, cooldowns).
+IMAGE_QUEUE_JSON = os.path.join(DATA_DIR, "image-queue.json")
+# Anonymous byte-level verification reports for published artifacts.
+VERIFY_DIR = os.path.join(DATA_DIR, "verification")
 # File-level gap verdicts (one row per media URL; resumable ledger).
 GAPS_JSONL = os.path.join(DATA_DIR, "gaps.jsonl")
 POSTS_JSONL = os.path.join(DATA_DIR, "posts.jsonl")

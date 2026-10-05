@@ -15,11 +15,12 @@ from .availability import AvailabilityIndex, sweep as availability_sweep
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
 from .gaps import best_capture, prove
-from .images import blob_path, resolve_image, sniff_image, store_blob
+from .images import (TRANSIENT_CLASSES, blob_path, resolve_image, sniff_image, store_blob)
 from .listing import (listing_kind, merge_listing_evidence, parse_listing_page)
 from .media import MEDIA_CAPTURE_FILE, MediaIndex, host_of, hosts_for, scan_host, stems_of
 from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
+from .queue import ImageQueue
 from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
 
 POST_CAPTURE_FILE = os.path.join(config.CDX_DIR, "posts.jsonl")
@@ -485,95 +486,133 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                  post_ids: Optional[list[str]] = None, use_media_index: bool = True,
                  retry_missing: bool = False, method: str = "probe",
                  variant_budget: int = 4, order: str = "closest",
-                 availability: Optional[AvailabilityIndex] = None) -> dict:
+                 availability: Optional[AvailabilityIndex] = None,
+                 queue: Optional[ImageQueue] = None, dry_run: bool = False) -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
     media_index = MediaIndex(capture_file("media.jsonl")) if use_media_index else None
     if method == "availability" and availability is None:
         availability = AvailabilityIndex(capture_file("avail.jsonl"))
-    pending = []
-    for rec in store.all():
-        if post_ids and rec.get("post_id") not in post_ids:
-            continue
-        if rec.get("missing_image_count", 0) == 0 and rec.get("image_count", 0) > 0 and rec.get("images_done"):
-            continue
-        if not rec.get("images"):
-            continue
-        pending.append(rec)
-    if order == "closest":
-        # Finish the posts that are one image away from being complete before
-        # spending a variant sweep on posts that need a dozen. A post is only
-        # "recovered" when all of its images are, so this maximises the number
-        # of fully recovered posts per request spent.
-        pending.sort(key=lambda r: (int(r.get("missing_image_count") or 0),
-                                    int(r.get("post_id") or 0)))
-    pending = [r["post_id"] for r in pending[:limit_posts]]
-
-    missing_entries: list[dict] = []
-    counts = {"recovered": 0, "missing": 0}
-    # Outcomes the archive has already decided: re-probing them spends
-    # requests for nothing. `capture_after_cutoff` is decided too -- the only
-    # captures are too late, and the cutoff never moves.
+    q = queue or ImageQueue()
+    # Outcomes the archive has already decided: re-probing them spends requests
+    # for nothing. `capture_after_cutoff` is decided too -- the only captures
+    # are too late, and the cutoff never moves.
     final_errors = ("archive_gap", "bad_body", AFTER_CUTOFF_ONLY)
 
-    def work(pid: str) -> dict:
+    records = [rec for rec in store.all()
+               if not post_ids or rec.get("post_id") in post_ids]
+    # Eligibility first, batch limit second. The previous code truncated first
+    # and only then discovered, inside the worker, that most of the batch was
+    # already settled -- so 32 of every 40 slots were wasted and the untouched
+    # posts never got a turn.
+    batch, stats = q.select(records, limit=limit_posts, retry_missing=retry_missing,
+                            stale_fn=needs_probe, final_errors=final_errors, order=order)
+    cooldown = q.global_cooldown_active()
+    if cooldown and not (retry_missing or post_ids):
+        q.save()
+        return {"processed": 0, "note": "global archive cooldown", "cooldown": cooldown,
+                "queue": q.summary(), **stats}
+    if not batch:
+        q.save()
+        return {"processed": 0, "note": "no posts with unresolved images", **stats,
+                "queue": q.summary()}
+
+    counts = {"recovered": 0, "missing": 0, "transient": 0}
+    results = []
+
+    def work(item) -> dict:
+        pid, wanted = item
         rec = store.get(pid)
         images = rec.get("images") or []
+        wanted_urls = {e["media_url"]: e for e in wanted}
         recovered = 0
         missing = 0
+        transient = 0
         merged: list[dict] = []
+        considered: list[dict] = []
         for img in images:
             # Never drop an already recovered image on a rerun.
             if img.get("sha256") and img.get("blob_path"):
                 merged.append(img)
                 continue
-            # A confirmed archive gap or a rejected body is only retried when
-            # asked; transient classes (timeout/throttle/transport) always are.
-            # A gap that predates the replay-probe method is re-opened too:
-            # it was decided by one CDX query on the exact URL, which is weaker
-            # evidence than a probe sweep over the size/extension variants.
-            stale = needs_probe(img)
-            if not retry_missing and img.get("error") in final_errors and not stale:
+            entry = wanted_urls.get(img.get("media_url"))
+            if entry is None:
+                merged.append(img)
+                missing += 1
+                continue
+            considered.append(entry)
+            skip = set(entry.get("tried") or [])
+            # An image with no untried URL form left has nothing to ask; it is
+            # counted as missing but must not hold up the rest of the post.
+            untried = q.untried_variants(img.get("media_url"), skip)
+            if not untried and img.get("error") in final_errors and not needs_probe(img) \
+                    and not retry_missing:
                 merged.append(img)
                 missing += 1
                 continue
             resolved = resolve_image(fetcher, img, media_index=media_index,
                                      key_known_at=rec.get("fetched_at", ""),
                                      method=method, variant_budget=variant_budget,
-                                     availability=availability)
+                                     availability=availability,
+                                     skip_variants=skip)
             _assign_file(resolved)
             if resolved["state"] == "recovered":
                 recovered += 1
-                merged.append(resolved)
             else:
                 missing += 1
-                merged.append(resolved)
+                if (resolved.get("error") or "") in TRANSIENT_CLASSES:
+                    transient += 1
                 entry = ledger_entry(
                     "image", resolved["media_url"], resolved.get("error") or "unknown",
                     resolved.get("attempts", []),
                     {"post_id": pid, "media_key": resolved.get("media_key"),
-                     "caption": resolved.get("caption", "")})
+                     "caption": resolved.get("caption", ""),
+                     "state": resolved.get("state"),
+                     "note": resolved.get("note", "")})
                 if resolved.get("host_inventory"):
                     entry["host_inventory"] = resolved["host_inventory"]
-                missing_entries.append(entry)
+                ledger.append([entry])          # durable immediately, per image
+            merged.append(resolved)
+            # Publish the post as soon as one image lands: the bytes are only in
+            # the local blob cache during this process.
+            if resolved["state"] == "recovered":
+                updated = dict(rec)
+                updated["images"] = merged
+                updated["images_done"] = False
+                updated["fetched_at"] = _now()
+                store.put(pid, updated)
         updated = dict(rec)
         updated["images"] = merged
         updated["images_done"] = True
         updated["fetched_at"] = _now()
         store.put(pid, updated)
-        return {"post_id": pid, "recovered": recovered, "missing": missing}
+        return {"post_id": pid, "recovered": recovered, "missing": missing,
+                "transient": transient, "considered": len(considered)}
 
-    if not pending:
-        return {"processed": 0, "note": "no posts with unresolved images"}
-    results = []
+    if dry_run:
+        q.save()
+        return {"processed": 0, "dry_run": True, "batch": [pid for pid, _ in batch],
+                **stats, "queue": q.summary()}
+
     with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
-        for res in pool.map(work, pending):
+        for res in pool.map(work, batch):
             results.append(res)
             counts["recovered"] += res["recovered"]
             counts["missing"] += res["missing"]
-    if missing_entries:
-        ledger.append(missing_entries)
-    return {"processed": len(results), **counts, "results": results}
+            counts["transient"] += res["transient"]
+            row = q.note_attempt(res["post_id"],
+                                 [e for e in dict(batch)[res["post_id"]]],
+                                 {"outcome": "recovered" if res["recovered"] else
+                                  ("transient" if res["transient"] else "settled"),
+                                  "recovered": res["recovered"], "transient": res["transient"]})
+            q.save()          # durable after every post, so a crash loses nothing
+    if counts["transient"] and not counts["recovered"]:
+        q.note_global_failure(f"{counts['transient']} transient image failures in this pass")
+    elif counts["recovered"]:
+        q.note_global_success()
+    q.save()
+    return {"processed": len(results), **counts, "results": results,
+            "queue": q.summary(), **stats}
 
 
 _EXT_BY_TYPE = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif",
@@ -599,7 +638,12 @@ def _assign_file(rec: dict) -> None:
         return
     ext = _EXT_BY_TYPE.get(rec.get("media_type") or "", ".bin")
     key = rec.get("media_key") or rec["sha256"]
-    rec["file"] = f"{key}{ext}"
+    # media_key keeps the original file extension, so appending unconditionally
+    # produced names like `..._500.jpg.jpg` inside the published layers.
+    if key.lower().endswith(ext):
+        rec["file"] = key
+    else:
+        rec["file"] = f"{key}{ext}"
 
 
 # --------------------------------------------------------------------- repair
@@ -951,6 +995,12 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="size/extension siblings probed after the exact URL misses")
     p.add_argument("--order", default="closest", choices=("closest", "post_id"),
                    help="which posts to spend requests on first")
+    p.add_argument("--max-attempts", type=int, default=0,
+                   help="stop retrying a post after N passes (0 = queue default 12)")
+    p.add_argument("--cooldown-minutes", type=int, default=0,
+                   help="per-post cooldown after a transient pass (0 = queue default 45)")
+    p.add_argument("--dry-run", action="store_true",
+                   help="report which posts the next pass would touch, without any request")
     p = sub.add_parser("publish", help="push per-post artifacts to GHCR")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
@@ -1000,11 +1050,13 @@ def main(argv: Optional[list[str]] = None) -> int:
                                  variants=not args.no_variants,
                                  retry_transient=args.retry_transient)
     elif args.cmd == "fetch-images":
+        queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
+                           max_attempts=args.max_attempts or 12)
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
                            post_ids=[i for i in args.ids.split(",") if i] or None,
                            use_media_index=not args.no_media_index, retry_missing=args.retry_missing,
                            method=args.method, variant_budget=args.variant_budget,
-                           order=args.order)
+                           order=args.order, queue=queue, dry_run=args.dry_run)
     elif args.cmd == "publish":
         ids = [i.strip() for i in args.ids.split(",") if i.strip()]
         if ids:

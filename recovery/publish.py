@@ -245,7 +245,7 @@ def publish_post(post: dict, registry: Registry, *, force: bool = False) -> Push
         if (prev_images >= result.image_count and prev_text >= new_text
                 and prev_ann.get("shurik.post.cutoff") == config.CUTOFF):
             result.action = "skipped"
-            result.manifest_digest = prev_digest
+            result.manifest_digest = existing.get("__digest", "") or ""
             result.reason = (f"already published with >= recovered data "
                              f"(images {prev_images}>={result.image_count}, "
                              f"text {prev_text}>={new_text})")
