@@ -24,16 +24,91 @@
  "content_source": "div.copy",
  "content_text": "Ekopwols - סלואופוק הפוך, מספר על דברים שעומדים לקרות בעתיד, בעוד שבוע",
  "date_text": "Posted 4 years ago",
- "fetched_at": "2026-10-04T23:44:36Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:32:35Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1280.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1024.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_540.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_400.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.png",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_400.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.png",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_540.jpg"
+    }
+   ],
    "base_key": "tumblr_mexdknvm181r3it8zo1.jpg",
+   "caption": "Ekopwols - סלואופוק הפוך, מספר על דברים שעומדים לקרות בעתיד, בעוד שבוע",
    "caption_alt": "Ekopwols - סלואופוק הפוך, מספר על דברים שעומדים לקרות בעתיד, בעוד שבוע",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_mexdknvm181r3it8zo1_500.jpg",
    "media_url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 4 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg"
    ],
@@ -50,6 +125,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 65181,
@@ -65,9 +141,77 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1280.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1024.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_540.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_400.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.png",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_400.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.png",
+      "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_540.jpg"
+    }
+   ],
    "media_url": "http://68.media.tumblr.com/fd5d6b45cf09639424a47db3fdc0c9fc/tumblr_mexdknvm181r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/37791705488",
@@ -89,6 +233,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20160815182845id_/http://hazfalafel.com/post/37791705488",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "סלואופוק",

@@ -18,16 +18,91 @@
  "content_source": "div.copy",
  "content_text": "בכל פעם שאתם מייצירים מם בפונט הזה, נוויל ברודי מקיא קצת בחוש הטעם.\nלעומת זאת, המחולל שלנו משתמש בפונט אימפקה של הטיפוגרף עודד עזר, תנסו: http://g.hazfalafel.com",
  "date_text": "Posted 4 years ago",
- "fetched_at": "2026-10-05T03:07:55Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:32:33Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1280.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1024.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_540.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_500.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.png",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_500.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.png",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_540.jpg"
+    }
+   ],
    "base_key": "tumblr_mei9yt2Hfs1r3it8zo1.jpg",
+   "caption": "בכל פעם שאתם מייצירים מם בפונט הזה, נוויל ברודי מקיא קצת בחוש הטעם.\nלעומת זאת, המחולל שלנו משתמש בפונט אימפקה של הטיפוגרף עודד עזר, תנסו: http://g.hazfalafel.com",
    "caption_alt": "בכל פעם שאתם מייצירים מם בפונט הזה, נוויל ברודי מקיא קצת בחוש הטעם.\nלעומת זאת, המחולל שלנו משתמש בפונט אימפקה של הטיפוגרף עודד עזר, תנסו: http://g.hazfalafel.com",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_mei9yt2Hfs1r3it8zo1_400.jpg",
    "media_url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 4 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg"
    ],
@@ -44,6 +119,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 67763,
@@ -59,9 +135,77 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1280.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1024.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_540.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_500.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.png",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_500.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.png",
+      "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_540.jpg"
+    }
+   ],
    "media_url": "http://68.media.tumblr.com/tumblr_mei9yt2Hfs1r3it8zo1_400.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/37183004592",
@@ -71,6 +215,7 @@
  "post_id": "37183004592",
  "posted_on": "Posted on Tuesday the 4th of December 2012 at 2:13 PM",
  "replay_url": "https://web.archive.org/web/20170322214947id_/http://hazfalafel.com/post/37183004592",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "מחולל-הממים"
