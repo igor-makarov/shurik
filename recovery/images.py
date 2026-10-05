@@ -177,7 +177,8 @@ def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
     return captures, attempts
 
 
-def image_capture_candidates_stem(fetcher: Fetcher, image_url: str, limit: int = 8
+def image_capture_candidates_stem(fetcher: Fetcher, image_url: str, limit: int = 8,
+                                  stem_index=None
                                   ) -> tuple[list[Capture], list[dict], bool]:
     """One CDX prefix query on the size-stem: the whole variant family at once.
 
@@ -186,12 +187,25 @@ def image_capture_candidates_stem(fetcher: Fetcher, image_url: str, limit: int =
     prefix query covers every size/extension sibling -- including tokens the
     variant list never generates -- in a single request, so it both costs less
     than the sibling sweep and reaches further.
+
+    `stem_index` (a `StemIndex`) answers the same question from a *batched* CDX
+    request that was already paid for: dozens of stems per round trip. A
+    recorded miss is scoped negative evidence -- no pre-cutoff `statuscode:200`
+    capture for that exact prefix under those filters -- so the archive is not
+    asked the identical question twice.
     """
     stem = stem_prefix(image_url)
     attempt: dict = {"url": image_url, "stem": stem, "endpoint": "cdx-stem",
                      "note": "single prefix query covering every size/extension variant"}
     if normalize_url(stem) == normalize_url(image_url):
         attempt["note"] = ("filename carries no size token; the prefix query is the exact URL")
+    if stem_index is not None and stem_index.has(stem):
+        cached = list(stem_index.lookup(stem) or [])
+        attempt.update(endpoint="cdx-stem-batch", captures=len(cached), status="cached",
+                       error="ok", message="",
+                       note="answered from the batched stem index (same prefix, filters "
+                            "and cutoff as a single-stem query)")
+        return [c for c in cached if c.statuscode == "200"], [attempt], False
     caps, resp = cdx_query(fetcher, stem, match="prefix", limit=limit,
                            extra={"filter": "statuscode:200", "collapse": "urlkey"})
     attempt.update(status=resp.status, error=resp.error, message=resp.message,
@@ -364,6 +378,7 @@ def resolve_image(
     backsteps: int = 2,
     availability=None,
     skip_variants: Optional[set] = None,
+    stem_index=None,
 ) -> dict:
     """Try to recover one post image. Returns a durable attempt record.
 
@@ -388,6 +403,9 @@ def resolve_image(
       replay probing has been observed to answer unreliably.
     * ``"auto"``: probe, and fall back to the CDX only when the probe itself
       failed transiently (never when the archive authoritatively said "no").
+    * ``"stem_index"`` (optional): a `StemIndex` of batched CDX stem-prefix
+      answers. When it already holds this image's stem, the existence question
+      is answered from it instead of a fresh per-image CDX request.
     * ``"availability"``: read the committed Availability-API sweep
       (``data/cdx/avail.jsonl``) first and only replay what it confirmed. The
       sweep runs on `archive.org`, a different host from the replay endpoint,
@@ -547,7 +565,8 @@ def resolve_image(
         # load (see ReplayProbeTests). A timed-out probe is transient evidence,
         # and an empty stem query would silently overwrite it with a "gap" that
         # no answered request supports. `--method stem` asks for it explicitly.
-        extra, stem_attempts, stem_after = image_capture_candidates_stem(fetcher, url)
+        extra, stem_attempts, stem_after = image_capture_candidates_stem(
+            fetcher, url, stem_index=stem_index)
         captures.extend(extra)
         record["attempts"].extend(stem_attempts)
         after_cutoff_only = after_cutoff_only or stem_after

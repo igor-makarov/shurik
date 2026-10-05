@@ -12,7 +12,10 @@ from typing import Optional
 
 from . import config
 from .availability import AvailabilityIndex, sweep as availability_sweep
-from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
+from .cdx import (Capture, CaptureIndex, cdx_query, cdx_query_multi, normalize_url,
+                  within_cutoff, year_windows)
+from .images import stem_prefix
+from .stemindex import SCOPE as STEM_SCOPE, StemIndex
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
 from .gaps import best_capture, prove
 from .images import (TRANSIENT_CLASSES, blob_path, resolve_image, sniff_image, store_blob)
@@ -535,13 +538,86 @@ def archive_health(fetcher: Fetcher, url: str = HEALTHCHECK_URL,
             "at": _now()}
 
 
+def stem_scan(fetcher: Fetcher, batch: int = 40, limit_batches: int = 0,
+              limit_stems: int = 0, dry_run: bool = False) -> dict:
+    """Answer "is this media stem archived?" for every known image, in bulk.
+
+    The per-image `--method stem` pass asks the CDX one prefix at a time, which
+    costs one archive round trip per image (~10-20 s). The CDX API accepts a
+    repeated `url=` parameter, so the *same* question for `batch` stems travels
+    in a single request. Answers -- hits and misses alike -- are written to
+    `data/cdx/stems.jsonl`, so later runs (and fresh runners, via the
+    `crawl-state` checkpoint) answer from disk and never re-ask.
+
+    Scope of every recorded answer: `matchType=prefix`, `statuscode:200`,
+    `collapse=urlkey`, `to=<cutoff>`, one exact prefix. A miss is negative
+    evidence for that prefix only.
+    """
+    store = PostStore()
+    index = StemIndex()
+    stems: list[str] = []
+    seen: set[str] = set()
+    for rec in store.all():
+        for img in rec.get("images") or []:
+            url = img.get("media_url")
+            if not url:
+                continue
+            stem = stem_prefix(url)
+            if stem and stem not in seen:
+                seen.add(stem)
+                stems.append(stem)
+    todo = index.missing(stems)
+    if limit_stems:
+        todo = todo[:limit_stems]
+    batches = [todo[i:i + batch] for i in range(0, len(todo), batch)]
+    if limit_batches:
+        batches = batches[:limit_batches]
+    out = {"stems_total": len(stems), "stems_answered": len(index.rows),
+           "stems_pending": len(todo), "batch_size": batch,
+           "batches_planned": len(batches), "scope": STEM_SCOPE,
+           "requests_sent": 0, "stems_answered_now": 0, "hits": 0, "rows": 0,
+           "batches": []}
+    if dry_run:
+        return out
+    extra = {"from": "19960101", "to": config.CUTOFF, "fl": "urlkey,timestamp,original,"
+           "mimetype,statuscode,digest,length,redirect"}
+    for stems_batch in batches:
+        # A shared row limit: 8 size/extension siblings per stem is generous, and
+        # a response that reaches it is re-asked in smaller pieces rather than
+        # recorded as a set of negatives.
+        limit = max(64, 8 * len(stems_batch))
+        caps, resp, complete = cdx_query_multi(fetcher, stems_batch, match="prefix",
+                                               limit=limit, extra=extra)
+        out["requests_sent"] += 1
+        out["rows"] += getattr(resp, "cdx_rows", 0)
+        record = {"stems": len(stems_batch), "status": resp.status, "error": resp.error,
+                  "rows": getattr(resp, "cdx_rows", 0), "complete": complete,
+                  "ok": bool(resp.ok)}
+        if not resp.ok or not complete:
+            # Transport failure, throttle or truncation: nothing is recorded, so
+            # these stems stay pending and the next run asks again.
+            record["note"] = ("response hit the shared row limit; re-ask in smaller batches"
+                              if resp.ok else f"request failed ({resp.error}); stems left pending")
+            out["batches"].append(record)
+            if resp.status in (429, 503):
+                break
+            continue
+        index.record_many({s: caps.get(s, []) for s in stems_batch})
+        out["stems_answered_now"] += len(stems_batch)
+        out["hits"] += sum(1 for s in stems_batch if caps.get(s))
+        out["batches"].append(record)
+    out["index"] = index.summary()
+    return out
+
+
 def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = config.DEFAULT_CONCURRENCY,
                  post_ids: Optional[list[str]] = None, use_media_index: bool = True,
                  retry_missing: bool = False, method: str = "probe",
                  variant_budget: int = 4, order: str = "closest",
                  availability: Optional[AvailabilityIndex] = None,
                  queue: Optional[ImageQueue] = None, dry_run: bool = False,
-                 publish_on_recovery: bool = True, health_check: bool = True) -> dict:
+                 publish_on_recovery: bool = True, health_check: bool = True,
+                 stem_index=None) -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
     media_index = MediaIndex(capture_file("media.jsonl")) if use_media_index else None
@@ -638,11 +714,18 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 merged.append(img)
                 missing += 1
                 continue
+            # A stem index hit is a capture the archive already told us about,
+            # so it is worth downloading whatever method the pass is running.
+            eff_method = method
+            if stem_index is not None:
+                cached = stem_index.lookup(stem_prefix(img.get("media_url") or ""))
+                if cached:
+                    eff_method = "stem"
             resolved = resolve_image(fetcher, img, media_index=media_index,
                                      key_known_at=rec.get("fetched_at", ""),
-                                     method=method, variant_budget=variant_budget,
+                                     method=eff_method, variant_budget=variant_budget,
                                      availability=availability,
-                                     skip_variants=skip)
+                                     skip_variants=skip, stem_index=stem_index)
             _assign_file(resolved)
             if resolved["state"] == "recovered":
                 recovered += 1
@@ -1110,6 +1193,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--retry-gap", action="store_true",
                    help="re-probe stored 'no snapshot' verdicts written before the "
                         "14-digit cutoff fix (those answers are demonstrably empty)")
+    p = sub.add_parser("stem-scan", help="batch CDX stem-prefix scan (dozens of images per request)")
+    p.add_argument("--batch", type=int, default=40,
+                   help="stem prefixes per CDX request (the API takes repeated url= params)")
+    p.add_argument("--limit-batches", type=int, default=0, help="max batches this pass (0 = all)")
+    p.add_argument("--limit-stems", type=int, default=0, help="max stems this pass (0 = all)")
+    p.add_argument("--dry-run", action="store_true", help="report the plan without any request")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=0,
                    help="max posts per pass (0 = 5, or every id given with --ids)")
@@ -1138,6 +1227,10 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="do not push a post's artifact while its recovered bytes are in memory")
     p.add_argument("--no-health-check", action="store_true",
                    help="obey a recorded global cooldown without probing archive liveness")
+    p.add_argument("--stem-index", dest="stem_index", default="auto",
+                   choices=("auto", "off"),
+                   help="use data/cdx/stems.jsonl (batched CDX answers) as the existence "
+                        "answer for --method stem; 'auto' loads it when present")
     p = sub.add_parser("publish", help="push per-post artifacts to GHCR")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
@@ -1195,6 +1288,9 @@ def main(argv: Optional[list[str]] = None) -> int:
                                  variants=not args.no_variants,
                                  retry_transient=args.retry_transient,
                                  retry_gap=args.retry_gap)
+    elif args.cmd == "stem-scan":
+        out = stem_scan(fetcher, batch=args.batch, limit_batches=args.limit_batches,
+                        limit_stems=args.limit_stems, dry_run=args.dry_run)
     elif args.cmd == "fetch-images":
         queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
                            max_attempts=args.max_attempts or 12)
@@ -1202,13 +1298,15 @@ def main(argv: Optional[list[str]] = None) -> int:
         # An explicit id list is a deliberate batch: capping it at the default
         # limit of 5 silently ignored most of the ids the caller asked for.
         limit_posts = args.limit or (len(post_ids) if post_ids else 5)
+        stem_index = StemIndex() if args.stem_index == "auto" else None
         out = fetch_images(fetcher, limit_posts=limit_posts, concurrency=args.concurrency,
                            post_ids=post_ids,
                            use_media_index=not args.no_media_index, retry_missing=args.retry_missing,
                            method=args.method, variant_budget=args.variant_budget,
                            order=args.order, queue=queue, dry_run=args.dry_run,
                            publish_on_recovery=not args.no_publish,
-                           health_check=not args.no_health_check)
+                           health_check=not args.no_health_check,
+                           stem_index=stem_index)
     elif args.cmd == "restore":
         ids = [i.strip() for i in args.ids.split(",") if i.strip()]
         if not ids:

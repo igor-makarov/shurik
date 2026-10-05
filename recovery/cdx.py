@@ -131,6 +131,43 @@ def cdx_query(fetcher: Fetcher, url: str, *, match: str = "prefix", limit: int =
     return parse_cdx_json(rows, source_query=url), resp
 
 
+def cdx_query_multi(fetcher: Fetcher, urls: list[str], *, match: str = "prefix",
+                    limit: int = 1000, extra: Optional[dict] = None
+                    ) -> tuple[dict[str, list[Capture]], Response, bool]:
+    """Ask the CDX about many URL prefixes in one request.
+
+    Returns `(captures_by_stem, response, complete)`. `complete` is False when
+    the response hit the shared row `limit`: the union was then truncated and
+    the stems that produced no row may simply have been cut off, so the caller
+    must re-ask those in a smaller batch instead of recording a negative.
+
+    A stem with no row is a negative answer for *that* prefix under *these*
+    filters and date bounds only -- the same scope as `cdx_query`.
+    """
+    wanted = list(dict.fromkeys(urls))
+    caps: dict[str, list[Capture]] = {u: [] for u in wanted}
+    if not wanted:
+        return caps, Response(url="", status=0, error="no_request", message="empty batch"), True
+    resp = fetcher.cdx_multi(wanted, match=match, limit=limit, extra=extra)
+    if not resp.ok:
+        return caps, resp, True
+    try:
+        rows = resp.json()
+    except Exception as exc:
+        resp.error = "http_error"
+        resp.message = f"bad cdx json: {exc}"
+        return caps, resp, True
+    resp.cdx_rows = cdx_data_rows(rows)
+    parsed = parse_cdx_json(rows, source_query=f"batch:{len(wanted)}")
+    for cap in parsed:
+        key = normalize_url(cap.original)
+        for stem in wanted:
+            if key.startswith(normalize_url(stem)):
+                caps[stem].append(cap)
+                break
+    return caps, resp, resp.cdx_rows < limit
+
+
 def year_windows(start_year: int = 2007, end_year: int = 2019) -> list[str]:
     """Per-year `from` values so big inventories can resume after interruption."""
     return [f"{y}0101" for y in range(start_year, end_year + 1)]
