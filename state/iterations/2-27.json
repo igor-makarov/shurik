@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "id": "2-27",
+  "runId": "37252780745",
+  "generation": 2,
+  "iteration": 27,
+  "startedAt": "2026-10-05T01:47:19.258Z",
+  "outcome": "timeout",
+  "source": "2daf8408293e28cd1b49f4ed1e0c81ebdb2650bc",
+  "runtime": "0174cfbf2f4de608b290428e9d644861d0d01e871a34455d2aad8f5c40f55064",
+  "minEntryId": 3542,
+  "maxEntryId": 3652,
+  "checkpointAt": "2026-10-05T01:53:33.183Z",
+  "finishedAt": "2026-10-05T01:57:25.046Z",
+  "error": "\"\"",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 1212671,
+        "output": 428055,
+        "cacheRead": 22504481,
+        "cacheWrite": 0,
+        "reasoning": 231356,
+        "totalTokens": 24145207,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
+}
