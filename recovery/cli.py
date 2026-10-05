@@ -14,7 +14,7 @@ from . import config
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
 from .images import blob_path, resolve_image, sniff_image, store_blob
-from .media import MEDIA_CAPTURE_FILE, MediaIndex, hosts_for, scan_host, stems_of
+from .media import MEDIA_CAPTURE_FILE, MediaIndex, host_of, hosts_for, scan_host, stems_of
 from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
@@ -299,13 +299,20 @@ def discover_media(fetcher: Fetcher, hosts: Optional[list[str]] = None, force: b
     for url in urls:
         keys |= stems_of(url)
     targets = hosts or hosts_for(urls)
+    # Most-referenced hosts first: an iteration has a bounded budget and a host
+    # scan is many slow requests, so the hosts that could unlock the most
+    # images must not queue behind the ones that matter least.
+    refs: dict[str, int] = {}
+    for url in urls:
+        refs[host_of(url)] = refs.get(host_of(url), 0) + 1
+    targets = sorted(targets, key=lambda h: (-refs.get(h, 0), h))
     index = MediaIndex(capture_file("media.jsonl"))
     results = []
     for host in targets:
         results.append(scan_host(fetcher, index, host, keys=keys, force=force,
                                  max_pages=max_pages, page_size=page_size))
     return {"hosts": len(targets), "known_keys": len(keys), "indexed": len(index),
-            "results": results}
+            "order": targets, "results": results}
 
 
 def reindex_media(hosts: Optional[list[str]] = None) -> dict:
