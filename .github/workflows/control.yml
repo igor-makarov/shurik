@@ -9,6 +9,12 @@ on:
       loop_id:
         required: true
         type: string
+      reasoning:
+        description: Required when resuming; explicit level with no default
+        type: string
+      model:
+        description: Optional new OpenCode Go model when resuming; blank keeps the existing model
+        type: string
       deadline:
         description: Optional new absolute UTC deadline when resuming
         type: string

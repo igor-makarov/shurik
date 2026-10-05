@@ -15,7 +15,7 @@ async function fixture() {
 }
 async function run(f, id, script, sessions = [], extra = {}) {
   const output = join(f.dir, id); const req = { version: 1, id, cwd: f.cwd, journal: f.journal,
-    output, prompt: `Iteration ${id}. Use the available tools.`, model: 'space-bunny-free', seconds: 10, sessions, script, ...extra };
+    output, prompt: `Iteration ${id}. Use the available tools.`, model: 'space-bunny-free', reasoning: 'high', seconds: 10, sessions, script, ...extra };
   const file = join(f.dir, `${id}.json`); await writeFile(file, JSON.stringify(req));
   await exec(process.execPath, [bundle, file], { timeout: Math.max(20000, (req.seconds + 10) * 1000) });
   return JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
@@ -71,7 +71,7 @@ test('session boundaries survive more than 200 entries and oldest entries remain
 test('abrupt worker death leaves pending work that the next process aborts before fresh input', async () => {
   const f = await fixture(); const output = join(f.dir, 'killed'); const file = join(f.dir, 'kill.json');
   await writeFile(file, JSON.stringify({ version: 1, id: 'killed', cwd: f.cwd, journal: f.journal, output,
-    prompt: 'OLD_INPUT_MUST_NOT_REPLAY', model: 'space-bunny-free', seconds: 10, sessions: [], script: [{ delayMs: 10000, text: 'old' }] }));
+    prompt: 'OLD_INPUT_MUST_NOT_REPLAY', model: 'space-bunny-free', reasoning: 'high', seconds: 10, sessions: [], script: [{ delayMs: 10000, text: 'old' }] }));
   const child = spawn(process.execPath, [bundle, file], { stdio: 'ignore' });
   const closed = new Promise(resolve => child.once('close', resolve));
   for (let i = 0; i < 100; i++) {
@@ -87,7 +87,7 @@ test('abrupt worker death leaves pending work that the next process aborts befor
 test('published checkpoint boundaries make a killed session searchable from a fresh process', async () => {
   const f = await fixture(); const output = join(f.dir, 'checkpoint-output'); const file = join(f.dir, 'checkpoint-request.json');
   await writeFile(file, JSON.stringify({ version: 1, id: 'loop:1-1', cwd: f.cwd, journal: f.journal, output,
-    prompt: 'Write checkpoint evidence', model: 'space-bunny-free', seconds: 20, sessions: [],
+    prompt: 'Write checkpoint evidence', model: 'space-bunny-free', reasoning: 'high', seconds: 20, sessions: [],
     checkpointHandshake: true, checkpointSeconds: 0.001,
     script: [{ tool: 'write', args: { path: 'survived.txt', content: 'INTERRUPTED_SESSION_NEEDLE' } }, { delayMs: 10000, text: 'never finishes' }] }));
   const child = spawn(process.execPath, [bundle, file], { stdio: 'ignore' });
@@ -123,12 +123,23 @@ test('published checkpoint boundaries make a killed session searchable from a fr
   assert.ok(history.includes('INTERRUPTED_SESSION_NEEDLE')); assert.ok(history.includes('checkpoint'));
   assert.ok(history.includes('123-1.json'));
 });
-test('native OpenCode requests identify Shurik and retain session header across reset', async () => {
+test('worker rejects missing, invalid and unsupported reasoning instead of choosing a default', async () => {
+  const f = await fixture();
+  const { runIteration } = createRequire(import.meta.url)(bundle);
+  const req = { version: 1, id: 'reasoning-required', cwd: f.cwd, journal: f.journal,
+    output: join(f.dir, 'reasoning-required'), prompt: 'Yield', model: 'space-bunny-free', seconds: 1, sessions: [] };
+  for (const reasoning of [undefined, '', 'automatic']) {
+    await assert.rejects(runIteration({ ...req, reasoning }), /Explicit reasoning level required/);
+  }
+  await assert.rejects(runIteration({ ...req, reasoning: 'minimal' }), /does not support reasoning minimal/);
+});
+
+test('native OpenCode requests send explicit reasoning, apply changes and retain session header across reset', async () => {
   const f = await fixture(); const fetchOriginal = globalThis.fetch; const keyOriginal = process.env.OPENCODE_API_KEY;
   const requests = [];
   process.env.OPENCODE_API_KEY = 'FAKE_KEY_FOR_REQUEST_CONTRACT_TEST';
   globalThis.fetch = async (url, options) => {
-    requests.push({ url: String(url), headers: new Headers(options.headers) });
+    requests.push({ url: String(url), headers: new Headers(options.headers), body: JSON.parse(options.body) });
     const chunks = [
       { id: 'test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: { role: 'assistant', content: 'Done.' }, finish_reason: null }] },
       { id: 'test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: {}, finish_reason: 'stop' }], usage: { prompt_tokens: 10, completion_tokens: 2, total_tokens: 12 } }
@@ -137,14 +148,16 @@ test('native OpenCode requests identify Shurik and retain session header across 
   };
   try {
     const { runIteration } = createRequire(import.meta.url)(bundle);
-    for (const id of ['headers-first', 'headers-second']) {
+    for (const [id, reasoning] of [['headers-first', 'high'], ['headers-second', 'medium']]) {
       const output = join(f.dir, id);
-      await runIteration({ version: 1, id, cwd: f.cwd, journal: f.journal, output, prompt: 'Use coding tools as needed; then yield.', model: 'space-bunny-free', seconds: 10, sessions: [] });
+      await runIteration({ version: 1, id, cwd: f.cwd, journal: f.journal, output, prompt: 'Use coding tools as needed; then yield.', model: 'space-bunny-free', reasoning, seconds: 10, sessions: [] });
       assert.equal(JSON.parse(await readFile(join(output, 'result.json'), 'utf8')).outcome, 'yielded');
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
     assert.equal(requests[0].headers.get('user-agent'), 'shurik/0.1.0');
+    assert.equal(requests[0].body.reasoning_effort, 'high');
+    assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
     assert.ok(session); assert.equal(requests[1].headers.get('x-opencode-session'), session);
   } finally {
