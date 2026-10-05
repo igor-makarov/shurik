@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791218135999",
-    "id": "hazfalafel-20261004t213311:6-81",
-    "minEntryId": 12441,
-    "maxEntryId": 12547,
-    "at": "2026-10-05T16:35:35.999Z",
-    "phase": "tools"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:6-81",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 12443,
+    "id": 12444,
+    "reason": "model_error",
+    "detail": "Stream ended without finish_reason"
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-05T16:35:35.999Z"
 }
