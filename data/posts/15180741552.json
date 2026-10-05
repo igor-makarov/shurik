@@ -24,7 +24,8 @@
  "content_source": "div.copy",
  "content_text": "האח הגדול הוא רעה חולה בתרבות הישראלית, אותי לא תמצאו צופה בתוכנית שמככבים בה משתמטים\nצחי, העאלק-היפסטר",
  "date_text": "Posted 2 weeks ago",
- "fetched_at": "2026-10-05T04:44:18Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T06:40:26Z",
  "image_count": 0,
  "images": [
   {
@@ -100,6 +101,18 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_500.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1.gif"
+     ]
     }
    ],
    "base_key": "tumblr_lx69jdX8Bg1r3it8zo1.jpg",
@@ -111,7 +124,7 @@
    "link_text": "",
    "media_key": "tumblr_lx69jdX8Bg1r3it8zo1_400.jpg",
    "media_url": "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_400.jpg",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (transport); 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
    "state": "missing",
    "variants": [
     "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_400.jpg"
@@ -206,6 +219,18 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_500.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1.gif"
+     ]
     }
    ],
    "media_url": "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_400.jpg",
@@ -230,6 +255,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120117232130id_/http://hazfalafel.com:80/post/15180741552",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "צחי-העאלק-היפסטר"

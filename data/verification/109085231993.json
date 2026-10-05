@@ -1,0 +1,188 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:9acb448435dea7186867aff68b8a61656bc41339785d55b0e5a78de8dc5e1fe2",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_niq3utNaCs1r3it8zo1_500.gif]",
+   "expected": "953d1b07f0a2019af3bb682568e063d46f63bb6f72660c0c66c57b3bb4e741a3",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_niq3utNaCs1r3it8zo1_500.gif",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_niq3utNaCs1r3it8zo1_500.gif]",
+   "expected": 949111,
+   "observed": 949111,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_niq3utNaCs1r3it8zo1_500.gif]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אשכנזים!\nהסרטון של מרץ",
+   "observed": "אשכנזים!\nהסרטון של מרץ",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>אשכנזים!</p>\n<p><a href=\"https://www.facebook.com/video.php?v=10153106387653128&amp;set=vb.7661338127\" title=\"הסרטון של מרץ\" target=\"_blank\">הסרטון של מרץ</a></p>",
+   "observed": "<p>אשכנזים!</p>\n<p><a href=\"https://www.facebook.com/video.php?v=10153106387653128&amp;set=vb.7661338127\" title=\"הסרטון של מרץ\" target=\"_blank\">הסרטון של מרץ</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "זהבה-גלאון",
+    "מרץ",
+    "בחירות",
+    "בחירות-2015",
+    "גיף",
+    "Friday",
+    "Rebecca-Black",
+    "רבקה-בלאק",
+    "יום-שישי",
+    "אשכנזים"
+   ],
+   "observed": [
+    "זהבה-גלאון",
+    "מרץ",
+    "בחירות",
+    "בחירות-2015",
+    "גיף",
+    "Friday",
+    "Rebecca-Black",
+    "רבקה-בלאק",
+    "יום-שישי",
+    "אשכנזים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "אשכנזים!\nהסרטון של מרץ"
+   ],
+   "observed": [
+    "אשכנזים!\nהסרטון של מרץ"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/109085231993",
+   "observed": "http://hazfalafel.com:80/post/109085231993",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_niq3utNaCs1r3it8zo1_500.gif]",
+   "expected": "אשכנזים!\nהסרטון של מרץ",
+   "observed": "אשכנזים!\nהסרטון של מרץ",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20151101010823",
+   "observed": "20151101010823",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20151101010823id_/http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
+   "observed": "https://web.archive.org/web/20151101010823id_/http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20151101010823",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:15834b9187a6b37844d14c1ef3f125b1f36d11d0aa2879dedda13b3810f83d3f",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2015-11-01T01:08:23Z",
+  "org.opencontainers.image.description": "אשכנזים!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 109085231993",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/109085231993",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "22",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "109085231993",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "זהבה-גלאון,מרץ,בחירות,בחירות-2015,גיף,Friday,Rebecca-Black,רבקה-בלאק,יום-שישי,אשכנזים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:26da85a0495cb87ab6a7b2b676a1196b6dc89cd6b38974befdc71c5955bb776a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 945013
+  },
+  {
+   "digest": "sha256:7d62fcc78b8f34ec67bb3732264bd73623193ccc305993666f62c83fc4044c1d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1343
+  }
+ ],
+ "manifest_digest": "sha256:9acb448435dea7186867aff68b8a61656bc41339785d55b0e5a78de8dc5e1fe2",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "109085231993",
+ "pulled_files": [
+  {
+   "bytes": 949111,
+   "file": "tumblr_niq3utNaCs1r3it8zo1_500.gif",
+   "image_magic_ok": true,
+   "layer": "sha256:26da85a0495cb87ab6a7b2b676a1196b6dc89cd6b38974befdc71c5955bb776a",
+   "role": "media",
+   "sha256": "953d1b07f0a2019af3bb682568e063d46f63bb6f72660c0c66c57b3bb4e741a3"
+  },
+  {
+   "bytes": 4885,
+   "file": "post.json",
+   "layer": "sha256:7d62fcc78b8f34ec67bb3732264bd73623193ccc305993666f62c83fc4044c1d",
+   "role": "post-metadata",
+   "sha256": "eada958d8ee880d7c5c948b4657266b750c634f82ae5666ff9b302a948c7b89e"
+  }
+ ],
+ "tag": "109085231993",
+ "verified_at": "2026-10-05T06:39:46Z"
+}

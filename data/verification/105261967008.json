@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:115e5d5f2016a1b57cf6ca22f3bbd2ab32d31c4e881218d1237df67a3ca252b9",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ngmhsq0ah41r3it8zo1_500.jpg]",
+   "expected": "fbe9e1d80c7ea74f4b71359d1d4b311547a779df2734eb5cd5020b5121507635",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ngmhsq0ah41r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ngmhsq0ah41r3it8zo1_500.jpg]",
+   "expected": 67108,
+   "observed": 67108,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ngmhsq0ah41r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "הסטטוס של בני אלבז\nתודה לנמרוד צוק",
+   "observed": "הסטטוס של בני אלבז\nתודה לנמרוד צוק",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<329 chars>",
+   "observed": "<329 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "csi",
+    "בני-אלבז",
+    "מתקפת-הטרור-בסידני"
+   ],
+   "observed": [
+    "csi",
+    "בני-אלבז",
+    "מתקפת-הטרור-בסידני"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "הסטטוס של בני אלבז\nתודה לנמרוד צוק"
+   ],
+   "observed": [
+    "הסטטוס של בני אלבז\nתודה לנמרוד צוק"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/105261967008",
+   "observed": "http://hazfalafel.com/post/105261967008",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ngmhsq0ah41r3it8zo1_500.jpg]",
+   "expected": "הסטטוס של בני אלבז\nתודה לנמרוד צוק",
+   "observed": "הסטטוס של בני אלבז\nתודה לנמרוד צוק",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20141221233754",
+   "observed": "20141221233754",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20141221233754id_/http://41.media.tumblr.com/572479704685dd1ca4d1908d1eb95554/tumblr_ngmhsq0ah41r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20141221233754id_/http://41.media.tumblr.com/572479704685dd1ca4d1908d1eb95554/tumblr_ngmhsq0ah41r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20141221233754",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:ec3a39c6a3db266fd241d2b8ff7ba8f7b9136b26931719c34bff4d68235570bc",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T08:19:55Z",
+  "org.opencontainers.image.description": "הסטטוס של בני אלבז",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 105261967008",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/105261967008",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "34",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "105261967008",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "csi,בני-אלבז,מתקפת-הטרור-בסידני"
+ },
+ "layers": [
+  {
+   "digest": "sha256:b3e505fb7b69bf15e92a20dbc191c2afefebad27bd57a7cdfe7b2d51fef3fb7b",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 65986
+  },
+  {
+   "digest": "sha256:f3d371692a39f0101a3c5615ad78411395ac1f3a67accddbc24b5ddb716c1095",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1401
+  }
+ ],
+ "manifest_digest": "sha256:115e5d5f2016a1b57cf6ca22f3bbd2ab32d31c4e881218d1237df67a3ca252b9",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "105261967008",
+ "pulled_files": [
+  {
+   "bytes": 67108,
+   "file": "tumblr_ngmhsq0ah41r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b3e505fb7b69bf15e92a20dbc191c2afefebad27bd57a7cdfe7b2d51fef3fb7b",
+   "role": "media",
+   "sha256": "fbe9e1d80c7ea74f4b71359d1d4b311547a779df2734eb5cd5020b5121507635"
+  },
+  {
+   "bytes": 5396,
+   "file": "post.json",
+   "layer": "sha256:f3d371692a39f0101a3c5615ad78411395ac1f3a67accddbc24b5ddb716c1095",
+   "role": "post-metadata",
+   "sha256": "6aae516c9c54a5186d06a690145d24224a40a40fd11a9d7fa4decd751e7f0cf9"
+  }
+ ],
+ "tag": "105261967008",
+ "verified_at": "2026-10-05T06:39:44Z"
+}

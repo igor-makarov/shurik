@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:74444d1e85f43c31e581d6849ce6e8928d78d6d10fb780924f55e27692a971c5",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ngfdb5H5vX1r3it8zo1_500.jpg]",
+   "expected": "7d96f889b76a35faf40407cb6b783dd9060f3ffccf18fe861e90a6365eaa3c1d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ngfdb5H5vX1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ngfdb5H5vX1r3it8zo1_500.jpg]",
+   "expected": 91065,
+   "observed": 91065,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ngfdb5H5vX1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :(",
+   "observed": "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :(",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>שמנו את על הקיר של <a href=\"https://www.facebook.com/KidsRtheBestWriters\" title=\"ילדים הם התסריטאים הטובים בעולם\" target=\"_blank\">ילדים הם התסריטאים הטובים בעולם</a> והם מחקו לנו את זה :(</p>",
+   "observed": "<p>שמנו את על הקיר של <a href=\"https://www.facebook.com/KidsRtheBestWriters\" title=\"ילדים הם התסריטאים הטובים בעולם\" target=\"_blank\">ילדים הם התסריטאים הטובים בעולם</a> והם מחקו לנו את זה :(</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ילדים-הם-התסריטאים-הטובים-בעולם",
+    "זונת-קארמה",
+    "Karma-Whore"
+   ],
+   "observed": [
+    "ילדים-הם-התסריטאים-הטובים-בעולם",
+    "זונת-קארמה",
+    "Karma-Whore"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :("
+   ],
+   "observed": [
+    "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :("
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/104929846708",
+   "observed": "http://hazfalafel.com/post/104929846708",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ngfdb5H5vX1r3it8zo1_500.jpg]",
+   "expected": "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :(",
+   "observed": "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :(",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20141222005458",
+   "observed": "20141222005458",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20141222005458id_/http://41.media.tumblr.com/dbb3407bfa1d358a519d353f7aeb3ea6/tumblr_ngfdb5H5vX1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20141222005458id_/http://41.media.tumblr.com/dbb3407bfa1d358a519d353f7aeb3ea6/tumblr_ngfdb5H5vX1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20141222005458",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:eefa7d3606da37977d31fdaff44afc9d0520db7e9ef6a580ebe4c5271866b044",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2015-02-15T23:50:41Z",
+  "org.opencontainers.image.description": "שמנו את על הקיר של ילדים הם התסריטאים הטובים בעולם והם מחקו לנו את זה :(",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 104929846708",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/104929846708",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "72",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "104929846708",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "ילדים-הם-התסריטאים-הטובים-בעולם,זונת-קארמה,Karma-Whore"
+ },
+ "layers": [
+  {
+   "digest": "sha256:be081d6f7da522adbd07afe7a5d9331a8f34ab8618636eb9bc68e7908cb7214e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 90790
+  },
+  {
+   "digest": "sha256:f9250ac4290a5583227ee0c85a89082eeca84b675dcd32fe1a85f9868394429e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1322
+  }
+ ],
+ "manifest_digest": "sha256:74444d1e85f43c31e581d6849ce6e8928d78d6d10fb780924f55e27692a971c5",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "104929846708",
+ "pulled_files": [
+  {
+   "bytes": 91065,
+   "file": "tumblr_ngfdb5H5vX1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:be081d6f7da522adbd07afe7a5d9331a8f34ab8618636eb9bc68e7908cb7214e",
+   "role": "media",
+   "sha256": "7d96f889b76a35faf40407cb6b783dd9060f3ffccf18fe861e90a6365eaa3c1d"
+  },
+  {
+   "bytes": 5140,
+   "file": "post.json",
+   "layer": "sha256:f9250ac4290a5583227ee0c85a89082eeca84b675dcd32fe1a85f9868394429e",
+   "role": "post-metadata",
+   "sha256": "835f53d2b20955867a5f18c090a046ff7439518146df7188bc325530470554ef"
+  }
+ ],
+ "tag": "104929846708",
+ "verified_at": "2026-10-05T06:39:45Z"
+}
