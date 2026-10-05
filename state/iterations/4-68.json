@@ -5,13 +5,35 @@
   "generation": 4,
   "iteration": 68,
   "startedAt": "2026-10-05T10:59:34.103Z",
-  "outcome": "running",
+  "outcome": "timeout",
   "source": "8cd247cb6a16ff435c90d15b3e2c4444dd16530f",
   "runtime": "911dfda864f818c23de75b40eacee27854638051",
   "model": "space-bunny-free",
   "reasoning": "high",
-  "workCommit": "bfe833b38eeaf423c1afe438aecec401b8366704",
+  "workCommit": "a341bf8b438e0134c9312b999b06719572b7cd6a",
   "minEntryId": 10249,
-  "maxEntryId": 10491,
-  "checkpointAt": "2026-10-05T11:23:01.110Z"
+  "maxEntryId": 10495,
+  "checkpointAt": "2026-10-05T11:23:01.110Z",
+  "finishedAt": "2026-10-05T11:29:47.031Z",
+  "error": "\"\"",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 3496123,
+        "output": 1088483,
+        "cacheRead": 64754087,
+        "cacheWrite": 0,
+        "reasoning": 592007,
+        "totalTokens": 69338693,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
