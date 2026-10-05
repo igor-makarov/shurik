@@ -96,16 +96,41 @@
  "content_source": "div.copy",
  "content_text": "עוד לא arrested",
  "date_text": "Posted 1 week ago",
- "fetched_at": "2026-10-05T04:13:08Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:57:52Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg"
+    }
+   ],
    "base_key": "tumblr_oxiim0S5rO1r3it8z_smart1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "throttled",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_oxiim0S5rO1r3it8z_smart1.jpg",
    "media_url": "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
+   "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg"
    ],
@@ -114,6 +139,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 74360,
@@ -129,9 +155,28 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg"
+    }
+   ],
    "media_url": "http://78.media.tumblr.com/tumblr_oxiim0S5rO1r3it8z_smart1.jpg",
-   "reason": null
+   "reason": "throttled"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/166183084234",
@@ -141,6 +186,7 @@
  "post_id": "166183084234",
  "posted_on": "Posted on Sunday the 8th of October 2017 at 7:18 PM",
  "replay_url": "https://web.archive.org/web/20171019191048id_/http://hazfalafel.com:80/post/166183084234",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "משפחה-בהפרעה",

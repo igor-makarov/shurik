@@ -25,16 +25,55 @@
  "content_source": "div.copy",
  "content_text": "את רק בת 16",
  "date_text": "Posted 1 month ago",
- "fetched_at": "2026-10-04T23:40:58Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:57:52Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1280.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1024.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_540.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_400.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_100.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "27.media.tumblr.com",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 9863
+    }
+   ],
    "base_key": "tumblr_lxjwvgZGwm1r3it8zo1.jpg",
+   "caption": "את רק בת 16",
    "caption_alt": "את רק בת 16",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
+   "host_inventory": {
+    "host": "27.media.tumblr.com",
+    "keys_at_scan": 2397,
+    "pages": 6,
+    "rows": 9863,
+    "scanned_at": "2026-10-05T02:02:17+00:00"
+   },
    "link_text": "",
    "media_key": "tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
    "media_url": "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+   "note": "host media inventory is complete and lists no capture for this key (or any size variant) on this CDN host",
+   "state": "missing",
    "url_forms": [
     "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg"
    ],
@@ -51,12 +90,76 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1024.jpg"
+    }
+   ],
    "base_key": "tumblr_lxjwvgZGwm1r3it8zo1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "throttled",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
    "media_url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
+   "state": "missing",
    "url_forms": [
     "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg"
    ],
@@ -73,6 +176,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 56865,
@@ -88,14 +192,98 @@
  "missing_image_count": 2,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1280.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1024.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_540.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_400.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_100.jpg",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
+      "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "27.media.tumblr.com",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 9863
+    }
+   ],
    "media_url": "http://27.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
-   "reason": null
+   "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1024.jpg"
+    }
+   ],
    "media_url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "throttled"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/17666950173/16",
@@ -116,6 +304,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120413235735id_/http://hazfalafel.com:80/post/17666950173/16",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "למה-אתה-לא"

@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import os
 import tempfile
+import time
 import unittest
 
 from recovery import config
@@ -278,6 +279,108 @@ class ArchiveLivenessTests(unittest.TestCase):
         blocked = FakeArchive({"lxjrbav": Response(url="", status=504, error=THROTTLED,
                                                   message="gateway timeout")})
         self.assertFalse(archive_health(blocked)["healthy"])
+
+
+class CircuitBreakerDeferralTests(unittest.TestCase):
+    """An open circuit must not spend the batch on posts nobody could ask.
+
+    When the archive throttles mid-pass the fetcher's breaker refuses further
+    requests. Each refused request used to be recorded as a real `throttled`
+    attempt: the whole batch burned, every untouched post was pushed into a
+    cooldown it never earned, and the queue looked busy while learning nothing.
+    """
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.tmp = self._tmp.name
+        self.queue_path = os.path.join(self.tmp, "image-queue.json")
+        self.post_dir = os.path.join(self.tmp, "posts")
+
+    def _seed(self, n: int) -> list[str]:
+        os.makedirs(self.post_dir, exist_ok=True)
+        ids = []
+        for i in range(n):
+            pid = str(1000 + i)
+            ids.append(pid)
+            with open(os.path.join(self.post_dir, f"{pid}.json"), "w", encoding="utf-8") as fh:
+                json.dump(post(pid, [image(f"http://29.media.tumblr.com/tumblr_{i}_500.jpg")]), fh)
+        return ids
+
+    def _run(self, fetcher, **kw):
+        from recovery.cli import fetch_images
+
+        old_dir, old_missing = config.POST_DIR, config.MISSING_JSONL
+        config.POST_DIR = self.post_dir
+        config.MISSING_JSONL = os.path.join(self.tmp, "missing.jsonl")
+        try:
+            return fetch_images(fetcher, limit_posts=kw.pop("limit_posts", 10),
+                                queue=ImageQueue(self.queue_path), publish_on_recovery=False,
+                                health_check=False, concurrency=1, variant_budget=1, **kw)
+        finally:
+            config.POST_DIR, config.MISSING_JSONL = old_dir, old_missing
+
+    def test_open_circuit_defers_every_post_without_spending_attempts(self):
+        ids = self._seed(4)
+        fetcher = FakeArchive({}, sleep=lambda _s: None)
+        fetcher._blocked_until = time.monotonic() + 600  # breaker already open
+
+        out = self._run(fetcher)
+
+        self.assertEqual(out["processed"], 4)
+        self.assertEqual(out["deferred"], 4, out)
+        self.assertEqual(out["recovered"], 0)
+        self.assertEqual(fetcher.requests, [], "no request may be sent while the circuit is open")
+        self.assertIn("circuit breaker", out.get("circuit_breaker", ""))
+        q = ImageQueue(self.queue_path)
+        for pid in ids:
+            self.assertEqual(q.attempts(pid), 0,
+                             f"post {pid} spent an attempt on an archive that never answered")
+            self.assertFalse(q.cooling_down(pid))
+        # The untouched records must still look untouched.
+        with open(os.path.join(self.post_dir, f"{ids[0]}.json"), encoding="utf-8") as fh:
+            rec = json.load(fh)
+        self.assertEqual(rec["images"][0].get("attempts", []), [])
+        self.assertNotEqual(rec.get("images_done"), True)
+
+    def test_a_post_cut_short_mid_way_keeps_its_later_images_unasked(self):
+        ids = self._seed(2)
+        routes = {"im_/": Response(url="", status=429, error=THROTTLED, message="slow down")}
+
+        class Tripping(FakeArchive):
+            def _get_noredirect(self, url, timeout):
+                resp = routes["im_/"]
+                self.requests.append(url)
+                return Response(url=url, status=resp.status, error=resp.error,
+                                message=resp.message)
+
+        out = self._run(Tripping(routes, sleep=lambda _s: None), limit_posts=2)
+
+        self.assertEqual(out["deferred"] + out["transient"], out["transient"] + out["transient"])
+        self.assertGreaterEqual(out["deferred"], 1, out)
+        q = ImageQueue(self.queue_path)
+        deferred = [pid for pid in ids if q.attempts(pid) == 0]
+        self.assertTrue(deferred, "the post behind the open circuit must stay unattempted")
+        for pid in deferred:
+            with open(os.path.join(self.post_dir, f"{pid}.json"), encoding="utf-8") as fh:
+                rec = json.load(fh)
+            self.assertEqual(rec["images"][0].get("attempts", []), [])
+            self.assertNotEqual(rec.get("images_done"), True)
+        self.assertIsNotNone(ImageQueue(self.queue_path).global_cooldown_active(),
+                             "a pass cut short by throttling must record its cooldown")
+
+    def test_deferred_posts_are_still_selected_by_the_next_pass(self):
+        self._seed(2)
+        fetcher = FakeArchive({}, sleep=lambda _s: None)
+        fetcher._blocked_until = time.monotonic() + 600
+        self._run(fetcher)
+        # A fresh process, with a healthy archive: the deferred posts are still
+        # at the front of the line, untouched by the outage.
+        records = list(__import__("recovery.store", fromlist=["PostStore"]).PostStore(
+            self.post_dir).all())
+        batch, stats = ImageQueue(self.queue_path).select(records, limit=5)
+        self.assertEqual(stats["posts_with_work"], 2, stats)
+        self.assertEqual([pid for pid, _ in batch], ["1000", "1001"], batch)
 
 
 if __name__ == "__main__":  # pragma: no cover

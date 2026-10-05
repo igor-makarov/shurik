@@ -41,7 +41,8 @@
  "content_source": "div.copy",
  "content_text": "טודו בום",
  "date_text": "Posted 4 days ago",
- "fetched_at": "2026-10-05T04:21:16Z",
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T07:57:52Z",
  "image_count": 0,
  "images": [
   {
@@ -68,12 +69,12 @@
    "base_key": "tumblr_or1esiX9wa1r3it8z_smart1.jpg",
    "caption_alt": "",
    "capture_count": 0,
-   "error": "transport",
+   "error": "throttled",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_or1esiX9wa1r3it8z_smart1.jpg",
    "media_url": "http://68.media.tumblr.com/tumblr_or1esiX9wa1r3it8z_smart1.jpg",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
    "state": "missing",
    "url_forms": [
     "http://68.media.tumblr.com/tumblr_or1esiX9wa1r3it8z_smart1.jpg"
@@ -120,7 +121,7 @@
     }
    ],
    "media_url": "http://68.media.tumblr.com/tumblr_or1esiX9wa1r3it8z_smart1.jpg",
-   "reason": "transport"
+   "reason": "throttled"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/161436017589",
@@ -130,6 +131,7 @@
  "post_id": "161436017589",
  "posted_on": "Posted on Sunday the 4th of June 2017 at 10:14 PM",
  "replay_url": "https://web.archive.org/web/20170609125800id_/http://hazfalafel.com:80/post/161436017589",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "טודו-בום",

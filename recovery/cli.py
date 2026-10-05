@@ -556,11 +556,23 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
         return {"processed": 0, "note": "no posts with unresolved images", **stats,
                 "queue": q.summary()}
 
-    counts = {"recovered": 0, "missing": 0, "transient": 0}
+    counts = {"recovered": 0, "missing": 0, "transient": 0, "deferred": 0}
     results = []
+
+    def breaker_open() -> bool:
+        # The HTTP layer's circuit breaker is the one signal that says "stop
+        # asking, the archive is refusing traffic". Honouring it here is what
+        # keeps a burst of throttles from consuming a whole batch: the posts
+        # behind the trip stay *untouched* instead of each recording a
+        # "circuit breaker open" attempt and a cooldown they never earned.
+        return bool(getattr(fetcher, "blocked", False))
 
     def work(item) -> dict:
         pid, wanted = item
+        if breaker_open():
+            return {"post_id": pid, "recovered": 0, "missing": 0, "transient": 0,
+                    "considered": 0, "deferred": True,
+                    "reason": getattr(fetcher, "breaker_note", lambda: "")()}
         rec = store.get(pid)
         images = rec.get("images") or []
         wanted_urls = {e["media_url"]: e for e in wanted}
@@ -569,6 +581,7 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
         transient = 0
         merged: list[dict] = []
         considered: list[dict] = []
+        deferred = False
         for img in images:
             # Never drop an already recovered image on a rerun.
             if img.get("sha256") and img.get("blob_path"):
@@ -578,6 +591,13 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             if entry is None:
                 merged.append(img)
                 missing += 1
+                continue
+            if breaker_open():
+                # Leave this image exactly as it is: a pass cut short by an open
+                # circuit is not evidence about the image, and the post record
+                # must not claim the image was looked at.
+                merged.append(img)
+                deferred = True
                 continue
             considered.append(entry)
             skip = set(entry.get("tried") or [])
@@ -622,11 +642,12 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 store.put(pid, updated)
         updated = dict(rec)
         updated["images"] = merged
-        updated["images_done"] = True
+        updated["images_done"] = not deferred
         updated["fetched_at"] = _now()
         store.put(pid, updated)
         return {"post_id": pid, "recovered": recovered, "missing": missing,
-                "transient": transient, "considered": len(considered)}
+                "transient": transient, "considered": len(considered),
+                "deferred": deferred}
 
     if dry_run:
         q.save()
@@ -639,6 +660,14 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             counts["recovered"] += res["recovered"]
             counts["missing"] += res["missing"]
             counts["transient"] += res["transient"]
+            if res.get("deferred"):
+                counts["deferred"] += 1
+                if not res.get("considered"):
+                    # No request was sent for this post: it keeps its place in
+                    # line instead of spending an attempt and a cooldown on an
+                    # archive that never answered.
+                    continue
+                res["deferred_after"] = res.get("considered", 0)
             row = q.note_attempt(res["post_id"],
                                  [e for e in dict(batch)[res["post_id"]]],
                                  {"outcome": "recovered" if res["recovered"] else
@@ -652,13 +681,21 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             # the archive is refusing connections.
             if publish_on_recovery and res["recovered"]:
                 res["publish"] = _publish_recovered(res["post_id"])
+    breaker_note = getattr(fetcher, "breaker_note", lambda: "")()
     if counts["transient"] and not counts["recovered"]:
         q.note_global_failure(f"{counts['transient']} transient image failures in this pass")
+    elif counts["deferred"] and not counts["recovered"] and not counts["transient"]:
+        # Nothing was learned at all because the circuit opened immediately:
+        # say so, so the cooldown is on record instead of implied.
+        q.note_global_failure(f"{counts['deferred']} posts deferred by an open circuit breaker")
     elif counts["recovered"]:
         q.note_global_success()
     q.save()
-    return {"processed": len(results), **counts, "results": results,
-            "queue": q.summary(), **stats}
+    out = {"processed": len(results), **counts, "results": results,
+           "queue": q.summary(), **stats}
+    if breaker_note:
+        out["circuit_breaker"] = breaker_note
+    return out
 
 
 _EXT_BY_TYPE = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif",

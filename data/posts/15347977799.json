@@ -25,7 +25,7 @@
  "content_text": "צחי, העאלק-היפסטר, לא עומד בתור.",
  "date_text": "Posted 3 months ago",
  "failure_count": 1,
- "fetched_at": "2026-10-05T04:20:45Z",
+ "fetched_at": "2026-10-05T07:57:52Z",
  "image_count": 0,
  "images": [
   {
@@ -69,18 +69,50 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_400.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_500.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1024.jpg"
     }
    ],
    "base_key": "tumblr_lxc1wwKWlu1r3it8zo1.jpg",
    "caption": "צחי, העאלק-היפסטר, לא עומד בתור.",
    "caption_alt": "צחי, העאלק-היפסטר, לא עומד בתור.",
    "capture_count": 0,
-   "error": "transport",
+   "error": "throttled",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_lxc1wwKWlu1r3it8zo1_400.jpg",
    "media_url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_400.jpg",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
    "state": "missing",
    "url_forms": [
     "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_400.jpg"
@@ -138,17 +170,49 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1024.jpg"
     }
    ],
    "base_key": "tumblr_lxc1wwKWlu1r3it8zo1.jpg",
    "caption_alt": "",
    "capture_count": 0,
-   "error": "transport",
+   "error": "throttled",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_lxc1wwKWlu1r3it8zo1_250.jpg",
    "media_url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_250.jpg",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
    "state": "missing",
    "url_forms": [
     "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_250.jpg"
@@ -222,10 +286,42 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_400.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_540.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_500.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_250.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_100.jpg",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.png",
+      "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1024.jpg"
     }
    ],
    "media_url": "http://28.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_400.jpg",
-   "reason": "transport"
+   "reason": "throttled"
   },
   {
    "attempts": [
@@ -268,10 +364,42 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_1024.jpg"
     }
    ],
    "media_url": "http://25.media.tumblr.com/tumblr_lxc1wwKWlu1r3it8zo1_250.jpg",
-   "reason": "transport"
+   "reason": "throttled"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/15347977799",
@@ -281,6 +409,7 @@
  "post_id": "15347977799",
  "reason": "snapshot_exists",
  "replay_url": "https://web.archive.org/web/20120426031205id_/http://hazfalafel.com:80/post/15347977799",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "אילת",

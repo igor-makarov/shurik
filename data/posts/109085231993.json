@@ -19,7 +19,7 @@
  "content_text": "אשכנזים!\nהסרטון של מרץ",
  "date_text": "Posted 1 week ago",
  "failure_count": 0,
- "fetched_at": "2026-10-05T06:23:58Z",
+ "fetched_at": "2026-10-05T07:57:52Z",
  "image_count": 1,
  "images": [
   {
@@ -160,17 +160,49 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_540.gif"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_400.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_250.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_100.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.png",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1280.gif"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1024.gif"
     }
    ],
    "base_key": "tumblr_niq3utNaCs1r3it8zo1.gif",
    "caption_alt": "",
    "capture_count": 0,
-   "error": "transport",
+   "error": "throttled",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_niq3utNaCs1r3it8zo1_540.gif",
    "media_url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_540.gif",
-   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
    "state": "missing",
    "url_forms": [
     "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_540.gif"
@@ -188,7 +220,7 @@
    ]
   }
  ],
- "images_done": false,
+ "images_done": true,
  "methods": [
   {
    "bytes": 68156,
@@ -244,10 +276,42 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_540.gif"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_400.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_250.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_100.gif",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.png",
+      "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1280.gif"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1024.gif"
     }
    ],
    "media_url": "http://38.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_540.gif",
-   "reason": "transport"
+   "reason": "throttled"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/109085231993",
