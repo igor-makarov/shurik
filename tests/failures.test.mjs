@@ -58,7 +58,7 @@ test('failure evidence survives a lost work checkout and dispatch crash; a fresh
   assert.equal(sessions[0].transcript, 'checkpoint'); assert.match(sessions[0].error, /failure/);
   const prompt = iterationPrompt('Repair runner', '1-2', sessions, reports, 'trail');
   assert.match(prompt, /FAILURE_NEEDLE/); assert.match(prompt, /Execute iteration/);
-  assert.match(prompt, /\.shurik\/state\/trail\/diagnostics\/recovery\/123-1.json/);
+  assert.match(prompt, /\.shurik-local\/state\/trail\/diagnostics\/recovery\/123-1.json/);
   assert.equal(JSON.parse(await readFile(join(state, 'iterations/1-1.json'), 'utf8')).recovery, 'diagnostics/recovery/123-1.json');
   const before = (await fresh.read()).revision;
   await reconcileLoop(fresh, { wake: run, request: requestFor(), logs: async () => { throw new Error('must not recapture'); },
