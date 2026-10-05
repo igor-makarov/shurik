@@ -54,12 +54,22 @@ media recover; posts 13833997906-14996000761 (2010-2011, `27.media.tumblr.com`
 style) answered HTTP 404 on every size/extension variant and are recorded as
 gaps for that exact scope only.
 
-Not yet exploited: a bulk `collapse=urlkey` CDX dump of a media host
-(`scripts/hostdump.py`, ~52 pages for `78.media.tumblr.com`, which alone
-accounts for 807 of the 2184 unrecovered URLs) intersected with the parsed
-posts' media keys would yield exact capture timestamps for many images in tens
-of requests instead of one request per image. `data/cdx/media.jsonl` is still
-empty, so that inventory has never been persisted for matching.
+Not yet exploited: nothing cheap. A bulk `collapse=urlkey` CDX dump of a media
+host (`scripts/hostdump.py`) is *not* a shortcut: these Tumblr hosts are shared
+by every blog on the CDN, so `78.media.tumblr.com` alone indexes >80k URLs from
+all blogs, unscoped. The stem prefix stays the scoped unit of work.
+
+Scoped negatives worth keeping (they are evidence about those exact prefixes
+only): stem queries over 195 image stems answered `200` with zero pre-cutoff
+captures, 3 of which hit. `78.media.tumblr.com` (the largest pool, 807 of the
+unrecovered URLs) yielded 0/54 on its first six posts; old hosts 24-41 yielded
+3/127. `data/cdx/media.jsonl` is still empty.
+
+Service note: `web.archive.org` answered one CDX request this iteration with a
+`200` "Internet Archive: Temporarily Offline" HTML page. `cdx_query` turns an
+unparseable body into `http_error`, which is in `TRANSIENT_CLASSES`, so such a
+body is recorded as inconclusive rather than an archive gap. Keep watching for
+it: a degraded CDX answering `[]` would look exactly like a real negative.
 
 Bootstrap on a fresh runner, only when no `crawl-state` checkpoint is restored:
 
