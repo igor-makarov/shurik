@@ -487,7 +487,8 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                  retry_missing: bool = False, method: str = "probe",
                  variant_budget: int = 4, order: str = "closest",
                  availability: Optional[AvailabilityIndex] = None,
-                 queue: Optional[ImageQueue] = None, dry_run: bool = False) -> dict:
+                 queue: Optional[ImageQueue] = None, dry_run: bool = False,
+                 publish_on_recovery: bool = True) -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
     media_index = MediaIndex(capture_file("media.jsonl")) if use_media_index else None
@@ -606,6 +607,13 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                                   ("transient" if res["transient"] else "settled"),
                                   "recovered": res["recovered"], "transient": res["transient"]})
             q.save()          # durable after every post, so a crash loses nothing
+            # `data/blobs/` is an ephemeral cache: the recovered bytes exist only
+            # inside this process. Publishing here, while they are present, is
+            # what turns "recovered" into "publicly retrievable"; waiting for a
+            # later `publish` run re-downloads from the archive and fails whenever
+            # the archive is refusing connections.
+            if publish_on_recovery and res["recovered"]:
+                res["publish"] = _publish_recovered(res["post_id"])
     if counts["transient"] and not counts["recovered"]:
         q.note_global_failure(f"{counts['transient']} transient image failures in this pass")
     elif counts["recovered"]:
@@ -617,6 +625,21 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
 
 _EXT_BY_TYPE = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif",
                 "image/webp": ".webp", "image/bmp": ".bmp"}
+
+
+def _publish_recovered(post_id: str) -> dict:
+    """Push one post's artifact right after its image bytes landed.
+
+    Returns a small record of what happened; a registry failure is reported, never
+    raised, so it can never discard the recovery itself.
+    """
+    try:
+        out = publish(limit=1, post_ids=[str(post_id)])
+        rows = out.get("results") or []
+        return rows[0] if rows else {"tag": post_id, "action": "nothing-to-do"}
+    except Exception as exc:  # pragma: no cover - defensive
+        return {"tag": post_id, "action": "failed",
+                "reason": f"{type(exc).__name__}: {exc}"[:300]}
 
 
 def needs_probe(image: dict) -> bool:
@@ -1001,6 +1024,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="per-post cooldown after a transient pass (0 = queue default 45)")
     p.add_argument("--dry-run", action="store_true",
                    help="report which posts the next pass would touch, without any request")
+    p.add_argument("--no-publish", action="store_true",
+                   help="do not push a post's artifact while its recovered bytes are in memory")
     p = sub.add_parser("publish", help="push per-post artifacts to GHCR")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
@@ -1056,7 +1081,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                            post_ids=[i for i in args.ids.split(",") if i] or None,
                            use_media_index=not args.no_media_index, retry_missing=args.retry_missing,
                            method=args.method, variant_budget=args.variant_budget,
-                           order=args.order, queue=queue, dry_run=args.dry_run)
+                           order=args.order, queue=queue, dry_run=args.dry_run,
+                           publish_on_recovery=not args.no_publish)
     elif args.cmd == "publish":
         ids = [i.strip() for i in args.ids.split(",") if i.strip()]
         if ids:

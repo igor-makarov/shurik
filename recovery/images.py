@@ -480,9 +480,17 @@ def resolve_image(
             attempt["sha256"] = digest
             attempt["media_type"] = mime
             record["attempts"].append(attempt)
+            # An earlier pass's verdict note ("none of the variants has a
+            # capture") is a false statement once the bytes are in hand, so it
+            # is replaced by the truth and kept as `prior_note` rather than
+            # being silently dropped or left to contradict the record.
+            prior = record.get("note")
             record.update(
                 state="recovered",
                 error=None,
+                note=(f"recovered from pre-cutoff capture {cap.timestamp} of {cap.original} "
+                      f"({len(resp.body)} bytes, {mime}); every URL form tried earlier is kept "
+                      f"in `attempts`"),
                 sha256=digest,
                 bytes=len(resp.body),
                 media_type=mime,
@@ -494,6 +502,8 @@ def resolve_image(
                     "archive_digest": cap.digest,
                 },
             )
+            if prior:
+                record["prior_note"] = prior
             return record
         attempt["media_type"] = mime or "not-an-image"
         if resp.body and not mime and resp.error not in (TIMEOUT, THROTTLED, TRANSPORT):

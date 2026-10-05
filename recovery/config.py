@@ -26,9 +26,16 @@ USER_AGENT = os.environ.get(
 )
 
 # Network behaviour: archive is slow, be gentle.
+#
+# MIN_REQUEST_INTERVAL was 0.7s with two workers, i.e. ~3 archive requests per
+# second. web.archive.org answers that with a *refused TCP connection* within
+# minutes, and the refusal lasts far longer than the burst that caused it, so
+# the crawler spent whole passes writing identical "transport" rows. Half a
+# request per second per worker, serialised by the queue, keeps us under the
+# archive's rate limit; the fetcher's circuit breaker stops the rest.
 DEFAULT_TIMEOUT = float(os.environ.get("SHURIK_HTTP_TIMEOUT", "90"))
 DEFAULT_CONCURRENCY = int(os.environ.get("SHURIK_CONCURRENCY", "2"))
-MIN_REQUEST_INTERVAL = float(os.environ.get("SHURIK_MIN_INTERVAL", "0.7"))
+MIN_REQUEST_INTERVAL = float(os.environ.get("SHURIK_MIN_INTERVAL", "2.0"))
 MAX_ATTEMPTS = int(os.environ.get("SHURIK_ATTEMPTS", "3"))
 
 # Repository layout (all relative to repo root).

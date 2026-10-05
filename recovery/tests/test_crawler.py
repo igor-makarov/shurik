@@ -915,3 +915,115 @@ class AvailabilityMethodTests(unittest.TestCase):
         self.assertEqual(rec["state"], "recovered", rec.get("note", ""))
         self.assertEqual(rec["sha256"], hashlib.sha256(JPEG_BYTES).hexdigest())
         self.assertEqual(rec["capture"]["timestamp"], "20150119072952")
+
+
+class ArchiveBlockTests(unittest.TestCase):
+    """A refused archive connection is a throttle, and it must stop the hammering.
+
+    Observed on 2026-10-05: after one burst of `fetch-images` (~3 requests/s at
+    concurrency 3 with a 0.7s limiter) `web.archive.org` began refusing the TCP
+    connection for both curl and python within a minute, and kept refusing for
+    the rest of the iteration. Every refusal was recorded as the ambiguous
+    `transport`, and each image burned three retries against a closed door.
+    """
+
+    def _refused(self) -> Exception:
+        import requests
+
+        exc = ConnectionRefusedError(111, "Connection refused")
+        new = requests.exceptions.NewConnectionError(None, "refused")
+        new.__cause__ = exc
+        maxretry = requests.exceptions.ConnectionError(
+            "HTTPSConnectionPool(host='web.archive.org', port=443)")
+        maxretry.__cause__ = new
+        return maxretry
+
+    def test_refused_connection_is_classified_as_throttled(self):
+        from recovery.http import classify_exception
+
+        kind, message = classify_exception(self._refused())
+        self.assertEqual(kind, THROTTLED)
+        self.assertIn("refused", message.lower())
+
+    def test_dns_failure_stays_plain_transport(self):
+        import requests
+
+        exc = requests.exceptions.ConnectionError(
+            "HTTPSConnectionPool(host='web.archive.org', port=443): Name or service not known")
+        exc.__cause__ = OSError("Name or service not known")
+        from recovery.http import classify_exception
+
+        self.assertEqual(classify_exception(exc)[0], "transport")
+
+    def test_throttled_request_is_sent_once_not_retried(self):
+        sent = []
+
+        class Blocked(FakeArchive):
+            def _get(self, url, timeout):
+                sent.append(url)
+                return Response(url=url, status=None, error=THROTTLED,
+                                message="archive refused the connection")
+
+        f = Blocked({}, attempts=3, sleep=lambda _s: None)
+        resp = f.get("https://web.archive.org/web/20191231235959id_/http://x/y.jpg")
+        self.assertEqual(resp.error, THROTTLED)
+        self.assertEqual(len(sent), 1, "a blocked archive must not be retried in-process")
+
+    def test_repeated_throttles_open_a_circuit_and_stop_sending(self):
+        sent = []
+
+        class Blocked(FakeArchive):
+            def _get(self, url, timeout):
+                sent.append(url)
+                return Response(url=url, status=None, error=THROTTLED, message="refused")
+
+            def _get_noredirect(self, url, timeout):
+                sent.append(url)
+                return Response(url=url, status=None, error=THROTTLED, message="refused")
+
+        f = Blocked({}, attempts=3, sleep=lambda _s: None)
+        for i in range(3):
+            f.get(f"https://web.archive.org/x{i}")
+        self.assertTrue(f.blocked, "3 consecutive throttles must open the circuit")
+        before = len(sent)
+        again = f.get("https://web.archive.org/after")
+        self.assertEqual(again.error, THROTTLED)
+        self.assertEqual(len(sent), before, "no request may be sent while the circuit is open")
+        self.assertIn("circuit breaker", again.message)
+
+    def test_one_good_answer_closes_the_circuit(self):
+        class Flaky(FakeArchive):
+            def _get(self, url, timeout):
+                if "bad" in url:
+                    return Response(url=url, status=None, error=THROTTLED, message="refused")
+                return Response(url=url, status=200, body=b"ok", error=OK)
+
+        f = Flaky({})
+        for i in range(3):
+            f.get(f"https://web.archive.org/bad{i}")
+        self.assertTrue(f.blocked)
+        f.get("https://web.archive.org/good")
+        self.assertFalse(f.blocked, "a successful answer must close the circuit")
+
+
+class RecoveryNoteTests(unittest.TestCase):
+    """A recovered image must not keep an earlier pass's gap claim as its note."""
+
+    URL = "http://29.media.tumblr.com/tumblr_aaa_500.jpg"
+
+    def _routes(self):
+        return {"im_/": Response(url="", status=302, body=b"",
+                                 headers={"location": f"https://web.archive.org/web/20130930175155im_/{self.URL}"},
+                                 error=OK),
+                "id_/": binary(JPEG_BYTES)}
+
+    def test_recovery_note_supersedes_the_old_gap_verdict(self):
+        f = FakeArchive(self._routes())
+        record = {"media_url": self.URL,
+                  "note": "replay probes answered for this URL and none of them has a capture"}
+        rec = resolve_image(f, record, method="probe", max_captures=1)
+        self.assertEqual(rec["state"], "recovered")
+        self.assertNotIn("none of them has a capture", rec["note"])
+        self.assertIn("20130930175155", rec["note"])
+        self.assertEqual(rec["prior_note"], record["note"],
+                         "the superseded verdict is kept, not deleted")

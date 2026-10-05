@@ -26,6 +26,10 @@ GAP = "archive_gap"            # archive says it has nothing (404 / "not archive
 TIMEOUT = "timeout"            # bounded long timeout hit
 THROTTLED = "throttled"        # 429 / 503 / explicit rate-limit page
 TRANSPORT = "transport"        # DNS/reset/other network failure
+# `throttled` also covers the archive refusing the TCP connection outright.
+# web.archive.org drops clients that ask too much by *refusing* the socket, so a
+# refusal is a throttle signal, not an ambiguous network flake: it must back the
+# client off, and the evidence must say so instead of the vague "transport".
 HTTP_ERROR = "http_error"      # other non-200 status
 CUTOFF_VIOLATION = "cutoff_violation"  # capture newer than the cutoff
 BAD_BODY = "bad_body"          # body is not the media type we asked for
@@ -73,6 +77,46 @@ class Response:
         return json.loads(self.text())
 
 
+def connection_refused(exc: BaseException) -> bool:
+    """True when the failure was a refused TCP connection (any link of a chain).
+
+    requests wraps a socket error twice (`ConnectionError` -> `MaxRetryError` ->
+    `NewConnectionError` -> `ConnectionRefusedError`), so the whole chain is
+    inspected. Only a *refusal* counts: DNS failures, resets and TLS errors are
+    plain transport faults and stay retryable.
+    """
+    seen = 0
+    cur: Optional[BaseException] = exc
+    while cur is not None and seen < 6:
+        seen += 1
+        if isinstance(cur, ConnectionRefusedError):
+            return True
+        text = str(cur).lower()
+        if "errno 111" in text or "connection refused" in text:
+            return True
+        cur = cur.__cause__ or cur.__context__
+    return False
+
+
+def classify_exception(exc: BaseException) -> tuple[str, str]:
+    """Map a requests/urllib exception to (error class, message)."""
+    name = type(exc).__name__.lower()
+    if connection_refused(exc):
+        return THROTTLED, f"archive refused the connection: {str(exc)[:200]}"
+    if "timeout" in name:
+        return TIMEOUT, str(exc)[:300]
+    return TRANSPORT, str(exc)[:300]
+
+
+# A run that keeps hammering a refused archive makes the refusal last longer, so
+# the fetcher opens a circuit: after this many throttled answers in a row it
+# stops sending requests for a while and says so, instead of burning the
+# runner's reputation and writing another hundred identical "transport" rows.
+BREAKER_THRESHOLD = 3
+BREAKER_BASE_SECONDS = 120.0
+BREAKER_MAX_SECONDS = 1800.0
+
+
 class RateLimiter:
     """Simple global minimum spacing between outbound requests."""
 
@@ -108,6 +152,42 @@ class Fetcher:
         if self.session is not None:
             self.session.headers.update({"User-Agent": config.USER_AGENT})
         self.stats: dict[str, int] = {}
+        # circuit breaker state
+        self._lock = threading.Lock()
+        self._throttled_streak = 0
+        self._blocked_until = 0.0
+        self._breaker_trips = 0
+
+    # -- circuit breaker ---------------------------------------------------
+    @property
+    def blocked(self) -> bool:
+        return time.monotonic() < self._blocked_until
+
+    def breaker_note(self) -> str:
+        if not self.blocked:
+            return ""
+        return (f"circuit breaker open for {max(0, self._blocked_until - time.monotonic()):.0f}s "
+                f"after {self._throttled_streak} consecutive throttled answers "
+                f"(trip {self._breaker_trips}); no request was sent")
+
+    def _blocked_response(self, url: str) -> Optional[Response]:
+        if not self.blocked:
+            return None
+        return Response(url=url, status=None, error=THROTTLED, message=self.breaker_note())
+
+    def _note_outcome(self, resp: Response) -> None:
+        with self._lock:
+            if resp.error == THROTTLED:
+                self._throttled_streak += 1
+                if self._throttled_streak >= BREAKER_THRESHOLD:
+                    self._breaker_trips += 1
+                    span = min(BREAKER_MAX_SECONDS,
+                               BREAKER_BASE_SECONDS * (2 ** (self._breaker_trips - 1)))
+                    self._blocked_until = time.monotonic() + span
+            elif resp.ok:
+                self._throttled_streak = 0
+                self._blocked_until = 0.0
+                self._breaker_trips = 0
 
     # -- to be provided by tests ------------------------------------------
     def _raw(self, url: str, timeout: float) -> Response:  # pragma: no cover
@@ -126,9 +206,8 @@ class Fetcher:
                     elapsed=time.monotonic() - start,
                 )
             except Exception as exc:  # requests raises many concrete types
-                name = type(exc).__name__.lower()
-                kind = TIMEOUT if "timeout" in name else TRANSPORT
-                return Response(url=url, status=None, error=kind, message=str(exc)[:300])
+                kind, message = classify_exception(exc)
+                return Response(url=url, status=None, error=kind, message=message)
         return self._urllib_get(url, timeout)
 
     def _urllib_get(self, url: str, timeout: float) -> Response:  # pragma: no cover
@@ -155,9 +234,8 @@ class Fetcher:
                 pass
             return Response(url=url, status=exc.code, body=body, elapsed=time.monotonic() - start)
         except Exception as exc:
-            name = type(exc).__name__.lower()
-            kind = TIMEOUT if "timeout" in name else TRANSPORT
-            return Response(url=url, status=None, error=kind, message=str(exc)[:300])
+            kind, message = classify_exception(exc)
+            return Response(url=url, status=None, error=kind, message=message)
 
     # -- retry / classify --------------------------------------------------
     @staticmethod
@@ -188,18 +266,30 @@ class Fetcher:
     ) -> Response:
         timeout = self.timeout if timeout is None else timeout
         attempts = self.attempts if attempts is None else attempts
+        blocked = self._blocked_response(url)
+        if blocked is not None:
+            self.stats[THROTTLED] = self.stats.get(THROTTLED, 0) + 1
+            return blocked
         last: Optional[Response] = None
         for attempt in range(1, max(1, attempts) + 1):
             self.limiter.wait()
             resp = self.classify(self._get(url, timeout))
             resp.attempts = attempt
             last = resp
+            self._note_outcome(resp)
             if resp.ok:
                 break
             if not idempotent:
                 break
             # Retry only transient classes; a gap or a cutoff violation is final.
             if resp.error in (GAP, CUTOFF_VIOLATION, BAD_BODY, HTTP_ERROR):
+                break
+            # A throttle (429/503 *or* a refused connection) is not retried here:
+            # the durable queue owns the back-off, and a retry during a block only
+            # extends it. One request per call, then the cooldown.
+            if resp.error == THROTTLED:
+                break
+            if self.blocked:
                 break
             if attempt >= max(1, attempts):
                 break
@@ -251,10 +341,15 @@ class Fetcher:
         """
         at_ts = at_ts or config.CUTOFF
         target = f"{config.REPLAY_BASE}/{at_ts}{mode}/{url}"
+        blocked = self._blocked_response(target)
+        if blocked is not None:
+            self.stats[THROTTLED] = self.stats.get(THROTTLED, 0) + 1
+            return blocked
         self.limiter.wait()
         resp = self._get_noredirect(target, self.timeout if timeout is None else timeout)
         resp.url = target
         resp.error = self.classify_probe(resp)
+        self._note_outcome(resp)
         return resp
 
     def _get_noredirect(self, url: str, timeout: float) -> Response:
@@ -273,9 +368,8 @@ class Fetcher:
                                 headers={k.lower(): v for k, v in r.headers.items()},
                                 elapsed=time.monotonic() - start)
             except Exception as exc:  # requests raises many concrete types
-                name = type(exc).__name__.lower()
-                kind = TIMEOUT if "timeout" in name else TRANSPORT
-                return Response(url=url, status=None, error=kind, message=str(exc)[:300])
+                kind, message = classify_exception(exc)
+                return Response(url=url, status=None, error=kind, message=message)
         return self._urllib_get_noredirect(url, timeout)
 
     def _urllib_get_noredirect(self, url: str, timeout: float) -> Response:  # pragma: no cover
@@ -304,9 +398,8 @@ class Fetcher:
                             headers={k.lower(): v for k, v in (exc.headers or {}).items()},
                             elapsed=time.monotonic() - start)
         except Exception as exc:
-            name = type(exc).__name__.lower()
-            kind = TIMEOUT if "timeout" in name else TRANSPORT
-            return Response(url=url, status=None, error=kind, message=str(exc)[:300])
+            kind, message = classify_exception(exc)
+            return Response(url=url, status=None, error=kind, message=message)
 
     @staticmethod
     def classify_probe(resp: Response) -> str:
