@@ -1,0 +1,207 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:b6abea7d05f0a0f25593cbde4af5b27f1b45fe69272047e04d79fdf8bf169741",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o07sizvpqP1r3it8zo1_500.jpg]",
+   "expected": "f97320c1570dcf4f5200d432d340a167a0f59e21083fc77793f7a7da16664461",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o07sizvpqP1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o07sizvpqP1r3it8zo1_500.jpg]",
+   "expected": 87458,
+   "observed": 87458,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o07sizvpqP1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o07sizvpqP1r3it8zo1_1280.jpg]",
+   "expected": "f97320c1570dcf4f5200d432d340a167a0f59e21083fc77793f7a7da16664461",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o07sizvpqP1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o07sizvpqP1r3it8zo1_1280.jpg]",
+   "expected": 87458,
+   "observed": 87458,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o07sizvpqP1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "לילה טוב, נסיך מתוק",
+   "observed": "לילה טוב, נסיך מתוק",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1500;&#1497;&#1500;&#1492; &#1496;&#1493;&#1489;, &#1504;&#1505;&#1497;&#1498; &#1502;&#1514;&#1493;&#1511;</p>",
+   "observed": "<p>&#1500;&#1497;&#1500;&#1492; &#1496;&#1493;&#1489;, &#1504;&#1505;&#1497;&#1498; &#1502;&#1514;&#1493;&#1511;</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "rape-sloth",
+    "אהוד-אולמרט",
+    "שולה-זקן"
+   ],
+   "observed": [
+    "rape-sloth",
+    "אהוד-אולמרט",
+    "שולה-זקן"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "לילה טוב, נסיך מתוק"
+   ],
+   "observed": [
+    "לילה טוב, נסיך מתוק"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/136316699428",
+   "observed": "http://hazfalafel.com/post/136316699428",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_o07sizvpqP1r3it8zo1_500.jpg]",
+   "expected": "לילה טוב, נסיך מתוק",
+   "observed": "לילה טוב, נסיך מתוק",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20160125230748",
+   "observed": "20160125230748",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20160125230748id_/http://40.media.tumblr.com/acd66e1322aeb10e0ec13ae1659eae09/tumblr_o07sizvpqP1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20160125230748id_/http://40.media.tumblr.com/acd66e1322aeb10e0ec13ae1659eae09/tumblr_o07sizvpqP1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20160125230748",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:97e2e2f603180a6c0425e1ee402ace270c6181f578edbf707fd4deaf9313eff1",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2016-07-30T14:33:34Z",
+  "org.opencontainers.image.description": "לילה טוב, נסיך מתוק",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 136316699428",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/136316699428",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "19",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "136316699428",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "rape-sloth,אהוד-אולמרט,שולה-זקן"
+ },
+ "layers": [
+  {
+   "digest": "sha256:25dd9f423967e06a6450ad5e91494ff62e1fafd32fc5c592cc33ea815097d80e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 87225
+  },
+  {
+   "digest": "sha256:21c1c95e78836183f5f4dd4dcfcbcbe14056cd1c7bd7c8309578f008fb0c38fb",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 87227
+  },
+  {
+   "digest": "sha256:0649026a034f041452dfbf860ea8f523b6c24b6a581776c17494c7e99aa0d327",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 937
+  }
+ ],
+ "manifest_digest": "sha256:b6abea7d05f0a0f25593cbde4af5b27f1b45fe69272047e04d79fdf8bf169741",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "136316699428",
+ "pulled_files": [
+  {
+   "bytes": 87458,
+   "file": "tumblr_o07sizvpqP1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:25dd9f423967e06a6450ad5e91494ff62e1fafd32fc5c592cc33ea815097d80e",
+   "role": "media",
+   "sha256": "f97320c1570dcf4f5200d432d340a167a0f59e21083fc77793f7a7da16664461"
+  },
+  {
+   "bytes": 87458,
+   "file": "tumblr_o07sizvpqP1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:21c1c95e78836183f5f4dd4dcfcbcbe14056cd1c7bd7c8309578f008fb0c38fb",
+   "role": "media",
+   "sha256": "f97320c1570dcf4f5200d432d340a167a0f59e21083fc77793f7a7da16664461"
+  },
+  {
+   "bytes": 2710,
+   "file": "post.json",
+   "layer": "sha256:0649026a034f041452dfbf860ea8f523b6c24b6a581776c17494c7e99aa0d327",
+   "role": "post-metadata",
+   "sha256": "50c461b867103ebb7b84b4a7ac26ac9a1369c909aab2333a54a847ec5f925cdf"
+  }
+ ],
+ "tag": "136316699428",
+ "verified_at": "2026-10-05T15:45:07Z"
+}
