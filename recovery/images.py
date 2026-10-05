@@ -239,6 +239,14 @@ def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_bud
                                  f"first {variant_budget}; the rest stay queued for a later run",
                          "variants": siblings[variant_budget:]})
     for variant in plan:
+        if fetcher.blocked:
+            # The breaker opened during this image (an earlier variant of it was
+            # refused). Asking the remaining variants would send requests to a
+            # closed door and turn every one of them into a fake attempt.
+            attempts.append({"endpoint": "circuit-breaker",
+                             "note": f"circuit breaker opened before probing {variant}; "
+                                     "no request was sent for it"})
+            break
         cap, att, after = probe_media_capture(fetcher, variant, backsteps=backsteps)
         attempts.extend(att)
         after_cutoff_only = after_cutoff_only or after
@@ -344,6 +352,12 @@ def resolve_image(
         "capture": None,
         "attempts": [],
     }
+    # An earlier pass's verdict note travels with the image record and is kept:
+    # when this pass recovers the bytes the note is replaced by the truth, but
+    # the superseded text is preserved as `prior_note` instead of vanishing.
+    prior_note = image.get("note") or ""
+    if prior_note:
+        record["note"] = prior_note
     captures: list[Capture] = []
     record["attempts"].append({
         "endpoint": "variant-plan",

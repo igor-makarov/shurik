@@ -502,7 +502,7 @@ def archive_health(fetcher: Fetcher, url: str = HEALTHCHECK_URL,
     and treats only a real answer as health: a timeout, throttle or transport
     failure keeps the cooldown in force.
     """
-    resp = fetcher.probe_replay(url, timeout=timeout)
+    resp = fetcher.probe_replay(url, timeout=timeout, trial=True)
     healthy = resp.error == OK and bool(resp.headers.get("location"))
     return {"url": url, "status": resp.status, "error": resp.error,
             "healthy": healthy, "message": resp.message[:200],

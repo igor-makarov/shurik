@@ -1010,7 +1010,11 @@ class ArchiveBlockTests(unittest.TestCase):
         for i in range(3):
             f.get(f"https://web.archive.org/bad{i}")
         self.assertTrue(f.blocked)
-        f.get("https://web.archive.org/good")
+        # While the circuit is open ordinary traffic is never sent, so the
+        # health check is the only path back: it is a single `trial=True`
+        # request, and a good answer there closes the circuit.
+        self.assertEqual(f.get("https://web.archive.org/good").error, THROTTLED)
+        f.get("https://web.archive.org/good", trial=True)
         self.assertFalse(f.blocked, "a successful answer must close the circuit")
 
 
