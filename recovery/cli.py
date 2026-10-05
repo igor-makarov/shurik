@@ -22,6 +22,18 @@ from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
 POST_CAPTURE_FILE = os.path.join(config.CDX_DIR, "posts.jsonl")
 LISTING_CAPTURE_FILE = os.path.join(config.CDX_DIR, "listing.jsonl")
 MEDIA_CAPTURE_FILE = os.path.join(config.CDX_DIR, "media.jsonl")
+
+
+def capture_file(name: str) -> str:
+    """Inventory path resolved at call time.
+
+    The module constants above are import-time snapshots of config.CDX_DIR.
+    Using them directly meant a test (or any alternate data root) that moved
+    config.CDX_DIR kept reading and writing the repository's committed
+    inventories -- which is how an offline test could "recover" a post out of
+    the real data/posts directory.
+    """
+    return os.path.join(config.CDX_DIR, name)
 POST_ID_RE = re.compile(r"/post/(\d+)")
 # CDX matchType=prefix wants a bare directory prefix, never `.../*`.
 POST_CAPTURE_PREFIX = "hazfalafel.com/post/"
@@ -39,7 +51,7 @@ def discover_posts(fetcher: Fetcher, years: Optional[list[str]] = None, force: b
     `url=hazfalafel.com/post/*&matchType=prefix` returns `[]` while
     `url=hazfalafel.com/post/&matchType=prefix` returns every post capture.
     """
-    index = CaptureIndex(POST_CAPTURE_FILE)
+    index = CaptureIndex(capture_file("posts.jsonl"))
     stats = {"new": 0, "queries": 0, "skipped": 0}
     for start in (years or year_windows()):
         name = f"posts:{start}"
@@ -58,7 +70,7 @@ def discover_posts(fetcher: Fetcher, years: Optional[list[str]] = None, force: b
 
 def discover_listings(fetcher: Fetcher, force: bool = False) -> dict:
     """Archive/tag/monthly pages: discovery leads for posts without permalinks."""
-    index = CaptureIndex(LISTING_CAPTURE_FILE)
+    index = CaptureIndex(capture_file("listing.jsonl"))
     stats = {"new": 0, "queries": 0, "skipped": 0}
     for prefix in ("hazfalafel.com/archive/", "hazfalafel.com/tagged/", POST_CAPTURE_PREFIX):
         name = f"listing:{prefix}"
@@ -140,7 +152,7 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
                 max_per_post: int = 2) -> dict:
     """Download and parse archived post pages. Resumable via data/posts/*.json."""
     ensure_dirs()
-    index = CaptureIndex(POST_CAPTURE_FILE)
+    index = CaptureIndex(capture_file("posts.jsonl"))
     grouped = post_captures(index)
     store = PostStore()
     wanted = set(post_ids or [])
@@ -287,7 +299,7 @@ def discover_media(fetcher: Fetcher, hosts: Optional[list[str]] = None, force: b
     for url in urls:
         keys |= stems_of(url)
     targets = hosts or hosts_for(urls)
-    index = MediaIndex(MEDIA_CAPTURE_FILE)
+    index = MediaIndex(capture_file("media.jsonl"))
     results = []
     for host in targets:
         results.append(scan_host(fetcher, index, host, keys=keys, force=force,
@@ -309,7 +321,7 @@ def reindex_media(hosts: Optional[list[str]] = None) -> dict:
     for url in urls:
         keys |= stems_of(url)
     targets = hosts or hosts_for(urls)
-    index = MediaIndex(MEDIA_CAPTURE_FILE)
+    index = MediaIndex(capture_file("media.jsonl"))
     results = []
     for host in targets:
         state = index.hosts_done().get(f"host:{host}") or {}
@@ -328,7 +340,7 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                  variant_budget: int = 4, order: str = "closest") -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
-    media_index = MediaIndex(MEDIA_CAPTURE_FILE) if use_media_index else None
+    media_index = MediaIndex(capture_file("media.jsonl")) if use_media_index else None
     pending = []
     for rec in store.all():
         if post_ids and rec.get("post_id") not in post_ids:
@@ -566,7 +578,7 @@ def status() -> dict:
     store = PostStore()
     posts = list(store.all())
     discovered = set()
-    index = CaptureIndex(POST_CAPTURE_FILE)
+    index = CaptureIndex(capture_file("posts.jsonl"))
     for cap in index.all():
         pid = post_id_from_url(cap.original)
         if pid:
@@ -576,11 +588,11 @@ def status() -> dict:
     complete = [p for p in recovered if p.get("missing_image_count", 0) == 0]
     published = [p for p in posts if p.get("published")]
     missing_ledger = JsonlStore(config.MISSING_JSONL).records()
-    media_index = CaptureIndex(MEDIA_CAPTURE_FILE)
+    media_index = CaptureIndex(capture_file("media.jsonl"))
     return {
         "discovered_posts": len(discovered),
         "captures_indexed": len(index.all()),
-        "listing_captures": len(CaptureIndex(LISTING_CAPTURE_FILE).all()),
+        "listing_captures": len(CaptureIndex(capture_file("listing.jsonl")).all()),
         "media_captures": len(media_index.all()),
         "posts_parsed": len(posts),
         "recovered_posts": len(recovered),

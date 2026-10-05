@@ -78,8 +78,12 @@ def merge_missing_fields(old: dict, new: dict) -> dict:
 class PostStore:
     """One JSON document per post id (committed to Git; small by design)."""
 
-    def __init__(self, directory: str = config.POST_DIR):
-        self.dir = directory
+    def __init__(self, directory: str = ""):
+        # Resolved per call, not at import time: a default argument would bind
+        # whatever config.POST_DIR was when the module loaded, so any later
+        # override (tests, alternate data roots) silently pointed at the
+        # repository's real data/posts.
+        self.dir = directory or config.POST_DIR
         os.makedirs(self.dir, exist_ok=True)
 
     def path(self, post_id: str) -> str:

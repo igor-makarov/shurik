@@ -269,11 +269,12 @@
   },
   {
     "id": "2-28",
-    "outcome": "running",
+    "outcome": "runner_failure",
     "runId": "37253457148",
     "minEntryId": 3653,
     "maxEntryId": 3751,
     "checkpointAt": "2026-10-05T02:02:55.901Z",
+    "error": "\"\"\nJournal invalid; restored last readable checkpoint. Malformed files retained.",
     "transcript": "checkpoint"
   }
 ]

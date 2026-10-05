@@ -54,8 +54,10 @@ def stems_of(url: str) -> set[str]:
 class MediaIndex:
     """Local, durable index of archived media captures keyed by media file."""
 
-    def __init__(self, path: str = MEDIA_CAPTURE_FILE):
-        self.index = CaptureIndex(path)
+    def __init__(self, path: str = ""):
+        # Late-bound on purpose: see PostStore.__init__ (import-time defaults
+        # would pin the committed data/cdx/media.jsonl into every caller).
+        self.index = CaptureIndex(path or os.path.join(config.CDX_DIR, "media.jsonl"))
         self._by_url: dict[str, list[Capture]] = {}
         self._by_key: dict[str, list[Capture]] = {}
         for cap in self.index.all():
@@ -177,7 +179,10 @@ def scan_host(
     dump_path = os.path.join(dump_dir, f"{host}.jsonl")
     os.makedirs(dump_dir, exist_ok=True)
 
-    if state.get("complete") and not force:
+    # A host is only treated as finished when the run that finished it used the
+    # same page size; a manifest entry with no `page_size` came from an older
+    # run that may have been served a truncated page, so it is re-scanned below.
+    if state.get("complete") and not force and state.get("page_size") == page_size:
         # No new network work: re-filter whatever dump survived on this runner.
         if os.path.exists(dump_path):
             kept, rows, reindexed = _reindex_dump(dump_path, index, keys)
