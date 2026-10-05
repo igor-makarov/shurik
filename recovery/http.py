@@ -54,6 +54,11 @@ class Response:
     message: str = ""
     elapsed: float = 0.0
     attempts: int = 1
+    # Number of *raw* data rows a CDX response carried, before cutoff/malformed
+    # filtering. Paging needs this: a page whose rows were all filtered out still
+    # proves the archive had more results, so `len(filtered_rows) < limit` is not
+    # a valid "last page" signal.
+    cdx_rows: int = 0
 
     @property
     def ok(self) -> bool:

@@ -742,7 +742,11 @@ class OversizedHostTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             index = MediaIndex(os.path.join(tmp, "media.jsonl"))
             dump = os.path.join(tmp, "dumps")
-            full = [[r] for r in _rows(2000)]  # every page is full: never ends
+            # A *full* page is a header plus `page_size` data rows, which is what
+            # `_rows(n)` returns. Wrapping each row in a list made every data row
+            # one field wide, so parse_cdx_json dropped them all and the scan
+            # saw a "short" first page and declared the host complete.
+            full = _rows(2000)
 
             class Sea(FakeArchive):
                 def __init__(self):
@@ -765,6 +769,45 @@ class OversizedHostTests(unittest.TestCase):
             self.assertTrue(state["oversized"])
             self.assertIsNone(index.host_complete(self.HOST),
                               "an oversized scan is not evidence of a gap")
+
+    def test_full_page_of_filtered_rows_is_not_the_last_page(self):
+        """A page whose rows were all dropped is still a full page.
+
+        Judging "did the archive run out?" by the number of *kept* captures made
+        a page of after-cutoff rows look like the end of the host, and the scan
+        then stamped `complete` on a host it had barely looked at. `complete` is
+        what licenses the "confirmed archive gap" verdict for every key of that
+        host, so this must not regress.
+        """
+        from recovery.media import MediaIndex, scan_host
+
+        with tempfile.TemporaryDirectory() as tmp:
+            index = MediaIndex(os.path.join(tmp, "media.jsonl"))
+            late = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest",
+                     "length"]]
+            for i in range(2000):  # every row is newer than the cutoff
+                late.append([f"k{i}", "20240101000000",
+                             f"http://24.media.tumblr.com/{i:032x}/tumblr_other{i}_500.jpg",
+                             "image/jpeg", "200", "ABC", "100"])
+
+            class Sea(FakeArchive):
+                def __init__(self):
+                    super().__init__({})
+
+                def cdx(self, params, **kw):
+                    page = int(params.get("page", 1))
+                    body = cdx_json(late if page == 1 else [["urlkey", "timestamp", "original",
+                                                            "mimetype", "statuscode", "digest",
+                                                            "length"]])
+                    resp = Response(url="", status=200, body=body, error=OK)
+                    resp.cdx_rows = len(body) - 1  # header excluded
+                    return resp
+
+            info = scan_host(Sea(), index, self.HOST, keys={"tumblr_x.jpg"}, page_size=2000,
+                             max_pages=1, dump_dir=os.path.join(tmp, "dumps"))
+            self.assertFalse(info["complete"], info)
+            self.assertIsNone(index.host_complete(self.HOST))
+            self.assertEqual(info["rows"], 2000, "the raw row count must still be recorded")
 
     def test_discover_media_skips_an_oversized_host(self):
         import inspect

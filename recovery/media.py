@@ -219,17 +219,26 @@ def scan_host(
                                extra={"filter": "statuscode:200", "collapse": "urlkey",
                                       "page": str(page)})
         pages = page
-        last = {"status": resp.status, "error": resp.error, "message": resp.message[:200]}
+        last = {"status": resp.status, "error": resp.error, "message": resp.message[:200],
+                "raw_rows": getattr(resp, "cdx_rows", 0)}
         if not resp.ok:
             break
-        seen_rows += len(caps)
+        # How full the page *was* is a property of the raw response, not of the
+        # captures we kept: `parse_cdx_json` drops after-cutoff and malformed
+        # rows, and a page whose every row was dropped is still a full page.
+        # Judging "last page" by len(caps) therefore ended long scans early and
+        # stamped `complete` -- the flag that turns "we did not see this key"
+        # into a *confirmed* archive gap -- on an unfinished inventory.
+        raw_rows = int(getattr(resp, "cdx_rows", 0) or len(caps))
+        last["raw_rows"] = raw_rows
+        seen_rows += raw_rows
         with open(dump_path, "a", encoding="utf-8") as fh:
             for cap in caps:
                 fh.write(json.dumps(cap.to_row(), ensure_ascii=False) + "\n")
         for cap in caps:
             if keys is None or key_of(cap.original) in keys:
                 kept.append(cap)
-        if len(caps) < page_size:
+        if raw_rows < page_size:
             short_page = True
             break
     kept = [c for c in kept if c.statuscode in ("200", "") and within_cutoff(c.timestamp)]

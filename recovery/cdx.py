@@ -90,6 +90,21 @@ def parse_cdx_json(rows: list, source_query: str = "") -> list[Capture]:
     return out
 
 
+def cdx_data_rows(rows: list) -> int:
+    """How many data rows a CDX json body carried, header excluded.
+
+    `parse_cdx_json` drops rows that are after the cutoff or malformed, so the
+    length of its output is *not* how full the page was. Paging decisions must
+    use this count instead, or a page of rows that were all filtered out looks
+    like the last page and turns an unfinished scan into a "complete" one.
+    """
+    if not rows:
+        return 0
+    first = rows[0]
+    header = bool(first and isinstance(first[0], str) and first[0] in ("urlkey", "timestamp"))
+    return max(0, len(rows) - (1 if header else 0))
+
+
 def cdx_query(fetcher: Fetcher, url: str, *, match: str = "prefix", limit: int = 10000,
               extra: Optional[dict] = None) -> tuple[list[Capture], Response]:
     """One CDX query. Returns captures and the raw response for diagnostics."""
@@ -112,6 +127,7 @@ def cdx_query(fetcher: Fetcher, url: str, *, match: str = "prefix", limit: int =
         resp.error = "http_error"
         resp.message = f"bad cdx json: {exc}"
         return [], resp
+    resp.cdx_rows = cdx_data_rows(rows)
     return parse_cdx_json(rows, source_query=url), resp
 
 
