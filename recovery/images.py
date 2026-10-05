@@ -429,10 +429,17 @@ def resolve_image(
                                    "or any size/extension sibling yet; sweep it before replaying")
                 return record
     if not captures and method in ("probe", "auto", "availability"):
-        extra, attempts, after_cutoff_only = image_capture_candidates_probe(
+        extra, attempts, probe_after_cutoff = image_capture_candidates_probe(
             fetcher, url, variant_budget=variant_budget, backsteps=backsteps,
             skip_variants=skip_variants)
         captures.extend(extra)
+        # The availability sweep already learned that some URL form of this
+        # image is archived, only newer than the cutoff. The replay probes
+        # answer "no pre-cutoff capture" for the forms they asked, but they
+        # cannot see the sweep's evidence, so their False must not overwrite
+        # it: otherwise a mixed verdict set (one form with no snapshot, one
+        # form archived too late) was reported as a plain `archive_gap`.
+        after_cutoff_only = after_cutoff_only or probe_after_cutoff
         record["attempts"].extend(attempts)
         # A probe that was answered (200/404, not a timeout/throttle) is
         # authoritative about existence; only a transient failure leaves doubt.
