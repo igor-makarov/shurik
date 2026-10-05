@@ -579,8 +579,12 @@ def stem_scan(fetcher: Fetcher, batch: int = 40, limit_batches: int = 0,
            "batches": []}
     if dry_run:
         return out
+    # `filter`/`collapse` are part of the recorded scope and are NOT optional:
+    # a multi-url CDX request without them answers 200 with an *empty* body,
+    # which would record every stem in the batch as a false negative.
     extra = {"from": "19960101", "to": config.CUTOFF, "fl": "urlkey,timestamp,original,"
-           "mimetype,statuscode,digest,length,redirect"}
+           "mimetype,statuscode,digest,length,redirect",
+           "filter": STEM_SCOPE["filter"], "collapse": STEM_SCOPE["collapse"]}
     for stems_batch in batches:
         # A shared row limit: 8 size/extension siblings per stem is generous, and
         # a response that reaches it is re-asked in smaller pieces rather than

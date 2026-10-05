@@ -151,6 +151,14 @@ def cdx_query_multi(fetcher: Fetcher, urls: list[str], *, match: str = "prefix",
     resp = fetcher.cdx_multi(wanted, match=match, limit=limit, extra=extra)
     if not resp.ok:
         return caps, resp, True
+    if not (resp.body or b"").strip():
+        # A 200 with an empty body is *not* "no captures". Observed 2026-10: a
+        # multi-url CDX request sent without `filter`/`collapse` answers 200 with
+        # no body at all, which a naive parse turns into 1656 false negatives.
+        # Unanswered stays unanswered: the stems go back in the pending pile.
+        resp.error = "http_error"
+        resp.message = "empty CDX body for a multi-url request (not a negative answer)"
+        return caps, resp, False
     try:
         rows = resp.json()
     except Exception as exc:
