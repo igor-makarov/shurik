@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791162171311",
-    "id": "hazfalafel-20261004t213311:2-22",
-    "minEntryId": 3079,
-    "maxEntryId": 3079,
-    "at": "2026-10-05T01:02:51.311Z",
-    "phase": "started"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:2-22",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 3081,
+    "id": 3082,
+    "reason": "model_error",
+    "detail": "Request timed out."
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-05T01:02:51.311Z"
 }
