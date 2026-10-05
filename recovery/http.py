@@ -77,6 +77,24 @@ class Response:
         return json.loads(self.text())
 
 
+# web.archive.org answers plain HTTP 200 for the very same captures that its
+# HTTPS listener refuses at the TCP level. A runner whose only route to the
+# archive is port 80 therefore recovers nothing -- every URL looks "throttled"
+# and the queue cools down. One downgrade attempt per request turns that
+# transport fact into real bytes instead of a back-off, without adding load:
+# the HTTPS request was refused by the kernel, so it never reached a Wayback
+# front end.
+PLAIN_HTTP_HOSTS = ("https://web.archive.org/", "https://archive.org/")
+
+
+def plain_http_variant(url: str) -> Optional[str]:
+    """Same resource over plain HTTP, or None when no downgrade applies."""
+    for host in PLAIN_HTTP_HOSTS:
+        if url.startswith(host):
+            return "http://" + url[len("https://"):]
+    return None
+
+
 def connection_refused(exc: BaseException) -> bool:
     """True when the failure was a refused TCP connection (any link of a chain).
 
@@ -217,8 +235,27 @@ class Fetcher:
                 )
             except Exception as exc:  # requests raises many concrete types
                 kind, message = classify_exception(exc)
-                return Response(url=url, status=None, error=kind, message=message)
+                return self._maybe_downgrade(
+                    Response(url=url, status=None, error=kind, message=message), timeout)
         return self._urllib_get(url, timeout)
+
+    def _maybe_downgrade(self, resp: Response, timeout: float) -> Response:
+        """One plain-HTTP retry when HTTPS never reached the archive.
+
+        Only a request that got *no HTTP answer at all* is retried: a 429/503
+        from a reachable front end is real throttling and must back off, not be
+        replayed on another port.
+        """
+        if resp.status is not None or resp.error not in (TRANSPORT, THROTTLED):
+            return resp
+        alt = plain_http_variant(resp.url)
+        if alt is None:
+            return resp
+        self.stats["scheme_fallback"] = self.stats.get("scheme_fallback", 0) + 1
+        fallback = self._get(alt, timeout)
+        fallback.message = (f"{fallback.message} (after https failure: {resp.message[:120]})"
+                            if fallback.ok and resp.message else fallback.message)
+        return fallback
 
     def _urllib_get(self, url: str, timeout: float) -> Response:  # pragma: no cover
         import urllib.error
@@ -380,7 +417,8 @@ class Fetcher:
                                 elapsed=time.monotonic() - start)
             except Exception as exc:  # requests raises many concrete types
                 kind, message = classify_exception(exc)
-                return Response(url=url, status=None, error=kind, message=message)
+                return self._maybe_downgrade(
+                    Response(url=url, status=None, error=kind, message=message), timeout)
         return self._urllib_get_noredirect(url, timeout)
 
     def _urllib_get_noredirect(self, url: str, timeout: float) -> Response:  # pragma: no cover
