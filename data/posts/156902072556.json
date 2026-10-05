@@ -23,16 +23,40 @@
  "content_source": "div.copy",
  "content_text": "מופע המחצית של ליידי גאגא בסופרבול הכיל פירוטכניקה יוצאת דופן",
  "date_text": "Posted 1 month ago",
- "fetched_at": "2026-10-05T04:12:18Z",
+ "fetched_at": "2026-10-05T04:20:54Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg"
+    }
+   ],
    "base_key": "tumblr_okyzzbZco81r3it8z_smart1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "transport",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_okyzzbZco81r3it8z_smart1.jpg",
    "media_url": "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg",
+   "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
+   "state": "missing",
    "url_forms": [
     "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg"
    ],
@@ -41,6 +65,7 @@
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 69060,
@@ -56,9 +81,28 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg"
+    }
+   ],
    "media_url": "http://68.media.tumblr.com/tumblr_okyzzbZco81r3it8z_smart1.jpg",
-   "reason": null
+   "reason": "transport"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/156902072556",

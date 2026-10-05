@@ -276,6 +276,7 @@ def resolve_image(
     method: str = "probe",
     variant_budget: int = 4,
     backsteps: int = 2,
+    availability=None,
 ) -> dict:
     """Try to recover one post image. Returns a durable attempt record.
 
@@ -300,6 +301,10 @@ def resolve_image(
       replay probing has been observed to answer unreliably.
     * ``"auto"``: probe, and fall back to the CDX only when the probe itself
       failed transiently (never when the archive authoritatively said "no").
+    * ``"availability"``: read the committed Availability-API sweep
+      (``data/cdx/avail.jsonl``) first and only replay what it confirmed. The
+      sweep runs on `archive.org`, a different host from the replay endpoint,
+      so this is both cheaper and far less likely to be refused mid-sweep.
     """
     url = image["media_url"]
     prefer_base = base_media_key(url) or ""
@@ -359,7 +364,38 @@ def resolve_image(
                 return record
     after_cutoff_only = False
     probe_conclusive = False
-    if not captures and method in ("probe", "auto"):
+    if availability is not None:
+        cap = availability.capture_for(url)
+        if cap:
+            captures = [cap]
+            record["attempts"].append({
+                "endpoint": "availability-api",
+                "media_url": url,
+                "capture_timestamp": cap.timestamp,
+                "note": "confirmed pre-cutoff capture from the committed availability sweep",
+            })
+        else:
+            verdicts = {}
+            for variant in _variants(url):
+                verdict = availability.verdict(variant)
+                if verdict:
+                    verdicts[normalize_url(variant)] = verdict
+            record["attempts"].append({
+                "endpoint": "availability-api",
+                "media_url": url,
+                "verdicts": verdicts,
+                "note": "no pre-cutoff capture in the committed availability sweep"
+                        + (" (a sibling is archived only after the cutoff)" if
+                           AFTER_CUTOFF in verdicts.values() else ""),
+            })
+            if verdicts and all(v == availability.NO_SNAPSHOT for v in verdicts.values()):
+                record.update(state="missing", error=GAP, capture_count=0,
+                              note="availability API answered with no snapshot for this URL "
+                                   "or any size/extension sibling")
+                return record
+            if availability.AFTER_CUTOFF in verdicts.values() and GAP in verdicts.values():
+                after_cutoff_only = True
+    if not captures and method in ("probe", "auto", "availability"):
         extra, attempts, after_cutoff_only = image_capture_candidates_probe(
             fetcher, url, variant_budget=variant_budget, backsteps=backsteps)
         captures.extend(extra)
@@ -369,6 +405,9 @@ def resolve_image(
         probe_conclusive = any(a.get("endpoint") == "replay-probe" and a.get("error") in (OK, GAP)
                                for a in attempts)
     if not captures and (method == "cdx" or (method == "auto" and not probe_conclusive)):
+        # (cdx path deliberately left out of "availability": the sweep already
+        # consulted the same capture index, so a second CDX query per variant
+        # would only spend archive load to learn the same answer.)
         extra, attempts = image_capture_candidates(fetcher, url)
         captures.extend(extra)
         record["attempts"].extend(attempts)

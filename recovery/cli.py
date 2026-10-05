@@ -11,6 +11,7 @@ from concurrent.futures import ThreadPoolExecutor
 from typing import Optional
 
 from . import config
+from .availability import AvailabilityIndex, sweep as availability_sweep
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
 from .gaps import best_capture, prove
@@ -24,6 +25,7 @@ from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
 POST_CAPTURE_FILE = os.path.join(config.CDX_DIR, "posts.jsonl")
 LISTING_CAPTURE_FILE = os.path.join(config.CDX_DIR, "listing.jsonl")
 MEDIA_CAPTURE_FILE = os.path.join(config.CDX_DIR, "media.jsonl")
+AVAILABILITY_FILE = os.path.join(config.CDX_DIR, "avail.jsonl")
 
 
 def capture_file(name: str) -> str:
@@ -429,13 +431,66 @@ def prove_gaps(fetcher: Fetcher, limit: int = 25, alt_hosts: int = 2,
             "ledger": config.GAPS_JSONL}
 
 
+def _image_candidates(store: PostStore, include_variants: bool = True,
+                      only_missing: bool = True) -> list[str]:
+    """Every media URL still worth asking the archive about.
+
+    A post image that is already recovered is skipped (its bytes are safe), and
+    its size/extension siblings are only added when the image is still missing:
+    the siblings are the only other place the same picture can hide.
+    """
+    from .images import _variants
+
+    urls: list[str] = []
+    seen: set[str] = set()
+    for rec in store.all():
+        for img in rec.get("images") or []:
+            if only_missing and img.get("sha256"):
+                continue
+            media_url = img.get("media_url")
+            if not media_url:
+                continue
+            for candidate in ([media_url] + (_variants(media_url) if include_variants else [])):
+                key = normalize_url(candidate)
+                if key in seen:
+                    continue
+                seen.add(key)
+                urls.append(candidate)
+    return urls
+
+
+def probe_availability(fetcher: Fetcher, limit: int = 0, concurrency: int = 3,
+                       variants: bool = True, retry_transient: bool = False,
+                       index: Optional[AvailabilityIndex] = None) -> dict:
+    """Sweep the Availability API over every unresolved image URL.
+
+    This is the cheap inventory step: one small JSON request per URL on
+    `archive.org`, committed incrementally, so a later iteration never repeats
+    it and `fetch-images` only replays URLs with a confirmed pre-cutoff capture.
+    """
+    store = PostStore()
+    urls = _image_candidates(store, include_variants=variants)
+    index = index or AvailabilityIndex(capture_file("avail.jsonl"))
+
+    def progress(stats: dict) -> None:
+        sys.stderr.write(f"[avail] {stats['done']}/{stats['total']} {stats}\n")
+        sys.stderr.flush()
+
+    return availability_sweep(fetcher, urls, limit=limit, concurrency=concurrency,
+                              index=index, retry_transient=retry_transient,
+                              progress=progress)
+
+
 def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = config.DEFAULT_CONCURRENCY,
                  post_ids: Optional[list[str]] = None, use_media_index: bool = True,
                  retry_missing: bool = False, method: str = "probe",
-                 variant_budget: int = 4, order: str = "closest") -> dict:
+                 variant_budget: int = 4, order: str = "closest",
+                 availability: Optional[AvailabilityIndex] = None) -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
     media_index = MediaIndex(capture_file("media.jsonl")) if use_media_index else None
+    if method == "availability" and availability is None:
+        availability = AvailabilityIndex(capture_file("avail.jsonl"))
     pending = []
     for rec in store.all():
         if post_ids and rec.get("post_id") not in post_ids:
@@ -484,7 +539,8 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 continue
             resolved = resolve_image(fetcher, img, media_index=media_index,
                                      key_known_at=rec.get("fetched_at", ""),
-                                     method=method, variant_budget=variant_budget)
+                                     method=method, variant_budget=variant_budget,
+                                     availability=availability)
             _assign_file(resolved)
             if resolved["state"] == "recovered":
                 recovered += 1
@@ -866,6 +922,14 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="ask every numbered tumblr CDN host (slow, strongest evidence)")
     p.add_argument("--urls", default="",
                    help="comma separated media URLs to prove instead of posts' images")
+    p = sub.add_parser("probe-availability",
+                       help="sweep the archive.org availability API over unresolved image URLs")
+    p.add_argument("--limit", type=int, default=0, help="0 = every unresolved URL")
+    p.add_argument("--concurrency", type=int, default=3)
+    p.add_argument("--no-variants", action="store_true",
+                   help="probe only the exact URL the post linked, not size/extension siblings")
+    p.add_argument("--retry-transient", action="store_true",
+                   help="re-probe URLs whose previous answer was a timeout/throttle")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=5)
     p.add_argument("--ids", default="")
@@ -874,8 +938,9 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="ignore data/cdx/media.jsonl and query the CDX per image")
     p.add_argument("--retry-missing", action="store_true",
                    help="retry confirmed gaps and rejected bodies too (default: transient only)")
-    p.add_argument("--method", default="probe", choices=("probe", "cdx", "auto"),
-                   help="existence check per image: replay probe (fast), CDX query (slow) or auto")
+    p.add_argument("--method", default="probe", choices=("probe", "cdx", "auto", "availability"),
+                   help="existence check per image: availability sweep (cheapest, committed), "
+                        "replay probe, CDX query (slow) or auto")
     p.add_argument("--variant-budget", type=int, default=4,
                    help="size/extension siblings probed after the exact URL misses")
     p.add_argument("--order", default="closest", choices=("closest", "post_id"),
@@ -915,6 +980,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         out = prove_gaps(fetcher, limit=args.limit, alt_hosts=args.alt_hosts,
                          force=args.force, shard_sweep=args.shard_sweep,
                          urls=[u for u in args.urls.split(",") if u] or None)
+    elif args.cmd == "probe-availability":
+        out = probe_availability(fetcher, limit=args.limit, concurrency=args.concurrency,
+                                 variants=not args.no_variants,
+                                 retry_transient=args.retry_transient)
     elif args.cmd == "fetch-images":
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
                            post_ids=[i for i in args.ids.split(",") if i] or None,

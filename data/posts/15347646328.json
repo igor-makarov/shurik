@@ -24,21 +24,60 @@
  "content_source": "div.copy",
  "content_text": "דן שילון מזלזל.",
  "date_text": "Posted 3 weeks ago",
- "fetched_at": "2026-10-04T22:45:52Z",
+ "fetched_at": "2026-10-05T04:20:43Z",
  "image_count": 0,
  "images": [
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_1280.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_1024.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_540.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_400.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_250.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_100.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1.gif",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "27.media.tumblr.com",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 9863
+    }
+   ],
    "base_key": "tumblr_lxc1e3pI5d1r3it8zo1.png",
+   "caption": "דן שילון מזלזל.",
    "caption_alt": "דן שילון מזלזל.",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
+   "host_inventory": {
+    "host": "27.media.tumblr.com",
+    "keys_at_scan": 2397,
+    "pages": 6,
+    "rows": 9863,
+    "scanned_at": "2026-10-05T02:02:17+00:00"
+   },
    "link_text": "",
    "media_key": "tumblr_lxc1e3pI5d1r3it8zo1_500.png",
    "media_url": "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
+   "note": "host media inventory is complete and lists no capture for this key (or any size variant) on this CDN host",
+   "state": "missing",
    "variants": [
     "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png"
    ]
   }
  ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 49434,
@@ -54,9 +93,34 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_1280.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_1024.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_540.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_400.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_250.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_100.png",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1.gif",
+      "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "27.media.tumblr.com",
+     "media_url": "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 9863
+    }
+   ],
    "media_url": "http://27.media.tumblr.com/tumblr_lxc1e3pI5d1r3it8zo1_500.png",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/15347646328",
