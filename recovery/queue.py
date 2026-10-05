@@ -12,8 +12,9 @@ never touched at all. The two rules this module exists to enforce:
    first -- so an outage or a wall of terminal gaps can never starve the posts
    that have never been asked.
 
-The state lives in one committed JSON file (`data/image-queue.json`) so a fresh
-process resumes exactly where the previous one stopped.
+The state lives in `data/image-queue.json`: a compact, Git-committed cursor, so a
+fresh process -- and a fresh runner that restored the registry checkpoint --
+resumes exactly where the previous one stopped.
 """
 from __future__ import annotations
 

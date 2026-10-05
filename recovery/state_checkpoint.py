@@ -48,7 +48,7 @@ STATE_DIRS = ("data/posts", "data/cdx")
 
 
 def _now() -> str:
-    return time.strftime("%Y-%m-%dT%m%dT%H%M%SZ", time.gmtime())
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
 
 
 def _collect(root: str = ".") -> list[tuple[str, bytes]]:
@@ -134,7 +134,7 @@ def build_state_artifact(root: str = ".") -> tuple[oci.Blob, list[oci.Blob], dic
     index_blob = json.dumps(summary, ensure_ascii=False, sort_keys=True, indent=1).encode("utf-8")
     layer = oci.Blob(payload, oci.LAYER_MEDIA_TYPE)
     diff_id = "sha256:" + hashlib.sha256(gzip.decompress(payload)).hexdigest()
-    created = _now().rstrip("Z")
+    created = _now()
     config_doc = {
         "created": created,
         "architecture": oci.ARCH,

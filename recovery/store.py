@@ -1,4 +1,17 @@
-"""Durable state in Git: inventories, post records, ledgers, publish log.
+"""Bulk recovery state: inventories, post records, ledgers, publish log.
+
+Where it lives
+--------------
+`data/posts/` and `data/cdx/` are bulk crawl state and are **gitignored**. They
+travel between fresh runners through the registry: the `crawl-state` tag of
+`ghcr.io/igor-makarov/shurik-hazfalafel-com` carries them as one gzip tar
+layer (see `recovery/state_checkpoint.py`), and the committed
+`data/checkpoint.json` pointer records that tag's manifest digest and schema
+version. Published *recovered* posts additionally live in their numeric tags.
+
+Git keeps only the compact records: `data/image-queue.json`,
+`data/missing.jsonl`, `data/gaps.jsonl`, `data/published.jsonl`,
+`data/verification/*.json`, `data/checkpoint.json`.
 
 Merging is additive and monotonic: reruns merge new evidence into existing
 records and never drop recovered images or replace richer metadata with poorer.
@@ -108,7 +121,7 @@ def merge_missing_fields(old: dict, new: dict) -> dict:
 
 
 class PostStore:
-    """One JSON document per post id (committed to Git; small by design)."""
+    """One JSON document per post id (bulk crawl state: registry checkpoint)."""
 
     def __init__(self, directory: str = ""):
         # Resolved per call, not at import time: a default argument would bind

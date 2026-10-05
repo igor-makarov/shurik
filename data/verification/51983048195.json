@@ -1,0 +1,211 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:2cb538657528efd2492d24cce85500298d6b54029a3033abea8db2158bc0546f",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
+   "expected": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meu2oirfXY1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
+   "expected": 33227,
+   "observed": 33227,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meu2oirfXY1r3it8zo1_1280.jpg]",
+   "expected": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meu2oirfXY1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meu2oirfXY1r3it8zo1_1280.jpg]",
+   "expected": 33227,
+   "observed": 33227,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meu2oirfXY1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "טוב שלא שאלה מי זה רמי לוי",
+   "observed": "טוב שלא שאלה מי זה רמי לוי",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>טוב שלא שאלה מי זה רמי לוי</p>",
+   "observed": "<p>טוב שלא שאלה מי זה רמי לוי</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חברה-תלותית-מדי",
+    "overly-attached-girlfriend",
+    "פייסבוק",
+    "תנובה",
+    "טנא-נגה"
+   ],
+   "observed": [
+    "חברה-תלותית-מדי",
+    "overly-attached-girlfriend",
+    "פייסבוק",
+    "תנובה",
+    "טנא-נגה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "טוב שלא שאלה מי זה רמי לוי"
+   ],
+   "observed": [
+    "טוב שלא שאלה מי זה רמי לוי"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/51983048195",
+   "observed": "http://hazfalafel.com/post/51983048195",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
+   "expected": "טוב שלא שאלה מי זה רמי לוי",
+   "observed": "טוב שלא שאלה מי זה רמי לוי",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131022005347",
+   "observed": "20131022005347",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131022005347id_/http://24.media.tumblr.com/2705b6c106b50f57ec6ec19c1ee92577/tumblr_meu2oirfXY1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131022005347id_/http://24.media.tumblr.com/2705b6c106b50f57ec6ec19c1ee92577/tumblr_meu2oirfXY1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131022005347",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:225511af22c330baf0d7c6e234cadd1fe2b156261bf180000ef16522216afbc2",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T20:58:18Z",
+  "org.opencontainers.image.description": "טוב שלא שאלה מי זה רמי לוי",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 51983048195",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/51983048195",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "26",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "51983048195",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "חברה-תלותית-מדי,overly-attached-girlfriend,פייסבוק,תנובה,טנא-נגה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:3eb1775b35f72c2dcdf2eb68ab462b5e668a800af1dbc245b3e779d6433ad5ec",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 33287
+  },
+  {
+   "digest": "sha256:b1b1e049fdc0003fa6121578412746a2bc9e10d2a21cdc6bbda9af1f4d2eba7b",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 33288
+  },
+  {
+   "digest": "sha256:bbe73e23d8e4088a4202629c93ec481f2e9193979a9ac8d16e5087a4155732ce",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 925
+  }
+ ],
+ "manifest_digest": "sha256:2cb538657528efd2492d24cce85500298d6b54029a3033abea8db2158bc0546f",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "51983048195",
+ "pulled_files": [
+  {
+   "bytes": 33227,
+   "file": "tumblr_meu2oirfXY1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:3eb1775b35f72c2dcdf2eb68ab462b5e668a800af1dbc245b3e779d6433ad5ec",
+   "role": "media",
+   "sha256": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91"
+  },
+  {
+   "bytes": 33227,
+   "file": "tumblr_meu2oirfXY1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b1b1e049fdc0003fa6121578412746a2bc9e10d2a21cdc6bbda9af1f4d2eba7b",
+   "role": "media",
+   "sha256": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91"
+  },
+  {
+   "bytes": 2727,
+   "file": "post.json",
+   "layer": "sha256:bbe73e23d8e4088a4202629c93ec481f2e9193979a9ac8d16e5087a4155732ce",
+   "role": "post-metadata",
+   "sha256": "f56cf247076281d0156c0d0781c6de9da200c8db636f270542e3dbdd46d6052c"
+  }
+ ],
+ "tag": "51983048195",
+ "verified_at": "2026-10-05T17:31:31Z"
+}

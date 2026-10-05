@@ -1,0 +1,203 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:422bb3a3f5cb0baccb9dad7f99a56c2e1cef819299326362e5d51cc1f85e6258",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnty6t80Nx1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": 40892,
+   "observed": 40892,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnty6t80Nx1r3it8zo1_1280.jpg]",
+   "expected": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnty6t80Nx1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnty6t80Nx1r3it8zo1_1280.jpg]",
+   "expected": 40892,
+   "observed": 40892,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnty6t80Nx1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מקור: reddit/AGracefulWalrus",
+   "observed": "מקור: reddit/AGracefulWalrus",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>מקור: reddit/AGracefulWalrus</p>",
+   "observed": "<p>מקור: reddit/AGracefulWalrus</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "נתן-גושן"
+   ],
+   "observed": [
+    "נתן-גושן"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מקור: reddit/AGracefulWalrus"
+   ],
+   "observed": [
+    "מקור: reddit/AGracefulWalrus"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/52071643500",
+   "observed": "http://hazfalafel.com/post/52071643500",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": "מקור: reddit/AGracefulWalrus",
+   "observed": "מקור: reddit/AGracefulWalrus",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131022010424",
+   "observed": "20131022010424",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131022010424id_/http://25.media.tumblr.com/932395846e813022e9429298c2fcfcc1/tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131022010424id_/http://25.media.tumblr.com/932395846e813022e9429298c2fcfcc1/tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131022010424",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:64af6fa95cbb76afc150df8e9919af9cb6d03c7e090051e8d6c85d4a7b0ff87e",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T21:25:12Z",
+  "org.opencontainers.image.description": "מקור: reddit/AGracefulWalrus",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 52071643500",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/52071643500",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "28",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "52071643500",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "נתן-גושן"
+ },
+ "layers": [
+  {
+   "digest": "sha256:69108a2281cb96a054223244f41d63dfd51f241d0407b01e3f70d2ba1e3d4674",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 40744
+  },
+  {
+   "digest": "sha256:7d6b0e97a37dd5f11ac8c3c0089ba0146f67aa2fd858e2fd83dde468e875fd85",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 40745
+  },
+  {
+   "digest": "sha256:b343155d067c94e15431dec2103729fbb0a2526b84eca0cbdec8a1a362cc1960",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 861
+  }
+ ],
+ "manifest_digest": "sha256:422bb3a3f5cb0baccb9dad7f99a56c2e1cef819299326362e5d51cc1f85e6258",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "52071643500",
+ "pulled_files": [
+  {
+   "bytes": 40892,
+   "file": "tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:69108a2281cb96a054223244f41d63dfd51f241d0407b01e3f70d2ba1e3d4674",
+   "role": "media",
+   "sha256": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30"
+  },
+  {
+   "bytes": 40892,
+   "file": "tumblr_mnty6t80Nx1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:7d6b0e97a37dd5f11ac8c3c0089ba0146f67aa2fd858e2fd83dde468e875fd85",
+   "role": "media",
+   "sha256": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30"
+  },
+  {
+   "bytes": 2574,
+   "file": "post.json",
+   "layer": "sha256:b343155d067c94e15431dec2103729fbb0a2526b84eca0cbdec8a1a362cc1960",
+   "role": "post-metadata",
+   "sha256": "9adcdf250c85fed8b52b4e5577e5e06f1a1e462f1152e8ecd88881e35876fee7"
+  }
+ ],
+ "tag": "52071643500",
+ "verified_at": "2026-10-05T17:31:32Z"
+}

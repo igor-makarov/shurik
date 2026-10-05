@@ -1,0 +1,205 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:bdfe36057e2dbdbe59f8ac2b540079c7541ba56ee2f7a466feb36f50022f7523",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnv48wKhCI1r3it8zo1_500.jpg]",
+   "expected": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnv48wKhCI1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnv48wKhCI1r3it8zo1_500.jpg]",
+   "expected": 87678,
+   "observed": 87678,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnv48wKhCI1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnv48wKhCI1r3it8zo1_1280.jpg]",
+   "expected": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnv48wKhCI1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnv48wKhCI1r3it8zo1_1280.jpg]",
+   "expected": 87678,
+   "observed": 87678,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnv48wKhCI1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
+   "observed": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!</p>",
+   "observed": "<p>על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "משחקי-הכס",
+    "game-of-thrones"
+   ],
+   "observed": [
+    "משחקי-הכס",
+    "game-of-thrones"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!"
+   ],
+   "observed": [
+    "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/52129982482",
+   "observed": "http://hazfalafel.com:80/post/52129982482",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mnv48wKhCI1r3it8zo1_500.jpg]",
+   "expected": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
+   "observed": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131022025618",
+   "observed": "20131022025618",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131022025618id_/http://24.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131022025618id_/http://24.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131022025618",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:011f0e606b624ef29dc0502c33227f4af3d754cb00ba225bddf4d1b70a25a635",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2013-10-22T02:56:18Z",
+  "org.opencontainers.image.description": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 52129982482",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/52129982482",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "107",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "52129982482",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "משחקי-הכס,game-of-thrones"
+ },
+ "layers": [
+  {
+   "digest": "sha256:3245e86e69e901fb8d0ed0d00fd14962a70a6c10d50cc191890221e08a489a9f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 87436
+  },
+  {
+   "digest": "sha256:6cd44b05a44d4e124e39eb56ab0c7ecb8461b4834bc6c251378f6ff07626ae48",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 87437
+  },
+  {
+   "digest": "sha256:426c1679c3892eaa1d792ac95bb05ffc5c382fb38117a3cb2c9d284bbbcb972d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 984
+  }
+ ],
+ "manifest_digest": "sha256:bdfe36057e2dbdbe59f8ac2b540079c7541ba56ee2f7a466feb36f50022f7523",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "52129982482",
+ "pulled_files": [
+  {
+   "bytes": 87678,
+   "file": "tumblr_mnv48wKhCI1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:3245e86e69e901fb8d0ed0d00fd14962a70a6c10d50cc191890221e08a489a9f",
+   "role": "media",
+   "sha256": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d"
+  },
+  {
+   "bytes": 87678,
+   "file": "tumblr_mnv48wKhCI1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:6cd44b05a44d4e124e39eb56ab0c7ecb8461b4834bc6c251378f6ff07626ae48",
+   "role": "media",
+   "sha256": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d"
+  },
+  {
+   "bytes": 3293,
+   "file": "post.json",
+   "layer": "sha256:426c1679c3892eaa1d792ac95bb05ffc5c382fb38117a3cb2c9d284bbbcb972d",
+   "role": "post-metadata",
+   "sha256": "5bbbb2daa67de05eaaaec3e41ef9d736b4b0dfe1401720077ca63d21ce3166eb"
+  }
+ ],
+ "tag": "52129982482",
+ "verified_at": "2026-10-05T17:31:32Z"
+}

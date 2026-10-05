@@ -13,9 +13,11 @@ Two archive endpoints answer "do you hold this URL, and when?":
   host, reads the same capture index, and answered 40 queries in 14 s at five
   workers while the replay probe was already refusing connections.
 
-So the availability answer is used as the *inventory*: a resumable, Git-committed
-sweep that says, per media URL, whether a pre-cutoff capture exists and at what
-timestamp.  Only URLs with a confirmed capture are then replayed from
+So the availability answer is used as the *inventory*: a resumable sweep (kept
+in `data/cdx/avail.jsonl`, carried between runners by the registry
+`crawl-state` checkpoint) that says, per media URL, whether a pre-cutoff capture
+exists and at what timestamp.  Only URLs with a confirmed capture are then
+replayed from
 ``web.archive.org``, which turns the expensive host into a short download list
 instead of a 2200-request probe storm.
 
@@ -79,7 +81,7 @@ def _now() -> str:
 
 
 class AvailabilityIndex:
-    """Durable per-URL availability verdicts (committed, resumable, monotonic).
+    """Durable per-URL availability verdicts (resumable, monotonic, checkpointed).
 
     Rows are keyed by the normalised media URL.  A `hit` is never downgraded to
     a `gap` by a later sweep: a rerun that cannot reach the archive keeps the

@@ -40,10 +40,12 @@ MAX_ATTEMPTS = int(os.environ.get("SHURIK_ATTEMPTS", "3"))
 
 # Repository layout (all relative to repo root).
 #
-# CDX inventories live in data/cdx/ and ARE committed: they are small (a few
-# rows per capture) and they are the only durable record of which archive
-# captures exist. Ephemeral runner caches (data/captures, data/blobs) are
-# ignored by Git and must never be the sole copy of evidence.
+# Bulk crawl state (post records, CDX inventories, the retry queues) is NOT in
+# Git: it is gitignored and travels in the registry `crawl-state` tag, whose
+# manifest digest and schema version are recorded in data/checkpoint.json.
+# Ephemeral runner caches (data/captures, data/blobs) are ignored by Git and
+# must never be the sole copy of evidence: recovered bytes are published into
+# the numeric post tag as soon as they land.
 DATA_DIR = "data"
 CDX_DIR = os.path.join(DATA_DIR, "cdx")
 CAPTURE_DIR = os.path.join(DATA_DIR, "captures")

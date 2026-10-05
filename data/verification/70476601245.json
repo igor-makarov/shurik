@@ -1,0 +1,207 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:26914263ff4e42fb65145492e28927a6f651d05376160fe32420cb2d7c50e156",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxzzxkHAlr1r3it8zo1_500.jpg]",
+   "expected": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxzzxkHAlr1r3it8zo1_500.jpg]",
+   "expected": 54577,
+   "observed": 54577,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxzzxkHAlr1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg]",
+   "expected": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg]",
+   "expected": 54577,
+   "observed": 54577,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "observed": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<821 chars>",
+   "observed": "<821 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מלחמת-הכוכבים",
+    "ירושלים",
+    "חורף"
+   ],
+   "observed": [
+    "מלחמת-הכוכבים",
+    "ירושלים",
+    "חורף"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון"
+   ],
+   "observed": [
+    "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/70476601245",
+   "observed": "http://hazfalafel.com/post/70476601245",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mxzzxkHAlr1r3it8zo1_500.jpg]",
+   "expected": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "observed": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20170107150905",
+   "observed": "20170107150905",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20170107150905id_/https://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20170107150905id_/https://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20170107150905",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:689fcf145d923756eed643e0e8a7685385176fb6f10744a3623891404989f51a",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2017-05-11T10:17:47Z",
+  "org.opencontainers.image.description": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 70476601245",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/70476601245",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "136",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "70476601245",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "מלחמת-הכוכבים,ירושלים,חורף"
+ },
+ "layers": [
+  {
+   "digest": "sha256:d0f684d72dfb7a7a011fea773b0d79cf67997220652fa1fabe83a655f35c5640",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 54533
+  },
+  {
+   "digest": "sha256:ef77c1756965565d680e53bcea92a7afa6b17b3b6e0004498c8e8936e209a17e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 54534
+  },
+  {
+   "digest": "sha256:76649bb38a592d23e5d4bef7fd613d3867457252f3779e1f51058b5de68142f4",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1196
+  }
+ ],
+ "manifest_digest": "sha256:26914263ff4e42fb65145492e28927a6f651d05376160fe32420cb2d7c50e156",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "70476601245",
+ "pulled_files": [
+  {
+   "bytes": 54577,
+   "file": "tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:d0f684d72dfb7a7a011fea773b0d79cf67997220652fa1fabe83a655f35c5640",
+   "role": "media",
+   "sha256": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf"
+  },
+  {
+   "bytes": 54577,
+   "file": "tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:ef77c1756965565d680e53bcea92a7afa6b17b3b6e0004498c8e8936e209a17e",
+   "role": "media",
+   "sha256": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf"
+  },
+  {
+   "bytes": 3924,
+   "file": "post.json",
+   "layer": "sha256:76649bb38a592d23e5d4bef7fd613d3867457252f3779e1f51058b5de68142f4",
+   "role": "post-metadata",
+   "sha256": "e1106c103117387ec06caf5aa0d0686fe0416ddec828d8e8b7e467338c99bda4"
+  }
+ ],
+ "tag": "70476601245",
+ "verified_at": "2026-10-05T17:31:32Z"
+}

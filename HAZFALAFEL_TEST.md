@@ -2,6 +2,18 @@
 
 This is the existing Hazfalafel task branch, with its crawler and OCI publisher. Main keeps the general Shurik prompt and native Actions runner. The stopped loop's journals now live on its control branch; full post content and bulk inventories belong in GHCR and are ignored locally. PROMPT.md documents the prior Git corpus used for the first registry checkpoint.
 
+## Storage layout
+
+- Recovered posts: one artifact per numeric post id in
+  `ghcr.io/igor-makarov/shurik-hazfalafel-com` (tag == post id).
+- Bulk crawl state (`data/posts/`, `data/cdx/`, retry queues): the `crawl-state`
+  tag of the same package, pushed and pulled with
+  `python3 -m recovery.cli checkpoint` / `checkpoint --pull`. The committed
+  pointer `data/checkpoint.json` records its manifest digest and schema version.
+  It is internal crawl state, not a recovered post.
+- Git: code, tests, `data/image-queue.json`, `data/missing.jsonl`,
+  `data/gaps.jsonl`, `data/published.jsonl`, `data/verification/*.json`.
+
 ## Scope
 
 - Recover hazfalafel.com post images, captions, HTML/text content and tags from Wayback captures through the inclusive cutoff `20191231235959`.

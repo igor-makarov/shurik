@@ -17,9 +17,10 @@ from .parsing import base_media_key, media_key
 # The Wayback replay redirect embeds the real capture timestamp:
 #   https://web.archive.org/web/20150106090204im_/http://40.media.tumblr.com/...
 REPLAY_TS_RE = re.compile(r"/web/(\d{14})")
-# Post records are committed to Git, so an attempt log stays bounded: the
-# newest entries are kept and older ones are summarised, never dropped
-# silently (`n_earlier_attempts` says how much history was folded in).
+# Post records are bulk crawl state (registry `crawl-state` tag, not Git), so
+# an attempt log stays bounded: the newest entries are kept and older ones are
+# summarised, never dropped silently (`n_earlier_attempts` says how much history
+# was folded in).
 MAX_ATTEMPTS_PER_IMAGE = 8
 
 # A Tumblr media filename carries its size as a *suffix* of the file stem:
