@@ -462,6 +462,7 @@ def _image_candidates(store: PostStore, include_variants: bool = True,
 
 def probe_availability(fetcher: Fetcher, limit: int = 0, concurrency: int = 3,
                        variants: bool = True, retry_transient: bool = False,
+                       retry_gap: bool = False,
                        index: Optional[AvailabilityIndex] = None) -> dict:
     """Sweep the Availability API over every unresolved image URL.
 
@@ -479,7 +480,7 @@ def probe_availability(fetcher: Fetcher, limit: int = 0, concurrency: int = 3,
 
     return availability_sweep(fetcher, urls, limit=limit, concurrency=concurrency,
                               index=index, retry_transient=retry_transient,
-                              progress=progress)
+                              retry_gap=retry_gap, progress=progress)
 
 
 # A URL that is known to have a pre-cutoff capture, used only as a liveness
@@ -1082,6 +1083,9 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="probe only the exact URL the post linked, not size/extension siblings")
     p.add_argument("--retry-transient", action="store_true",
                    help="re-probe URLs whose previous answer was a timeout/throttle")
+    p.add_argument("--retry-gap", action="store_true",
+                   help="re-probe stored 'no snapshot' verdicts written before the "
+                        "14-digit cutoff fix (those answers are demonstrably empty)")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=5)
     p.add_argument("--ids", default="")
@@ -1154,7 +1158,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     elif args.cmd == "probe-availability":
         out = probe_availability(fetcher, limit=args.limit, concurrency=args.concurrency,
                                  variants=not args.no_variants,
-                                 retry_transient=args.retry_transient)
+                                 retry_transient=args.retry_transient,
+                                 retry_gap=args.retry_gap)
     elif args.cmd == "fetch-images":
         queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
                            max_attempts=args.max_attempts or 12)

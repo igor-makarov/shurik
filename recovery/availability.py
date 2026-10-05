@@ -182,7 +182,8 @@ class AvailabilityIndex:
                 old["last_checked_at"] = row["checked_at"]
                 return old
             for field in ("mimetype", "digest", "length", "status", "timestamp",
-                          "replay_url", "note", "error", "message", "http_status"):
+                          "replay_url", "note", "error", "message", "http_status",
+                          "query_ts"):
                 if row.get(field) not in (None, ""):
                     old[field] = row[field]
             old["verdict"] = verdict
@@ -195,25 +196,34 @@ class AvailabilityIndex:
         return len(self.rows)
 
 
-def availability_query(url: str, timestamp: str = config.CUTOFF_COMPACT) -> str:
+def availability_query(url: str, timestamp: str = config.CUTOFF) -> str:
     from urllib.parse import quote
 
     return f"{AVAIL_URL}?url={quote(url, safe='')}&timestamp={timestamp}"
 
 
 def probe_availability(fetcher: Fetcher, url: str,
-                       timestamp: str = config.CUTOFF_COMPACT) -> tuple[str, dict]:
+                       timestamp: str = config.CUTOFF) -> tuple[str, dict]:
     """Ask the Availability API about one URL.
 
     Returns ``(verdict, row)`` where verdict is one of `hit`, `after_cutoff`,
-    `gap` or `transient`.  The requested timestamp is the end of 2019 so the
-    "closest" snapshot the API returns is the newest one at or before the
-    cutoff whenever such a capture exists; a snapshot that still comes back
-    newer than the cutoff is reported separately and never downloaded.
+    `gap` or `transient`.  The requested timestamp is the inclusive cutoff so
+    the "closest" snapshot the API returns is the newest one at or before it
+    whenever such a capture exists; a snapshot that still comes back newer than
+    the cutoff is reported separately and never downloaded.
+
+    The timestamp must be the full 14-digit form.  The API answers
+    ``timestamp=20191231`` with an *empty* ``archived_snapshots`` object for
+    URLs it does hold -- verified against post 15577014830's image, whose
+    20130930175155 capture comes back for ``20191231235959`` and for ``2019``
+    but never for the short ``20191231``.  Sweeping with the short form wrote
+    hundreds of false `gap` verdicts into the committed index, so the queried
+    timestamp is stored on every row and stale rows can be re-probed.
     """
     target = availability_query(url, timestamp)
     resp: Response = fetcher.get(target)
-    row: dict = {"url": normalize_url(url), "original": url, "http_status": resp.status}
+    row: dict = {"url": normalize_url(url), "original": url,
+                 "http_status": resp.status, "query_ts": timestamp}
     if resp.error in (TIMEOUT, THROTTLED, TRANSPORT, HTTP_ERROR) or resp.status != 200:
         row["verdict"] = TRANSIENT
         row["error"] = resp.error or "http_error"
@@ -251,7 +261,7 @@ def probe_availability(fetcher: Fetcher, url: str,
 def sweep(fetcher: Fetcher, urls: Iterable[str], *, limit: int = 0,
           concurrency: int = 3, flush_every: int = 25,
           index: Optional[AvailabilityIndex] = None,
-          retry_transient: bool = False,
+          retry_transient: bool = False, retry_gap: bool = False,
           progress: Optional[Callable[[dict], None]] = None) -> dict:
     """Probe every URL that has no final verdict yet, with bounded concurrency.
 
@@ -267,9 +277,17 @@ def sweep(fetcher: Fetcher, urls: Iterable[str], *, limit: int = 0,
             continue
         seen.add(key)
         prior = index.rows.get(key)
-        if prior and not retry_transient:
+        if prior and not (retry_transient or retry_gap):
             verdict = prior.get("verdict")
             if verdict in (HIT, AFTER_CUTOFF, NO_SNAPSHOT):
+                continue
+        if prior and retry_gap:
+            # Re-probe a stored "no snapshot" only when it was decided by the
+            # 8-digit cutoff form (or by no recorded form at all): those
+            # answers are demonstrably empty regardless of the index.
+            if prior.get("verdict") != NO_SNAPSHOT:
+                continue
+            if prior.get("query_ts") == config.CUTOFF:
                 continue
         todo.append(url)
     if limit:
