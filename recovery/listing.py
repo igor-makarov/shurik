@@ -27,6 +27,7 @@ from .parsing import (POST_ID_RE, base_media_key, is_excluded_image, is_tumblr_m
                       media_key, parse_image_variants)
 
 LISTING_POST_ANCHOR_RE = re.compile(r"/post/(\d+)")
+POST_BLOCK_ID_RE = re.compile(r"post_(?:micro|note|quote|answer|audio|video|photo|conversation)_(\d+)")
 
 
 def _abs(base: str, url: str) -> str:
@@ -72,8 +73,20 @@ class _ListingCollector(HTMLParser):
             self.order.append(pid)
         return rec
 
+    # Tumblr's classic "post_micro" listing theme carries no <img> at all: the
+    # thumbnail lives in `data-imageurl` on the thumbnail container, and the
+    # enclosing post block identifies itself as id="post_micro_<id>". Reading
+    # only <img src> therefore found post ids but zero images on every
+    # /archive/YYYY/MM page (measured 2026-10: 25 pages, 113 posts, 2 images).
+    IMAGE_URL_ATTRS = ("src", "data-src", "data-imageurl", "data-image-url",
+                       "data-original", "data-original-src", "data-lazy-src")
+
     def _note_image(self, attrs: dict, via: str) -> None:
-        src = attrs.get("src") or attrs.get("data-src") or ""
+        src = ""
+        for name in self.IMAGE_URL_ATTRS:
+            if attrs.get(name):
+                src = attrs[name]
+                break
         src = _abs(self.base_url, src)
         attr_blob = " ".join(f'{k}="{v}"' for k, v in attrs.items())
         if is_excluded_image(src, attr_blob):
@@ -111,6 +124,9 @@ class _ListingCollector(HTMLParser):
     # -- HTMLParser hooks
     def handle_starttag(self, tag, attrs):
         a = {k.lower(): (v or "") for k, v in attrs}
+        self._note_post_block(a)
+        if any(a.get(name) for name in self.IMAGE_URL_ATTRS) and tag not in ("img", "source", "a"):
+            self._note_image(a, "attr:" + tag)
         if tag == "a":
             m = LISTING_POST_ANCHOR_RE.search(a.get("href", ""))
             if m:
@@ -130,6 +146,25 @@ class _ListingCollector(HTMLParser):
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
+
+    def _note_post_block(self, a: dict) -> None:
+        """Adopt the post id the markup itself states, not just permalink order.
+
+        In the post_micro theme the thumbnail container comes *before* the
+        `/post/<id>` permalink anchor of its own post block, so "most recent
+        anchor wins" would file every thumbnail under the previous post.
+        `id="post_micro_<id>"` / `data-post-id` is stated by the page and is
+        checked first; the anchor order remains the fallback.
+        """
+        pid = ""
+        m = POST_BLOCK_ID_RE.search(a.get("id", ""))
+        if m:
+            pid = m.group(1)
+        elif a.get("data-post-id", "").isdigit():
+            pid = a["data-post-id"]
+        if pid:
+            self.current = pid
+            self._post(pid)
 
 
 def parse_listing_page(html: str, original_url: str, timestamp: str,
