@@ -18,8 +18,9 @@
  "content_source": "div.copy",
  "content_text": "אשכנזים!\nהסרטון של מרץ",
  "date_text": "Posted 1 week ago",
- "fetched_at": "2026-10-05T04:19:44Z",
- "image_count": 0,
+ "failure_count": 0,
+ "fetched_at": "2026-10-05T06:23:58Z",
+ "image_count": 1,
  "images": [
   {
    "attempts": [
@@ -62,19 +63,47 @@
      "requested_timestamp": "20191231235959",
      "status": null,
      "url": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif"
+    },
+    {
+     "capture_timestamp": "20151101010823",
+     "endpoint": "availability-api",
+     "media_url": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
+     "note": "confirmed pre-cutoff capture from the committed availability sweep"
+    },
+    {
+     "bytes": 949111,
+     "capture_timestamp": "20151101010823",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/gif",
+     "message": "",
+     "sha256": "953d1b07f0a2019af3bb682568e063d46f63bb6f72660c0c66c57b3bb4e741a3",
+     "status": 200,
+     "url": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif"
     }
    ],
    "base_key": "tumblr_niq3utNaCs1r3it8zo1.gif",
+   "blob_path": "data/blobs/95/953d1b07f0a2019af3bb682568e063d46f63bb6f72660c0c66c57b3bb4e741a3",
+   "bytes": 949111,
    "caption": "אשכנזים!\nהסרטון של מרץ",
    "caption_alt": "אשכנזים!\nהסרטון של מרץ",
-   "capture_count": 0,
+   "capture": {
+    "archive_digest": "",
+    "original": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
+    "replay_url": "https://web.archive.org/web/20151101010823id_/http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
+    "timestamp": "20151101010823"
+   },
+   "capture_count": 1,
    "error": "transport",
+   "file": "tumblr_niq3utNaCs1r3it8zo1_500.gif",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_niq3utNaCs1r3it8zo1_500.gif",
+   "media_type": "image/gif",
    "media_url": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
    "note": "replay probes answered for this URL and its known size/extension variants and none of them has a capture at or before the cutoff",
-   "state": "missing",
+   "sha256": "953d1b07f0a2019af3bb682568e063d46f63bb6f72660c0c66c57b3bb4e741a3",
+   "state": "recovered",
    "url_forms": [
     "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif"
    ],
@@ -159,7 +188,7 @@
    ]
   }
  ],
- "images_done": true,
+ "images_done": false,
  "methods": [
   {
    "bytes": 68156,
@@ -172,54 +201,8 @@
    "url": "http://hazfalafel.com:80/post/109085231993"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1280.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1024.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_540.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_400.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_250.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_100.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.png",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.jpg"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
-     "variants": [
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1280.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_1024.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_540.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_400.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_250.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_100.gif",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.png",
-      "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1.jpg"
-     ]
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "transport",
-     "location": "",
-     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.",
-     "requested_timestamp": "20191231235959",
-     "status": null,
-     "url": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif"
-    }
-   ],
-   "media_url": "http://33.media.tumblr.com/b44ea7eff693e5ad6cb10775bc167942/tumblr_niq3utNaCs1r3it8zo1_500.gif",
-   "reason": "transport"
-  },
   {
    "attempts": [
     {
@@ -286,6 +269,7 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20150206043907id_/http://hazfalafel.com:80/post/109085231993",
+ "snapshot_retries": 0,
  "state": "partial",
  "tags": [
   "זהבה-גלאון",

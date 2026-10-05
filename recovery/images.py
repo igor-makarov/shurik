@@ -407,15 +407,27 @@ def resolve_image(
                 "verdicts": verdicts,
                 "note": "no pre-cutoff capture in the committed availability sweep"
                         + (" (a sibling is archived only after the cutoff)" if
-                           AFTER_CUTOFF in verdicts.values() else ""),
+                           availability.AFTER_CUTOFF in verdicts.values() else ""),
             })
             if verdicts and all(v == availability.NO_SNAPSHOT for v in verdicts.values()):
                 record.update(state="missing", error=GAP, capture_count=0,
                               note="availability API answered with no snapshot for this URL "
                                    "or any size/extension sibling")
                 return record
-            if availability.AFTER_CUTOFF in verdicts.values() and GAP in verdicts.values():
+            # Verdicts are the availability vocabulary ("gap"), not the HTTP
+            # failure classes; comparing them against `GAP` ("archive_gap")
+            # silently never matched.
+            if availability.AFTER_CUTOFF in verdicts.values() and availability.NO_SNAPSHOT in verdicts.values():
                 after_cutoff_only = True
+            if not verdicts and method == "availability":
+                # The cheap sweep has not been asked about this URL yet. That is
+                # *no answer*, not a gap: leave the image undecided (and so still
+                # eligible in the queue) instead of spending a replay probe on
+                # the expensive host for a URL the inventory never covered.
+                record.update(state="pending", capture_count=0,
+                              note="the committed availability sweep has no verdict for this URL "
+                                   "or any size/extension sibling yet; sweep it before replaying")
+                return record
     if not captures and method in ("probe", "auto", "availability"):
         extra, attempts, after_cutoff_only = image_capture_candidates_probe(
             fetcher, url, variant_budget=variant_budget, backsteps=backsteps,

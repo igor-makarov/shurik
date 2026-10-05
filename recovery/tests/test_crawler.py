@@ -1,6 +1,7 @@
 """Failure-case tests for the crawler: cutoffs, gaps, timeouts, bad bodies."""
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import tempfile
@@ -850,3 +851,67 @@ def _rows(n: int) -> list:
                      f"http://24.media.tumblr.com/{i:032x}/tumblr_other{i}r3it8zo1_500.jpg",
                      "image/jpeg", "200", "ABC", "100"])
     return rows
+
+
+class AvailabilityMethodTests(unittest.TestCase):
+    """`--method availability` must never raise, and must not fake verdicts.
+
+    Regression: the availability branch referenced a bare `AFTER_CUTOFF` name
+    that does not exist in this module, so *every* image whose sweep verdict
+    was "no snapshot" raised NameError and aborted the whole `fetch-images`
+    pass -- the reason 11 confirmed captures sat in `data/cdx/avail.jsonl`
+    without ever being replayed.
+    """
+
+    def setUp(self):
+        import tempfile
+
+        from recovery.availability import AvailabilityIndex, AFTER_CUTOFF, HIT, NO_SNAPSHOT
+
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.index = AvailabilityIndex(os.path.join(self.tmp.name, "avail.jsonl"))
+        self.HIT, self.GAPV, self.AFTER = HIT, NO_SNAPSHOT, AFTER_CUTOFF
+        self.url = "http://40.media.tumblr.com/abc/tumblr_x1r3it8zo1_500.jpg"
+        self.img = {"media_url": self.url, "caption_alt": "תגובה"}
+
+    def _resolve(self, method="availability", routes=None):
+        from recovery.images import resolve_image
+
+        f = FakeArchive(routes or {})
+        return resolve_image(f, dict(self.img), method=method, availability=self.index)
+
+    def test_all_gap_verdicts_record_a_scoped_gap_without_raising(self):
+        from recovery.images import _variants
+
+        for variant in _variants(self.url):
+            self.index.record(variant, self.GAPV, http_status=200)
+        rec = self._resolve()
+        self.assertEqual(rec["state"], "missing")
+        self.assertEqual(rec["error"], "archive_gap")
+        note = [a for a in rec["attempts"] if a["endpoint"] == "availability-api"][0]
+        self.assertTrue(note["verdicts"], "the scope searched must be recorded")
+
+    def test_mixed_gap_and_after_cutoff_is_not_a_gap(self):
+        from recovery.images import _variants
+
+        variants = _variants(self.url)
+        self.index.record(variants[0], self.GAPV, http_status=200)
+        self.index.record(variants[1], self.AFTER, http_status=200,
+                          timestamp="20200401000000")
+        rec = self._resolve()
+        self.assertNotEqual(rec["error"], "archive_gap", rec.get("note", ""))
+        self.assertNotEqual(rec["state"], "recovered")
+
+    def test_unswept_url_stays_pending_and_spends_no_request(self):
+        rec = self._resolve()
+        self.assertEqual(rec["state"], "pending")
+        self.assertIsNone(rec["error"], "an unswept URL is no answer, not a gap")
+
+    def test_confirmed_hit_replays_and_hashes_the_image(self):
+        routes = {self.url: binary(JPEG_BYTES)}
+        self.index.record(self.url, self.HIT, timestamp="20150119072952", status="200")
+        rec = self._resolve(routes=routes)
+        self.assertEqual(rec["state"], "recovered", rec.get("note", ""))
+        self.assertEqual(rec["sha256"], hashlib.sha256(JPEG_BYTES).hexdigest())
+        self.assertEqual(rec["capture"]["timestamp"], "20150119072952")
