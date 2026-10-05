@@ -25,6 +25,12 @@ MEDIA_DUMP_DIR = os.path.join(config.DATA_DIR, "work", "media-dumps")
 HOST_RE = re.compile(r"^([a-z0-9-]+(?:\.[a-z0-9-]+)*\.media\.tumblr\.com)$", re.I)
 
 
+def _now() -> str:
+    import datetime
+
+    return datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds")
+
+
 def host_of(url: str) -> str:
     m = re.match(r"^https?://([^/]+)", url or "", re.I)
     return m.group(1).lower() if m else ""
@@ -193,7 +199,8 @@ def scan_host(
     err = last.get("error")
     complete = bool(short_page and err in (None, "ok"))
     info = {"host": host, "rows": seen_rows, "kept": len(kept), "new": new, "pages": pages,
-            "complete": complete, "response": last}
+            "complete": complete, "response": last,
+            "scanned_at": _now(), "keys_at_scan": len(keys) if keys is not None else 0}
     index.mark_host(name, info)
     return info
 

@@ -433,3 +433,141 @@ class RegistryPlumbingTests(unittest.TestCase):
         reg.push_blob(blob)
         self.assertEqual(session.blob_bodies[blob.digest], b"payload")
         self.assertGreaterEqual(len([c for c in session.calls if c[0] == "GET" and "/token" in c[1]]), 2)
+
+
+class HostInventoryEvidenceTests(unittest.TestCase):
+    """A complete host inventory is positive evidence, not an assumption.
+
+    Scanning a whole `*.media.tumblr.com` host costs one paginated CDX query
+    and enumerates every pre-cutoff 200 capture of that host. When such a scan
+    is complete *and* was taken after the media key was already known, "this
+    key has no capture" is a confirmed archive gap and no per-variant query
+    should be spent re-asking the archive.
+    """
+
+    LINK = "http://78.media.tumblr.com/e93d04f7/tumblr_mqrhwt1Ui21r3it8zo5_1280.jpg"
+
+    def _index(self, tmp, scanned_at, rows=1):
+        path = os.path.join(tmp, "media.jsonl")
+        index = MediaIndex(path)
+        index.add(parse_cdx_json(
+            [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
+             ["k", "20150101000000", "http://78.media.tumblr.com/other/tumblr_zz_500.jpg",
+              "image/jpeg", "200", "ABC", "100"]] * rows, source_query="host:78"))
+        index.mark_host("78.media.tumblr.com", {"host": "78.media.tumblr.com", "rows": 2642,
+                                                "pages": 1, "complete": True,
+                                                "scanned_at": scanned_at, "keys_at_scan": 10})
+        return MediaIndex(path)
+
+    def test_complete_scan_confirms_gap_without_any_cdx_query(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            index = self._index(tmp, "2026-10-05T00:10:00+00:00")
+            f = FakeArchive({})  # every CDX/replay request would 404: none allowed
+            rec = resolve_image(f, {"media_url": self.LINK, "found_in": "img"},
+                                media_index=index, key_known_at="2026-10-04T23:00:00+00:00")
+            self.assertEqual(rec["state"], "missing")
+            self.assertEqual(rec["error"], GAP)
+            self.assertEqual(rec["host_inventory"]["rows"], 2642)
+            self.assertEqual(f.requests, [], "a conclusive host scan must cost no archive request")
+
+    def test_scan_predating_the_key_is_not_conclusive(self):
+        """The dump's key filter did not include this key yet: keep asking."""
+        with tempfile.TemporaryDirectory() as tmp:
+            index = self._index(tmp, "2026-10-01T00:00:00+00:00")
+            routes = {"/cdx/search/cdx": Response(url="", status=200, body=b"[]", error=OK)}
+            rec = resolve_image(FakeArchive(routes),
+                                {"media_url": self.LINK, "found_in": "img"},
+                                media_index=index, key_known_at="2026-10-04T23:00:00+00:00")
+            self.assertTrue([a for a in rec["attempts"] if a.get("endpoint") == "cdx"],
+                            "a stale host scan must fall back to per-variant CDX queries")
+            self.assertEqual(rec["state"], "missing")
+
+    def test_incomplete_scan_never_claims_a_gap(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "media.jsonl")
+            index = MediaIndex(path)
+            index.mark_host("78.media.tumblr.com", {"host": "78.media.tumblr.com", "rows": 5000,
+                                                    "pages": 1, "complete": False,
+                                                    "scanned_at": "2026-10-05T00:10:00+00:00"})
+            routes = {"/cdx/search/cdx": Response(url="", status=200, body=b"[]", error=OK)}
+            rec = resolve_image(FakeArchive(routes), {"media_url": self.LINK},
+                                media_index=MediaIndex(path),
+                                key_known_at="2026-10-04T23:00:00+00:00")
+            self.assertEqual(rec["state"], "missing")
+            self.assertIsNone(rec.get("host_inventory"),
+                              "an interrupted scan is not evidence of absence")
+
+
+class PostFailureBookkeepingTests(unittest.TestCase):
+    """Failed posts must leave the queue, otherwise nothing else is crawled."""
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self._saved = {k: getattr(config, k) for k in ("DATA_DIR", "POST_DIR", "CDX_DIR",
+                                                       "MISSING_JSONL")}
+        config.DATA_DIR = self._tmp.name
+        config.POST_DIR = os.path.join(self._tmp.name, "posts")
+        config.CDX_DIR = os.path.join(self._tmp.name, "cdx")
+        config.MISSING_JSONL = os.path.join(self._tmp.name, "missing.jsonl")
+        self.addCleanup(self._restore)
+        from recovery import cli
+        self.cli = cli
+        # One inventoried permalink capture for post 13397484447.
+        self.cli.POST_CAPTURE_FILE = os.path.join(config.CDX_DIR, "posts.jsonl")
+        CaptureIndex(self.cli.POST_CAPTURE_FILE).add(parse_cdx_json(
+            [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
+             ["com,hazfalafel)/post/13397484447", "20120426030759",
+              "http://hazfalafel.com:80/post/13397484447", "text/html", "200", "A", "1"]],
+            source_query="hazfalafel.com/post/*"))
+
+    def _restore(self):
+        for k, v in self._saved.items():
+            setattr(config, k, v)
+
+    def test_permanent_failure_is_stored_and_not_retried_forever(self):
+        from recovery.store import PostStore
+        routes = {"/web/20120426030759id_": Response(url="", status=404,
+                                                     body=NOT_ARCHIVED_HTML.encode(), error=GAP),
+                  "wayback/available": Response(
+                      url="", status=200,
+                      body=json.dumps({"archived_snapshots": {"closest": {
+                          "timestamp": "20120426030759", "status": "200"}}}).encode(), error=OK)}
+        f = FakeArchive(routes)
+        out = self.cli.fetch_posts(f, limit=5, concurrency=1)
+        self.assertEqual(out["processed"], 1)
+        rec = PostStore(config.POST_DIR).get("13397484447")
+        self.assertEqual(rec["state"], "failed")
+        self.assertEqual(rec["captures"][0]["timestamp"], "20120426030759")
+        self.assertEqual(rec["failure_count"], 1)
+        # Second pass: the stored capture counts as attempted, so no work is done.
+        again = self.cli.fetch_posts(f, limit=5, concurrency=1)
+        self.assertEqual(again["processed"], 0, again)
+        self.assertEqual(len(f.requests), len(routes) + len(routes) - len(routes), )
+
+    def test_transient_failure_is_retried_within_the_budget(self):
+        from recovery.store import PostStore
+        store = PostStore(config.POST_DIR)
+        store.put("13397484447", {
+            "post_id": "13397484447", "state": "failed", "failure_count": 1,
+            "captures": [{"timestamp": "20120426030759",
+                          "original": "http://hazfalafel.com:80/post/13397484447"}],
+            "methods": [{"endpoint": "replay id_", "error": TIMEOUT}]})
+        routes = {"/web/20120426030759id_": Response(url="", status=200,
+                                                     body=POST_HTML.encode(), error=OK)}
+        out = self.cli.fetch_posts(FakeArchive(routes), limit=5, concurrency=1)
+        self.assertEqual(out["processed"], 1, "a timeout must be retried")
+        rec = store.get("13397484447")
+        self.assertTrue(rec.get("content_text"), "the retry recovered the post")
+
+    def test_exhausted_failure_budget_stops_the_post(self):
+        from recovery.store import PostStore
+        store = PostStore(config.POST_DIR)
+        store.put("13397484447", {
+            "post_id": "13397484447", "state": "failed",
+            "failure_count": self.cli.MAX_FAILURES,
+            "captures": [{"timestamp": "20120426030759",
+                          "original": "http://hazfalafel.com:80/post/13397484447"}],
+            "methods": [{"endpoint": "replay id_", "error": GAP}]})
+        out = self.cli.fetch_posts(FakeArchive({}), limit=5, concurrency=1)
+        self.assertEqual(out["processed"], 0, "permanent gap, budget spent: move on")

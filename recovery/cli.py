@@ -98,6 +98,32 @@ def post_captures(index: CaptureIndex) -> dict[str, list[Capture]]:
     return grouped
 
 
+MAX_FAILURES = int(os.environ.get("SHURIK_MAX_FAILURES", "3"))
+# Failure classes that mean "the archive never said no": worth retrying later.
+TRANSIENT_ERRORS = ("timeout", "throttled", "transport", "http_error")
+
+
+def _attempt_errors(record: dict) -> list[str]:
+    errs: list[str] = []
+    for a in record.get("methods", []) or []:
+        err = a.get("error")
+        if err:
+            errs.append(err)
+    return errs
+
+
+def _failures(record: dict) -> int:
+    return int(record.get("failure_count", 0) or 0)
+
+
+def _worth_retrying(record: dict) -> bool:
+    """True when the last attempts failed for transient reasons only."""
+    errs = _attempt_errors(record)
+    if not errs:
+        return True
+    return any(e in TRANSIENT_ERRORS for e in errs)
+
+
 def _kind(cap: Capture) -> str:
     u = normalize_url(cap.original)
     if "photoset_iframe" in u:
@@ -131,6 +157,14 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
         pending = [c for c in grouped[pid] if c.timestamp not in have]
         if existing.get("content_text") and not pending:
             continue
+        # A post whose every known capture has already been replayed is done,
+        # unless the last attempts failed transiently (timeout/throttle/
+        # transport) or the failure budget is not yet spent. Without this the
+        # queue head -- the lowest post ids, most of them permanent gaps --
+        # is retried forever and the crawl never reaches the other 500 posts.
+        if not pending and existing.get("state") == "failed":
+            if not _worth_retrying(existing) or _failures(existing) >= MAX_FAILURES:
+                continue
         todo.append(pid)
         if len(todo) >= limit:
             break
@@ -178,6 +212,32 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
                     "capture": merged.get("capture_timestamp"), "attempts": attempts}
         # no usable page: confirm a gap with the availability API before recording
         avail = _availability(fetcher, caps[0].original if caps else f"http://hazfalafel.com/post/{pid}")
+        # Persist the failure in the post store too. A failure that lives only
+        # in the ledger leaves the post with no stored captures, so the next
+        # run sees every capture as pending and re-fetches it forever.
+        err_by_ts = {a.get("capture_timestamp"): a.get("error") for a in attempts}
+        prior = store.get(pid) or {}
+        failed = {
+            "post_id": pid,
+            "state": "failed",
+            "reason": avail,
+            "failure_count": int(prior.get("failure_count", 0)) + 1,
+            "original_url": f"http://hazfalafel.com/post/{pid}",
+            "canonical_urls": sorted({c.original for c in caps}),
+            "captures": [{"timestamp": c.timestamp, "original": c.original, "kind": _kind(c),
+                          "error": err_by_ts.get(c.timestamp)} for c in caps[:20]],
+            "content_html": "",
+            "content_text": "",
+            "captions": [],
+            "tags": [],
+            "images": [],
+            "image_count": 0,
+            "missing_image_count": 0,
+            "methods": attempts,
+            "fetched_at": _now(),
+            "partial": False,
+        }
+        store.put(pid, failed)
         missing_posts.append(ledger_entry("post", pid, avail, attempts,
                                           {"post_url": f"http://hazfalafel.com/post/{pid}"}))
         return {"post_id": pid, "ok": False, "reason": avail}
@@ -301,7 +361,8 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 merged.append(img)
                 missing += 1
                 continue
-            resolved = resolve_image(fetcher, img, media_index=media_index)
+            resolved = resolve_image(fetcher, img, media_index=media_index,
+                                     key_known_at=rec.get("fetched_at", ""))
             _assign_file(resolved)
             if resolved["state"] == "recovered":
                 recovered += 1
@@ -309,11 +370,14 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             else:
                 missing += 1
                 merged.append(resolved)
-                missing_entries.append(ledger_entry(
+                entry = ledger_entry(
                     "image", resolved["media_url"], resolved.get("error") or "unknown",
                     resolved.get("attempts", []),
                     {"post_id": pid, "media_key": resolved.get("media_key"),
-                     "caption": resolved.get("caption", "")}))
+                     "caption": resolved.get("caption", "")})
+                if resolved.get("host_inventory"):
+                    entry["host_inventory"] = resolved["host_inventory"]
+                missing_entries.append(entry)
         updated = dict(rec)
         updated["images"] = merged
         updated["images_done"] = True

@@ -151,6 +151,7 @@ def resolve_image(
     *,
     max_captures: int = 3,
     media_index=None,
+    key_known_at: str = "",
 ) -> dict:
     """Try to recover one post image. Returns a durable attempt record.
 
@@ -161,6 +162,11 @@ def resolve_image(
     "does any variant of this file exist?" question from Git instead of issuing
     one CDX query per size variant; the per-image CDX query stays as the
     fallback for hosts that were never inventoried.
+
+    A *complete* host inventory that was taken after this key was already known
+    is positive evidence of absence: every pre-cutoff `statuscode:200` row of
+    that host has been enumerated, so the gap is confirmed and no per-variant
+    CDX query is spent re-confirming it.
     """
     url = image["media_url"]
     prefer_base = base_media_key(url) or ""
@@ -196,6 +202,28 @@ def resolve_image(
                 "captures": len(local),
                 "note": "answered from the host media inventory; per-variant CDX queries skipped",
             })
+        else:
+            from .media import host_of
+
+            state = media_index.host_complete(host_of(url))
+            if state and _conclusive(state, key_known_at):
+                record["host_inventory"] = {"host": host_of(url), "rows": state.get("rows"),
+                                            "pages": state.get("pages"),
+                                            "scanned_at": state.get("scanned_at"),
+                                            "keys_at_scan": state.get("keys_at_scan")}
+                record["attempts"].append({
+                    "endpoint": "media-index",
+                    "media_url": url,
+                    "host": host_of(url),
+                    "rows": state.get("rows"),
+                    "captures": 0,
+                    "note": "host fully inventoried after this key was known; no pre-cutoff "
+                            "capture of the host references this media key",
+                })
+                record.update(state="missing", error=GAP, capture_count=0,
+                              note="host media inventory is complete and lists no capture for "
+                                   "this key (or any size variant) on this CDN host")
+                return record
     if not captures:
         extra, attempts = image_capture_candidates(fetcher, url)
         captures.extend(extra)
@@ -285,6 +313,32 @@ def resolve_image(
         record.update(state="missing", error=last,
                       note="captures existed but no replay produced a valid image body")
     return record
+
+
+def _conclusive(state: dict, key_known_at: str) -> bool:
+    """Is a complete host scan evidence about *this* key?
+
+    True when the scan finished after the key was discovered (so the scan
+    certainly knew about the key), or when no discovery time is available and
+    the scan is complete. A scan that predates the key is *not* conclusive --
+    the key was not part of the filter set then.
+    """
+    scanned = _epoch(state.get("scanned_at", ""))
+    known = _epoch(key_known_at)
+    if scanned is None:
+        return False
+    return known is None or scanned >= known
+
+
+def _epoch(stamp: str) -> Optional[float]:
+    import datetime
+
+    if not stamp or not isinstance(stamp, str) or len(stamp) < 10:
+        return None
+    try:
+        return datetime.datetime.fromisoformat(stamp.replace("Z", "+00:00")).timestamp()
+    except ValueError:
+        return None
 
 
 def blob_path(digest: str) -> str:
