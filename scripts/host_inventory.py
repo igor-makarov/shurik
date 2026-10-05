@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
-"""Ad-hoc, serial full-host CDX inventory for Tumblr media hosts.
+"""Complete pre-cutoff CDX inventory of one or more Tumblr media hosts.
 
-Not part of the committed pipeline yet: this is the experiment that decides
-whether `discover-media` is worth running across every referenced host. Writes
-every pre-cutoff row to data/work/media-dumps/<host>.jsonl (gitignored) so the
-matching experiment can run offline.
+`matchType=domain` with a large `limit` is *not* a reliable enumeration: the
+server caps a single response and the `page=` cursor returns short pages whose
+size depends on the underlying index blocks (measured: 20000 rows unpaged vs
+2642 paged for 78.media.tumblr.com). Hex-prefix paging is deterministic and
+cheap, because every Tumblr media path is `/<32 hex chars>/tumblr_<key>_<n>.jpg`:
+
+    url=<host>/<c>&matchType=prefix&collapse=urlkey
+
+16 requests per host enumerate the whole host. Rows land in
+data/work/media-dumps/<host>.jsonl (gitignored); `recovery.media.scan_host`
+consumes the same file format.
 """
 from __future__ import annotations
 
@@ -17,66 +24,69 @@ import urllib.request
 
 CDX = "https://web.archive.org/cdx/search/cdx"
 CUTOFF = "20191231235959"
-DUMP = "data/work/media-dumps"
-LIMIT = 20000
+DUMP = os.path.join("data", "work", "media-dumps")
+HEX = "0123456789abcdef"
+PREFIXES = [c for c in HEX] + [""]  # "" catches paths that are not hex-dirs
 
 
-def fetch(host: str, page: int, timeout: int = 240) -> tuple[list[list[str]], str]:
-    q = urllib.parse.urlencode({
-        "url": host, "matchType": "domain", "output": "json", "to": CUTOFF,
-        "filter": "statuscode:200", "collapse": "urlkey", "limit": str(LIMIT),
-        "page": str(page),
-    })
-    req = urllib.request.Request(f"{CDX}?{q}", headers={"User-Agent": "hazfalafel-recovery/1.0"})
+def query(host: str, prefix: str, timeout: int = 120) -> tuple[list[list[str]], str]:
+    params = {
+        "url": f"{host}/{prefix}" if prefix else host,
+        "matchType": "prefix" if prefix else "domain",
+        "output": "json", "to": CUTOFF, "filter": "statuscode:200",
+        "collapse": "urlkey", "limit": "20000",
+    }
+    req = urllib.request.Request(CDX + "?" + urllib.parse.urlencode(params),
+                                 headers={"User-Agent": "hazfalafel-recovery/1.0"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         body = resp.read().decode("utf-8", "replace")
-    if body.startswith("<"):
-        return [], body[:200]
-    return json.loads(body), "ok"
+    if body.lstrip().startswith("<"):
+        return [], "html-error"
+    data = json.loads(body)
+    return (data[1:] if data else []), "ok"
+
+
+def scan(host: str, out) -> tuple[int, int]:
+    path = os.path.join(DUMP, f"{host}.jsonl")
+    os.makedirs(DUMP, exist_ok=True)
+    have = set()
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as fh:
+            for line in fh:
+                try:
+                    have.add(json.loads(line)[0])
+                except Exception:  # noqa: BLE001
+                    pass
+    added = rows = 0
+    for prefix in PREFIXES:
+        for attempt in range(3):
+            try:
+                body, err = query(host, prefix)
+            except Exception as exc:  # noqa: BLE001
+                body, err = [], f"{type(exc).__name__}"
+            if body or err == "ok":
+                break
+            time.sleep(5 * (attempt + 1))
+        rows += len(body)
+        for row in body:
+            if row[0] in have:
+                continue
+            have.add(row[0])
+            out.write(json.dumps(row, ensure_ascii=False) + "\n")
+        if err != "ok":
+            print(f"  !! {host}/{prefix}: {err}", flush=True)
+        out.flush()
+    return added, rows
 
 
 def main() -> int:
     hosts = sys.argv[1:]
-    os.makedirs(DUMP, exist_ok=True)
     for host in hosts:
-        path = os.path.join(DUMP, f"{host}.jsonl")
-        have = set()
-        if os.path.exists(path):
-            with open(path, encoding="utf-8") as fh:
-                for line in fh:
-                    try:
-                        have.add(json.loads(line)["urlkey"])
-                    except Exception:
-                        pass
-        fh = open(path, "a", encoding="utf-8")
-        page, total, newest = 1, 0, ""
-        while page <= 40:
-            for attempt in range(3):
-                t0 = time.time()
-                try:
-                    rows, err = fetch(host, page)
-                except Exception as exc:  # noqa: BLE001 - report and retry
-                    rows, err = [], f"{type(exc).__name__}: {exc}"
-                print(f"  page={page} attempt={attempt} rows={len(rows)} "
-                      f"{time.time()-t0:.1f}s {err[:80]}", flush=True)
-                if rows:
-                    break
-                time.sleep(10 * (attempt + 1))
-            if not rows:
-                break
-            head, body = rows[0], rows[1:]
-            for r in body:
-                newest = r[1] if len(r) > 1 else newest
-                if r[0] in have:
-                    continue
-                have.add(r[0])
-                fh.write(json.dumps(r, ensure_ascii=False) + "\n")
-            total += len(body)
-            if len(body) < LIMIT:
-                break
-            page += 1
-        fh.close()
-        print(f"{host}: +{total} rows, newest={newest}, pages={page}", flush=True)
+        t0 = time.time()
+        with open(os.path.join(DUMP, f"{host}.jsonl"), "a", encoding="utf-8") as out:
+            added, rows = scan(host, out)
+        total = sum(1 for _ in open(os.path.join(DUMP, f"{host}.jsonl"), encoding="utf-8"))
+        print(f"{host}: rows={rows} added={added} total={total} {time.time()-t0:.1f}s", flush=True)
     return 0
 
 
