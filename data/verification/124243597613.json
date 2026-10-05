@@ -1,0 +1,172 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:a044ad2e63a3e9e23933ee93368afc0437abe8a12fb916ce9e460148a8e6d0cb",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nrl4w47Jer1r3it8zo1_500.jpg]",
+   "expected": "85be5ff346ed5a771d2395937a5daf38f0d2084707b00d993fce7b941ea88786",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nrl4w47Jer1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nrl4w47Jer1r3it8zo1_500.jpg]",
+   "expected": 73448,
+   "observed": 73448,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nrl4w47Jer1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "הסמולנים מעידים על עצמם שהם בעלי חוש הומור, בואו נראה אם הם יעשו לזה לייק",
+   "observed": "הסמולנים מעידים על עצמם שהם בעלי חוש הומור, בואו נראה אם הם יעשו לזה לייק",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<428 chars>",
+   "observed": "<428 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אופניים",
+    "פלסטינאים"
+   ],
+   "observed": [
+    "אופניים",
+    "פלסטינאים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "הסמולנים מעידים על עצמם שהם בעלי חוש הומור, בואו נראה אם הם יעשו לזה לייק"
+   ],
+   "observed": [
+    "הסמולנים מעידים על עצמם שהם בעלי חוש הומור, בואו נראה אם הם יעשו לזה לייק"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/124243597613",
+   "observed": "http://hazfalafel.com/post/124243597613",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nrl4w47Jer1r3it8zo1_500.jpg]",
+   "expected": "הסמולנים מעידים על עצמם שהם בעלי חוש הומור, בואו נראה אם הם יעשו לזה לייק",
+   "observed": "הסמולנים מעידים על עצמם שהם בעלי חוש הומור, בואו נראה אם הם יעשו לזה לייק",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803170136",
+   "observed": "20150803170136",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803170136id_/http://40.media.tumblr.com/1b9d2108b8a2e6b0bfdc105a80fb13da/tumblr_nrl4w47Jer1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803170136id_/http://40.media.tumblr.com/1b9d2108b8a2e6b0bfdc105a80fb13da/tumblr_nrl4w47Jer1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803170136",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:3b12663240bba1556b3d0eb17e5ce21fb8f3c76cb714680f8aa26a8fa1428988",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2015-08-18T14:27:28Z",
+  "org.opencontainers.image.description": "הסמולנים מעידים על עצמם שהם בעלי חוש הומור, בואו נראה אם הם יעשו לזה לייק",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 124243597613",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/124243597613",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "73",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "124243597613",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "אופניים,פלסטינאים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:dd4bbea8c582931dfc23d384f8415e09a6f391e5a9cbd51e197aad5a97e12c9d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 71697
+  },
+  {
+   "digest": "sha256:f3933f5afed7d94d320003317f4258f7ba11d996dc7ca6934d0f1541868a1a1a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1411
+  }
+ ],
+ "manifest_digest": "sha256:a044ad2e63a3e9e23933ee93368afc0437abe8a12fb916ce9e460148a8e6d0cb",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "124243597613",
+ "pulled_files": [
+  {
+   "bytes": 73448,
+   "file": "tumblr_nrl4w47Jer1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:dd4bbea8c582931dfc23d384f8415e09a6f391e5a9cbd51e197aad5a97e12c9d",
+   "role": "media",
+   "sha256": "85be5ff346ed5a771d2395937a5daf38f0d2084707b00d993fce7b941ea88786"
+  },
+  {
+   "bytes": 5605,
+   "file": "post.json",
+   "layer": "sha256:f3933f5afed7d94d320003317f4258f7ba11d996dc7ca6934d0f1541868a1a1a",
+   "role": "post-metadata",
+   "sha256": "cd175adc5887bf2f5f5c6ad4bc04c3b135e14100fe0e3e3a6f0f392b4b5e3f0d"
+  }
+ ],
+ "tag": "124243597613",
+ "verified_at": "2026-10-05T09:35:38Z"
+}

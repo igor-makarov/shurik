@@ -1,0 +1,180 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:3b3f6a2be3a8f8741844cc74211b94ede96f0c6f7f6126306002858a8cee45a4",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ns5hstueEl1r3it8zo1_500.jpg]",
+   "expected": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ns5hstueEl1r3it8zo1_500.jpg]",
+   "expected": 49441,
+   "observed": 49441,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ns5hstueEl1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!\nתבנית",
+   "observed": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!\nתבנית",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<386 chars>",
+   "observed": "<386 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "כלב-מפגר",
+    "retard-dog",
+    "סמים",
+    "לגליזציה",
+    "תמר-זנדברג",
+    "יעקב-ליצמן"
+   ],
+   "observed": [
+    "כלב-מפגר",
+    "retard-dog",
+    "סמים",
+    "לגליזציה",
+    "תמר-זנדברג",
+    "יעקב-ליצמן"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית"
+   ],
+   "observed": [
+    "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/125172044513",
+   "observed": "http://hazfalafel.com/post/125172044513",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ns5hstueEl1r3it8zo1_500.jpg]",
+   "expected": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית",
+   "observed": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803171445",
+   "observed": "20150803171445",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803171445id_/http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803171445id_/http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803171445",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:4aaee1b8236f98a547117172723923bf8e1cfe61c45c461524702179387af4a0",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2016-08-17T10:01:02Z",
+  "org.opencontainers.image.description": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 125172044513",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/125172044513",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "52",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "125172044513",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "כלב-מפגר,retard-dog,סמים,לגליזציה,תמר-זנדברג,יעקב-ליצמן"
+ },
+ "layers": [
+  {
+   "digest": "sha256:58af263a7e0ead7530becd7e0a53e7d665706fc49530d9b40c9a298b291e2f5c",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 45103
+  },
+  {
+   "digest": "sha256:00387efe30d886443aa8b36cd7c606a54604e997ed67ab6d67df0fa6bda10e87",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1472
+  }
+ ],
+ "manifest_digest": "sha256:3b3f6a2be3a8f8741844cc74211b94ede96f0c6f7f6126306002858a8cee45a4",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "125172044513",
+ "pulled_files": [
+  {
+   "bytes": 49441,
+   "file": "tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:58af263a7e0ead7530becd7e0a53e7d665706fc49530d9b40c9a298b291e2f5c",
+   "role": "media",
+   "sha256": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2"
+  },
+  {
+   "bytes": 5669,
+   "file": "post.json",
+   "layer": "sha256:00387efe30d886443aa8b36cd7c606a54604e997ed67ab6d67df0fa6bda10e87",
+   "role": "post-metadata",
+   "sha256": "5af64b874feee1c169a46004d1d14344369be21cb59ea876ee3f1775af01ef02"
+  }
+ ],
+ "tag": "125172044513",
+ "verified_at": "2026-10-05T09:35:38Z"
+}

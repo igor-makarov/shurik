@@ -1,0 +1,182 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:5687a4175c0b1cd414ba4c2b3cfe913dabe23659381e103d73697a6f239bb36f",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nrxs24lEBZ1r3it8zo1_500.jpg]",
+   "expected": "0a8ddf5e6d3d9def6878707f07b7b7ab5ebb88f9b8762ba566490eafeeae6628",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nrxs24lEBZ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nrxs24lEBZ1r3it8zo1_500.jpg]",
+   "expected": 79150,
+   "observed": 79150,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nrxs24lEBZ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "תודה ליובל אלוני",
+   "observed": "תודה ליובל אלוני",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1514;&#1493;&#1491;&#1492; &#1500;&#1497;&#1493;&#1489;&#1500; &#1488;&#1500;&#1493;&#1504;&#1497;</p>",
+   "observed": "<p>&#1514;&#1493;&#1491;&#1492; &#1500;&#1497;&#1493;&#1489;&#1500; &#1488;&#1500;&#1493;&#1504;&#1497;</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "גולדסטאר",
+    "מכבי",
+    "פמיניסטיות",
+    "פרצופי-זעם",
+    "Rage-Comics",
+    "overconfident-alcoholic",
+    "אלכוהוליסט-בטוח-על-יתר-המידה"
+   ],
+   "observed": [
+    "גולדסטאר",
+    "מכבי",
+    "פמיניסטיות",
+    "פרצופי-זעם",
+    "Rage-Comics",
+    "overconfident-alcoholic",
+    "אלכוהוליסט-בטוח-על-יתר-המידה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "תודה ליובל אלוני"
+   ],
+   "observed": [
+    "תודה ליובל אלוני"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/124827091178",
+   "observed": "http://hazfalafel.com/post/124827091178",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nrxs24lEBZ1r3it8zo1_500.jpg]",
+   "expected": "תודה ליובל אלוני",
+   "observed": "תודה ליובל אלוני",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803165645",
+   "observed": "20150803165645",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803165645id_/http://41.media.tumblr.com/3850dd5c37069de1e75c177bd484496a/tumblr_nrxs24lEBZ1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803165645id_/http://41.media.tumblr.com/3850dd5c37069de1e75c177bd484496a/tumblr_nrxs24lEBZ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803165645",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:620a454b1a18e5e405f62d99af09ac5915a3596b71f1be1b14c13f7771cc6dad",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2015-08-18T17:39:17Z",
+  "org.opencontainers.image.description": "תודה ליובל אלוני",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 124827091178",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/124827091178",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "16",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "124827091178",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "גולדסטאר,מכבי,פמיניסטיות,פרצופי-זעם,Rage-Comics,overconfident-alcoholic,אלכוהוליסט-בטוח-על-יתר-המידה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:23999d8e7ef288c3229fe7410d83c0ae1d8712fb15c9cbe482f00d13cdcd2344",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 77481
+  },
+  {
+   "digest": "sha256:9f755e2eaf3c688e220282fe020d3c012c373ebb3bbf48986f49c578bff88cca",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1357
+  }
+ ],
+ "manifest_digest": "sha256:5687a4175c0b1cd414ba4c2b3cfe913dabe23659381e103d73697a6f239bb36f",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "124827091178",
+ "pulled_files": [
+  {
+   "bytes": 79150,
+   "file": "tumblr_nrxs24lEBZ1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:23999d8e7ef288c3229fe7410d83c0ae1d8712fb15c9cbe482f00d13cdcd2344",
+   "role": "media",
+   "sha256": "0a8ddf5e6d3d9def6878707f07b7b7ab5ebb88f9b8762ba566490eafeeae6628"
+  },
+  {
+   "bytes": 5128,
+   "file": "post.json",
+   "layer": "sha256:9f755e2eaf3c688e220282fe020d3c012c373ebb3bbf48986f49c578bff88cca",
+   "role": "post-metadata",
+   "sha256": "8033d8f4722373dd27e68c63eae5d1d5aa439a708aba4139d2e3e56bd937772f"
+  }
+ ],
+ "tag": "124827091178",
+ "verified_at": "2026-10-05T09:35:39Z"
+}
