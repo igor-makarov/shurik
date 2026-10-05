@@ -571,3 +571,150 @@ class PostFailureBookkeepingTests(unittest.TestCase):
             "methods": [{"endpoint": "replay id_", "error": GAP}]})
         out = self.cli.fetch_posts(FakeArchive({}), limit=5, concurrency=1)
         self.assertEqual(out["processed"], 0, "permanent gap, budget spent: move on")
+
+
+class ReplayProbeTests(unittest.TestCase):
+    """The replay-probe path: one bounded request decides image existence.
+
+    Real evidence this exists and is worth its own path: post 100416769893's
+    image `40.media.tumblr.com/adb87bdd.../tumblr_ndp94n8cUf1r3it8zo1_500.jpg`
+    answers `302 -> /web/20150106090204im_/...` (pre-cutoff) while its
+    neighbours answer 404. One request tells the two apart, where a CDX query
+    took tens of seconds per image.
+    """
+
+    IMAGE_URL = ("http://40.media.tumblr.com/adb87bddbbc96c60f41476a0ba60a36d/"
+                 "tumblr_ndp94n8cUf1r3it8zo1_500.jpg")
+
+    def redirect(self, capture_ts: str) -> Response:
+        return Response(url="", status=302, body=b"",
+                        headers={"location": f"https://web.archive.org/web/{capture_ts}im_/"
+                                             f"{self.IMAGE_URL}"}, error=OK)
+
+    def routes(self, probe: Response, replay: Response) -> dict:
+        return {"im_/http://40.media.tumblr.com": probe,
+                "id_/http://40.media.tumblr.com": replay}
+
+    def test_probe_recovers_image_and_records_capture(self):
+        f = FakeArchive(self.routes(self.redirect("20150106090204"), binary(JPEG_BYTES)))
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL, "caption_alt": "תמונה"},
+                            method="probe", max_captures=1)
+        self.assertEqual(rec["state"], "recovered")
+        self.assertEqual(rec["capture"]["timestamp"], "20150106090204")
+        self.assertEqual(rec["media_type"], "image/jpeg")
+        probe_attempts = [a for a in rec["attempts"] if a.get("endpoint") == "replay-probe"]
+        self.assertEqual(len(probe_attempts), 1, "a hit on the exact URL must not fan out")
+        self.assertEqual(probe_attempts[0]["capture_timestamp"], "20150106090204")
+
+    def test_probe_404_on_every_variant_is_a_confirmed_gap(self):
+        routes = {"im_/": Response(url="", status=404, body=b"", error=GAP,
+                                   message="has not been archived")}
+        f = FakeArchive(routes)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", variant_budget=3)
+        self.assertEqual(rec["state"], "missing")
+        self.assertEqual(rec["error"], GAP)
+        probes = [a for a in rec["attempts"] if a.get("endpoint") == "replay-probe"]
+        self.assertEqual(len(probes), 4, "exact URL plus the 3 budgeted siblings")
+        self.assertEqual(probes[0]["url"], self.IMAGE_URL)
+        self.assertTrue(any(a.get("endpoint") == "variant-budget" for a in rec["attempts"]))
+
+    def test_sibling_variant_hit_is_used_and_labelled(self):
+        def probe(url, timeout):
+            if url is None:
+                return Response(url="", status=404, error=GAP)
+            if "_1280.jpg" in url:
+                return Response(url="", status=302,
+                                headers={"location": f"https://web.archive.org/web/20160201im_/{url}"},
+                                error=OK)
+            return Response(url="", status=404, error=GAP)
+
+        class ProbeArchive(FakeArchive):
+            def _get_noredirect(self, url, timeout):
+                self.requests.append(url)
+                return probe(url, timeout)
+
+        f = ProbeArchive({"/web/20160201id_/": binary(JPEG_BYTES)})
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", variant_budget=4,
+                            max_captures=1)
+        self.assertEqual(rec["state"], "recovered")
+        self.assertTrue(rec["capture"]["original"].endswith("_1280.jpg"),
+                        "the recovered capture must name the variant that exists")
+        self.assertEqual(rec["capture"]["timestamp"], "20160201")
+
+    def test_post_cutoff_only_capture_is_refused_and_never_downloaded(self):
+        f = FakeArchive({"im_/": self.redirect("20210304000000"), "id_/": binary(JPEG_BYTES)})
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", backsteps=1,
+                            variant_budget=0)
+        self.assertEqual(rec["state"], "missing")
+        self.assertEqual(rec["error"], "capture_after_cutoff")
+        self.assertIsNone(rec["sha256"])
+        self.assertFalse([u for u in f.requests if "id_/" in u],
+                         "no bytes may be fetched from a post-cutoff capture")
+
+    def test_probe_step_back_finds_an_earlier_capture(self):
+        seq = [Response(url="", status=302,
+                        headers={"location": f"https://web.archive.org/web/20210304000000im_/{self.IMAGE_URL}"},
+                        error=OK),
+               Response(url="", status=302,
+                        headers={"location": f"https://web.archive.org/web/20160101000000im_/{self.IMAGE_URL}"},
+                        error=OK)]
+        class Seq(FakeArchive):
+            def _get_noredirect(self, url, timeout):
+                self.requests.append(url)
+                return seq.pop(0)
+
+        f = Seq({"id_/": binary(JPEG_BYTES)})
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", variant_budget=0,
+                            max_captures=1)
+        self.assertEqual(rec["state"], "recovered")
+        self.assertEqual(rec["capture"]["timestamp"], "20160101000000")
+
+    def test_transient_probe_is_not_a_gap_and_auto_falls_back_to_cdx(self):
+        rows = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
+                ["k", "20150106090204", self.IMAGE_URL, "image/jpeg", "200", "ABC", "100"]]
+        routes = {"im_/": Response(url="", status=None, error=TIMEOUT, message="read timeout"),
+                  "cdx/search/cdx": Response(url="", status=200, body=cdx_json(rows),
+                                             headers={"content-type": "application/json"}, error=OK),
+                  "id_/": binary(JPEG_BYTES)}
+        f = FakeArchive(routes, attempts=2)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="auto", max_captures=1)
+        self.assertEqual(rec["state"], "recovered", "auto must fall back to the CDX after a timeout")
+        self.assertTrue(any(a.get("endpoint") == "cdx" for a in rec["attempts"]))
+
+    def test_probe_timeout_alone_is_reported_as_timeout_not_gap(self):
+        f = FakeArchive({"im_/": Response(url="", status=None, error=TIMEOUT, message="t")},
+                        attempts=2)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", variant_budget=0)
+        self.assertEqual(rec["error"], TIMEOUT)
+        self.assertNotEqual(rec["error"], GAP)
+
+    def test_attempt_log_is_bounded_but_says_how_much_was_folded(self):
+        routes = {"im_/": Response(url="", status=404, error=GAP)}
+        f = FakeArchive(routes)
+        rec = resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", variant_budget=9)
+        self.assertLessEqual(len(rec["attempts"]), 12)
+        summary = [a for a in rec["attempts"] if a.get("endpoint") == "attempt-log"]
+        self.assertTrue(summary and summary[0]["n_earlier_attempts"] > 0)
+
+    def test_probe_404_does_not_issue_a_cdx_query(self):
+        empty = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"]]
+        routes = {"im_/": Response(url="", status=404, error=GAP),
+                  "cdx/search/cdx": Response(url="", status=200, body=cdx_json(empty),
+                                             headers={"content-type": "application/json"}, error=OK)}
+        f = FakeArchive(routes)
+        resolve_image(f, {"media_url": self.IMAGE_URL}, method="probe", variant_budget=1)
+        self.assertFalse([u for u in f.requests if "cdx" in u],
+                         "an authoritative 404 must not spend a CDX query re-confirming it")
+
+    def test_old_cdx_only_gap_is_reopened_but_a_probe_gap_is_not(self):
+        from recovery.cli import needs_probe
+        old = {"error": GAP, "attempts": [{"endpoint": "cdx", "error": OK, "captures": 0}]}
+        probed = {"error": GAP, "attempts": [{"endpoint": "replay-probe", "error": GAP}]}
+        self.assertTrue(needs_probe(old))
+        self.assertFalse(needs_probe(probed))
+
+    def test_posts_are_attempted_closest_to_complete_first(self):
+        """Finishing a one-image-away post beats starting a twelve-image one."""
+        src = __import__("inspect").getsource(self.cli.fetch_images)
+        self.assertIn('missing_image_count") or 0', src)
+        self.assertIn('order == "closest"', src)

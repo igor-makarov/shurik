@@ -12,7 +12,7 @@ from typing import Optional
 
 from . import config
 from .cdx import Capture, CaptureIndex, cdx_query, normalize_url, within_cutoff, year_windows
-from .http import BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response
+from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
 from .images import blob_path, resolve_image, sniff_image, store_blob
 from .media import MEDIA_CAPTURE_FILE, MediaIndex, hosts_for, scan_host, stems_of
 from .parsing import parse_post_page, post_id_from_url
@@ -324,7 +324,8 @@ def reindex_media(hosts: Optional[list[str]] = None) -> dict:
 # ---------------------------------------------------------------------- images
 def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = config.DEFAULT_CONCURRENCY,
                  post_ids: Optional[list[str]] = None, use_media_index: bool = True,
-                 retry_missing: bool = False) -> dict:
+                 retry_missing: bool = False, method: str = "probe",
+                 variant_budget: int = 4, order: str = "closest") -> dict:
     store = PostStore()
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
     media_index = MediaIndex(MEDIA_CAPTURE_FILE) if use_media_index else None
@@ -336,13 +337,22 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             continue
         if not rec.get("images"):
             continue
-        pending.append(rec["post_id"])
-        if len(pending) >= limit_posts:
-            break
+        pending.append(rec)
+    if order == "closest":
+        # Finish the posts that are one image away from being complete before
+        # spending a variant sweep on posts that need a dozen. A post is only
+        # "recovered" when all of its images are, so this maximises the number
+        # of fully recovered posts per request spent.
+        pending.sort(key=lambda r: (int(r.get("missing_image_count") or 0),
+                                    int(r.get("post_id") or 0)))
+    pending = [r["post_id"] for r in pending[:limit_posts]]
 
     missing_entries: list[dict] = []
     counts = {"recovered": 0, "missing": 0}
-    final_errors = ("archive_gap", "bad_body")
+    # Outcomes the archive has already decided: re-probing them spends
+    # requests for nothing. `capture_after_cutoff` is decided too -- the only
+    # captures are too late, and the cutoff never moves.
+    final_errors = ("archive_gap", "bad_body", AFTER_CUTOFF_ONLY)
 
     def work(pid: str) -> dict:
         rec = store.get(pid)
@@ -357,12 +367,17 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 continue
             # A confirmed archive gap or a rejected body is only retried when
             # asked; transient classes (timeout/throttle/transport) always are.
-            if not retry_missing and img.get("error") in final_errors:
+            # A gap that predates the replay-probe method is re-opened too:
+            # it was decided by one CDX query on the exact URL, which is weaker
+            # evidence than a probe sweep over the size/extension variants.
+            stale = needs_probe(img)
+            if not retry_missing and img.get("error") in final_errors and not stale:
                 merged.append(img)
                 missing += 1
                 continue
             resolved = resolve_image(fetcher, img, media_index=media_index,
-                                     key_known_at=rec.get("fetched_at", ""))
+                                     key_known_at=rec.get("fetched_at", ""),
+                                     method=method, variant_budget=variant_budget)
             _assign_file(resolved)
             if resolved["state"] == "recovered":
                 recovered += 1
@@ -400,6 +415,20 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
 
 _EXT_BY_TYPE = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif",
                 "image/webp": ".webp", "image/bmp": ".bmp"}
+
+
+def needs_probe(image: dict) -> bool:
+    """Was this image ever decided by a replay probe (or a host inventory)?
+
+    Images resolved before the probe method existed carry an `archive_gap` that
+    was decided by a single CDX query on the exact URL only. That is weaker
+    evidence than a probe sweep, so those records are re-opened automatically
+    instead of waiting for `--retry-missing`.
+    """
+    for att in image.get("attempts") or []:
+        if att.get("endpoint") in ("replay-probe", "media-index"):
+            return False
+    return True
 
 
 def _assign_file(rec: dict) -> None:
@@ -590,6 +619,12 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="ignore data/cdx/media.jsonl and query the CDX per image")
     p.add_argument("--retry-missing", action="store_true",
                    help="retry confirmed gaps and rejected bodies too (default: transient only)")
+    p.add_argument("--method", default="probe", choices=("probe", "cdx", "auto"),
+                   help="existence check per image: replay probe (fast), CDX query (slow) or auto")
+    p.add_argument("--variant-budget", type=int, default=4,
+                   help="size/extension siblings probed after the exact URL misses")
+    p.add_argument("--order", default="closest", choices=("closest", "post_id"),
+                   help="which posts to spend requests on first")
     p = sub.add_parser("publish", help="push per-post artifacts to GHCR")
     p.add_argument("--limit", type=int, default=10)
     p.add_argument("--force", action="store_true")
@@ -619,7 +654,9 @@ def main(argv: Optional[list[str]] = None) -> int:
     elif args.cmd == "fetch-images":
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
                            post_ids=[i for i in args.ids.split(",") if i] or None,
-                           use_media_index=not args.no_media_index, retry_missing=args.retry_missing)
+                           use_media_index=not args.no_media_index, retry_missing=args.retry_missing,
+                           method=args.method, variant_budget=args.variant_budget,
+                           order=args.order)
     elif args.cmd == "publish":
         out = publish(limit=args.limit, force=args.force, fetcher=fetcher)
     elif args.cmd == "status":

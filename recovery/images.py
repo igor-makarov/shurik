@@ -9,8 +9,29 @@ from typing import Optional
 
 from . import config
 from .cdx import Capture, cdx_query, normalize_url, within_cutoff
-from .http import (BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, TRANSPORT, Fetcher, Response)
+from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, TRANSPORT,
+                   Fetcher, Response)
 from .parsing import base_media_key, media_key
+
+# The Wayback replay redirect embeds the real capture timestamp:
+#   https://web.archive.org/web/20150106090204im_/http://40.media.tumblr.com/...
+REPLAY_TS_RE = re.compile(r"/web/(\d{14})")
+# Post records are committed to Git, so an attempt log stays bounded: the
+# newest entries are kept and older ones are summarised, never dropped
+# silently (`n_earlier_attempts` says how much history was folded in).
+MAX_ATTEMPTS_PER_IMAGE = 8
+
+
+def cap_attempts(attempts: list[dict], keep: int = MAX_ATTEMPTS_PER_IMAGE) -> list[dict]:
+    """Bound an attempt log without losing the fact that it was longer."""
+    if len(attempts) <= keep:
+        return list(attempts)
+    folded = len(attempts) - keep
+    summary = {"endpoint": "attempt-log", "note": f"{folded} earlier attempt(s) folded into this "
+               "summary; see data/missing.jsonl for the per-key history",
+               "n_earlier_attempts": folded,
+               "earlier_endpoints": sorted({str(a.get("endpoint")) for a in attempts[:folded]})}
+    return [summary] + list(attempts[-keep:])
 
 IMAGE_MAGIC = (
     (b"\xff\xd8\xff", "image/jpeg"),
@@ -116,6 +137,105 @@ def _variants(image_url: str) -> list[str]:
     return parse_image_variants(image_url)
 
 
+# ------------------------------------------------------- replay-probe discovery
+def probe_media_capture(fetcher: Fetcher, url: str, at_ts: Optional[str] = None,
+                        backsteps: int = 2) -> tuple[Optional[Capture], list[dict], bool]:
+    """Does the archive hold this exact media URL? One request per attempt.
+
+    The replay endpoint answers `302` + `Location: .../web/<capture-ts>im_/...`
+    when a capture exists and `404` when it does not, using the same capture
+    index the CDX endpoint reads. That makes it a cheap, authoritative
+    existence probe.
+
+    `at_ts` is the *requested* capture time; the archive answers with the
+    closest capture, which can be *after* it. A capture newer than the cutoff
+    is never used: the probe steps back a day at a time and, if that finds
+    nothing older, reports `after_cutoff_only` so the ledger distinguishes a
+    real archive gap from "archived, but only too late".
+    """
+    attempts: list[dict] = []
+    requested = at_ts or config.CUTOFF
+    saw_after_cutoff = False
+    for step in range(max(1, backsteps + 1)):
+        resp = fetcher.probe_replay(url, at_ts=requested)
+        location = resp.headers.get("location", "") or ""
+        m = REPLAY_TS_RE.search(location)
+        captured = m.group(1) if m else ""
+        attempt = {
+            "url": url,
+            "endpoint": "replay-probe",
+            "requested_timestamp": requested,
+            "capture_timestamp": captured or None,
+            "status": resp.status,
+            "error": resp.error,
+            "message": resp.message[:200],
+            "location": location[:200],
+        }
+        attempts.append(attempt)
+        if resp.error in (TIMEOUT, THROTTLED, TRANSPORT, HTTP_ERROR):
+            return None, attempts, saw_after_cutoff
+        if captured:
+            if captured <= config.CUTOFF:
+                return (Capture(timestamp=captured, original=url, statuscode="200",
+                                mimetype="", urlkey="", digest="", length="",
+                                redirect="", source_query=f"replay-probe:{requested}"),
+                        attempts, saw_after_cutoff)
+            saw_after_cutoff = True
+            # Step back a day from the too-late capture and ask again.
+            try:
+                requested = str(int(captured) - 86400)
+            except ValueError:
+                return None, attempts, saw_after_cutoff
+            continue
+        if resp.status == 200:
+            # Rare: the replay served the capture directly instead of redirecting.
+            return (Capture(timestamp=requested, original=url, statuscode="200",
+                            mimetype=resp.headers.get("content-type", ""), urlkey="", digest="",
+                            length=str(len(resp.body or b"")), redirect="",
+                            source_query=f"replay-probe:{requested}"),
+                    attempts, saw_after_cutoff)
+        # 404/410 (or anything else without a Location): nothing is archived.
+        return None, attempts, saw_after_cutoff
+    return None, attempts, saw_after_cutoff
+
+
+def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_budget: int = 4,
+                                   backsteps: int = 2) -> tuple[list[Capture], list[dict], bool]:
+    """Exact URL first, then a bounded sweep of its size/extension siblings.
+
+    Every request is one replay probe (seconds), not one CDX query (tens of
+    seconds), so the sibling sweep is affordable here in a way it never was
+    with the CDX endpoint.
+    """
+    attempts: list[dict] = []
+    captures: list[Capture] = []
+    after_cutoff_only = False
+    variants = _variants(image_url)
+    siblings = [v for v in variants if normalize_url(v) != normalize_url(image_url)]
+    plan = [image_url] + siblings[: max(0, variant_budget)]
+    if len(siblings) > variant_budget:
+        attempts.append({"endpoint": "variant-budget",
+                         "note": f"{len(siblings)} siblings exist; this pass probed the first "
+                                 f"{variant_budget}; the rest stay queued for a later run",
+                         "variants": siblings[variant_budget:]})
+    for variant in plan:
+        cap, att, after = probe_media_capture(fetcher, variant, backsteps=backsteps)
+        attempts.extend(att)
+        after_cutoff_only = after_cutoff_only or after
+        if cap:
+            captures.append(cap)
+            if cap.original == url_norm(image_url):
+                attempts.append({"endpoint": "probe-stop",
+                                 "note": "exact URL is archived; remaining siblings not probed"})
+                break
+    captures.sort(key=lambda c: c.timestamp)
+    return captures, attempts, after_cutoff_only
+
+
+def url_norm(url: str) -> str:
+    return normalize_url(url)
+
+
 def pick_capture(captures: list[Capture], prefer_base: str) -> Optional[Capture]:
     """Newest pre-cutoff capture whose media type looks like an image."""
     images = [c for c in captures if _usable(c)]
@@ -152,6 +272,9 @@ def resolve_image(
     max_captures: int = 3,
     media_index=None,
     key_known_at: str = "",
+    method: str = "probe",
+    variant_budget: int = 4,
+    backsteps: int = 2,
 ) -> dict:
     """Try to recover one post image. Returns a durable attempt record.
 
@@ -167,6 +290,15 @@ def resolve_image(
     is positive evidence of absence: every pre-cutoff `statuscode:200` row of
     that host has been enumerated, so the gap is confirmed and no per-variant
     CDX query is spent re-confirming it.
+
+    `method` selects how existence is decided:
+
+    * ``"probe"`` (default): one bounded replay request per URL/variant. Fast,
+      authoritative, and it reports the capture timestamp it was redirected to.
+    * ``"cdx"``: the older, much slower CDX query path, kept for hosts where
+      replay probing has been observed to answer unreliably.
+    * ``"auto"``: probe, and fall back to the CDX only when the probe itself
+      failed transiently (never when the archive authoritatively said "no").
     """
     url = image["media_url"]
     prefer_base = base_media_key(url) or ""
@@ -224,7 +356,18 @@ def resolve_image(
                               note="host media inventory is complete and lists no capture for "
                                    "this key (or any size variant) on this CDN host")
                 return record
-    if not captures:
+    after_cutoff_only = False
+    probe_conclusive = False
+    if not captures and method in ("probe", "auto"):
+        extra, attempts, after_cutoff_only = image_capture_candidates_probe(
+            fetcher, url, variant_budget=variant_budget, backsteps=backsteps)
+        captures.extend(extra)
+        record["attempts"].extend(attempts)
+        # A probe that was answered (200/404, not a timeout/throttle) is
+        # authoritative about existence; only a transient failure leaves doubt.
+        probe_conclusive = any(a.get("endpoint") == "replay-probe" and a.get("error") in (OK, GAP)
+                               for a in attempts)
+    if not captures and (method == "cdx" or (method == "auto" and not probe_conclusive)):
         extra, attempts = image_capture_candidates(fetcher, url)
         captures.extend(extra)
         record["attempts"].extend(attempts)
@@ -292,21 +435,30 @@ def resolve_image(
             )
         record["attempts"].append(attempt)
 
-    # Only *failed* attempts classify the outcome. A successful CDX query that
-    # simply returned nothing is a confirmed gap; a successful replay whose body
-    # is not an image is a bad body. Neither is a timeout or a throttle.
+    # Only *failed* attempts classify the outcome. A successful probe/CDX query
+    # that simply returned nothing is a confirmed gap; a successful replay
+    # whose body is not an image is a bad body. Neither is a timeout or a
+    # throttle.
     failures = [a.get("error") for a in record["attempts"]
                 if a.get("error") and a.get("error") != OK]
+    record["attempts"] = cap_attempts(record["attempts"])
     if saw_non_image_body:
         # The archive answered, but with HTML (its "not archived" page) instead of
         # image bytes. That is a confirmed unusable body, not a transient failure.
         record.update(state="missing", error=BAD_BODY,
                       note="captures existed but replays returned non-image bodies")
+    elif not captures and after_cutoff_only:
+        record.update(state="missing", error=AFTER_CUTOFF_ONLY,
+                      note="the only capture(s) the archive has for this URL (or its variants) "
+                           f"are newer than the cutoff {config.CUTOFF}; using them is forbidden")
     elif not captures:
         record.update(
             state="missing",
             error=failures[-1] if failures else GAP,
-            note="CDX returned zero captures for this media URL and its known variants",
+            note=("replay probes answered for this URL and its known size/extension variants "
+                  "and none of them has a capture at or before the cutoff"
+                  if method != "cdx" else
+                  "CDX returned zero captures for this media URL and its known variants"),
         )
     else:
         last = failures[-1] if failures else BAD_BODY

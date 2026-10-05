@@ -29,6 +29,9 @@ TRANSPORT = "transport"        # DNS/reset/other network failure
 HTTP_ERROR = "http_error"      # other non-200 status
 CUTOFF_VIOLATION = "cutoff_violation"  # capture newer than the cutoff
 BAD_BODY = "bad_body"          # body is not the media type we asked for
+# The capture exists but only *after* the cutoff. Distinct from GAP: the file
+# is archived, we are simply not allowed to use that capture.
+AFTER_CUTOFF_ONLY = "capture_after_cutoff"
 OK = "ok"
 
 
@@ -227,6 +230,88 @@ class Fetcher:
                 resp.error = GAP
                 resp.message = "replay returned 'not archived' HTML"
         return resp
+
+    def probe_replay(self, url: str, at_ts: Optional[str] = None, mode: str = "im_",
+                     timeout: Optional[float] = None) -> Response:
+        """Non-following GET of a replay URL: does this exact URL have a capture?
+
+        One bounded request answers "is this URL archived, and when?" for a
+        single media file, which is far cheaper than a CDX query (the archive
+        serves this from its redirect index in ~1 s, the CDX endpoint is far
+        slower). The 302 `Location` carries the *actual* capture timestamp, so
+        the caller can enforce the cutoff before any bytes are transferred.
+
+        Redirects are deliberately not followed here: following would hand us
+        post-cutoff bytes before we had a chance to check the timestamp.
+        """
+        at_ts = at_ts or config.CUTOFF
+        target = f"{config.REPLAY_BASE}/{at_ts}{mode}/{url}"
+        self.limiter.wait()
+        resp = self._get_noredirect(target, self.timeout if timeout is None else timeout)
+        resp.url = target
+        resp.error = self.classify_probe(resp)
+        return resp
+
+    def _get_noredirect(self, url: str, timeout: float) -> Response:
+        if self.session is not None:
+            start = time.monotonic()
+            try:
+                r = self.session.get(url, timeout=timeout, allow_redirects=False, stream=True)
+                body = b""
+                try:
+                    body = r.raw.read(2048, decode_content=False)
+                except Exception:
+                    body = b""
+                finally:
+                    r.close()
+                return Response(url=str(r.url), status=r.status_code, body=body,
+                                headers={k.lower(): v for k, v in r.headers.items()},
+                                elapsed=time.monotonic() - start)
+            except Exception as exc:  # requests raises many concrete types
+                name = type(exc).__name__.lower()
+                kind = TIMEOUT if "timeout" in name else TRANSPORT
+                return Response(url=url, status=None, error=kind, message=str(exc)[:300])
+        return self._urllib_get_noredirect(url, timeout)
+
+    def _urllib_get_noredirect(self, url: str, timeout: float) -> Response:  # pragma: no cover
+        import urllib.error
+        import urllib.request
+
+        class _NoRedirect(urllib.request.HTTPRedirectHandler):
+            def redirect_request(self, *_a, **_k):
+                return None
+
+        opener = urllib.request.build_opener(_NoRedirect)
+        req = urllib.request.Request(url, headers={"User-Agent": config.USER_AGENT})
+        start = time.monotonic()
+        try:
+            with opener.open(req, timeout=timeout) as resp:
+                return Response(url=resp.geturl(), status=resp.status, body=resp.read(2048),
+                                headers={k.lower(): v for k, v in resp.headers.items()},
+                                elapsed=time.monotonic() - start)
+        except urllib.error.HTTPError as exc:
+            body = b""
+            try:
+                body = exc.read(2048)
+            except Exception:
+                pass
+            return Response(url=url, status=exc.code, body=body,
+                            headers={k.lower(): v for k, v in (exc.headers or {}).items()},
+                            elapsed=time.monotonic() - start)
+        except Exception as exc:
+            name = type(exc).__name__.lower()
+            kind = TIMEOUT if "timeout" in name else TRANSPORT
+            return Response(url=url, status=None, error=kind, message=str(exc)[:300])
+
+    @staticmethod
+    def classify_probe(resp: Response) -> str:
+        """3xx-with-Location means "captured"; the timestamp lives in Location."""
+        if resp.error not in (None, "", OK):
+            return resp.error
+        status = resp.status or 0
+        if 300 <= status < 400 and resp.headers.get("location"):
+            return OK
+        return Fetcher.classify(resp).error or HTTP_ERROR
 
     def cdx(self, params: dict, **kw) -> Response:
         from urllib.parse import urlencode

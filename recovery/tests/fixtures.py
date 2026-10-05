@@ -73,6 +73,20 @@ class FakeArchive(Fetcher):
                 return r
         return Response(url=url, status=404, error=GAP, message="unrouted")
 
+    def _get_noredirect(self, url: str, timeout: float) -> Response:
+        """Same routing, but without following redirects (the probe path).
+
+        Without this override the replay probe would fall through to a real
+        `requests` session and touch the network from an offline test.
+        """
+        self.requests.append(url)
+        for needle, resp in self.routes.items():
+            if needle in url:
+                return Response(url=url, status=resp.status, body=resp.body,
+                                headers=dict(resp.headers), error=resp.error,
+                                message=resp.message)
+        return Response(url=url, status=404, error=GAP, message="unrouted")
+
 
 def html(body: str, status: int = 200) -> Response:
     return Response(url="", status=status, body=body.encode("utf-8"),
