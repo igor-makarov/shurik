@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import unittest
 
-from recovery.gaps import DEFAULT_ALT_HOSTS, best_capture, file_key, prove, query_forms
+from recovery.gaps import (DEFAULT_ALT_HOSTS, SHARD_HOSTS, best_capture, file_key, prove,
+                         query_forms)
 from recovery.http import OK, THROTTLED, TIMEOUT, Response
 
 EMPTY_BODY = b"[]"
@@ -87,6 +88,51 @@ class QueryFormTests(unittest.TestCase):
         urls = [p["url"] for p in plans]
         self.assertIn("http://78.media.tumblr.com/tumblr_m4ulu8rpDN1r3it8zo1*", urls)
         self.assertIn("http://media.tumblr.com/tumblr_m4ulu8rpDN1r3it8zo1*", urls)
+
+
+class ShardSweepTests(unittest.TestCase):
+    """The full-CDN sweep: the only way to call a Tumblr file truly missing.
+
+    A capture can sit on any numbered shard, so a verdict built from the
+    referenced host alone is weaker evidence than one built from every shard.
+    """
+
+    URL = "http://40.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/tumblr_ndozw9K7Dz1r3it8zo1_500.jpg"
+
+    def test_sweep_covers_every_shard_including_the_referenced_one(self):
+        plans = query_forms(self.URL, shard_sweep=True)
+        hosts = [p["host"] for p in plans]
+        self.assertEqual(len(hosts), len(set(hosts)), "no shard asked twice")
+        self.assertIn("40.media.tumblr.com", hosts)
+        self.assertIn("media.tumblr.com", hosts)
+        self.assertTrue(set(SHARD_HOSTS).issubset(set(hosts)))
+
+    def test_sweep_asks_http_only_because_that_is_the_referenced_scheme(self):
+        plans = query_forms(self.URL, shard_sweep=True)
+        self.assertTrue(all(p["scheme"] == "http" for p in plans))
+
+    def test_sweep_uses_one_prefix_query_per_shard(self):
+        plans = query_forms(self.URL, shard_sweep=True)
+        self.assertTrue(all(p["url"].endswith("/46281703ea29ab2c507f5bc4485c62ec/*") for p in plans))
+        self.assertEqual(len(plans), len(SHARD_HOSTS) + 1)
+
+    def test_a_capture_on_an_unreferenced_shard_is_found(self):
+        hit = "http://17.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/*"
+        fetcher = FakeFetcher(answers={hit: resp(body=HIT_BODY)})
+        row = prove(fetcher, self.URL, shard_sweep=True)
+        self.assertEqual(row["result"], "capture_found")
+        self.assertIn(hit, fetcher.queries)
+
+    def test_one_sharded_timeout_downgrades_the_whole_verdict(self):
+        bad = "http://17.media.tumblr.com/46281703ea29ab2c507f5bc4485c62ec/*"
+        fetcher = FakeFetcher(answers={bad: resp(status=0, body=b"", error=TIMEOUT)})
+        row = prove(fetcher, self.URL, shard_sweep=True)
+        self.assertEqual(row["result"], "inconclusive",
+                         "an unanswered shard means the archive never decided")
+
+    def test_row_records_which_mode_produced_it(self):
+        self.assertEqual(prove(FakeFetcher(), self.URL, alt_hosts=1)["mode"], "referenced_host")
+        self.assertEqual(prove(FakeFetcher(), self.URL, shard_sweep=True)["mode"], "shard_sweep")
 
 
 class ProveTests(unittest.TestCase):

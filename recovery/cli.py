@@ -113,6 +113,10 @@ def post_captures(index: CaptureIndex) -> dict[str, list[Capture]]:
 
 
 MAX_FAILURES = int(os.environ.get("SHURIK_MAX_FAILURES", "3"))
+# Real replay attempts spent on a post whose capture exists in the index but
+# answered 404 (see _worth_retrying). Bounded so the numeric queue head cannot
+# be held forever by the same posts.
+SNAPSHOT_MAX_RETRIES = int(os.environ.get("SHURIK_SNAPSHOT_RETRIES", "4"))
 # Failure classes that mean "the archive never said no": worth retrying later.
 TRANSIENT_ERRORS = ("timeout", "throttled", "transport", "http_error")
 
@@ -131,8 +135,20 @@ def _failures(record: dict) -> int:
 
 
 def _worth_retrying(record: dict) -> bool:
-    """True when the last attempts failed for transient reasons only."""
+    """True when the last attempts failed for transient reasons only.
+
+    `reason == "snapshot_exists"` is the important exception. It means the
+    Wayback availability API still reports a pre-cutoff capture for the URL
+    while every replay attempt answered 404. That is *not* a confirmed archive
+    gap: the capture is in the index, the replay backend just did not serve it
+    (verified on post 13397484447 -- capture 20120426030759, replay 404 at
+    crawl time, 200/52070 bytes on a later attempt). Treating those as final
+    permanently abandoned 19 posts that the archive can still deliver, so they
+    stay retryable until `SNAPSHOT_MAX_RETRIES` real attempts have been spent.
+    """
     errs = _attempt_errors(record)
+    if record.get("reason") == "snapshot_exists":
+        return int(record.get("snapshot_retries", 0) or 0) < SNAPSHOT_MAX_RETRIES
     if not errs:
         return True
     return any(e in TRANSIENT_ERRORS for e in errs)
@@ -236,6 +252,7 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
             "state": "failed",
             "reason": avail,
             "failure_count": int(prior.get("failure_count", 0)) + 1,
+            "snapshot_retries": int(prior.get("snapshot_retries", 0)) + 1 if avail == "snapshot_exists" else 0,
             "original_url": f"http://hazfalafel.com/post/{pid}",
             "canonical_urls": sorted({c.original for c in caps}),
             "captures": [{"timestamp": c.timestamp, "original": c.original, "kind": _kind(c),
@@ -353,7 +370,8 @@ def reindex_media(hosts: Optional[list[str]] = None) -> dict:
 
 # ---------------------------------------------------------------------- images
 def prove_gaps(fetcher: Fetcher, limit: int = 25, alt_hosts: int = 2,
-               force: bool = False) -> dict:
+               force: bool = False, shard_sweep: bool = False,
+               urls: Optional[list[str]] = None) -> dict:
     """Turn "this exact URL is not archived" into a file-level gap verdict.
 
     Resumable: every verdict is appended to data/gaps.jsonl as it is reached,
@@ -363,6 +381,12 @@ def prove_gaps(fetcher: Fetcher, limit: int = 25, alt_hosts: int = 2,
 
     Any capture a proof finds is appended to data/cdx/media.jsonl, the index
     `fetch-images` reads, so a hit is fetchable without re-querying the CDX.
+
+    `shard_sweep=True` asks every numbered Tumblr CDN host (not just the one the
+    post page referenced), which upgrades a `referenced_host` verdict to the
+    strongest available evidence. A shard sweep costs ~72 CDX queries, so it is
+    opt-in and bounded by `limit`; a shard-sweep verdict supersedes the weaker
+    one for the same file, but a weaker verdict never replaces a sweep.
     """
     store = PostStore()
     ledger = JsonlStore(config.GAPS_JSONL, key_fields=("media_url",))
@@ -372,6 +396,9 @@ def prove_gaps(fetcher: Fetcher, limit: int = 25, alt_hosts: int = 2,
     counts = {"proved_gap": 0, "capture_found": 0, "inconclusive": 0, "not_media": 0}
     found_index = 0
     pending: list[str] = []
+    for url in urls or []:
+        if url not in pending:
+            pending.append(url)
     for rec in store.all():
         for im in rec.get("images") or []:
             url = im.get("media_url") or im.get("url")
@@ -379,11 +406,13 @@ def prove_gaps(fetcher: Fetcher, limit: int = 25, alt_hosts: int = 2,
                 continue
             prior = done.get(url)
             if prior and not force and prior.get("result") in ("confirmed_gap", "capture_found"):
-                continue
+                # A sweep supersedes the cheap verdict; never the other way round.
+                if not (shard_sweep and prior.get("mode") != "shard_sweep"):
+                    continue
             if url not in pending:
                 pending.append(url)
     for url in pending[:limit]:
-        row = prove(fetcher, url, alt_hosts=alt_hosts)
+        row = prove(fetcher, url, alt_hosts=alt_hosts, shard_sweep=shard_sweep)
         row["proved_at"] = _now()
         ledger.append([row])
         counts[row["result"]] = counts.get(row["result"], 0) + 1
@@ -833,6 +862,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--alt-hosts", type=int, default=2,
                    help="alternate tumblr CDN hosts asked per image (0-9)")
     p.add_argument("--force", action="store_true", help="re-prove settled rows too")
+    p.add_argument("--shard-sweep", action="store_true",
+                   help="ask every numbered tumblr CDN host (slow, strongest evidence)")
+    p.add_argument("--urls", default="",
+                   help="comma separated media URLs to prove instead of posts' images")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=5)
     p.add_argument("--ids", default="")
@@ -880,7 +913,8 @@ def main(argv: Optional[list[str]] = None) -> int:
         out["media"] = reindex_media()
     elif args.cmd == "prove-gaps":
         out = prove_gaps(fetcher, limit=args.limit, alt_hosts=args.alt_hosts,
-                         force=args.force)
+                         force=args.force, shard_sweep=args.shard_sweep,
+                         urls=[u for u in args.urls.split(",") if u] or None)
     elif args.cmd == "fetch-images":
         out = fetch_images(fetcher, limit_posts=args.limit, concurrency=args.concurrency,
                            post_ids=[i for i in args.ids.split(",") if i] or None,

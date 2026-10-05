@@ -2,39 +2,114 @@
  "canonical_urls": [
   "http://hazfalafel.com:80/post/31679424136"
  ],
- "captions": [],
+ "captions": [
+  "חזרתי עכשיו מארוחת חג. כמה עוגות דבש טחנתי!"
+ ],
+ "capture_timestamp": "20120921001448",
  "captures": [
   {
    "error": "archive_gap",
    "kind": "perm",
    "original": "http://hazfalafel.com:80/post/31679424136",
    "timestamp": "20120921001448"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/31679424136",
+   "timestamp": "20120921001448"
   }
  ],
- "content_html": "",
- "content_text": "",
+ "content_html": "<p>חזרתי עכשיו מארוחת חג. כמה עוגות דבש טחנתי!</p>",
+ "content_source": "div.copy",
+ "content_text": "חזרתי עכשיו מארוחת חג. כמה עוגות דבש טחנתי!",
+ "date_text": "Posted 4 days ago",
  "failure_count": 1,
- "fetched_at": "2026-10-05T00:57:44Z",
+ "fetched_at": "2026-10-05T04:11:50Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "base_key": "tumblr_macmppHKxh1r3it8zo1_r1.png",
+   "caption_alt": "חזרתי עכשיו מארוחת חג. כמה עוגות דבש טחנתי!",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_macmppHKxh1r3it8zo1_r1_500.png",
+   "media_url": "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_500.png",
+   "url_forms": [
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_500.png"
+   ],
+   "variants": [
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_500.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_1280.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_1024.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_540.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_400.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_250.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_100.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1.gif",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1.jpg"
+   ]
+  },
+  {
+   "base_key": "tumblr_macmppHKxh1r3it8zo1_r1.png",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_macmppHKxh1r3it8zo1_r1_250.png",
+   "media_url": "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_250.png",
+   "url_forms": [
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_250.png"
+   ],
+   "variants": [
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_250.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_1280.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_1024.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_540.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_500.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_400.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_100.png",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1.gif",
+    "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1.jpg"
+   ]
+  }
+ ],
  "methods": [
   {
-   "bytes": 4607,
+   "bytes": 55041,
    "capture_timestamp": "20120921001448",
    "endpoint": "replay id_",
-   "error": "archive_gap",
+   "error": "ok",
    "kind": "perm",
-   "message": "HTTP 404",
-   "status": 404,
+   "message": "",
+   "status": 200,
    "url": "http://hazfalafel.com:80/post/31679424136"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
- "original_url": "http://hazfalafel.com/post/31679424136",
- "partial": false,
+ "missing_image_count": 2,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_500.png",
+   "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://24.media.tumblr.com/tumblr_macmppHKxh1r3it8zo1_r1_250.png",
+   "reason": null
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/31679424136",
+ "page_bytes": 55041,
+ "page_sha256": "64105ae8b2496354c6b93ef4e310e4220517008fadf9eba4087831dac3773b71",
+ "partial": true,
  "post_id": "31679424136",
+ "posted_on": "Posted on Sunday the 16th of September 2012 at 11:02 PM",
  "reason": "snapshot_exists",
- "state": "failed",
- "tags": []
+ "replay_url": "https://web.archive.org/web/20120921001448id_/http://hazfalafel.com:80/post/31679424136",
+ "state": "partial",
+ "tags": [
+  "ראש-השנה",
+  "פילוסורפטור",
+  "philosoraptor"
+ ]
 }

@@ -56,6 +56,10 @@ DEFAULT_ALT_HOSTS = (
     "78.media.tumblr.com",
 )
 HOSTLESS = "media.tumblr.com"
+# Tumblr shards the same CDN over ~70 numbered hosts, and a capture can land on
+# any of them, so a proof that only asks the referenced host cannot call a file
+# missing. SHARD_HOSTS is the full sweep used by `prove-gaps --shard-sweep`.
+SHARD_HOSTS = tuple(f"{n}.media.tumblr.com" for n in range(0, 99))
 
 MD5_DIR = re.compile(r"^[0-9a-f]{32}$", re.IGNORECASE)
 SIZE_SUFFIX = re.compile(r"_\d+$")
@@ -79,11 +83,17 @@ def file_key(url: str) -> tuple[str, str]:
     return ("", "")
 
 
-def query_forms(url: str, alt_hosts: int = 2) -> list[dict]:
+def query_forms(url: str, alt_hosts: int = 2, shard_sweep: bool = False) -> list[dict]:
     """The bounded set of prefix queries that together prove a file's fate.
 
     Order matters: cheapest and most likely first, so a partial run still
     settles the common case.
+
+    `shard_sweep=True` replaces the small alternate-host list with every
+    numbered Tumblr CDN shard, and queries http only (the scheme the post pages
+    actually referenced). That is ~72 queries instead of 8 -- it is the
+    expensive, final word on whether a file exists anywhere in the Tumblr CDN
+    capture set, not something to run per image.
     """
     parts = urlsplit(url)
     host = parts.netloc.lower()
@@ -95,25 +105,33 @@ def query_forms(url: str, alt_hosts: int = 2) -> list[dict]:
     else:
         # No extension: covers _500.jpg, _1280.png, _540.gif and friends.
         form = f"{key}*"
-    hosts = [host, f"www.{host}"] if host.startswith("www.") else [host]
-    hosts.append(HOSTLESS)
-    for extra in DEFAULT_ALT_HOSTS[:max(0, alt_hosts)]:
-        if extra != host:
-            hosts.append(extra)
+    schemes = ("http",) if shard_sweep else ("http", "https")
+    if shard_sweep:
+        hosts = [host or HOSTLESS, HOSTLESS] if host else [HOSTLESS]
+        hosts += [h for h in SHARD_HOSTS if h != host]
+        seen: set[str] = set()
+        hosts = [h for h in hosts if not (h in seen or seen.add(h))]
+    else:
+        hosts = [host, f"www.{host}"] if host.startswith("www.") else [host]
+        hosts.append(HOSTLESS)
+        for extra in DEFAULT_ALT_HOSTS[:max(0, alt_hosts)]:
+            if extra != host:
+                hosts.append(extra)
     plans = []
-    for scheme in ("http", "https"):
+    for scheme in schemes:
         for h in hosts:
             plans.append({
                 "url": f"{scheme}://{h}/{form}",
                 "host": h,
                 "scheme": scheme,
-                "note": "referenced host" if h == host else "alternate CDN host",
+                "note": ("referenced host" if h == host else
+                         "alternate CDN host" if not shard_sweep else "shard sweep"),
             })
     return plans
 
 
 def prove(fetcher: Fetcher, media_url: str, alt_hosts: int = 2,
-          limit: int = 25) -> dict:
+          limit: int = 25, shard_sweep: bool = False) -> dict:
     """Search every plausible capture of one media file.
 
     Returns a ledger row: ``result`` is ``capture_found``,
@@ -121,13 +139,14 @@ def prove(fetcher: Fetcher, media_url: str, alt_hosts: int = 2,
     ``inconclusive`` (a query failed, so the archive never got to decide),
     plus the queries issued and their answers.
     """
-    plans = query_forms(media_url, alt_hosts=alt_hosts)
+    plans = query_forms(media_url, alt_hosts=alt_hosts, shard_sweep=shard_sweep)
     row: dict = {
         "media_url": media_url,
         "file_key": "/".join(file_key(media_url)),
         "queries": [],
         "result": "inconclusive",
         "captures": [],
+        "mode": "shard_sweep" if shard_sweep else "referenced_host",
     }
     if not plans:
         row["result"] = "not_media"

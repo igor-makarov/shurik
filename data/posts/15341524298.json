@@ -2,7 +2,10 @@
  "canonical_urls": [
   "http://hazfalafel.com:80/post/15341524298"
  ],
- "captions": [],
+ "captions": [
+  "אני מסרב להתפנות\nתודה לבלכנר!"
+ ],
+ "capture_timestamp": "20120426031150",
  "captures": [
   {
    "error": "archive_gap",
@@ -15,42 +18,107 @@
    "kind": "perm",
    "original": "http://hazfalafel.com:80/post/15341524298",
    "timestamp": "20131215143317"
-  }
- ],
- "content_html": "",
- "content_text": "",
- "failure_count": 1,
- "fetched_at": "2026-10-05T00:09:12Z",
- "image_count": 0,
- "images": [],
- "methods": [
-  {
-   "bytes": 4607,
-   "capture_timestamp": "20120426031150",
-   "endpoint": "replay id_",
-   "error": "archive_gap",
-   "kind": "perm",
-   "message": "HTTP 404",
-   "status": 404,
-   "url": "http://hazfalafel.com:80/post/15341524298"
   },
   {
-   "bytes": 4607,
-   "capture_timestamp": "20131215143317",
-   "endpoint": "replay id_",
-   "error": "archive_gap",
+   "error": null,
    "kind": "perm",
-   "message": "HTTP 404",
-   "status": 404,
+   "original": "http://hazfalafel.com:80/post/15341524298",
+   "timestamp": "20120426031150"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/15341524298",
+   "timestamp": "20131215143317"
+  }
+ ],
+ "content_html": "<p>אני מסרב להתפנות</p>\n<p>תודה לבלכנר!</p>",
+ "content_source": "div.copy",
+ "content_text": "אני מסרב להתפנות\nתודה לבלכנר!",
+ "date_text": "Posted 3 months ago",
+ "failure_count": 1,
+ "fetched_at": "2026-10-05T04:11:28Z",
+ "image_count": 0,
+ "images": [
+  {
+   "base_key": "tumblr_lxboe0v3CF1r3it8zo1.jpg",
+   "caption_alt": "אני מסרב להתפנות\nתודה לבלכנר!",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lxboe0v3CF1r3it8zo1_400.jpg",
+   "media_url": "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_400.jpg",
+   "url_forms": [
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_400.jpg"
+   ],
+   "variants": [
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_400.jpg",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_1280.jpg",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_1024.jpg",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_540.jpg",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_500.jpg",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_250.jpg",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_100.jpg",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1.png",
+    "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1.gif"
+   ]
+  },
+  {
+   "base_key": "tumblr_lxboe0v3CF1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_lxboe0v3CF1r3it8zo1_250.jpg",
+   "media_url": "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_250.jpg",
+   "url_forms": [
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_250.jpg",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_1280.jpg",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_1024.jpg",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_540.jpg",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_500.jpg",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_400.jpg",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_100.jpg",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1.png",
+    "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "methods": [
+  {
+   "bytes": 51206,
+   "capture_timestamp": "20120426031150",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
    "url": "http://hazfalafel.com:80/post/15341524298"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
- "original_url": "http://hazfalafel.com/post/15341524298",
- "partial": false,
+ "missing_image_count": 2,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://28.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_400.jpg",
+   "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://26.media.tumblr.com/tumblr_lxboe0v3CF1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/15341524298",
+ "page_bytes": 51206,
+ "page_sha256": "aea38e6ac8fcc87abb074a4d8d49365cf8490354a7a46030289952fa6c2e24d5",
+ "partial": true,
  "post_id": "15341524298",
  "reason": "snapshot_exists",
- "state": "failed",
- "tags": []
+ "replay_url": "https://web.archive.org/web/20120426031150id_/http://hazfalafel.com:80/post/15341524298",
+ "state": "partial",
+ "tags": [
+  "מתנחל-רגיל"
+ ]
 }
