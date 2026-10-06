@@ -5,13 +5,35 @@
   "generation": 7,
   "iteration": 141,
   "startedAt": "2026-10-06T06:49:11.775Z",
-  "outcome": "running",
+  "outcome": "agent_failure",
   "source": "06d08a8c20ac46e0b6288b3d919b11a47cd33532",
   "runtime": "911dfda864f818c23de75b40eacee27854638051",
   "model": "space-bunny-free",
   "reasoning": "high",
   "workCommit": "06d08a8c20ac46e0b6288b3d919b11a47cd33532",
   "minEntryId": 16182,
-  "maxEntryId": 16182,
-  "checkpointAt": "2026-10-06T06:49:20.308Z"
+  "maxEntryId": 16188,
+  "checkpointAt": "2026-10-06T06:49:20.308Z",
+  "finishedAt": "2026-10-06T06:49:26.794Z",
+  "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:7-141\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":16184,\"id\":16185,\"reason\":\"model_error\",\"detail\":\"400: {\\\"type\\\":\\\"server_error\\\",\\\"message\\\":\\\"Upstream request failed: Model is unavailable.\\\"}\"}",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 5125097,
+        "output": 1517617,
+        "cacheRead": 100705076,
+        "cacheWrite": 0,
+        "reasoning": 793737,
+        "totalTokens": 107347790,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
