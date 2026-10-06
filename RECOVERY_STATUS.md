@@ -44,11 +44,11 @@ Derived from `data/published.jsonl` (max `image_count` once per post id) and
 
 | Metric | Value |
 | --- | ---: |
-| Discovered / parsed posts | 1186 / 1171 |
-| Distinct Tumblr photo identities | 1474 (2227 image URLs) |
-| Published images (deduplicated, max per tag) | **82** across 53 image-bearing tags |
+| Discovered / parsed posts | 1186 / 1211 |
+| Distinct Tumblr photo identities | 1817 stems (2395 image URLs) |
+| Published images (max per tag; includes 3 same-byte aliases) | **86** across 53 image-bearing tags (83 unique-byte images; +1 new unique) |
 | Posts recorded published (metadata-only tags included) | 741 |
-| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 1689 stems (25 with captures, all recovered) |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 1787 stems (29 rows with captures, 27 unique captures) |
 
 Iteration 7-95: `--method stem --retry-missing` over 300 previously settled
 posts recovered **14 images in 7 posts** (each published immediately and
@@ -110,6 +110,44 @@ Checkpoint digest at the end of 11-241: `crawl-state`
 restores `data/posts`, `data/cdx` and the queue/ledgers; pull-verified
 `restored:true`, digest match). 11-240 digest was
 `sha256:f6726ce72fb27e2f4eb0f705b830b3893fb681ef68a15855fe567909ba4c11e8`.
+
+## 11-242 result: 5 listings -> 40 new posts/168 forms; 4 stem hits -> 1 new unique image + 3 aliases
+
+Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
+**86 images across 53 image-bearing tags** (741 tags total). Unique-byte count is
+**83**: 3 of the 4 republished layers reuse the same capture bytes/SHA as the
+post already held (`_250` listing alias of an archived `_500`), so only
+16881301957 added new bytes (50266 B, SHA `dbb1ef96...`, 20181225182139,
+`https://66.media..._500.jpg`, distinct from its 78-shard `d521...` rendition).
+`status`: 1211 parsed (+40), 2309 missing, 5452 ledger rows. All 4 republished
+tags verify anonymously (3x 23/23, 1x 20/20).
+
+* `fetch-listings --limit 5 --kinds archive` (5 replays, 5/5 ok): **40 new post
+  records (1171 -> 1211), 192 posts touched, 168 images added** as `_250`
+  listing variants (hosts 65/66/67). 6043 listing captures remain.
+* `stem-scan` 70+29 stems: **98 pending unresolved -> 99 answered, 4 hits**
+  (all `_250` listing stems on 66.media). CDX is scheme-canonical: `http` and
+  `https` prefixes for one photo return the identical capture, so 2 hits are
+  scheme-duplicates of already-answered `https` stems, not new photos.
+* `fetch-images --method stem --only-stem-hits` (4 replays, no extra CDX):
+  **4 posts republished 2 -> 3 images** (16881301957, 17269876288, 18244186719,
+  31914464998). Only the first is new bytes; the rest are same-SHA aliases.
+* Code fix (this iteration): `stem_prefix` now canonicalises to `http` and
+  `StemIndex.has/lookup` accept either scheme row, so future scans ask once per
+  photo instead of twice. `config.py`/`store.py` comments already describe the
+  registry `crawl-state` scheme (no obsolete Git-data comment remains).
+  Relevant suites pass (`ReplayProbe`, `VariantPlanning`, `ImageRecovery`, 22
+  tests OK); `HostInventoryEvidenceTests.test_complete_scan_confirms_gap`
+  fails identically with and without this change (pre-existing, unrelated).
+* Checkpoint `crawl-state` `sha256:b443cdfbe95eca4469ada9954636ccadeae135f1b7a772c74984944c1389249c`
+  (pointer `data/checkpoint.json`; `--pull` verified `restored:true`).
+
+Next: keep mining listings in <=5-page batches (279 archive + 3245 tagged
+remain; archive months give most posts per request), then `stem-scan` the new
+pending stems and `--only-stem-hits` to convert hits. Do not chase
+same-photo/different-shard aliases for counts; prioritise never-asked photo
+identities. Cross-scheme replay probes remain untested for `probe` method
+(`_variants` keeps scheme) but stem/CDX already covers both schemes.
 
 ## 11-241 result: listing mining works (15 new posts, 69 new image forms), 0 new bytes yet
 
