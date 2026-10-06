@@ -1,0 +1,168 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:f2c13c01fda3a3c1f4b2f334f3168d59d398b1e82f9a17362deaff0fa0c64b9a",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mifkcoCgaO1r3it8zo1_250.jpg]",
+   "expected": "83e6b8e1a70cdce9a0a13e2199e20fd5b9c7e052751aad7cbb51873f4ab2fa18",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mifkcoCgaO1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mifkcoCgaO1r3it8zo1_250.jpg]",
+   "expected": 146757,
+   "observed": 146757,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mifkcoCgaO1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
+   "observed": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<384 chars>",
+   "observed": "<384 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "פורים",
+    "סטיב-החלאה",
+    "scumbag-steve"
+   ],
+   "observed": [
+    "פורים",
+    "סטיב-החלאה",
+    "scumbag-steve"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה"
+   ],
+   "observed": [
+    "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/43418280833",
+   "observed": "http://hazfalafel.com/post/43418280833",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20140111015138",
+   "observed": "20140111015138",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20140111015138id_/http://25.media.tumblr.com/9cc005a9c2c95038901b4e2b7e41ed5c/tumblr_mifkcoCgaO1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20140111015138id_/http://25.media.tumblr.com/9cc005a9c2c95038901b4e2b7e41ed5c/tumblr_mifkcoCgaO1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20140111015138",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:54a15a6412317f4ae5431a751fd451f5c53411e546924fbf90f5246d31e5ce9f",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-16T05:12:42Z",
+  "org.opencontainers.image.description": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 43418280833",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/43418280833",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "65",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "43418280833",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "פורים,סטיב-החלאה,scumbag-steve"
+ },
+ "layers": [
+  {
+   "digest": "sha256:18d5b8ef99896fc0850abc7c9e6b3fd10682182da179e26958464c344af4bf68",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 146897
+  },
+  {
+   "digest": "sha256:7945d936c9c490d42b551b222372580092871a43a2241196df6dd25ac6870723",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1340
+  }
+ ],
+ "manifest_digest": "sha256:f2c13c01fda3a3c1f4b2f334f3168d59d398b1e82f9a17362deaff0fa0c64b9a",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "43418280833",
+ "pulled_files": [
+  {
+   "bytes": 146757,
+   "file": "tumblr_mifkcoCgaO1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:18d5b8ef99896fc0850abc7c9e6b3fd10682182da179e26958464c344af4bf68",
+   "role": "media",
+   "sha256": "83e6b8e1a70cdce9a0a13e2199e20fd5b9c7e052751aad7cbb51873f4ab2fa18"
+  },
+  {
+   "bytes": 6243,
+   "file": "post.json",
+   "layer": "sha256:7945d936c9c490d42b551b222372580092871a43a2241196df6dd25ac6870723",
+   "role": "post-metadata",
+   "sha256": "179ec1215168f79cd5a8d39bfb136d6510bdc452a42578e5fbb8e59992d9fd44"
+  }
+ ],
+ "tag": "43418280833",
+ "verified_at": "2026-10-06T19:34:42Z"
+}
