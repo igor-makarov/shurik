@@ -123,50 +123,8 @@
   "costNote": "Cumulative model totals minus modelUsage baseline; never sum iteration totals. Reasoning may already be in output. Saved adapter estimate, not provider invoice or incremental subscription charge.",
   "initialHealthCheck": {
     "required": true,
-    "status": "passed",
+    "status": "pending",
     "criterion": "Successful saved DeepSeek assistant reply with nonzero usage and coding tool call plus saved tool result; Actions/configuration/pre-request checkpoint alone is insufficient",
-    "onDeterministicAccessRejection": "Maintainer should stop repeated retries and report the current provider requirement",
-    "checkedAt": "2026-10-06T19:04:07.000Z",
-    "evidence": {
-      "controlCommit": "149cbcc3845597e3b216cc22aff230a78625759a",
-      "checkpointAt": "2026-10-06T19:01:46.553Z",
-      "iteration": "16-275",
-      "runId": "37514755023",
-      "entryBounds": {
-        "min": 19645,
-        "max": 19717
-      },
-      "successfulAssistantReplies": 14,
-      "completedToolActions": 20,
-      "assistantStopReason": "toolUse",
-      "providerErrors": [],
-      "examples": [
-        {
-          "assistantEntry": 19651,
-          "toolResultEntry": 19653,
-          "action": "bash repository inspection; returned current work commit"
-        },
-        {
-          "assistantEntry": 19711,
-          "toolResultEntry": 19713,
-          "action": "real archive requests returned HTTP200 CDX/replay/availability answers"
-        },
-        {
-          "assistantEntry": 19715,
-          "toolResultEntry": 19717,
-          "action": "real domain/prefix archive queries returned HTTP504, distinct from provider access"
-        }
-      ],
-      "usage": {
-        "input": 37463,
-        "output": 8781,
-        "cacheRead": 287488,
-        "cacheWrite": 0,
-        "reasoning": 5439,
-        "totalTokens": 333732,
-        "estimatedUSD": 0.011750514
-      },
-      "usageNote": "Deduplicated saved native responses within entry bounds; provisional running-iteration usage, not completed cumulative record. Reasoning is included in output. Adapter estimate, not invoice or incremental subscription charge."
-    }
+    "onDeterministicAccessRejection": "Maintainer should stop repeated retries and report the current provider requirement"
   }
 }
