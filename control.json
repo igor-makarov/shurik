@@ -3,12 +3,12 @@
   "id": "hazfalafel-20261004t213311",
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
-  "supervisor": "2953feb907e1abdfc429549699ba28fa75e5321c",
-  "status": "deadline",
-  "generation": 12,
+  "supervisor": "571579a564851d8bc17891196766df50deed527f",
+  "status": "running",
+  "generation": 13,
   "next": 248,
   "owner": null,
-  "deadline": "2026-10-06T14:24:28.000Z",
+  "deadline": "2026-10-06T15:55:49.000Z",
   "seconds": 1800,
   "model": "muse-spark-1.3-contributor",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
@@ -16,15 +16,15 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37477589625",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "xhigh",
   "checkpoint": {
-    "workCommit": "c51a0a252492c288ce72525436a9938b468db431",
-    "generation": 12,
-    "sequence": "12-247",
-    "runId": "37477589625",
-    "at": "2026-10-06T14:24:31.333Z"
+    "workCommit": "acd743fcb3a61a6ae933afbac9ec0f0250603544",
+    "generation": 13,
+    "sequence": "13-maintainer",
+    "runId": null,
+    "at": "2026-10-06T14:55:49.000Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -37,11 +37,11 @@
     "reasoningExplicitlyChosen": "high"
   },
   "upgrade": {
-    "at": "2026-10-06T13:24:28.000Z",
-    "previousSupervisor": "1803fe063593b35bf7fcd21560833548cf5a4bb3",
-    "previousWorker": "231e8128cc9aa6828011bfb22abfc4f5041adf1f",
-    "supervisor": "2953feb907e1abdfc429549699ba28fa75e5321c",
-    "workCommit": "474afc9dddbf1c7dfc3673c4e315ea74dafa84ac",
+    "at": "2026-10-06T14:55:49.000Z",
+    "previousSupervisor": "2953feb907e1abdfc429549699ba28fa75e5321c",
+    "previousWorker": "474afc9dddbf1c7dfc3673c4e315ea74dafa84ac",
+    "supervisor": "571579a564851d8bc17891196766df50deed527f",
+    "workCommit": "acd743fcb3a61a6ae933afbac9ec0f0250603544",
     "cooperativeCheckpoints": true,
     "checkpointSeconds": 300,
     "realJournalCanaryPassed": true,
@@ -52,7 +52,9 @@
     "preserveExistingOnRegistryRestore": true,
     "persistentTimeGuidance": true,
     "proactiveSelfHealing": true,
-    "mainCIRunId": "37469922374"
+    "mainCIRunId": "37482627521",
+    "frameworkTestsPassed": 42,
+    "sessionEndReminder": "final_checkpoint_interval"
   },
   "modelChange": {
     "at": "2026-10-06T10:46:49.426Z",
@@ -72,11 +74,11 @@
     "baselinePath": "state/model-experiments/muse-20261006.json"
   },
   "restart": {
-    "at": "2026-10-06T13:24:28.000Z",
-    "previousGeneration": 11,
-    "generation": 12,
-    "reason": "User requested persistent effort and proactive self-healing guidance, then another one-hour Muse run",
-    "baselinePath": "state/model-experiments/muse-20261006-self-healing.json",
-    "previousLastRunId": "37466292253"
+    "at": "2026-10-06T14:55:49.000Z",
+    "previousGeneration": 12,
+    "generation": 13,
+    "reason": "User requested end-of-session reminders only in the final checkpoint interval, then another one-hour Muse scan",
+    "baselinePath": "state/model-experiments/muse-20261006-late-reminder.json",
+    "previousLastRunId": "37477589625"
   }
 }
