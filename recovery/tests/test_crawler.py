@@ -9,7 +9,7 @@ import unittest
 
 from recovery import config
 from recovery.cdx import CaptureIndex, cdx_query, parse_cdx_json, within_cutoff
-from recovery.http import BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, Fetcher, RecoveryError, Response
+from recovery.http import BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, TRANSPORT, Fetcher, RecoveryError, Response
 from recovery.images import image_capture_candidates, resolve_image, sniff_image
 from recovery.media import MediaIndex
 from recovery.parsing import (html_to_text, inner_html, is_excluded_image, parse_image_variants,
@@ -941,7 +941,9 @@ class PlainHttpFallbackTests(unittest.TestCase):
     Real evidence: on this runner `https://web.archive.org` refused the TCP
     connection on every attempt while `http://web.archive.org` answered 200 with
     the exact bytes of post 15577014830's image. Without a downgrade every URL
-    looked "throttled" and the queue cooled down with nothing recovered.
+    looked unreachable (TRANSPORT refusal, status None) and the queue cooled
+    down with nothing recovered. A refusal is transport evidence, never a
+    throttle verdict.
     """
 
     URL = ("https://web.archive.org/web/20130930175155im_/"
@@ -954,8 +956,8 @@ class PlainHttpFallbackTests(unittest.TestCase):
             def _get(self, url, timeout):
                 self.requests.append(url)
                 if url.startswith("https://"):
-                    return Response(url=url, status=None, error=THROTTLED,
-                                    message="archive refused the connection")
+                    return Response(url=url, status=None, error=TRANSPORT,
+                                    message="connection refused (transport, no HTTP answer)")
                 return Response(url=url, status=200, body=JPEG_BYTES,
                                 headers={"content-type": "image/jpeg"})
 
@@ -992,13 +994,16 @@ class PlainHttpFallbackTests(unittest.TestCase):
 
 
 class ArchiveBlockTests(unittest.TestCase):
-    """A refused archive connection is a throttle, and it must stop the hammering.
+    """No-answer results must stop the hammering without misdiagnosis.
 
     Observed on 2026-10-05: after one burst of `fetch-images` (~3 requests/s at
     concurrency 3 with a 0.7s limiter) `web.archive.org` began refusing the TCP
     connection for both curl and python within a minute, and kept refusing for
-    the rest of the iteration. Every refusal was recorded as the ambiguous
-    `transport`, and each image burned three retries against a closed door.
+    the rest of the iteration. Refusals are TRANSPORT (status None, no HTTP
+    answer), never proof of throttling: only a genuine 429/503 from a reachable
+    front end is THROTTLED. Both classes stop in-process retries and both trip
+    the circuit breaker, but the ledger keeps the honest label so a refusal is
+    never mistaken for a rate-limit verdict or an archive gap.
     """
 
     def _refused(self) -> Exception:
@@ -1020,12 +1025,13 @@ class ArchiveBlockTests(unittest.TestCase):
         exc.__cause__ = maxretry
         return exc
 
-    def test_refused_connection_is_classified_as_throttled(self):
+    def test_refused_connection_is_transport_not_throttled(self):
         from recovery.http import classify_exception
 
         kind, message = classify_exception(self._refused())
-        self.assertEqual(kind, THROTTLED)
+        self.assertEqual(kind, TRANSPORT)
         self.assertIn("refused", message.lower())
+        self.assertIn("transport", message.lower())
 
     def test_dns_failure_stays_plain_transport(self):
         import requests
@@ -1043,17 +1049,40 @@ class ArchiveBlockTests(unittest.TestCase):
         class Blocked(FakeArchive):
             def _get(self, url, timeout):
                 sent.append(url)
-                return Response(url=url, status=None, error=THROTTLED,
-                                message="archive refused the connection")
+                return Response(url=url, status=429, error=THROTTLED,
+                                message="HTTP 429")
 
         f = Blocked({}, attempts=3, sleep=lambda _s: None)
+        # A genuine 429 is answered on a reachable front end, so no scheme
+        # fallback applies (fallback is only for no-answer results).
         resp = f.get("https://web.archive.org/web/20191231235959id_/http://x/y.jpg")
         self.assertEqual(resp.error, THROTTLED)
+        # No in-process retry: the throttle is handed to the cooldown.
+        self.assertEqual(len(sent), 1, "a throttled archive must not be retried in-process")
+
+    def test_refused_transport_is_sent_once_not_retried(self):
+        from recovery.http import TRANSPORT
+        sent = []
+
+        class Refused(FakeArchive):
+            def _get(self, url, timeout):
+                sent.append(url)
+                return Response(url=url, status=None, error=TRANSPORT,
+                                message="connection refused (transport, no HTTP answer)")
+
+            def _get_noredirect(self, url, timeout):
+                sent.append(url)
+                return Response(url=url, status=None, error=TRANSPORT,
+                                message="connection refused (transport, no HTTP answer)")
+
+        f = Refused({}, attempts=3, sleep=lambda _s: None)
+        resp = f.get("https://web.archive.org/web/20191231235959id_/http://x/y.jpg")
+        self.assertEqual(resp.error, TRANSPORT)
         # One HTTPS request, plus at most the single documented plain-HTTP
-        # downgrade (see PlainHttpFallbackTests: this runner's HTTPS route to
-        # web.archive.org is refused while port 80 answers the same capture).
-        # No further in-process retry: the throttle is handed to the cooldown.
-        self.assertLessEqual(len(sent), 2, "a blocked archive must not be retried in-process")
+        # downgrade (see PlainHttpFallbackTests). No further in-process retry:
+        # the refusal is handed to the queue cooldown like a throttle, but the
+        # ledger keeps the TRANSPORT label.
+        self.assertLessEqual(len(sent), 2, "a refused archive must not be retried in-process")
         self.assertEqual(sent[0].startswith("https://web.archive.org/"), True)
         for extra in sent[1:]:
             self.assertTrue(extra.startswith("http://web.archive.org/"), extra)
@@ -1064,11 +1093,11 @@ class ArchiveBlockTests(unittest.TestCase):
         class Blocked(FakeArchive):
             def _get(self, url, timeout):
                 sent.append(url)
-                return Response(url=url, status=None, error=THROTTLED, message="refused")
+                return Response(url=url, status=429, error=THROTTLED, message="HTTP 429")
 
             def _get_noredirect(self, url, timeout):
                 sent.append(url)
-                return Response(url=url, status=None, error=THROTTLED, message="refused")
+                return Response(url=url, status=429, error=THROTTLED, message="HTTP 429")
 
         f = Blocked({}, attempts=3, sleep=lambda _s: None)
         for i in range(3):
@@ -1079,6 +1108,61 @@ class ArchiveBlockTests(unittest.TestCase):
         self.assertEqual(again.error, THROTTLED)
         self.assertEqual(len(sent), before, "no request may be sent while the circuit is open")
         self.assertIn("circuit breaker", again.message)
+        self.assertIn("no request was sent", again.message)
+
+    def test_repeated_refusals_open_a_circuit_with_transport_label(self):
+        from recovery.http import TRANSPORT
+        sent = []
+
+        class Refused(FakeArchive):
+            def _get(self, url, timeout):
+                sent.append(url)
+                return Response(url=url, status=None, error=TRANSPORT,
+                                message="connection refused (transport, no HTTP answer)")
+
+            def _get_noredirect(self, url, timeout):
+                sent.append(url)
+                return Response(url=url, status=None, error=TRANSPORT,
+                                message="connection refused (transport, no HTTP answer)")
+
+        f = Refused({}, attempts=3, sleep=lambda _s: None)
+        # Each get() sends https + one http fallback (2 requests) then stops.
+        f.get("https://web.archive.org/r0")
+        f.get("https://web.archive.org/r1")
+        # Third consecutive no-answer trips the breaker during the call.
+        f.get("https://web.archive.org/r2")
+        self.assertTrue(f.blocked, "3 consecutive refusals must open the circuit")
+        before = len(sent)
+        again = f.get("https://web.archive.org/after")
+        self.assertEqual(again.error, TRANSPORT,
+                         "a transport block must keep the TRANSPORT label, not THROTTLED")
+        self.assertEqual(len(sent), before, "no request may be sent while the circuit is open")
+        self.assertIn("circuit breaker", again.message)
+        self.assertIn("no request was sent", again.message)
+
+    def test_answered_gap_resets_the_no_answer_streak(self):
+        from recovery.http import GAP, TRANSPORT
+        sent = []
+
+        class Flap(FakeArchive):
+            def _get(self, url, timeout):
+                sent.append(url)
+                if "gap" in url:
+                    return Response(url=url, status=404, error=GAP, message="HTTP 404")
+                return Response(url=url, status=None, error=TRANSPORT,
+                                message="connection refused (transport, no HTTP answer)")
+
+            def _get_noredirect(self, url, timeout):
+                return self._get(url, timeout)
+
+        f = Flap({}, attempts=1, sleep=lambda _s: None)
+        f.get("https://web.archive.org/a")
+        f.get("https://web.archive.org/b")
+        self.assertFalse(f.blocked)
+        # An answered 404 proves reachability and resets the streak.
+        f.get("https://web.archive.org/gap")
+        f.get("https://web.archive.org/c")
+        self.assertFalse(f.blocked, "an answered gap must reset the no-answer streak")
 
     def test_one_good_answer_closes_the_circuit(self):
         class Flaky(FakeArchive):

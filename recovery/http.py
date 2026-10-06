@@ -24,12 +24,12 @@ except Exception:  # pragma: no cover - exercised only on bare runners
 # --- failure classes ---------------------------------------------------------
 GAP = "archive_gap"            # archive says it has nothing (404 / "not archived")
 TIMEOUT = "timeout"            # bounded long timeout hit
-THROTTLED = "throttled"        # 429 / 503 / explicit rate-limit page
-TRANSPORT = "transport"        # DNS/reset/other network failure
-# `throttled` also covers the archive refusing the TCP connection outright.
-# web.archive.org drops clients that ask too much by *refusing* the socket, so a
-# refusal is a throttle signal, not an ambiguous network flake: it must back the
-# client off, and the evidence must say so instead of the vague "transport".
+THROTTLED = "throttled"        # genuine 429 / 503 / explicit rate-limit page only
+TRANSPORT = "transport"        # no HTTP answer: refusal, DNS/reset/TLS/other network failure
+# A refused TCP connection (status None, errno 111 / "connection refused") is
+# TRANSPORT, not throttling: only a 429/503/Retry-After from a reachable front
+# end proves a rate limit. Refusals stay retryable transient evidence with
+# their own back-off and must never be recorded as throttle or gap evidence.
 HTTP_ERROR = "http_error"      # other non-200 status
 CUTOFF_VIOLATION = "cutoff_violation"  # capture newer than the cutoff
 BAD_BODY = "bad_body"          # body is not the media type we asked for
@@ -143,16 +143,37 @@ def classify_exception(exc: BaseException) -> tuple[str, str]:
     """Map a requests/urllib exception to (error class, message)."""
     name = type(exc).__name__.lower()
     if connection_refused(exc):
-        return THROTTLED, f"archive refused the connection: {str(exc)[:200]}"
+        # No HTTP answer arrived, so this cannot prove a rate limit (see
+        # failure-class note above). TRANSPORT keeps it retryable and distinct
+        # from a genuine 429/503 throttle.
+        return TRANSPORT, f"connection refused (transport, no HTTP answer): {str(exc)[:200]}"
     if "timeout" in name:
         return TIMEOUT, str(exc)[:300]
     return TRANSPORT, str(exc)[:300]
 
 
-# A run that keeps hammering a refused archive makes the refusal last longer, so
-# the fetcher opens a circuit: after this many throttled answers in a row it
-# stops sending requests for a while and says so, instead of burning the
-# runner's reputation and writing another hundred identical "transport" rows.
+def is_refusal(resp: "Response") -> bool:
+    """True when a TRANSPORT response was a refused TCP connection.
+
+    Used to give refusals their own in-process policy: like a throttle they
+    are not retried in-process (the durable queue owns the back-off), while
+    other transports (DNS, reset, TLS) keep bounded retries. The check is on
+    the recorded message so mocked transports in tests behave the same way.
+    """
+    return (
+        resp.status is None
+        and (resp.error == TRANSPORT)
+        and ("refused" in (resp.message or "").lower()
+            or "errno 111" in (resp.message or "").lower())
+    )
+
+
+# A run that keeps hammering a refusing archive makes the refusal last longer,
+# so the fetcher opens a circuit: after this many consecutive no-answer results
+# (genuine throttles and transport/timeout refusals alike) it stops sending
+# requests for a while and says so, instead of burning the runner's reputation
+# and writing another hundred identical rows. The per-request ledger still
+# records TRANSPORT vs THROTTLED honestly; the breaker only stops the load.
 BREAKER_THRESHOLD = 3
 BREAKER_BASE_SECONDS = 120.0
 BREAKER_MAX_SECONDS = 1800.0
@@ -193,9 +214,15 @@ class Fetcher:
         if self.session is not None:
             self.session.headers.update({"User-Agent": config.USER_AGENT})
         self.stats: dict[str, int] = {}
-        # circuit breaker state
+        # circuit breaker state: consecutive no-answer results (THROTTLED from
+        # a real 429/503, TRANSPORT/TIMEOUT with no HTTP answer). Any answered
+        # HTTP status (200/404/...) proves the archive is reachable and resets
+        # the streak. `_block_cause` keeps the honest label for the deferral.
         self._lock = threading.Lock()
         self._throttled_streak = 0
+        self._transport_streak = 0
+        self._no_answer_streak = 0
+        self._block_cause = ""
         self._blocked_until = 0.0
         self._breaker_trips = 0
 
@@ -208,8 +235,9 @@ class Fetcher:
         if not self.blocked:
             return ""
         return (f"circuit breaker open for {max(0, self._blocked_until - time.monotonic()):.0f}s "
-                f"after {self._throttled_streak} consecutive throttled answers "
-                f"(trip {self._breaker_trips}); no request was sent")
+                f"after {self._no_answer_streak} consecutive no-answer results "
+                f"({self._block_cause or 'throttled/transport'}; trip {self._breaker_trips}); "
+                f"no request was sent")
 
     def _blocked_response(self, url: str, trial: bool = False) -> Optional[Response]:
         """Refuse a request while the circuit is open -- unless it is a trial.
@@ -218,25 +246,46 @@ class Fetcher:
         probe* is the single exception: the durable queue's cooldown is a
         deadline, and the archive routinely recovers long before it expires.
         Without one trial request the CLI health check could never tell "still
-        throttled" from "back in business", and every later iteration would be
+        unreachable" from "back in business", and every later iteration would be
         spent waiting out a block that had already ended. `trial=True` sends
         exactly one request; a good answer closes the circuit in `_note_outcome`.
+
+        The deferral keeps the cause's label (THROTTLED for a real 429/503
+        block, TRANSPORT/TIMEOUT for a no-answer block) and always notes that
+        no request was sent, so attempt logs never mistake it for a remote answer.
         """
         if not self.blocked or trial:
             return None
-        return Response(url=url, status=None, error=THROTTLED, message=self.breaker_note())
+        cause = self._block_cause or THROTTLED
+        return Response(url=url, status=None, error=cause, message=self.breaker_note())
 
     def _note_outcome(self, resp: Response) -> None:
         with self._lock:
             if resp.error == THROTTLED:
                 self._throttled_streak += 1
-                if self._throttled_streak >= BREAKER_THRESHOLD:
+                self._no_answer_streak += 1
+                self._block_cause = THROTTLED
+                if self._no_answer_streak >= BREAKER_THRESHOLD:
                     self._breaker_trips += 1
                     span = min(BREAKER_MAX_SECONDS,
                                BREAKER_BASE_SECONDS * (2 ** (self._breaker_trips - 1)))
                     self._blocked_until = time.monotonic() + span
-            elif resp.ok:
+            elif resp.error in (TRANSPORT, TIMEOUT):
+                self._transport_streak += 1
+                self._no_answer_streak += 1
+                self._block_cause = resp.error
+                if self._no_answer_streak >= BREAKER_THRESHOLD:
+                    self._breaker_trips += 1
+                    span = min(BREAKER_MAX_SECONDS,
+                               BREAKER_BASE_SECONDS * (2 ** (self._breaker_trips - 1)))
+                    self._blocked_until = time.monotonic() + span
+            elif resp.ok or resp.status is not None:
+                # Any answered HTTP status proves reachability: reset both
+                # streaks and close the circuit.
                 self._throttled_streak = 0
+                self._transport_streak = 0
+                self._no_answer_streak = 0
+                self._block_cause = ""
                 self._blocked_until = 0.0
                 self._breaker_trips = 0
 
@@ -269,8 +318,8 @@ class Fetcher:
         reachable front end is real throttling and must back off rather than be
         replayed on another port. The switch happens before the response is
         classified, so a refusal that the other listener then answers never
-        trips the circuit breaker -- the evidence is "recovered", not
-        "throttled". Both directions are covered (see `scheme_variant`).
+        trips the circuit breaker -- the evidence is the answer, not the
+        refusal. Both directions are covered (see `scheme_variant`).
         """
         if raw.status is not None or raw.error not in (None, OK, TRANSPORT, THROTTLED, TIMEOUT):
             return raw
@@ -343,7 +392,7 @@ class Fetcher:
         attempts = self.attempts if attempts is None else attempts
         blocked = self._blocked_response(url, trial=trial)
         if blocked is not None:
-            self.stats[THROTTLED] = self.stats.get(THROTTLED, 0) + 1
+            self.stats[blocked.error or THROTTLED] = self.stats.get(blocked.error or THROTTLED, 0) + 1
             return blocked
         last: Optional[Response] = None
         for attempt in range(1, max(1, attempts) + 1):
@@ -359,10 +408,12 @@ class Fetcher:
             # Retry only transient classes; a gap or a cutoff violation is final.
             if resp.error in (GAP, CUTOFF_VIOLATION, BAD_BODY, HTTP_ERROR):
                 break
-            # A throttle (429/503 *or* a refused connection) is not retried here:
-            # the durable queue owns the back-off, and a retry during a block only
-            # extends it. One request per call, then the cooldown.
-            if resp.error == THROTTLED:
+            # A genuine throttle (429/503) or a refused connection is not
+            # retried in-process: the durable queue owns the back-off, and a
+            # retry during a block only extends it. One request per call (plus
+            # the single scheme fallback already attempted), then the cooldown.
+            # Other transports (DNS, reset, TLS) keep bounded retries here.
+            if resp.error == THROTTLED or is_refusal(resp):
                 break
             if self.blocked:
                 break
@@ -418,7 +469,7 @@ class Fetcher:
         target = f"{config.REPLAY_BASE}/{at_ts}{mode}/{url}"
         blocked = self._blocked_response(target, trial=trial)
         if blocked is not None:
-            self.stats[THROTTLED] = self.stats.get(THROTTLED, 0) + 1
+            self.stats[blocked.error or THROTTLED] = self.stats.get(blocked.error or THROTTLED, 0) + 1
             return blocked
         self.limiter.wait()
         wait = self.timeout if timeout is None else timeout
