@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791311366602",
-    "id": "hazfalafel-20261004t213311:15-269",
-    "minEntryId": 19603,
-    "maxEntryId": 19603,
-    "at": "2026-10-06T18:29:26.628Z",
-    "phase": "started"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:15-269",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 19605,
+    "id": 19606,
+    "reason": "model_error",
+    "detail": "400: {\"type\":\"server_error\",\"message\":\"Upstream request failed: This Go model requires Global regions. Select Global in your workspace's Privacy settings to use it.\"}"
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-06T18:29:26.628Z"
 }
