@@ -223,7 +223,9 @@ test('checkpoint feedback reaches native system messages and gates the next requ
       assert.match(s, /overall loop deadline/);
       assert.match(s, /next fresh-context iteration/);
       assert.match(s, /save recoverable partial results/);
-      assert.match(s, /do not need to finish the entire task in this session/);
+      assert.match(s, /continue useful work after saving/);
+      assert.match(s, /make and verify useful repairs/);
+      assert.match(s, /Yield early only when the task objective is achieved or an external blocker/);
       assert.equal((s.match(/Time update at/g) ?? []).length, 1, 'only the latest time update enters each system prompt');
     }
   } finally {
