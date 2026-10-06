@@ -121,14 +121,21 @@ class MediaIndex:
         return done
 
     def host_complete(self, host: str) -> Optional[dict]:
-        """Manifest entry when a host was scanned to its last page, else None.
+        """Manifest entry when a host was inventoried to its last row, else None.
 
-        A complete scan is positive evidence: every pre-cutoff `statuscode:200`
+        A complete inventory is positive evidence: every pre-cutoff `statuscode:200`
         row of that host has been seen, so "this key is absent" is a *confirmed*
         archive gap rather than an unexamined unknown.
+
+        Only a resume-key walk counts. The legacy `page=N` cursor stamped
+        `complete` on truncated pages (see `scan_host`), so trusting it would
+        declare archived images missing; such entries are reported as
+        inconclusive and the key stays unknown.
         """
         state = (self.hosts_done().get(f"host:{host.lower()}") or {})
-        return state if state.get("complete") else None
+        if not state.get("complete") or not state.get("resume_key_walk"):
+            return None
+        return state
 
     def mark_host(self, host: str, info: dict) -> None:
         # Accept `h`, `host:h` and the legacy `host:host:h` so the manifest key
@@ -248,7 +255,16 @@ def scan_host(
     complete = bool(short_page and err in (None, "ok"))
     info = {"host": host, "rows": seen_rows, "kept": len(kept), "new": new, "pages": pages,
             "complete": complete, "page_size": page_size, "response": last,
-            "scanned_at": _now(), "keys_at_scan": len(keys) if keys is not None else 0}
+            "scanned_at": _now(), "keys_at_scan": len(keys) if keys is not None else 0,
+            # The `page=N` cursor cannot prove it saw the end of a host: measured
+            # 2026-10-06, `url=40.media.tumblr.com&limit=5000&page=1` answered 4228
+            # rows for a host of 4794 unique urlkeys, and the missing rows include
+            # captures a plain prefix query proves exist. A short page is therefore
+            # NOT evidence of the last page, and `complete` from this cursor is not
+            # evidence of absence -- `host_complete` ignores it. The resume-key
+            # walk in `recovery/hostdump.py` is the only scanner allowed to say
+            # "this host is fully inventoried".
+            "cursor": "page", "conclusive": False}
     if not complete and err in (None, "ok"):
         # A media host is shared by *every* Tumblr blog on that shard, so a host
         # that keeps serving full pages is an ocean (measured: 80k rows in 40

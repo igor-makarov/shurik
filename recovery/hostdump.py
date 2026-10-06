@@ -164,6 +164,7 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
     os.makedirs(DUMP_DIR, exist_ok=True)
     cur = read_cursor(host)
     if cur.get("complete"):
+        _publish(index, host, cur)
         return {"host": host, "complete": True, "rows": cur.get("rows", 0),
                 "pages": cur.get("pages", 0), "skipped": "already complete",
                 "scanned_at": cur.get("scanned_at", "")}
@@ -210,9 +211,25 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
     write_cursor(host, {"resume_key": resume_key, "rows": rows, "pages": pages,
                         "complete": cur_complete, "stop_reason": stop_reason,
                         "scanned_at": _now()})
+    # Publish the walk's verdict where the image resolver reads it, and label it
+    # with the cursor that produced it so a legacy `page=` entry can never be
+    # mistaken for proof that a host was fully seen.
+    _publish(index, host, {"rows": rows, "pages": pages, "kept": kept,
+                           "complete": cur_complete, "stop_reason": stop_reason})
     return {"host": host, "rows": rows, "pages": pages, "kept": kept,
             "complete": cur_complete, "stop_reason": stop_reason,
             "scanned_at": _now()}
+
+
+def _publish(index: Optional[CaptureIndex], host: str, state: dict) -> None:
+    """Record a resume-key walk's verdict in the shared media manifest."""
+    if index is None:
+        return
+    info = dict(state)
+    info.update({"host": host.strip().lower(), "resume_key_walk": True,
+                 "cursor": "resumeKey", "scope": SCOPE,
+                 "scanned_at": state.get("scanned_at") or _now()})
+    index.mark_done(f"host:{info['host']}", info)
 
 
 def dump_hosts() -> list[str]:
