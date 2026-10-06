@@ -5,13 +5,64 @@
   "generation": 12,
   "iteration": 246,
   "startedAt": "2026-10-06T13:47:16.549Z",
-  "outcome": "running",
+  "outcome": "yielded",
   "source": "edc3d58f2e430e7e54df2726ec1b362a5e0270e0",
   "runtime": "474afc9dddbf1c7dfc3673c4e315ea74dafa84ac",
   "model": "muse-spark-1.3-contributor",
   "reasoning": "xhigh",
-  "workCommit": "6af4f21dac54f24c4fc7194ee67b8887a807062c",
+  "workCommit": "68672e82eeab9acf0e6a8015bbf1953e6464875d",
   "minEntryId": 18814,
-  "maxEntryId": 18937,
-  "checkpointAt": "2026-10-06T14:15:31.453Z"
+  "maxEntryId": 18968,
+  "checkpointAt": "2026-10-06T14:15:31.453Z",
+  "finishedAt": "2026-10-06T14:16:21.790Z",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 5125097,
+        "output": 1517617,
+        "cacheRead": 100705076,
+        "cacheWrite": 0,
+        "reasoning": 793737,
+        "totalTokens": 107347790,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/longcat-2.5-preview-free": {
+        "input": 566610,
+        "output": 71420,
+        "cacheRead": 3707008,
+        "cacheWrite": 0,
+        "reasoning": 28500,
+        "totalTokens": 4345038,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/muse-spark-1.3-contributor": {
+        "input": 1924348,
+        "output": 126844,
+        "cacheRead": 17698949,
+        "cacheWrite": 0,
+        "totalTokens": 19750141,
+        "cost": {
+          "input": 0.19243479999999996,
+          "output": 0.0253688,
+          "cacheRead": 0.03539789799999997,
+          "cacheWrite": 0,
+          "total": 0.2532014979999999
+        },
+        "reasoning": 53139
+      }
+    },
+    "tools": {}
+  }
 }
