@@ -876,11 +876,12 @@
   },
   {
     "id": "6-89",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37402824354",
     "minEntryId": 14079,
-    "maxEntryId": 14343,
+    "maxEntryId": 14393,
     "checkpointAt": "2026-10-06T02:29:33.121Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:6-89\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":14081,\"id\":14082,\"reason\":\"model_error\",\"detail\":\"Stream ended without finish_reason\"}",
+    "transcript": "complete"
   }
 ]
