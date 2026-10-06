@@ -44,11 +44,11 @@ Derived from `data/published.jsonl` (max `image_count` once per post id) and
 
 | Metric | Value |
 | --- | ---: |
-| Discovered / parsed posts | 1186 / 1211 |
-| Distinct Tumblr photo identities | 1817 stems (2395 image URLs) |
-| Published images (max per tag; includes 3 same-byte aliases) | **86** across 53 image-bearing tags (83 unique-byte images; +1 new unique) |
+| Discovered / parsed posts | 1186 / 1222 (+11 this pass) |
+| Distinct Tumblr photo identities | 1824 stems (pending 0; all answered) |
+| Published images (max per tag; includes 3 same-byte aliases) | **86** across 53 image-bearing tags (83 unique-byte images; unchanged) |
 | Posts recorded published (metadata-only tags included) | 741 |
-| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 1787 stems (29 rows with captures, 27 unique captures) |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 1937 stems (29 rows with captures) |
 
 Iteration 7-95: `--method stem --retry-missing` over 300 previously settled
 posts recovered **14 images in 7 posts** (each published immediately and
@@ -104,12 +104,46 @@ Known weak spots: posts 13833997906-14996000761 (2010-2011,
 `27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
 that verdict is scoped to those exact URLs only.
 
-Checkpoint digest at the end of 11-241: `crawl-state`
-`sha256:799104c2cff12199e66244ac17378751ce2bb4e68b35f1b01d48d7a8d956ead2`
+Checkpoint digest at the end of 11-243: `crawl-state`
+`sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`
 (pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
 restores `data/posts`, `data/cdx` and the queue/ledgers; pull-verified
-`restored:true`, digest match). 11-240 digest was
-`sha256:f6726ce72fb27e2f4eb0f705b830b3893fb681ef68a15855fe567909ba4c11e8`.
+`restored:true`, digest match). 11-242 digest was
+`sha256:b443cdfbe95eca4469ada9954636ccadeae135f1b7a772c74984944c1389249c`.
+
+## 11-243 result: 5 listings -> 11 new posts/237 forms; 151 stems + 40 avail + 2 cross-scheme probes, 0 new bytes
+
+Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
+**86 images across 53 image-bearing tags** (741 tags total), unchanged.
+`status`: 1222 parsed (+11), 2378 missing, 5463 ledger rows. No new
+published images; `posts_with_stem_hits` is empty (all 29 hit stems already
+resolved), so there were no bytes waiting to convert.
+
+* `stem-scan` 83 pending (82 answered, 0 hits, 1x 504 transient on
+  `http://66.media.../tumblr_p39o8fObJz1r3it8zo3` -- still pending, one CDX
+  retry owed) then `fetch-listings --limit 5 --kinds archive` (5/5 ok):
+  **11 new post records (1211 -> 1222), 284 posts touched, 237 images added**
+  as `_250` listing variants (hosts 65/66/67); then `stem-scan` 68 new stems:
+  **68 answered, 0 hits**. Listing `_250` forms on a different shard than the
+  original (e.g. 67 vs 40 for hash `22b537...`) answer `[]` while the
+  original shard holds the capture -- same-photo/different-shard listing
+  variants are aliases at best, not new bytes.
+* `probe-availability --limit 40`: **0 hits, 40 gaps** (avail index now 355+
+  rows). Availability hits (17) all overlap already-recovered stem captures.
+* Cross-scheme replay probes (the untried lead from 11-241): `https://40.media.../tumblr_ndozw9..._500.jpg`
+  and `https://33.media.../tumblr_nez9qq..._500.jpg` both answer genuine 404
+  where their `http` forms also 404'd. Replay is scheme-insensitive like CDX;
+  scheme is closed as a lead (scoped to these 2 URLs; 2 requests, no throttle).
+* Checkpoint `crawl-state`
+  `sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`
+  (`--pull` verified `restored:true`).
+
+Next: listing mining still yields ~11 new posts per 5-page batch (6038 archive/tagged
+captures remain), but new `_250` forms need a stem hit to matter and the last
+136 stems gave 0; prioritise `tagged` kinds (untried family) or posts with 0
+recovered images over more `archive` batches. The 1 pending 504 stem is the
+cheapest single retry. Do not re-run settled stem/fetch passes without a new
+question.
 
 ## 11-242 result: 5 listings -> 40 new posts/168 forms; 4 stem hits -> 1 new unique image + 3 aliases
 
