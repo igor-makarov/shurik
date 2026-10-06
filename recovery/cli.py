@@ -6,8 +6,9 @@ import json
 import os
 import re
 import sys
+import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Optional
 
 from . import config
@@ -539,7 +540,7 @@ def archive_health(fetcher: Fetcher, url: str = HEALTHCHECK_URL,
 
 
 def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
-              dry_run: bool = False) -> dict:
+              dry_run: bool = False, max_throttled: int = 0) -> dict:
     """Answer "is this media stem archived, before the cutoff?" for every image.
 
     One CDX prefix query per size-stem -- the same question `--method stem`
@@ -593,25 +594,59 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
            "stems_pending": len(index.missing(stems)), "scanning": len(todo),
            "scope": STEM_SCOPE, "requests_sent": 0, "answered_now": 0, "hits": 0,
            "stem_hits": [], "skipped": [], "concurrency": concurrency,
-           "failures": {}}
+           "failures": {}, "deferred": 0, "unsent": 0,
+           "stopped_early": False}
     if dry_run:
         return out
 
     extra = {"filter": STEM_SCOPE["filter"], "collapse": STEM_SCOPE["collapse"]}
+    stop = threading.Event()
 
-    def ask(stem: str) -> tuple[str, list, str, str]:
+    def ask(stem: str) -> tuple[str, list, str, str, bool]:
+        """(stem, captures, error, status, request_actually_sent).
+
+        An open circuit breaker answers without touching the network: that is a
+        deferral, not a remote answer, so it is never counted as a request, a
+        failure or evidence about the archive. Only a request that really went
+        out can carry a status or an error category.
+        """
+        if stop.is_set():
+            return stem, [], "deferred", "None", False
+        if fetcher.blocked:
+            return stem, [], "deferred", "None", False
         caps, resp = cdx_query(fetcher, stem, match="prefix", limit=8, extra=extra)
         err = "" if resp.ok else (resp.error or f"http_{resp.status}")
-        return stem, [c for c in caps if c.statuscode == "200"], err, str(resp.status)
+        sent = resp.status is not None or bool(resp.message) or resp.error is not None
+        if not sent and not caps:
+            sent = True  # an answered query with an empty body still reached the archive
+        return stem, [c for c in caps if c.statuscode == "200"], err, str(resp.status), sent
 
+    throttled_seen = 0
     with ThreadPoolExecutor(max_workers=max(1, concurrency)) as pool:
-        for stem, caps, err, status in pool.map(ask, todo):
+        futures = {pool.submit(ask, stem): stem for stem in todo}
+        for fut in as_completed(futures):
+            stem, caps, err, status, sent = fut.result()
+            if err == "deferred" or not sent:
+                # Circuit breaker open (or the pass already gave up): nothing was
+                # asked, the stem stays pending and the next pass retries it.
+                out["deferred"] += 1
+                out["unsent"] += 1
+                continue
             if err:
                 # Transient or throttled: the question stays open. Recorded with
                 # its category so the next pass knows it was never answered.
                 out["requests_sent"] += 1
                 out["failures"][err] = out["failures"].get(err, 0) + 1
                 out["skipped"].append({"stem": stem, "error": err, "status": status})
+                if err == "throttled":
+                    throttled_seen += 1
+                    if max_throttled and throttled_seen >= max_throttled:
+                        # A real 429 means the archive is rate limiting this
+                        # client. Stop the burst instead of spending the rest of
+                        # the pass on requests that will be refused too; the
+                        # unanswered stems are simply still pending.
+                        stop.set()
+                        out["stopped_early"] = True
                 continue
             index.record(stem, caps)
             out["requests_sent"] += 1
@@ -1239,6 +1274,9 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--concurrency", type=int, default=3,
                    help="parallel CDX requests (the archive is asked one question per request)")
     p.add_argument("--dry-run", action="store_true", help="report the plan without any request")
+    p.add_argument("--max-throttled", type=int, default=0,
+                   help="stop the pass after N real 429/503 answers (0 = no limit); "
+                        "stems never asked stay pending for the next pass")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=0,
                    help="max posts per pass (0 = 5, or every id given with --ids)")
@@ -1333,7 +1371,7 @@ def main(argv: Optional[list[str]] = None) -> int:
                                  retry_gap=args.retry_gap)
     elif args.cmd == "stem-scan":
         out = stem_scan(fetcher, limit_stems=args.limit_stems, concurrency=args.concurrency,
-                        dry_run=args.dry_run)
+                        dry_run=args.dry_run, max_throttled=args.max_throttled)
     elif args.cmd == "fetch-images":
         queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
                            max_attempts=args.max_attempts or 12)
