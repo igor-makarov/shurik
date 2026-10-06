@@ -4,11 +4,11 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "1803fe063593b35bf7fcd21560833548cf5a4bb3",
-  "status": "deadline",
-  "generation": 10,
+  "status": "running",
+  "generation": 11,
   "next": 240,
   "owner": null,
-  "deadline": "2026-10-06T11:46:49.426Z",
+  "deadline": "2026-10-06T12:55:03.037Z",
   "seconds": 1800,
   "model": "muse-spark-1.3-contributor",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
@@ -16,7 +16,7 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37458406401",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "xhigh",
   "checkpoint": {
@@ -67,5 +67,13 @@
     ],
     "durationSeconds": 3600,
     "baselinePath": "state/model-experiments/muse-20261006.json"
+  },
+  "restart": {
+    "at": "2026-10-06T11:55:03.037Z",
+    "previousGeneration": 10,
+    "generation": 11,
+    "reason": "User enabled the required OpenCode privacy setting and requested a one-hour retry",
+    "privacySettingEnabledReportedByUser": true,
+    "baselinePath": "state/model-experiments/muse-20261006-relaunch.json"
   }
 }
