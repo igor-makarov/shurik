@@ -104,12 +104,50 @@ Known weak spots: posts 13833997906-14996000761 (2010-2011,
 `27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
 that verdict is scoped to those exact URLs only.
 
-Checkpoint digest at the end of 11-243: `crawl-state`
-`sha256:e8eb7ab7e54a3c5c0d088fd17fa7d9c4ff165d4867ca472b55fcac03f4f65d5a`
+Checkpoint digest at the end of 12-245: `crawl-state`
+`sha256:de7ce3d1de32d84f8d36856e30a22348538cf35d6bfe7cd07709648d48e244bf`
 (pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
 restores `data/posts`, `data/cdx` and the queue/ledgers; pull-verified
-`restored:true`, digest match). Pre-tagged-batch digest was
-`sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`.
+`restored:true`). Pre-batch digest was
+`sha256:e8eb7ab7e54a3c5c0d088fd17fa7d9c4ff165d4867ca472b55fcac03f4f65d5a`.
+
+## 12-245 result: refusal-is-transport fix + 10 probes (9 gaps, 1 transport) + 20 avail gaps, 0 new bytes
+
+Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
+**86 images across 53 image-bearing tags** (741 tags total), unchanged.
+`status`: 1222 parsed, 2378 missing. No new published images.
+
+* Code fix (this iteration): `classify_exception` maps a refused TCP connection
+  (status None) to TRANSPORT with message `connection refused (transport, ...)`,
+  not THROTTLED; only genuine 429/503 is throttled. New `is_refusal()` gives
+  refusals single-attempt no-retry policy (like throttles) while other
+  transports keep bounded retries. Breaker trips on THROTTLED or refusal only
+  (timeouts/generic transports no longer block the `auto` CDX fallback), keeps
+  the honest cause label, resets on any answered HTTP status, and notes
+  `no request was sent`. Verified offline: 11 ArchiveBlock/PlainHttp tests OK
+  plus 22 ReplayProbe/ImageRecovery/VariantPlanning OK; 1 pre-existing
+  HostInventory failure unchanged (MediaIndex persistence, unrelated).
+* Evidence correction: only 3 rows in `missing.jsonl` are genuine 429s (CDX stems
+  for posts 41218938089 x2, 41269553662); the 169 `throttled` reasons are
+  145 circuit-deferrals (no request sent) + ~21 refusals (status null). Posts
+  105506301388/105457002008 cited in feedback show refusal/null, not 429.
+* Real path (archive healthy at start, `https` CDX+replay OK): `fetch-images
+  --method probe --limit 10` -> 9x genuine 404 gaps (scoped to those URL forms),
+  1x TRANSPORT refusal; breaker tripped honestly as TRANSPORT after 4
+  consecutive no-answers and queue set global cooldown to 13:56Z. Next dry-run
+  health check correctly reports TRANSPORT refusal on both schemes.
+* While replay cooled, `probe-availability --limit 20` on the other host
+  (`archive.org`) answered 20/20: 0 hits, 20 gaps, 0 transient. Different host
+  stays usable during a `web.archive.org` refusal block.
+* Checkpoint `crawl-state`
+  `sha256:de7ce3d1de32d84f8d36856e30a22348538cf35d6bfe7cd07709648d48e244bf`
+  (`--pull` verified `restored:true`).
+
+Next: replay cooldown until 13:56Z; then `fetch-images --method probe
+--retry-missing` to sweep remaining siblings (all 2378 missing have untried
+forms; 2159 are gap-settled so need `--retry-missing`), or availability sweeps
+(which use the unblocked host) for never-swept URLs. Do not re-run settled
+stem passes; `posts_with_stem_hits` is empty.
 
 ## 11-243 result: 5 listings -> 11 new posts/237 forms; 151 stems + 40 avail + 2 cross-scheme probes, 0 new bytes
 
