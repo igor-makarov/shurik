@@ -5,13 +5,80 @@
   "generation": 17,
   "iteration": 279,
   "startedAt": "2026-10-06T21:19:16.580Z",
-  "outcome": "running",
+  "outcome": "timeout",
   "source": "0c8df74efe4bf7ec928f14f760033a48b508fa37",
   "runtime": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
   "model": "deepseek-v4.1-flash",
   "reasoning": "high",
-  "workCommit": "5dd76b69ab183d3d5babf08415472ab3ee31a632",
+  "workCommit": "f0906df6705f5c6a4ab95e72a18575e9ca29eec8",
   "minEntryId": 20737,
-  "maxEntryId": 21007,
-  "checkpointAt": "2026-10-06T21:43:35.735Z"
+  "maxEntryId": 21027,
+  "checkpointAt": "2026-10-06T21:43:35.735Z",
+  "finishedAt": "2026-10-06T21:49:38.584Z",
+  "error": "\"\"",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 5125097,
+        "output": 1517617,
+        "cacheRead": 100705076,
+        "cacheWrite": 0,
+        "reasoning": 793737,
+        "totalTokens": 107347790,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/longcat-2.5-preview-free": {
+        "input": 566610,
+        "output": 71420,
+        "cacheRead": 3707008,
+        "cacheWrite": 0,
+        "reasoning": 28500,
+        "totalTokens": 4345038,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/muse-spark-1.3-contributor": {
+        "input": 2253896,
+        "output": 163509,
+        "cacheRead": 24165373,
+        "cacheWrite": 0,
+        "totalTokens": 26582778,
+        "cost": {
+          "input": 0.2253895999999998,
+          "output": 0.032701799999999996,
+          "cacheRead": 0.04833074599999995,
+          "cacheWrite": 0,
+          "total": 0.30642214599999995
+        },
+        "reasoning": 67573
+      },
+      "opencode-go/deepseek-v4.1-flash": {
+        "input": 1171942,
+        "output": 201490,
+        "cacheRead": 18125696,
+        "cacheWrite": 0,
+        "totalTokens": 19499128,
+        "cost": {
+          "input": 0.17579129999999998,
+          "output": 0.12089400000000002,
+          "cacheRead": 0.05437708800000001,
+          "cacheWrite": 0,
+          "total": 0.35106238800000017
+        },
+        "reasoning": 133616
+      }
+    },
+    "tools": {}
+  }
 }
