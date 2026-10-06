@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791266770920",
-    "id": "hazfalafel-20261004t213311:7-111",
-    "minEntryId": 15972,
-    "maxEntryId": 15972,
-    "at": "2026-10-06T06:06:10.920Z",
-    "phase": "started"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:7-111",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 15974,
+    "id": 15975,
+    "reason": "model_error",
+    "detail": "400: {\"type\":\"server_error\",\"message\":\"Upstream request failed: Model is unavailable.\"}"
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-06T06:06:10.920Z"
 }
