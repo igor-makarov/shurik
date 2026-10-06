@@ -2036,11 +2036,12 @@
   },
   {
     "id": "9-205",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37442318476",
     "minEntryId": 16785,
-    "maxEntryId": 16870,
+    "maxEntryId": 16899,
     "checkpointAt": "2026-10-06T09:36:43.992Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:9-205\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":16787,\"id\":16788,\"reason\":\"model_error\",\"detail\":\"500: {\\\"type\\\":\\\"server_error\\\",\\\"message\\\":\\\"Upstream request failed: Endpoint is unavailable.\\\"}\"}",
+    "transcript": "complete"
   }
 ]

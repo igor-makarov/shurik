@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791279403970",
-    "id": "hazfalafel-20261004t213311:9-205",
-    "minEntryId": 16785,
-    "maxEntryId": 16870,
-    "at": "2026-10-06T09:36:43.992Z",
-    "phase": "tools"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:9-205",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 16787,
+    "id": 16788,
+    "reason": "model_error",
+    "detail": "500: {\"type\":\"server_error\",\"message\":\"Upstream request failed: Endpoint is unavailable.\"}"
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-06T09:36:43.992Z"
 }
