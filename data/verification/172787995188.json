@@ -1,0 +1,195 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:f512ee568b5c2abef7a1f94cd8c77ded5ab990f537574a007858bd9c0a13c59f",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p6ypbhivos1r3it8zo1_500.jpg]",
+   "expected": "ad2993c113bf38b9072a27618a423ccd3b2e70a438cfb72de54d47dbff2a330e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p6ypbhivos1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p6ypbhivos1r3it8zo1_500.jpg]",
+   "expected": 62458,
+   "observed": 62458,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p6ypbhivos1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p6ypbhivos1r3it8zo1_1280.jpg]",
+   "expected": "ad2993c113bf38b9072a27618a423ccd3b2e70a438cfb72de54d47dbff2a330e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p6ypbhivos1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p6ypbhivos1r3it8zo1_1280.jpg]",
+   "expected": 62458,
+   "observed": 62458,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p6ypbhivos1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "<454 chars>",
+   "observed": "<454 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<9939 chars>",
+   "observed": "<9939 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "Record-scratch-Freeze-frame",
+    "חריקת-תקליט-הקפאת-פריים"
+   ],
+   "observed": [
+    "Record-scratch-Freeze-frame",
+    "חריקת-תקליט-הקפאת-פריים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/172787995188",
+   "observed": "http://hazfalafel.com/post/172787995188",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180413220031",
+   "observed": "20180413220031",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180413220031id_/http://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180413220031id_/http://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180413220031",
+   "passed": true
+  }
+ ],
+ "checks_passed": 19,
+ "checks_total": 19,
+ "config_digest": "sha256:95f5ab2c95b62f706fe0df521807f24e2f9c6c16b5ae0f68751e4a1ebe745a00",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-03-18T15:00:23Z",
+  "org.opencontainers.image.description": "Posted 3 days ago",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 172787995188",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/172787995188",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "454",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "172787995188",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "Record-scratch-Freeze-frame,חריקת-תקליט-הקפאת-פריים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:8d86fde6af08a88fd93d331c5456e6e4675f2654603f89a4cbf44d00ccfcf6b3",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 62575
+  },
+  {
+   "digest": "sha256:e62f49bab143f1584d78d8251503599f8a457d8cd0c7b0affb9a649ecbb17d4b",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 62575
+  },
+  {
+   "digest": "sha256:2be63e7e94d6d5e6ed44438248607157edd9daee26dff609344c1395999fd6b4",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 2608
+  }
+ ],
+ "manifest_digest": "sha256:f512ee568b5c2abef7a1f94cd8c77ded5ab990f537574a007858bd9c0a13c59f",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "172787995188",
+ "pulled_files": [
+  {
+   "bytes": 62458,
+   "file": "tumblr_p6ypbhivos1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:8d86fde6af08a88fd93d331c5456e6e4675f2654603f89a4cbf44d00ccfcf6b3",
+   "role": "media",
+   "sha256": "ad2993c113bf38b9072a27618a423ccd3b2e70a438cfb72de54d47dbff2a330e"
+  },
+  {
+   "bytes": 62458,
+   "file": "tumblr_p6ypbhivos1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:e62f49bab143f1584d78d8251503599f8a457d8cd0c7b0affb9a649ecbb17d4b",
+   "role": "media",
+   "sha256": "ad2993c113bf38b9072a27618a423ccd3b2e70a438cfb72de54d47dbff2a330e"
+  },
+  {
+   "bytes": 14231,
+   "file": "post.json",
+   "layer": "sha256:2be63e7e94d6d5e6ed44438248607157edd9daee26dff609344c1395999fd6b4",
+   "role": "post-metadata",
+   "sha256": "63b39879dbfa2b4fe4e276ca916ac52ecf38d67ce38ec2ff7dccc96afdeeb2d1"
+  }
+ ],
+ "tag": "172787995188",
+ "verified_at": "2026-10-06T01:51:55Z"
+}
