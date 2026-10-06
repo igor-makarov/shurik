@@ -1,0 +1,58 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com/post/176981639818",
+  "https://hazfalafel.com/post/176981639818"
+ ],
+ "captions": [],
+ "captures": [
+  {
+   "error": "archive_gap",
+   "kind": "perm",
+   "original": "http://hazfalafel.com/post/176981639818",
+   "timestamp": "20180821141124"
+  },
+  {
+   "error": "archive_gap",
+   "kind": "perm",
+   "original": "https://hazfalafel.com/post/176981639818",
+   "timestamp": "20190728160309"
+  }
+ ],
+ "content_html": "",
+ "content_text": "",
+ "failure_count": 1,
+ "fetched_at": "2026-10-06T19:08:17Z",
+ "image_count": 0,
+ "images": [],
+ "methods": [
+  {
+   "bytes": 4608,
+   "capture_timestamp": "20180821141124",
+   "endpoint": "replay id_",
+   "error": "archive_gap",
+   "kind": "perm",
+   "message": "HTTP 404",
+   "status": 404,
+   "url": "http://hazfalafel.com/post/176981639818"
+  },
+  {
+   "bytes": 4611,
+   "capture_timestamp": "20190728160309",
+   "endpoint": "replay id_",
+   "error": "archive_gap",
+   "kind": "perm",
+   "message": "HTTP 404",
+   "status": 404,
+   "url": "https://hazfalafel.com/post/176981639818"
+  }
+ ],
+ "missing_image_count": 0,
+ "missing_images": [],
+ "original_url": "http://hazfalafel.com/post/176981639818",
+ "partial": false,
+ "post_id": "176981639818",
+ "reason": "snapshot_exists",
+ "snapshot_retries": 1,
+ "state": "failed",
+ "tags": []
+}
