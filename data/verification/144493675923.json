@@ -1,0 +1,164 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:e27a7e7ebd933678f502ea240d8ce7d824750a20607b2199950b9e60482feb73",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[3oEjHEFiw2KtX7Ehb2.gif]",
+   "expected": "41fbea32fb35850fa3404cf05bbb25d9499e45f9e153b4eaf87402b793a3b025",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "3oEjHEFiw2KtX7Ehb2.gif",
+   "passed": true
+  },
+  {
+   "check": "image_size[3oEjHEFiw2KtX7Ehb2.gif]",
+   "expected": 2844416,
+   "observed": 2844416,
+   "passed": true
+  },
+  {
+   "check": "image_magic[3oEjHEFiw2KtX7Ehb2.gif]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "Still a Better Love Story than Twilight",
+   "observed": "Still a Better Love Story than Twilight",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<256 chars>",
+   "observed": "<256 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "משחקי-הכס",
+    "אורן-חזן",
+    "גיף"
+   ],
+   "observed": [
+    "משחקי-הכס",
+    "אורן-חזן",
+    "גיף"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/144493675923",
+   "observed": "http://hazfalafel.com/post/144493675923",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20191103145809",
+   "observed": "20191103145809",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20191103145809id_/http://i.giphy.com/3oEjHEFiw2KtX7Ehb2.gif",
+   "observed": "https://web.archive.org/web/20191103145809id_/http://i.giphy.com/3oEjHEFiw2KtX7Ehb2.gif",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20191103145809",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:cb471f094848454c8e4997a222a3d75c35f0bd8ecf554ca917dff08a68bd0aa0",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-11-03T14:58:09Z",
+  "org.opencontainers.image.description": "Still a Better Love Story than Twilight",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 144493675923",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/144493675923",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "39",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "144493675923",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "משחקי-הכס,אורן-חזן,גיף"
+ },
+ "layers": [
+  {
+   "digest": "sha256:e54430d5994bb279f06a0c6c2c314b0c55a4f1d1fdaf07529271ca3e760e39ad",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 2839425
+  },
+  {
+   "digest": "sha256:b6a3bd31fc005e59b87fc20a17fbed01a5aa5c2c8246c5b1a6b6d91534fbb44e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 918
+  }
+ ],
+ "manifest_digest": "sha256:e27a7e7ebd933678f502ea240d8ce7d824750a20607b2199950b9e60482feb73",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "144493675923",
+ "pulled_files": [
+  {
+   "bytes": 2844416,
+   "file": "3oEjHEFiw2KtX7Ehb2.gif",
+   "image_magic_ok": true,
+   "layer": "sha256:e54430d5994bb279f06a0c6c2c314b0c55a4f1d1fdaf07529271ca3e760e39ad",
+   "role": "media",
+   "sha256": "41fbea32fb35850fa3404cf05bbb25d9499e45f9e153b4eaf87402b793a3b025"
+  },
+  {
+   "bytes": 1879,
+   "file": "post.json",
+   "layer": "sha256:b6a3bd31fc005e59b87fc20a17fbed01a5aa5c2c8246c5b1a6b6d91534fbb44e",
+   "role": "post-metadata",
+   "sha256": "b2615639b97ccdcd6b1ec73e24ce123a1fb109828fd3308208c69a8decdf0ada"
+  }
+ ],
+ "tag": "144493675923",
+ "verified_at": "2026-10-06T20:32:04Z"
+}

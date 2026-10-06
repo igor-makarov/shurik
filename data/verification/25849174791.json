@@ -1,0 +1,159 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:83a28956e82ff7af1bcddee4b08964a5b0c6accff1874573fb18b308455ee7fe",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[k6geQ.png]",
+   "expected": "9cbda4e1842bad77b61ae478144a4452daf1a507d968e96e0dada84ef3fd51e1",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "k6geQ.png",
+   "passed": true
+  },
+  {
+   "check": "image_size[k6geQ.png]",
+   "expected": 296071,
+   "observed": 296071,
+   "passed": true
+  },
+  {
+   "check": "image_magic[k6geQ.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "",
+   "observed": "",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><img height=\"785\" src=\"http://i.imgur.com/k6geQ.png\" width=\"472\"></p>",
+   "observed": "<p><img height=\"785\" src=\"http://i.imgur.com/k6geQ.png\" width=\"472\"></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אסור-להשוות"
+   ],
+   "observed": [
+    "אסור-להשוות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/25849174791",
+   "observed": "http://hazfalafel.com/post/25849174791",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131223041903",
+   "observed": "20131223041903",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131223041903id_/http://i.imgur.com/k6geQ.png",
+   "observed": "https://web.archive.org/web/20131223041903id_/http://i.imgur.com/k6geQ.png",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131223041903",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:20217a6d5233a8dbc6578c644f888a09da809728b30c57319daf0e2a80bb24b0",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-02T18:35:28Z",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 25849174791",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/25849174791",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "0",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "25849174791",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "אסור-להשוות"
+ },
+ "layers": [
+  {
+   "digest": "sha256:5310645ea6d7e1bc383b75c4e0a12acfaef2cfb115f678be9416972482aa8e0c",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 295774
+  },
+  {
+   "digest": "sha256:5dda9857f80d6feba3f86a111c31a0c82c7d54c4c18e575cf8198e85360c72e2",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 769
+  }
+ ],
+ "manifest_digest": "sha256:83a28956e82ff7af1bcddee4b08964a5b0c6accff1874573fb18b308455ee7fe",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "25849174791",
+ "pulled_files": [
+  {
+   "bytes": 296071,
+   "file": "k6geQ.png",
+   "image_magic_ok": true,
+   "layer": "sha256:5310645ea6d7e1bc383b75c4e0a12acfaef2cfb115f678be9416972482aa8e0c",
+   "role": "media",
+   "sha256": "9cbda4e1842bad77b61ae478144a4452daf1a507d968e96e0dada84ef3fd51e1"
+  },
+  {
+   "bytes": 1355,
+   "file": "post.json",
+   "layer": "sha256:5dda9857f80d6feba3f86a111c31a0c82c7d54c4c18e575cf8198e85360c72e2",
+   "role": "post-metadata",
+   "sha256": "e3255d5c1c2127d3b47d94740d281d1c121997c6ac18a6a8b6c271d5039f4045"
+  }
+ ],
+ "tag": "25849174791",
+ "verified_at": "2026-10-06T20:28:38Z"
+}

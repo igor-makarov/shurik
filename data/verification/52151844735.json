@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:8b525b0fb57dc8c371a62def7b7e65cd8cf8b78e2a4fcada2b04084b9225c913",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[prUsdqz.png]",
+   "expected": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "prUsdqz.png",
+   "passed": true
+  },
+  {
+   "check": "image_size[prUsdqz.png]",
+   "expected": 31319,
+   "observed": 31319,
+   "passed": true
+  },
+  {
+   "check": "image_magic[prUsdqz.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אינני מבין, כיצד הם מצאו אותי?!\nהאזינו: הלובים מארחים את ברי סחרוף (ynet)",
+   "observed": "אינני מבין, כיצד הם מצאו אותי?!\nהאזינו: הלובים מארחים את ברי סחרוף (ynet)",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<279 chars>",
+   "observed": "<279 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "בחזרה-לעתיד",
+    "back-to-the-future",
+    "הלובים",
+    "ברי-סחרוף",
+    "פסטיבל-ישראל"
+   ],
+   "observed": [
+    "בחזרה-לעתיד",
+    "back-to-the-future",
+    "הלובים",
+    "ברי-סחרוף",
+    "פסטיבל-ישראל"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/52151844735",
+   "observed": "http://hazfalafel.com/post/52151844735",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[prUsdqz.png]",
+   "expected": "image",
+   "observed": "image",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130924034019",
+   "observed": "20130924034019",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130924034019id_/http://i.imgur.com/prUsdqz.png",
+   "observed": "https://web.archive.org/web/20130924034019id_/http://i.imgur.com/prUsdqz.png",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130924034019",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:e584c8abe40a1819656e67208dd7bed9fc1a705e61afdbe491fb319922f4258b",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2013-09-24T03:40:19Z",
+  "org.opencontainers.image.description": "אינני מבין, כיצד הם מצאו אותי?!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 52151844735",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/52151844735",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "73",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "52151844735",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "בחזרה-לעתיד,back-to-the-future,הלובים,ברי-סחרוף,פסטיבל-ישראל"
+ },
+ "layers": [
+  {
+   "digest": "sha256:ca6c9e66787a8a2194204239c8fa6611557a773255e9b54e352723713e130bd7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 30700
+  },
+  {
+   "digest": "sha256:8b9d971ca825e942b88fb16e36e47a3f882b3fb0306ac7ebe8815afffa4440f7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 981
+  }
+ ],
+ "manifest_digest": "sha256:8b525b0fb57dc8c371a62def7b7e65cd8cf8b78e2a4fcada2b04084b9225c913",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "52151844735",
+ "pulled_files": [
+  {
+   "bytes": 31319,
+   "file": "prUsdqz.png",
+   "image_magic_ok": true,
+   "layer": "sha256:ca6c9e66787a8a2194204239c8fa6611557a773255e9b54e352723713e130bd7",
+   "role": "media",
+   "sha256": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6"
+  },
+  {
+   "bytes": 1880,
+   "file": "post.json",
+   "layer": "sha256:8b9d971ca825e942b88fb16e36e47a3f882b3fb0306ac7ebe8815afffa4440f7",
+   "role": "post-metadata",
+   "sha256": "60ce448c1c9a9afe6f9c66026609a70bf6ad8a2acb6c13547a6c9d10d0a785cc"
+  }
+ ],
+ "tag": "52151844735",
+ "verified_at": "2026-10-06T20:29:52Z"
+}

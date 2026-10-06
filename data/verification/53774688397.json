@@ -1,0 +1,168 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:4c3d82a458d3dc42e91398c9bace5b01ecad38e1226b6a21aced81860452be04",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[cbQ2PZX.jpg]",
+   "expected": "6358fcba873c1d91af073a4e887317e373dc22f65892c3ab4b66d30b9a753589",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "cbQ2PZX.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[cbQ2PZX.jpg]",
+   "expected": 446909,
+   "observed": 446909,
+   "passed": true
+  },
+  {
+   "check": "image_magic[cbQ2PZX.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מומלץ להאזין לשיר בזמן הצפייה",
+   "observed": "מומלץ להאזין לשיר בזמן הצפייה",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><a href=\"http://www.youtube.com/watch?v=BwFw3-jDgE8\" target=\"_blank\"><span>מומלץ להאזין לשיר בזמן הצפייה</span></a></p>\n<p><img alt=\"image\" src=\"http://i.imgur.com/cbQ2PZX.jpg\"/></p>",
+   "observed": "<p><a href=\"http://www.youtube.com/watch?v=BwFw3-jDgE8\" target=\"_blank\"><span>מומלץ להאזין לשיר בזמן הצפייה</span></a></p>\n<p><img alt=\"image\" src=\"http://i.imgur.com/cbQ2PZX.jpg\"/></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מוניקה-סקס",
+    "מכה-אפורה"
+   ],
+   "observed": [
+    "מוניקה-סקס",
+    "מכה-אפורה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/53774688397",
+   "observed": "http://hazfalafel.com/post/53774688397",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[cbQ2PZX.jpg]",
+   "expected": "image",
+   "observed": "image",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131223035102",
+   "observed": "20131223035102",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131223035102id_/http://i.imgur.com/cbQ2PZX.jpg",
+   "observed": "https://web.archive.org/web/20131223035102id_/http://i.imgur.com/cbQ2PZX.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131223035102",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:086945e0f9c7eaa1d940f0779baa9f12e22e0d6ec80cd1c06aa8efd8f50a5f5a",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T21:45:05Z",
+  "org.opencontainers.image.description": "מומלץ להאזין לשיר בזמן הצפייה",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 53774688397",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/53774688397",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "29",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "53774688397",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "מוניקה-סקס,מכה-אפורה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:0e0535e41385f8a5ae45f5828ce4e6ef3ca844250980b930d1f8c2d873d34d7c",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 438464
+  },
+  {
+   "digest": "sha256:cc4a7329856deb2ef862ee319ff83be7b454ea9bbf1199772a083b313c743ac7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 967
+  }
+ ],
+ "manifest_digest": "sha256:4c3d82a458d3dc42e91398c9bace5b01ecad38e1226b6a21aced81860452be04",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "53774688397",
+ "pulled_files": [
+  {
+   "bytes": 446909,
+   "file": "cbQ2PZX.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0e0535e41385f8a5ae45f5828ce4e6ef3ca844250980b930d1f8c2d873d34d7c",
+   "role": "media",
+   "sha256": "6358fcba873c1d91af073a4e887317e373dc22f65892c3ab4b66d30b9a753589"
+  },
+  {
+   "bytes": 2539,
+   "file": "post.json",
+   "layer": "sha256:cc4a7329856deb2ef862ee319ff83be7b454ea9bbf1199772a083b313c743ac7",
+   "role": "post-metadata",
+   "sha256": "9c391b0d9ea07077d50aac97610ef72022c8aa3200daa5f46335c454b0f97b53"
+  }
+ ],
+ "tag": "53774688397",
+ "verified_at": "2026-10-06T20:30:02Z"
+}
