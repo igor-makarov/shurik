@@ -195,7 +195,7 @@ test('checkpoint feedback reaches native system messages and gates the next requ
           const snapshot = join(output, 'checkpoint-journal');
           const files = await readdir(snapshot, { recursive: true });
           const journal = (await Promise.all(files.filter(name => name.endsWith('.jsonl')).map(name => readFile(join(snapshot, name), 'utf8')))).join('\n');
-          assert.ok(journal.includes('Time update at'), 'time feedback is durable in the prepared journal and its native sidecars');
+          assert.ok(journal.includes('Actively pursue verified progress'), 'progress guidance is durable in the prepared journal and its native sidecars');
           if (boundary.phase === 'tools') {
             const beforePublication = requests.length;
             await new Promise(resolve => setTimeout(resolve, 150));
@@ -218,7 +218,7 @@ test('checkpoint feedback reaches native system messages and gates the next requ
     assert.equal(requests.length, 3);
     const systems = requests.map(r => r.messages.filter(m => m.role === 'system').map(m => m.content).join('\n'));
     for (const s of systems.slice(0, 2)) {
-      assert.doesNotMatch(s, /seconds remain|overall loop deadline|handoff|preempt|next fresh-context iteration/);
+      assert.doesNotMatch(s, /Time update|\d{4}-\d{2}-\d{2}T|seconds remain|overall loop deadline|handoff|preempt|next fresh-context iteration/);
     }
     const finalSystem = systems.at(-1);
     const remaining = Number(finalSystem.match(/about (\d+) seconds remain in this iteration/)[1]);
@@ -227,11 +227,12 @@ test('checkpoint feedback reaches native system messages and gates the next requ
     assert.match(finalSystem, /next fresh-context iteration/);
     assert.match(finalSystem, /save recoverable partial results/);
     assert.match(finalSystem, /Keep pursuing useful work after saving the handoff until preemption/);
+    assert.equal((finalSystem.match(/Time update at/g) ?? []).length, 1, 'only the final checkpoint introduces a clock announcement');
     for (const s of systems) {
       assert.match(s, /continue useful work after saving/);
       assert.match(s, /make and verify useful repairs/);
-      assert.match(s, /Yield early only when the task objective is achieved or an external blocker/);
-      assert.equal((s.match(/Time update at/g) ?? []).length, 1, 'only the latest time update enters each system prompt');
+      assert.match(s, /Reserve a final response for a task objective that has been fully achieved and verified/);
+      assert.doesNotMatch(s, /Yield early|external blocker|prevents all useful progress/);
     }
   } finally {
     finished = true; await monitor;

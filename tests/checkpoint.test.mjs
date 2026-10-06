@@ -22,16 +22,20 @@ test('time feedback distinguishes iteration and loop deadlines and keeps a conti
   assert.match(timeRemainingInstructions(now + 1000, null, now), /no overall loop deadline configured/);
 });
 
-test('ordinary checkpoints omit countdown and handoff until the final configured interval', () => {
+test('ordinary checkpoints omit clock, countdown and handoff until the final configured interval', () => {
   const now = Date.parse('2026-10-06T08:00:00Z');
   const end = now + 1800000;
   for (const at of [now, end - 300001]) {
     const msg = timeRemainingInstructions(end, '2026-10-06T13:00:00Z', at);
-    assert.doesNotMatch(msg, /seconds remain|ends |deadline|handoff|preempt|next fresh-context/);
+    assert.doesNotMatch(msg, /Time update|\d{4}-\d{2}-\d{2}T|seconds remain|ends |deadline|handoff|preempt|next fresh-context/);
     assert.match(msg, /continue useful work after saving/);
     assert.match(msg, /make and verify useful repairs/);
+    assert.match(msg, /Reserve a final response for a task objective that has been fully achieved and verified/);
+    assert.doesNotMatch(msg, /Yield early|external blocker|prevents all useful progress/);
   }
-  assert.match(timeRemainingInstructions(end, null, end - 300000), /Final checkpoint interval: about 300 seconds/);
+  const final = timeRemainingInstructions(end, null, end - 300000);
+  assert.match(final, /Time update at 2026-10-06T08:25:00.000Z/);
+  assert.match(final, /Final checkpoint interval: about 300 seconds/);
   assert.doesNotMatch(timeRemainingInstructions(end, null, end - 120001, 120), /Final checkpoint interval/);
   assert.match(timeRemainingInstructions(end, null, end - 120000, 120), /Final checkpoint interval: about 120 seconds/);
   // An overall deadline can preempt the iteration before its normal session limit.
