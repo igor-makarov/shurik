@@ -5,17 +5,22 @@ import type { Conversation } from '@earendil-works/pi-durable';
 
 export const CHECKPOINT_JOURNAL = 'checkpoint-journal';
 
-export function timeRemainingInstructions(iterationEndsAt: number, deadline?: string | null, now = Date.now()) {
-  const seconds = Math.max(0, Math.ceil((iterationEndsAt - now) / 1000));
+export function timeRemainingInstructions(iterationEndsAt: number, deadline?: string | null, now = Date.now(), checkpointSeconds = 300) {
+  const endsAt = Math.min(iterationEndsAt, deadline ? Date.parse(deadline) : Infinity);
+  const finalStretch = endsAt - now <= checkpointSeconds * 1000;
+  const progress = `Time update at ${new Date(now).toISOString()}. `
+    + 'Actively pursue verified progress and resolve blockers. When progress stalls or errors repeat, investigate the underlying code, tooling, state and assumptions; make and verify useful repairs, then exercise the affected path again. '
+    + 'Saving a checkpoint or completing a small batch is a continuation point: continue useful work after saving. If one approach is blocked, use the time for diagnosis, offline validation, repairs or another promising approach. '
+    + 'Yield early only when the task objective is achieved or an external blocker prevents all useful progress, including diagnosis and repair; record the evidence and the condition needed to resume. Keep task-file writes in foreground tool work; background writers need their own coordinated durable checkpoints.';
+  if (!finalStretch) return progress;
+  const seconds = Math.max(0, Math.ceil((endsAt - now) / 1000));
   const overall = deadline
     ? `The overall loop deadline is ${deadline}; about ${Math.max(0, Math.ceil((Date.parse(deadline) - now) / 1000))} seconds remain in the loop.`
     : 'There is no overall loop deadline configured.';
-  return `Time update at ${new Date(now).toISOString()}: about ${seconds} seconds remain in this iteration (ends ${new Date(iterationEndsAt).toISOString()}). ${overall} `
-    + 'An iteration is one session of a continuing Ralph loop. The supervisor normally starts the next fresh-context iteration while the loop is running and before its overall deadline. '
-    + 'Use the remaining budget actively to pursue verified progress and resolve blockers. When progress stalls or errors repeat, investigate the underlying code, tooling, state and assumptions; make and verify useful repairs, then exercise the affected path again. '
-    + 'Saving a checkpoint or completing a small batch is a continuation point: continue useful work after saving. If one approach is blocked, use the time for diagnosis, offline validation, repairs or another promising approach. '
-    + 'As the iteration boundary approaches, save recoverable partial results, commit meaningful task progress, and leave a concise handoff with evidence and a resumption point so the next fresh-context iteration or a later resume can continue. '
-    + 'Yield early only when the task objective is achieved or an external blocker prevents all useful progress, including diagnosis and repair; record the evidence and the condition needed to resume. Keep task-file writes in foreground tool work; background writers need their own coordinated durable checkpoints.';
+  return `${progress}\n\nFinal checkpoint interval: about ${seconds} seconds remain in this iteration (ends ${new Date(endsAt).toISOString()}). ${overall} `
+    + 'Prepare continuation before the supervisor preempts this session: save recoverable partial results, commit meaningful task progress, and leave a concise handoff with evidence and a resumption point. '
+    + 'The supervisor normally starts the next fresh-context iteration while the loop is running and before its overall deadline; after the overall deadline, preserved work supports a later resume. '
+    + 'Keep pursuing useful work after saving the handoff until preemption; this reminder is not a request to stop early.';
 }
 
 export async function snapshotJournal(root: Conversation, journal: string, output: string, context: Context) {
