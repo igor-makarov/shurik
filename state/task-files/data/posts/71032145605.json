@@ -5,16 +5,61 @@
  "content_html": "",
  "content_text": "",
  "failure_count": 0,
+ "fetched_at": "2026-10-06T16:04:56Z",
  "image_count": 0,
  "images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.png",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.png",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "timeout",
+     "location": "",
+     "message": "HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /web/20191231235959im_/http://67.media.tumblr.com...ib3.connection.HTTPConnection object at 0x7fd624a0de20>, 'Conn",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "circuit-breaker",
+     "note": "circuit breaker opened before probing http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_1280.jpg; no request was sent for it"
+    }
+   ],
    "base_key": "tumblr_mybsnv0yof1r3it8zo1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "timeout",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mybsnv0yof1r3it8zo1_250.jpg",
    "media_url": "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (timeout); 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
+   "state": "missing",
    "url_forms": [
     "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg"
    ],
@@ -31,6 +76,7 @@
    ]
   }
  ],
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -46,9 +92,50 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.png",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.png",
+      "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "timeout",
+     "location": "",
+     "message": "HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /web/20191231235959im_/http://67.media.tumblr.com...ib3.connection.HTTPConnection object at 0x7fd624a0de20>, 'Conn",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "circuit-breaker",
+     "note": "circuit breaker opened before probing http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_1280.jpg; no request was sent for it"
+    }
+   ],
    "media_url": "http://67.media.tumblr.com/f47d4d29f19c98513f15f7b86a76b7cb/tumblr_mybsnv0yof1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "timeout"
   }
  ],
  "original_url": "http://hazfalafel.com/post/71032145605",

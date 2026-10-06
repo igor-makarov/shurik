@@ -5,16 +5,39 @@
  "content_html": "",
  "content_text": "",
  "failure_count": 0,
+ "fetched_at": "2026-10-06T16:02:24Z",
  "image_count": 0,
  "images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg"
+    }
+   ],
    "base_key": "tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:img",
    "media_key": "tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
    "media_url": "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg"
    ],
@@ -23,6 +46,7 @@
    ]
   }
  ],
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -38,9 +62,28 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg"
+    }
+   ],
    "media_url": "http://67.media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/69400236197",
