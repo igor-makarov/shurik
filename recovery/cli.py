@@ -540,7 +540,8 @@ def archive_health(fetcher: Fetcher, url: str = HEALTHCHECK_URL,
 
 
 def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
-              dry_run: bool = False, max_throttled: int = 0) -> dict:
+              dry_run: bool = False, max_throttled: int = 0,
+              hosts: Optional[list[str]] = None) -> dict:
     """Answer "is this media stem archived, before the cutoff?" for every image.
 
     One CDX prefix query per size-stem -- the same question `--method stem`
@@ -588,6 +589,14 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
             (fresh_stems if not img.get("sha256") else known_stems).append(stem)
     stems = fresh_stems + known_stems
     todo = index.missing(stems)
+    if hosts:
+        # Order the pending questions by measured yield instead of by crawl
+        # order: the CDX endpoint is the scarce resource (it rate limits), so
+        # each request should go to a pool that has actually answered with a
+        # capture before. Hosts that never answered keep their place at the end
+        # -- they are still asked, just not first.
+        rank = {h.strip().lower(): i for i, h in enumerate(hosts) if h.strip()}
+        todo.sort(key=lambda s: (rank.get(s.split("/")[2].lower(), len(rank)), s))
     if limit_stems:
         todo = todo[:limit_stems]
     out = {"stems_total": len(stems), "stems_answered": len(index.rows),
@@ -595,6 +604,7 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
            "scope": STEM_SCOPE, "requests_sent": 0, "answered_now": 0, "hits": 0,
            "stem_hits": [], "skipped": [], "concurrency": concurrency,
            "failures": {}, "deferred": 0, "unsent": 0,
+           "host_priority": hosts or [],
            "stopped_early": False}
     if dry_run:
         return out
@@ -1277,6 +1287,9 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--max-throttled", type=int, default=0,
                    help="stop the pass after N real 429/503 answers (0 = no limit); "
                         "stems never asked stay pending for the next pass")
+    p.add_argument("--hosts", default="",
+                   help="comma separated media hosts in priority order; pending stems "
+                        "are asked in that order (unlisted hosts last)")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=0,
                    help="max posts per pass (0 = 5, or every id given with --ids)")
@@ -1371,7 +1384,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                                  retry_gap=args.retry_gap)
     elif args.cmd == "stem-scan":
         out = stem_scan(fetcher, limit_stems=args.limit_stems, concurrency=args.concurrency,
-                        dry_run=args.dry_run, max_throttled=args.max_throttled)
+                        dry_run=args.dry_run, max_throttled=args.max_throttled,
+                        hosts=[h for h in args.hosts.split(",") if h.strip()])
     elif args.cmd == "fetch-images":
         queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
                            max_attempts=args.max_attempts or 12)
