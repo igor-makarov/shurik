@@ -261,17 +261,16 @@ class Fetcher:
 
     def _note_outcome(self, resp: Response) -> None:
         with self._lock:
-            if resp.error == THROTTLED:
-                self._throttled_streak += 1
-                self._no_answer_streak += 1
-                self._block_cause = THROTTLED
-                if self._no_answer_streak >= BREAKER_THRESHOLD:
-                    self._breaker_trips += 1
-                    span = min(BREAKER_MAX_SECONDS,
-                               BREAKER_BASE_SECONDS * (2 ** (self._breaker_trips - 1)))
-                    self._blocked_until = time.monotonic() + span
-            elif resp.error in (TRANSPORT, TIMEOUT):
-                self._transport_streak += 1
+            if resp.error == THROTTLED or is_refusal(resp):
+                # Only a genuine throttle (429/503) or a refused connection
+                # (TRANSPORT with status None and a refusal message) trips the
+                # breaker. Timeouts and other transports (DNS/reset/TLS) are
+                # inconclusive singletons: they stay retryable via the bounded
+                # get() retries and the durable queue cooldown, but must not
+                # block the CDX fallback that `method=auto` needs after a
+                # timed-out probe.
+                self._throttled_streak += 1 if resp.error == THROTTLED else 0
+                self._transport_streak += 1 if resp.error != THROTTLED else 0
                 self._no_answer_streak += 1
                 self._block_cause = resp.error
                 if self._no_answer_streak >= BREAKER_THRESHOLD:
