@@ -56,6 +56,7 @@
    "media_type": "image/jpeg",
    "media_url": "https://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_500.jpg",
    "sha256": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc",
+   "state": "recovered",
    "url_forms": [
     "https://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_500.jpg"
    ],
@@ -90,6 +91,7 @@
    "media_type": "image/jpeg",
    "media_url": "https://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_640.jpg",
    "sha256": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc",
+   "state": "recovered",
    "url_forms": [
     "https://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_640.jpg"
    ],
@@ -105,7 +107,41 @@
     "https://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1.png",
     "https://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_man4lqrrsB1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+   "media_url": "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_1280.jpg",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_1024.jpg",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_540.jpg",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_500.jpg",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_400.jpg",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_100.jpg",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1.png",
+    "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1.gif"
+   ]
   }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730110633",
+   "listing_url": "http://hazfalafel.com/archive/2012/9"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/31914464998"
  ],
  "methods": [
   {
@@ -119,12 +155,18 @@
    "url": "http://hazfalafel.com:80/post/31914464998"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://66.media.tumblr.com/tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/31914464998",
  "page_bytes": 64500,
  "page_sha256": "ec8077e8a56a0046e8296bd1118384ea1c53dfdd669b6c8625b91fb425eeb014",
- "partial": false,
+ "partial": true,
  "post_id": "31914464998",
  "posted_on": "Posted on Thursday the 20th of September 2012 at 11:51 AM",
  "published": {
@@ -145,7 +187,7 @@
   "manifest_digest": "sha256:a936b3d5d6dccd70013bfe03f80ccd36ead84390e6146e87665090feb038e3b1"
  },
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "צרות-של-אשכנזים",
   "מעריב",

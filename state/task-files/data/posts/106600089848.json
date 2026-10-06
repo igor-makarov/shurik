@@ -26,7 +26,7 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "variant-plan"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
      "n_earlier_attempts": 1,
@@ -148,13 +148,11 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "replay-probe",
-      "variant-budget",
-      "variant-plan"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 3,
-     "note": "3 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "captures": 0,
@@ -397,7 +395,7 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "variant-plan"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
      "n_earlier_attempts": 1,
@@ -489,13 +487,11 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "replay-probe",
-      "variant-budget",
-      "variant-plan"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 3,
-     "note": "3 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "captures": 0,
