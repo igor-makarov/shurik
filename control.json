@@ -3,7 +3,7 @@
   "id": "hazfalafel-20261004t213311",
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
-  "supervisor": "571579a564851d8bc17891196766df50deed527f",
+  "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
   "status": "stopped",
   "generation": 13,
   "next": 250,
@@ -20,11 +20,11 @@
   "stateStorage": "control",
   "reasoning": "xhigh",
   "checkpoint": {
-    "workCommit": "fd69d96acb54115790e3ec9f78e9ff819738cc19",
+    "workCommit": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
     "generation": 13,
-    "sequence": "13-249",
-    "runId": "37483723419",
-    "at": "2026-10-06T15:03:52.214Z"
+    "sequence": "13-maintainer-guidance",
+    "runId": null,
+    "at": "2026-10-06T15:30:46.000Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -37,11 +37,11 @@
     "reasoningExplicitlyChosen": "high"
   },
   "upgrade": {
-    "at": "2026-10-06T14:55:49.000Z",
-    "previousSupervisor": "2953feb907e1abdfc429549699ba28fa75e5321c",
-    "previousWorker": "474afc9dddbf1c7dfc3673c4e315ea74dafa84ac",
-    "supervisor": "571579a564851d8bc17891196766df50deed527f",
-    "workCommit": "acd743fcb3a61a6ae933afbac9ec0f0250603544",
+    "at": "2026-10-06T15:30:46.000Z",
+    "previousSupervisor": "571579a564851d8bc17891196766df50deed527f",
+    "previousWorker": "acd743fcb3a61a6ae933afbac9ec0f0250603544",
+    "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+    "workCommit": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
     "cooperativeCheckpoints": true,
     "checkpointSeconds": 300,
     "realJournalCanaryPassed": true,
@@ -52,9 +52,11 @@
     "preserveExistingOnRegistryRestore": true,
     "persistentTimeGuidance": true,
     "proactiveSelfHealing": true,
-    "mainCIRunId": "37482627521",
+    "mainCIRunId": "37487861116",
     "frameworkTestsPassed": 42,
-    "sessionEndReminder": "final_checkpoint_interval"
+    "sessionEndReminder": "final_checkpoint_interval",
+    "clockAnnouncements": "final_checkpoint_interval_only",
+    "earlyYieldPolicy": "verified_task_completion_only"
   },
   "modelChange": {
     "at": "2026-10-06T10:46:49.426Z",
@@ -81,5 +83,12 @@
     "baselinePath": "state/model-experiments/muse-20261006-late-reminder.json",
     "previousLastRunId": "37477589625"
   },
-  "stoppedAt": "2026-10-06T15:03:30.000Z"
+  "stoppedAt": "2026-10-06T15:03:30.000Z",
+  "guidanceChange": {
+    "at": "2026-10-06T15:30:46.000Z",
+    "reason": "User requested clock announcements only in the final snapshot and removal of external-blocker early-yield exception",
+    "remainStopped": true,
+    "mainCommit": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+    "workCommit": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c"
+  }
 }
