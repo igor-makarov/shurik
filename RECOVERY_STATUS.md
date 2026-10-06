@@ -92,24 +92,29 @@ verified anonymously, 20/20 checks per tag): 16809999572, 16881301957,
 
 ## Next work
 
-Keep running bounded `python3 -m recovery.cli fetch-images --method stem
---retry-missing --limit N --concurrency 2` passes over the posts with
-unresolved images (the queue orders by fewest attempts, so untouched posts come
-first), publishing on recovery, then re-push the `crawl-state` checkpoint and
-`verify-artifact` the new tags. Yield is ~4-5 images per 300 posts now, so the
-passes are worth batching: 758 posts still had work when the 7-95 batch
-started, and ~430 photo identities still have no stem answer.
+Stem/CDX discovery is exhausted (all 1824 stems answered, `posts_with_stem_hits` empty; listing mining yields only same-photo `_250` aliases). The remaining lever is replay probes of never-probed sibling forms and availability sweeps of never-swept URLs: 451 posts still have work without `--retry-missing`, 1131 with it. Cross-shard copies are now falsified for listing-only photos too (12-246: 308/308 gaps across 22 hosts x sizes) -- do not spend more on shard swaps; spend replay/availability on untried same-shard siblings instead. `fetch-images --method probe --limit 25 --concurrency 2` settles ~9 posts per healthy window between refusal blocks; `probe-availability --limit 150` runs on the unblocked host during replay cooldowns. Re-push the `crawl-state` checkpoint (12-246 did NOT push; new avail rows since de7ce3d1 live only in local data/cdx + supervisor control snapshot) and `verify-artifact` any new tags.
 
 Known weak spots: posts 13833997906-14996000761 (2010-2011,
 `27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
 that verdict is scoped to those exact URLs only.
 
-Checkpoint digest at the end of 12-245: `crawl-state`
-`sha256:de7ce3d1de32d84f8d36856e30a22348538cf35d6bfe7cd07709648d48e244bf`
-(pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
-restores `data/posts`, `data/cdx` and the queue/ledgers; pull-verified
-`restored:true`). Pre-batch digest was
-`sha256:e8eb7ab7e54a3c5c0d088fd17fa7d9c4ff165d4867ca472b55fcac03f4f65d5a`.
+Crawl-state pointer still `sha256:de7ce3d1de32d84f8d36856e30a22348538cf35d6bfe7cd07709648d48e244bf` (12-245; 12-246 added ~150 avail rows + 9 settled probe posts on top, not yet pushed). Replay cooldown recorded until 14:09:58Z by the 12-246 probe pass; health-check before surrendering a pass.
+
+## 12-246 result: 25-probe batch (9 settled, 16 honestly deferred) + 150 avail gaps + 308-query cross-shard falsification, 0 new bytes
+
+## 12-246 result: 25-probe batch (9 settled, 16 honestly deferred) + 150 avail gaps + 308-query cross-shard falsification, 0 new bytes
+
+Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
+**86 images across 53 image-bearing tags** (741 tags total), unchanged.
+`status`: 1222 parsed, 2378 missing. No new published images.
+
+* Real path: `fetch-images --method probe --limit 25 --concurrency 2` opened with a healthy health-check (302) clearing the 12-245 cooldown, settled 9 listing-stub posts with genuine 404 gaps (scoped to those same-shard variant forms), then hit TRANSPORT refusals that tripped the breaker honestly as transport; 16 remaining posts deferred with NO request sent and NO attempt spent (attempts 2705->2714 = +9 only). Refusal-is-transport fix verified on the live path.
+* During replay cooldown, `probe-availability --limit 150` on the unblocked host: 0 hits, 150 gaps, 0 transient (avail now ~485 rows).
+* New experiment (scripts in ignored `data/work/xshard_experiment*.py`, raw rows in `data/work/xshard-avail*.jsonl`, NOT checkpointed): 6 listing-only-no-capture photos x 22 shards (all observed Tumblr hosts + media/data) = 132 avail queries at listing era, 0 hits; then 2 photos x 22 hosts x 4 sizes (_500/_1280/_400/_250) = 176 queries, 0 hits. Total 308/308 gaps, 0 transient. Cross-shard copies falsified for this family (scoped to these photos/forms/eras); the listing `_250` shard is the only shard and the archive holds none of these paths.
+* 64 listing-only-no-capture candidates enumerated (posts with zero post captures, only listing `_250` evidence); the 6 tested are representative, 58 remain but the 0/308 verdict says shard swaps are not the lever -- same-shard sibling exhaustion and post-capture discovery are.
+* NOT done: `crawl-state` push (new avail rows + queue since de7ce3d1 await next iteration's `python3 -m recovery.cli checkpoint`). Supervisor auto-snapshot 6af4f21d carries the tree; ignored data/cdx rows rely on the control-branch snapshot until the push.
+
+Next: same-shard sibling probes (`--retry-missing` continues variant budgets the 12-246 pass left queued) and avail sweeps of never-swept URLs; health-check before surrendering any pass to a recorded cooldown.
 
 ## 12-245 result: refusal-is-transport fix + 10 probes (9 gaps, 1 transport) + 20 avail gaps, 0 new bytes
 
