@@ -1,0 +1,124 @@
+{
+  "version": 1,
+  "experiment": "Overnight Falafel recovery with hourly emergency-brake supervision",
+  "generation": 17,
+  "startedAt": "2026-10-06T20:10:21Z",
+  "deadline": "2026-10-07T05:00:00.000Z",
+  "deadlineTimezone": "Asia/Jerusalem",
+  "provider": "opencode-go",
+  "model": "deepseek-v4.1-flash",
+  "reasoning": "high",
+  "adapterVersion": "@earendil-works/pi-ai@1.0.2",
+  "adapterPricingPerMillionTokens": {
+    "input": 0.15,
+    "output": 0.6,
+    "cacheRead": 0.003,
+    "cacheWrite": 0
+  },
+  "baseline": {
+    "workCommit": "458d6e368f53033286fde06f5d73d1d054343795",
+    "controlCommit": "8c033ae557603a2d6d73c0311dbf42804c28df87",
+    "publicationImages": 91,
+    "postsWithImages": 58,
+    "savedDistinctImageHashes": 64,
+    "usageSource": "state/iterations/16-276.json",
+    "usage": {
+      "models": {
+        "opencode-go/space-bunny-free": {
+          "input": 5125097,
+          "output": 1517617,
+          "cacheRead": 100705076,
+          "cacheWrite": 0,
+          "reasoning": 793737,
+          "totalTokens": 107347790,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/longcat-2.5-preview-free": {
+          "input": 566610,
+          "output": 71420,
+          "cacheRead": 3707008,
+          "cacheWrite": 0,
+          "reasoning": 28500,
+          "totalTokens": 4345038,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/muse-spark-1.3-contributor": {
+          "input": 2253896,
+          "output": 163509,
+          "cacheRead": 24165373,
+          "cacheWrite": 0,
+          "totalTokens": 26582778,
+          "cost": {
+            "input": 0.2253895999999998,
+            "output": 0.032701799999999996,
+            "cacheRead": 0.04833074599999995,
+            "cacheWrite": 0,
+            "total": 0.30642214599999995
+          },
+          "reasoning": 67573
+        },
+        "opencode-go/deepseek-v4.1-flash": {
+          "input": 376041,
+          "output": 67225,
+          "cacheRead": 5164416,
+          "cacheWrite": 0,
+          "totalTokens": 5607682,
+          "cost": {
+            "input": 0.05640614999999999,
+            "output": 0.04033499999999998,
+            "cacheRead": 0.015493247999999996,
+            "cacheWrite": 0,
+            "total": 0.112234398
+          },
+          "reasoning": 44028
+        }
+      },
+      "tools": {}
+    },
+    "modelUsage": {
+      "input": 376041,
+      "output": 67225,
+      "cacheRead": 5164416,
+      "cacheWrite": 0,
+      "totalTokens": 5607682,
+      "cost": {
+        "input": 0.05640614999999999,
+        "output": 0.04033499999999998,
+        "cacheRead": 0.015493247999999996,
+        "cacheWrite": 0,
+        "total": 0.112234398
+      },
+      "reasoning": 44028
+    }
+  },
+  "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+  "runtime": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
+  "guidance": {
+    "clockAnnouncements": "final_checkpoint_interval_only",
+    "checkpointSeconds": 300,
+    "earlyYieldPolicy": "verified_task_completion_only",
+    "proactiveSelfHealing": true
+  },
+  "costNote": "Subtract this cumulative DeepSeek modelUsage baseline from the latest/highest cumulative totals; never sum iteration totals or charge prior models. Reasoning is included in output. Saved adapter estimate, not a provider invoice or extra subscription charge.",
+  "supervision": {
+    "userAuthorizedEmergencyBrake": true,
+    "checks": "hourly",
+    "deadlineFinalReport": true,
+    "ordinaryHealthNotifications": false,
+    "stopOnlyOnConcreteSeriousProblem": true,
+    "modelChange": false,
+    "priorLiveAccessEstablished": true
+  }
+}

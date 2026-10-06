@@ -4,11 +4,11 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "deadline",
-  "generation": 16,
+  "status": "running",
+  "generation": 17,
   "next": 277,
   "owner": null,
-  "deadline": "2026-10-06T19:51:35.000Z",
+  "deadline": "2026-10-07T05:00:00.000Z",
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
@@ -16,15 +16,15 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37518531988",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
     "workCommit": "458d6e368f53033286fde06f5d73d1d054343795",
-    "generation": 16,
-    "sequence": "16-276",
-    "runId": "37518531988",
-    "at": "2026-10-06T19:51:39.694Z"
+    "generation": 17,
+    "sequence": "17-maintainer",
+    "runId": null,
+    "at": "2026-10-06T20:10:21Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -75,13 +75,13 @@
     "initialModelHealthCheck": "required"
   },
   "restart": {
-    "at": "2026-10-06T18:51:35.000Z",
-    "previousGeneration": 15,
-    "generation": 16,
-    "reason": "User requested retry after Global-regions access rejection and an initial live health check",
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-relaunch.json",
-    "previousLastRunId": "37512929202",
-    "initialModelHealthCheck": "required"
+    "at": "2026-10-06T20:10:21Z",
+    "previousGeneration": 16,
+    "generation": 17,
+    "reason": "User requested run until 08:00 Asia/Jerusalem with hourly checks; user delegated emergency brake while sleeping",
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-overnight.json",
+    "previousLastRunId": "37518531988",
+    "modelChanged": false
   },
   "guidanceChange": {
     "at": "2026-10-06T15:30:46.000Z",
@@ -89,5 +89,12 @@
     "remainStopped": true,
     "mainCommit": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
     "workCommit": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c"
+  },
+  "supervision": {
+    "checks": "hourly",
+    "userAuthorizedEmergencyBrake": true,
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-overnight.json",
+    "deadlineTimezone": "Asia/Jerusalem",
+    "notifyOn": "serious_problem_or_completion"
   }
 }
