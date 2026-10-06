@@ -139,19 +139,6 @@ def connection_refused(exc: BaseException) -> bool:
     return False
 
 
-def classify_exception(exc: BaseException) -> tuple[str, str]:
-    """Map a requests/urllib exception to (error class, message)."""
-    name = type(exc).__name__.lower()
-    if connection_refused(exc):
-        # No HTTP answer arrived, so this cannot prove a rate limit (see
-        # failure-class note above). TRANSPORT keeps it retryable and distinct
-        # from a genuine 429/503 throttle.
-        return TRANSPORT, f"connection refused (transport, no HTTP answer): {str(exc)[:200]}"
-    if "timeout" in name:
-        return TIMEOUT, str(exc)[:300]
-    return TRANSPORT, str(exc)[:300]
-
-
 def short_message(message: str, limit: int = 200) -> str:
     """Ledger-safe truncation that preserves the diagnostic tail.
 
@@ -167,6 +154,27 @@ def short_message(message: str, limit: int = 200) -> str:
     head = limit * 2 // 3
     tail = limit - head - 5
     return f"{message[:head]}...{message[-tail:]}" if tail > 0 else message[:limit]
+
+
+def classify_exception(exc: BaseException) -> tuple[str, str]:
+    """Map a requests/urllib exception to (error class, message)."""
+    name = type(exc).__name__.lower()
+    if connection_refused(exc):
+        # No HTTP answer arrived, so this cannot prove a rate limit (see
+        # failure-class note above). TRANSPORT keeps it retryable and distinct
+        # from a genuine 429/503 throttle. The raw text is pool-prefix +
+        # long replay URL + cause, with the refusal evidence (errno 111 /
+        # "Connection refused") in the tail past position 250 for long
+        # media URLs: a plain [:200] head cut keeps the URL and loses the
+        # cause, so preserve head+tail (same rule as short_message) rather
+        # than truncating the head only.
+        raw = str(exc)
+        kept = short_message(raw, 200) if len(raw) > 200 else raw
+        return TRANSPORT, f"connection refused (transport, no HTTP answer): {kept}"
+    if "timeout" in name:
+        return TIMEOUT, short_message(str(exc), 300) if len(str(exc)) > 300 else str(exc)[:300]
+    raw = str(exc)
+    return TRANSPORT, short_message(raw, 300) if len(raw) > 300 else raw[:300]
 
 
 def is_refusal(resp: "Response") -> bool:
