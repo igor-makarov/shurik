@@ -22,8 +22,8 @@
  "content_source": "div.copy",
  "content_text": "",
  "date_text": "Posted 5 years ago",
- "failure_count": 1,
- "fetched_at": "2026-10-05T04:11:36Z",
+ "failure_count": 2,
+ "fetched_at": "2026-10-06T21:38:32Z",
  "image_count": 0,
  "images": [],
  "listing_evidence": 1,
@@ -40,13 +40,13 @@
  ],
  "methods": [
   {
-   "bytes": 62920,
+   "bytes": 4607,
    "capture_timestamp": "20171110163801",
    "endpoint": "replay id_",
-   "error": "ok",
+   "error": "archive_gap",
    "kind": "perm",
-   "message": "",
-   "status": 200,
+   "message": "HTTP 404",
+   "status": 404,
    "url": "http://hazfalafel.com/post/19733897809"
   }
  ],
@@ -60,8 +60,8 @@
  "posted_on": "Posted on Thursday the 22nd of March 2012 at 5:50 PM",
  "reason": "snapshot_exists",
  "replay_url": "https://web.archive.org/web/20171110163801id_/http://hazfalafel.com/post/19733897809",
- "snapshot_retries": 0,
- "state": "listing_only",
+ "snapshot_retries": 1,
+ "state": "failed",
  "tags": [
   "יצחק-שמיר-החלטי"
  ]

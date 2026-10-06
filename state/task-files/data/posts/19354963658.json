@@ -22,8 +22,8 @@
  "content_source": "div.copy",
  "content_text": "",
  "date_text": "Posted 5 years ago",
- "failure_count": 1,
- "fetched_at": "2026-10-05T04:11:34Z",
+ "failure_count": 2,
+ "fetched_at": "2026-10-06T21:38:24Z",
  "image_count": 0,
  "images": [],
  "listing_evidence": 1,
@@ -40,13 +40,13 @@
  ],
  "methods": [
   {
-   "bytes": 61589,
+   "bytes": 4607,
    "capture_timestamp": "20171110164939",
    "endpoint": "replay id_",
-   "error": "ok",
+   "error": "archive_gap",
    "kind": "perm",
-   "message": "",
-   "status": 200,
+   "message": "HTTP 404",
+   "status": 404,
    "url": "http://hazfalafel.com/post/19354963658"
   }
  ],
@@ -60,8 +60,8 @@
  "posted_on": "Posted on Thursday the 15th of March 2012 at 9:41 PM",
  "reason": "snapshot_exists",
  "replay_url": "https://web.archive.org/web/20171110164939id_/http://hazfalafel.com/post/19354963658",
- "snapshot_retries": 0,
- "state": "listing_only",
+ "snapshot_retries": 1,
+ "state": "failed",
  "tags": [
   "בראבא-לא"
  ]

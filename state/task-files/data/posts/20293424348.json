@@ -22,8 +22,8 @@
  "content_source": "div.copy",
  "content_text": "",
  "date_text": "Posted 4 years ago",
- "failure_count": 1,
- "fetched_at": "2026-10-05T04:11:38Z",
+ "failure_count": 2,
+ "fetched_at": "2026-10-06T21:38:41Z",
  "image_count": 0,
  "images": [],
  "listing_evidence": 1,
@@ -40,13 +40,13 @@
  ],
  "methods": [
   {
-   "bytes": 66383,
+   "bytes": 4607,
    "capture_timestamp": "20160731060543",
    "endpoint": "replay id_",
-   "error": "ok",
+   "error": "archive_gap",
    "kind": "perm",
-   "message": "",
-   "status": 200,
+   "message": "HTTP 404",
+   "status": 404,
    "url": "http://hazfalafel.com/post/20293424348"
   }
  ],
@@ -60,8 +60,8 @@
  "posted_on": "Posted on Sunday the 1st of April 2012 at 7:59 PM",
  "reason": "snapshot_exists",
  "replay_url": "https://web.archive.org/web/20160731060543id_/http://hazfalafel.com/post/20293424348",
- "snapshot_retries": 0,
- "state": "listing_only",
+ "snapshot_retries": 1,
+ "state": "failed",
  "tags": [
   "אמנון-דנקנר-מקליד"
  ]
