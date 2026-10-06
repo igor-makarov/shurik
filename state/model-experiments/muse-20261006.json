@@ -1,0 +1,69 @@
+{
+  "version": 1,
+  "generation": 10,
+  "model": "muse-spark-1.3-contributor",
+  "reasoning": "xhigh",
+  "startedAt": "2026-10-06T10:46:49.426Z",
+  "deadline": "2026-10-06T11:46:49.426Z",
+  "baseline": {
+    "at": "2026-10-06T10:46:49.426Z",
+    "workCommit": "231e8128cc9aa6828011bfb22abfc4f5041adf1f",
+    "publicationSource": "9c0bf9f7e92ca15144d865d93a7262b5a86acc6d",
+    "images": 82,
+    "postsWithImages": 53,
+    "countMethod": "Sum max successful image_count once per post_id; actions pushed, updated, skipped",
+    "usageSource": "state/iterations/9-208.json",
+    "usage": {
+      "models": {
+        "opencode-go/space-bunny-free": {
+          "input": 5125097,
+          "output": 1517617,
+          "cacheRead": 100705076,
+          "cacheWrite": 0,
+          "reasoning": 793737,
+          "totalTokens": 107347790,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/longcat-2.5-preview-free": {
+          "input": 566610,
+          "output": 71420,
+          "cacheRead": 3707008,
+          "cacheWrite": 0,
+          "reasoning": 28500,
+          "totalTokens": 4345038,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        }
+      },
+      "tools": {}
+    },
+    "museUsage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 0,
+      "cost": {
+        "total": 0
+      }
+    }
+  },
+  "validation": {
+    "at": "2026-10-06T10:46:49.426Z",
+    "frameworkTestsPassed": 41,
+    "realJournalCanaryPassed": true,
+    "runnerRecoveryProofPassed": true
+  }
+}

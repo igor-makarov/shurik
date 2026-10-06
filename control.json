@@ -3,28 +3,28 @@
   "id": "hazfalafel-20261004t213311",
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
-  "supervisor": "7bde8f5e54f24030add979480e12621b6774a1c9",
-  "status": "stopped",
-  "generation": 9,
+  "supervisor": "1803fe063593b35bf7fcd21560833548cf5a4bb3",
+  "status": "running",
+  "generation": 10,
   "next": 209,
   "owner": null,
-  "deadline": "2026-10-06T13:00:00.000Z",
+  "deadline": "2026-10-06T11:46:49.426Z",
   "seconds": 1800,
-  "model": "longcat-2.5-preview-free",
+  "model": "muse-spark-1.3-contributor",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37449700226",
+  "lastRunId": null,
   "stateStorage": "control",
-  "reasoning": "high",
+  "reasoning": "xhigh",
   "checkpoint": {
-    "workCommit": "9c0bf9f7e92ca15144d865d93a7262b5a86acc6d",
-    "generation": 9,
-    "sequence": "9-208",
-    "runId": "37449700226",
-    "at": "2026-10-06T10:35:43.687Z"
+    "workCommit": "231e8128cc9aa6828011bfb22abfc4f5041adf1f",
+    "generation": 10,
+    "sequence": "maintainer-muse-restart",
+    "runId": null,
+    "at": "2026-10-06T10:46:49.426Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -37,22 +37,35 @@
     "reasoningExplicitlyChosen": "high"
   },
   "upgrade": {
-    "at": "2026-10-06T08:14:49Z",
-    "previousSupervisor": "b4cd2887b0f06ce92a2ccf1bed04eac3646af364",
-    "previousWorker": "911dfda864f818c23de75b40eacee27854638051",
-    "supervisor": "7bde8f5e54f24030add979480e12621b6774a1c9",
-    "workCommit": "8da125e356b1c321e53a4f1bd84d6d0e1d7a06c7",
+    "at": "2026-10-06T10:46:49.426Z",
+    "previousSupervisor": "7bde8f5e54f24030add979480e12621b6774a1c9",
+    "previousWorker": "8da125e356b1c321e53a4f1bd84d6d0e1d7a06c7",
+    "supervisor": "1803fe063593b35bf7fcd21560833548cf5a4bb3",
+    "workCommit": "231e8128cc9aa6828011bfb22abfc4f5041adf1f",
     "cooperativeCheckpoints": true,
     "checkpointSeconds": 300,
-    "realJournalCanaryPassed": true
+    "realJournalCanaryPassed": true,
+    "taskCheckpointPaths": [
+      "data/posts",
+      "data/cdx"
+    ],
+    "preserveExistingOnRegistryRestore": true
   },
   "modelChange": {
-    "at": "2026-10-06T08:52:33Z",
-    "from": "space-bunny-free",
-    "to": "longcat-2.5-preview-free",
-    "reasoning": "high",
-    "highestExposedReasoningLevel": true
-  },
-  "stoppedAt": "2026-10-06T10:35:25.123Z",
-  "stopReason": "Maintainer restoration fix and Muse model upgrade"
+    "at": "2026-10-06T10:46:49.426Z",
+    "from": "longcat-2.5-preview-free",
+    "to": "muse-spark-1.3-contributor",
+    "reasoning": "xhigh",
+    "requestedReasoning": "max",
+    "highestExposedReasoningLevel": true,
+    "supportedReasoningLevels": [
+      "minimal",
+      "low",
+      "medium",
+      "high",
+      "xhigh"
+    ],
+    "durationSeconds": 3600,
+    "baselinePath": "state/model-experiments/muse-20261006.json"
+  }
 }
