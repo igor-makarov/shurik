@@ -4,27 +4,27 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "deadline",
-  "generation": 14,
+  "status": "running",
+  "generation": 15,
   "next": 252,
   "owner": null,
-  "deadline": "2026-10-06T16:41:41.000Z",
+  "deadline": "2026-10-06T18:42:57.000Z",
   "seconds": 1800,
-  "model": "muse-spark-1.3-contributor",
+  "model": "deepseek-v4.1-flash",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37494559788",
+  "lastRunId": null,
   "stateStorage": "control",
-  "reasoning": "xhigh",
+  "reasoning": "high",
   "checkpoint": {
     "workCommit": "f3057b54eab1ae9ea3a1124c770345fe97e3a543",
-    "generation": 14,
-    "sequence": "14-251",
-    "runId": "37494559788",
-    "at": "2026-10-06T16:41:45.378Z"
+    "generation": 15,
+    "sequence": "15-maintainer",
+    "runId": null,
+    "at": "2026-10-06T17:42:57.000Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -59,29 +59,26 @@
     "earlyYieldPolicy": "verified_task_completion_only"
   },
   "modelChange": {
-    "at": "2026-10-06T10:46:49.426Z",
-    "from": "longcat-2.5-preview-free",
-    "to": "muse-spark-1.3-contributor",
-    "reasoning": "xhigh",
-    "requestedReasoning": "max",
-    "highestExposedReasoningLevel": true,
+    "at": "2026-10-06T17:42:57.000Z",
+    "from": "muse-spark-1.3-contributor",
+    "to": "deepseek-v4.1-flash",
+    "reasoning": "high",
+    "requestedReasoning": "high",
     "supportedReasoningLevels": [
-      "minimal",
       "low",
-      "medium",
       "high",
-      "xhigh"
+      "max"
     ],
     "durationSeconds": 3600,
-    "baselinePath": "state/model-experiments/muse-20261006.json"
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006.json"
   },
   "restart": {
-    "at": "2026-10-06T15:41:41.000Z",
-    "previousGeneration": 13,
-    "generation": 14,
-    "reason": "User requested a one-hour Falafel scan after removing ordinary clock announcements and the external-blocker early-yield exception",
-    "baselinePath": "state/model-experiments/muse-20261006-clock-free.json",
-    "previousLastRunId": "37483723419"
+    "at": "2026-10-06T17:42:57.000Z",
+    "previousGeneration": 14,
+    "generation": 15,
+    "reason": "User requested another one-hour Falafel experiment using DeepSeek V4.1 Flash with high reasoning",
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006.json",
+    "previousLastRunId": "37494559788"
   },
   "guidanceChange": {
     "at": "2026-10-06T15:30:46.000Z",
