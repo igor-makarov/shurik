@@ -232,9 +232,43 @@
     "http://78.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1.png",
     "http://78.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lymln7yrqJ1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "media_url": "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_1280.jpg",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_1024.jpg",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_540.jpg",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_400.jpg",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_100.jpg",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1.png",
+    "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730143252",
+   "listing_url": "http://hazfalafel.com/archive/2012/1"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/16809999572"
+ ],
  "methods": [
   {
    "bytes": 63830,
@@ -247,12 +281,18 @@
    "url": "http://hazfalafel.com:80/post/16809999572"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/16809999572",
  "page_bytes": 63830,
  "page_sha256": "897987b4b482553ecba745bde48c4e010f5ab3577699489a6f8057c1b2eeccec",
- "partial": false,
+ "partial": true,
  "post_id": "16809999572",
  "posted_on": "Posted on Tuesday the 31st of January 2012 at 9:00 AM",
  "published": {
@@ -269,7 +309,7 @@
  },
  "replay_url": "https://web.archive.org/web/20131215143328id_/http://hazfalafel.com:80/post/16809999572",
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "צרות-של-אשכנזים",
   "הבימה"

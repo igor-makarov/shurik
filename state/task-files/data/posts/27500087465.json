@@ -22,9 +22,45 @@
  "content_html": "<div><div class=\"post-media\"><amp-img class=\"image\" layout=\"responsive\" src=\"http://68.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_500.png\" alt=\"\" width=\"449\" height=\"704\"></amp-img></div><div class=\"post-caption\"><p>&#1492;&#1508;&#1514;&#1506;&#1492;!</p>            </div></div><div class=\"post-meta\"><div class=\"post-tags\"><div class=\"post-tags-inner\"><a class=\"tag\" href=\"/tagged/חיזבאללה\" target=\"_blank\">חיזבאללה</a><a class=\"tag\" href=\"/tagged/טרול\" target=\"_blank\">טרול</a><a class=\"tag\" href=\"/tagged/YNET\" target=\"_blank\">YNET</a><a class=\"tag\" href=\"/tagged/חדשות\" target=\"_blank\">חדשות</a></div></div></div>",
  "content_source": "div.post-content",
  "content_text": "הפתעה!\nחיזבאללהטרולYNETחדשות",
+ "failure_count": 0,
  "fetched_at": "2026-10-04T23:42:57Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "base_key": "tumblr_m7dgdhKpN61r3it8zo1.png",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_m7dgdhKpN61r3it8zo1_250.png",
+   "media_url": "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_250.png",
+   "state": "unresolved",
+   "url_forms": [
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_250.png"
+   ],
+   "variants": [
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_250.png",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_1280.png",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_1024.png",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_540.png",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_500.png",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_400.png",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_100.png",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1.gif",
+    "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1.jpg"
+   ]
+  }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730143322",
+   "listing_url": "http://hazfalafel.com/archive/2012/7"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/27500087465"
+ ],
  "methods": [
   {
    "bytes": 4607,
@@ -47,12 +83,18 @@
    "url": "http://hazfalafel.com/post/27500087465/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://67.media.tumblr.com/tumblr_m7dgdhKpN61r3it8zo1_250.png",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/27500087465/amp",
  "page_bytes": 40875,
  "page_sha256": "6dfd7ca813df7af1a51801cf00bd76eb3e91e7455b369d1aca8b3e067e596cae",
- "partial": false,
+ "partial": true,
  "post_id": "27500087465",
  "published": {
   "action": "pushed",
@@ -67,7 +109,8 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20170901101229id_/http://hazfalafel.com/post/27500087465/amp",
- "state": "fetched",
+ "snapshot_retries": 0,
+ "state": "partial",
  "tags": [
   "חיזבאללה",
   "טרול",

@@ -16,7 +16,43 @@
  "failure_count": 1,
  "fetched_at": "2026-10-05T00:08:39Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": "tumblr_lvbkjaU3XG1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+   "media_url": "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_1280.jpg",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_1024.jpg",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_540.jpg",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_500.jpg",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_400.jpg",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_100.jpg",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1.png",
+    "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730143318",
+   "listing_url": "http://hazfalafel.com/archive/2011/11"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/13397484447"
+ ],
  "methods": [
   {
    "bytes": 0,
@@ -29,12 +65,19 @@
    "url": "http://hazfalafel.com:80/post/13397484447"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://65.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/13397484447",
- "partial": false,
+ "partial": true,
  "post_id": "13397484447",
  "reason": "archive_gap",
- "state": "failed",
+ "snapshot_retries": 0,
+ "state": "partial",
  "tags": []
 }

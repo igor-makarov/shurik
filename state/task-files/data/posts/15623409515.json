@@ -165,6 +165,28 @@
     "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.png",
     "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lxle6kEsSU1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lxle6kEsSU1r3it8zo1_250.jpg",
+   "media_url": "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_250.jpg",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1280.jpg",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1024.jpg",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_540.jpg",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_500.jpg",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_100.jpg",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.png",
+    "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -196,12 +218,18 @@
    "url": "http://hazfalafel.com:80/post/15623409515"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://66.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/15623409515",
  "page_bytes": 50324,
  "page_sha256": "ab514e1ebf91fe3e998609ac703e9610e2192baaeab348e139a73afdec974ee5",
- "partial": false,
+ "partial": true,
  "post_id": "15623409515",
  "published": {
   "action": "updated",
@@ -217,7 +245,7 @@
  },
  "replay_url": "https://web.archive.org/web/20120114003934id_/http://hazfalafel.com:80/post/15623409515",
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "אני-לקבל-יכול-פלאפל",
   "סקאמבג",

@@ -22,9 +22,45 @@
  "content_html": "<div><div class=\"post-media\"><amp-img class=\"image\" layout=\"responsive\" src=\"http://78.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_1280.jpg\" alt=\"\" width=\"800\" height=\"600\"></amp-img></div><div class=\"post-caption\"><p>&#1492;&#1511;&#1497;&#1509; &#1502;&#1490;&#1497;&#1506;, &#1492;&#1489;&#1490;&#1491;&#1497;&#1501; &#1504;&#1493;&#1513;&#1512;&#1497;&#1501; &#1493;&#1504;&#1491; &#1505;&#1496;&#1488;&#1512;&#1511; &#1502;&#1497;&#1497;&#1491; &#1502;&#1488;&#1489;&#1491; &#1488;&#1514; &#1492;&#1512;&#1488;&#1513;</p>            </div></div><div class=\"post-meta\"><div class=\"post-tags\"><div class=\"post-tags-inner\"><a class=\"tag\" href=\"/tagged/החורף קרב\" target=\"_blank\">החורף קרב</a><a class=\"tag\" href=\"/tagged/משחקי הכס\" target=\"_blank\">משחקי הכס</a><a class=\"tag\" href=\"/tagged/winter is coming\" target=\"_blank\">winter is coming</a><a class=\"tag\" href=\"/tagged/game of thrones\" target=\"_blank\">game of thrones</a></div></div></div>",
  "content_source": "div.post-content",
  "content_text": "הקיץ מגיע, הבגדים נושרים ונד סטארק מייד מאבד את הראש\nהחורף קרבמשחקי הכסwinter is cominggame of thrones",
+ "failure_count": 0,
  "fetched_at": "2026-10-04T23:45:26Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "base_key": "tumblr_mm4umcqxqv1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_mm4umcqxqv1r3it8zo1_250.jpg",
+   "media_url": "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_250.jpg",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_1280.jpg",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_1024.jpg",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_540.jpg",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_500.jpg",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_400.jpg",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_100.jpg",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1.png",
+    "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730142042",
+   "listing_url": "http://hazfalafel.com/archive/2013/5"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/49373727651"
+ ],
  "methods": [
   {
    "bytes": 4607,
@@ -47,12 +83,18 @@
    "url": "http://hazfalafel.com/post/49373727651/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://67.media.tumblr.com/74e87b40d60af9582234151169c885ca/tumblr_mm4umcqxqv1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/49373727651/amp",
  "page_bytes": 41392,
  "page_sha256": "b519201632f3c2af5d747e120a88aae7a9c5723e6ffccc4f05269feef8eeddfb",
- "partial": false,
+ "partial": true,
  "post_id": "49373727651",
  "published": {
   "action": "pushed",
@@ -67,7 +109,8 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20171206152336id_/http://hazfalafel.com/post/49373727651/amp",
- "state": "fetched",
+ "snapshot_retries": 0,
+ "state": "partial",
  "tags": [
   "החורף קרב",
   "משחקי הכס",

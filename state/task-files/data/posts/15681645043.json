@@ -99,9 +99,43 @@
     "http://27.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1.png",
     "http://27.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lxnh8j8hXJ1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lxnh8j8hXJ1r3it8zo1_250.jpg",
+   "media_url": "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_250.jpg",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_1280.jpg",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_1024.jpg",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_540.jpg",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_400.jpg",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_100.jpg",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1.png",
+    "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730143252",
+   "listing_url": "http://hazfalafel.com/archive/2012/1"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/15681645043"
+ ],
  "methods": [
   {
    "bytes": 50431,
@@ -114,12 +148,18 @@
    "url": "http://hazfalafel.com:80/post/15681645043"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://66.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/15681645043",
  "page_bytes": 50431,
  "page_sha256": "637bf728773036698e928f8d875c8af67fb2f78448a4a8c7c948f66bf36a94e6",
- "partial": false,
+ "partial": true,
  "post_id": "15681645043",
  "published": {
   "action": "pushed",
@@ -139,7 +179,7 @@
   "manifest_digest": "sha256:8db44c51ac926a2f7e428acc8c350cbc35553c6cab93423da5b40b39ecc18ecb"
  },
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "ילד-הצלחה-עולם-שלישי",
   "סופה-לנדבר",

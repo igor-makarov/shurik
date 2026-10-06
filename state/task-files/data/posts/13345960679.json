@@ -32,12 +32,11 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "cdx"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "endpoint": "variant-plan",
@@ -151,6 +150,9 @@
    ]
   },
   {
+   "alt_sources": [
+    "http://hazfalafel.com/archive/2011/11"
+   ],
    "attempts": [
     {
      "earlier_endpoints": [
@@ -270,6 +272,18 @@
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 1,
+ "listing_images_added": 0,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730143318",
+   "listing_url": "http://hazfalafel.com/archive/2011/11"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/13345960679"
+ ],
  "methods": [
   {
    "bytes": 0,
@@ -298,12 +312,11 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "cdx"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "endpoint": "variant-plan",
