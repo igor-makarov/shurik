@@ -12,8 +12,10 @@ export function timeRemainingInstructions(iterationEndsAt: number, deadline?: st
     : 'There is no overall loop deadline configured.';
   return `Time update at ${new Date(now).toISOString()}: about ${seconds} seconds remain in this iteration (ends ${new Date(iterationEndsAt).toISOString()}). ${overall} `
     + 'An iteration is one session of a continuing Ralph loop. The supervisor normally starts the next fresh-context iteration while the loop is running and before its overall deadline. '
-    + 'Choose useful work that fits the remaining time, save recoverable partial results, commit meaningful task progress, and leave a concise handoff with the evidence and resumption point so the next iteration or a later resume can continue. '
-    + 'You can yield when a durable handoff is ready; you do not need to finish the entire task in this session. Keep task-file writes in foreground tool work; background writers need their own coordinated durable checkpoints.';
+    + 'Use the remaining budget actively to pursue verified progress and resolve blockers. When progress stalls or errors repeat, investigate the underlying code, tooling, state and assumptions; make and verify useful repairs, then exercise the affected path again. '
+    + 'Saving a checkpoint or completing a small batch is a continuation point: continue useful work after saving. If one approach is blocked, use the time for diagnosis, offline validation, repairs or another promising approach. '
+    + 'As the iteration boundary approaches, save recoverable partial results, commit meaningful task progress, and leave a concise handoff with evidence and a resumption point so the next fresh-context iteration or a later resume can continue. '
+    + 'Yield early only when the task objective is achieved or an external blocker prevents all useful progress, including diagnosis and repair; record the evidence and the condition needed to resume. Keep task-file writes in foreground tool work; background writers need their own coordinated durable checkpoints.';
 }
 
 export async function snapshotJournal(root: Conversation, journal: string, output: string, context: Context) {
