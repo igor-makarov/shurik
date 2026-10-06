@@ -51,7 +51,7 @@ export async function launchWorker({ workspace, state, bundle, req, onCheckpoint
   await saveJson(join(io, 'request.json'), { ...req, checkpointHandshake: true, cwd: resolve(workspace),
     journal: resolve(state, 'pi-jsonl'), output: join(io, 'output') });
   // Prototype: run directly on the Actions runner, including its repository-scoped GitHub token.
-  // A process group supports checkpoint pauses and worker cleanup; Pi aborts active shell tools.
+  // A process group supports timeout/cancellation cleanup; checkpoints are cooperative Pi hooks.
   const child = spawn(process.execPath, [resolve(bundle), join(io, 'request.json')], { cwd: workspace,
     env: { ...process.env, ...(key === undefined ? {} : { OPENCODE_API_KEY: key }) }, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
   let log = ''; for (const stream of [child.stdout, child.stderr]) stream.on('data', d => { log = (log + d).slice(-16000); });
@@ -85,9 +85,10 @@ export async function launchWorker({ workspace, state, bundle, req, onCheckpoint
       const checkpoint = await readJson(join(io, 'output/checkpoint.json'), null);
       if (!exited && checkpoint && checkpoint.nonce !== nonce) {
         nonce = checkpoint.nonce;
-        signal('SIGSTOP');
-        try { await onCheckpoint?.(checkpoint, log); }
-        finally { await writeFile(join(io, 'output/checkpoint.ack'), nonce); signal('SIGCONT'); }
+        const journalSnapshot = join(io, 'output/checkpoint-journal');
+        await onCheckpoint?.(checkpoint, log, journalSnapshot);
+        // A failed publication must not be acknowledged as a successful save.
+        await writeFile(join(io, 'output/checkpoint.ack'), nonce);
       }
       if (!exited && Date.now() >= hardEnd) { await stop(); break; }
     }

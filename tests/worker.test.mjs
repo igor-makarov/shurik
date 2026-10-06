@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, readFile, writeFile, cp, mkdir } from 'node:fs/promises';
+import { mkdtemp, readFile, writeFile, cp, mkdir, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { execFile, spawn } from 'node:child_process';
@@ -102,7 +102,7 @@ test('published checkpoint boundaries make a killed session searchable from a fr
         await writeFile(join(output, 'checkpoint.ack'), checkpoint.nonce);
       }
       if (checkpoint?.phase === 'tools') {
-        boundary = checkpoint; await cp(f.journal, snapshot, { recursive: true }); break;
+        boundary = checkpoint; await cp(join(output, 'checkpoint-journal'), snapshot, { recursive: true }); break;
       }
       await new Promise(resolve => setTimeout(resolve, 20));
     }
@@ -161,6 +161,73 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     const session = requests[0].headers.get('x-opencode-session');
     assert.ok(session); assert.equal(requests[1].headers.get('x-opencode-session'), session);
   } finally {
+    globalThis.fetch = fetchOriginal;
+    if (keyOriginal === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = keyOriginal;
+  }
+});
+
+test('checkpoint feedback reaches native system messages and gates the next request until publication', async () => {
+  const f = await fixture(); const output = join(f.dir, 'time-feedback');
+  const fetchOriginal = globalThis.fetch; const keyOriginal = process.env.OPENCODE_API_KEY;
+  const requests = []; const checkpoints = []; const monitorErrors = [];
+  process.env.OPENCODE_API_KEY = 'FAKE_KEY_FOR_CHECKPOINT_TEST';
+  globalThis.fetch = async (_url, options) => {
+    requests.push(JSON.parse(options.body));
+    const first = requests.length === 1;
+    const delta = first ? { role: 'assistant', tool_calls: [{ index: 0, id: 'time-tool', type: 'function',
+      function: { name: 'bash', arguments: JSON.stringify({ command: 'sleep 1.1; printf saved > time-feedback.txt' }) } }] }
+      : { role: 'assistant', content: 'Saved work for the next iteration.' };
+    const chunks = [
+      { id: 'time', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta, finish_reason: null }] },
+      { id: 'time', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: {}, finish_reason: first ? 'tool_calls' : 'stop' }] }
+    ];
+    return new Response(chunks.map(c => `data: ${JSON.stringify(c)}\n\n`).join('') + 'data: [DONE]\n\n', { headers: { 'content-type': 'text/event-stream' } });
+  };
+  let finished = false;
+  const monitor = (async () => {
+    let nonce;
+    while (!finished) {
+      let boundary;
+      try { boundary = JSON.parse(await readFile(join(output, 'checkpoint.json'), 'utf8')); } catch {}
+      if (boundary && boundary.nonce !== nonce) {
+        nonce = boundary.nonce; checkpoints.push(boundary);
+        try {
+          const snapshot = join(output, 'checkpoint-journal');
+          const files = await readdir(snapshot, { recursive: true });
+          const journal = (await Promise.all(files.filter(name => name.endsWith('.jsonl')).map(name => readFile(join(snapshot, name), 'utf8')))).join('\n');
+          assert.ok(journal.includes('Time update at'), 'time feedback is durable in the prepared journal and its native sidecars');
+          if (boundary.phase === 'tools') {
+            assert.equal(requests.length, 1);
+            await new Promise(resolve => setTimeout(resolve, 150));
+            assert.equal(requests.length, 1, 'next model request waits for checkpoint acknowledgement');
+          }
+        } catch (error) { monitorErrors.push(error); }
+        await writeFile(join(output, 'checkpoint.ack'), nonce);
+      }
+      await new Promise(resolve => setTimeout(resolve, 10));
+    }
+  })();
+  try {
+    const { runIteration } = createRequire(import.meta.url)(bundle);
+    await runIteration({ version: 1, id: 'time-feedback', cwd: f.cwd, journal: f.journal, output,
+      prompt: 'Save progress then yield.', model: 'space-bunny-free', reasoning: 'high', seconds: 10,
+      deadline: new Date(Date.now() + 60000).toISOString(), checkpointHandshake: true, checkpointSeconds: 0.001, sessions: [] });
+    assert.deepEqual(monitorErrors, []);
+    assert.equal(JSON.parse(await readFile(join(output, 'result.json'), 'utf8')).outcome, 'yielded');
+    assert.deepEqual(checkpoints.map(c => c.phase), ['started', 'tools']);
+    assert.equal(requests.length, 2);
+    const systems = requests.map(r => r.messages.filter(m => m.role === 'system').map(m => m.content).join('\n'));
+    const remaining = systems.map(s => Number(s.match(/about (\d+) seconds remain in this iteration/)[1]));
+    assert.ok(remaining[1] < remaining[0], 'the checkpoint updates the remaining iteration budget');
+    for (const s of systems) {
+      assert.match(s, /overall loop deadline/);
+      assert.match(s, /next fresh-context iteration/);
+      assert.match(s, /save recoverable partial results/);
+      assert.match(s, /do not need to finish the entire task in this session/);
+      assert.equal((s.match(/Time update at/g) ?? []).length, 1, 'only the latest time update enters each system prompt');
+    }
+  } finally {
+    finished = true; await monitor;
     globalThis.fetch = fetchOriginal;
     if (keyOriginal === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = keyOriginal;
   }

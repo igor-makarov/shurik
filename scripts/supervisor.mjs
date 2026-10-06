@@ -32,21 +32,22 @@ async function dispatch(control) {
       iteration: String(control.next), supervisor_ref: control.supervisor, reasoning: validateReasoning(control.reasoning) }
   });
 }
-async function pruneAndGuard(workspace, state, initial) {
+async function pruneAndGuard(workspace, state, initial, journalSnapshot) {
   const attempted = await git(workspace, 'status', '--porcelain', '--', '.github/workflows');
   // Drop local workflow edits so GitHub's workflow restriction does not reject progress/state pushes.
   if (attempted) {
     await rm(join(workspace, '.github/workflows'), { recursive: true, force: true });
     await git(workspace, 'restore', '--source', initial, '--staged', '--worktree', '--', '.github/workflows');
   }
-  const redactions = await sanitizeTree(workspace, secrets);
+  const redactions = await sanitizeTree(workspace, secrets)
+    + (journalSnapshot ? await sanitizeTree(journalSnapshot, secrets) : 0);
   return { attempted, redactions };
 }
-async function publish(workspace, controlStore, generation, state, message, initial, record) {
-  const guard = await pruneAndGuard(workspace, state, initial);
+async function publish(workspace, controlStore, generation, state, message, initial, record, journalSnapshot) {
+  const guard = await pruneAndGuard(workspace, state, initial, journalSnapshot);
   if (guard.attempted || guard.redactions) await saveJson(join(state, 'diagnostics/publication.json'), guard);
   return publishCheckpoint({ workspace, state, store: controlStore, generation, owner: record ? runId : null,
-    sequence: record?.id ?? 'initialize', message, record });
+    sequence: record?.id ?? 'initialize', message, record, journalSnapshot });
 }
 async function createPr(control, workspace) {
   const existing = await api(`pulls?state=open&head=${encodeURIComponent(repo.split('/')[0] + ':' + control.branch)}`);
@@ -150,22 +151,22 @@ export async function iterate(options) {
     bundle = await buildRuntime(workspace, runtime.selected, stable, builds);
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
     report = await launchWorker({ workspace, state, bundle, stable, key: process.env.OPENCODE_API_KEY,
-      req: { version: 1, id: `${id}:${sequence}`, model: control.model, reasoning: validateReasoning(control.reasoning), seconds,
+      req: { version: 1, id: `${id}:${sequence}`, model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
         checkpointSeconds: (await readJson(join(stable, '.shurik/config.json'))).checkpointSeconds,
         sessions, prompt: iterationPrompt(await readFile(join(workspace, 'PROMPT.md'), 'utf8'), sequence, sessions, failures, id) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
-      onCheckpoint: async (checkpoint, log) => {
+      onCheckpoint: async (checkpoint, log, journalSnapshot) => {
         // Update rollback only after a readable, published checkpoint. A later corruption restores this boundary.
-        if (!await inspectJournal(fallback, journal, stable)) throw new Error('Checkpoint journal is not readable by fallback runner');
+        if (!await inspectJournal(fallback, journalSnapshot, stable)) throw new Error('Checkpoint journal is not readable by fallback runner');
         if (checkpoint.id !== `${id}:${sequence}` || !Number.isSafeInteger(checkpoint.minEntryId)
           || !Number.isSafeInteger(checkpoint.maxEntryId) || checkpoint.maxEntryId < checkpoint.minEntryId) throw new Error('Invalid checkpoint session boundaries');
         record.minEntryId = checkpoint.minEntryId; record.maxEntryId = checkpoint.maxEntryId; record.checkpointAt = checkpoint.at;
         upsertSession(sessions, record);
         await saveJson(recordPath, record); await saveJson(join(state, 'history-index.json'), sessions);
         await saveJson(join(state, 'diagnostics', `${sequence}-worker.json`), { checkpoint, log: redact(log, secrets) });
-        await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial, record);
+        await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial, record, journalSnapshot);
         publishedBounds = { minEntryId: record.minEntryId, maxEntryId: record.maxEntryId, checkpointAt: record.checkpointAt };
-        await rm(before, { recursive: true, force: true }); await cp(journal, before, { recursive: true });
+        await rm(before, { recursive: true, force: true }); await cp(journalSnapshot, before, { recursive: true });
       }
     });
   } catch (e) { report.log = String(e); }

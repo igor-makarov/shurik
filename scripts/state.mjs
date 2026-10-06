@@ -39,7 +39,7 @@ export async function loadState(store, workspace, id) {
   return state;
 }
 
-export async function publishCheckpoint({ workspace, state, store, generation, owner, sequence, message, record }) {
+export async function publishCheckpoint({ workspace, state, store, generation, owner, sequence, message, record, journalSnapshot }) {
   const owns = c => c.generation === generation && (owner === null ? c.owner === null : c.owner?.runId === owner);
   const { value: initial } = await store.read();
   if (!owns(initial)) throw new Error('Stale checkpoint: control ownership or generation changed');
@@ -53,7 +53,7 @@ export async function publishCheckpoint({ workspace, state, store, generation, o
   const control = await store.mutate(c => {
     if (!owns(c)) return null;
     return { ...c, checkpoint };
-  }, message, {}, { state, workspace, workCommit, workBranch: initial.branch });
+  }, message, {}, { state, workspace, workCommit, workBranch: initial.branch, journalSnapshot });
   if (control.checkpoint?.workCommit !== workCommit || control.checkpoint?.at !== checkpoint.at) {
     throw new Error('Stale checkpoint: control ownership or generation changed');
   }
