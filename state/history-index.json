@@ -2458,11 +2458,12 @@
   },
   {
     "id": "13-248",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37483380538",
     "minEntryId": 19022,
-    "maxEntryId": 19022,
+    "maxEntryId": 19036,
     "checkpointAt": "2026-10-06T14:59:59.402Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:13-248\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":19024,\"id\":19025,\"reason\":\"model_error\",\"detail\":\"opencode-go API error (429): {\\\"code\\\":\\\"rate_limit_exceeded\\\",\\\"message\\\":\\\"Output token rate limit exceeded. Please retry after a brief wait.\\\",\\\"param\\\":null,\\\"type\\\":\\\"rate_limit_error\\\"}\"}",
+    "transcript": "complete"
   }
 ]

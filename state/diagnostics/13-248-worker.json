@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791298799373",
-    "id": "hazfalafel-20261004t213311:13-248",
-    "minEntryId": 19022,
-    "maxEntryId": 19022,
-    "at": "2026-10-06T14:59:59.402Z",
-    "phase": "started"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:13-248",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 19024,
+    "id": 19025,
+    "reason": "model_error",
+    "detail": "opencode-go API error (429): {\"code\":\"rate_limit_exceeded\",\"message\":\"Output token rate limit exceeded. Please retry after a brief wait.\",\"param\":null,\"type\":\"rate_limit_error\"}"
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-06T14:59:59.402Z"
 }
