@@ -97,12 +97,20 @@ class StemIndex:
         return None
 
     def missing(self, stems: Iterable[str]) -> list[str]:
+        # Scheme-aware: the CDX index answers identically for the http and
+        # https forms of one prefix (measured 2026-10), so a recorded answer
+        # under either scheme settles the question and twin scheme forms in
+        # one input list count as one question, not two requests.
         seen: set[str] = set()
         out: list[str] = []
         for stem in stems:
-            if stem and stem not in self.rows and stem not in seen:
-                seen.add(stem)
-                out.append(stem)
+            if not stem or stem in seen:
+                continue
+            for alt in self._alternates(stem):
+                seen.add(alt)
+            if self.has(stem):
+                continue
+            out.append(stem)
         return out
 
     # ------------------------------------------------------------------ write
