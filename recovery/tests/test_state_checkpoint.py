@@ -87,6 +87,28 @@ class CheckpointRoundTripTests(unittest.TestCase):
         self.assertFalse(out["restored"])
         self.assertIn("404", out["error"])
 
+    def test_stale_registry_state_fills_missing_files_without_overwriting_progress(self):
+        ledger = os.path.join(self.root, "data/missing.jsonl")
+        queue = os.path.join(self.root, "data/image-queue.json")
+        payload = state_checkpoint.tar_gz_tree([
+            ("data/missing.jsonl", b"old-ledger\n"),
+            ("data/image-queue.json", b"old-queue"),
+            ("data/cdx/posts.jsonl", b"old-cache\n"),
+            ("data/cdx/new.json", b'{"captures": ["new"]}'),
+            ("PROMPT.md", b"unexpected"),
+        ])
+        preserved = []
+        written = state_checkpoint._extract(payload, self.root, preserved)
+        self.assertEqual(written, ["data/cdx/new.json"])
+        self.assertEqual(len(preserved), 3)
+        with open(ledger, "rb") as fh:
+            self.assertEqual(fh.read(), b'{"key": "1"}\n')
+        with open(queue, "rb") as fh:
+            self.assertEqual(fh.read(), b'{"posts": {}}')
+        with open(os.path.join(self.root, "data/cdx/posts.jsonl"), "rb") as fh:
+            self.assertEqual(fh.read(), b'{"url": "http://hazfalafel.com/post/1"}\n')
+        self.assertFalse(os.path.exists(os.path.join(self.root, "PROMPT.md")))
+
     def test_extraction_refuses_paths_outside_the_root(self):
         payload = state_checkpoint.tar_gz_tree([("../escape.json", b"{}")])
         written = state_checkpoint._extract(payload, self.root)

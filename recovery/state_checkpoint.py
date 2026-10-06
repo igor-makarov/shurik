@@ -17,7 +17,9 @@ version and the manifest digest, so a runner can tell what it restored and
 whether the layer is the one the pointer promises.
 
 Layout inside the layer is the same relative paths the crawler uses, so
-restoring is `tar -x` into the repository root.
+restoring fills absent files in the repository root. Existing files restored
+from the paired control checkpoint or Git are authoritative and are never
+replaced by the potentially older mutable registry tag.
 """
 from __future__ import annotations
 
@@ -95,7 +97,7 @@ def tar_gz_tree(entries: Iterable[tuple[str, bytes]], mtime: int = 0) -> bytes:
     return out.getvalue()
 
 
-def _extract(blob: bytes, root: str = ".") -> list[str]:
+def _extract(blob: bytes, root: str = ".", preserved: Optional[list[str]] = None) -> list[str]:
     written: list[str] = []
     with tarfile.open(fileobj=io.BytesIO(gzip.decompress(blob)), mode="r:") as tar:
         for member in tar.getmembers():
@@ -104,7 +106,15 @@ def _extract(blob: bytes, root: str = ".") -> list[str]:
             name = member.name
             if name.startswith("/") or ".." in name.split("/"):
                 continue                      # never write outside the checkout
+            if name not in STATE_FILES and not any(name.startswith(d + "/") for d in STATE_DIRS):
+                continue                      # only declared crawl state
             dest = os.path.join(root, name)
+            if os.path.commonpath((os.path.realpath(root), os.path.realpath(dest))) != os.path.realpath(root):
+                continue                      # reject symlink traversal too
+            if os.path.lexists(dest):
+                if preserved is not None:
+                    preserved.append(name)
+                continue                      # Git/control state may be newer than crawl-state
             os.makedirs(os.path.dirname(dest) or ".", exist_ok=True)
             data = tar.extractfile(member).read()
             tmp = dest + ".tmp"
@@ -198,12 +208,12 @@ def push_state(root: str = ".", registry: Optional[Registry] = None) -> dict:
 
 
 def restore_state(root: str = ".", puller=None) -> dict:
-    """Pull `crawl-state` anonymously and unpack it into the checkout."""
+    """Pull `crawl-state` anonymously to fill missing state without rollback."""
     from .verify import AnonymousPuller
 
     puller = puller or AnonymousPuller()
     out = {"tag": STATE_TAG, "restored": False, "files": 0, "manifest_digest": "",
-           "schema_version": None, "error": ""}
+           "schema_version": None, "preserved_files": 0, "error": ""}
     try:
         manifest, digest = puller.manifest(STATE_TAG)
     except Exception as exc:
@@ -221,11 +231,12 @@ def restore_state(root: str = ".", puller=None) -> dict:
         return out
     try:
         payload = puller.blob(layers[0]["digest"])
-        names = _extract(payload, root)
+        preserved = []
+        names = _extract(payload, root, preserved)
     except Exception as exc:
         out["error"] = f"{type(exc).__name__}: {exc}"
         return out
-    out.update({"restored": True, "files": len(names)})
+    out.update({"restored": True, "files": len(names), "preserved_files": len(preserved)})
     return out
 
 

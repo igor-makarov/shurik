@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ControlStore, commit, configureGit, git, saveJson } from '../scripts/github.mjs';
@@ -77,6 +77,38 @@ test('initialization publishes both new branches with state only on control, inc
   assert.equal(await readFile(join(loaded, 'pi-jsonl/main.jsonl'), 'utf8'), 'OLD_JOURNAL\n');
   assert.equal(await git(f.dir, '--git-dir', f.remote, 'rev-parse', 'refs/heads/codex/shurik/fresh'), f.base);
   assert.equal(await git(f.workspace, 'ls-tree', '-r', '--name-only', f.base), 'app.txt');
+});
+
+test('ignored task discoveries survive a cold restart without rolling back newer tracked records', async () => {
+  const f = await fixture();
+  await saveJson(join(f.workspace, '.shurik/config.json'), { checkpointPaths: ['data/cdx', 'data/missing.jsonl'] });
+  await writeFile(join(f.workspace, '.gitignore'), 'data/cdx/\n');
+  await saveJson(join(f.workspace, 'data/cdx/stem.json'), { captures: ['new-discovery'] });
+  await writeFile(join(f.workspace, 'data/missing.jsonl'), 'newer-ledger\n');
+  const workCommit = await f.publish();
+  const { revision } = await f.store.read();
+  assert.match(await git(f.store.cwd, 'show', `${revision}:state/task-files/data/cdx/stem.json`), /new-discovery/);
+  assert.ok(!(await git(f.workspace, 'ls-tree', '-r', '--name-only', workCommit)).includes('data/cdx/'));
+  const cold = join(f.dir, 'cold-task'); await git(f.dir, 'clone', f.remote, cold);
+  await git(cold, 'checkout', 'codex/shurik/state-test');
+  await writeFile(join(cold, 'data/missing.jsonl'), 'maintainer-progress\n');
+  await loadState(await f.reader('cold-control'), cold, 'state-test');
+  assert.match(await readFile(join(cold, 'data/cdx/stem.json'), 'utf8'), /new-discovery/);
+  assert.equal(await readFile(join(cold, 'data/missing.jsonl'), 'utf8'), 'maintainer-progress\n');
+  await rm(join(f.workspace, 'data/cdx/stem.json'));
+  await f.publish();
+  const next = (await f.store.read()).revision;
+  await assert.rejects(git(f.store.cwd, 'show', `${next}:state/task-files/data/cdx/stem.json`));
+});
+
+test('task snapshots reject paths outside the workspace and symlink traversal', async () => {
+  const f = await fixture();
+  await saveJson(join(f.workspace, '.shurik/config.json'), { checkpointPaths: ['../outside'] });
+  await assert.rejects(f.publish(), /relative task paths/);
+  await saveJson(join(f.workspace, '.shurik/config.json'), { checkpointPaths: ['data/cdx'] });
+  await mkdir(join(f.workspace, 'data'), { recursive: true });
+  await symlink(f.dir, join(f.workspace, 'data/cdx'));
+  await assert.rejects(f.publish(), /symlink/);
 });
 
 test('a control CAS race publishes neither ref until retry; manual stop remains authoritative', async () => {
