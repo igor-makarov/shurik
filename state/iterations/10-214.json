@@ -5,13 +5,64 @@
   "generation": 10,
   "iteration": 214,
   "startedAt": "2026-10-06T10:58:13.535Z",
-  "outcome": "running",
+  "outcome": "agent_failure",
   "source": "231e8128cc9aa6828011bfb22abfc4f5041adf1f",
   "runtime": "231e8128cc9aa6828011bfb22abfc4f5041adf1f",
   "model": "muse-spark-1.3-contributor",
   "reasoning": "xhigh",
   "workCommit": "231e8128cc9aa6828011bfb22abfc4f5041adf1f",
   "minEntryId": 17374,
-  "maxEntryId": 17374,
-  "checkpointAt": "2026-10-06T10:58:26.805Z"
+  "maxEntryId": 17380,
+  "checkpointAt": "2026-10-06T10:58:26.805Z",
+  "finishedAt": "2026-10-06T10:58:34.440Z",
+  "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:10-214\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":17376,\"id\":17377,\"reason\":\"model_error\",\"detail\":\"opencode-go API error (400): {\\\"type\\\":\\\"server_error\\\",\\\"message\\\":\\\"Upstream request failed: This Go model trains on request data. Allow paid endpoints that train on request data in your workspace's Privacy settings to use it.\\\"}\"}",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 5125097,
+        "output": 1517617,
+        "cacheRead": 100705076,
+        "cacheWrite": 0,
+        "reasoning": 793737,
+        "totalTokens": 107347790,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/longcat-2.5-preview-free": {
+        "input": 566610,
+        "output": 71420,
+        "cacheRead": 3707008,
+        "cacheWrite": 0,
+        "reasoning": 28500,
+        "totalTokens": 4345038,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/muse-spark-1.3-contributor": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "totalTokens": 0,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }

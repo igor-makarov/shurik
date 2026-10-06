@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791284306774",
-    "id": "hazfalafel-20261004t213311:10-214",
-    "minEntryId": 17374,
-    "maxEntryId": 17374,
-    "at": "2026-10-06T10:58:26.805Z",
-    "phase": "started"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:10-214",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 17376,
+    "id": 17377,
+    "reason": "model_error",
+    "detail": "opencode-go API error (400): {\"type\":\"server_error\",\"message\":\"Upstream request failed: This Go model trains on request data. Allow paid endpoints that train on request data in your workspace's Privacy settings to use it.\"}"
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-06T10:58:26.805Z"
 }
