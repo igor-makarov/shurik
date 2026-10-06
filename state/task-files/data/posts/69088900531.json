@@ -22,9 +22,45 @@
  "content_html": "<div><div class=\"post-media\"><amp-img class=\"image\" layout=\"responsive\" src=\"http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg\" alt=\"\" width=\"500\" height=\"700\"></amp-img></div><div class=\"post-caption\"><p>&#1511;&#1510;&#1514; &#1489;&#1488;&#1497;&#1495;&#1493;&#1512;</p>            </div></div><div class=\"post-meta\"><div class=\"post-tags\"><div class=\"post-tags-inner\"><a class=\"tag\" href=\"/tagged/מלחמת הכוכבים\" target=\"_blank\">מלחמת הכוכבים</a><a class=\"tag\" href=\"/tagged/אייל גולן\" target=\"_blank\">אייל גולן</a><a class=\"tag\" href=\"/tagged/star wars\" target=\"_blank\">star wars</a></div></div></div>",
  "content_source": "div.post-content",
  "content_text": "קצת באיחור\nמלחמת הכוכביםאייל גולןstar wars",
+ "failure_count": 0,
  "fetched_at": "2026-10-04T23:46:38Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "base_key": "tumblr_mxcillvQK81r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_mxcillvQK81r3it8zo1_250.jpg",
+   "media_url": "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_250.jpg",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_1280.jpg",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_1024.jpg",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_540.jpg",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_400.jpg",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_100.jpg",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1.png",
+    "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1.gif"
+   ]
+  }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730110608",
+   "listing_url": "http://hazfalafel.com/archive/2013/12"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/69088900531"
+ ],
  "methods": [
   {
    "bytes": 4607,
@@ -47,15 +83,22 @@
    "url": "http://hazfalafel.com/post/69088900531/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/69088900531/amp",
  "page_bytes": 40817,
  "page_sha256": "cedc715713c14574f3386b7d73d535882ea35144fbdff04e0989b40c008834db",
- "partial": false,
+ "partial": true,
  "post_id": "69088900531",
  "replay_url": "https://web.archive.org/web/20171206220748id_/http://hazfalafel.com/post/69088900531/amp",
- "state": "fetched",
+ "snapshot_retries": 0,
+ "state": "partial",
  "tags": [
   "מלחמת הכוכבים",
   "אייל גולן",
