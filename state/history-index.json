@@ -2568,11 +2568,12 @@
   },
   {
     "id": "15-259",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37508242886",
     "minEntryId": 19533,
-    "maxEntryId": 19533,
+    "maxEntryId": 19539,
     "checkpointAt": "2026-10-06T18:04:55.221Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:15-259\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":19535,\"id\":19536,\"reason\":\"model_error\",\"detail\":\"400: {\\\"type\\\":\\\"server_error\\\",\\\"message\\\":\\\"Upstream request failed: This Go model requires Global regions. Select Global in your workspace's Privacy settings to use it.\\\"}\"}",
+    "transcript": "complete"
   }
 ]
