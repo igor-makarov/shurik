@@ -105,11 +105,11 @@ Known weak spots: posts 13833997906-14996000761 (2010-2011,
 that verdict is scoped to those exact URLs only.
 
 Checkpoint digest at the end of 11-243: `crawl-state`
-`sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`
+`sha256:e8eb7ab7e54a3c5c0d088fd17fa7d9c4ff165d4867ca472b55fcac03f4f65d5a`
 (pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
 restores `data/posts`, `data/cdx` and the queue/ledgers; pull-verified
-`restored:true`, digest match). 11-242 digest was
-`sha256:b443cdfbe95eca4469ada9954636ccadeae135f1b7a772c74984944c1389249c`.
+`restored:true`, digest match). Pre-tagged-batch digest was
+`sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`.
 
 ## 11-243 result: 5 listings -> 11 new posts/237 forms; 151 stems + 40 avail + 2 cross-scheme probes, 0 new bytes
 
@@ -142,15 +142,21 @@ resolved), so there were no bytes waiting to convert.
   and 27 recovery tests pass (`ReplayProbe`, `VariantPlanning`, `ImageRecovery`,
   `AvailabilityMethod`). No behaviour change on the current corpus (`missing`
   already 0); it prevents future duplicate CDX asks of legacy twins.
+* Late batch `fetch-listings --limit 5 --kinds tagged` (5/5 ok): **0 new posts,
+  294 touched, 237 images added, 0 new stems** (all `_250` aliases of known
+  prefixes; `missing` still 0). Tagged pages, like archive pages, only resurface
+  same-photo `_250` forms -- listing mining no longer yields new identities.
 * Checkpoint `crawl-state`
   `sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`
   (`--pull` verified `restored:true`).
 
-Next: listing mining still yields ~11 new posts per 5-page batch (6038 archive/tagged
-captures remain), but new `_250` forms need a stem hit to matter and the last
-136 stems gave 0; prioritise `tagged` kinds (untried family) or posts with 0
-recovered images over more `archive` batches. Do not re-run settled stem/fetch passes without a new
-question.
+Next: listing mining (archive and tagged) now yields only same-photo `_250`
+forms of known stems -- stop spending listing batches without a new family
+(`post_other`/`other` kinds untested) or a new image-identity source (AMP,
+photoset, month pages). `posts_with_stem_hits` is empty and all 1824 stems are
+answered, so stem/CDX discovery is exhausted; the remaining lever is replay
+probes of never-probed variant forms or availability sweeps of never-swept URLs.
+Do not re-run settled stem/fetch passes without a new question.
 
 ## 11-242 result: 5 listings -> 40 new posts/168 forms; 4 stem hits -> 1 new unique image + 3 aliases
 
