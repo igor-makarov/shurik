@@ -18,8 +18,66 @@
  "date_text": "Posted 3 months ago",
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:45:33Z",
- "image_count": 0,
- "images": [],
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/AK0GgBl.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/AK0GgBl.jpg"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/AK0GgBl.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 199208,
+     "capture_timestamp": "20130924050604",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "02ee9714fa2ebb7580d97013a839a2d305bc93fcd9bb2c6c8ed9ea6229e6ad5b",
+     "status": 200,
+     "url": "http://i.imgur.com/AK0GgBl.jpg"
+    }
+   ],
+   "base_key": "AK0GgBl.jpg",
+   "blob_path": "data/blobs/02/02ee9714fa2ebb7580d97013a839a2d305bc93fcd9bb2c6c8ed9ea6229e6ad5b",
+   "bytes": 199208,
+   "caption": "",
+   "capture": {
+    "archive_digest": "HDPGKKGOHY3MRIYCVUXG5SWVLAFNPLOC",
+    "original": "http://i.imgur.com/AK0GgBl.jpg",
+    "replay_url": "https://web.archive.org/web/20130924050604id_/http://i.imgur.com/AK0GgBl.jpg",
+    "timestamp": "20130924050604"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "AK0GgBl.jpg",
+   "found_in": "content-img",
+   "media_key": "AK0GgBl.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "http://i.imgur.com/AK0GgBl.jpg",
+   "note": "recovered from pre-cutoff capture 20130924050604 of http://i.imgur.com/AK0GgBl.jpg (199208 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "02ee9714fa2ebb7580d97013a839a2d305bc93fcd9bb2c6c8ed9ea6229e6ad5b",
+   "state": "recovered"
+  }
+ ],
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -53,20 +111,20 @@
  "post_id": "51736373134",
  "posted_on": "Posted on Thursday the 30th of May 2013 at 8:58 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-05T00:50:25Z",
-  "image_count": 0,
-  "manifest_digest": "sha256:c1ad1baa606bd6a32ac64c50f410e0c568e956efcc600fcabd283d50a99554a6",
+  "action": "updated",
+  "at": "2026-10-06T20:29:41Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:fc6103dd2c9f44a4850062511533ca6986d03ee82e3bd1de237488021f152132",
   "missing_count": 0,
   "quality": [
-   0,
+   1,
    49,
    0
   ]
  },
  "replay_url": "https://web.archive.org/web/20130923200203id_/http://hazfalafel.com/post/51736373134",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "recovered",
  "tags": [
   "צהל"
  ]

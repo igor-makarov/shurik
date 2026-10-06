@@ -18,8 +18,66 @@
  "date_text": "Posted 2 years ago",
  "failure_count": 0,
  "fetched_at": "2026-10-05T03:08:13Z",
- "image_count": 0,
- "images": [],
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/PBj4mwW.jpg?1",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/PBj4mwW.jpg?1"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/PBj4mwW.jpg?1"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 78219,
+     "capture_timestamp": "20181228212654",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "94d100bcbef833db564e56d60668b35d8852781a08ed598d00459ddafa2a02a2",
+     "status": 200,
+     "url": "http://i.imgur.com/PBj4mwW.jpg?1"
+    }
+   ],
+   "base_key": "PBj4mwW.jpg",
+   "blob_path": "data/blobs/94/94d100bcbef833db564e56d60668b35d8852781a08ed598d00459ddafa2a02a2",
+   "bytes": 78219,
+   "caption": "",
+   "capture": {
+    "archive_digest": "XOSOX55VDN4O6FRCIZSVMAP6TGDOAOQ6",
+    "original": "http://i.imgur.com/PBj4mwW.jpg?1",
+    "replay_url": "https://web.archive.org/web/20181228212654id_/http://i.imgur.com/PBj4mwW.jpg?1",
+    "timestamp": "20181228212654"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "PBj4mwW.jpg",
+   "found_in": "content-img",
+   "media_key": "PBj4mwW.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "http://i.imgur.com/PBj4mwW.jpg?1",
+   "note": "recovered from pre-cutoff capture 20181228212654 of http://i.imgur.com/PBj4mwW.jpg?1 (78219 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "94d100bcbef833db564e56d60668b35d8852781a08ed598d00459ddafa2a02a2",
+   "state": "recovered"
+  }
+ ],
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -52,9 +110,21 @@
  "partial": false,
  "post_id": "82213326681",
  "posted_on": "Posted on Wednesday the 9th of April 2014 at 9:59 PM",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-06T20:31:28Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:b85c1fb61f4126605ddeb60ee644506f192d93f5b483cdf456101a67f623c736",
+  "missing_count": 0,
+  "quality": [
+   1,
+   14,
+   0
+  ]
+ },
  "replay_url": "https://web.archive.org/web/20160909210135id_/http://hazfalafel.com/post/82213326681",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "recovered",
  "tags": [
   "יאיר-לפיד",
   "משחקי-הכס"

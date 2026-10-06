@@ -18,8 +18,66 @@
  "date_text": "Posted 3 months ago",
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:45:38Z",
- "image_count": 0,
- "images": [],
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/prUsdqz.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/prUsdqz.png"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/prUsdqz.png"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 31319,
+     "capture_timestamp": "20130924034019",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/png",
+     "message": "",
+     "sha256": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
+     "status": 200,
+     "url": "http://i.imgur.com/prUsdqz.png"
+    }
+   ],
+   "base_key": "prUsdqz.png",
+   "blob_path": "data/blobs/1e/1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
+   "bytes": 31319,
+   "caption": "image",
+   "capture": {
+    "archive_digest": "TGBB2NT3XOGMGR2WHU7LLYW5LX2NL47A",
+    "original": "http://i.imgur.com/prUsdqz.png",
+    "replay_url": "https://web.archive.org/web/20130924034019id_/http://i.imgur.com/prUsdqz.png",
+    "timestamp": "20130924034019"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "prUsdqz.png",
+   "found_in": "content-img",
+   "media_key": "prUsdqz.png",
+   "media_type": "image/png",
+   "media_url": "http://i.imgur.com/prUsdqz.png",
+   "note": "recovered from pre-cutoff capture 20130924034019 of http://i.imgur.com/prUsdqz.png (31319 bytes, image/png); every URL form tried earlier is kept in `attempts`",
+   "sha256": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
+   "state": "recovered"
+  }
+ ],
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -53,20 +111,20 @@
  "post_id": "52151844735",
  "posted_on": "Posted on Tuesday the 4th of June 2013 at 8:58 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-05T00:50:45Z",
-  "image_count": 0,
-  "manifest_digest": "sha256:bf42ea6e9707b44d994dbd7884493fac5cd5d6c750f1a22b8926b5043fc9fb4d",
+  "action": "updated",
+  "at": "2026-10-06T20:29:52Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:8b525b0fb57dc8c371a62def7b7e65cd8cf8b78e2a4fcada2b04084b9225c913",
   "missing_count": 0,
   "quality": [
-   0,
+   1,
    73,
    0
   ]
  },
  "replay_url": "https://web.archive.org/web/20130923182316id_/http://hazfalafel.com/post/52151844735",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "recovered",
  "tags": [
   "בחזרה-לעתיד",
   "back-to-the-future",

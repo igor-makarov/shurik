@@ -18,8 +18,66 @@
  "date_text": "Posted 3 years ago",
  "failure_count": 0,
  "fetched_at": "2026-10-05T03:08:04Z",
- "image_count": 0,
- "images": [],
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/h8scGSm.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/h8scGSm.jpg"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/h8scGSm.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 125133,
+     "capture_timestamp": "20131223034958",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "9434fcf258b2ddfceaca50050e0e550bbc5f5c53a09bc04fbe06195890ab90db",
+     "status": 200,
+     "url": "http://i.imgur.com/h8scGSm.jpg"
+    }
+   ],
+   "base_key": "h8scGSm.jpg",
+   "blob_path": "data/blobs/94/9434fcf258b2ddfceaca50050e0e550bbc5f5c53a09bc04fbe06195890ab90db",
+   "bytes": 125133,
+   "caption": "",
+   "capture": {
+    "archive_digest": "ENPVHRN4EL3JQGTF4JVZIWX4GXR6TCRI",
+    "original": "http://i.imgur.com/h8scGSm.jpg",
+    "replay_url": "https://web.archive.org/web/20131223034958id_/http://i.imgur.com/h8scGSm.jpg",
+    "timestamp": "20131223034958"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "h8scGSm.jpg",
+   "found_in": "content-img",
+   "media_key": "h8scGSm.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "http://i.imgur.com/h8scGSm.jpg",
+   "note": "recovered from pre-cutoff capture 20131223034958 of http://i.imgur.com/h8scGSm.jpg (125133 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "9434fcf258b2ddfceaca50050e0e550bbc5f5c53a09bc04fbe06195890ab90db",
+   "state": "recovered"
+  }
+ ],
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -52,9 +110,21 @@
  "partial": false,
  "post_id": "60192816248",
  "posted_on": "Posted on Tuesday the 3rd of September 2013 at 9:19 PM",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-06T20:30:27Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:6bae01a557b28a8bb8caa5dd03332aac41b66e2ca9d5d1d1410719e6b4c9ba81",
+  "missing_count": 0,
+  "quality": [
+   1,
+   18,
+   0
+  ]
+ },
  "replay_url": "https://web.archive.org/web/20170322214843id_/http://hazfalafel.com/post/60192816248",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "recovered",
  "tags": [
   "ראש-השנה",
   "ארזת-לבד",

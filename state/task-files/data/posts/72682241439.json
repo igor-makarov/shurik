@@ -31,8 +31,66 @@
  "date_text": "Posted 2 days ago",
  "failure_count": 0,
  "fetched_at": "2026-10-05T04:11:55Z",
- "image_count": 0,
- "images": [],
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/O390NkH.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/O390NkH.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/O390NkH.gif"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 1861535,
+     "capture_timestamp": "20181228121403",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/gif",
+     "message": "",
+     "sha256": "44d5e54276c78f3258510075e25a9f8d1cf1bb7f18bb9dc5859dab3b24fe732b",
+     "status": 200,
+     "url": "http://i.imgur.com/O390NkH.gif"
+    }
+   ],
+   "base_key": "O390NkH.gif",
+   "blob_path": "data/blobs/44/44d5e54276c78f3258510075e25a9f8d1cf1bb7f18bb9dc5859dab3b24fe732b",
+   "bytes": 1861535,
+   "caption": "image",
+   "capture": {
+    "archive_digest": "2YKNMSTCZVI42TBFKTITYPCK5FMQS5DV",
+    "original": "http://i.imgur.com/O390NkH.gif",
+    "replay_url": "https://web.archive.org/web/20181228121403id_/http://i.imgur.com/O390NkH.gif",
+    "timestamp": "20181228121403"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "O390NkH.gif",
+   "found_in": "content-img",
+   "media_key": "O390NkH.gif",
+   "media_type": "image/gif",
+   "media_url": "http://i.imgur.com/O390NkH.gif",
+   "note": "recovered from pre-cutoff capture 20181228121403 of http://i.imgur.com/O390NkH.gif (1861535 bytes, image/gif); every URL form tried earlier is kept in `attempts`",
+   "sha256": "44d5e54276c78f3258510075e25a9f8d1cf1bb7f18bb9dc5859dab3b24fe732b",
+   "state": "recovered"
+  }
+ ],
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -65,9 +123,21 @@
  "partial": false,
  "post_id": "72682241439",
  "posted_on": "Posted on Wednesday the 8th of January 2014 at 9:13 PM",
+ "published": {
+  "action": "updated",
+  "at": "2026-10-06T20:31:16Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:1a4e6ed5d797b7099982cd3c333253d8b608b8b0bba8862027715e2ad2cb7565",
+  "missing_count": 0,
+  "quality": [
+   1,
+   20,
+   0
+  ]
+ },
  "replay_url": "https://web.archive.org/web/20140111063653id_/http://hazfalafel.com:80/post/72682241439",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "recovered",
  "tags": [
   "Dick-Butt",
   "המקור",

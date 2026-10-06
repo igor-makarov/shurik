@@ -18,8 +18,66 @@
  "date_text": "Posted 4 months ago",
  "failure_count": 0,
  "fetched_at": "2026-10-05T03:10:05Z",
- "image_count": 0,
- "images": [],
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 1382310,
+     "capture_timestamp": "20191103145451",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/gif",
+     "message": "",
+     "sha256": "2f96bf5a703e2d7b8ab12db101c3c113046f44d01a72f1abc7d1487cbc4364e2",
+     "status": 200,
+     "url": "http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif"
+    }
+   ],
+   "base_key": "l2R0fFFXzjpb3Yw3m.gif",
+   "blob_path": "data/blobs/2f/2f96bf5a703e2d7b8ab12db101c3c113046f44d01a72f1abc7d1487cbc4364e2",
+   "bytes": 1382310,
+   "caption": "image",
+   "capture": {
+    "archive_digest": "V2ZITOMJNRAAASIIDQ6HVGWZGHW75KYT",
+    "original": "http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif",
+    "replay_url": "https://web.archive.org/web/20191103145451id_/http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif",
+    "timestamp": "20191103145451"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "l2R0fFFXzjpb3Yw3m.gif",
+   "found_in": "content-img",
+   "media_key": "l2R0fFFXzjpb3Yw3m.gif",
+   "media_type": "image/gif",
+   "media_url": "http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif",
+   "note": "recovered from pre-cutoff capture 20191103145451 of http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif (1382310 bytes, image/gif); every URL form tried earlier is kept in `attempts`",
+   "sha256": "2f96bf5a703e2d7b8ab12db101c3c113046f44d01a72f1abc7d1487cbc4364e2",
+   "state": "recovered"
+  }
+ ],
  "listing_evidence": 2,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -57,20 +115,20 @@
  "post_id": "141544736293",
  "posted_on": "Posted on Wednesday the 23rd of March 2016 at 3:29 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-05T04:14:30Z",
-  "image_count": 0,
-  "manifest_digest": "sha256:2b2b03e019fb2a212d592146e8b2a62feb4b8e10e7909f5da4c28c8aa0106dfc",
+  "action": "updated",
+  "at": "2026-10-06T20:31:49Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:ccad4fed06ca2fe1c84914653a7d467ba31c13675d0f80ccb1da0ab8cc2183e7",
   "missing_count": 0,
   "quality": [
-   0,
+   1,
    17,
    0
   ]
  },
  "replay_url": "https://web.archive.org/web/20160730150055id_/http://hazfalafel.com/post/141544736293",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "recovered",
  "tags": [
   "גיף",
   "animated-gif",
