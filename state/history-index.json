@@ -1906,11 +1906,12 @@
   },
   {
     "id": "8-192",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37436573101",
     "minEntryId": 16539,
-    "maxEntryId": 16539,
+    "maxEntryId": 16545,
     "checkpointAt": "2026-10-06T08:32:11.895Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:8-192\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":16541,\"id\":16542,\"reason\":\"model_error\",\"detail\":\"400: {\\\"type\\\":\\\"server_error\\\",\\\"message\\\":\\\"Upstream request failed: Model is unavailable.\\\"}\"}",
+    "transcript": "complete"
   }
 ]
