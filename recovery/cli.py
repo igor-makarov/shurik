@@ -1302,7 +1302,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--years", default="", help="comma separated year starts, e.g. 2017,2018")
     p.add_argument("--force", action="store_true")
     p = sub.add_parser("fetch-posts", help="download and parse archived post pages")
-    p.add_argument("--limit", type=int, default=10)
+    p.add_argument("--limit", type=int, default=0,
+                   help="max posts per pass (0 = every id given with --ids, else 10)")
     p.add_argument("--ids", default="")
     p.add_argument("--concurrency", type=int, default=config.DEFAULT_CONCURRENCY)
     p = sub.add_parser("fetch-listings", help="mine archived archive/tag pages for post evidence")
@@ -1425,8 +1426,15 @@ def main(argv: Optional[list[str]] = None) -> int:
         if args.listings:
             out["listings"] = discover_listings(fetcher, force=args.force)
     elif args.cmd == "fetch-posts":
-        out = fetch_posts(fetcher, limit=args.limit, concurrency=args.concurrency,
-                          post_ids=[i for i in args.ids.split(",") if i] or None)
+        post_ids = [i for i in args.ids.split(",") if i] or None
+        # An explicit id list is a deliberate batch: the default limit of 10
+        # silently ignored most of the ids the caller asked for (observed
+        # 2026-10: `fetch-posts --ids <30 ids>` fetched only the first 10 and
+        # reported "nothing pending" for the rest, hiding 19 unparsed posts).
+        # Mirror the fetch-images rule: all named ids, no hidden cap.
+        limit = args.limit or (len(post_ids) if post_ids else 10)
+        out = fetch_posts(fetcher, limit=limit, concurrency=args.concurrency,
+                          post_ids=post_ids)
     elif args.cmd == "fetch-listings":
         out = fetch_listings(fetcher, limit=args.limit,
                              kinds=tuple(k.strip() for k in args.kinds.split(",") if k.strip()),
