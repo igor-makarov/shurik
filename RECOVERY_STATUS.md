@@ -119,12 +119,12 @@ Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
 published images; `posts_with_stem_hits` is empty (all 29 hit stems already
 resolved), so there were no bytes waiting to convert.
 
-* `stem-scan` 83 pending (82 answered, 0 hits, 1x 504 transient on
-  `http://66.media.../tumblr_p39o8fObJz1r3it8zo3` -- still pending, one CDX
-  retry owed) then `fetch-listings --limit 5 --kinds archive` (5/5 ok):
+* `stem-scan` 83 pending (82 answered, 0 hits; 1x 504 transient on
+  `http://66.media.../tumblr_p39o8fObJz1r3it8zo3`) then `fetch-listings --limit 5 --kinds archive` (5/5 ok):
   **11 new post records (1211 -> 1222), 284 posts touched, 237 images added**
   as `_250` listing variants (hosts 65/66/67); then `stem-scan` 68 new stems:
-  **68 answered, 0 hits**. Listing `_250` forms on a different shard than the
+  **68 answered, 0 hits** (the earlier 504 stem was re-asked here and answered
+  `[]`; `missing` is now 0, so nothing is pending). Listing `_250` forms on a different shard than the
   original (e.g. 67 vs 40 for hash `22b537...`) answer `[]` while the
   original shard holds the capture -- same-photo/different-shard listing
   variants are aliases at best, not new bytes.
@@ -134,6 +134,14 @@ resolved), so there were no bytes waiting to convert.
   and `https://33.media.../tumblr_nez9qq..._500.jpg` both answer genuine 404
   where their `http` forms also 404'd. Replay is scheme-insensitive like CDX;
   scheme is closed as a lead (scoped to these 2 URLs; 2 requests, no throttle).
+* Code fix (this iteration): `StemIndex.missing()` now counts an answer recorded
+  under either URL scheme as settling the question and dedups twin scheme forms
+  in one input list (`has()`/`lookup` already did since 11-242; `missing()` did
+  not, so legacy `https` rows never short-circuited their `http` twins).
+  Verified offline with a dummy index (scheme-twin, dedup, empty-safe checks OK)
+  and 27 recovery tests pass (`ReplayProbe`, `VariantPlanning`, `ImageRecovery`,
+  `AvailabilityMethod`). No behaviour change on the current corpus (`missing`
+  already 0); it prevents future duplicate CDX asks of legacy twins.
 * Checkpoint `crawl-state`
   `sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`
   (`--pull` verified `restored:true`).
@@ -141,8 +149,7 @@ resolved), so there were no bytes waiting to convert.
 Next: listing mining still yields ~11 new posts per 5-page batch (6038 archive/tagged
 captures remain), but new `_250` forms need a stem hit to matter and the last
 136 stems gave 0; prioritise `tagged` kinds (untried family) or posts with 0
-recovered images over more `archive` batches. The 1 pending 504 stem is the
-cheapest single retry. Do not re-run settled stem/fetch passes without a new
+recovered images over more `archive` batches. Do not re-run settled stem/fetch passes without a new
 question.
 
 ## 11-242 result: 5 listings -> 40 new posts/168 forms; 4 stem hits -> 1 new unique image + 3 aliases
