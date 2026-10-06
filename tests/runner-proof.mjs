@@ -97,8 +97,8 @@ let checkpoints = 0;
 const checkpointRun = await launchWorker({ workspace, state, bundle, stable, req: {
   ...baseReq, id: 'checkpoint', checkpointSeconds: 0.001,
   script: [{ tool: 'write', args: { path: 'checkpoint.txt', content: 'consistent' } }, { text: 'checkpoint saved' }]
-}, onCheckpoint: async () => {
-  checkpoints++; await cp(join(state, 'pi-jsonl'), checkpoint, { recursive: true });
+}, onCheckpoint: async (_boundary, _log, journalSnapshot) => {
+  checkpoints++; await cp(journalSnapshot, checkpoint, { recursive: true });
   assert.ok(await inspectJournal(bundle, checkpoint, stable));
 } });
 assert.equal(checkpointRun.outcome, 'yielded'); assert.equal(checkpoints, 2);
@@ -107,7 +107,7 @@ assert.ok(await repairJournal({ bundle, journal: join(state, 'pi-jsonl'), backup
 assert.equal(await readFile(join(dir, 'malformed/main.jsonl'), 'utf8'), 'NOT_VALID_JSON\n');
 const afterCorruption = await launchWorker({ workspace, state, bundle, stable, req: { ...baseReq, id: 'after-corruption', script: [{ text: 'fresh after restored checkpoint' }] } });
 assert.equal(afterCorruption.outcome, 'yielded');
-console.log('PASS: process group pause gives consistent checkpoint, malformed journal retained, restored fresh iteration');
+console.log('PASS: cooperative Pi snapshot is readable, malformed journal retained, restored fresh iteration');
 
 // Lose the supervising operation immediately after publishing a checkpoint, before final result/index cleanup.
 const interrupted = { id: '1-7', runId: '789', generation: 1, outcome: 'running' }; const index = [];
@@ -115,12 +115,12 @@ const published = join(dir, 'published-work');
 await assert.rejects(launchWorker({ workspace, state, bundle, stable, req: {
   ...baseReq, id: 'proof:1-7', checkpointSeconds: 0.001,
   script: [{ tool: 'write', args: { path: 'surviving-trail.txt', content: 'SURVIVABLE_FAILURE_NEEDLE' } }, { delayMs: 10000, text: 'unpublished' }]
-}, onCheckpoint: async boundary => {
+}, onCheckpoint: async (boundary, _log, journalSnapshot) => {
   interrupted.minEntryId = boundary.minEntryId; interrupted.maxEntryId = boundary.maxEntryId; interrupted.checkpointAt = boundary.at;
   upsertSession(index, interrupted);
   await saveJson(join(state, 'iterations/1-7.json'), interrupted); await saveJson(join(state, 'history-index.json'), index);
   await publishCheckpoint({ workspace, state, store, generation: 1, owner: '789', sequence: '1-7',
-    message: 'publish source and journal checkpoint', record: interrupted });
+    message: 'publish source and journal checkpoint', record: interrupted, journalSnapshot });
   if (boundary.phase === 'tools') {
     throw new Error('INTENTIONAL_SUPERVISOR_LOSS_AFTER_PUBLICATION');
   }

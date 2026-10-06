@@ -80,6 +80,10 @@ export class ControlStore {
       if (checkpoint) {
         await rm(join(this.cwd, 'state'), { recursive: true, force: true });
         await cp(checkpoint.state, join(this.cwd, 'state'), { recursive: true });
+        if (checkpoint.journalSnapshot) {
+          await rm(join(this.cwd, 'state/pi-jsonl'), { recursive: true, force: true });
+          await cp(checkpoint.journalSnapshot, join(this.cwd, 'state/pi-jsonl'), { recursive: true });
+        }
         // Import the task commit locally. Both remote refs are then published in one Git transaction.
         await git(this.cwd, 'fetch', checkpoint.workspace, checkpoint.workCommit);
       }
