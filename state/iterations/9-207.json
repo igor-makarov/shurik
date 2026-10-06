@@ -5,13 +5,50 @@
   "generation": 9,
   "iteration": 207,
   "startedAt": "2026-10-06T10:09:19.120Z",
-  "outcome": "running",
+  "outcome": "agent_failure",
   "source": "9842931d4e8e3f915d308aed0f353fb7959af85d",
   "runtime": "8da125e356b1c321e53a4f1bd84d6d0e1d7a06c7",
   "model": "longcat-2.5-preview-free",
   "reasoning": "high",
   "workCommit": "3a2945a1ad3893fa1da2f10fdacb508bf8783333",
   "minEntryId": 17020,
-  "maxEntryId": 17200,
-  "checkpointAt": "2026-10-06T10:25:18.719Z"
+  "maxEntryId": 17203,
+  "checkpointAt": "2026-10-06T10:25:18.719Z",
+  "finishedAt": "2026-10-06T10:25:28.771Z",
+  "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:9-207\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":17022,\"id\":17023,\"reason\":\"model_error\",\"detail\":\"500: {\\\"type\\\":\\\"server_error\\\",\\\"message\\\":\\\"Upstream request failed: Endpoint is unavailable.\\\"}\"}",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 5125097,
+        "output": 1517617,
+        "cacheRead": 100705076,
+        "cacheWrite": 0,
+        "reasoning": 793737,
+        "totalTokens": 107347790,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/longcat-2.5-preview-free": {
+        "input": 517517,
+        "output": 56550,
+        "cacheRead": 3080064,
+        "cacheWrite": 0,
+        "reasoning": 28500,
+        "totalTokens": 3654131,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
