@@ -19,8 +19,8 @@
  "content_text": "ו-“היי זאת שלי” היא Annoying Facebook Girl",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:32Z",
- "image_count": 0,
+ "fetched_at": "2026-10-06T19:29:02Z",
+ "image_count": 1,
  "images": [
   {
    "attempts": [
@@ -142,12 +142,64 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1.png",
+      "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1",
+     "url": "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 79068,
+     "capture_timestamp": "20140111014857",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "ceb69540d1d092c5824cd8a65b2101e8d72ec2314a5cf663eba4ca55ad15ceae",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_mes0s4TjZU1r3it8zo1.jpg",
+   "blob_path": "data/blobs/ce/ceb69540d1d092c5824cd8a65b2101e8d72ec2314a5cf663eba4ca55ad15ceae",
+   "bytes": 79068,
    "caption_alt": "",
+   "capture": {
+    "archive_digest": "AQEYLRXR64Q6ETW3X3ROAEJH57R5JVOI",
+    "original": "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111014857id_/http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_500.jpg",
+    "timestamp": "20140111014857"
+   },
+   "capture_count": 1,
+   "file": "tumblr_mes0s4TjZU1r3it8zo1_250.jpg",
    "found_in": "listing:img",
    "media_key": "tumblr_mes0s4TjZU1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20140111014857 of http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_500.jpg (79068 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "ceb69540d1d092c5824cd8a65b2101e8d72ec2314a5cf663eba4ca55ad15ceae",
+   "state": "recovered",
    "url_forms": [
     "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_250.jpg"
    ],
@@ -189,7 +241,7 @@
    "url": "http://hazfalafel.com/post/37569755522"
   }
  ],
- "missing_image_count": 3,
+ "missing_image_count": 2,
  "missing_images": [
   {
    "attempts": [
@@ -264,11 +316,6 @@
    ],
    "media_url": "http://68.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://24.media.tumblr.com/be8b1cfddb0e6a9e3f5d342ac2936139/tumblr_mes0s4TjZU1r3it8zo1_250.jpg",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/37569755522",
@@ -278,13 +325,13 @@
  "post_id": "37569755522",
  "posted_on": "Posted on Sunday the 9th of December 2012 at 8:31 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-05T00:40:11Z",
-  "image_count": 0,
-  "manifest_digest": "sha256:e239ab1823cfe8e3fa986be8a5f32a3730ed9f0bdc91889aace330ce9283b091",
+  "action": "updated",
+  "at": "2026-10-06T19:29:07Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:469307789413bd0618310bac711c3ba45d9ae317f000057679354bfcfcdb4f59",
   "missing_count": 2,
   "quality": [
-   0,
+   1,
    42,
    1
   ]
