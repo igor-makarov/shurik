@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "experiment": "Muse one-hour scan with clock announcements only in final checkpoint interval",
+  "generation": 14,
+  "startedAt": "2026-10-06T15:41:41.000Z",
+  "deadline": "2026-10-06T16:41:41.000Z",
+  "model": "muse-spark-1.3-contributor",
+  "reasoning": "xhigh",
+  "baseline": {
+    "workCommit": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
+    "controlCommit": "50f76d4abce7638e66fb9453977f51500d150369",
+    "publicationImages": 86,
+    "postsWithImages": 53,
+    "usageSource": "state/iterations/13-249.json",
+    "usage": {
+      "models": {
+        "opencode-go/space-bunny-free": {
+          "input": 5125097,
+          "output": 1517617,
+          "cacheRead": 100705076,
+          "cacheWrite": 0,
+          "reasoning": 793737,
+          "totalTokens": 107347790,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/longcat-2.5-preview-free": {
+          "input": 566610,
+          "output": 71420,
+          "cacheRead": 3707008,
+          "cacheWrite": 0,
+          "reasoning": 28500,
+          "totalTokens": 4345038,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/muse-spark-1.3-contributor": {
+          "input": 1987341,
+          "output": 130661,
+          "cacheRead": 17885386,
+          "cacheWrite": 0,
+          "totalTokens": 20003388,
+          "cost": {
+            "input": 0.19873409999999994,
+            "output": 0.0261322,
+            "cacheRead": 0.03577077199999996,
+            "cacheWrite": 0,
+            "total": 0.26063707199999986
+          },
+          "reasoning": 54105
+        }
+      },
+      "tools": {}
+    },
+    "museUsage": {
+      "input": 1987341,
+      "output": 130661,
+      "cacheRead": 17885386,
+      "cacheWrite": 0,
+      "totalTokens": 20003388,
+      "cost": {
+        "input": 0.19873409999999994,
+        "output": 0.0261322,
+        "cacheRead": 0.03577077199999996,
+        "cacheWrite": 0,
+        "total": 0.26063707199999986
+      },
+      "reasoning": 54105
+    }
+  },
+  "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+  "runtime": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
+  "guidance": {
+    "clockAnnouncements": "final_checkpoint_interval_only",
+    "checkpointSeconds": 300,
+    "earlyYieldPolicy": "verified_task_completion_only",
+    "proactiveSelfHealing": true
+  },
+  "costNote": "Saved Pi adapter estimate, not a provider invoice or incremental OpenCode subscription charge. Usage totals are cumulative over the retained journal; subtract this baseline, do not sum iteration totals. Reasoning may already be included in output."
+}
