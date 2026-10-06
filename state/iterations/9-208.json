@@ -5,13 +5,50 @@
   "generation": 9,
   "iteration": 208,
   "startedAt": "2026-10-06T10:26:51.906Z",
-  "outcome": "running",
+  "outcome": "timeout",
   "source": "3a2945a1ad3893fa1da2f10fdacb508bf8783333",
   "runtime": "8da125e356b1c321e53a4f1bd84d6d0e1d7a06c7",
   "model": "longcat-2.5-preview-free",
   "reasoning": "high",
-  "workCommit": "3a2945a1ad3893fa1da2f10fdacb508bf8783333",
+  "workCommit": "9c0bf9f7e92ca15144d865d93a7262b5a86acc6d",
   "minEntryId": 17204,
-  "maxEntryId": 17204,
-  "checkpointAt": "2026-10-06T10:27:02.303Z"
+  "maxEntryId": 17338,
+  "checkpointAt": "2026-10-06T10:27:02.303Z",
+  "finishedAt": "2026-10-06T10:35:41.524Z",
+  "error": "\"\"",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 5125097,
+        "output": 1517617,
+        "cacheRead": 100705076,
+        "cacheWrite": 0,
+        "reasoning": 793737,
+        "totalTokens": 107347790,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/longcat-2.5-preview-free": {
+        "input": 566610,
+        "output": 71420,
+        "cacheRead": 3707008,
+        "cacheWrite": 0,
+        "reasoning": 28500,
+        "totalTokens": 4345038,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      }
+    },
+    "tools": {}
+  }
 }
