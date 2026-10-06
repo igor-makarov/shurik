@@ -66,13 +66,25 @@ def dump_paths(host: str) -> tuple[str, str]:
 
 
 def decode_resume_key(value: str) -> str:
-    """The server sends the resume key base64(deflate) wrapped; accept both forms."""
-    if not value or not value.startswith("eJ"):
+    """Best-effort view of the opaque resume key, for logging only.
+
+    The cursor is passed back to the server verbatim, so a key we cannot decode
+    is still perfectly usable -- it just stays opaque. Wayback sends an unpadded
+    base64 deflate blob; both the padded and unpadded forms are accepted.
+    """
+    if not value:
         return value
+    padded = value + "=" * (-len(value) % 4)
     try:
-        return zlib.decompress(base64.b64decode(value), -15).decode("utf-8", "replace")
+        raw = base64.b64decode(padded)
     except Exception:
         return value
+    for wbits in (zlib.MAX_WBITS, -zlib.MAX_WBITS):
+        try:
+            return zlib.decompress(raw, wbits).decode("utf-8", "replace")
+        except Exception:
+            continue
+    return value
 
 
 def read_cursor(host: str) -> dict:
@@ -129,7 +141,9 @@ def parse_page(payload: str, source_query: str = "") -> tuple[list[Capture], str
         return [], ""
     next_key = ""
     last = rows[-1]
-    if isinstance(last, list) and len(last) == 1 and isinstance(last[0], str):
+    # Never the header: a header row is also a list, and mistaking it for the key
+    # would drop every capture of the page.
+    if len(rows) > 1 and isinstance(last, list) and len(last) == 1 and isinstance(last[0], str):
         next_key = decode_resume_key(last[0])
         rows = rows[:-1]
     return parse_cdx_json(rows, source_query), next_key
