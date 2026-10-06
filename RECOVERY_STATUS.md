@@ -44,11 +44,11 @@ Derived from `data/published.jsonl` (max `image_count` once per post id) and
 
 | Metric | Value |
 | --- | ---: |
-| Discovered / parsed posts | 1186 / 1156 |
+| Discovered / parsed posts | 1186 / 1171 |
 | Distinct Tumblr photo identities | 1474 (2227 image URLs) |
 | Published images (deduplicated, max per tag) | **82** across 53 image-bearing tags |
 | Posts recorded published (metadata-only tags included) | 741 |
-| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | ~1040 / 1474 photos |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 1689 stems (25 with captures, all recovered) |
 
 Iteration 7-95: `--method stem --retry-missing` over 300 previously settled
 posts recovered **14 images in 7 posts** (each published immediately and
@@ -104,11 +104,43 @@ Known weak spots: posts 13833997906-14996000761 (2010-2011,
 `27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
 that verdict is scoped to those exact URLs only.
 
-Checkpoint digest at the end of 11-240: `crawl-state`
-`sha256:f6726ce72fb27e2f4eb0f705b830b3893fb681ef68a15855fe567909ba4c11e8`
+Checkpoint digest at the end of 11-241: `crawl-state`
+`sha256:799104c2cff12199e66244ac17378751ce2bb4e68b35f1b01d48d7a8d956ead2`
 (pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
-restores `data/posts`, `data/cdx` and the queue/ledgers). 9-206 digest was
-`sha256:28480fcfc527210eccbd7aced12cc2c6c7c970f326724aaf93a597a2f63694b9`.
+restores `data/posts`, `data/cdx` and the queue/ledgers; pull-verified
+`restored:true`, digest match). 11-240 digest was
+`sha256:f6726ce72fb27e2f4eb0f705b830b3893fb681ef68a15855fe567909ba4c11e8`.
+
+## 11-241 result: listing mining works (15 new posts, 69 new image forms), 0 new bytes yet
+
+Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
+**82 images across 53 image-bearing tags**, unchanged; tag 136316699428
+re-verified anonymously (20/20). `status`: 1171 parsed, 2214 missing images,
+5402 ledger rows, 741 published flags.
+
+* `fetch-listings --limit 5 --kinds archive` (5 replay requests): **5/5 fetched,
+  15 new post records (1156 -> 1171), 71 posts touched, 69 images added** as
+  `_250` listing variants on hosts 65/66/67.media (`listing:attr:div`). 55 of
+  the touched posts still have 0 recovered images -- the prize pool. 4 new
+  posts are listing-only (no permalink text: 123461272893, 125449314948,
+  68689386519, 68867064030). `_250` entries are separate byte renditions, not
+  duplicates, but same-photo/different-size layers share one provenance family.
+* `stem-scan --limit-stems 70`: the 67 brand-new listing stems **all answered,
+  0 hits** (index 1622 -> 1689 answers, still 25 hit stems). Honest negatives
+  scoped to those exact prefixes. Archive CDX healthy (no transport failures).
+* `fetch-images --method probe --retry-missing` over 10 listing-touched
+  zero-recovery posts: **0 recovered**. First posts answered genuine 404s
+  (new `archive_gap` rows with 5 answered probes each -- real verdicts, not
+  misclassified throttles); then the replay endpoint gave **real 429s** and the
+  circuit breaker deferred the last 4 posts unsent (no attempt spent, queue
+  place kept, global cooldown to 12:30:20Z). Throttle honored, not relabeled.
+* Concrete next experiments (not yet tried): **cross-scheme probes** --
+  `_variants()` keeps the URL scheme, so http 404s say nothing about the https
+  form and vice versa (permalink `https://66...` vs listing `http://66...`);
+  and continue listing mining -- 3524 archive/tagged captures remain, each
+  5-page batch yielded 15 new posts + ~67 new stems last time. Keep batches
+  small (<=5 listings, then stems, then <=10 probes) with cooldown gaps: the
+  67-CDX + 5-replay + 10-probe burst in one pass is what tripped the 429s.
 
 ## 11-240 result: settled pool now yields 0; known-URL stem search is exhausted
 
