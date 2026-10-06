@@ -15,6 +15,8 @@ Shurik is a Ralph loop built on Pi Durable and GitHub Actions. It works on its o
 
 The user supplies the task prompt. A normal agent response does not automatically end the outer loop.
 
+Tasks can set `checkpointPaths` in their `.shurik/config.json` to a list of relative files or directories containing ignored working state (for example, `["data/posts", "data/cdx"]`). The supervisor copies these paths into the control branch with every checkpoint and restores missing files before the next worker starts. Existing task files remain authoritative, so restoration cannot roll back newer Git records. The snapshot is paired with its saved work commit; deleted files disappear from the next snapshot. Hidden paths, dependency/build directories, and symlinks are rejected. Select only task data that is safe to publish; image bytes or other large artifacts should use the task's artifact storage. Foreground tool boundaries keep these snapshots consistent; detached writers still require coordination.
+
 ## Run a loop
 
 Add the repository Actions secret `OPENCODE_API_KEY`. Enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**. Workflow permissions are scoped explicitly; contributor CI uses a read-only token and no model secret.

@@ -1,6 +1,7 @@
 import { appendFile, cp, mkdir, rm, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { commit, git, saveJson } from './github.mjs';
+import { snapshotTaskState, restoreTaskState } from './task-state.mjs';
 
 async function ignoreLocalState(workspace) {
   await mkdir(join(workspace, '.git', 'info'), { recursive: true });
@@ -17,6 +18,7 @@ async function commitWork(workspace, message) {
 
 export async function initializeCheckpoint({ workspace, state, store, control, message }) {
   const workCommit = await commitWork(workspace, message);
+  await snapshotTaskState(workspace, state, workCommit);
   const next = { ...control, checkpoint: { workCommit, generation: control.generation,
     sequence: 'initialize', runId: null, at: new Date().toISOString() } };
   await cp(state, join(store.cwd, 'state'), { recursive: true });
@@ -36,6 +38,7 @@ export async function loadState(store, workspace, id) {
   await ignoreLocalState(workspace);
   await rm(state, { recursive: true, force: true });
   await cp(join(store.cwd, 'state'), state, { recursive: true });
+  await restoreTaskState(workspace, state, value.checkpoint?.workCommit);
   return state;
 }
 
@@ -45,6 +48,7 @@ export async function publishCheckpoint({ workspace, state, store, generation, o
   if (!owns(initial)) throw new Error('Stale checkpoint: control ownership or generation changed');
   // This local cache remains available to tools, but never becomes part of the task PR.
   const workCommit = await commitWork(workspace, message);
+  await snapshotTaskState(workspace, state, workCommit);
   if (record) {
     record.workCommit = workCommit;
     await saveJson(join(state, 'iterations', `${record.id}.json`), record);
