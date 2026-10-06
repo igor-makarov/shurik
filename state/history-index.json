@@ -2235,11 +2235,12 @@
   },
   {
     "id": "10-225",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37455432888",
     "minEntryId": 17451,
-    "maxEntryId": 17451,
+    "maxEntryId": 17457,
     "checkpointAt": "2026-10-06T11:19:11.755Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:10-225\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":17453,\"id\":17454,\"reason\":\"model_error\",\"detail\":\"opencode-go API error (400): {\\\"type\\\":\\\"server_error\\\",\\\"message\\\":\\\"Upstream request failed: This Go model trains on request data. Allow paid endpoints that train on request data in your workspace's Privacy settings to use it.\\\"}\"}",
+    "transcript": "complete"
   }
 ]
