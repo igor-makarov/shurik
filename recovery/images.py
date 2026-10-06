@@ -347,7 +347,17 @@ def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_bud
 
 
 def pick_capture(captures: list[Capture], prefer_base: str) -> Optional[Capture]:
-    """Newest pre-cutoff capture whose media type looks like an image."""
+    """Best pre-cutoff capture of one image: the base/original name, else the
+    largest archived variant.
+
+    Size matters because the objective is recovered *bytes*: when the archive
+    holds `_1280` and `_250` renditions of the same picture they are different
+    files with very different lengths, and the newest capture is not
+    necessarily the biggest one (a CDN re-crawl can capture the thumbnail
+    later). CDX records the archived length, so the choice costs no request.
+    Timestamp stays the final tie-break and the fallback when the index
+    recorded no length.
+    """
     images = [c for c in captures if _usable(c)]
     if not images:
         # CDX media types are frequently wrong for Tumblr CDN URLs: an image can
@@ -358,6 +368,7 @@ def pick_capture(captures: list[Capture], prefer_base: str) -> Optional[Capture]
         return None
     same = [c for c in images if prefer_base and prefer_base in normalize_url(c.original)]
     pool = same or images
+    pool.sort(key=lambda c: (int(c.length or 0) > 0, int(c.length or 0), c.timestamp))
     return pool[-1]
 
 

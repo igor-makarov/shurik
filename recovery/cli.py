@@ -566,16 +566,16 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
     """
     store = PostStore()
     index = StemIndex()
-    # Two passes over the corpus. `store.all()` is roughly *the order the
-    # crawler worked through the site*, so scanning in that order spends the
-    # first requests on the posts that were already recovered -- a stem hit
-    # there is a duplicate of bytes we hold, not a new image. Measured in
-    # 6-85: the first 66 stems answered 14 hits (21%) and **all 14** belonged to
-    # images already recovered, yielding one net new published image.
-    # Unresolved stems go first so the same 66 requests aim at work that has
-    # never had its bytes.
+    # Only *unresolved* images are worth a question. A stem whose image already
+    # has bytes (`sha256`) is settled: we hold the picture, so a capture behind
+    # it is a duplicate download, not recovery. Measured on 2026-10-06: of the
+    # stem answers gathered so far, every hit that reached `fetch-images
+    # --only-stem-hits` belonged to an already-recovered image and was discarded
+    # as "already published with >= recovered data", so those requests bought
+    # nothing. Such stems are counted and skipped instead of asked.
     fresh_stems: list[str] = []
-    known_stems: list[str] = []
+    unresolved: set[str] = set()
+    all_stems: list[str] = []
     seen: set[str] = set()
     for rec in store.all():
         for img in rec.get("images") or []:
@@ -583,11 +583,19 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
             if not url:
                 continue
             stem = stem_prefix(url)
-            if not stem or stem in seen:
+            if not stem:
                 continue
-            seen.add(stem)
-            (fresh_stems if not img.get("sha256") else known_stems).append(stem)
-    stems = fresh_stems + known_stems
+            if stem not in seen:
+                seen.add(stem)
+                all_stems.append(stem)
+            # A stem counts as work when *any* image behind it is unresolved:
+            # the same picture can appear in several posts, and one recovered
+            # copy must not hide an unresolved one.
+            if not img.get("sha256"):
+                unresolved.add(stem)
+    fresh_stems = [s for s in all_stems if s in unresolved]
+    held_stems = len(all_stems) - len(fresh_stems)
+    stems = fresh_stems
     todo = index.missing(stems)
     if hosts:
         # Order the pending questions by measured yield instead of by crawl
@@ -605,6 +613,7 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
            "stem_hits": [], "skipped": [], "concurrency": concurrency,
            "failures": {}, "deferred": 0, "unsent": 0,
            "host_priority": hosts or [],
+           "stems_held_locally": held_stems,
            "stopped_early": False}
     if dry_run:
         return out
