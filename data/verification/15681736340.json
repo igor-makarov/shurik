@@ -1,0 +1,172 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:3a401f0958da47dfe8352694df1dd6be1090ee4df58065d337f234f97d2703e0",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxnhc3YI2G1r3it8zo1_500.jpg]",
+   "expected": "ab89354c79e80c88e6aea90a97f84246347e2ec604192c238ab492db16b5a29c",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxnhc3YI2G1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxnhc3YI2G1r3it8zo1_500.jpg]",
+   "expected": 48624,
+   "observed": 48624,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxnhc3YI2G1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "לא זיהיתי את גודל האירוע\nתודה לדין לנגסם",
+   "observed": "לא זיהיתי את גודל האירוע\nתודה לדין לנגסם",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>לא זיהיתי את גודל האירוע</p>\n<p><span>תודה ל</span><strong>דין לנגסם</strong></p>",
+   "observed": "<p>לא זיהיתי את גודל האירוע</p>\n<p><span>תודה ל</span><strong>דין לנגסם</strong></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "נועם-שליט",
+    "ביבי"
+   ],
+   "observed": [
+    "נועם-שליט",
+    "ביבי"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "לא זיהיתי את גודל האירוע\nתודה לדין לנגסם"
+   ],
+   "observed": [
+    "לא זיהיתי את גודל האירוע\nתודה לדין לנגסם"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15681736340",
+   "observed": "http://hazfalafel.com:80/post/15681736340",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxnhc3YI2G1r3it8zo1_500.jpg]",
+   "expected": "לא זיהיתי את גודל האירוע\nתודה לדין לנגסם",
+   "observed": "לא זיהיתי את גודל האירוע\nתודה לדין לנגסם",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130930175154",
+   "observed": "20130930175154",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130930175154id_/http://24.media.tumblr.com/tumblr_lxnhc3YI2G1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20130930175154id_/http://24.media.tumblr.com/tumblr_lxnhc3YI2G1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130930175154",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:0866d13a709b5cff11b745d79690534e992aa70728ffc492c022a3100f2dbf12",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T12:21:59Z",
+  "org.opencontainers.image.description": "לא זיהיתי את גודל האירוע",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15681736340",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15681736340",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "40",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15681736340",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "נועם-שליט,ביבי"
+ },
+ "layers": [
+  {
+   "digest": "sha256:afbee1ec918592baeeaaddd3c0394a5c589d70d9a05b74bcb9f4167f3111a189",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 48030
+  },
+  {
+   "digest": "sha256:0b88933591c8da246c5a05722087aae2a844f1291870d605261d3e780bac96b1",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 847
+  }
+ ],
+ "manifest_digest": "sha256:3a401f0958da47dfe8352694df1dd6be1090ee4df58065d337f234f97d2703e0",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15681736340",
+ "pulled_files": [
+  {
+   "bytes": 48624,
+   "file": "tumblr_lxnhc3YI2G1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:afbee1ec918592baeeaaddd3c0394a5c589d70d9a05b74bcb9f4167f3111a189",
+   "role": "media",
+   "sha256": "ab89354c79e80c88e6aea90a97f84246347e2ec604192c238ab492db16b5a29c"
+  },
+  {
+   "bytes": 1923,
+   "file": "post.json",
+   "layer": "sha256:0b88933591c8da246c5a05722087aae2a844f1291870d605261d3e780bac96b1",
+   "role": "post-metadata",
+   "sha256": "b1df9fcbe1ace66a78a1fef11690ffccd3aff06c18a17813498e86f6cadecdab"
+  }
+ ],
+ "tag": "15681736340",
+ "verified_at": "2026-10-06T02:03:18Z"
+}

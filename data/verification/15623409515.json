@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:8ce6dce09f80226e12a56f4fffdcbd400afd87f6e826fb801adb1eb2077091dc",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxle6kEsSU1r3it8zo1_400.jpg]",
+   "expected": "99099ce1edeb2a40007a48b74c367933e3ca43e7210221529ba0ecb5842f3d72",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxle6kEsSU1r3it8zo1_400.jpg]",
+   "expected": 83164,
+   "observed": 83164,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxle6kEsSU1r3it8zo1_400.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב”חורים ברשת”)",
+   "observed": "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב”חורים ברשת”)",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>סקאמבג אני לקבל יכול פלאפל</p>\n<p>(<a href=\"http://www.holesinthenet.co.il/archives/35840\" target=\"_blank\">אייטם ב&#8221;חורים ברשת&#8221;</a>)</p>",
+   "observed": "<p>סקאמבג אני לקבל יכול פלאפל</p>\n<p>(<a href=\"http://www.holesinthenet.co.il/archives/35840\" target=\"_blank\">אייטם ב&#8221;חורים ברשת&#8221;</a>)</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אני-לקבל-יכול-פלאפל",
+    "סקאמבג",
+    "חלאה"
+   ],
+   "observed": [
+    "אני-לקבל-יכול-פלאפל",
+    "סקאמבג",
+    "חלאה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב&#8221;חורים ברשת&#8221;)"
+   ],
+   "observed": [
+    "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב&#8221;חורים ברשת&#8221;)"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15623409515",
+   "observed": "http://hazfalafel.com:80/post/15623409515",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxle6kEsSU1r3it8zo1_400.jpg]",
+   "expected": "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב&#8221;חורים ברשת&#8221;)",
+   "observed": "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב&#8221;חורים ברשת&#8221;)",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130930175155",
+   "observed": "20130930175155",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130930175155id_/http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+   "observed": "https://web.archive.org/web/20130930175155id_/http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130930175155",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:1f35ee1c00c7429d1bf339f2f1f87d849c2b70892da9270135590b8d39faf3d1",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T12:15:25Z",
+  "org.opencontainers.image.description": "סקאמבג אני לקבל יכול פלאפל",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15623409515",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15623409515",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "48",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15623409515",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "אני-לקבל-יכול-פלאפל,סקאמבג,חלאה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:9d27eb410e8f8728ece4c03212d012227c7cd7f49fb99d4ade502e350df9fd27",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 81175
+  },
+  {
+   "digest": "sha256:8611b828e760a3f5d52828e08afe332061df1cade2cf28b12e7edbd0f94020fa",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 923
+  }
+ ],
+ "manifest_digest": "sha256:8ce6dce09f80226e12a56f4fffdcbd400afd87f6e826fb801adb1eb2077091dc",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15623409515",
+ "pulled_files": [
+  {
+   "bytes": 83164,
+   "file": "tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:9d27eb410e8f8728ece4c03212d012227c7cd7f49fb99d4ade502e350df9fd27",
+   "role": "media",
+   "sha256": "99099ce1edeb2a40007a48b74c367933e3ca43e7210221529ba0ecb5842f3d72"
+  },
+  {
+   "bytes": 2097,
+   "file": "post.json",
+   "layer": "sha256:8611b828e760a3f5d52828e08afe332061df1cade2cf28b12e7edbd0f94020fa",
+   "role": "post-metadata",
+   "sha256": "d05298a8b6054f4f990dab909641d06552704eea94c649b13d75df700ca603d3"
+  }
+ ],
+ "tag": "15623409515",
+ "verified_at": "2026-10-06T02:03:17Z"
+}
