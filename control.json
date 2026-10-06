@@ -4,11 +4,11 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "deadline",
-  "generation": 15,
+  "status": "running",
+  "generation": 16,
   "next": 275,
   "owner": null,
-  "deadline": "2026-10-06T18:42:57.000Z",
+  "deadline": "2026-10-06T19:51:35.000Z",
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
@@ -16,15 +16,15 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37512929202",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
     "workCommit": "f3057b54eab1ae9ea3a1124c770345fe97e3a543",
-    "generation": 15,
-    "sequence": "15-274",
-    "runId": "37512929202",
-    "at": "2026-10-06T18:41:24.119Z"
+    "generation": 16,
+    "sequence": "16-maintainer",
+    "runId": null,
+    "at": "2026-10-06T18:51:35.000Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -70,15 +70,18 @@
       "max"
     ],
     "durationSeconds": 3600,
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006.json"
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-relaunch.json",
+    "relaunchAt": "2026-10-06T18:51:35.000Z",
+    "initialModelHealthCheck": "required"
   },
   "restart": {
-    "at": "2026-10-06T17:42:57.000Z",
-    "previousGeneration": 14,
-    "generation": 15,
-    "reason": "User requested another one-hour Falafel experiment using DeepSeek V4.1 Flash with high reasoning",
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006.json",
-    "previousLastRunId": "37494559788"
+    "at": "2026-10-06T18:51:35.000Z",
+    "previousGeneration": 15,
+    "generation": 16,
+    "reason": "User requested retry after Global-regions access rejection and an initial live health check",
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-relaunch.json",
+    "previousLastRunId": "37512929202",
+    "initialModelHealthCheck": "required"
   },
   "guidanceChange": {
     "at": "2026-10-06T15:30:46.000Z",
