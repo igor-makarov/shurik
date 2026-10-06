@@ -39,15 +39,43 @@ git archive 0924dd45a67e16a107c97c46b8c6282895cf6835 data/posts data/cdx | tar -
 
 ## Current counts
 
-Derived from `data/published.jsonl` and `python3 -m recovery.cli status`; see
-`git log` for the per-iteration deltas.
+Derived from `data/published.jsonl` (max `image_count` once per post id) and
+`python3 -m recovery.cli status`.
 
 | Metric | Value |
 | --- | ---: |
 | Discovered / parsed posts | 1186 / 1156 |
-| Known image URLs | 2227 |
-| Published images (max `image_count` per tag, deduplicated) | see `data/published.jsonl` |
-| Posts recorded published | ~740 |
+| Distinct Tumblr photo identities | 1474 (2227 image URLs) |
+| Published images (deduplicated, max per tag) | **82** across 53 image-bearing tags |
+| Posts recorded published (metadata-only tags included) | 741 |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | ~1040 / 1474 photos |
+
+Iteration 7-95: `--method stem --retry-missing` over 300 previously settled
+posts recovered **14 images in 7 posts** (each published immediately and
+verified anonymously, 20/20 checks per tag): 16809999572, 16881301957,
+17269876288, 18244186719, 18502938203, 18859742391, 23113407036.
+`--retry-missing` is what opens the settled pool: without it the pass reports
+`no_work_left` for 786 posts and only ~300 remain eligible.
+
+## Negative evidence worth keeping (7-95)
+
+* **CDX host wildcards are silently empty.** `url=*.media.tumblr.com/<stem>`
+  and `url=*.tumblr.com/<stem>` answer `200` with **zero rows even for a
+  control stem known to have a pre-cutoff capture**, so they are false
+  negatives, not evidence. Do not use them (`scripts/wildcard-host-probe.py`).
+* **Cross-shard copies do not exist for our photos.** The control photo
+  `40.media.tumblr.com/acd66e1322aeb10e0ec13ae1659eae09/tumblr_o07sizvpqP1r3it8zo1`
+  was asked on 18 `NN.media.tumblr.com` shards: only shard 40 answers. 18
+  queries per photo for zero hits is a dead end.
+* **No pre-2012 captures of the blog itself.** `hazfalafel.com/post/` holds
+  1562 captures, all 2012-2019 (2017: 761, 2012: 226, 2016: 222, 2019: 149,
+  2015: 69, 2013: 61, 2018: 47, 2014: 27); `hazfalafel.tumblr.com` has none
+  at all. Pre-2013 posts are only visible through the 2016+ theme pages, whose
+  image URLs are the modern `<hash>/tumblr_*` form -- which is also the only
+  form the archive captured. Alternate permalink forms of old posts therefore
+  cannot surface older image URLs.
+* Stem answers so far: 18 of ~1040 stems returned captures (~2%), all on
+  shards 40/24/41/78/28/25.
 
 ## Archive behaviour observed in 6-83
 
@@ -64,16 +92,22 @@ Derived from `data/published.jsonl` and `python3 -m recovery.cli status`; see
 
 ## Next work
 
-Keep running bounded `fetch-images --method stem --concurrency 2` passes over
-the posts with unresolved images (the queue orders by fewest attempts, so
-untouched posts come first), publishing on recovery, then re-push the
-`crawl-state` checkpoint. ~600 posts still have unresolved images; the largest
-pools are `78.media.tumblr.com` (807 URLs), `68`/`66.media.tumblr.com`
-(330/316) and `67` (140).
+Keep running bounded `python3 -m recovery.cli fetch-images --method stem
+--retry-missing --limit N --concurrency 2` passes over the posts with
+unresolved images (the queue orders by fewest attempts, so untouched posts come
+first), publishing on recovery, then re-push the `crawl-state` checkpoint and
+`verify-artifact` the new tags. Yield is ~4-5 images per 300 posts now, so the
+passes are worth batching: 758 posts still had work when the 7-95 batch
+started, and ~430 photo identities still have no stem answer.
 
 Known weak spots: posts 13833997906-14996000761 (2010-2011,
 `27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
 that verdict is scoped to those exact URLs only.
+
+Checkpoint digest at the end of 7-95: `crawl-state`
+`sha256:ad3cd4709b4185bef68eee02d552c3c2fa66a828f4e10c83ffdccec9c952c5bc`
+(pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
+restores `data/posts`, `data/cdx` and the queue/ledgers).
 
 Service note kept from earlier iterations: `web.archive.org` occasionally
 answers a CDX request with a `200` "Temporarily Offline" HTML page;

@@ -1,0 +1,203 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:7cc7db4eee7c193443b65c45d07902474af0b6c8537ccb12f3aa23aa0f07a0e7",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m02q2w0hz21r3it8zo1_500.jpg]",
+   "expected": "d041b99306507b753852ccf5b4cc63938702882100161f7a6d204539c1cd97eb",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m02q2w0hz21r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m02q2w0hz21r3it8zo1_500.jpg]",
+   "expected": 55048,
+   "observed": 55048,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m02q2w0hz21r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m02q2w0hz21r3it8zo1_640.jpg]",
+   "expected": "d041b99306507b753852ccf5b4cc63938702882100161f7a6d204539c1cd97eb",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m02q2w0hz21r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m02q2w0hz21r3it8zo1_640.jpg]",
+   "expected": 55048,
+   "observed": 55048,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m02q2w0hz21r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
+   "observed": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<261 chars>",
+   "observed": "<261 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות"
+   ],
+   "observed": [
+    "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/18502938203",
+   "observed": "http://hazfalafel.com:80/post/18502938203",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m02q2w0hz21r3it8zo1_500.jpg]",
+   "expected": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
+   "observed": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182128",
+   "observed": "20181225182128",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182128id_/https://66.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182128id_/https://66.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182128",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:9ebc815274b6d8c6e4b5d7a70cfd04f7708d69f219a9341cb5292b5b3b5b5820",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:23Z",
+  "org.opencontainers.image.description": "קיבלתי את הרכב חזרה מהמוסך…",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 18502938203",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/18502938203",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "38",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "18502938203",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "צרות-של-אשכנזים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:155191e4d5c70c4a21208d254cb848b00f3653b7fd9649a5dc76ce9ea463f52d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 55151
+  },
+  {
+   "digest": "sha256:36747938b85215a7eb5fa055390ce223c7390308a4e0522e7f71e852a1b5ed1c",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 55151
+  },
+  {
+   "digest": "sha256:389afbae43e5c51e03928daf7477cc1ff14bc034d89c7d32f5f30a9311d1bf0f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1011
+  }
+ ],
+ "manifest_digest": "sha256:7cc7db4eee7c193443b65c45d07902474af0b6c8537ccb12f3aa23aa0f07a0e7",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "18502938203",
+ "pulled_files": [
+  {
+   "bytes": 55048,
+   "file": "tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:155191e4d5c70c4a21208d254cb848b00f3653b7fd9649a5dc76ce9ea463f52d",
+   "role": "media",
+   "sha256": "d041b99306507b753852ccf5b4cc63938702882100161f7a6d204539c1cd97eb"
+  },
+  {
+   "bytes": 55048,
+   "file": "tumblr_m02q2w0hz21r3it8zo1_640.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:36747938b85215a7eb5fa055390ce223c7390308a4e0522e7f71e852a1b5ed1c",
+   "role": "media",
+   "sha256": "d041b99306507b753852ccf5b4cc63938702882100161f7a6d204539c1cd97eb"
+  },
+  {
+   "bytes": 2979,
+   "file": "post.json",
+   "layer": "sha256:389afbae43e5c51e03928daf7477cc1ff14bc034d89c7d32f5f30a9311d1bf0f",
+   "role": "post-metadata",
+   "sha256": "e7980d90b7b4fc98acb3aa865d63ed37bfb34c1662724e92b9c5ad714e2b1fb2"
+  }
+ ],
+ "tag": "18502938203",
+ "verified_at": "2026-10-06T05:39:09Z"
+}

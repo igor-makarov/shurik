@@ -1,0 +1,207 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:a46a50c526cc566eaae7b69e677beb5521e21b45efe134424db3dcc6926cf1db",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lzy57jALgJ1r3it8zo1_500.jpg]",
+   "expected": "96fc22244ba94121213c8d041ae926eb40dc2dba2a8a49aa078d22c65e5d8cff",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lzy57jALgJ1r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lzy57jALgJ1r3it8zo1_500.jpg]",
+   "expected": 51049,
+   "observed": 51049,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lzy57jALgJ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lzy57jALgJ1r3it8zo1_640.jpg]",
+   "expected": "96fc22244ba94121213c8d041ae926eb40dc2dba2a8a49aa078d22c65e5d8cff",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lzy57jALgJ1r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lzy57jALgJ1r3it8zo1_640.jpg]",
+   "expected": 51049,
+   "observed": 51049,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lzy57jALgJ1r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צרות של אשכנזים: מנחם בגין.",
+   "observed": "צרות של אשכנזים: מנחם בגין.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<446 chars>",
+   "observed": "<446 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים",
+    "מנחם-בגין",
+    "מוסף-הארץ"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים",
+    "מנחם-בגין",
+    "מוסף-הארץ"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צרות של אשכנזים: מנחם בגין."
+   ],
+   "observed": [
+    "צרות של אשכנזים: מנחם בגין."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/18244186719",
+   "observed": "http://hazfalafel.com:80/post/18244186719",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lzy57jALgJ1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: מנחם בגין.",
+   "observed": "צרות של אשכנזים: מנחם בגין.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182132",
+   "observed": "20181225182132",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182132id_/https://66.media.tumblr.com/tumblr_lzy57jALgJ1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182132id_/https://66.media.tumblr.com/tumblr_lzy57jALgJ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182132",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:7d4cd5656f6b44aac83a6b2add57cd94e3a326b5f5061d6b4b225e6e85cda487",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:26Z",
+  "org.opencontainers.image.description": "צרות של אשכנזים: מנחם בגין.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 18244186719",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/18244186719",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "27",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "18244186719",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "צרות-של-אשכנזים,מנחם-בגין,מוסף-הארץ"
+ },
+ "layers": [
+  {
+   "digest": "sha256:29f6f7c0cc9cb1a2f8b3dc667c95e16093f74f41a87883c2da90e3d4b095c3a5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 51146
+  },
+  {
+   "digest": "sha256:9d081be58be87dff26f3a11ebcafd7fbfee8f771126a5fe612170cf995705572",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 51147
+  },
+  {
+   "digest": "sha256:080656140d0e11bc8f7f795ac2d8bef7dfa62ffaf7772f52eec85cfe2e83ba00",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1155
+  }
+ ],
+ "manifest_digest": "sha256:a46a50c526cc566eaae7b69e677beb5521e21b45efe134424db3dcc6926cf1db",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "18244186719",
+ "pulled_files": [
+  {
+   "bytes": 51049,
+   "file": "tumblr_lzy57jALgJ1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:29f6f7c0cc9cb1a2f8b3dc667c95e16093f74f41a87883c2da90e3d4b095c3a5",
+   "role": "media",
+   "sha256": "96fc22244ba94121213c8d041ae926eb40dc2dba2a8a49aa078d22c65e5d8cff"
+  },
+  {
+   "bytes": 51049,
+   "file": "tumblr_lzy57jALgJ1r3it8zo1_640.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:9d081be58be87dff26f3a11ebcafd7fbfee8f771126a5fe612170cf995705572",
+   "role": "media",
+   "sha256": "96fc22244ba94121213c8d041ae926eb40dc2dba2a8a49aa078d22c65e5d8cff"
+  },
+  {
+   "bytes": 3141,
+   "file": "post.json",
+   "layer": "sha256:080656140d0e11bc8f7f795ac2d8bef7dfa62ffaf7772f52eec85cfe2e83ba00",
+   "role": "post-metadata",
+   "sha256": "0022182544e56cbc0bdba96a68dcaf01df2d212752d3b5698cef5e9c098915a5"
+  }
+ ],
+ "tag": "18244186719",
+ "verified_at": "2026-10-06T05:39:08Z"
+}
