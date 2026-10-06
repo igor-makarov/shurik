@@ -152,6 +152,23 @@ def classify_exception(exc: BaseException) -> tuple[str, str]:
     return TRANSPORT, str(exc)[:300]
 
 
+def short_message(message: str, limit: int = 200) -> str:
+    """Ledger-safe truncation that preserves the diagnostic tail.
+
+    Raw transport messages are `pool-prefix + long replay URL + cause`: the
+    refusal/errno evidence (`Connection refused`, `errno 111`) lives in the
+    tail, past position 250 for long media URLs. A plain `[:200]` head cut
+    keeps the URL and loses the cause, so a later reader sees `status null`
+    with no refusal text and misdiagnoses a refusal as an ambiguous stall.
+    Keep head+tail when long so the cause always survives.
+    """
+    if not message or len(message) <= limit:
+        return message or ""
+    head = limit * 2 // 3
+    tail = limit - head - 5
+    return f"{message[:head]}...{message[-tail:]}" if tail > 0 else message[:limit]
+
+
 def is_refusal(resp: "Response") -> bool:
     """True when a TRANSPORT response was a refused TCP connection.
 
@@ -159,12 +176,18 @@ def is_refusal(resp: "Response") -> bool:
     are not retried in-process (the durable queue owns the back-off), while
     other transports (DNS, reset, TLS) keep bounded retries. The check is on
     the recorded message so mocked transports in tests behave the same way.
+    The legacy `archive refused the connection` prefix (pre-12-245 rows wrote
+    refusals as THROTTLED with that text and status None) is recognised too,
+    so stale ledger rows are diagnosed as refusals rather than ambiguous
+    throttles when re-examined.
     """
+    text = (resp.message or "").lower()
     return (
         resp.status is None
-        and (resp.error == TRANSPORT)
-        and ("refused" in (resp.message or "").lower()
-            or "errno 111" in (resp.message or "").lower())
+        and (resp.error in (TRANSPORT, THROTTLED))
+        and ("refused" in text
+            or "errno 111" in text
+            or "archive refused" in text)
     )
 
 
@@ -313,14 +336,17 @@ class Fetcher:
                      *, noredirect: bool = False) -> Response:
         """One retry on the other scheme when the first request never got an answer.
 
-        Only a request that got *no HTTP answer* is retried: a 429/503 from a
-        reachable front end is real throttling and must back off rather than be
-        replayed on another port. The switch happens before the response is
-        classified, so a refusal that the other listener then answers never
-        trips the circuit breaker -- the evidence is the answer, not the
-        refusal. Both directions are covered (see `scheme_variant`).
+        Only a request that got *no HTTP answer* from a non-throttle cause is
+        retried: a 429/503 from a reachable front end is real throttling and
+        must back off rather than be replayed on another port (the `status is
+        not None` guard already returns genuine throttles, and THROTTLED with
+        status None -- a circuit deferral, never a live answer -- is excluded
+        here too). The switch happens before the response is classified, so a
+        refusal that the other listener then answers never trips the circuit
+        breaker -- the evidence is the answer, not the refusal. Both
+        directions are covered (see `scheme_variant`).
         """
-        if raw.status is not None or raw.error not in (None, OK, TRANSPORT, THROTTLED, TIMEOUT):
+        if raw.status is not None or raw.error not in (None, OK, TRANSPORT, TIMEOUT):
             return raw
         alt = scheme_variant(url)
         if alt is None:

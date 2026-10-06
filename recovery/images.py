@@ -11,7 +11,7 @@ from . import config
 from .availability import gap_is_trusted
 from .cdx import Capture, cdx_query, normalize_url, within_cutoff
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, HTTP_ERROR, OK, THROTTLED, TIMEOUT,
-                   TRANSPORT, Fetcher, Response)
+                   TRANSPORT, Fetcher, Response, short_message)
 from .parsing import base_media_key, media_key
 
 # The Wayback replay redirect embeds the real capture timestamp:
@@ -267,7 +267,7 @@ def probe_media_capture(fetcher: Fetcher, url: str, at_ts: Optional[str] = None,
             "capture_timestamp": captured or None,
             "status": resp.status,
             "error": resp.error,
-            "message": resp.message[:200],
+            "message": short_message(resp.message),
             "location": location[:200],
         }
         attempts.append(attempt)
