@@ -173,13 +173,13 @@ test('checkpoint feedback reaches native system messages and gates the next requ
   process.env.OPENCODE_API_KEY = 'FAKE_KEY_FOR_CHECKPOINT_TEST';
   globalThis.fetch = async (_url, options) => {
     requests.push(JSON.parse(options.body));
-    const first = requests.length === 1;
-    const delta = first ? { role: 'assistant', tool_calls: [{ index: 0, id: 'time-tool', type: 'function',
-      function: { name: 'bash', arguments: JSON.stringify({ command: 'sleep 1.1; printf saved > time-feedback.txt' }) } }] }
+    const tools = requests.length <= 2;
+    const delta = tools ? { role: 'assistant', tool_calls: [{ index: 0, id: `time-tool-${requests.length}`, type: 'function',
+      function: { name: 'bash', arguments: JSON.stringify({ command: 'sleep 3.1; printf saved > time-feedback.txt' }) } }] }
       : { role: 'assistant', content: 'Saved work for the next iteration.' };
     const chunks = [
       { id: 'time', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta, finish_reason: null }] },
-      { id: 'time', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: {}, finish_reason: first ? 'tool_calls' : 'stop' }] }
+      { id: 'time', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: {}, finish_reason: tools ? 'tool_calls' : 'stop' }] }
     ];
     return new Response(chunks.map(c => `data: ${JSON.stringify(c)}\n\n`).join('') + 'data: [DONE]\n\n', { headers: { 'content-type': 'text/event-stream' } });
   };
@@ -197,9 +197,9 @@ test('checkpoint feedback reaches native system messages and gates the next requ
           const journal = (await Promise.all(files.filter(name => name.endsWith('.jsonl')).map(name => readFile(join(snapshot, name), 'utf8')))).join('\n');
           assert.ok(journal.includes('Time update at'), 'time feedback is durable in the prepared journal and its native sidecars');
           if (boundary.phase === 'tools') {
-            assert.equal(requests.length, 1);
+            const beforePublication = requests.length;
             await new Promise(resolve => setTimeout(resolve, 150));
-            assert.equal(requests.length, 1, 'next model request waits for checkpoint acknowledgement');
+            assert.equal(requests.length, beforePublication, 'next model request waits for checkpoint acknowledgement');
           }
         } catch (error) { monitorErrors.push(error); }
         await writeFile(join(output, 'checkpoint.ack'), nonce);
@@ -210,19 +210,24 @@ test('checkpoint feedback reaches native system messages and gates the next requ
   try {
     const { runIteration } = createRequire(import.meta.url)(bundle);
     await runIteration({ version: 1, id: 'time-feedback', cwd: f.cwd, journal: f.journal, output,
-      prompt: 'Save progress then yield.', model: 'space-bunny-free', reasoning: 'high', seconds: 10,
-      deadline: new Date(Date.now() + 60000).toISOString(), checkpointHandshake: true, checkpointSeconds: 0.001, sessions: [] });
+      prompt: 'Save progress then yield.', model: 'space-bunny-free', reasoning: 'high', seconds: 9,
+      deadline: new Date(Date.now() + 60000).toISOString(), checkpointHandshake: true, checkpointSeconds: 3, sessions: [] });
     assert.deepEqual(monitorErrors, []);
     assert.equal(JSON.parse(await readFile(join(output, 'result.json'), 'utf8')).outcome, 'yielded');
-    assert.deepEqual(checkpoints.map(c => c.phase), ['started', 'tools']);
-    assert.equal(requests.length, 2);
+    assert.deepEqual(checkpoints.map(c => c.phase), ['started', 'tools', 'tools']);
+    assert.equal(requests.length, 3);
     const systems = requests.map(r => r.messages.filter(m => m.role === 'system').map(m => m.content).join('\n'));
-    const remaining = systems.map(s => Number(s.match(/about (\d+) seconds remain in this iteration/)[1]));
-    assert.ok(remaining[1] < remaining[0], 'the checkpoint updates the remaining iteration budget');
+    for (const s of systems.slice(0, 2)) {
+      assert.doesNotMatch(s, /seconds remain|overall loop deadline|handoff|preempt|next fresh-context iteration/);
+    }
+    const finalSystem = systems.at(-1);
+    const remaining = Number(finalSystem.match(/about (\d+) seconds remain in this iteration/)[1]);
+    assert.ok(remaining > 0 && remaining <= 3, 'only the final configured checkpoint interval introduces preemption guidance');
+    assert.match(finalSystem, /overall loop deadline/);
+    assert.match(finalSystem, /next fresh-context iteration/);
+    assert.match(finalSystem, /save recoverable partial results/);
+    assert.match(finalSystem, /Keep pursuing useful work after saving the handoff until preemption/);
     for (const s of systems) {
-      assert.match(s, /overall loop deadline/);
-      assert.match(s, /next fresh-context iteration/);
-      assert.match(s, /save recoverable partial results/);
       assert.match(s, /continue useful work after saving/);
       assert.match(s, /make and verify useful repairs/);
       assert.match(s, /Yield early only when the task objective is achieved or an external blocker/);
