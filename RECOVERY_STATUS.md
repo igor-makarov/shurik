@@ -104,11 +104,51 @@ Known weak spots: posts 13833997906-14996000761 (2010-2011,
 `27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
 that verdict is scoped to those exact URLs only.
 
-Checkpoint digest at the end of 9-206: `crawl-state`
-`sha256:28480fcfc527210eccbd7aced12cc2c6c7c970f326724aaf93a597a2f63694b9`
+Checkpoint digest at the end of 11-240: `crawl-state`
+`sha256:f6726ce72fb27e2f4eb0f705b830b3893fb681ef68a15855fe567909ba4c11e8`
 (pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
-restores `data/posts`, `data/cdx` and the queue/ledgers). 7-95 digest was
-`sha256:ad3cd4709b4185bef68eee02d552c3c2fa66a828f4e10c83ffdccec9c952c5bc`.
+restores `data/posts`, `data/cdx` and the queue/ledgers). 9-206 digest was
+`sha256:28480fcfc527210eccbd7aced12cc2c6c7c970f326724aaf93a597a2f63694b9`.
+
+## 11-240 result: settled pool now yields 0; known-URL stem search is exhausted
+
+Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
+**82 images across 53 image-bearing tags** (741 tags total); unchanged this pass.
+Post 136316699428 from the prompt feedback is already published AND anonymously
+verified (2 layers, both 87458 bytes, SHA-256 `f97320c1...`, manifest
+`b6abea7d...`): the lost-probe bytes were re-recovered by a later iteration,
+not still missing. Note its two layers hold identical bytes (`_500` and `_1280`
+share one capture) -- count once when measuring unique bytes.
+
+Two bounded stem passes `--method stem --retry-missing --limit 150
+--concurrency 2` over settled posts: **0 recovered, ~200+202 missing,
+0 transient** each. `stems.jsonl` grew by only 1 row across 300 posts: the
+stem index now short-circuits nearly every query with a recorded empty answer,
+so re-running settled posts replays known negatives instead of sending CDX
+requests. Stop spending passes here without a new question.
+
+Offline stem census (crawler `stem_prefix` keys): 1656 distinct post stems vs
+1622 recorded answers; the 34 never-asked stems all sit on already-resolved
+images. All 25 hit stems are recovered/published. The stem-prefix search over
+known URLs is therefore exhausted.
+
+Targeted experiments (bounded, gentle -- an 8-request no-delay ad-hoc script
+caused `connection refused`; keep >=2s interval, the crawler already does):
+* Non-200 CDX scope test on 8 unresolved stems: 1 genuine any-status negative
+  (`68.media.../tumblr_mdulie0AAa1r3it8zo1` -> 0 captures), rest inconclusive
+  (self-inflicted refusals). No redirect-only captures found.
+* Cross-shard check: 6 unresolved `_1280` URLs (posts 104677118808,
+  124926471278, 124827091178, 125258061218, 125172044513, 124243597613) share
+  a hash/basename with an already-recovered `_500` capture on a sibling shard.
+  Copying those bytes across sizes would fabricate provenance (no pre-cutoff
+  `_1280` capture exists) and duplicate-count one capture -- recorded as
+  not-recoverable, not attempted.
+
+Next opportunity: new image *identities*, not new queries for old ones --
+re-mine listing/tag/month/AMP/photoset captures for image URLs absent from the
+permalink parses (only avatars found so far, correctly excluded), or find
+posts whose captures were never parsed. Per-pass re-querying of answered stems
+is spent.
 
 ## 9-206 result: untouched pool yielded 0
 
