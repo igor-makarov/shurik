@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:6410c2f7f0e26d75d36ff44bb23f0f86186a9dcf66e14d954cec5b46e011fb3a",
+   "observed": "sha256:053190f51912a27314653b32f0115dd62be46a3570628031166daeec9ad32d12",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_lz359y72Fk1r3it8zo1_500.jpg]",
    "expected": "318478ad8217d6986f777a39b8e8c322a8f0a4405b17fffc7645cd37adc26fb5",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_lz359y72Fk1r3it8zo1_640.jpg",
+   "observed": "tumblr_lz359y72Fk1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -43,7 +43,7 @@
    "check": "image_bytes[tumblr_lz359y72Fk1r3it8zo1_640.jpg]",
    "expected": "318478ad8217d6986f777a39b8e8c322a8f0a4405b17fffc7645cd37adc26fb5",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_lz359y72Fk1r3it8zo1_640.jpg",
+   "observed": "tumblr_lz359y72Fk1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_lz359y72Fk1r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lz359y72Fk1r3it8zo1_250.jpg]",
+   "expected": "318478ad8217d6986f777a39b8e8c322a8f0a4405b17fffc7645cd37adc26fb5",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lz359y72Fk1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lz359y72Fk1r3it8zo1_250.jpg]",
+   "expected": 52519,
+   "observed": 52519,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lz359y72Fk1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -132,11 +152,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:fca032c282f156d25ebbd37bbf0e1aa5b096190d7c1a3fd34240e971dfb4bd94",
+ "checks_passed": 23,
+ "checks_total": 23,
+ "config_digest": "sha256:2eb8547cafd1eea13edd6b023c0f5c6814b41a2eea690b5195407f80b85a17cc",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:30Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: בצלאל",
@@ -148,7 +168,7 @@
   "shurik.post.content_len": "22",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "17269876288",
-  "shurik.post.images": "2",
+  "shurik.post.images": "3",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "צרות-של-אשכנזים"
  },
@@ -164,12 +184,17 @@
    "size": 52626
   },
   {
-   "digest": "sha256:c9826d0c4a73b925387ab81942acef7e4dbcc2e85028cd479d0674660186f286",
+   "digest": "sha256:39b4cdb8f081a5e826bdf7f38f95f9353a837f5477499c60fcc494f045927b58",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1127
+   "size": 52626
+  },
+  {
+   "digest": "sha256:1b4773c8ffa20f35b592229b32ca86fd80021329bee596dcc6d12de13740df67",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1148
   }
  ],
- "manifest_digest": "sha256:6410c2f7f0e26d75d36ff44bb23f0f86186a9dcf66e14d954cec5b46e011fb3a",
+ "manifest_digest": "sha256:053190f51912a27314653b32f0115dd62be46a3570628031166daeec9ad32d12",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "17269876288",
@@ -191,13 +216,21 @@
    "sha256": "318478ad8217d6986f777a39b8e8c322a8f0a4405b17fffc7645cd37adc26fb5"
   },
   {
-   "bytes": 3070,
+   "bytes": 52519,
+   "file": "tumblr_lz359y72Fk1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:39b4cdb8f081a5e826bdf7f38f95f9353a837f5477499c60fcc494f045927b58",
+   "role": "media",
+   "sha256": "318478ad8217d6986f777a39b8e8c322a8f0a4405b17fffc7645cd37adc26fb5"
+  },
+  {
+   "bytes": 3745,
    "file": "post.json",
-   "layer": "sha256:c9826d0c4a73b925387ab81942acef7e4dbcc2e85028cd479d0674660186f286",
+   "layer": "sha256:1b4773c8ffa20f35b592229b32ca86fd80021329bee596dcc6d12de13740df67",
    "role": "post-metadata",
-   "sha256": "dabab95bb6b6dd61cede3e100970d89c5edbb386dcfd62cfea6ec4857dbb96c2"
+   "sha256": "ffdcb8007fbb7af26da492fd4a1317f54810e258b2111bcfa5d1fbf5dec9e653"
   }
  ],
  "tag": "17269876288",
- "verified_at": "2026-10-06T05:39:07Z"
+ "verified_at": "2026-10-06T12:27:39Z"
 }

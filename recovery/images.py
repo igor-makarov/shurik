@@ -42,6 +42,13 @@ def stem_prefix(media_url: str) -> str:
     family. Falls back to the exact URL when the filename carries no size token
     (a hash-named path such as `.../abcdef/tumblr_xyz_500.jpg` is handled the
     same way, but a name that is *only* a token must not collapse to nothing).
+
+    The scheme is canonicalised to `http`: the CDX index answers the same rows
+    for either scheme (measured 2026-10: `http://66.media...` and
+    `https://66.media...` prefixes for one photo returned the identical
+    capture), so keeping both forms created duplicate stem rows, duplicate CDX
+    requests and duplicate image counts for one capture. Bulk state
+    (`data/posts/`, `data/cdx/`) is registry `crawl-state`, not Git.
     """
     from urllib.parse import urlsplit
 
@@ -53,8 +60,8 @@ def stem_prefix(media_url: str) -> str:
     token = base.rpartition("_")[2]
     if "_" not in base or not token or not NOT_SIZE_TOKEN.match(token) or len(token) > 4:
         # No recognisable size token: the exact URL is its own prefix.
-        return f"{parts.scheme}://{parts.netloc}{parts.path}"
-    return f"{parts.scheme}://{parts.netloc}{directory}/{base[:len(base) - len(token) - 1]}"
+        return f"http://{parts.netloc}{parts.path}"
+    return f"http://{parts.netloc}{directory}/{base[:len(base) - len(token) - 1]}"
 
 
 def cap_attempts(attempts: list[dict], keep: int = MAX_ATTEMPTS_PER_IMAGE) -> list[dict]:

@@ -1,0 +1,222 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:bde305b269595f6b125699aa61ec0e321cef18489286487aa595cb4a58f33f99",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 3,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 3,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_man4lqrrsB1r3it8zo1_500.jpg]",
+   "expected": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_man4lqrrsB1r3it8zo1_500.jpg]",
+   "expected": 65467,
+   "observed": 65467,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_man4lqrrsB1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_man4lqrrsB1r3it8zo1_640.jpg]",
+   "expected": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_man4lqrrsB1r3it8zo1_640.jpg]",
+   "expected": 65467,
+   "observed": 65467,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_man4lqrrsB1r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_man4lqrrsB1r3it8zo1_250.jpg]",
+   "expected": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_man4lqrrsB1r3it8zo1_250.jpg]",
+   "expected": 65467,
+   "observed": 65467,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_man4lqrrsB1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "שי, אנחנו לא יודעים מה ממתין לך בהמשך הדרך, אבל אנחנו תמיד נשמח לקבל אותך בזרועות פתוחות",
+   "observed": "שי, אנחנו לא יודעים מה ממתין לך בהמשך הדרך, אבל אנחנו תמיד נשמח לקבל אותך בזרועות פתוחות",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<515 chars>",
+   "observed": "<515 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים",
+    "מעריב",
+    "חדשות"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים",
+    "מעריב",
+    "חדשות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "שי, אנחנו לא יודעים מה ממתין לך בהמשך הדרך, אבל אנחנו תמיד נשמח לקבל אותך בזרועות פתוחות"
+   ],
+   "observed": [
+    "שי, אנחנו לא יודעים מה ממתין לך בהמשך הדרך, אבל אנחנו תמיד נשמח לקבל אותך בזרועות פתוחות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/31914464998",
+   "observed": "http://hazfalafel.com:80/post/31914464998",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_man4lqrrsB1r3it8zo1_500.jpg]",
+   "expected": "שי, אנחנו לא יודעים מה ממתין לך בהמשך הדרך, אבל אנחנו תמיד נשמח לקבל אותך בזרועות פתוחות",
+   "observed": "שי, אנחנו לא יודעים מה ממתין לך בהמשך הדרך, אבל אנחנו תמיד נשמח לקבל אותך בזרועות פתוחות",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:1eb84ffa2c0e73e4ba8845ceae353492570321a99c5c0750238197ec2161f24a",
+ "failed_checks": [],
+ "images_verified": 3,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:05Z",
+  "org.opencontainers.image.description": "שי, אנחנו לא יודעים מה ממתין לך בהמשך הדרך, אבל אנחנו תמיד נשמח לקבל אותך בזרועות פתוחות",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 31914464998",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/31914464998",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "88",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "31914464998",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "צרות-של-אשכנזים,מעריב,חדשות"
+ },
+ "layers": [
+  {
+   "digest": "sha256:f258a279d6a97fbccb12fa0e08019b71805b4b9370d68843879c00da2e6228dd",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 65186
+  },
+  {
+   "digest": "sha256:3138f29b73a5f23fbfb866d2eadf2d0e8c54c63b00b02eb9be920d53a8a5d88a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 65186
+  },
+  {
+   "digest": "sha256:b00ff3b77713ceb6aee1d17d0a0912e8ea3d5be82accba36ab96e81754e1a2d7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 65186
+  },
+  {
+   "digest": "sha256:71df33984f1b62acc6b7bbea050fbfa6130664e86a51509cea97399613aab1ab",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1115
+  }
+ ],
+ "manifest_digest": "sha256:bde305b269595f6b125699aa61ec0e321cef18489286487aa595cb4a58f33f99",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "31914464998",
+ "pulled_files": [
+  {
+   "bytes": 65467,
+   "file": "tumblr_man4lqrrsB1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:f258a279d6a97fbccb12fa0e08019b71805b4b9370d68843879c00da2e6228dd",
+   "role": "media",
+   "sha256": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc"
+  },
+  {
+   "bytes": 65467,
+   "file": "tumblr_man4lqrrsB1r3it8zo1_640.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:3138f29b73a5f23fbfb866d2eadf2d0e8c54c63b00b02eb9be920d53a8a5d88a",
+   "role": "media",
+   "sha256": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc"
+  },
+  {
+   "bytes": 65467,
+   "file": "tumblr_man4lqrrsB1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b00ff3b77713ceb6aee1d17d0a0912e8ea3d5be82accba36ab96e81754e1a2d7",
+   "role": "media",
+   "sha256": "c1fc4101ed0d72322296e82536d239ed78dfea30b90e0432d164298cacec49cc"
+  },
+  {
+   "bytes": 3583,
+   "file": "post.json",
+   "layer": "sha256:71df33984f1b62acc6b7bbea050fbfa6130664e86a51509cea97399613aab1ab",
+   "role": "post-metadata",
+   "sha256": "d3847a723270e9fd288e1ec7697ff50e3081ea8f2ba9a2fa3d7aac9b1f4655d0"
+  }
+ ],
+ "tag": "31914464998",
+ "verified_at": "2026-10-06T12:27:42Z"
+}

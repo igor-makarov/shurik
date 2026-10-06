@@ -72,13 +72,29 @@ class StemIndex:
                     self.asked_at[stem] = rec.get("at", "")
 
     # ------------------------------------------------------------------ query
+    def _alternates(self, stem: str) -> list[str]:
+        """Both scheme forms of a stem prefix (legacy rows kept either one).
+
+        `stem_prefix` is now canonicalised to `http`, but earlier passes
+        recorded some answers under `https`. The CDX answers identically for
+        both, so a lookup must accept either row instead of re-asking.
+        """
+        if stem.startswith("http://"):
+            return [stem, "https://" + stem[len("http://"):]]
+        if stem.startswith("https://"):
+            return [stem, "http://" + stem[len("https://"):]]
+        return [stem]
+
     def has(self, stem: str) -> bool:
         """Was this exact stem prefix already answered (hit *or* miss)?"""
-        return stem in self.rows
+        return any(s in self.rows for s in self._alternates(stem))
 
     def lookup(self, stem: str) -> Optional[list[Capture]]:
         """Captures for a stem prefix, `[]` for a recorded miss, None if unknown."""
-        return self.rows.get(stem)
+        for s in self._alternates(stem):
+            if s in self.rows:
+                return self.rows.get(s)
+        return None
 
     def missing(self, stems: Iterable[str]) -> list[str]:
         seen: set[str] = set()

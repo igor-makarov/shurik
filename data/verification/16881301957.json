@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:a81168dd0a78d694e5bdbc8716ed755acc0eda27cb49d803049ff5309b4de1e7",
+   "observed": "sha256:e842a948a94dc75ea914a8c4b9ffc0309f96b5694de6197a6581630f48a33a5d",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_lyqhwwCcvt1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lyqhwwCcvt1r3it8zo1_250.jpg]",
+   "expected": "dbb1ef96072f1243b08af158a143feeec18d8101f7a90720e7e1d7b957d10a12",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lyqhwwCcvt1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lyqhwwCcvt1r3it8zo1_250.jpg]",
+   "expected": 50266,
+   "observed": 50266,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lyqhwwCcvt1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -132,11 +152,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:eb4e0ecf46b66166086450aeaf884c5f60ccb28de6a4cc4690173c768cf1fd77",
+ "checks_passed": 23,
+ "checks_total": 23,
+ "config_digest": "sha256:12f982607a2001963d25c19e63f410b602ee9f40d82942c10bc78663686a1009",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:33Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: לילה טוב, נסיכה מתוקה",
@@ -148,7 +168,7 @@
   "shurik.post.content_len": "38",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "16881301957",
-  "shurik.post.images": "2",
+  "shurik.post.images": "3",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "צרות-של-אשכנזים"
  },
@@ -164,12 +184,17 @@
    "size": 49133
   },
   {
-   "digest": "sha256:5c608a9721e3b2cae8f7c35cf7c0267023e98a61c73ce85de2caa3d34eb27b9d",
+   "digest": "sha256:b6533df6412d023597a0ec86822c8f21b89dc422f4b3d4cb1861ed451a18577d",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 991
+   "size": 50369
+  },
+  {
+   "digest": "sha256:b7e9f3d7ba6defef1d63d1b24253cb682e00f95160449f0cd300d1802b4b0793",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1116
   }
  ],
- "manifest_digest": "sha256:a81168dd0a78d694e5bdbc8716ed755acc0eda27cb49d803049ff5309b4de1e7",
+ "manifest_digest": "sha256:e842a948a94dc75ea914a8c4b9ffc0309f96b5694de6197a6581630f48a33a5d",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "16881301957",
@@ -191,13 +216,21 @@
    "sha256": "d521689da1aeea85c6f083466053841f970937ded57edf09789671391708ae78"
   },
   {
-   "bytes": 3207,
+   "bytes": 50266,
+   "file": "tumblr_lyqhwwCcvt1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b6533df6412d023597a0ec86822c8f21b89dc422f4b3d4cb1861ed451a18577d",
+   "role": "media",
+   "sha256": "dbb1ef96072f1243b08af158a143feeec18d8101f7a90720e7e1d7b957d10a12"
+  },
+  {
+   "bytes": 3882,
    "file": "post.json",
-   "layer": "sha256:5c608a9721e3b2cae8f7c35cf7c0267023e98a61c73ce85de2caa3d34eb27b9d",
+   "layer": "sha256:b7e9f3d7ba6defef1d63d1b24253cb682e00f95160449f0cd300d1802b4b0793",
    "role": "post-metadata",
-   "sha256": "f1845685b5c4896713389d7906cdf7739ab1da879eb40b75cf390bf6ab5ba1d8"
+   "sha256": "db8f401f9ed0c7c4bf513de1fc2a23de130261b98788a5b6229b149a366a18d4"
   }
  ],
  "tag": "16881301957",
- "verified_at": "2026-10-06T05:39:06Z"
+ "verified_at": "2026-10-06T12:27:36Z"
 }
