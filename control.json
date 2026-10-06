@@ -3,9 +3,9 @@
   "id": "hazfalafel-20261004t213311",
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
-  "supervisor": "b4cd2887b0f06ce92a2ccf1bed04eac3646af364",
-  "status": "stopped",
-  "generation": 7,
+  "supervisor": "7bde8f5e54f24030add979480e12621b6774a1c9",
+  "status": "running",
+  "generation": 8,
   "next": 183,
   "owner": null,
   "deadline": "2026-10-06T13:00:00.000Z",
@@ -14,10 +14,9 @@
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
-  "lastDispatchAt": "2026-10-06T07:54:53.430Z",
+  "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37432468364",
-  "stoppedAt": "2026-10-06T07:55:06Z",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
@@ -36,5 +35,15 @@
     "preservedStateFiles": 133,
     "bundlesRemoved": true,
     "reasoningExplicitlyChosen": "high"
+  },
+  "upgrade": {
+    "at": "2026-10-06T08:14:49Z",
+    "previousSupervisor": "b4cd2887b0f06ce92a2ccf1bed04eac3646af364",
+    "previousWorker": "911dfda864f818c23de75b40eacee27854638051",
+    "supervisor": "7bde8f5e54f24030add979480e12621b6774a1c9",
+    "workCommit": "8da125e356b1c321e53a4f1bd84d6d0e1d7a06c7",
+    "cooperativeCheckpoints": true,
+    "checkpointSeconds": 300,
+    "realJournalCanaryPassed": true
   }
 }
