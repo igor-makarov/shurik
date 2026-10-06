@@ -1,0 +1,288 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com/post/15795919908"
+ ],
+ "captions": [
+  "שמעתי שהתפנתה משרה באקסלנס…\nתודה ליוני שמשי"
+ ],
+ "capture_timestamp": "20171110101840",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com/post/15795919908",
+   "timestamp": "20171110101840"
+  }
+ ],
+ "content_html": "<p>&#1513;&#1502;&#1506;&#1514;&#1497; &#1513;&#1492;&#1514;&#1508;&#1504;&#1514;&#1492; &#1502;&#1513;&#1512;&#1492; &#1489;&#1488;&#1511;&#1505;&#1500;&#1504;&#1505;&hellip;</p><p>&#1514;&#1493;&#1491;&#1492; &#1500;<strong>&#1497;&#1493;&#1504;&#1497; &#1513;&#1502;&#1513;&#1497;</strong></p>",
+ "content_source": "div.copy",
+ "content_text": "שמעתי שהתפנתה משרה באקסלנס…\nתודה ליוני שמשי",
+ "date_text": "Posted 8 years ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T10:04:42Z",
+ "image_count": 0,
+ "images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1280.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1024.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_540.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_400.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_400.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1",
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1",
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_lxrfn8e2851r3it8zo1.jpg",
+   "caption": "שמעתי שהתפנתה משרה באקסלנס…\nתודה ליוני שמשי",
+   "caption_alt": "שמעתי שהתפנתה משרה באקסלנס…\nתודה ליוני שמשי",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lxrfn8e2851r3it8zo1_500.jpg",
+   "media_url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg"
+   ],
+   "variants": [
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1280.jpg",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1024.jpg",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_540.jpg",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_400.jpg",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_250.jpg",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_100.jpg",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.png",
+    "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.gif"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 64212,
+   "capture_timestamp": "20171110101840",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/15795919908"
+  }
+ ],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1280.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1024.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_540.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_400.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_400.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1",
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1",
+     "url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg"
+    }
+   ],
+   "media_url": "https://64.media.tumblr.com/tumblr_lxrfn8e2851r3it8zo1_500.jpg",
+   "reason": "archive_gap"
+  }
+ ],
+ "original_url": "http://hazfalafel.com/post/15795919908",
+ "page_bytes": 64212,
+ "page_sha256": "bb8b8c1d3ef26be8435724512b6f77b7456edaa56334ffc2af8a5a6949660017",
+ "partial": true,
+ "post_id": "15795919908",
+ "posted_on": "Posted on Saturday the 14th of January 2012 at 1:23 AM",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-05T00:24:00Z",
+  "image_count": 0,
+  "manifest_digest": "sha256:9c1a6d3e02ddb7408b9d9632838ee4dddae4d323642a7ce917151bcc7f268f84",
+  "missing_count": 1,
+  "quality": [
+   0,
+   43,
+   1
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20171110101840id_/http://hazfalafel.com/post/15795919908",
+ "snapshot_retries": 0,
+ "state": "partial",
+ "tags": [
+  "כלב-עסקים",
+  "שלמה-מעוז"
+ ]
+}

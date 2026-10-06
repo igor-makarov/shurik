@@ -1,0 +1,309 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com/post/15037458998",
+  "http://hazfalafel.com/post/15037458998/amp",
+  "http://hazfalafel.com:80/post/15037458998/5"
+ ],
+ "captions": [
+  "אילו כל מי שהיה קורא הודעה זו היה תורם 5$, הייתי שם תמונה של גלעד שליט בסמל האתר\nמנכ&#8221;ל ויקיפדיה, ג&#8217;ימי ויילס:"
+ ],
+ "capture_timestamp": "20120117232051",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/15037458998/5",
+   "timestamp": "20120117232051"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/15037458998/5",
+   "timestamp": "20120426031002"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com/post/15037458998",
+   "timestamp": "20171111123929"
+  },
+  {
+   "error": null,
+   "kind": "amp",
+   "original": "http://hazfalafel.com/post/15037458998/amp",
+   "timestamp": "20171207084559"
+  }
+ ],
+ "content_html": "<p>אילו כל מי שהיה קורא הודעה זו היה תורם 5$, הייתי שם תמונה של גלעד שליט בסמל האתר</p>\n<p>מנכ&#8221;ל ויקיפדיה, ג&#8217;ימי ויילס:</p>",
+ "content_source": "div.copy",
+ "content_text": "אילו כל מי שהיה קורא הודעה זו היה תורם 5$, הייתי שם תמונה של גלעד שליט בסמל האתר\nמנכ”ל ויקיפדיה, ג’ימי ויילס:",
+ "date_text": "Posted 2 weeks ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T12:00:32Z",
+ "image_count": 0,
+ "images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "replay-probe",
+      "variant-budget"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 3,
+     "note": "3 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1024.png (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1024.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1",
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1024.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1",
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png"
+    }
+   ],
+   "base_key": "tumblr_lx10poUPex1r3it8zo1.png",
+   "caption": "אילו כל מי שהיה קורא הודעה זו היה תורם 5$, הייתי שם תמונה של גלעד שליט בסמל האתר\nמנכ&#8221;ל ויקיפדיה, ג&#8217;ימי ויילס:",
+   "caption_alt": "אילו כל מי שהיה קורא הודעה זו היה תורם 5$, הייתי שם תמונה של גלעד שליט בסמל האתר\nמנכ&#8221;ל ויקיפדיה, ג&#8217;ימי ויילס:",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lx10poUPex1r3it8zo1_500.png",
+   "media_url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "variants": [
+    "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 50129,
+   "capture_timestamp": "20120117232051",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/15037458998/5"
+  }
+ ],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "replay-probe",
+      "variant-budget"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 3,
+     "note": "3 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1024.png (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1024.png"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1",
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1024.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_540.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_400.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_100.png",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
+      "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1",
+     "url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png"
+    }
+   ],
+   "media_url": "http://29.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png",
+   "reason": "archive_gap"
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/15037458998/5",
+ "page_bytes": 50129,
+ "page_sha256": "b36318eb9586f8e48115cbe03b0837d86460b17edaaa81552f262134617d424d",
+ "partial": true,
+ "post_id": "15037458998",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-05T00:07:41Z",
+  "image_count": 0,
+  "manifest_digest": "sha256:2ad7682fef65b29a7b9558796330d9ccc02cc68443ff91cfa29937b212f6ff5d",
+  "missing_count": 1,
+  "quality": [
+   0,
+   109,
+   1
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20120117232051id_/http://hazfalafel.com:80/post/15037458998/5",
+ "snapshot_retries": 0,
+ "state": "partial",
+ "tags": [
+  "ג'ימי-ויילס"
+ ]
+}

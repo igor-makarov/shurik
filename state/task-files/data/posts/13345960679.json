@@ -1,0 +1,535 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com:80/post/13345960679"
+ ],
+ "captions": [
+  "למה אתם לא לסגור דלת בעדינות"
+ ],
+ "capture_timestamp": "20121129040640",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/13345960679",
+   "timestamp": "20120426030754"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/13345960679",
+   "timestamp": "20121129040640"
+  }
+ ],
+ "content_html": "<p>למה אתם לא לסגור דלת בעדינות</p>",
+ "content_source": "div.copy",
+ "content_text": "למה אתם לא לסגור דלת בעדינות",
+ "date_text": "Posted 1 year ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T10:04:42Z",
+ "image_count": 0,
+ "images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_lv9rkd6wmw1r3it8zo1.jpg",
+   "caption": "למה אתם לא לסגור דלת בעדינות",
+   "caption_alt": "למה אתם לא לסגור דלת בעדינות",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+   "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+   ],
+   "variants": [
+    "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+   ]
+  },
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    }
+   ],
+   "base_key": "tumblr_lv9rkd6wmw1r3it8zo1.jpg",
+   "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+   "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 0,
+   "capture_timestamp": "20120426030754",
+   "endpoint": "replay id_",
+   "error": "transport",
+   "kind": "perm",
+   "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20120426030754id_/http://hazfalafel.com:80/post/13345960679 (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7faf648b98b0>: Failed to establish a new connection: [Errno 111] Conne",
+   "status": null,
+   "url": "http://hazfalafel.com:80/post/13345960679"
+  },
+  {
+   "bytes": 53364,
+   "capture_timestamp": "20121129040640",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/13345960679"
+  }
+ ],
+ "missing_image_count": 2,
+ "missing_images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg"
+    }
+   ],
+   "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+   "reason": "archive_gap"
+  },
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+    }
+   ],
+   "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+   "reason": "archive_gap"
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/13345960679",
+ "page_bytes": 53364,
+ "page_sha256": "ec0002033b07f1f6abb0f24c98b5f036aa9efad75da4f2bfcde80ecff7bccbcb",
+ "partial": true,
+ "post_id": "13345960679",
+ "posted_on": "Posted on Saturday the 26th of November 2011 at 3:17 PM",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-04T23:25:04Z",
+  "image_count": 0,
+  "manifest_digest": "sha256:c462b1c4c7344802b29709eb1655b9754aff15d2345ab995d4c39605b419c36b",
+  "missing_count": 2,
+  "quality": [
+   0,
+   28,
+   1
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20121129040640id_/http://hazfalafel.com:80/post/13345960679",
+ "snapshot_retries": 0,
+ "state": "partial",
+ "tags": [
+  "בעולם-האמיתי",
+  "למה-אתה-לא",
+  "תל-אביב"
+ ]
+}

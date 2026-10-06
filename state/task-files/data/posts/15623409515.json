@@ -1,0 +1,210 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com/post/15623409515",
+  "http://hazfalafel.com:80/post/15623409515"
+ ],
+ "captions": [
+  "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב&#8221;חורים ברשת&#8221;)"
+ ],
+ "capture_timestamp": "20120114003934",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/15623409515",
+   "timestamp": "20120114003934"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com/post/15623409515",
+   "timestamp": "20171110121525"
+  }
+ ],
+ "content_html": "<p>סקאמבג אני לקבל יכול פלאפל</p>\n<p>(<a href=\"http://www.holesinthenet.co.il/archives/35840\" target=\"_blank\">אייטם ב&#8221;חורים ברשת&#8221;</a>)</p>",
+ "content_source": "div.copy",
+ "content_text": "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב”חורים ברשת”)",
+ "date_text": "Posted 3 days ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T01:57:27Z",
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg (Caused by NewConnectionError",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 3; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "throttled",
+     "location": "",
+     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg"
+    },
+    {
+     "bytes": 83164,
+     "capture_timestamp": "20130930175155",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "99099ce1edeb2a40007a48b74c367933e3ca43e7210221529ba0ecb5842f3d72",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.gif"
+     ]
+    }
+   ],
+   "base_key": "tumblr_lxle6kEsSU1r3it8zo1.jpg",
+   "blob_path": "data/blobs/99/99099ce1edeb2a40007a48b74c367933e3ca43e7210221529ba0ecb5842f3d72",
+   "bytes": 83164,
+   "caption": "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב&#8221;חורים ברשת&#8221;)",
+   "caption_alt": "סקאמבג אני לקבל יכול פלאפל\n(אייטם ב&#8221;חורים ברשת&#8221;)",
+   "capture": {
+    "archive_digest": "4GZXYH6G4TNMH7SVLG3MHEIGIJTVSKDT",
+    "original": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+    "replay_url": "https://web.archive.org/web/20130930175155id_/http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+    "timestamp": "20130930175155"
+   },
+   "capture_count": 1,
+   "error": "throttled",
+   "file": "tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+   "note": "recovered from pre-cutoff capture 20130930175155 of http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg (83164 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (throttled); 4 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
+   "sha256": "99099ce1edeb2a40007a48b74c367933e3ca43e7210221529ba0ecb5842f3d72",
+   "state": "recovered",
+   "url_forms": [
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg"
+   ],
+   "variants": [
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_400.jpg",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1280.jpg",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_1024.jpg",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_540.jpg",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_500.jpg",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_250.jpg",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1_100.jpg",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.png",
+    "http://25.media.tumblr.com/tumblr_lxle6kEsSU1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 50324,
+   "capture_timestamp": "20120114003934",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/15623409515"
+  }
+ ],
+ "missing_image_count": 0,
+ "missing_images": [],
+ "original_url": "http://hazfalafel.com:80/post/15623409515",
+ "page_bytes": 50324,
+ "page_sha256": "ab514e1ebf91fe3e998609ac703e9610e2192baaeab348e139a73afdec974ee5",
+ "partial": false,
+ "post_id": "15623409515",
+ "published": {
+  "action": "updated",
+  "at": "2026-10-06T01:57:33Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:8ce6dce09f80226e12a56f4fffdcbd400afd87f6e826fb801adb1eb2077091dc",
+  "missing_count": 0,
+  "quality": [
+   1,
+   48,
+   1
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20120114003934id_/http://hazfalafel.com:80/post/15623409515",
+ "snapshot_retries": 0,
+ "state": "recovered",
+ "tags": [
+  "אני-לקבל-יכול-פלאפל",
+  "סקאמבג",
+  "חלאה"
+ ]
+}

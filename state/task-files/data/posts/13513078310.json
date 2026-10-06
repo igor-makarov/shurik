@@ -1,0 +1,220 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com:80/post/13513078310"
+ ],
+ "captions": [
+  "התחנה ריקה, השכרה לא זמינה"
+ ],
+ "capture_timestamp": "20120117231734",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/13513078310",
+   "timestamp": "20120117231734"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/13513078310",
+   "timestamp": "20120426030824"
+  }
+ ],
+ "content_html": "<p>התחנה ריקה, השכרה לא זמינה</p>",
+ "content_source": "div.copy",
+ "content_text": "התחנה ריקה, השכרה לא זמינה",
+ "date_text": "Posted 1 month ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T12:00:38Z",
+ "image_count": 0,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_lvfyqbFMrA1r3it8zo1.jpg",
+   "caption": "התחנה ריקה, השכרה לא זמינה",
+   "caption_alt": "התחנה ריקה, השכרה לא זמינה",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lvfyqbFMrA1r3it8zo1_500.jpg",
+   "media_url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+   ],
+   "variants": [
+    "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 50102,
+   "capture_timestamp": "20120117231734",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/13513078310"
+  }
+ ],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; this pass probed the first 0; the rest stay queued for a later run",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg"
+    }
+   ],
+   "media_url": "http://24.media.tumblr.com/tumblr_lvfyqbFMrA1r3it8zo1_500.jpg",
+   "reason": "archive_gap"
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/13513078310",
+ "page_bytes": 50102,
+ "page_sha256": "9f3f0cea161d04ed5d7ba1ba86028ec69c5cf09f769b169b602f7b9990654faa",
+ "partial": true,
+ "post_id": "13513078310",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-04T23:44:55Z",
+  "image_count": 0,
+  "manifest_digest": "sha256:9936dc617a92d752e010d4e954e31780f46ae8851d94e0671263798f25414e62",
+  "missing_count": 1,
+  "quality": [
+   0,
+   26,
+   1
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20120117231734id_/http://hazfalafel.com:80/post/13513078310",
+ "snapshot_retries": 0,
+ "state": "partial",
+ "tags": [
+  "סטיב-החלאה",
+  "תל-אופן",
+  "תל-אביב"
+ ]
+}

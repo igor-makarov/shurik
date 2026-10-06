@@ -1,0 +1,200 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com/post/13963460303",
+  "http://hazfalafel.com:80/post/13963460303"
+ ],
+ "captions": [
+  "תודה שהתקשרת, שיחתך חשובה לנו\nמיקומך בתור: למי איכפת"
+ ],
+ "capture_timestamp": "20120117231810",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/13963460303",
+   "timestamp": "20120117231810"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/13963460303",
+   "timestamp": "20120421193730"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com/post/13963460303",
+   "timestamp": "20171111134959"
+  }
+ ],
+ "content_html": "<p>תודה שהתקשרת, שיחתך חשובה לנו</p>\n<p>מיקומך בתור: למי איכפת</p>",
+ "content_source": "div.copy",
+ "content_text": "תודה שהתקשרת, שיחתך חשובה לנו\nמיקומך בתור: למי איכפת",
+ "date_text": "Posted 1 month ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T12:00:38Z",
+ "image_count": 0,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "26.media.tumblr.com",
+     "media_url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 19905
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1",
+     "url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1",
+     "url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_lvxmdgCYkz1r3it8zo1.jpg",
+   "caption": "תודה שהתקשרת, שיחתך חשובה לנו\nמיקומך בתור: למי איכפת",
+   "caption_alt": "תודה שהתקשרת, שיחתך חשובה לנו\nמיקומך בתור: למי איכפת",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "img",
+   "host_inventory": {
+    "host": "26.media.tumblr.com",
+    "keys_at_scan": 2397,
+    "pages": 11,
+    "rows": 19905,
+    "scanned_at": "2026-10-05T02:01:56+00:00"
+   },
+   "link_text": "",
+   "media_key": "tumblr_lvxmdgCYkz1r3it8zo1_500.jpg",
+   "media_url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+   ],
+   "variants": [
+    "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 49699,
+   "capture_timestamp": "20120117231810",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/13963460303"
+  }
+ ],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "status": 200,
+     "url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "media-index",
+     "host": "26.media.tumblr.com",
+     "media_url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg",
+     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
+     "rows": 19905
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1",
+     "url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1",
+     "url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg"
+    }
+   ],
+   "media_url": "http://26.media.tumblr.com/tumblr_lvxmdgCYkz1r3it8zo1_500.jpg",
+   "reason": "archive_gap"
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/13963460303",
+ "page_bytes": 49699,
+ "page_sha256": "f7a6a3e7b28780de2798032ac7ab53543dcb20f4717b971692b9510e9344116e",
+ "partial": true,
+ "post_id": "13963460303",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-04T23:45:19Z",
+  "image_count": 0,
+  "manifest_digest": "sha256:db41789d602b3bf203d12ca312ac5e34bd37f4e14c44741e451e3418929edd1c",
+  "missing_count": 1,
+  "quality": [
+   0,
+   52,
+   1
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20120117231810id_/http://hazfalafel.com:80/post/13963460303",
+ "snapshot_retries": 0,
+ "state": "partial",
+ "tags": [
+  "שיקרתי"
+ ]
+}

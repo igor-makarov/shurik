@@ -1,0 +1,169 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com:80/post/108091419708"
+ ],
+ "captions": [],
+ "capture_timestamp": "20150206050435",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/108091419708",
+   "timestamp": "20150206050435"
+  }
+ ],
+ "content_html": "<p><a href=\"https://www.facebook.com/video.php?v=910282972325722\" title=\"עמותת מחול ישראלי\" target=\"_blank\">הסרטון המקורי</a></p>",
+ "content_source": "div.copy",
+ "content_text": "הסרטון המקורי",
+ "date_text": "Posted 3 weeks ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T10:04:42Z",
+ "image_count": 0,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg (Caused by NewConnectionError('",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "filename carries no size token; the prefix query is the exact URL",
+     "status": 200,
+     "stem": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    }
+   ],
+   "base_key": "tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+   "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+   "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+   ],
+   "variants": [
+    "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 65230,
+   "capture_timestamp": "20150206050435",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/108091419708"
+  }
+ ],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg (Caused by NewConnectionError('",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "filename carries no size token; the prefix query is the exact URL",
+     "status": 200,
+     "stem": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+     "url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg"
+    }
+   ],
+   "media_url": "http://media.tumblr.com/tumblr_ni6jii2BMN1r3it8z_frame1.jpg",
+   "reason": "archive_gap"
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/108091419708",
+ "page_bytes": 65230,
+ "page_sha256": "fad2c653611eeb0b81f984db68b2caace41f8e077f92cacadbc7ef5f974d2c95",
+ "partial": true,
+ "post_id": "108091419708",
+ "posted_on": "Posted on Wednesday the 14th of January 2015 at 8:33 PM",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-05T00:06:32Z",
+  "image_count": 0,
+  "manifest_digest": "sha256:cf695fe14caa3623a7ee1d20deba44844d4ae721b9520cbfb67ed955071084b3",
+  "missing_count": 1,
+  "quality": [
+   0,
+   13,
+   0
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20150206050435id_/http://hazfalafel.com:80/post/108091419708",
+ "snapshot_retries": 0,
+ "state": "partial",
+ "tags": [
+  "חיי-גברתן",
+  "Thug-Life",
+  "עמותת-מחול-ישראלי",
+  "ריקודי-עם"
+ ]
+}

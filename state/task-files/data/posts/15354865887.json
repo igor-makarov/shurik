@@ -1,0 +1,297 @@
+{
+ "canonical_urls": [
+  "http://hazfalafel.com:80/post/15354865887/30"
+ ],
+ "captions": [
+  "קופון לארוחה עיסקית מלאה ב-30 ש&#8221;ח בלבד?! - עושה רושם שהיום אני לא צריך לבשל!"
+ ],
+ "capture_timestamp": "20120114064653",
+ "captures": [
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/15354865887/30",
+   "timestamp": "20120114064653"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/15354865887/30",
+   "timestamp": "20120426031210"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/15354865887/30",
+   "timestamp": "20120923224530"
+  }
+ ],
+ "content_html": "<p>קופון לארוחה עיסקית מלאה ב-30 ש&#8221;ח בלבד?! - עושה רושם שהיום אני לא צריך לבשל!</p>",
+ "content_source": "div.copy",
+ "content_text": "קופון לארוחה עיסקית מלאה ב-30 ש”ח בלבד?! - עושה רושם שהיום אני לא צריך לבשל!",
+ "date_text": "Posted 1 week ago",
+ "failure_count": 0,
+ "fetched_at": "2026-10-06T12:00:32Z",
+ "image_count": 0,
+ "images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "replay-probe"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_lxcazxF9Bo1r3it8zo1.jpg",
+   "caption": "קופון לארוחה עיסקית מלאה ב-30 ש&#8221;ח בלבד?! - עושה רושם שהיום אני לא צריך לבשל!",
+   "caption_alt": "קופון לארוחה עיסקית מלאה ב-30 ש&#8221;ח בלבד?! - עושה רושם שהיום אני לא צריך לבשל!",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lxcazxF9Bo1r3it8zo1_500.jpg",
+   "media_url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "variants": [
+    "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg"
+   ]
+  }
+ ],
+ "images_done": true,
+ "methods": [
+  {
+   "bytes": 50440,
+   "capture_timestamp": "20120114064653",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/15354865887/30"
+  }
+ ],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "replay-probe"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20191231235959im_/http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg (Caused by NewConnectionErro",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem",
+     "error": "ok",
+     "message": "",
+     "note": "single prefix query covering every size/extension variant",
+     "status": 200,
+     "stem": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg"
+    }
+   ],
+   "media_url": "http://24.media.tumblr.com/tumblr_lxcazxF9Bo1r3it8zo1_500.jpg",
+   "reason": "archive_gap"
+  }
+ ],
+ "original_url": "http://hazfalafel.com:80/post/15354865887/30",
+ "page_bytes": 50440,
+ "page_sha256": "16a51d787147a9e9a22dbf665e566db402b435b32195fbd0a4f56b7397695d40",
+ "partial": true,
+ "post_id": "15354865887",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-05T00:22:50Z",
+  "image_count": 0,
+  "manifest_digest": "sha256:8fe89e82a279b1ca289393e6e29e6cf0ba7e146ff69d82a721be19fcf6ef4229",
+  "missing_count": 1,
+  "quality": [
+   0,
+   76,
+   1
+  ]
+ },
+ "replay_url": "https://web.archive.org/web/20120114064653id_/http://hazfalafel.com:80/post/15354865887/30",
+ "snapshot_retries": 0,
+ "state": "partial",
+ "tags": [
+  "טירון-אינטרנטים",
+  "האקרים-סעודים",
+  "קופונים"
+ ]
+}
