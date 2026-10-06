@@ -1,0 +1,224 @@
+"""Complete, resumable host inventories of Tumblr media shards.
+
+Why this replaces `media.scan_host`'s `page=` cursor
+----------------------------------------------------
+`matchType=domain` with `page=N` was measured on 2026-10-06 to answer a *short*
+page: `url=40.media.tumblr.com&limit=5000&page=1` returned 4228 rows while
+`showNumPages` at `limit=1` said the host holds 4794 unique urlkeys. The missing
+566 rows are not at the end of the ordering -- they include
+`.../acd66e1322aeb10e0ec13ae1659eae09/tumblr_o07sizvpqP1r3it8zo1_500.jpg`, which a
+plain `matchType=prefix` query on the same host proves exists (20160125230748).
+So `raw_rows < page_size` is not "last page": a truncated page is shorter than
+requested and `scan_host` stamped `complete` on it, which turns "we did not see
+this key" into a *confirmed archive gap* for images that are actually archived.
+That is the single most expensive defect in this crawler: it manufactures gaps
+and then stops asking.
+
+The CDX server does support `showResumeKey=true`: the last row of the response
+is the opaque resume key to pass back as `resumeKey=`. That cursor is exact (it
+is the last row, not a page offset), so paging until the key stops changing
+walks the *whole* host in urlkey order.
+
+Storage
+-------
+Every row is appended to `data/work/hostdumps/<host>.jsonl` (gitignored bulk
+state) and the cursor lives beside it in `<host>.cursor.json`, so a fresh runner
+or a killed process resumes instead of restarting. Only rows whose media key a
+recovered post actually references are written to the committed
+`data/cdx/media.jsonl` index; the rest stay in the dump for offline matching.
+Both travel in the `crawl-state` checkpoint, so the inventory survives.
+"""
+from __future__ import annotations
+
+import base64
+import json
+import os
+import time
+import urllib.parse
+import zlib
+from typing import Iterable, Optional
+
+from . import config
+from .cdx import Capture, CaptureIndex, parse_cdx_json, within_cutoff
+from .media import HOST_RE, key_of
+
+CDX_ENDPOINT = "https://web.archive.org/cdx/search/cdx"
+DUMP_DIR = os.path.join(config.DATA_DIR, "work", "hostdumps")
+PAGE_LIMIT = 1000
+# Filters every dumped row is scoped to. Recorded with the cursor so a later run
+# never resumes a dump that was taken with different filters as if it were the
+# same inventory.
+SCOPE = {"matchType": "domain", "filter": "statuscode:200", "collapse": "urlkey",
+         "to": config.CUTOFF, "limit": PAGE_LIMIT}
+
+HEADERS = ["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest",
+           "length", "redirect"]
+
+
+def _now() -> str:
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+
+def dump_paths(host: str) -> tuple[str, str]:
+    host = host.strip().lower()
+    return (os.path.join(DUMP_DIR, f"{host}.jsonl"),
+            os.path.join(DUMP_DIR, f"{host}.cursor.json"))
+
+
+def decode_resume_key(value: str) -> str:
+    """The server sends the resume key base64(deflate) wrapped; accept both forms."""
+    if not value or not value.startswith("eJ"):
+        return value
+    try:
+        return zlib.decompress(base64.b64decode(value), -15).decode("utf-8", "replace")
+    except Exception:
+        return value
+
+
+def read_cursor(host: str) -> dict:
+    _, cur = dump_paths(host)
+    if not os.path.exists(cur):
+        return {}
+    try:
+        with open(cur, encoding="utf-8") as fh:
+            rec = json.load(fh)
+    except Exception:
+        return {}
+    if rec.get("scope") != SCOPE:
+        # Different filters (or an older `page=` based scan): not resumable.
+        return {}
+    return rec
+
+
+def write_cursor(host: str, rec: dict) -> None:
+    _, cur = dump_paths(host)
+    os.makedirs(DUMP_DIR, exist_ok=True)
+    rec = dict(rec)
+    rec["host"] = host.strip().lower()
+    rec["scope"] = SCOPE
+    rec["updated_at"] = _now()
+    tmp = cur + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(rec, fh, ensure_ascii=False)
+        fh.flush()
+        os.fsync(fh.fileno())
+    os.replace(tmp, cur)
+
+
+def build_query(host: str, resume_key: str = "", limit: int = PAGE_LIMIT) -> str:
+    params = {"url": host, "matchType": "domain", "output": "json",
+              "limit": str(limit), "collapse": "urlkey", "to": config.CUTOFF,
+              "filter": "statuscode:200", "showResumeKey": "true", "fields": ",".join(HEADERS)}
+    if resume_key:
+        params["resumeKey"] = resume_key
+    return CDX_ENDPOINT + "?" + urllib.parse.urlencode(params)
+
+
+def parse_page(payload: str, source_query: str = "") -> tuple[list[Capture], str]:
+    """(captures, next resume key) from one CDX page.
+
+    The resume key rides in the final row, which is *not* a capture: it has one
+    field. Everything else is a capture row; after-cutoff rows are dropped by
+    `parse_cdx_json` but the key itself is still consumed.
+    """
+    try:
+        rows = json.loads(payload or "[]")
+    except Exception:
+        return [], ""
+    if not rows:
+        return [], ""
+    next_key = ""
+    last = rows[-1]
+    if isinstance(last, list) and len(last) == 1 and isinstance(last[0], str):
+        next_key = decode_resume_key(last[0])
+        rows = rows[:-1]
+    return parse_cdx_json(rows, source_query), next_key
+
+
+def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
+              index: Optional[CaptureIndex] = None, max_pages: int = 60,
+              limit: int = PAGE_LIMIT) -> dict:
+    """Walk every pre-cutoff 200 row of one media host, resuming where we stopped.
+
+    `keys` decides what is copied into the committed index; every row is always
+    appended to the dump, so widening `keys` later needs no network.
+    """
+    host = (host or "").strip().lower()
+    if not HOST_RE.match(host):
+        return {"host": host, "skipped": "not a tumblr media host"}
+    dump_path, _ = dump_paths(host)
+    os.makedirs(DUMP_DIR, exist_ok=True)
+    cur = read_cursor(host)
+    if cur.get("complete"):
+        return {"host": host, "complete": True, "rows": cur.get("rows", 0),
+                "pages": cur.get("pages", 0), "skipped": "already complete",
+                "scanned_at": cur.get("scanned_at", "")}
+    resume_key = cur.get("resume_key", "")
+    rows = int(cur.get("rows", 0))
+    pages = int(cur.get("pages", 0))
+    kept = 0
+    stop_reason = ""
+    for _ in range(max_pages):
+        query = build_query(host, resume_key, limit)
+        resp = fetcher.get(query)
+        if not resp.ok:
+            # Transient: the cursor is untouched, so the next pass continues here.
+            return {"host": host, "rows": rows, "pages": pages, "kept": kept,
+                    "complete": False, "stopped": resp.error or f"http_{resp.status}",
+                    "status": resp.status, "scanned_at": _now()}
+        caps, next_key = parse_page(resp.text(), source_query=query)
+        # A page that returns rows but no *new* key is the end of the inventory.
+        if not caps and not next_key:
+            stop_reason = "empty page"
+            cur_complete = True
+            break
+        with open(dump_path, "a", encoding="utf-8") as fh:
+            for cap in caps:
+                if cap.statuscode in ("200", "") and within_cutoff(cap.timestamp):
+                    fh.write(json.dumps(cap.to_row(), ensure_ascii=False) + "\n")
+        rows += len(caps)
+        pages += 1
+        if keys is not None and index is not None:
+            batch = [c for c in caps if c.statuscode in ("200", "")
+                     and within_cutoff(c.timestamp) and key_of(c.original) in keys]
+            if batch:
+                kept += index.add(batch)
+        if next_key and next_key == resume_key:
+            stop_reason = "resume key unchanged"
+            cur_complete = True
+            break
+        resume_key = next_key
+        write_cursor(host, {"resume_key": resume_key, "rows": rows, "pages": pages,
+                            "complete": False})
+    else:
+        cur_complete = False
+        stop_reason = "page budget"
+    write_cursor(host, {"resume_key": resume_key, "rows": rows, "pages": pages,
+                        "complete": cur_complete, "stop_reason": stop_reason,
+                        "scanned_at": _now()})
+    return {"host": host, "rows": rows, "pages": pages, "kept": kept,
+            "complete": cur_complete, "stop_reason": stop_reason,
+            "scanned_at": _now()}
+
+
+def dump_hosts() -> list[str]:
+    try:
+        return sorted(f[:-6] for f in os.listdir(DUMP_DIR) if f.endswith(".jsonl"))
+    except FileNotFoundError:
+        return []
+
+
+def read_dump(host: str) -> Iterable[Capture]:
+    path, _ = dump_paths(host)
+    if not os.path.exists(path):
+        return
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except Exception:
+                continue
+            yield Capture(**{k: v for k, v in rec.items() if v})

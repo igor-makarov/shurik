@@ -21,7 +21,9 @@ from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, R
 from .gaps import best_capture, prove
 from .images import (TRANSIENT_CLASSES, blob_path, resolve_image, sniff_image, store_blob)
 from .listing import (listing_kind, merge_listing_evidence, parse_listing_page)
-from .media import MEDIA_CAPTURE_FILE, MediaIndex, host_of, hosts_for, scan_host, stems_of
+from .media import (HOST_RE, MEDIA_CAPTURE_FILE, SHARED_MEDIA_HOSTS, MediaIndex, host_of,
+                    hosts_for, scan_host, stems_of)
+from . import hostdump
 from .parsing import parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .queue import ImageQueue
@@ -349,6 +351,53 @@ def discover_media(fetcher: Fetcher, hosts: Optional[list[str]] = None, force: b
                                  max_pages=max_pages, page_size=page_size))
     return {"hosts": len(targets), "known_keys": len(keys), "indexed": len(index),
             "order": targets, "results": results}
+
+
+def dump_media_hosts(fetcher: Fetcher, hosts: Optional[list[str]] = None,
+                     max_pages: int = 60, limit: int = hostdump.PAGE_LIMIT,
+                     priority: str = "pending") -> dict:
+    """Complete each media host with the exact `resumeKey` cursor, then index.
+
+    This is the cheap bulk discovery path: a host with ~5k pre-cutoff captures
+    costs ~5 CDX pages and answers every one of its keys at once, while the
+    per-stem path costs one request per image for the same answer. The old
+    `page=` cursor truncated and stamped `complete`, so its "confirmed gaps" were
+    partly fiction; see `recovery/hostdump.py`.
+    """
+    store = PostStore()
+    urls = [img.get("media_url", "") for rec in store.all() for img in rec.get("images", [])]
+    keys: set[str] = set()
+    for url in urls:
+        keys |= stems_of(url)
+    refs: dict[str, int] = {}
+    pending: dict[str, int] = {}
+    index = StemIndex()
+    for url in urls:
+        host = host_of(url)
+        refs[host] = refs.get(host, 0) + 1
+    for rec in store.all():
+        for img in rec.get("images") or []:
+            url = img.get("media_url", "")
+            if not url or img.get("sha256"):
+                continue
+            stem = stem_prefix(url)
+            if stem and index.has(stem):
+                continue
+            host = host_of(url)
+            pending[host] = pending.get(host, 0) + 1
+    targets = hosts or [h for h in refs if HOST_RE.match(h or "") and h not in SHARED_MEDIA_HOSTS]
+    weight = pending if priority == "pending" else refs
+    targets = sorted(targets, key=lambda h: (-weight.get(h, 0), h))
+    media_index = MediaIndex(capture_file("media.jsonl"))
+    results = []
+    for host in targets:
+        res = hostdump.scan_host(fetcher, host, keys=keys, index=media_index.index,
+                                 max_pages=max_pages, limit=limit)
+        res["weight"] = weight.get(host, 0)
+        results.append(res)
+    return {"hosts": len(targets), "known_keys": len(keys), "indexed": len(media_index),
+            "indexed_rows": len(media_index), "order": targets, "results": results,
+            "dumps": hostdump.DUMP_DIR}
 
 
 def reindex_media(hosts: Optional[list[str]] = None) -> dict:
@@ -1267,6 +1316,12 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--max-pages", type=int, default=40)
     p.add_argument("--page-size", type=int, default=2000,
                    help="rows per paginated CDX page; 50000 504s on media hosts, 2000 is fast")
+    p = sub.add_parser("dump-hosts", help="complete resume-key host inventories of media shards")
+    p.add_argument("--hosts", default="", help="comma separated hosts; default = hosts of unresolved images")
+    p.add_argument("--max-pages", type=int, default=60, help="CDX pages per host this pass")
+    p.add_argument("--limit", type=int, default=hostdump.PAGE_LIMIT)
+    p.add_argument("--priority", default="pending",
+                   choices=("pending", "refs"), help="order hosts by unresolved images or refs")
     p = sub.add_parser("reindex-media", help="rebuild media index from host dumps (offline)")
     p = sub.add_parser("prove-gaps", help="file-level archive-gap proofs for known images")
     p.add_argument("--limit", type=int, default=25)
@@ -1380,6 +1435,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         out["media"] = discover_media(fetcher, hosts=[h.strip() for h in args.hosts.split(",") if h.strip()] or None,
                                       force=args.force, max_pages=args.max_pages,
                                       page_size=args.page_size)
+    elif args.cmd == "dump-hosts":
+        out["hosts"] = dump_media_hosts(fetcher, [h.strip() for h in args.hosts.split(",") if h.strip()] or None,
+                                        max_pages=args.max_pages, limit=args.limit,
+                                        priority=args.priority)
     elif args.cmd == "reindex-media":
         out["media"] = reindex_media()
     elif args.cmd == "prove-gaps":
