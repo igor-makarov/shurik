@@ -104,10 +104,22 @@ Known weak spots: posts 13833997906-14996000761 (2010-2011,
 `27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
 that verdict is scoped to those exact URLs only.
 
-Checkpoint digest at the end of 7-95: `crawl-state`
-`sha256:ad3cd4709b4185bef68eee02d552c3c2fa66a828f4e10c83ffdccec9c952c5bc`
+Checkpoint digest at the end of 9-206: `crawl-state`
+`sha256:28480fcfc527210eccbd7aced12cc2c6c7c970f326724aaf93a597a2f63694b9`
 (pointer `data/checkpoint.json`; `python3 -m recovery.cli checkpoint --pull`
-restores `data/posts`, `data/cdx` and the queue/ledgers).
+restores `data/posts`, `data/cdx` and the queue/ledgers). 7-95 digest was
+`sha256:ad3cd4709b4185bef68eee02d552c3c2fa66a828f4e10c83ffdccec9c952c5bc`.
+
+## 9-206 result: untouched pool yielded 0
+
+Resumed from the 7-95 checkpoint (82 images / 53 tags). One bounded stem pass
+`--method stem --retry-missing --limit 300 --concurrency 2` over the
+fewest-attempts (untouched) posts: **0 recovered, 658 missing, 0 transient**;
+`stems.jsonl` grew 1040 -> 1621 answers, so the CDX requests were really sent --
+the untouched pool is simply low-yield. `remaining_with_work: 749`,
+`posts_with_work: 1049`. Next: vary the pool (7-95 got 14 from 300 *settled*
+posts) or target `data/cdx/stems.jsonl` stems whose answer was an empty `[]`
+but whose sibling variants were never asked.
 
 Service note kept from earlier iterations: `web.archive.org` occasionally
 answers a CDX request with a `200` "Temporarily Offline" HTML page;
