@@ -45,12 +45,11 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "replay-probe"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -158,9 +157,43 @@
    "variants": [
     "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png"
    ]
+  },
+  {
+   "base_key": "tumblr_lws2ivzuN81r3it8zo1.png",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lws2ivzuN81r3it8zo1_250.png",
+   "media_url": "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_250.png",
+   "state": "unresolved",
+   "url_forms": [
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_250.png"
+   ],
+   "variants": [
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_250.png",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_1280.png",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_1024.png",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_540.png",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_400.png",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_100.png",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1.gif",
+    "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1.jpg"
+   ]
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730120916",
+   "listing_url": "http://hazfalafel.com/archive/2011/12"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/14802024545"
+ ],
  "methods": [
   {
    "bytes": 50006,
@@ -173,18 +206,17 @@
    "url": "http://hazfalafel.com:80/post/14802024545"
   }
  ],
- "missing_image_count": 1,
+ "missing_image_count": 2,
  "missing_images": [
   {
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "replay-probe"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -277,6 +309,11 @@
    ],
    "media_url": "http://25.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_500.png",
    "reason": "archive_gap"
+  },
+  {
+   "attempts": [],
+   "media_url": "http://67.media.tumblr.com/tumblr_lws2ivzuN81r3it8zo1_250.png",
+   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/14802024545",

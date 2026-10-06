@@ -7,14 +7,56 @@
  "failure_count": 1,
  "fetched_at": "2026-10-05T04:11:58Z",
  "image_count": 0,
- "images": [],
- "missing_image_count": 0,
- "missing_images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": "tumblr_n9evh27sjh1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_n9evh27sjh1r3it8zo1_250.jpg",
+   "media_url": "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_250.jpg",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_1280.jpg",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_1024.jpg",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_540.jpg",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_500.jpg",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_400.jpg",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_100.jpg",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1.png",
+    "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730115715",
+   "listing_url": "http://hazfalafel.com/archive/2014/7"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/93093713638"
+ ],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://67.media.tumblr.com/c8b2927c28e4062e7afae7f482a6b6b8/tumblr_n9evh27sjh1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/93093713638",
- "partial": false,
+ "partial": true,
  "post_id": "93093713638",
  "reason": "snapshot_exists",
  "snapshot_retries": 1,
- "state": "failed",
+ "state": "partial",
  "tags": []
 }

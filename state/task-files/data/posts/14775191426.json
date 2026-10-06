@@ -43,9 +43,45 @@
  "content_source": "div.copy",
  "content_text": "ממים שעשיתי בתקופת המחאה החברתית",
  "date_text": "Posted 3 weeks ago",
+ "failure_count": 0,
  "fetched_at": "2026-10-04T23:13:24Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "base_key": "tumblr_lwryvzDHqJ1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lwryvzDHqJ1r3it8zo1_250.jpg",
+   "media_url": "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_250.jpg",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_1280.jpg",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_1024.jpg",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_540.jpg",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_500.jpg",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_400.jpg",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_100.jpg",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1.png",
+    "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730120916",
+   "listing_url": "http://hazfalafel.com/archive/2011/12"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/14775191426"
+ ],
  "methods": [
   {
    "bytes": 51060,
@@ -58,12 +94,18 @@
    "url": "http://hazfalafel.com:80/post/14775191426"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://67.media.tumblr.com/tumblr_lwryvzDHqJ1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/14775191426",
  "page_bytes": 51060,
  "page_sha256": "0f6816d063c647c4ce9fcf9187021d033988155d6b6ada64d61a5f1bf62191d4",
- "partial": false,
+ "partial": true,
  "post_id": "14775191426",
  "published": {
   "action": "pushed",
@@ -78,7 +120,8 @@
   ]
  },
  "replay_url": "https://web.archive.org/web/20120118005856id_/http://hazfalafel.com:80/post/14775191426",
- "state": "fetched",
+ "snapshot_retries": 0,
+ "state": "partial",
  "tags": [
   "לא-בטוח",
   "צדק-חברתי",

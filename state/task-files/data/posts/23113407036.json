@@ -222,9 +222,43 @@
     "https://66.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.png",
     "https://66.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_m42ulpxwiU1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+   "media_url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_1280.jpg",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_1024.jpg",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_540.jpg",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_400.jpg",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_100.jpg",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.png",
+    "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20160730120324",
+   "listing_url": "http://hazfalafel.com/archive/2012/5"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/23113407036"
+ ],
  "methods": [
   {
    "bytes": 63635,
@@ -237,12 +271,18 @@
    "url": "http://hazfalafel.com:80/post/23113407036"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/23113407036",
  "page_bytes": 63635,
  "page_sha256": "e7d614d9cd6b21cbd585fb1e73bcd679bce59e73644192f8ab25d382abe5f4aa",
- "partial": false,
+ "partial": true,
  "post_id": "23113407036",
  "posted_on": "Posted on Tuesday the 15th of May 2012 at 9:41 PM",
  "published": {
@@ -259,7 +299,7 @@
  },
  "replay_url": "https://web.archive.org/web/20131215143358id_/http://hazfalafel.com:80/post/23113407036",
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "צרות-של-אשכנזים"
  ]
