@@ -23,6 +23,7 @@ Updated: 2026-10-07T19:32:51.000Z
   - per tag: oras resolve digest + oras pull + sha256 of pulled bytes vs recorded sha256 + digest vs immutable digest
 - Discovery re-derived from the preserved windows-1251 index (`e24f0a5d…`): 60/60 entries, 0 id diff, 0 URL mismatch
 - Origin spot-check (1-byte ranged GET) on 3 files: HTTP 206, ETag / Content-Length / Last-Modified all match state
+- End-to-end: `nij-1934-n01-djv` re-downloaded in full from the origin (6 throttled ranged chunks) -> sha256 matches the published digest exactly (origin bytes == published bytes)
 - `npm run test:nauka`: 19/19 pass
 - Record: `data/nauka/state/batches/2026-10-07T193251-batch16-verify.json`
 - Note: the continuation prompt's 35-published/25-remaining baseline was stale; iterations 3-7..3-9 had already completed the set.
