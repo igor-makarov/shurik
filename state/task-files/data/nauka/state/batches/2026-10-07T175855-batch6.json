@@ -1,0 +1,33 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 6,
+  "iteration": "3-7",
+  "startedAt": "2026-10-07T17:58:55.000Z",
+  "elapsedMs": 395264,
+  "budget": {"budgetMs": 420000, "cleanupMs": 120000, "minChunkBudgetMs": 90000, "passBudgetMs": 420000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1937-n10-pdf", "nij-1935-n02-pdf"],
+  "publishedBefore": 44,
+  "publishedAfter": 46,
+  "remainingBefore": 16,
+  "remainingAfter": 14,
+  "verifiedPartialBytesBefore": 30408704,
+  "verifiedPartialBytesAfter": 23068672,
+  "newOriginBytesDurable": 104623577,
+  "discardedTransferBytes": 0,
+  "discardedNote": "Pass 1 finished both files before the transfer deadline; no mid-body aborts in the log.",
+  "published": [
+    {"id": "nij-1937-n10-pdf", "bytes": 55456322, "sha256": "6c481a7302e965d4af32241b551d7e9a2ceb68c85533105c0304602fdda054aa", "digest": "sha256:21fabee2f6f5067501cc8f9a2e66415f004beed75537e5824b0fd72c80d661fb", "tag": "nij-1937-n10-pdf", "note": "finished from 7 git-partial chunks + 46 fresh chunks"},
+    {"id": "nij-1935-n02-pdf", "bytes": 56507287, "sha256": "e455596b967c43b64e569d9c05b35e2c9662479cfb6f22a43ac98d8f66568951", "digest": "sha256:1567a787e005fcc798996f95e01f5832365b7c9f2e1df457bd48479165d22e2f", "tag": "nij-1935-n02-pdf", "note": "fresh 54-chunk file"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "nij-1934-39-index", "digest": "sha256:801a059ca50abd1d210dce1260bf4ee3344b247d2db459ce28eb1985140e0976"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:8bb473eb944ea3d50fdff1f8560c3d07e005ae6a5d2f9bb822898ea6eb736b00"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298}
+  ],
+  "failures": [],
+  "retries": 0,
+  "notes": "Steady ~265 KiB/s aggregate. n10 (46 chunks) done in ~175 s; n02 (54 fresh chunks) in ~210 s. No dropped chunks. Only n05 still carries a checkpointed partial.",
+  "nextAction": "fileConcurrency=1 smallest-first: nij-1938-n08-pdf (57.5M), nij-1935-n01-djv (64.3M), nij-1937-n06-pdf (67.1M), nij-1937-n05-pdf (67.8M), nij-1938-n07-pdf (69.4M), nij-1937-n07-pdf (70.6M), nij-1937-n02-pdf (71.3M), nij-1937-n12-pdf (77.1M), nij-1938-n0910-pdf (77.2M), nij-1936-n11-pdf (80.1M), nij-1936-n06-pdf (81.7M), nij-1938-n01-pdf (97.3M), nij-1938-n02-pdf (97.9M), nij-1938-n05-pdf (100M)."
+}
