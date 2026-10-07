@@ -1569,10 +1569,10 @@
       "receivedBytes": 39845888,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 40,
-      "retries": 1,
-      "lastError": "body stream failed after 334684 bytes: aborted",
-      "lastErrorAt": "2026-10-07T16:42:58.199Z",
+      "attempts": 130,
+      "retries": 91,
+      "lastError": "request failed: idle timeout after 30000ms",
+      "lastErrorAt": "2026-10-07T17:29:52.749Z",
       "ghcr": null,
       "checkpoint": {
         "digest": "sha256:d60c6cafece39b144f06fc845966145a15a9a517b70be7c3c6598e287f5fe613",
@@ -7001,5 +7001,5 @@
       "publishedAt": "2026-10-07T14:00:42.438Z"
     }
   },
-  "updatedAt": "2026-10-07T16:50:22.480Z"
+  "updatedAt": "2026-10-07T17:29:53.317Z"
 }
