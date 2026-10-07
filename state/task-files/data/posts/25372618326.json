@@ -5,19 +5,50 @@
  "content_html": "",
  "content_text": "",
  "failure_count": 0,
+ "fetched_at": "2026-10-07T06:02:50Z",
  "image_count": 0,
  "images": [
   {
    "alt_sources": [
     "http://hazfalafel.com/archive/2012/6"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_1280.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_1024.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_540.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_500.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_400.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_100.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1.png",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1",
+     "url": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg"
+    }
+   ],
    "base_key": "tumblr_m5bckyGJkc1r3it8zo1_r1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg",
    "media_url": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg"
    ],
@@ -34,6 +65,7 @@
    ]
   }
  ],
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -49,9 +81,36 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_1280.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_1024.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_540.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_500.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_400.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_100.jpg",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1.png",
+      "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1",
+     "url": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg"
+    }
+   ],
    "media_url": "http://67.media.tumblr.com/tumblr_m5bckyGJkc1r3it8zo1_r1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/25372618326",
