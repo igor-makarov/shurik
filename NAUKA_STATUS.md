@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T14:40:50.601Z
+Updated: 2026-10-07T14:42:21.153Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -11,19 +11,19 @@ Updated: 2026-10-07T14:40:50.601Z
 
 ## Totals
 - discovered: 60
-- published (GHCR, round-trip verified): 32
+- published (GHCR, round-trip verified): 34
 - in progress: 7
-- pending: 21
+- pending: 19
 - unavailable/permanent: 0
-- remaining: 28
-- bytes published: 611639087 / 887752672
+- remaining: 26
+- bytes published: 664929689 / 962471913
 
 ## Per year
 - 1934: 5/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
 - 1935: 0/5 published; missing months: 3,4,5,7,8,9,10,12
 - 1936: 2/9 published; missing months: 2,5,8,12
-- 1937: 2/11 published; missing months: none
-- 1938: 12/19 published; missing months: none
+- 1937: 3/11 published; missing months: none
+- 1938: 13/19 published; missing months: none
 - 1939: 11/11 published; missing months: none
 
 ## Registry
@@ -44,8 +44,10 @@ Updated: 2026-10-07T14:40:50.601Z
 - `nij-1936-n09-djv` @ `sha256:3c127f386b60dca38dce8ac65d470e2584ed6156b2839371df3d58cfa72f2fac` — Nauka_i_jizn',1936,N09.[djv].zip (15114593 B, sha256 41b770464b2e2593…)
 - `nij-1937-n01-pdf` @ `sha256:937430c1f6c769b9eb6a135985c382090c5674fc92e7f0979611125b27a1c763` — Nauka_i_jizn',1937,N01.[pdf].zip (17343242 B, sha256 49493943e3236980…)
 - `nij-1937-n04-pdf` @ `sha256:1f73b7f9f0eb5ab6bd54f58306e5991e849548a1924cfd176f9a2076139a8aef` — Nauka_i_jizn',1937,N04.[pdf].zip (19173118 B, sha256 6e5066b06a3a13ae…)
+- `nij-1937-n0809-pdf` @ `sha256:98d547a72ed4bca7db48a1f4884651862000014d184296bd77c999d455781194` — Nauka_i_jizn',1937,N08-09.[pdf].zip (27197718 B, sha256 d0eb90b0f38f122c…)
 - `nij-1938-n01-djv` @ `sha256:2351897ac8d6f331dfd257c27e678870de3d1d47b79265cdcccb67bd0a2436d7` — Nauka_i_jizn',1938,N01.[djv].zip (11356688 B, sha256 1c270c811bdc8301…)
 - `nij-1938-n02-djv` @ `sha256:59ddd4d0d857182ae020663ee6ed9de593c50cb37d759b7a2b3466db756c5714` — Nauka_i_jizn',1938,N02.[djv].zip (11240094 B, sha256 c8d0af453b951d64…)
+- `nij-1938-n03-pdf` @ `sha256:2f0f8161f7f364fbb2dc5315e4a4061431e190e6f5eabaea2bb22146302cd946` — Nauka_i_jizn',1938,N03.[pdf].zip (26092884 B, sha256 05d8202fe6a09aa3…)
 - `nij-1938-n04-djv` @ `sha256:8c8c360b7b29136443a612a077e79f0b74496e03122ce658eca9f380e34f15e3` — Nauka_i_jizn',1938,N04.[djv].zip (13873078 B, sha256 c962277c015b08db…)
 - `nij-1938-n04-pdf` @ `sha256:f51407131ae97ce116a288f0ace8063f2d2ec40e992a8259cae6c9cc7e00b380` — Nauka_i_jizn',1938,N04.[pdf].zip (127130077 B, sha256 fd8eb21dfa5102b2…)
 - `nij-1938-n05-djv` @ `sha256:227bca019351f080a0faeebb8279c2653c5cac959e08e9830eb53685c876b1e8` — Nauka_i_jizn',1938,N05.[djv].zip (11439248 B, sha256 b02b1ff6235c82c1…)
@@ -70,29 +72,27 @@ Updated: 2026-10-07T14:40:50.601Z
 
 ## Retryable / in-progress
 - nij-1935-n01-djv: pending 0/? B (no error)
-- nij-1935-n01-pdf: pending 0/? B (no error)
+- nij-1935-n01-pdf: pending 0/? B (attempt timeout after 1639ms)
 - nij-1935-n02-pdf: pending 0/? B (no error)
-- nij-1935-n06-pdf: pending 0/? B (aborted)
-- nij-1935-n11-pdf: pending 0/? B (aborted)
+- nij-1935-n06-pdf: in_progress 0/38417776 B (aborted)
+- nij-1935-n11-pdf: in_progress 0/36301465 B (aborted)
 - nij-1936-n01-pdf: pending 0/? B (no error)
-- nij-1936-n03-pdf: in_progress 25165824/27733124 B (aborted)
+- nij-1936-n03-pdf: in_progress 27733124/27733124 B (aborted)
 - nij-1936-n04-pdf: pending 0/? B (no error)
 - nij-1936-n06-pdf: pending 0/? B (no error)
-- nij-1936-n07-pdf: in_progress 0/28542773 B (no error)
-- nij-1936-n10-pdf: in_progress 6291456/27865676 B (aborted)
+- nij-1936-n07-pdf: in_progress 6291456/28542773 B (aborted)
+- nij-1936-n10-pdf: in_progress 13631488/27865676 B (aborted)
 - nij-1936-n11-pdf: pending 0/? B (no error)
 - nij-1937-n02-pdf: pending 0/? B (no error)
-- nij-1937-n03-pdf: in_progress 0/34163112 B (no error)
+- nij-1937-n03-pdf: in_progress 3145728/34163112 B (aborted)
 - nij-1937-n05-pdf: pending 0/? B (no error)
 - nij-1937-n06-pdf: pending 0/? B (no error)
 - nij-1937-n07-pdf: pending 0/? B (no error)
-- nij-1937-n0809-pdf: in_progress 27197718/27197718 B (aborted)
 - nij-1937-n10-pdf: pending 0/? B (no error)
 - nij-1937-n11-pdf: pending 0/? B (no error)
 - nij-1937-n12-pdf: pending 0/? B (no error)
 - nij-1938-n01-pdf: pending 0/? B (no error)
 - nij-1938-n02-pdf: pending 0/? B (no error)
-- nij-1938-n03-pdf: in_progress 26092884/26092884 B (aborted)
 - nij-1938-n05-pdf: in_progress 23068672/104518298 B (attempt timeout after 1500ms)
 - nij-1938-n07-pdf: pending 0/? B (no error)
 - nij-1938-n08-pdf: pending 0/? B (no error)
