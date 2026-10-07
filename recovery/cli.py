@@ -1188,8 +1188,17 @@ LISTING_KIND_ORDER = ("archive", "tagged", "post_other", "other")
 
 
 def fetch_listings(fetcher: Fetcher, limit: int = 20, kinds: tuple[str, ...] = ("archive", "tagged"),
-                    concurrency: int = config.DEFAULT_CONCURRENCY) -> dict:
-    """Download archived listing pages and fold their evidence into the posts."""
+                    concurrency: int = config.DEFAULT_CONCURRENCY,
+                    one_per_url: bool = True) -> dict:
+    """Download archived listing pages and fold their evidence into the posts.
+
+    `one_per_url` (default) spends the first pass on one capture per distinct
+    listing URL, preferring the latest pre-cutoff snapshot of each: there are
+    ~1800 distinct untried listing URLs but ~6000 captures, and re-fetching the
+    same `/tagged/<tag>` at another timestamp mostly repeats posts already seen.
+    Set it False to sweep every capture of a URL (later snapshots of a tag page
+    can carry posts an earlier one did not).
+    """
     ensure_dirs()
     store = PostStore()
     evidence = JsonlStore(LISTING_EVIDENCE_FILE, key_fields=("capture_key",))
@@ -1201,9 +1210,22 @@ def fetch_listings(fetcher: Fetcher, limit: int = 20, kinds: tuple[str, ...] = (
     caps.sort(key=lambda c: (LISTING_KIND_ORDER.index(listing_kind(c.original))
                              if listing_kind(c.original) in LISTING_KIND_ORDER else 9,
                              c.timestamp, c.original))
-    todo = [c for c in caps
-            if listing_kind(c.original) in kinds
-            and f"{c.timestamp}|{normalize_url(c.original)}" not in done]
+    candidates = [c for c in caps
+                  if listing_kind(c.original) in kinds
+                  and f"{c.timestamp}|{normalize_url(c.original)}" not in done]
+    if one_per_url:
+        by_url: dict[str, Capture] = {}
+        for c in candidates:
+            key = normalize_url(c.original)
+            cur = by_url.get(key)
+            if cur is None or c.timestamp > cur.timestamp:
+                by_url[key] = c
+        todo = sorted(by_url.values(),
+                      key=lambda c: (LISTING_KIND_ORDER.index(listing_kind(c.original))
+                                     if listing_kind(c.original) in LISTING_KIND_ORDER else 9,
+                                     c.timestamp, c.original))
+    else:
+        todo = candidates
     todo = todo[: max(0, limit)]
     ledger = JsonlStore(config.MISSING_JSONL, key_fields=("kind", "key"))
     stats = {"considered": len(caps), "done": len(done), "selected": len(todo),
@@ -1357,6 +1379,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--limit", type=int, default=20)
     p.add_argument("--kinds", default="archive,tagged",
                    help="comma separated listing families: archive,tagged,post_other,other")
+    p.add_argument("--all-captures", action="store_true",
+                   help="sweep every capture of a listing URL instead of one per URL")
     p.add_argument("--concurrency", type=int, default=config.DEFAULT_CONCURRENCY)
     p = sub.add_parser("discover-media", help="inventory tumblr media hosts (one query per host)")
     p.add_argument("--hosts", default="", help="comma separated hosts; default = hosts seen in posts")
@@ -1491,7 +1515,8 @@ def main(argv: Optional[list[str]] = None) -> int:
     elif args.cmd == "fetch-listings":
         out = fetch_listings(fetcher, limit=args.limit,
                              kinds=tuple(k.strip() for k in args.kinds.split(",") if k.strip()),
-                             concurrency=args.concurrency)
+                             concurrency=args.concurrency,
+                             one_per_url=not args.all_captures)
     elif args.cmd == "discover-media":
         out["media"] = discover_media(fetcher, hosts=[h.strip() for h in args.hosts.split(",") if h.strip()] or None,
                                       force=args.force, max_pages=args.max_pages,
