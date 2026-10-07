@@ -120,23 +120,24 @@ def main() -> int:
                    "capture_timestamp": cap.timestamp, "status": resp.status,
                    "error": resp.error, "message": resp.message,
                    "bytes": len(resp.body or b"")}
+        prior = store.get(pid)
+        methods = list(prior.get("methods") or []) + [attempt]
         if not resp.ok or not resp.body:
             out["failed"] += 1
-            store.put(pid, {"methods": [attempt]})
+            store.put(pid, {"methods": methods})
             continue
         ctype = resp.headers.get("content-type", "")
         if "html" not in ctype and ctype:
             out["failed"] += 1
-            store.put(pid, {"methods": [attempt]})
+            store.put(pid, {"methods": methods})
             continue
         rec = parse_post_page(resp.text(), cap.original, cap.timestamp, resp.url)
-        images, added, merged = merge_by_key(store.get(pid), rec.get("images") or [])
+        images, added, merged = merge_by_key(prior, rec.get("images") or [])
         out["parsed"] += 1
         out["images_added"] += added
         out["forms_merged"] += merged
-        prior = store.get(pid)
         refetched = list(dict.fromkeys(list(prior.get("refetched_captures") or []) + [cap.timestamp]))
-        patch = {"methods": [attempt], "refetched_captures": refetched}
+        patch = {"methods": methods, "refetched_captures": refetched}
         if added or merged:
             patch["images"] = images
         store.put(pid, patch)

@@ -215,7 +215,7 @@ def merge_post(old: dict, new: dict) -> dict:
                 "state", "methods", "images_done", "published", "partial"):
         if new.get(key) not in (None, "", [], {}):
             out[key] = new[key]
-    for key in ("canonical_urls", "captures"):
+    for key in ("canonical_urls", "captures", "refetched_captures"):
         merged = list(out.get(key) or [])
         for item in new.get(key) or []:
             if item not in merged:
