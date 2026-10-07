@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T18:35:56.891Z
+Updated: 2026-10-07T18:45:09.952Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -11,18 +11,18 @@ Updated: 2026-10-07T18:35:56.891Z
 
 ## Totals
 - discovered: 60
-- published (GHCR, round-trip verified): 52
-- in progress: 8
+- published (GHCR, round-trip verified): 53
+- in progress: 7
 - pending: 0
 - unavailable/permanent: 0
-- remaining: 8
-- bytes published: 1596164841 / 2311630290
+- remaining: 7
+- bytes published: 1670979436 / 2311630290
 
 ## Per year
 - 1934: 5/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
 - 1935: 5/5 published; missing months: 3,4,5,7,8,9,10,12
 - 1936: 7/9 published; missing months: 2,5,8,12
-- 1937: 9/11 published; missing months: none
+- 1937: 10/11 published; missing months: none
 - 1938: 15/19 published; missing months: none
 - 1939: 11/11 published; missing months: none
 
@@ -53,6 +53,7 @@ Updated: 2026-10-07T18:35:56.891Z
 - `nij-1936-n09-djv` @ `sha256:3c127f386b60dca38dce8ac65d470e2584ed6156b2839371df3d58cfa72f2fac` — Nauka_i_jizn',1936,N09.[djv].zip (15114593 B, sha256 41b770464b2e2593…)
 - `nij-1936-n10-pdf` @ `sha256:8371b6ec8a00b5221304df2e495a7014893cc51b00ae0cef35a43978780f56fe` — Nauka_i_jizn',1936,N10.[pdf].zip (27865676 B, sha256 5191c89a5d9580f4…)
 - `nij-1937-n01-pdf` @ `sha256:937430c1f6c769b9eb6a135985c382090c5674fc92e7f0979611125b27a1c763` — Nauka_i_jizn',1937,N01.[pdf].zip (17343242 B, sha256 49493943e3236980…)
+- `nij-1937-n02-pdf` @ `sha256:fb5368f0862303aeb9f56cead02961da40f9e8af4246d710ba62684465467139` — Nauka_i_jizn',1937,N02.[pdf].zip (74814595 B, sha256 afe788b6d232740b…)
 - `nij-1937-n03-pdf` @ `sha256:21d0b918273da686394dabc732ee56858f0650ba542db57cd94111c0137d1752` — Nauka_i_jizn',1937,N03.[pdf].zip (34163112 B, sha256 8882d4d5d3270fdf…)
 - `nij-1937-n04-pdf` @ `sha256:1f73b7f9f0eb5ab6bd54f58306e5991e849548a1924cfd176f9a2076139a8aef` — Nauka_i_jizn',1937,N04.[pdf].zip (19173118 B, sha256 6e5066b06a3a13ae…)
 - `nij-1937-n05-pdf` @ `sha256:f910f29713e4a97c57ed0b3b74313f3f0445a357042cda9e79cb9c399941d706` — Nauka_i_jizn',1937,N05.[pdf].zip (71103223 B, sha256 52cd9177288d2ea7…)
@@ -91,8 +92,7 @@ Updated: 2026-10-07T18:35:56.891Z
 ## Retryable / in-progress
 - nij-1936-n06-pdf: in_progress 0/85656635 B (no error)
 - nij-1936-n11-pdf: in_progress 0/83955055 B (no error)
-- nij-1937-n02-pdf: in_progress 0/74814595 B (no error)
-- nij-1937-n12-pdf: in_progress 0/80815773 B (no error)
+- nij-1937-n12-pdf: in_progress 79691776/80815773 B (no error)
 - nij-1938-n01-pdf: in_progress 0/102072758 B (no error)
 - nij-1938-n02-pdf: in_progress 0/102697270 B (no error)
 - nij-1938-n05-pdf: in_progress 23068672/104518298 B (attempt timeout after 1500ms)
@@ -102,7 +102,7 @@ Updated: 2026-10-07T18:35:56.891Z
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-07T18:29:18.610Z -> reachable
+- last probe: 2026-10-07T18:37:50.992Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1936,N06.%5Bpdf%5D.zip
 
 ## Recent batch records
