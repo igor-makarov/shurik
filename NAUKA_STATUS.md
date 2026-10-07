@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T12:26:29.251Z
+Updated: 2026-10-07T12:34:32.885Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -76,7 +76,7 @@ Updated: 2026-10-07T12:26:29.251Z
 - nij-1938-n02-pdf: pending 0/? B (no error)
 - nij-1938-n03-pdf: pending 0/? B (no error)
 - nij-1938-n04-djv: pending 0/? B (no error)
-- nij-1938-n04-pdf: in_progress 24117248/127130077 B (no error)
+- nij-1938-n04-pdf: in_progress 92274688/127130077 B (no error)
 - nij-1938-n05-djv: pending 0/? B (no error)
 - nij-1938-n05-pdf: pending 0/? B (no error)
 - nij-1938-n06-djv: pending 0/? B (no error)
