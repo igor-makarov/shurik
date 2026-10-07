@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T20:03:25.365Z
+Updated: 2026-10-07T20:15:30.000Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -111,6 +111,7 @@ Updated: 2026-10-07T20:03:25.365Z
 - 2026-10-07T191525-batch15.json: pub 59->60, durable +56283802 B, failure: none
 - 2026-10-07T193251-batch16-verify.json: pub 60->60, durable +0 B, failure: none
 - 2026-10-07T195454-batch17-reverify.json: pub 60->60, durable +0 B, failure: none
+- 2026-10-07T201400-batch19-verify.json: pub 60->60, durable +0 B, failure: none (registry tag/digest resolve 60/60, tests 19/19)
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
