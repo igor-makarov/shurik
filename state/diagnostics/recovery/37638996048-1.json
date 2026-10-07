@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "key": "37638996048-1",
+  "loopId": "nauka-20261007",
+  "runId": "37638996048",
+  "attempt": 1,
+  "generation": 2,
+  "iteration": 5,
+  "command": "iterate",
+  "conclusion": "failure",
+  "url": "https://github.com/igor-makarov/shurik/actions/runs/37638996048",
+  "headSha": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+  "startedAt": "2026-10-07T14:42:43Z",
+  "completedAt": "2026-10-07T15:16:49Z",
+  "collectedAt": "2026-10-07T16:13:43.412Z",
+  "interruptedOwner": true,
+  "jobs": [
+    {
+      "id": 112852676810,
+      "name": "iteration",
+      "conclusion": "failure",
+      "steps": [
+        {
+          "number": 1,
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "number": 2,
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success"
+        },
+        {
+          "number": 3,
+          "name": "Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "conclusion": "success"
+        },
+        {
+          "number": 4,
+          "name": "Build and validate trusted bootstrap",
+          "conclusion": "skipped"
+        },
+        {
+          "number": 5,
+          "name": "Execute one iteration or initialize loop",
+          "conclusion": "failure"
+        },
+        {
+          "number": 6,
+          "name": "Preserve emergency snapshot after publication failure",
+          "conclusion": "success"
+        },
+        {
+          "number": 11,
+          "name": "Post Run actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38",
+          "conclusion": "skipped"
+        },
+        {
+          "number": 12,
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "conclusion": "success"
+        },
+        {
+          "number": 13,
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "logUnavailable": "Error: GitHub job-log connector returned ReadTimeout on two reads during renewal; prior final check observed remote Internal Server Error for atomic work/control checkpoint push."
+    }
+  ],
+  "jobsTruncated": false
+}

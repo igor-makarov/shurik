@@ -5,7 +5,7 @@
   "generation": 2,
   "iteration": 5,
   "startedAt": "2026-10-07T14:45:21.173Z",
-  "outcome": "running",
+  "outcome": "interrupted",
   "source": "cb7a680ae14f22e52eb71fdd0d89005ad3f70867",
   "runtime": "47be787759baebfe8809e984d244ed7b2c132d82",
   "model": "deepseek-v4.1-flash",
@@ -13,5 +13,7 @@
   "workCommit": "b0f85d2800082ad71071a3cf3832403a48fb7c05",
   "minEntryId": 1244,
   "maxEntryId": 1402,
-  "checkpointAt": "2026-10-07T15:06:14.239Z"
+  "checkpointAt": "2026-10-07T15:06:14.239Z",
+  "error": "Actions run ended before final publication (failure); recovered from latest committed checkpoint.",
+  "recovery": "diagnostics/recovery/37638996048-1.json"
 }
