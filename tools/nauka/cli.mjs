@@ -300,7 +300,11 @@ async function cmdRetrieve(args) {
     }
     await saveState(state);
     await flushState();
-    await writeStatus(state, manifest, ctx);
+    try {
+      await writeStatus(state, manifest, ctx);
+    } catch (err) {
+      log(`status write error (non-fatal): ${err.message}`);
+    }
     try {
       // Keep the discoverable collection + resume index current each batch.
       await publishCollectionIndex(state, manifest, ghcr, log);
@@ -512,8 +516,9 @@ async function writeStatus(state, manifest, ctx) {
   lines.push('');
   lines.push('## Per year');
   for (const [year, y] of [...byYear.entries()].sort()) {
-    const c = manifest.coverage[year];
-    lines.push(`- ${year}: ${y.published}/${y.total} published; missing months: ${c.missingMonths.join(',') || 'none'}`);
+    const c = (manifest.coverage && manifest.coverage[year]) || null;
+    const missing = c && Array.isArray(c.missingMonths) ? c.missingMonths.join(',') || 'none' : 'unknown';
+    lines.push(`- ${year}: ${y.published}/${y.total} published; missing months: ${missing}`);
   }
   lines.push('');
   lines.push('## Registry');

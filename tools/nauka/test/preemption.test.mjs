@@ -98,7 +98,7 @@ async function seedState(dataDir, entry, content) {
     years: [entry.year],
     totalFiles: 1,
     entries: [entry],
-    coverage: {},
+    coverage: { [entry.year]: { fileCount: 1, issues: [entry.issue], missingMonths: [] } },
   };
   const files = {
     version: 1,
@@ -149,78 +149,88 @@ test('preemption drains writers, preserves verified chunks, then cold-resumes', 
   const content = randomBytes(CHUNK * 5 + 1234);
   const dataDir = await fs.mkdtemp(path.join(os.tmpdir(), 'nauka-preempt-'));
   const trickle = await serveRange(content, { trickle: true });
-  const entry = {
-    id: 'fx-preempt',
-    year: 1935,
-    issue: 'N01',
-    format: 'pdf',
-    filename: 'fx.bin',
-    url: trickle.url,
-    labelText: 'fx',
-    labelSize: '1M',
-  };
-  const { chunksDir } = await seedState(dataDir, entry, content);
+  let healthy = null;
+  try {
+    const entry = {
+      id: 'fx-preempt',
+      year: 1935,
+      issue: 'N01',
+      format: 'pdf',
+      filename: 'fx.bin',
+      url: trickle.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    };
+    const { chunksDir } = await seedState(dataDir, entry, content);
 
-  const { child, getOutput } = spawnRetrieve(dataDir, ['--budget-ms', '3000', '--cleanup-ms', '2000']);
-  let exitInfo = null;
-  const exited = new Promise((resolve) => child.on('exit', (code, signal) => ((exitInfo = { code, signal }), resolve())));
+    const { child, getOutput } = spawnRetrieve(dataDir, ['--budget-ms', '3000', '--cleanup-ms', '2000']);
+    let exitInfo = null;
+    const exited = new Promise((resolve) => child.on('exit', (code, signal) => ((exitInfo = { code, signal }), resolve())));
 
-  // Wait until a live writer's `.tmp` exists, then preempt exactly there.
-  const waitUntil = Date.now() + 8000;
-  let sawTmp = false;
-  while (Date.now() < waitUntil && !exitInfo) {
-    const names = await fs.readdir(chunksDir).catch(() => []);
-    if (names.some((n) => n.endsWith('.tmp'))) {
-      sawTmp = true;
-      break;
+    // Wait until a live writer's `.tmp` exists, then preempt exactly there.
+    const waitUntil = Date.now() + 8000;
+    let sawTmp = false;
+    while (Date.now() < waitUntil && !exitInfo) {
+      const names = await fs.readdir(chunksDir).catch(() => []);
+      if (names.some((n) => n.endsWith('.tmp'))) {
+        sawTmp = true;
+        break;
+      }
+      await new Promise((r) => setTimeout(r, 25));
     }
-    await new Promise((r) => setTimeout(r, 25));
+    assert.ok(sawTmp, `expected an in-flight .tmp writer; output:\n${getOutput()}`);
+    const t0 = Date.now();
+    child.kill('SIGTERM');
+    let killTimer;
+    const timeout = new Promise((_, rej) => {
+      killTimer = setTimeout(() => rej(new Error(`CLI did not exit after SIGTERM:\n${getOutput()}`)), 15000);
+    });
+    try {
+      await Promise.race([exited, timeout]);
+    } finally {
+      clearTimeout(killTimer);
+    }
+    const elapsed = Date.now() - t0;
+    assert.ok(elapsed < 12000, `CLI exited promptly after SIGTERM (${elapsed}ms)`);
+    assert.ok([0, 130].includes(exitInfo.code), `clean exit, got ${JSON.stringify(exitInfo)}\n${getOutput()}`);
+
+    // No writer or temp file may survive the tool boundary.
+    const after = await fs.readdir(chunksDir).catch(() => []);
+    assert.ok(!after.some((n) => n.endsWith('.tmp')), `no .tmp left behind: ${after.join(',')}`);
+
+    // State must be valid, atomic JSON with the verified chunk preserved.
+    const state = await readState(dataDir);
+    const eff = state.files[entry.id];
+    assert.ok(eff, 'entry still present');
+    assert.ok(['in_progress', 'pending'].includes(eff.status), `status ${eff.status}`);
+    assert.ok(eff.chunks[0], 'verified chunk 0 preserved (not reset as a validator change)');
+    assert.equal(eff.chunks[0].sha256, sha(content.subarray(0, CHUNK)));
+    assert.equal(eff.etag, '"v1"', 'validator preserved');
+    assert.equal(sha(await fs.readFile(path.join(chunksDir, 'chunk-000000'))), eff.chunks[0].sha256);
+    await trickle.close();
+
+    // Cold resume: a FRESH process against a healthy origin, from the same
+    // durable state, must finish and publish without re-fetching chunk 0.
+    healthy = await serveRange(content, {});
+    const st = await readState(dataDir);
+    st.files[entry.id].url = healthy.url;
+    await fs.writeFile(path.join(dataDir, 'state', 'files.json'), JSON.stringify(st, null, 2) + '\n');
+    const manifest = JSON.parse(await fs.readFile(path.join(dataDir, 'state', 'manifest.json'), 'utf8'));
+    manifest.entries[0].url = healthy.url;
+    await fs.writeFile(path.join(dataDir, 'state', 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+
+    const r2 = spawnRetrieve(dataDir, ['--budget-ms', '20000', '--cleanup-ms', '5000']);
+    const code2 = await new Promise((resolve) => r2.child.on('exit', resolve));
+    assert.equal(code2, 0, `resume exit code; output:\n${r2.getOutput()}`);
+    const st2 = await readState(dataDir);
+    assert.equal(st2.files[entry.id].status, 'published', `expected published; output:\n${r2.getOutput()}`);
+    assert.equal(st2.files[entry.id].sha256, sha(content));
+    assert.ok(
+      !healthy.requests.includes(`bytes=0-${CHUNK - 1}`),
+      `verified chunk 0 must not be re-requested: ${healthy.requests.join(' ')}`,
+    );
+  } finally {
+    await trickle.close().catch(() => {});
+    if (healthy) await healthy.close().catch(() => {});
   }
-  assert.ok(sawTmp, `expected an in-flight .tmp writer; output:\n${getOutput()}`);
-  const t0 = Date.now();
-  child.kill('SIGTERM');
-  await Promise.race([
-    exited,
-    new Promise((_, rej) => setTimeout(() => rej(new Error(`CLI did not exit after SIGTERM:\n${getOutput()}`)), 15000)),
-  ]);
-  const elapsed = Date.now() - t0;
-  assert.ok(elapsed < 12000, `CLI exited promptly after SIGTERM (${elapsed}ms)`);
-  assert.ok([0, 130].includes(exitInfo.code), `clean exit, got ${JSON.stringify(exitInfo)}\n${getOutput()}`);
-
-  // No writer or temp file may survive the tool boundary.
-  const after = await fs.readdir(chunksDir).catch(() => []);
-  assert.ok(!after.some((n) => n.endsWith('.tmp')), `no .tmp left behind: ${after.join(',')}`);
-
-  // State must be valid, atomic JSON with the verified chunk preserved.
-  const state = await readState(dataDir);
-  const eff = state.files[entry.id];
-  assert.ok(eff, 'entry still present');
-  assert.ok(['in_progress', 'pending'].includes(eff.status), `status ${eff.status}`);
-  assert.ok(eff.chunks[0], 'verified chunk 0 preserved (not reset as a validator change)');
-  assert.equal(eff.chunks[0].sha256, sha(content.subarray(0, CHUNK)));
-  assert.equal(eff.etag, '"v1"', 'validator preserved');
-  assert.equal(sha(await fs.readFile(path.join(chunksDir, 'chunk-000000'))), eff.chunks[0].sha256);
-  await trickle.close();
-
-  // Cold resume: a FRESH process against a healthy origin, from the same
-  // durable state, must finish and publish without re-fetching chunk 0.
-  const healthy = await serveRange(content, {});
-  const st = await readState(dataDir);
-  st.files[entry.id].url = healthy.url;
-  await fs.writeFile(path.join(dataDir, 'state', 'files.json'), JSON.stringify(st, null, 2) + '\n');
-  const manifest = JSON.parse(await fs.readFile(path.join(dataDir, 'state', 'manifest.json'), 'utf8'));
-  manifest.entries[0].url = healthy.url;
-  await fs.writeFile(path.join(dataDir, 'state', 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
-
-  const r2 = spawnRetrieve(dataDir, ['--budget-ms', '20000', '--cleanup-ms', '5000']);
-  const code2 = await new Promise((resolve) => r2.child.on('exit', resolve));
-  assert.equal(code2, 0, `resume exit code; output:\n${r2.getOutput()}`);
-  const st2 = await readState(dataDir);
-  assert.equal(st2.files[entry.id].status, 'published', `expected published; output:\n${r2.getOutput()}`);
-  assert.equal(st2.files[entry.id].sha256, sha(content));
-  assert.ok(
-    !healthy.requests.includes(`bytes=0-${CHUNK - 1}`),
-    `verified chunk 0 must not be re-requested: ${healthy.requests.join(' ')}`,
-  );
-  await healthy.close();
 });
