@@ -1,0 +1,35 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 12,
+  "iteration": "3-8",
+  "startedAt": "2026-10-07T18:46:39.000Z",
+  "elapsedMs": 164845,
+  "budget": {"budgetMs": 180000, "cleanupMs": 60000, "minChunkBudgetMs": 80000, "passBudgetMs": 180000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1937-n12-pdf", "nij-1938-n0910-pdf", "nij-1936-n11-pdf", "nij-1936-n06-pdf", "nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"],
+  "publishedBefore": 53,
+  "publishedAfter": 54,
+  "remainingBefore": 7,
+  "remainingAfter": 6,
+  "verifiedPartialBytesBefore": 102760448,
+  "verifiedPartialBytesAfter": 133169152,
+  "newOriginBytesDurable": 33611713,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No mid-body aborts. n12-1937 finished its last 2 chunks from the 76-chunk checkpoint and published; n0910-1938 got 29 chunks durable before the short deadline.",
+  "published": [
+    {"id": "nij-1937-n12-pdf", "bytes": 80815773, "sha256": "043af3db5eb239a6f7362240c4f9e9173f91c431b407782b3ebbccfcb3bc83c4", "digest": "sha256:2eb34108133b133e49035be2ac62f9f6e6b8a4987be8c9ea9e24d57357fbe431", "tag": "nij-1937-n12-pdf", "note": "finished from 76 checkpointed chunks + 2 fresh chunks"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1938-n0910-pdf", "digest": "sha256:74d1b695fd928539f2231d6f0e4f39b7549581413e48fa068344f183b0b4e197", "bytes": 30408704, "chunks": 29},
+    {"tag": "checkpoint-nij-1938-n05-pdf", "digest": "sha256:92e039ad3172e599e35e9941555ed695a2ce6c89a41196b4f73cef0858549dc4", "bytes": 23068672, "chunks": 22},
+    {"tag": "nij-1934-39-index", "digest": "sha256:ef67b707700e3b9bdd777cbd7c15621bb66157916d3703b18570625e00878da4"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:e1e4eae8f5ce3fba2b5a7f7587358de16079cd3bd3c12a5736967d96b5d68ca4"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1938-n0910-pdf", "bytes": 30408704, "expected": 80935065, "chunks": 29},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298, "chunks": 22}
+  ],
+  "failures": [],
+  "retries": 0,
+  "notes": "Short 180 s batch at iteration end: published the nearly-complete n12-1937 and advanced n0910-1938 by 29 durable chunks.",
+  "nextAction": "Continue fileConcurrency=1 smallest-first: finish nij-1938-n0910-pdf (49 chunks left), then n11-1936 (80.1M), n06-1936 (81.7M), n01-1938 (97.3M), n02-1938 (97.9M), then finish nij-1938-n05-pdf (22/100 chunks durable)."
+}

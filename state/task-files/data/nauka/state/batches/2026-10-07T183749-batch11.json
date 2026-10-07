@@ -1,0 +1,35 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 11,
+  "iteration": "3-8",
+  "startedAt": "2026-10-07T18:37:49.000Z",
+  "elapsedMs": 444405,
+  "budget": {"budgetMs": 480000, "cleanupMs": 120000, "minChunkBudgetMs": 90000, "passBudgetMs": 480000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1937-n02-pdf", "nij-1937-n12-pdf", "nij-1938-n0910-pdf", "nij-1936-n11-pdf", "nij-1936-n06-pdf", "nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"],
+  "publishedBefore": 52,
+  "publishedAfter": 53,
+  "remainingBefore": 8,
+  "remainingAfter": 7,
+  "verifiedPartialBytesBefore": 23068672,
+  "verifiedPartialBytesAfter": 102760448,
+  "newOriginBytesDurable": 154506371,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No mid-body aborts. n12-1937 reached 76/78 chunks and was checkpointed durably before the deadline; no later file admitted chunks.",
+  "published": [
+    {"id": "nij-1937-n02-pdf", "bytes": 74814595, "sha256": "afe788b6d232740bd079d596b2fb9072f50622e9344233410e5f36a93f3a2f7a", "digest": "sha256:fb5368f0862303aeb9f56cead02961da40f9e8af4246d710ba62684465467139", "tag": "nij-1937-n02-pdf", "note": "fresh 72 chunks"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1937-n12-pdf", "digest": "sha256:3514a1fea1b25da6b58972f26a2115dac703e46f47ebaa8cca0f1cc0a49d1848", "bytes": 79691776, "chunks": 76},
+    {"tag": "checkpoint-nij-1938-n05-pdf", "digest": "sha256:92e039ad3172e599e35e9941555ed695a2ce6c89a41196b4f73cef0858549dc4", "bytes": 23068672, "chunks": 22},
+    {"tag": "nij-1934-39-index", "digest": "sha256:ab7ff4249d67f088e4c59e5c5338183c46481c96a28bda97e229a1880c2f3064"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:1c0b4dda2ae8eb1ba1c53fb451eb6e465a22509cca1e5eb54fbdd74f45e475bf"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1937-n12-pdf", "bytes": 79691776, "expected": 80815773, "chunks": 76},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298, "chunks": 22}
+  ],
+  "failures": [],
+  "retries": 0,
+  "notes": "n02-1937 (72 chunks) published in ~437 s; n12-1937 got 76/78 chunks durable before the deadline.",
+  "nextAction": "Finish nij-1937-n12-pdf first (2 chunks), publish it, then continue smallest-first: n0910-1938, n11-1936, n06-1936, n01-1938, n02-1938, n05-1938."
+}
