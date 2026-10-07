@@ -1,0 +1,66 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-17",
+  "phase": "start",
+  "at": "2026-10-07T23:14:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "note": "Scope expanded by the user from the completed 1934-1939-only objective to ALL YEARS plus an all-years GHCR master issue index, retrieval continuing to the stated deadline. NAUKA_STATUS 60/60 refers only to the completed 1934-1939 subset.",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "ghcrPreflight": {
+    "oras": "1.2.0 (fetched to data/nauka/tools/oras)",
+    "login": "ok",
+    "resolvedTags": {
+      "nij-master-index": "sha256:dae5dc83ee71c1dc1bbfd05c21365df89cb97813c7198272e6902bf97188de78",
+      "nij-master-catalog": "sha256:a86ddc8a4963863e4f9f8987746e2acae3fd27a130d20f1a7a16bdd373341508",
+      "nij-master-checkpoint": "sha256:cceb635b8f5f1b6742cef0ef6bbd43f215c94d6e3804c5b421343befd95fee59",
+      "nij-1934-39-index": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d"
+    },
+    "allMatchReceipts": true
+  },
+  "discovery": {
+    "status": "provisional",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "outOfScopePagesVisited": 2,
+    "directoryVisited": true,
+    "genericTotal": 1112,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "retrievalAtStart": {
+    "publishedFiles": 210,
+    "publishedBytes": 2985022790,
+    "remainingFiles": 902,
+    "inProgressEntries": 225,
+    "inProgressWithDurableChunks": 2,
+    "verifiedPartialBytes": 12582912,
+    "remainingKnownSizeFiles": 225,
+    "remainingKnownBytes": 1600000000,
+    "remainingUnknownSizeFiles": 677,
+    "note": "223 of the 225 in_progress entries carry no durable chunk bytes (probe-only); only 2 have hash-validated chunk checkpoints."
+  },
+  "nextActions": [
+    "Run a bounded foreground retrieve batch (smallest-first) and publish complete files.",
+    "Refresh the master index and re-verify by immutable digest.",
+    "Keep partial/chunk receipts for cold resume; report truthful status."
+  ]
+}
