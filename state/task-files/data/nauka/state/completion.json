@@ -21,5 +21,17 @@
     "nij-1938-n0910-pdf", "nij-1936-n11-pdf", "nij-1936-n06-pdf",
     "nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"
   ],
-  "notes": "All scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. No unfinished partials remain."
+  "fullSetVerify": {
+    "at": "2026-10-07T19:20:45.000Z",
+    "command": "node tools/nauka/cli.mjs verify",
+    "result": "60/60 ok; problems: 0",
+    "detail": "Cold pull of every tag, re-hash of pulled bytes vs recorded sha256, and tag digest vs recorded immutable digest. All matched."
+  },
+  "collectionIndex": {
+    "digest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "totalFiles": 60,
+    "publishedFiles": 60,
+    "remainingFiles": 0
+  },
+  "notes": "All scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. No unfinished partials remain. Objective fully achieved and verified."
 }
