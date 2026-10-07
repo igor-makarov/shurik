@@ -115,17 +115,15 @@ export class Ghcr {
   async pushFile(tag, filePath, { title, annotations = {} } = {}) {
     const dir = path.dirname(filePath);
     const base = path.basename(filePath);
-    const args = [
-      'push',
-      `${REGISTRY}:${tag}`,
-      '--artifact-type',
-      ARTIFACT_TYPE,
-      '--annotation',
-      `org.opencontainers.image.source=${SOURCE_REPO}`,
-      '--annotation',
-      `org.opencontainers.image.title=${title || base}`,
-    ];
-    for (const [k, v] of Object.entries(annotations)) {
+    // Merge annotations so the caller cannot accidentally create a duplicate
+    // key (oras rejects duplicate --annotation keys).
+    const ann = {
+      'org.opencontainers.image.source': SOURCE_REPO,
+      'org.opencontainers.image.title': title || base,
+      ...annotations,
+    };
+    const args = ['push', `${REGISTRY}:${tag}`, '--artifact-type', ARTIFACT_TYPE];
+    for (const [k, v] of Object.entries(ann)) {
       args.push('--annotation', `${k}=${v}`);
     }
     args.push(`${base}:application/octet-stream`);

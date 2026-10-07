@@ -147,14 +147,23 @@ async function makeGhcr() {
 // never restarted from zero.
 async function reconcile(ctx) {
   const { state, manifest, ghcr, log } = ctx;
+  // One tag listing avoids spawning oras once per (possibly absent) file tag.
+  let existing = new Set();
+  try {
+    existing = new Set(await ghcr.listTags());
+  } catch (err) {
+    log(`reconcile: tag listing failed (${err.message}); skipping reconciliation`);
+    return;
+  }
+  if (existing.size === 0) return;
   for (const entry of manifest.entries) {
     const eff = ensureFileEntry(state, entry);
     if (eff.status === 'published') continue;
     const tag = entryTag(entry);
+    if (!existing.has(tag)) continue;
     try {
       const manifestJson = await ghcr.manifest(tag);
       const ann = manifestJson.annotations || {};
-      const layer = (manifestJson.layers || []).find((l) => l.annotations?.['org.opencontainers.image.title']);
       const claimed = ann['shurik.nauka.sha256'];
       if (!claimed) continue;
       const digest = await ghcr.resolve(tag);
@@ -172,8 +181,8 @@ async function reconcile(ctx) {
         eff.verified = { at: new Date().toISOString(), pulledSha256: hash, ok: true, recovered: true };
         log(`reconciled already-published ${eff.id} (${digest})`);
       }
-    } catch {
-      /* tag absent -> not published yet */
+    } catch (err) {
+      log(`reconcile ${eff.id} failed: ${err.message}`);
     }
   }
   await saveState(state);
