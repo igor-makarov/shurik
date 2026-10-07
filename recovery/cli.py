@@ -752,8 +752,6 @@ def posts_with_stem_hits() -> list[str]:
     def _stems_of(img: dict) -> set[str]:
         forms = [img.get("media_url") or ""]
         forms += [f for f in (img.get("url_forms") or []) if f]
-        forms += [v for v in (img.get("variants") or [])
-                  if isinstance(v, str) and v.startswith(("http://", "https://"))]
         return {stem_prefix(f) for f in forms if f}
 
     for rec in store.all():
