@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T13:38:14.803Z
+Updated: 2026-10-07T13:45:43.882Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -12,11 +12,11 @@ Updated: 2026-10-07T13:38:14.803Z
 ## Totals
 - discovered: 60
 - published (GHCR, round-trip verified): 6
-- in progress: 1
-- pending: 53
+- in progress: 2
+- pending: 52
 - unavailable/permanent: 0
 - remaining: 54
-- bytes published: 259669416 / 364187714
+- bytes published: 259669416 / 371291662
 
 ## Per year
 - 1934: 1/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
@@ -79,7 +79,7 @@ Updated: 2026-10-07T13:38:14.803Z
 - nij-1938-n03-pdf: pending 0/? B (no error)
 - nij-1938-n04-djv: pending 0/? B (no error)
 - nij-1938-n05-djv: pending 0/? B (no error)
-- nij-1938-n05-pdf: in_progress 33554432/104518298 B (attempt timeout after 1500ms)
+- nij-1938-n05-pdf: in_progress 23068672/104518298 B (attempt timeout after 1500ms)
 - nij-1938-n06-djv: pending 0/? B (no error)
 - nij-1938-n06-pdf: pending 0/? B (no error)
 - nij-1938-n07-djv: pending 0/? B (no error)
@@ -93,7 +93,7 @@ Updated: 2026-10-07T13:38:14.803Z
 - nij-1939-n04-djv: pending 0/? B (no error)
 - nij-1939-n05-djv: pending 0/? B (no error)
 - nij-1939-n06-djv: pending 0/? B (no error)
-- nij-1939-n08-djv: pending 0/? B (no error)
+- nij-1939-n08-djv: in_progress 812492/7103948 B (aborted)
 - nij-1939-n09-djv: pending 0/? B (no error)
 - nij-1939-n10-djv: pending 0/? B (no error)
 - nij-1939-n1112-djv: pending 0/? B (no error)
