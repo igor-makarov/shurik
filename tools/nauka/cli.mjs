@@ -42,7 +42,9 @@ import {
 } from './engine.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..', '..');
-const STATUS_FILE = path.join(REPO_ROOT, 'NAUKA_STATUS.md');
+const STATUS_FILE = process.env.NAUKA_STATUS_FILE
+  ? path.resolve(process.env.NAUKA_STATUS_FILE)
+  : path.join(REPO_ROOT, 'NAUKA_STATUS.md');
 const TOOLS_MANIFEST = path.join(REPO_ROOT, 'tools/nauka/manifest.json');
 
 function log(...a) {
@@ -141,6 +143,12 @@ function compactManifest(manifest) {
 // ---------------------------------------------------------------------------
 
 async function makeGhcr() {
+  // Hermetic test seam: the CLI preemption fixture runs against an in-process
+  // fake registry so it never contacts GHCR or downloads oras.
+  if (process.env.NAUKA_GHCR_FAKE === '1') {
+    const { FakeGhcr } = await import('./test/fake-ghcr.mjs');
+    return new FakeGhcr({ log });
+  }
   const ghcr = await Ghcr.create({ log });
   await ghcr.login();
   return ghcr;
