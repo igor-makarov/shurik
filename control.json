@@ -5,11 +5,11 @@
   "branch": "codex/shurik/nauka-20261007",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "deadline",
-  "generation": 3,
+  "status": "running",
+  "generation": 4,
   "next": 14,
   "owner": null,
-  "deadline": "2026-10-07T20:16:41.618Z",
+  "deadline": "2026-10-08T07:00:00.000Z",
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "reasoning": "high",
@@ -25,7 +25,7 @@
     "at": "2026-10-07T20:15:27.923Z"
   },
   "pr": "https://github.com/igor-makarov/shurik/pull/6",
-  "lastRunId": "37679915158",
+  "lastRunId": null,
   "stoppedAt": "2026-10-07T16:13:39.531Z",
   "monitorSteering": {
     "token": "nauka-hourly-watch-1791378103656",
@@ -72,5 +72,27 @@
     "baselinePublishedBytes": 692662813,
     "baselineDurablePartialBytes": 98566144,
     "action": "User-authorized new four-hour continuation with task-only progress-first steering; dead owner and failure evidence reconciled"
+  },
+  "monitorExpansion": {
+    "token": "nauka-all-years-user-expansion-1791408573947",
+    "resumedAt": "2026-10-07T21:30:02.971Z",
+    "resumedGeneration": 4,
+    "authorization": "User explicitly expanded Nauka to all magazine years, required a GHCR master issue index, and requested running until 10:00 Asia/Jerusalem with hourly basic checkins",
+    "previousDeadline": "2026-10-07T20:16:41.618Z",
+    "previousCheckpoint": {
+      "workCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
+      "generation": 3,
+      "sequence": "3-13",
+      "runId": "37679915158",
+      "at": "2026-10-07T20:15:27.923Z"
+    },
+    "promptCommit": "480bc68e3ae882fbeddd7c7d5a37b8c1df4a32a5",
+    "newDeadline": "2026-10-08T07:00:00.000Z",
+    "scope": "all-years",
+    "masterIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-index",
+    "baselinePublishedFiles": 60,
+    "baselinePublishedBytes": 2311630290,
+    "baselineRecordedModelCostUSD": 0.7705028100000001,
+    "action": "Task-only scope prompt change at expired unowned boundary; native user-authorized resume; preserve all existing checkpoint references and settings"
   }
 }
