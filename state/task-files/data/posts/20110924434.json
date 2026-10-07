@@ -45,8 +45,8 @@
  "content_text": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
  "date_text": "Posted 6 days ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T10:04:53Z",
- "image_count": 0,
+ "fetched_at": "2026-10-07T03:46:02Z",
+ "image_count": 1,
  "images": [
   {
    "attempts": [
@@ -253,9 +253,72 @@
     "http://30.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1.png",
     "http://30.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1.gif"
    ]
+  },
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_1280.jpg",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_1024.jpg",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_540.jpg",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_250.jpg",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1.png",
+      "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1",
+     "url": "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 51040,
+     "capture_timestamp": "20181225182121",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+     "status": 200,
+     "url": "https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_m1n4x3wAQQ1r3it8zo1.jpg",
+   "blob_path": "data/blobs/a6/a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "bytes": 51040,
+   "caption": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "capture": {
+    "archive_digest": "JRLKVLQ3FNFGM5FNPLXRORV2DSBMXSK2",
+    "original": "https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181225182121id_/https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+    "timestamp": "20181225182121"
+   },
+   "capture_count": 1,
+   "discovered_at": "2026-10-07T03:45:44Z",
+   "error": null,
+   "found_in": "shard-variant",
+   "media_key": "tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "http://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+   "note": "recovered from pre-cutoff capture 20181225182121 of https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg (51040 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "shard_variant_of": "http://30.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+   "state": "recovered",
+   "via": "shard-variant"
   }
  ],
- "images_done": true,
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 1,
  "listing_images_added": 0,
@@ -447,13 +510,13 @@
  "partial": true,
  "post_id": "20110924434",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-05T00:28:19Z",
-  "image_count": 0,
-  "manifest_digest": "sha256:d9738140689724e908071587e9a7d4d44284412393fa43d16ba8ee49e1a4d0b4",
+  "action": "updated",
+  "at": "2026-10-07T03:47:32Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:56eb51d485eda1c9d569a933cd78690f93c7abaa8863f6b0c30f4c0c850df314",
   "missing_count": 2,
   "quality": [
-   0,
+   1,
    46,
    1
   ]

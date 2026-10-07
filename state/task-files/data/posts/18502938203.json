@@ -33,8 +33,8 @@
  "content_text": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
  "date_text": "Posted 6 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T16:31:16Z",
- "image_count": 2,
+ "fetched_at": "2026-10-07T03:45:42Z",
+ "image_count": 3,
  "images": [
   {
    "attempts": [
@@ -292,9 +292,72 @@
     "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.png",
     "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.gif"
    ]
+  },
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1",
+     "url": "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 53417,
+     "capture_timestamp": "20181018115719",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_m02q2w0hz21r3it8zo1.jpg",
+   "blob_path": "data/blobs/7e/7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+   "bytes": 53417,
+   "caption": "",
+   "capture": {
+    "archive_digest": "GJA4VBVBW46JCWF4577YMSNU2LEKT53H",
+    "original": "https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181018115719id_/https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+    "timestamp": "20181018115719"
+   },
+   "capture_count": 1,
+   "discovered_at": "2026-10-07T03:45:36Z",
+   "error": null,
+   "found_in": "shard-variant",
+   "media_key": "tumblr_m02q2w0hz21r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
+   "note": "recovered from pre-cutoff capture 20181018115719 of https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg (53417 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+   "shard_variant_of": "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
+   "state": "recovered",
+   "via": "shard-variant"
   }
  ],
- "images_done": true,
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -376,12 +439,12 @@
  "posted_on": "Posted on Wednesday the 29th of February 2012 at 8:59 PM",
  "published": {
   "action": "updated",
-  "at": "2026-10-06T05:31:16Z",
-  "image_count": 2,
-  "manifest_digest": "sha256:7cc7db4eee7c193443b65c45d07902474af0b6c8537ccb12f3aa23aa0f07a0e7",
-  "missing_count": 0,
+  "at": "2026-10-07T03:47:26Z",
+  "image_count": 3,
+  "manifest_digest": "sha256:99fa8f9052155d93db5ee1eab35dd40b8f468b78737b12b3c2dc7b2ef90ed2e9",
+  "missing_count": 1,
   "quality": [
-   2,
+   3,
    38,
    1
   ]
