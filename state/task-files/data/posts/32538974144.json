@@ -33,12 +33,11 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "cdx-stem"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "captures": 0,
@@ -403,13 +402,13 @@
  "post_id": "32538974144",
  "posted_on": "Posted on Saturday the 29th of September 2012 at 9:19 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-05T00:37:53Z",
-  "image_count": 0,
-  "manifest_digest": "sha256:d3605f0d04eef4b134fb0cbe3bb1f8b9e4d934419e885c66d7fd9e0969961238",
-  "missing_count": 2,
+  "action": "skipped",
+  "at": "2026-10-07T04:58:42Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:eeaa52f9bd65ba0a8bb6d76c1fd14c024b312c3479b434f67af1c4a05e10ebf5",
+  "missing_count": 1,
   "quality": [
-   0,
+   1,
    12,
    1
   ]
