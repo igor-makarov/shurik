@@ -1,0 +1,46 @@
+{
+  "kind": "shurik-nauka-scope-ack",
+  "iteration": "4-15",
+  "at": "2026-10-07T22:10:00.000Z",
+  "acknowledgedScopeChange": true,
+  "previousObjective": "1934-1939 only, 60 files (completed subset)",
+  "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "note": "old NAUKA_STATUS 60/60 means only the completed 1934-1939 subset, NOT the all-years objective"
+  },
+  "discoveryProgress": {
+    "eraPagesTotal": 12,
+    "eraPagesVisited": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5,
+    "status": "provisional",
+    "note": "all archive-linked era pages visited and represented; master index stays provisional until explicitly re-audited against every era page"
+  },
+  "publishedAtAck": {
+    "publishedFiles": 100,
+    "publishedIssues": null,
+    "note": "published count read from data/nauka/state/files.json at iteration 4-15 start; master index receipt was stale (67) and will be refreshed"
+  },
+  "nextActions": [
+    "Refresh nij-master-index to reflect current durable state",
+    "Fetch master JSON back by immutable digest and verify bytes/hash + representative entries",
+    "Continue bounded origin retrieval batches for newly inventoried scans"
+  ]
+}

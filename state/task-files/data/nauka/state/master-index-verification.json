@@ -1,21 +1,25 @@
 {
   "kind": "shurik-nauka-master-index-verification",
-  "at": "2026-10-07T21:53:41.776Z",
+  "at": "2026-10-07T22:11:30.000Z",
+  "iteration": "4-15",
   "tag": "nij-master-index",
-  "immutableDigest": "sha256:aa8554a21b3f550aeaebcbb519f5b28fc468e13344d21f2e9d9178458fac1bf7",
-  "pulledBytes": 1167050,
-  "pulledSha256": "0422804722ec5e8093d51874c4016ae9e7be9b735286ac82d94b34875c9fb324",
+  "immutableDigest": "sha256:bb14ef3052821b094882886a032c35edc67a57470d7f10645fc2da34c0e5ecef",
+  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:bb14ef...",
+  "pulledBytes": 1178561,
+  "pulledFileSha256": "1b8632853db7aa5f595bcf4faab2d517b2c3224f25b5cc78c0d6e87d5347a117",
+  "tagResolveMatchesDigest": true,
   "discoveryStatus": "provisional",
+  "eraPagesVisited": "12/12",
   "totals": {
     "years": 87,
     "issues": 941,
-    "publishedIssues": 47,
+    "publishedIssues": 71,
     "files": 1112,
-    "publishedFiles": 60,
-    "remainingFiles": 1052,
-    "knownBytes": 2311630290,
-    "publishedBytes": 2311630290,
-    "receivedPartialBytes": 0,
+    "publishedFiles": 100,
+    "remainingFiles": 1012,
+    "knownBytes": 2696742787,
+    "publishedBytes": 2402183288,
+    "receivedPartialBytes": 15728640,
     "supplementaryFiles": 5,
     "supplementaryPublished": 0
   },
@@ -23,17 +27,43 @@
     "oldPublished": {
       "id": "nij-1934-n01-djv",
       "status": "published",
-      "digest": "sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9"
+      "bytes": 5346121,
+      "sha256": "814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6",
+      "digestMatchesState": true
     },
-    "newYearPending": {
-      "id": "nij-2020-n01-pdf",
-      "status": "pending"
+    "newPublished1893": {
+      "id": "nij-1893-n01-djv",
+      "status": "published",
+      "bytes": 1723021,
+      "digestMatchesState": true
     },
-    "midCentury": {
+    "newPublished1953": {
+      "id": "nij-1953-n02-djv",
+      "status": "published",
+      "bytes": 3334876,
+      "digestMatchesState": true
+    },
+    "midCenturyPending": {
       "id": "nij-1948-n01-pdf",
       "year": 1948,
       "status": "pending"
+    },
+    "recentPending": {
+      "id": "nij-2020-n01-pdf",
+      "status": "pending"
+    },
+    "latePending": {
+      "id": "nij-2015-n01-pdf",
+      "status": "pending"
     }
+  },
+  "checks": {
+    "publishedFlagMismatchesVsState": 0,
+    "masterPublishedFiles": 100,
+    "combinedIssues": 38,
+    "specialIssues": 1,
+    "oldSubsetTagPreserved": "nij-1934-39-index",
+    "oldSubsetNotRelabelled": true
   },
   "problems": [],
   "ok": true
