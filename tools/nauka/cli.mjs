@@ -227,28 +227,43 @@ async function cmdRetrieve(args) {
   }
 
   const startedAt = Date.now();
-  const transferDeadline = startedAt + budgetMs;
-  const ctx = createContext({ state, manifest, ghcr, log, signal: controller.signal, deadline: transferDeadline });
-  // GHCR checkpoint pushes are durable but secondary to transfer; bound them.
+  const ctx = createContext({ state, manifest, ghcr, log, signal: controller.signal, deadline: null });
+
+  // Hard cap on the WHOLE invocation (restore + transfer + cleanup). This is
+  // the ultimate guarantee that a foreground tool call returns and leaves no
+  // writer or child behind, even if a restore or a GHCR push stalls.
+  const hardMs = budgetMs + cleanupMs + 90000;
+  const hardTimer = setTimeout(() => {
+    log('shutdown watchdog fired; forcing exit');
+    killActiveChildren();
+    process.exit(124);
+  }, hardMs);
+  hardTimer.unref?.();
+
+  // Recover before any new origin request. Deadlines for transfer begin AFTER
+  // recovery so a slow checkpoint pull never eats the transfer budget.
+  await restoreFromGitPartials(state, log);
+  await restoreFromCheckpoints(ctx);
+  if (doReconcile) await reconcile(ctx);
+
+  const transferDeadline = Date.now() + budgetMs;
+  ctx.deadline = transferDeadline;
   ctx.cleanupDeadline = transferDeadline + cleanupMs;
 
-  // Two-stage watchdog: first abort/kill stragglers, then force exit.
+  // Time-budget termination: abort in-flight requests/streams at the deadline
+  // so writers close and the drain below runs promptly (no hard kill needed).
+  const abortTimer = setTimeout(() => {
+    log('transfer budget elapsed; aborting in-flight requests');
+    controller.abort();
+  }, budgetMs);
+  abortTimer.unref?.();
+  // Second stage: kill any straggler child (oras) once the cleanup window ends.
   const drainTimer = setTimeout(() => {
     log('cleanup window elapsed; aborting remaining work');
     controller.abort();
     killActiveChildren();
   }, budgetMs + cleanupMs);
-  const hardTimer = setTimeout(() => {
-    log('shutdown watchdog fired; forcing exit');
-    killActiveChildren();
-    process.exit(124);
-  }, budgetMs + cleanupMs + 30000);
   drainTimer.unref?.();
-  hardTimer.unref?.();
-
-  await restoreFromGitPartials(state, log);
-  await restoreFromCheckpoints(ctx);
-  if (doReconcile) await reconcile(ctx);
 
   try {
     for (let p = 0; p < maxPasses; p++) {
@@ -263,6 +278,9 @@ async function cmdRetrieve(args) {
     }
   } finally {
     // Drain: never return while a request or rename/delete writer is alive.
+    clearTimeout(abortTimer);
+    clearTimeout(drainTimer);
+    killActiveChildren();
     ctx.cleanupDeadline = Date.now() + cleanupMs;
     const removed = await cleanupTempFiles(state);
     if (removed) log(`removed ${removed} abandoned chunk temp file(s)`);
@@ -275,8 +293,13 @@ async function cmdRetrieve(args) {
     await saveState(state);
     await flushState();
     await writeStatus(state, manifest, ctx);
+    try {
+      // Keep the discoverable collection + resume index current each batch.
+      await publishCollectionIndex(state, manifest, ghcr, log);
+    } catch (err) {
+      log(`index publish error (non-fatal): ${err.message}`);
+    }
     killActiveChildren();
-    clearTimeout(drainTimer);
     clearTimeout(hardTimer);
   }
   log(`retrieve batch complete in ${Date.now() - startedAt}ms`);
@@ -339,6 +362,13 @@ async function cmdIndex() {
   const manifest = await loadManifest();
   const state = await loadState();
   const ghcr = await makeGhcr();
+  await publishCollectionIndex(state, manifest, ghcr, log);
+  await writeStatus(state, manifest, { manifest });
+}
+
+// Publish the discoverable collection index and the resume/checkpoint marker.
+// Small JSON only; safe to call from every retrieve batch.
+async function publishCollectionIndex(state, manifest, ghcr, log) {
   const files = manifest.entries.map((e) => {
     const eff = state.files[e.id] || {};
     return {
@@ -411,7 +441,7 @@ async function cmdIndex() {
   });
   log(`published index ${INDEX_TAG} -> ${res.digest}`);
   log(`published checkpoint ${CHECKPOINT_TAG} -> ${res2.digest}`);
-  await writeStatus(state, manifest, { manifest });
+  return { indexDigest: res.digest, checkpointDigest: res2.digest };
 }
 
 async function cmdStatus() {

@@ -610,19 +610,30 @@ export async function checkpointPartials(ctx) {
       break;
     }
     const dir = chunksDir(eff.id);
-    let names = [];
+    // Sweep abandoned writers FIRST, then enumerate only committed chunk files.
+    // A `.tmp` renamed away by an in-flight writer must never be stat()ed or
+    // uploaded (ENOENT during checkpointing is the defect this guards).
+    let all = [];
     try {
-      names = (await fs.readdir(dir)).filter((f) => f.startsWith('chunk-'));
+      all = await fs.readdir(dir);
     } catch {
       continue;
     }
-    if (names.length === 0) continue;
-    for (const f of await fs.readdir(dir)) {
+    for (const f of all) {
       if (f.endsWith('.tmp')) await fs.rm(path.join(dir, f), { force: true });
     }
-    const bytes = (
-      await Promise.all(names.map(async (f) => (await fs.stat(path.join(dir, f))).size))
-    ).reduce((a, b) => a + b, 0);
+    const names = all.filter((f) => f.startsWith('chunk-') && !f.endsWith('.tmp'));
+    if (names.length === 0) continue;
+    const sizes = await Promise.all(
+      names.map(async (f) => {
+        try {
+          return (await fs.stat(path.join(dir, f))).size;
+        } catch {
+          return 0; // vanished between readdir and stat: skip, never throw
+        }
+      }),
+    );
+    const bytes = sizes.reduce((a, b) => a + b, 0);
     if (eff.checkpoint && eff.checkpoint.bytes === bytes) continue;
     try {
       const res = await ghcr.pushDir(checkpointTag(eff.id), dir);
@@ -768,17 +779,21 @@ export function estimateBytes(labelSize) {
 }
 
 export function orderEntries(entries, state) {
-  // Largest-first: the fixed per-pass/per-connection ramp is amortised over more
-  // bytes, and 63% of the corpus bytes live in files larger than 30 MiB.
+  // Smallest-first. With short bounded foreground batches the priority is
+  // DURABILITY: finish and publish a whole file (a GHCR artifact) as soon as
+  // possible, so each batch leaves the maximum amount of verified, immutable
+  // progress. A huge file that only completes after many batches (and can lose
+  // its staging bytes on an iteration boundary) is attempted last, once the
+  // small/medium files are already durably published.
   return [...entries].sort((a, b) => {
     const ea = state.files[a.id];
     const eb = state.files[b.id];
     const pa = ea && ea.status === 'published';
     const pb = eb && eb.status === 'published';
     if (pa !== pb) return pa ? 1 : -1;
-    const sa = (ea && ea.expectedBytes) || estimateBytes(a.labelSize) || 0;
-    const sb = (eb && eb.expectedBytes) || estimateBytes(b.labelSize) || 0;
-    return sb - sa;
+    const sa = (ea && ea.expectedBytes) || estimateBytes(a.labelSize) || Number.MAX_SAFE_INTEGER;
+    const sb = (eb && eb.expectedBytes) || estimateBytes(b.labelSize) || Number.MAX_SAFE_INTEGER;
+    return sa - sb;
   });
 }
 

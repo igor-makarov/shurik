@@ -243,12 +243,26 @@ test('cold restart reconstructs progress from git partial and GHCR checkpoint', 
 
     await engine.checkpointPartials(ctx);
     assert.ok(fakeGhcr.store.has(`checkpoint-${entry.id}`), 'checkpoint pushed to GHCR');
+    const ckDigest = fakeGhcr.store.get(`checkpoint-${entry.id}`).digest;
+    assert.match(ckDigest, /^sha256:/);
 
-    // Fresh runner: wipe local stage bytes, keep state.
+    // Fresh runner path A: git prefix reconstructs the early chunks on disk.
     await fs.rm(engine.workspaceDir(entry.id), { recursive: true, force: true });
-
     const n = await engine.restoreFromGitPartials(state, () => {});
     assert.ok(n >= 2, `expected >=2 restored chunks, got ${n}`);
+
+    // Fresh runner path B: wipe chunk bytes AND the git prefix so only the
+    // immutable GHCR checkpoint can rebuild progress.
+    await fs.rm(engine.workspaceDir(entry.id), { recursive: true, force: true });
+    await fs.rm(path.join(PATHS.partialDir, `${entry.id}.prefix`), { force: true });
+    const nCk = await engine.restoreFromCheckpoints(ctx);
+    assert.equal(nCk, 2, `expected 2 chunks from GHCR checkpoint, got ${nCk}`);
+    for (let i = 0; i < 2; i++) {
+      const buf = content.subarray(i * CONFIG.chunkSize, (i + 1) * CONFIG.chunkSize);
+      const got = await fs.readFile(chunkFile(entry.id, i));
+      assert.equal(got.length, buf.length, `restored chunk ${i} length`);
+      assert.equal(sha(got), sha(buf), `restored chunk ${i} hash`);
+    }
 
     await engine.restoreFromCheckpoints(ctx);
 
@@ -258,6 +272,42 @@ test('cold restart reconstructs progress from git partial and GHCR checkpoint', 
     assert.equal(assembled.bytes, content.length);
     assert.equal(assembled.sha256, sha(content));
   });
+});
+
+test('checkpointing sweeps a stray .tmp writer and never stats it (ENOENT regression)', async () => {
+  const entry = {
+    id: 'fx-tmpck',
+    year: 1938,
+    issue: 'N04',
+    format: 'pdf',
+    filename: 'fx-tmpck.bin',
+    url: 'http://127.0.0.1:1/file.bin',
+    labelText: 'fx',
+    labelSize: '1M',
+  };
+  const state = { version: 1, files: {} };
+  const eff = engine.ensureFileEntry(state, entry);
+  eff.expectedBytes = 2048;
+  eff.chunkSize = CONFIG.chunkSize;
+  eff.status = 'in_progress';
+  const dir = engine.chunksDir(entry.id);
+  await fs.mkdir(dir, { recursive: true });
+  const c0 = randomBytes(1024);
+  await fs.writeFile(chunkFile(entry.id, 0), c0);
+  eff.chunks[0] = { bytes: c0.length, sha256: sha(c0) };
+  // A live writer's temp file: it starts with 'chunk-' and is exactly the kind
+  // of file whose rename/deletion raced the checkpoint scan in iteration 1-2.
+  await fs.writeFile(path.join(dir, 'chunk-000001.tmp'), Buffer.from('in-flight-writer'));
+
+  const fakeGhcr = makeFakeGhcr();
+  const ctx = makeCtx(state, entry, fakeGhcr);
+  await engine.checkpointPartials(ctx); // must not throw ENOENT
+
+  const names = await fs.readdir(dir);
+  assert.ok(!names.some((n) => n.endsWith('.tmp')), 'stray temp writer swept');
+  assert.ok(fakeGhcr.store.has(`checkpoint-${entry.id}`), 'checkpoint pushed');
+  const pushed = fakeGhcr.store.get(`checkpoint-${entry.id}`);
+  assert.deepEqual(Object.keys(pushed.files), ['chunk-000000'], 'only committed chunks uploaded');
 });
 
 test('publishes and round-trip verifies via the registry', async () => {
@@ -486,6 +536,22 @@ function makeFakeGhcr() {
     async pull(tag, outDir) {
       const e = store.get(tag);
       if (!e) throw new Error('not found ' + tag);
+      await fs.mkdir(outDir, { recursive: true });
+      for (const [f, buf] of Object.entries(e.files)) await fs.writeFile(path.join(outDir, f), buf);
+      return outDir;
+    },
+    // Pull by immutable digest reference, mirroring Ghcr.pullRef.
+    async pullRef(ref, outDir) {
+      const dig = ref.includes('@') ? ref.slice(ref.indexOf('@') + 1) : ref;
+      let e = null;
+      for (const v of store.values()) {
+        if (v.digest === dig) {
+          e = v;
+          break;
+        }
+      }
+      if (!e && store.has(dig)) e = store.get(dig);
+      if (!e) throw new Error('not found ' + ref);
       await fs.mkdir(outDir, { recursive: true });
       for (const [f, buf] of Object.entries(e.files)) await fs.writeFile(path.join(outDir, f), buf);
       return outDir;
