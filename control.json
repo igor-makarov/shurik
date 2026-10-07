@@ -5,8 +5,8 @@
   "branch": "codex/shurik/nauka-20261007",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "stopped",
-  "generation": 1,
+  "status": "running",
+  "generation": 2,
   "next": 2,
   "owner": null,
   "deadline": "2026-10-07T15:32:12.222Z",
@@ -25,7 +25,7 @@
     "at": "2026-10-07T12:34:35.879Z"
   },
   "pr": "https://github.com/igor-makarov/shurik/pull/6",
-  "lastRunId": "37618741012",
+  "lastRunId": null,
   "stoppedAt": "2026-10-07T13:01:43.656Z",
   "monitorSteering": {
     "token": "nauka-hourly-watch-1791378103656",
@@ -39,7 +39,11 @@
       "runId": "37618741012",
       "at": "2026-10-07T12:34:35.879Z"
     },
-    "generation": 1
+    "generation": 1,
+    "resumedAt": "2026-10-07T13:05:39.224Z",
+    "resumedGeneration": 2,
+    "promptCommit": "4e1abe90409fec9ff5bcb8aa07515a8864beeb85",
+    "action": "Task-only prompt steering; native recovery evidence retained and dead owner reconciled"
   },
   "failureTrail": [
     "37618741012-1"
