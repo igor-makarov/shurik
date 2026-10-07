@@ -1,0 +1,34 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 7,
+  "iteration": "3-7",
+  "startedAt": "2026-10-07T18:05:58.000Z",
+  "elapsedMs": 396610,
+  "budget": {"budgetMs": 420000, "cleanupMs": 120000, "minChunkBudgetMs": 90000, "passBudgetMs": 420000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1938-n08-pdf", "nij-1935-n01-djv"],
+  "publishedBefore": 46,
+  "publishedAfter": 47,
+  "remainingBefore": 14,
+  "remainingAfter": 13,
+  "verifiedPartialBytesBefore": 23068672,
+  "verifiedPartialBytesAfter": 63963136,
+  "newOriginBytesDurable": 101170401,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No mid-body aborts; n01-djv checkpointed its 39 durable chunks before the deadline.",
+  "published": [
+    {"id": "nij-1938-n08-pdf", "bytes": 60275937, "sha256": "150f1f03a6594efe1d01d376b69f3e989532de7ae9ed086d6398b7185ab45fff", "digest": "sha256:5eef40755f36464c3cf179cc1fe739b25f04ddcc9d2c1df8b736101ec89224f4", "tag": "nij-1938-n08-pdf", "note": "fresh 57-chunk file"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1935-n01-djv", "digest": "sha256:04e19ac98c2d237ceda404dd10dcd01c01659f00c694bf86a1bf3a3561ae409c", "bytes": 40894464, "chunks": 39},
+    {"tag": "nij-1934-39-index", "digest": "sha256:9f6792d415dfc5a39acb50b50b8788af89b30194121dc630f9aa83bdbf38bf43"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:35b653aaafd1263ef1d85275e8caa68f302d7c20df4131e4ea7546e86efd459e"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1935-n01-djv", "bytes": 40894464, "expected": 67393099},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298}
+  ],
+  "failures": [],
+  "retries": 0,
+  "notes": "Steady ~265 KiB/s. n08 (57 chunks) done in ~230 s; n01-djv reached 39/64 chunks (25 left) before the deadline and checkpointed.",
+  "nextAction": "Finish nij-1935-n01-djv (25 chunks left) then nij-1938-n05-pdf (78 chunks left), then the remaining fresh files smallest-first: n06 (67.1M), n05 (67.8M), n07 (69.4M), n07-1937 (70.6M), n02 (71.3M), n12 (77.1M), n0910 (77.2M), n11 (80.1M), n06-1936 (81.7M), n01 (97.3M), n02 (97.9M)."
+}

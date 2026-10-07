@@ -1,42 +1,45 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "3-6",
-  "at": "2026-10-07T17:46:00.000Z",
-  "published": 42,
-  "remaining": 18,
-  "bytesPublished": 957435721,
-  "blocker": {
-    "kind": "origin-unreachable",
-    "host": "publ.lib.ru",
-    "address": "81.176.66.167",
-    "detail": "TCP connect times out on 443 and 80; ping 100% packet loss; no AAAA. General egress (github.com, ghcr.io, example.com, google.com) is healthy, so this is host-specific / origin cooldown or block.",
-    "firstObserved": "2026-10-07T17:26:45Z",
-    "lastChecked": "2026-10-07T17:47:36Z",
-    "probeHistory": [
-      "2026-10-07T17:39:55Z unreachable (connect timeout after 8000ms)",
-      "2026-10-07T17:41:51Z unreachable (connect timeout after 8000ms)",
-      "2026-10-07T17:42:57Z unreachable (connect timeout after 8000ms)",
-      "2026-10-07T17:45:17Z unreachable (connect timeout after 8000ms)",
-      "2026-10-07T17:47:36Z unreachable (connect timeout after 8000ms)"
-    ]
+  "iteration": "3-7",
+  "at": "2026-10-07T18:18:00.000Z",
+  "published": 48,
+  "remaining": 12,
+  "bytesPublished": 1307814872,
+  "blocker": null,
+  "origin": {
+    "reachable": true,
+    "lastChecked": "2026-10-07T18:13:28Z",
+    "note": "Origin publ.lib.ru recovered at ~17:52Z after a ~25 min host outage; four batches (5-8) ran cleanly at ~265 KiB/s aggregate."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 77594624,
+    "verifiedPartialBytes": 48234496,
     "partialFiles": [
-      {"id": "nij-1936-n04-pdf", "chunks": 38, "expected": 55307476, "chunkSize": 1048576},
-      {"id": "nij-1936-n01-pdf", "chunks": 7, "expected": 55439030},
-      {"id": "nij-1937-n10-pdf", "chunks": 7, "expected": 55456322},
-      {"id": "nij-1938-n05-pdf", "chunks": 22, "expected": 104518298}
+      {"id": "nij-1937-n06-pdf", "chunks": 24, "expected": 70408661, "chunkSize": 1048576},
+      {"id": "nij-1938-n05-pdf", "chunks": 22, "expected": 104518298, "chunkSize": 1048576}
     ],
-    "note": "Restore from git partials + GHCR checkpoint digests succeeded and re-validated all recorded chunk hashes on 2026-10-07T17:26."
+    "note": "Restore from git partials + GHCR checkpoints succeeded at the start of batch 5 (17:52Z) and every batch re-checkpointed its partials."
   },
-  "nextAction": "Run a focused batch (smallest-first, one file at a time) when the origin is reachable; retrieve now fails fast (~25 s) and records state.origin when the host is down. Prioritise nij-1936-n04-pdf (15 chunks left) then nij-1936-n01-pdf / nij-1937-n10-pdf (46 each).",
-  "recommendedCommand": "NAUKA_FILE_CONCURRENCY=1 NAUKA_PASS_MS=600000 NAUKA_MIN_CHUNK_MS=90000 node tools/nauka/cli.mjs retrieve --budget-ms 360000 --cleanup-ms 120000",
-  "codeChangesThisIteration": [
-    "engine.mjs/config.mjs: admission threshold now never starts a chunk that cannot finish before the batch deadline (adaptive to <=40% of the transfer budget); a 1 MiB chunk needs ~60-90 s at ~15 KiB/s.",
-    "http.mjs: added bounded tcpConnect/originReachable probe.",
-    "cli.mjs: fail-fast origin reachability gate (state.origin) and durable Origin reachability + Recent batch records sections in NAUKA_STATUS.",
-    "tools/nauka/test/reachability.test.mjs: 4 focused probe tests (npm run test:nauka: 19/19 pass)."
-  ]
+  "publishedThisIteration": [
+    "nij-1936-n04-pdf", "nij-1936-n01-pdf", "nij-1937-n10-pdf", "nij-1935-n02-pdf",
+    "nij-1938-n08-pdf", "nij-1935-n01-djv"
+  ],
+  "remainingFiles": [
+    {"id": "nij-1937-n06-pdf", "remainingChunks": 44, "expected": 70408661},
+    {"id": "nij-1937-n05-pdf", "remainingChunks": 68, "expected": 71103223},
+    {"id": "nij-1938-n07-pdf", "remainingChunks": 70, "expected": 72819415},
+    {"id": "nij-1937-n07-pdf", "remainingChunks": 71, "expected": 74018670},
+    {"id": "nij-1937-n02-pdf", "remainingChunks": 72, "expected": 74814595},
+    {"id": "nij-1937-n12-pdf", "remainingChunks": 78, "expected": 80815773},
+    {"id": "nij-1938-n0910-pdf", "remainingChunks": 78, "expected": 80935065},
+    {"id": "nij-1936-n11-pdf", "remainingChunks": 81, "expected": 83955055},
+    {"id": "nij-1936-n06-pdf", "remainingChunks": 82, "expected": 85656635},
+    {"id": "nij-1938-n01-pdf", "remainingChunks": 98, "expected": 102072758},
+    {"id": "nij-1938-n02-pdf", "remainingChunks": 98, "expected": 102697270},
+    {"id": "nij-1938-n05-pdf", "remainingChunks": 78, "expected": 104518298}
+  ],
+  "nextAction": "Origin is up. Run bounded foreground batches with fileConcurrency=1 (smallest-first) to finish and publish one file per pass: recommended `NAUKA_FILE_CONCURRENCY=1 NAUKA_PASS_MS=420000 NAUKA_MIN_CHUNK_MS=90000 node tools/nauka/cli.mjs retrieve --budget-ms 420000 --cleanup-ms 120000`. Finish nij-1937-n06-pdf first (44 chunks left), then the fresh files.",
+  "recommendedCommand": "NAUKA_FILE_CONCURRENCY=1 NAUKA_PASS_MS=420000 NAUKA_MIN_CHUNK_MS=90000 node tools/nauka/cli.mjs retrieve --budget-ms 420000 --cleanup-ms 120000",
+  "codeChangesThisIteration": [],
+  "notes": "No code changes needed: the reachability gate, adaptive admission and GHCR checkpoint/restore already behave correctly. Six files published this iteration (42->48). No discarded transfer bytes observed."
 }

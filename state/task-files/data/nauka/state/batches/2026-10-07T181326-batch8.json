@@ -1,0 +1,34 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 8,
+  "iteration": "3-7",
+  "startedAt": "2026-10-07T18:13:26.000Z",
+  "elapsedMs": 238011,
+  "budget": {"budgetMs": 240000, "cleanupMs": 90000, "minChunkBudgetMs": 80000, "passBudgetMs": 240000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1935-n01-djv", "nij-1937-n06-pdf"],
+  "publishedBefore": 47,
+  "publishedAfter": 48,
+  "remainingBefore": 13,
+  "remainingAfter": 12,
+  "verifiedPartialBytesBefore": 63963136,
+  "verifiedPartialBytesAfter": 48234496,
+  "newOriginBytesDurable": 51664459,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No mid-body aborts; n06 checkpointed 24 durable chunks before the deadline.",
+  "published": [
+    {"id": "nij-1935-n01-djv", "bytes": 67393099, "sha256": "d1f2d1a1431027a682d341551ab6645170e6c1f73b5f676a18a048b2d4fc529e", "digest": "sha256:7d959502c9b03d318e62794fe7ecf95f9d85caa9526154105cd8cd05ebd03a7c", "tag": "nij-1935-n01-djv", "note": "finished from 39 checkpointed chunks + 25 fresh chunks"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1937-n06-pdf", "digest": "sha256:1097c158970bf23eac9d962eab16ea62d2af86826d3b95ad1a59c290eb5c92a7", "bytes": 25165824, "chunks": 24},
+    {"tag": "nij-1934-39-index", "digest": "sha256:1f7f9e6bc323b558fbc5facd862e05cee80b1a65237b138509fbc389331a5ae7"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:be446255611a3c035345f01917a0aa2ee3d99716578ead5002d9e7ff0b4c4a0f"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1937-n06-pdf", "bytes": 25165824, "expected": 70408661},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298}
+  ],
+  "failures": [],
+  "retries": 0,
+  "notes": "n01-djv finished (25 chunks) in ~123 s; n06 reached 24/68 chunks before the deadline and checkpointed.",
+  "nextAction": "Continue fileConcurrency=1 smallest-first: finish nij-1937-n06-pdf (44 chunks left), then n05 (67.8M fresh), n07 (69.4M), n07-1937 (70.6M), n02 (71.3M), n12 (77.1M), n0910 (77.2M), n11 (80.1M), n06-1936 (81.7M), n01 (97.3M), n02 (97.9M), and nij-1938-n05-pdf (78 chunks left)."
+}
