@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:56eb51d485eda1c9d569a933cd78690f93c7abaa8863f6b0c30f4c0c850df314",
+   "observed": "sha256:c04a8b0462f4732710b4d8ba3628f1665e0ef93c39360fb513c215e53819e140",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
    "expected": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "observed": "tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg]",
+   "expected": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg]",
+   "expected": 51040,
+   "observed": 51040,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -112,11 +132,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:9886c738081732c45dc921ecc84892816d062de5cadca3cf0fe89a1e7261198a",
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:00c2c2fc3b666b2fb6fdfc90b487542bc59cb4858ce0976513a44d5b8b5f8dbe",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:16Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
@@ -128,7 +148,7 @@
   "shurik.post.content_len": "46",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "20110924434",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "2",
   "shurik.post.tags": "צרות-של-אשכנזים"
  },
@@ -139,12 +159,17 @@
    "size": 51185
   },
   {
-   "digest": "sha256:3155ff2ff81b045a42930297295aa5cc4dbfb3bde2b1ee44d20778346ab17a79",
+   "digest": "sha256:3b2fac41fa1b4a3b4fcfd00ec4fb3a8fc1b866cf2af6b0b9f1bb6e297cabc42d",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1516
+   "size": 51158
+  },
+  {
+   "digest": "sha256:f6a519ad15c4c4b8403bdd8c4214a8811ae725ca3b6a1948b4659959ca48c4e8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1546
   }
  ],
- "manifest_digest": "sha256:56eb51d485eda1c9d569a933cd78690f93c7abaa8863f6b0c30f4c0c850df314",
+ "manifest_digest": "sha256:c04a8b0462f4732710b4d8ba3628f1665e0ef93c39360fb513c215e53819e140",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "20110924434",
@@ -158,13 +183,21 @@
    "sha256": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e"
   },
   {
-   "bytes": 9101,
+   "bytes": 51040,
+   "file": "tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:3b2fac41fa1b4a3b4fcfd00ec4fb3a8fc1b866cf2af6b0b9f1bb6e297cabc42d",
+   "role": "media",
+   "sha256": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e"
+  },
+  {
+   "bytes": 9777,
    "file": "post.json",
-   "layer": "sha256:3155ff2ff81b045a42930297295aa5cc4dbfb3bde2b1ee44d20778346ab17a79",
+   "layer": "sha256:f6a519ad15c4c4b8403bdd8c4214a8811ae725ca3b6a1948b4659959ca48c4e8",
    "role": "post-metadata",
-   "sha256": "1500ed50ecddd5de42652cfa1af905c2a9f7e716429b533a4e9716cb42e74050"
+   "sha256": "5e4013ee30ce5039383f412e14105083d0b568771ca2fbfe626c7be79e7c9400"
   }
  ],
  "tag": "20110924434",
- "verified_at": "2026-10-07T03:48:07Z"
+ "verified_at": "2026-10-07T06:03:31Z"
 }

@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:98849d94e5916fc331311ff98e5fee7d45708f8cd34a3bdf6cbe9f200bdcddc8",
+   "observed": "sha256:bb892464a3bab031b3a829ac2ad7053e82f67120c120e503d68aa1a55aae669a",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
    "expected": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_640.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_640.jpg]",
+   "expected": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m2h66vwVbT1r3it8zo1_640.jpg]",
+   "expected": 54033,
+   "observed": 54033,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m2h66vwVbT1r3it8zo1_640.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -112,11 +132,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:b585eea210507238424ab0d48efb6fa24f54f44741912ba8c9e4ed6bf0350950",
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:2ff127d56d37a8d33733b54127b67369e2bebb454facecccc33ec4703e6e3b4f",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:12Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: מימונה.",
@@ -128,7 +148,7 @@
   "shurik.post.content_len": "24",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "21084952305",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "2",
   "shurik.post.tags": "צרות-של-אשכנזים"
  },
@@ -139,12 +159,17 @@
    "size": 54174
   },
   {
-   "digest": "sha256:ec468a3fe7da2ff54bfd0ba07806409094390b8abe015d2e35f9b898d394550d",
+   "digest": "sha256:82d396f112bf68fcf85e724d98bda328ddf6a5eff40687c6aaf70fad6102575e",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1364
+   "size": 54144
+  },
+  {
+   "digest": "sha256:3f7da75a92e99e0da7f61de564e4a09f2e251aef75b7f6c75af7143d0c6245e6",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1438
   }
  ],
- "manifest_digest": "sha256:98849d94e5916fc331311ff98e5fee7d45708f8cd34a3bdf6cbe9f200bdcddc8",
+ "manifest_digest": "sha256:bb892464a3bab031b3a829ac2ad7053e82f67120c120e503d68aa1a55aae669a",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "21084952305",
@@ -158,13 +183,21 @@
    "sha256": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d"
   },
   {
-   "bytes": 8700,
+   "bytes": 54033,
+   "file": "tumblr_m2h66vwVbT1r3it8zo1_640.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:82d396f112bf68fcf85e724d98bda328ddf6a5eff40687c6aaf70fad6102575e",
+   "role": "media",
+   "sha256": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d"
+  },
+  {
+   "bytes": 9376,
    "file": "post.json",
-   "layer": "sha256:ec468a3fe7da2ff54bfd0ba07806409094390b8abe015d2e35f9b898d394550d",
+   "layer": "sha256:3f7da75a92e99e0da7f61de564e4a09f2e251aef75b7f6c75af7143d0c6245e6",
    "role": "post-metadata",
-   "sha256": "eb8a2eb27e2849516570e52bdd860fb7f4c0ea05e3479beb13f9c6862911a6d8"
+   "sha256": "4c27e9244f00c2676616af75cef1d591465ffec06a913e946c2a78334cb57502"
   }
  ],
  "tag": "21084952305",
- "verified_at": "2026-10-07T03:48:08Z"
+ "verified_at": "2026-10-07T06:03:32Z"
 }

@@ -1,0 +1,170 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:47e385b025eaa09c619af0ec55992c73572b93360a60c96b74fdb70967e892fe",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_piuqkpx3Yt1r3it8zo1_1280.jpg]",
+   "expected": "199f18257fed81886ae22e2cf7c4bd6aac2ca93f07214befac1b85d66f850436",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_piuqkpx3Yt1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_piuqkpx3Yt1r3it8zo1_1280.jpg]",
+   "expected": 61283,
+   "observed": 61283,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_piuqkpx3Yt1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "ביבי גם עומד מאחורי עסקת ווטני",
+   "observed": "ביבי גם עומד מאחורי עסקת ווטני",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>\n\n&#1489;&#1497;&#1489;&#1497; &#1490;&#1501; &#1506;&#1493;&#1502;&#1491; &#1502;&#1488;&#1495;&#1493;&#1512;&#1497; &#1506;&#1505;&#1511;&#1514; &#1493;&#1493;&#1496;&#1504;&#1497;\n\n<br /></p>",
+   "observed": "<p>\n\n&#1489;&#1497;&#1489;&#1497; &#1490;&#1501; &#1506;&#1493;&#1502;&#1491; &#1502;&#1488;&#1495;&#1493;&#1512;&#1497; &#1506;&#1505;&#1511;&#1514; &#1493;&#1493;&#1496;&#1504;&#1497;\n\n<br /></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ביבי",
+    "ביבי-נתניהו",
+    "ביבי-גאמפ",
+    "ביבי-בומינג"
+   ],
+   "observed": [
+    "ביבי",
+    "ביבי-נתניהו",
+    "ביבי-גאמפ",
+    "ביבי-בומינג"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "ביבי גם עומד מאחורי עסקת ווטני"
+   ],
+   "observed": [
+    "ביבי גם עומד מאחורי עסקת ווטני"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/180550090138",
+   "observed": "http://hazfalafel.com/post/180550090138",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182222",
+   "observed": "20181225182222",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182222id_/https://66.media.tumblr.com/e8506a95005418eb8e8bf76686dea55c/tumblr_piuqkpx3Yt1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182222id_/https://66.media.tumblr.com/e8506a95005418eb8e8bf76686dea55c/tumblr_piuqkpx3Yt1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182222",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:a0942cf348484285b45f690f157e2bf98de9ccbd75fde5e64e86356c8a92ff97",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-01-29T00:34:15Z",
+  "org.opencontainers.image.description": "ביבי גם עומד מאחורי עסקת ווטני",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 180550090138",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/180550090138",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "30",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "180550090138",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "ביבי,ביבי-נתניהו,ביבי-גאמפ,ביבי-בומינג"
+ },
+ "layers": [
+  {
+   "digest": "sha256:7b37a87cfbcf90841d58d855e897038203aecc5ca68e8e441e87e8d3222d8b51",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 61385
+  },
+  {
+   "digest": "sha256:ed8cb3f6cebb93d8951779c803bd937af7705089aaf70e419da5a09c74e55e86",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1282
+  }
+ ],
+ "manifest_digest": "sha256:47e385b025eaa09c619af0ec55992c73572b93360a60c96b74fdb70967e892fe",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "180550090138",
+ "pulled_files": [
+  {
+   "bytes": 61283,
+   "file": "tumblr_piuqkpx3Yt1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:7b37a87cfbcf90841d58d855e897038203aecc5ca68e8e441e87e8d3222d8b51",
+   "role": "media",
+   "sha256": "199f18257fed81886ae22e2cf7c4bd6aac2ca93f07214befac1b85d66f850436"
+  },
+  {
+   "bytes": 6021,
+   "file": "post.json",
+   "layer": "sha256:ed8cb3f6cebb93d8951779c803bd937af7705089aaf70e419da5a09c74e55e86",
+   "role": "post-metadata",
+   "sha256": "d32b7bfd2602671e787a7f3d6571ffbec75c9e4cf9195df45a54e8db191326a7"
+  }
+ ],
+ "tag": "180550090138",
+ "verified_at": "2026-10-07T06:03:31Z"
+}
