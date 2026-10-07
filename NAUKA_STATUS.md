@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T16:39:01.284Z
+Updated: 2026-10-07T16:45:36.669Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -77,11 +77,11 @@ Updated: 2026-10-07T16:39:01.284Z
 
 ## Retryable / in-progress
 - nij-1935-n01-djv: in_progress 0/67393099 B (no error)
-- nij-1935-n01-pdf: in_progress 18874368/45216869 B (attempt timeout after 1639ms)
+- nij-1935-n01-pdf: in_progress 36700160/45216869 B (attempt timeout after 1639ms)
 - nij-1935-n02-pdf: in_progress 0/56507287 B (no error)
-- nij-1935-n06-pdf: in_progress 18874368/38417776 B (aborted)
+- nij-1935-n06-pdf: in_progress 35651584/38417776 B (aborted)
 - nij-1936-n01-pdf: in_progress 0/55439030 B (no error)
-- nij-1936-n04-pdf: in_progress 0/55307476 B (no error)
+- nij-1936-n04-pdf: in_progress 24117248/55307476 B (body stream failed after 334684 bytes: aborted)
 - nij-1936-n06-pdf: in_progress 0/85656635 B (no error)
 - nij-1936-n11-pdf: in_progress 0/83955055 B (no error)
 - nij-1937-n02-pdf: in_progress 0/74814595 B (no error)
@@ -89,7 +89,7 @@ Updated: 2026-10-07T16:39:01.284Z
 - nij-1937-n06-pdf: in_progress 0/70408661 B (no error)
 - nij-1937-n07-pdf: in_progress 0/74018670 B (no error)
 - nij-1937-n10-pdf: in_progress 0/55456322 B (no error)
-- nij-1937-n11-pdf: in_progress 17825792/54265237 B (no error)
+- nij-1937-n11-pdf: in_progress 36700160/54265237 B (aborted)
 - nij-1937-n12-pdf: in_progress 0/80815773 B (no error)
 - nij-1938-n01-pdf: in_progress 0/102072758 B (no error)
 - nij-1938-n02-pdf: in_progress 0/102697270 B (no error)
@@ -103,11 +103,11 @@ Updated: 2026-10-07T16:39:01.284Z
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
-- concurrency: 24 connections
+- concurrency: 32 connections
 - chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
-- per-file in-flight chunk cap: 6 (fair pool sharing)
+- per-file in-flight chunk cap: 8 (fair pool sharing)
 
 ## Commands (list / pull / resume)
 ```bash
