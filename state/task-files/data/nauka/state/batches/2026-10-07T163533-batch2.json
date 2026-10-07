@@ -1,0 +1,38 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 2,
+  "iteration": "3-5",
+  "startedAt": "2026-10-07T16:35:33.000Z",
+  "elapsedMs": 211052,
+  "budget": {"budgetMs": 240000, "cleanupMs": 120000, "minChunkBudgetMs": 95000, "passBudgetMs": 260000, "concurrency": 24},
+  "filesAttempted": ["nij-1935-n11-pdf", "nij-1935-n06-pdf", "nij-1935-n01-pdf", "nij-1937-n11-pdf"],
+  "publishedBefore": 38,
+  "publishedAfter": 39,
+  "remainingBefore": 22,
+  "remainingAfter": 21,
+  "verifiedPartialBytesBefore": 54525952,
+  "verifiedPartialBytesAfter": 78643200,
+  "newOriginBytesDurable": 60418713,
+  "discardedTransferBytes": 0,
+  "throughputKiBps": 285,
+  "published": [
+    {"id": "nij-1935-n11-pdf", "bytes": 36301465, "sha256": "3b69c10e7d91f20ebd8ea84dc800aed528da0754a14cfecc05ed783d2295186f", "digest": "sha256:792d5778a97b16a30d65eea579d8a134d744b3ac7c7d284b7bf4167d2ccbd0c4", "tag": "nij-1935-n11-pdf"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1935-n01-pdf", "digest": "sha256:969da7eb9b54b4adc799dd2fe1c06bd23da41759b1c606036b8f5f26be1b9e4b", "bytes": 18874368, "chunks": 18},
+    {"tag": "checkpoint-nij-1935-n06-pdf", "digest": "sha256:b1027b591daaa48906674ef318c1509a9baa737c9f21bf192b48b8a0e784d197", "bytes": 18874368, "chunks": 18},
+    {"tag": "checkpoint-nij-1937-n11-pdf", "digest": "sha256:6cf31bcfc7be6f900943cd82169e836fc087c409cfa214b1e267ac8ffc711ad9", "bytes": 17825792, "chunks": 17},
+    {"tag": "nij-1934-39-index", "digest": "sha256:c297f5a57ce4c2a2b25ab8c2af5486f55d6721fa3dda5d843772faba0d793476"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:435f0662180a8b978421416272dc812eb15e051552666ca31fca70d182170ed9"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1935-n01-pdf", "bytes": 18874368, "expected": 45216869},
+    {"id": "nij-1935-n06-pdf", "bytes": 18874368, "expected": 38417776},
+    {"id": "nij-1937-n11-pdf", "bytes": 17825792, "expected": 54265237},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298}
+  ],
+  "failures": [],
+  "retries": 0,
+  "notes": "no-op pass spin fix confirmed: pass 2 stopped immediately after pass 1 drained (started=0, published=0). nij-1938-n05-pdf (largest, 100M) still not reached because smallest-first ordering defers it.",
+  "nextAction": "Run batch 3 with concurrency 32 to test whether aggregate throughput rises toward the 512 KiB/s cap; keep 2 s request gate."
+}
