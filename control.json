@@ -5,11 +5,11 @@
   "branch": "codex/shurik/nauka-20261007",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "stopped",
-  "generation": 2,
+  "status": "running",
+  "generation": 3,
   "next": 5,
   "owner": null,
-  "deadline": "2026-10-07T15:32:12.222Z",
+  "deadline": "2026-10-07T20:16:41.618Z",
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "reasoning": "high",
@@ -25,7 +25,7 @@
     "at": "2026-10-07T15:06:17.817Z"
   },
   "pr": "https://github.com/igor-makarov/shurik/pull/6",
-  "lastRunId": "37638996048",
+  "lastRunId": null,
   "stoppedAt": "2026-10-07T16:13:39.531Z",
   "monitorSteering": {
     "token": "nauka-hourly-watch-1791378103656",
@@ -63,6 +63,14 @@
       "at": "2026-10-07T15:06:17.817Z"
     },
     "evidence": "https://github.com/igor-makarov/shurik/actions/runs/37638996048",
-    "emergencyArtifact": "https://github.com/igor-makarov/shurik/actions/runs/37638996048/artifacts/11492393414"
+    "emergencyArtifact": "https://github.com/igor-makarov/shurik/actions/runs/37638996048/artifacts/11492393414",
+    "resumedAt": "2026-10-07T16:16:41.618Z",
+    "resumedGeneration": 3,
+    "promptCommit": "c945e0fc98796dd60d9285193b2b510b3628fca0",
+    "newDeadline": "2026-10-07T20:16:41.618Z",
+    "baselinePublishedFiles": 35,
+    "baselinePublishedBytes": 692662813,
+    "baselineDurablePartialBytes": 98566144,
+    "action": "User-authorized new four-hour continuation with task-only progress-first steering; dead owner and failure evidence reconciled"
   }
 }
