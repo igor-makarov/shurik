@@ -1,0 +1,34 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 5,
+  "iteration": "3-7",
+  "startedAt": "2026-10-07T17:52:47.000Z",
+  "elapsedMs": 288116,
+  "budget": {"budgetMs": 300000, "cleanupMs": 120000, "minChunkBudgetMs": 90000, "passBudgetMs": 300000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1936-n04-pdf", "nij-1936-n01-pdf"],
+  "publishedBefore": 42,
+  "publishedAfter": 44,
+  "remainingBefore": 18,
+  "remainingAfter": 16,
+  "verifiedPartialBytesBefore": 77594624,
+  "verifiedPartialBytesAfter": 30408704,
+  "newOriginBytesDurable": 63560586,
+  "discardedTransferBytes": 0,
+  "discardedNote": "Pass 1 finished both files before the transfer deadline; no mid-body aborts observed in the log.",
+  "published": [
+    {"id": "nij-1936-n04-pdf", "bytes": 55307476, "sha256": "38599b44d1fe9bc90a18611aeff650201e97e4ad959c448a6424523943527867", "digest": "sha256:94f5bf04a4d91af10c5b84b0c4b29764e98a22bd5c4e8b5ebd71064ed181eca1", "tag": "nij-1936-n04-pdf", "note": "finished from restored GHCR checkpoint (38 chunks) + 15 fresh chunks"},
+    {"id": "nij-1936-n01-pdf", "bytes": 55439030, "sha256": "898df043c752f045f896ed2089a7af3bd913a2a259e47a22a65aab1e72d8f2c5", "digest": "sha256:fc99daff3f259c95e95765ca544701a9d112c226f409bd4fa0d4cc008028c02d", "tag": "nij-1936-n01-pdf", "note": "finished from 7 git-partial chunks + 46 fresh chunks"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "nij-1934-39-index", "digest": "sha256:b4e26f7003a840fb570918a9b7bef1ae58ccf24e7ef841e81d4e9d69b2c60382"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:69ee6cc371c540f43e7a863e15e0a3815d6e5b61d5f4fa3f6dc629b442e6b488"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1937-n10-pdf", "bytes": 7340032, "expected": 55456322},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298}
+  ],
+  "failures": [],
+  "retries": 0,
+  "notes": "Origin reachable again after ~25 min host outage (both 80/443 open). GHCR restore succeeded for the 4 checkpointed partials; two of them completed and published in pass 1. n04 15 chunks in ~95 s; n01 46 chunks in ~177 s (~266 KiB/s aggregate).",
+  "nextAction": "Continue with fileConcurrency=1: finish nij-1937-n10-pdf (46 chunks left), then nij-1938-n05-pdf (78 chunks left), then start the 14 zero-chunk files smallest-first."
+}
