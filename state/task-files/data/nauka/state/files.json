@@ -650,12 +650,12 @@
       "chunkSize": 1048576,
       "chunks": {},
       "receivedBytes": 0,
-      "status": "in_progress",
+      "status": "pending",
       "gen": 0,
-      "attempts": 2,
+      "attempts": 8,
       "retries": 0,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:40:30.990Z",
+      "lastErrorAt": "2026-10-07T14:52:00.263Z",
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
@@ -813,22 +813,34 @@
         }
       },
       "receivedBytes": 27733124,
-      "status": "in_progress",
+      "status": "published",
       "gen": 0,
       "attempts": 61,
       "retries": 3,
-      "lastError": "aborted",
+      "lastError": null,
       "lastErrorAt": "2026-10-07T14:40:30.994Z",
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1936-n03-pdf",
+        "digest": "sha256:af54620841bfe66b243cbe344ac762c753aa2d2cd7d05d3362d0774839f38c53",
+        "title": "Nauka_i_jizn',1936,N03.[pdf].zip",
+        "pushedAt": "2026-10-07T14:50:48.259Z"
+      },
       "checkpoint": {
         "digest": "sha256:56b890bd09a2329a03009f487663cf905812677d23ece3b9d220ad5fd6a2af12",
         "bytes": 27733124,
         "chunks": 27,
         "at": "2026-10-07T14:42:13.753Z"
       },
-      "verified": null,
+      "verified": {
+        "at": "2026-10-07T14:50:49.530Z",
+        "pulledSha256": "84d5c331efab618eb3ae584f7b02fcda5df926df814e9d4068085180a79d72cf",
+        "ok": true,
+        "digest": "sha256:af54620841bfe66b243cbe344ac762c753aa2d2cd7d05d3362d0774839f38c53"
+      },
       "updatedAt": "2026-10-07T12:17:54.061Z",
-      "cleanupPasses": 0
+      "cleanupPasses": 0,
+      "sha256": "84d5c331efab618eb3ae584f7b02fcda5df926df814e9d4068085180a79d72cf",
+      "publishedAt": "2026-10-07T14:50:49.535Z"
     },
     "nij-1936-n04-pdf": {
       "id": "nij-1936-n04-pdf",
@@ -922,21 +934,45 @@
         "5": {
           "bytes": 1048576,
           "sha256": "9a08751c138cce5f04ccbc1d9e4f8d12655f66289bb524ed88342a808864a0b6"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "afac706224dd7eedfd969607ccd74da64705e7fea0267e0f87049404c5e7a27f"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "1e5e6d9489248ec9292e0ecbd32093b5d3cc13dfb28f38a24442cfaef2b54580"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "fc35dd30db7cc331e95076706249161ea75c82aef3311e85f0b70767a482f499"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "430df3996373b1b230d6eda8bb1a0cfad850c1d011acd9087e11e47cf5d87855"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "055fe70a5b81face951b0d9c793a7a67227b3267d3e2c96013c2343aa40c3d96"
+        },
+        "11": {
+          "bytes": 1048576,
+          "sha256": "1bd04e2b69b17cccbf50f715d8e81a211d94c371d857ebbab8687e1eb198647a"
         }
       },
-      "receivedBytes": 6291456,
+      "receivedBytes": 12582912,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 12,
+      "attempts": 24,
       "retries": 1,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:42:10.356Z",
+      "lastErrorAt": "2026-10-07T14:52:00.264Z",
       "ghcr": null,
       "checkpoint": {
-        "digest": "sha256:f803aebf02a050b4f4914097442ef80292c39021bdaaa363354937d31f8266a1",
-        "bytes": 6291456,
-        "chunks": 6,
-        "at": "2026-10-07T14:42:16.207Z"
+        "digest": "sha256:a0f7ab18c92a6ab0cc4b533309e66b898d438f345ec8a14e1326d2cd075c2692",
+        "bytes": 12582912,
+        "chunks": 12,
+        "at": "2026-10-07T14:52:03.574Z"
       },
       "verified": null,
       "updatedAt": "2026-10-07T12:17:54.061Z",
@@ -1244,24 +1280,44 @@
           "bytes": 1048576,
           "sha256": "26902a985516dd99a2d7add53695a052bec8fd50347cc924d631fd7f879ac068"
         },
+        "12": {
+          "bytes": 1048576,
+          "sha256": "10023e36947cc333c219af3f2d53703248ef82ad92e9b468a22ad2d25a32630f"
+        },
         "13": {
           "bytes": 1048576,
           "sha256": "9a5027fc61cd5c14a5281440ddbd467de939b57a1bd288675cafd46d01fd04dc"
+        },
+        "14": {
+          "bytes": 1048576,
+          "sha256": "3a49c6e81f08b8dc47aeb9e5b213e964cb9dbe07b3a65656a0c28a42412c7824"
+        },
+        "15": {
+          "bytes": 1048576,
+          "sha256": "c3953a982a7b874f6d7803cd81954a738e3039f2f84d42d3883d6f6ecf33520e"
+        },
+        "16": {
+          "bytes": 1048576,
+          "sha256": "3dca207a9ef69043d85e819a0471682cc191b1eb670328de27bcc8463eb58bc9"
+        },
+        "17": {
+          "bytes": 1048576,
+          "sha256": "d4d405b1376a9e8c8cf2130cbe9e53971aeb38102eb64e8923966b9a14c02cf6"
         }
       },
-      "receivedBytes": 13631488,
+      "receivedBytes": 18874368,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 31,
+      "attempts": 38,
       "retries": 1,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:42:10.710Z",
+      "lastErrorAt": "2026-10-07T14:52:00.265Z",
       "ghcr": null,
       "checkpoint": {
-        "digest": "sha256:827961b8f49566c20f519351c0316e9061c4d821ad8a57eb75547b6f127cd0a1",
-        "bytes": 13631488,
-        "chunks": 13,
-        "at": "2026-10-07T14:42:19.016Z"
+        "digest": "sha256:cc2957cc9882296ed33795e40db06c996de9f6e5a460a2d21daf8aa3972b087e",
+        "bytes": 18874368,
+        "chunks": 18,
+        "at": "2026-10-07T14:52:06.796Z"
       },
       "verified": null,
       "updatedAt": "2026-10-07T12:17:54.061Z",
@@ -1454,28 +1510,52 @@
           "bytes": 1048576,
           "sha256": "caf8f89d678053505268a2e6697f6e25019ab3fc620fb2c648cc2c6b55efc880"
         },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "a2212fba3cfbe9e4f3083d5eeabc1f0125976de78c65f73154f48d0a3fafae75"
+        },
         "2": {
           "bytes": 1048576,
           "sha256": "f5ad9c5cc443dc7b15c7db9ad396e499636188755b94e283fdbccb8da14dd396"
         },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "c5bb211d203b47dbe8e5a93fd33b57ec1c6d952e6d7b491afd72dcd9e004b7e7"
+        },
         "4": {
           "bytes": 1048576,
           "sha256": "6f6731e397ed67cf6ed82869ca06d563f66de06245287d41af9cfdbe14fc2004"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "9fef0981e2742dd2a265a7acc1de1619b9658497b9ca822a961dc0dfcca7e011"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "df57e62df3f705693c7e3f19a5022fe9124b4078d474bb29b0124e5746c1ae45"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "ff5b22d152f3bccc76fe15be341528a783d728d9b11f676313ea9c9b2183ede2"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "004f859774b22c0aec2fa68f3125571793700da1fdcadf1e40716d278af9fc22"
         }
       },
-      "receivedBytes": 3145728,
+      "receivedBytes": 9437184,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 7,
+      "attempts": 19,
       "retries": 1,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:42:10.837Z",
+      "lastErrorAt": "2026-10-07T14:52:00.266Z",
       "ghcr": null,
       "checkpoint": {
-        "digest": "sha256:4179ee6739102e8547f21104852bba49da2b4679e53c4fbbe41e7d5b84f832a6",
-        "bytes": 3145728,
-        "chunks": 3,
-        "at": "2026-10-07T14:42:21.069Z"
+        "digest": "sha256:9de5584c327b2faeac99230dec20dc13091fec9993cbea0003dd8e6cf3d3abb9",
+        "bytes": 9437184,
+        "chunks": 9,
+        "at": "2026-10-07T14:52:09.948Z"
       },
       "verified": null,
       "updatedAt": "2026-10-07T12:17:54.061Z",
@@ -5712,5 +5792,5 @@
       "publishedAt": "2026-10-07T14:00:42.438Z"
     }
   },
-  "updatedAt": "2026-10-07T14:42:21.147Z"
+  "updatedAt": "2026-10-07T14:52:10.009Z"
 }
