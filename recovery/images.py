@@ -5,7 +5,7 @@ import hashlib
 import json
 import os
 import re
-from typing import Optional
+from typing import Iterable, Optional
 
 from . import config
 from .availability import gap_is_trusted
@@ -116,7 +116,9 @@ def store_blob(body: bytes) -> tuple[str, str]:
 
 def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
                             variant_budget: int = 4,
-                            skip_variants: Optional[set] = None) -> tuple[list[Capture], list[dict]]:
+                            skip_variants: Optional[set] = None,
+                            extra_urls: Optional[Iterable[str]] = None
+                            ) -> tuple[list[Capture], list[dict]]:
     """Query the CDX for one media URL, then for its size/extension siblings.
 
     Wayback usually archives *some* size of a Tumblr file, not necessarily the
@@ -170,6 +172,20 @@ def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
         captures.sort(key=lambda c: c.timestamp)
         return captures, attempts
     siblings = [v for v in _variants(image_url) if normalize_url(v) != normalize_url(image_url)]
+    # Alternate CDN URL forms (other shards) first: an archived capture can
+    # exist only under a form the linked URL never enumerated.
+    for form in (extra_urls or ()):
+        if not form or normalize_url(form) in seen or form in skip:
+            continue
+        query(form, "alternate CDN URL form of the linked image")
+    if captures:
+        attempts.append({
+            "endpoint": "variant-plan",
+            "note": f"alternate URL form has {len(captures)} capture(s); siblings not queried",
+            "variants": siblings[variant_budget:],
+        })
+        captures.sort(key=lambda c: c.timestamp)
+        return captures, attempts
     if siblings:
         for variant in siblings[:variant_budget]:
             query(variant, "size/extension sibling of the linked image")
@@ -300,7 +316,8 @@ def probe_media_capture(fetcher: Fetcher, url: str, at_ts: Optional[str] = None,
 
 def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_budget: int = 4,
                                    backsteps: int = 2,
-                                   skip_variants: Optional[set] = None
+                                   skip_variants: Optional[set] = None,
+                                   extra_urls: Optional[Iterable[str]] = None
                                    ) -> tuple[list[Capture], list[dict], bool]:
     """Exact URL first, then a bounded sweep of its size/extension siblings.
 
@@ -308,6 +325,11 @@ def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_bud
     seconds), so the sibling sweep is affordable here in a way it never was
     with the CDX endpoint. `skip_variants` are the URL forms an earlier pass
     already settled, so this pass continues the sweep instead of repeating it.
+
+    `extra_urls` are alternate CDN URL forms of the same file (a different
+    Tumblr shard the post does not link). They are probed exactly -- one replay
+    request each -- before the same-host sibling sweep, because an archived
+    capture can exist only under a shard the post never referenced.
     """
     attempts: list[dict] = []
     captures: list[Capture] = []
@@ -316,7 +338,18 @@ def image_capture_candidates_probe(fetcher: Fetcher, image_url: str, variant_bud
     skip = set(skip_variants or ())
     siblings = [v for v in variants
                 if normalize_url(v) != normalize_url(image_url) and v not in skip]
-    plan = ([] if image_url in skip else [image_url]) + siblings[: max(0, variant_budget)]
+    seen_norm = {normalize_url(image_url)}
+    extras: list[str] = []
+    for u in extra_urls or ():
+        if not u:
+            continue
+        n = normalize_url(u)
+        if n in seen_norm or u in skip:
+            continue
+        seen_norm.add(n)
+        extras.append(u)
+    plan = ([] if image_url in skip else [image_url]) + extras[: max(0, variant_budget)]
+    plan = plan + siblings[: max(0, variant_budget)]
     if not plan:
         attempts.append({"endpoint": "variant-budget",
                          "note": "every size/extension variant already has a terminal verdict "
@@ -440,6 +473,20 @@ def resolve_image(
     """
     url = image["media_url"]
     prefer_base = base_media_key(url) or ""
+    # Alternate CDN URL forms of the same file that the size/extension variant
+    # list does not generate -- most importantly a different Tumblr shard
+    # discovered by the cross-shard host scan. An archived capture can exist
+    # only under a shard the post never linked, so these are probed as exact
+    # URLs alongside the linked one.
+    _variant_norms = {normalize_url(v) for v in _variants(url)}
+    extra_forms: list[str] = []
+    for form in image.get("url_forms") or []:
+        if not form or normalize_url(form) in _variant_norms:
+            continue
+        if normalize_url(form) == normalize_url(url):
+            continue
+        if form not in extra_forms:
+            extra_forms.append(form)
     record = {
         "media_url": url,
         "media_key": media_key(url),
@@ -563,7 +610,7 @@ def resolve_image(
     if not captures and method in ("probe", "auto", "availability"):
         extra, attempts, probe_after_cutoff = image_capture_candidates_probe(
             fetcher, url, variant_budget=variant_budget, backsteps=backsteps,
-            skip_variants=skip_variants)
+            skip_variants=skip_variants, extra_urls=extra_forms)
         captures.extend(extra)
         # The availability sweep already learned that some URL form of this
         # image is archived, only newer than the cutoff. The replay probes
@@ -581,7 +628,8 @@ def resolve_image(
         # (cdx path deliberately left out of "availability": the sweep already
         # consulted the same capture index, so a second CDX query per variant
         # would only spend archive load to learn the same answer.)
-        extra, attempts = image_capture_candidates(fetcher, url, skip_variants=skip_variants)
+        extra, attempts = image_capture_candidates(fetcher, url, skip_variants=skip_variants,
+                                                   extra_urls=extra_forms)
         captures.extend(extra)
         record["attempts"].extend(attempts)
     if not captures and method == "stem":

@@ -1426,6 +1426,15 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--hosts", default="",
                    help="comma separated media hosts in priority order; pending stems "
                         "are asked in that order (unlisted hosts last)")
+    p = sub.add_parser("xshard-scan",
+                       help="discover images archived on a CDN shard the post does not link")
+    p.add_argument("--hosts", default="",
+                   help="comma separated media hosts to scan (default: every known shard)")
+    p.add_argument("--limit", type=int, default=2000, help="max CDX rows per host")
+    p.add_argument("--rescan", action="store_true", help="re-scan hosts already recorded done")
+    p.add_argument("--no-apply", action="store_true",
+                   help="record the found URLs without folding them into posts")
+    p.add_argument("--dry-run", action="store_true", help="report the plan without any request")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=0,
                    help="max posts per pass (0 = 5, or every id given with --ids)")
@@ -1540,6 +1549,15 @@ def main(argv: Optional[list[str]] = None) -> int:
         out = stem_scan(fetcher, limit_stems=args.limit_stems, concurrency=args.concurrency,
                         dry_run=args.dry_run, max_throttled=args.max_throttled,
                         hosts=[h for h in args.hosts.split(",") if h.strip()])
+    elif args.cmd == "xshard-scan":
+        from .xshard import DEFAULT_HOSTS, xshard_scan
+
+        hosts = [h.strip() for h in args.hosts.split(",") if h.strip()] or list(DEFAULT_HOSTS)
+        if args.dry_run:
+            out = {"hosts": hosts, "dry_run": True}
+        else:
+            out = xshard_scan(fetcher, hosts=hosts, limit=args.limit,
+                              rescan=args.rescan, apply=not args.no_apply)
     elif args.cmd == "fetch-images":
         queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
                            max_attempts=args.max_attempts or 12)
