@@ -2155,6 +2155,10 @@
           "bytes": 1048576,
           "sha256": "efc609a5ac57f743accf30f651d064cd3b8a8d3fbcb1c998d03fa3ea8c7b474b"
         },
+        "16": {
+          "bytes": 1048576,
+          "sha256": "ed33c4947dbaee4bc67466ec9fde4fe73829c5e2226f82c30d87e7b08ba77208"
+        },
         "17": {
           "bytes": 1048576,
           "sha256": "f68f5ab355616d93bba3e295d7ee27cddd90cc690efdfe4eeb1a49ff6655d5a9"
@@ -2178,15 +2182,51 @@
         "22": {
           "bytes": 1048576,
           "sha256": "06298e6982c19174fb0250c5ec8cdb52b465469c46cef249da8e3892d6eaa53e"
+        },
+        "23": {
+          "bytes": 1048576,
+          "sha256": "6c7c0ecf9a6724f7e00696d1ecee29bbb06400b53d6d21c9b28d88364993c988"
+        },
+        "24": {
+          "bytes": 1048576,
+          "sha256": "eeee4065dbb5dbac94e2e22b3a14f1818d3e164d05591999e869c26f070e6e93"
+        },
+        "25": {
+          "bytes": 1048576,
+          "sha256": "479875d0d58b682b6f6ba2b75729090f8bbc2433431688285834ee9f0ac255dc"
+        },
+        "26": {
+          "bytes": 1048576,
+          "sha256": "0fce466fa2cb35f5a628775384c2e07a10b032d52d9d9daafd0bbe9eefd517f6"
+        },
+        "27": {
+          "bytes": 1048576,
+          "sha256": "209d0fd00875157289ca48ee4e3fa8ebf1731538e8fd8a2465bf2cd023e1ef23"
+        },
+        "28": {
+          "bytes": 1048576,
+          "sha256": "b9cb2d04b622009ba3b2d6199b77834324e5708c4357fdcadf40eb349fd06b96"
+        },
+        "29": {
+          "bytes": 1048576,
+          "sha256": "e96939005491bd7f6f8edecab546582e9510702745784b9f016e4a927aa3c1a4"
+        },
+        "30": {
+          "bytes": 1048576,
+          "sha256": "e191b72a7a025cc728fab57bb973691a13bce4a4ca1eaeb88856342eab0caa92"
+        },
+        "31": {
+          "bytes": 1048576,
+          "sha256": "b8565ee1d3413ed618f76bf466bb642762fa763e4dd3958b8cd12765df9dd8ce"
         }
       },
-      "receivedBytes": 23068672,
+      "receivedBytes": 33554432,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 25,
-      "retries": 2,
-      "lastError": "attempt timeout after 3166ms",
-      "lastErrorAt": "2026-10-07T13:33:19.241Z",
+      "attempts": 49,
+      "retries": 9,
+      "lastError": "attempt timeout after 1500ms",
+      "lastErrorAt": "2026-10-07T13:36:09.321Z",
       "ghcr": null,
       "checkpoint": {
         "digest": "sha256:92e039ad3172e599e35e9941555ed695a2ce6c89a41196b4f73cef0858549dc4",
@@ -3395,5 +3435,5 @@
       "updatedAt": "2026-10-07T12:17:54.338Z"
     }
   },
-  "updatedAt": "2026-10-07T13:34:43.952Z"
+  "updatedAt": "2026-10-07T13:37:10.348Z"
 }
