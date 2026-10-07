@@ -78,6 +78,7 @@ export function ensureFileEntry(state, entry) {
       expectedBytes: null,
       etag: null,
       lastModified: null,
+      singleRequest: false,
       chunkSize: CONFIG.chunkSize,
       chunks: {},
       receivedBytes: 0,
@@ -261,6 +262,68 @@ function resetForRetry(eff, reason) {
   eff.lastError = reason;
 }
 
+// Cheap 1-byte ranged GET to learn the entity size (and validators) without
+// paying the ~50 s cost of downloading a full first chunk. Falls back to
+// Content-Length for a 200 response (server that ignores Range).
+async function probeTotal(ctx, entry, eff, effGen) {
+  const ifRange = eff.etag || eff.lastModified || null;
+  await politeGate();
+  const meta = await httpGetToFile(eff.url, {
+    metaOnly: true,
+    start: 0,
+    end: 0,
+    ifRange,
+    idleTimeoutMs: CONFIG.idleTimeoutMs,
+    attemptTimeoutMs: CONFIG.attemptTimeoutMs,
+  });
+  if (effGen !== undefined && eff.gen !== effGen) {
+    const err = new Error('file reset during probe');
+    err.aborted = true;
+    throw err;
+  }
+  if (eff.etag && meta.etag && meta.etag !== eff.etag) {
+    const err = new Error('validator (ETag) changed');
+    err.validatorChanged = true;
+    throw err;
+  }
+  let total = null;
+  if (meta.contentRange && meta.contentRange.total != null) total = meta.contentRange.total;
+  else if (meta.status === 200 && meta.contentLength != null) total = meta.contentLength;
+  if (total == null) throw new TransientError('no total size available (no Content-Range/Content-Length)');
+  return { total, etag: meta.etag, lastModified: meta.lastModified, status: meta.status };
+}
+
+// Single whole-body fetch (used when the server ignores Range).
+async function downloadWhole(ctx, entry, eff, effGen) {
+  const dest = chunkPath(eff.id, 0);
+  const tmp = `${dest}.tmp`;
+  await fs.mkdir(path.dirname(dest), { recursive: true });
+  await politeGate();
+  const meta = await httpGetToFile(eff.url, {
+    destTmp: tmp,
+    start: 0,
+    end: null,
+    limiter: ctx.limiter,
+    idleTimeoutMs: CONFIG.idleTimeoutMs,
+    attemptTimeoutMs: CONFIG.attemptTimeoutMs * 10,
+  });
+  if (effGen !== undefined && eff.gen !== effGen) {
+    await fs.rm(tmp, { force: true });
+    const err = new Error('file reset during download');
+    err.aborted = true;
+    throw err;
+  }
+  const bytes = meta.bytesWritten;
+  const total = meta.contentLength != null ? meta.contentLength : bytes;
+  if (bytes !== total) {
+    await fs.rm(tmp, { force: true });
+    throw new TransientError(`short whole body ${bytes}/${total}`);
+  }
+  const hash = await sha256File(tmp);
+  await fs.rename(tmp, dest);
+  return { bytes, sha256: hash, total, etag: meta.etag || eff.etag, lastModified: meta.lastModified || eff.lastModified };
+}
+
 export async function downloadFile(ctx, entry) {
   const { state, pool } = ctx;
   const eff = ensureFileEntry(state, entry);
@@ -268,11 +331,14 @@ export async function downloadFile(ctx, entry) {
   eff.status = 'in_progress';
   const gen = eff.gen;
 
-  // Chunk 0 establishes size (or the whole body when the range is ignored).
-  if (eff.expectedBytes == null || !eff.chunks[0]) {
+  // Learn the entity size with a tiny ranged probe instead of a full first chunk.
+  if (eff.expectedBytes == null) {
     try {
-      const info = await withRetries(ctx, eff, 0, () => downloadChunkOnce(ctx, entry, eff, 0, gen));
-      applyChunkResult(eff, 0, info, gen);
+      const p = await withRetries(ctx, eff, 0, () => probeTotal(ctx, entry, eff, gen));
+      eff.expectedBytes = p.total;
+      if (p.etag) eff.etag = p.etag;
+      if (p.lastModified) eff.lastModified = p.lastModified;
+      if (p.status === 200) eff.singleRequest = true;
       await saveState(state);
     } catch (err) {
       if (err.validatorChanged || err.aborted || err.rangeIgnored) {
@@ -283,6 +349,20 @@ export async function downloadFile(ctx, entry) {
       await saveState(state);
       throw err;
     }
+  }
+
+  if (eff.singleRequest) {
+    try {
+      const info = await withRetries(ctx, eff, 0, () => downloadWhole(ctx, entry, eff, gen));
+      applyChunkResult(eff, 0, info, gen);
+      await saveState(state);
+    } catch (err) {
+      if (err.validatorChanged || err.aborted || err.rangeIgnored) resetForRetry(eff, 'validatorChanged');
+      else if (err.permanent) eff.status = 'unavailable';
+      await saveState(state);
+      throw err;
+    }
+    return { done: await allChunksValid(eff) };
   }
 
   const n = chunkCount(eff);

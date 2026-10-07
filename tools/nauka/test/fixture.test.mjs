@@ -20,6 +20,11 @@ process.env.NAUKA_IDLE_MS = '5000';
 process.env.NAUKA_ATTEMPT_MS = '30000';
 process.env.NAUKA_PASS_MS = '30000';
 process.env.NAUKA_MAX_ATTEMPTS = '4';
+// Isolate all state/staging under a throwaway dir so tests never clobber the
+// real task checkpoint at data/nauka/state.
+import os from 'node:os';
+import { mkdtempSync } from 'node:fs';
+process.env.NAUKA_DATA_DIR = mkdtempSync(path.join(os.tmpdir(), 'nauka-fixture-'));
 
 const { httpGetToFile, RangeIgnoredError, TransientError } = await import('../http.mjs');
 const engine = await import('../engine.mjs');
@@ -246,6 +251,57 @@ test('publishes and round-trip verifies via the registry', async () => {
     const eff = state.files[entry.id];
     assert.equal(eff.status, 'published');
     assert.equal(eff.verified.ok, true);
+  });
+});
+
+test('probe sizes with a 1-byte request; falls back to a whole-body fetch when Range is ignored', async () => {
+  const content = randomBytes(6000);
+  await withServer(content, { ignoreRange: true }, async (srv) => {
+    const entry = {
+      id: 'fx-norange',
+      year: 1934,
+      issue: 'N01',
+      format: 'djv',
+      filename: 'fx.bin',
+      url: srv.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    };
+    const state = { version: 1, files: {} };
+    const ctx = makeCtx(state, entry, makeFakeGhcr());
+    const r = await engine.downloadFile(ctx, entry);
+    assert.equal(r.done, true);
+    const eff = state.files[entry.id];
+    assert.equal(eff.singleRequest, true);
+    assert.equal(eff.expectedBytes, content.length);
+    const assembled = await engine.assembleHex(eff);
+    assert.equal(assembled.sha256, sha(content));
+  });
+});
+
+test('probe learns the total size from a 1-byte ranged response', async () => {
+  const content = randomBytes(9000);
+  await withServer(content, {}, async (srv) => {
+    const entry = {
+      id: 'fx-probe',
+      year: 1939,
+      issue: 'N02',
+      format: 'pdf',
+      filename: 'fx.bin',
+      url: srv.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    };
+    const state = { version: 1, files: {} };
+    const ctx = makeCtx(state, entry, makeFakeGhcr());
+    const r = await engine.downloadFile(ctx, entry);
+    assert.equal(r.done, true);
+    const eff = state.files[entry.id];
+    assert.equal(eff.singleRequest, false);
+    assert.equal(eff.expectedBytes, content.length);
+    const assembled = await engine.assembleHex(eff);
+    assert.equal(assembled.bytes, content.length);
+    assert.equal(assembled.sha256, sha(content));
   });
 });
 

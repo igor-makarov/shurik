@@ -30,13 +30,14 @@ export const CHECKPOINT_TAG = 'nij-1934-39-checkpoint';
 
 export const CONFIG = {
   // Aggregate origin bandwidth cap. Measured single-connection throughput is
-  // ~20 KiB/s, so the cap is enforced across the concurrency pool.
-  bandwidthLimitBps: Number(process.env.NAUKA_BPS || 256 * 1024),
+  // ~20 KiB/s, so ~26 parallel connections are needed to reach this cap; the
+  // token bucket enforces the aggregate ceiling across the pool.
+  bandwidthLimitBps: Number(process.env.NAUKA_BPS || 512 * 1024),
   // Number of simultaneous origin connections (one per chunk).
-  maxConcurrency: Number(process.env.NAUKA_CONCURRENCY || 16),
-  // Per-chunk size. Bounded so a failed chunk re-download is cheap (~1 MiB at
-  // the measured ~16 KiB/s per connection is ~60 s of work).
-  chunkSize: Number(process.env.NAUKA_CHUNK || 1024 * 1024),
+  maxConcurrency: Number(process.env.NAUKA_CONCURRENCY || 24),
+  // Per-chunk size. Bounded so a failed chunk re-download is cheap (~512 KiB at
+  // the measured ~20 KiB/s per connection is ~26 s of work).
+  chunkSize: Number(process.env.NAUKA_CHUNK || 512 * 1024),
   // Politeness gap between new origin requests (ms).
   requestGapMs: Number(process.env.NAUKA_GAP_MS || 2000),
   // Idle read timeout and total per-attempt timeout.
@@ -54,11 +55,18 @@ export const CONFIG = {
   gitPartialMaxTotalBytes: 16 * 1024 * 1024,
 };
 
-export const PATHS = {
-  stateDir: path.join(REPO_ROOT, 'data/nauka/state'),
-  partialDir: path.join(REPO_ROOT, 'data/nauka/partials'),
-  stagingDir: path.join(REPO_ROOT, 'data/nauka/staging'),
-};
+export const PATHS = (() => {
+  // The data root is overridable so tests never touch real task state.
+  const root = process.env.NAUKA_DATA_DIR
+    ? path.resolve(process.env.NAUKA_DATA_DIR)
+    : path.join(REPO_ROOT, 'data/nauka');
+  return {
+    dataRoot: root,
+    stateDir: path.join(root, 'state'),
+    partialDir: path.join(root, 'partials'),
+    stagingDir: path.join(root, 'staging'),
+  };
+})();
 
 // ---------------------------------------------------------------------------
 // URL quoting

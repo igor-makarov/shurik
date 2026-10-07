@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T12:15:25.866Z
+Updated: 2026-10-07T12:19:44.535Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -35,8 +35,8 @@ Updated: 2026-10-07T12:15:25.866Z
 - Per-file tags: `nij-<year>-<issue>-<format>`
 
 ## Verified GHCR references
-- `nij-1934-n01-djv` @ `sha256:0ef7a6d665afe7ab650f29068a7bced2e8ccb477c470e2d882dae505f466fa46` — Nauka_i_jizn',1934,N01.[djv].zip (5346121 B, sha256 814b7b0b7228f932…)
-- `nij-1939-n01-djv` @ `sha256:4e73754fcc6b4fad5fae5ee7416b102cfe94eff1544336d36ca8ba1697c120b0` — Nauka_i_jizn',1939,N01.[djv].zip (5403202 B, sha256 22fd713736f95105…)
+- `nij-1934-n01-djv` @ `sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9` — Nauka_i_jizn',1934,N01.[djv].zip (5346121 B, sha256 814b7b0b7228f932…)
+- `nij-1939-n01-djv` @ `sha256:ec58e7fa7267e0b58b1c06407be6840eb6576753eabc643c161ed77492134bc9` — Nauka_i_jizn',1939,N01.[djv].zip (5403202 B, sha256 22fd713736f95105…)
 
 ## Retryable / in-progress
 - nij-1934-n01p-djv: pending 0/? B (no error)
@@ -102,9 +102,9 @@ Updated: 2026-10-07T12:15:25.866Z
 - (none)
 
 ## Throttle and retry settings
-- aggregate bandwidth cap: 262144 B/s
-- concurrency: 16 connections
-- chunk size: 1048576 B
+- aggregate bandwidth cap: 524288 B/s
+- concurrency: 24 connections
+- chunk size: 524288 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
 

@@ -93,13 +93,7 @@ export class Ghcr {
 
   async manifest(tag) {
     const ref = `${REGISTRY}:${tag}`;
-    const { stdout } = await run(this.oras, [
-      'manifest',
-      'fetch',
-      '--platform',
-      'unknown/unknown',
-      ref,
-    ]);
+    const { stdout } = await run(this.oras, ['manifest', 'fetch', ref]);
     return JSON.parse(stdout);
   }
 

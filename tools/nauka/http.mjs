@@ -127,6 +127,7 @@ export async function httpGetToFile(url, opts) {
     idleTimeoutMs = 30000,
     attemptTimeoutMs = 180000,
     headers: extraHeaders = {},
+    metaOnly = false,
     maxRedirects = 5,
   } = opts;
 
@@ -228,8 +229,8 @@ export async function httpGetToFile(url, opts) {
       throw new RangeMismatchError('Content-Range end beyond requested end');
     }
   }
-  if (!destTmp) {
-    res.resume();
+  if (!destTmp || metaOnly) {
+    res.destroy();
     return finish(0);
   }
 
