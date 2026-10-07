@@ -1,11 +1,16 @@
 {
-  "checkpoint": {
-    "nonce": "1791356918739",
-    "id": "hazfalafel-20261004t213311:18-301",
-    "minEntryId": 25768,
-    "maxEntryId": 25768,
-    "at": "2026-10-07T07:08:38.779Z",
-    "phase": "started"
+  "outcome": "agent_failure",
+  "code": 0,
+  "error": {
+    "conversationId": 1,
+    "requestId": "hazfalafel-20261004t213311:18-301",
+    "type": "input",
+    "status": "unanswered",
+    "entry": 25770,
+    "id": 25771,
+    "reason": "model_error",
+    "detail": "429: {\"type\":\"GoUsageLimitError\",\"message\":\"Go usage limit exceeded\"}"
   },
-  "log": ""
+  "log": "",
+  "checkpointAt": "2026-10-07T07:08:38.779Z"
 }
