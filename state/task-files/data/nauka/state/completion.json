@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-completion",
-  "iteration": "3-10",
-  "at": "2026-10-07T19:32:51.000Z",
+  "iteration": "3-11",
+  "at": "2026-10-07T19:54:54.000Z",
   "objective": "Retrieve every original scan/archive directly linked from the 1934-1939 index and publish original bytes + per-file SHA-256 to ghcr.io/igor-makarov/shurik-nauka",
   "indexUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html",
   "indexSha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
@@ -13,26 +13,49 @@
   "checkpointTag": "nij-1934-39-checkpoint",
   "perFileVerification": "Every file was published with a genuine round-trip: oras push of the assembled original bytes, then oras pull of the pushed tag, re-hash of the pulled bytes, and comparison to the assembled sha256. status='published' is only set when the hashes match (engine.publishFile).",
   "iterationBatches": [
-    {"batch": 13, "publishedBefore": 54, "publishedAfter": 57, "durableNewBytes": 220138051, "discardedBytes": 0},
-    {"batch": 14, "publishedBefore": 57, "publishedAfter": 59, "durableNewBytes": 230351306, "discardedBytes": 0},
-    {"batch": 15, "publishedBefore": 59, "publishedAfter": 60, "durableNewBytes": 56283802, "discardedBytes": 0}
+    {
+      "batch": 13,
+      "publishedBefore": 54,
+      "publishedAfter": 57,
+      "durableNewBytes": 220138051,
+      "discardedBytes": 0
+    },
+    {
+      "batch": 14,
+      "publishedBefore": 57,
+      "publishedAfter": 59,
+      "durableNewBytes": 230351306,
+      "discardedBytes": 0
+    },
+    {
+      "batch": 15,
+      "publishedBefore": 59,
+      "publishedAfter": 60,
+      "durableNewBytes": 56283802,
+      "discardedBytes": 0
+    }
   ],
   "publishedThisIteration": [
-    "nij-1938-n0910-pdf", "nij-1936-n11-pdf", "nij-1936-n06-pdf",
-    "nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"
+    "nij-1938-n0910-pdf",
+    "nij-1936-n11-pdf",
+    "nij-1936-n06-pdf",
+    "nij-1938-n01-pdf",
+    "nij-1938-n02-pdf",
+    "nij-1938-n05-pdf"
   ],
   "fullSetVerify": {
-    "at": "2026-10-07T19:31:08.000Z",
-    "iteration": "3-10",
+    "at": "2026-10-07T19:52:54.000Z",
+    "iteration": "3-11",
     "command": "node tools/nauka/cli.mjs verify",
     "result": "60/60 ok; problems: 0",
-    "detail": "Independent cold pull of every tag, re-hash of pulled bytes vs recorded sha256, and tag digest vs recorded immutable digest. All matched. Run on a fresh runner in iteration 3-10, not the publishing iteration.",
-    "record": "data/nauka/state/batches/2026-10-07T193251-batch16-verify.json",
-    "endToEndOriginCheck": "nij-1934-n01-djv re-downloaded in full from origin (6 ranged chunks, throttled) -> sha256 814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6 == published digest. Proves published bytes are the true origin file bytes."
+    "detail": "Fresh-runner cold pull of every one of the 60 per-file tags, re-hash of pulled bytes vs recorded sha256, and tag digest vs recorded immutable digest. Independently reproduced in iteration 3-11 (previous 3-10 run also 60/60).",
+    "record": "data/nauka/state/batches/2026-10-07T195454-batch17-reverify.json",
+    "endToEndOriginCheck": "nij-1934-n01-djv re-downloaded in full from origin this iteration (throttled ranged chunks, isolated data dir) -> sha256 814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6 == published digest.",
+    "tagDigestResolve": "60/60 per-file tags present in ghcr.io/igor-makarov/shurik-nauka with immutable digests matching state"
   },
   "discoveryRecheck": {
-    "at": "2026-10-07T19:32:00.000Z",
-    "iteration": "3-10",
+    "at": "2026-10-07T19:50:00.000Z",
+    "iteration": "3-11",
     "method": "re-parse the preserved windows-1251 index (sha256 e24f0a5d...) with parse-index.mjs and diff against tools/nauka/manifest.json",
     "reparsedEntries": 60,
     "trackedEntries": 60,
@@ -45,5 +68,5 @@
     "publishedFiles": 60,
     "remainingFiles": 0
   },
-  "notes": "All scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. No unfinished partials remain. Objective fully achieved and independently re-verified in iteration 3-10 (60/60 cold round-trip + discovery re-derivation + origin validator spot-check)."
+  "notes": "All 60 scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. Objective re-verified independently in iteration 3-11 (60/60 GHCR cold round-trip + 60/60 tag digest resolve + discovery re-derivation + fresh end-to-end origin re-download of one file). No unfinished partials remain."
 }

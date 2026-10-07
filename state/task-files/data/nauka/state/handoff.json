@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "3-10",
-  "at": "2026-10-07T19:32:51.000Z",
+  "iteration": "3-11",
+  "at": "2026-10-07T19:54:54.000Z",
   "published": 60,
   "remaining": 0,
   "bytesPublished": 2311630290,
@@ -21,14 +21,17 @@
   "verificationThisIteration": {
     "command": "node tools/nauka/cli.mjs verify",
     "result": "60/60 ok; problems: 0",
-    "elapsedMs": 126000,
+    "elapsedMs": 124000,
+    "tagDigestResolve": "60/60 per-file tags present with matching immutable digests",
+    "contentSample": "4 files (incl. largest 127 MB) pulled and rehashed, all match",
     "discoveryRecheck": "re-parsed preserved index -> 60/60 entries, 0 id diff, 0 URL mismatch",
+    "endToEndOriginRedownload": "nij-1934-n01-djv re-downloaded from origin -> sha256 814b7b0b... == published",
     "tests": "npm run test:nauka -> 19/19 pass",
-    "record": "data/nauka/state/batches/2026-10-07T193251-batch16-verify.json"
+    "record": "data/nauka/state/batches/2026-10-07T195454-batch17-reverify.json"
   },
   "publishedThisIteration": [],
   "remainingFiles": [],
   "nextAction": "Objective complete and independently re-verified. No further retrieval needed. Optionally re-run `node tools/nauka/cli.mjs verify` on a future runner for a spot check.",
   "codeChangesThisIteration": [],
-  "notes": "The continuation prompt's baseline (35 published / 25 remaining) was stale; iterations 3-7..3-9 had already driven the count to 60/60. Iteration 3-10 spent its budget confirming this independently rather than re-downloading: full-set cold round-trip (60/60), discovery re-derivation from the preserved index (exact match), origin validator spot-check, and the nauka test suite (19/19)."
+  "notes": "Iteration 3-11 independently re-verified from GHCR ground truth that the set is complete (60/60). The continuation prompt's 35/25 baseline was stale; iterations 3-7..3-9 had already driven it to 60/60 and 3-10/3-11 confirmed it. No retrieval remains."
 }

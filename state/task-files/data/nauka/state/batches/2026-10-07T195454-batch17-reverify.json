@@ -1,0 +1,81 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 17,
+  "iteration": "3-11",
+  "startedAt": "2026-10-07T19:47:00.000Z",
+  "finishedAt": "2026-10-07T19:54:54.000Z",
+  "elapsedMs": 474000,
+  "type": "independent full-set re-verification + one end-to-end origin re-download (no new files to retrieve)",
+  "context": "Continuation prompt carried a stale baseline of 35 published / 25 remaining and warned that a registry smoke artifact is not hash verification. GHCR ground truth shows all 60 per-file tags present; this iteration independently re-proved it rather than trusting the prior state file.",
+  "attemptedFileIds": [],
+  "publishedBefore": 60,
+  "publishedAfter": 60,
+  "remainingBefore": 0,
+  "remainingAfter": 0,
+  "verifiedDurablePartialBytesBefore": 0,
+  "verifiedDurablePartialBytesAfter": 0,
+  "newImmutableGhcrReceipts": [],
+  "discardedTransferBytes": 0,
+  "originBytesRetrievedThisBatch": 5346121,
+  "checks": {
+    "ghcrTagDigestResolve": {
+      "command": "oras repo tags + oras resolve per tag via tools/nauka/ghcr.mjs",
+      "tagCount": 107,
+      "perFileTags": 60,
+      "digestMatches": 60,
+      "missingTags": 0,
+      "missingDigests": 0,
+      "mismatches": 0
+    },
+    "fullSetColdRoundTrip": {
+      "command": "node tools/nauka/cli.mjs verify",
+      "method": "for each of the 60 per-file tags: oras resolve digest, oras pull the tag, sha256 of pulled bytes vs recorded sha256, digest vs recorded immutable digest",
+      "result": "60/60 ok; problems: 0",
+      "elapsedMs": 124000,
+      "record": "rewrote NAUKA_STATUS.md at 2026-10-07T19:52:54Z"
+    },
+    "contentSample": {
+      "method": "oras pull + sha256 + byte count vs state for a spread of files incl. the largest",
+      "files": [
+        {"id": "nij-1934-n01-djv", "bytes": 5346121, "ok": true},
+        {"id": "nij-1939-n01-djv", "bytes": 5403202, "ok": true},
+        {"id": "nij-1938-n04-pdf", "bytes": 127130077, "ok": true},
+        {"id": "nij-1936-n11-pdf", "bytes": 83955055, "ok": true}
+      ],
+      "allOk": true
+    },
+    "discoveryRecheck": {
+      "method": "re-parse preserved windows-1251 index (sha256 e24f0a5d...) with parse-index.mjs and diff vs tools/nauka/manifest.json",
+      "reparsedEntries": 60,
+      "trackedEntries": 60,
+      "idsOnlyInReparse": 0,
+      "idsOnlyInTracked": 0,
+      "urlMismatches": 0,
+      "perYearFiles": {"1934": 5, "1935": 5, "1936": 9, "1937": 11, "1938": 19, "1939": 11}
+    },
+    "endToEndOriginRedownload": {
+      "id": "nij-1934-n01-djv",
+      "method": "fresh throttled ranged-chunk download from origin into an isolated NAUKA_DATA_DIR, assembled, sha256 computed",
+      "originBytes": 5346121,
+      "elapsedMs": 59887,
+      "originSha256": "814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6",
+      "publishedSha256": "814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6",
+      "match": true
+    },
+    "originValidatorSpotCheck": {
+      "method": "1-byte ranged GET (bytes=0-0) per file with a 2.2 s request-start gate; compare status/Content-Range total/ETag/Last-Modified against state",
+      "filesChecked": 6,
+      "onePerYear": true,
+      "allOk": true,
+      "note": "All six returned HTTP 206 with total size, ETag and Last-Modified identical to state; no origin drift for the set."
+    },
+    "collectionIndexTag": {
+      "tag": "nij-1934-39-index",
+      "annotations": {"shurik.nauka.total-files": "60", "shurik.nauka.published-files": "60"},
+      "checkpointTagPresent": true
+    },
+    "tests": "npm run test:nauka -> 19/19 pass (0 fail)"
+  },
+  "failures": [],
+  "nextAction": "Objective complete and independently re-verified in iteration 3-11 from GHCR ground truth (60/60 tags + full cold rehash) and origin bytes. No retrieval remains. A future runner need only spot-check; no republishing required."
+}
