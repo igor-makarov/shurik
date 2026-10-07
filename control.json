@@ -5,7 +5,7 @@
   "branch": "codex/shurik/nauka-20261007",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "running",
+  "status": "stopped",
   "generation": 2,
   "next": 5,
   "owner": {
@@ -21,7 +21,7 @@
   "source": "fff127426bbc303f5c56eeaaf1e594bf87649b2b",
   "sourceRef": "codex/nauka-launch-20261007",
   "createdAt": "2026-10-07T11:32:12.222Z",
-  "lastDispatchAt": "2026-10-07T14:42:40.791Z",
+  "lastDispatchAt": null,
   "checkpoint": {
     "workCommit": "b0f85d2800082ad71071a3cf3832403a48fb7c05",
     "generation": 2,
@@ -31,7 +31,7 @@
   },
   "pr": "https://github.com/igor-makarov/shurik/pull/6",
   "lastRunId": "37634496840",
-  "stoppedAt": "2026-10-07T13:01:43.656Z",
+  "stoppedAt": "2026-10-07T16:13:39.531Z",
   "monitorSteering": {
     "token": "nauka-hourly-watch-1791378103656",
     "pausedAt": "2026-10-07T13:01:43.656Z",
@@ -52,5 +52,21 @@
   },
   "failureTrail": [
     "37618741012-1"
-  ]
+  ],
+  "monitorRenewal": {
+    "token": "nauka-user-renewal-1791389619531",
+    "pausedAt": "2026-10-07T16:13:39.531Z",
+    "authorization": "User explicitly requested diagnosis, prompt repair, another four hours and light monitoring after expiry",
+    "reason": "Progress-first task steering after confirmed checkpoint-push 500 and dead owner",
+    "previousDeadline": "2026-10-07T15:32:12.222Z",
+    "previousCheckpoint": {
+      "workCommit": "b0f85d2800082ad71071a3cf3832403a48fb7c05",
+      "generation": 2,
+      "sequence": "2-5",
+      "runId": "37638996048",
+      "at": "2026-10-07T15:06:17.817Z"
+    },
+    "evidence": "https://github.com/igor-makarov/shurik/actions/runs/37638996048",
+    "emergencyArtifact": "https://github.com/igor-makarov/shurik/actions/runs/37638996048/artifacts/11492393414"
+  }
 }
