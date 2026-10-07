@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:7cc7db4eee7c193443b65c45d07902474af0b6c8537ccb12f3aa23aa0f07a0e7",
+   "observed": "sha256:99fa8f9052155d93db5ee1eab35dd40b8f468b78737b12b3c2dc7b2ef90ed2e9",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_m02q2w0hz21r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m02q2w0hz21r3it8zo1_250.jpg]",
+   "expected": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m02q2w0hz21r3it8zo1_250.jpg]",
+   "expected": 53417,
+   "observed": 53417,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m02q2w0hz21r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -132,11 +152,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:9ebc815274b6d8c6e4b5d7a70cfd04f7708d69f219a9341cb5292b5b3b5b5820",
+ "checks_passed": 23,
+ "checks_total": 23,
+ "config_digest": "sha256:14b9cb6de2d442ef0665c4eacff0e87ea97dd7fd6348fa0159bfae58dad7d534",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:23Z",
   "org.opencontainers.image.description": "קיבלתי את הרכב חזרה מהמוסך…",
@@ -148,8 +168,8 @@
   "shurik.post.content_len": "38",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "18502938203",
-  "shurik.post.images": "2",
-  "shurik.post.missing_images": "0",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "צרות-של-אשכנזים"
  },
  "layers": [
@@ -164,12 +184,17 @@
    "size": 55151
   },
   {
-   "digest": "sha256:389afbae43e5c51e03928daf7477cc1ff14bc034d89c7d32f5f30a9311d1bf0f",
+   "digest": "sha256:e80ad044346e9c6bdbe8a7fabe03a5ea48b821eee589b347c1963d4e3ae9dca8",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1011
+   "size": 53595
+  },
+  {
+   "digest": "sha256:8248716a9066affbc29f8d23793b1f7fbac6dde2b40a0365a4188c14ba159e05",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1581
   }
  ],
- "manifest_digest": "sha256:7cc7db4eee7c193443b65c45d07902474af0b6c8537ccb12f3aa23aa0f07a0e7",
+ "manifest_digest": "sha256:99fa8f9052155d93db5ee1eab35dd40b8f468b78737b12b3c2dc7b2ef90ed2e9",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "18502938203",
@@ -191,13 +216,21 @@
    "sha256": "d041b99306507b753852ccf5b4cc63938702882100161f7a6d204539c1cd97eb"
   },
   {
-   "bytes": 2979,
+   "bytes": 53417,
+   "file": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+   "image_magic_ok": true,
+   "layer": "sha256:e80ad044346e9c6bdbe8a7fabe03a5ea48b821eee589b347c1963d4e3ae9dca8",
+   "role": "media",
+   "sha256": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0"
+  },
+  {
+   "bytes": 5761,
    "file": "post.json",
-   "layer": "sha256:389afbae43e5c51e03928daf7477cc1ff14bc034d89c7d32f5f30a9311d1bf0f",
+   "layer": "sha256:8248716a9066affbc29f8d23793b1f7fbac6dde2b40a0365a4188c14ba159e05",
    "role": "post-metadata",
-   "sha256": "e7980d90b7b4fc98acb3aa865d63ed37bfb34c1662724e92b9c5ad714e2b1fb2"
+   "sha256": "024177bcd38e08957a796892969fd9b80c1572780e685090ac87a23ecaa950d3"
   }
  ],
  "tag": "18502938203",
- "verified_at": "2026-10-06T05:39:09Z"
+ "verified_at": "2026-10-07T03:48:06Z"
 }

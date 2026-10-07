@@ -1,0 +1,170 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:98849d94e5916fc331311ff98e5fee7d45708f8cd34a3bdf6cbe9f200bdcddc8",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": 54033,
+   "observed": 54033,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צרות של אשכנזים: מימונה.",
+   "observed": "צרות של אשכנזים: מימונה.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>צרות של אשכנזים: מימונה.</p>",
+   "observed": "<p>צרות של אשכנזים: מימונה.</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צרות של אשכנזים: מימונה."
+   ],
+   "observed": [
+    "צרות של אשכנזים: מימונה."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/21084952305",
+   "observed": "http://hazfalafel.com:80/post/21084952305",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: מימונה.",
+   "observed": "צרות של אשכנזים: מימונה.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182117",
+   "observed": "20181225182117",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182117id_/https://66.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182117id_/https://66.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182117",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:b585eea210507238424ab0d48efb6fa24f54f44741912ba8c9e4ed6bf0350950",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:12Z",
+  "org.opencontainers.image.description": "צרות של אשכנזים: מימונה.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 21084952305",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/21084952305",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "24",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "21084952305",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "צרות-של-אשכנזים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:c411594d8ede5c63c0a0d58db643afe8f691bfed924654dc516f8fc65dfe3838",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 54174
+  },
+  {
+   "digest": "sha256:ec468a3fe7da2ff54bfd0ba07806409094390b8abe015d2e35f9b898d394550d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1364
+  }
+ ],
+ "manifest_digest": "sha256:98849d94e5916fc331311ff98e5fee7d45708f8cd34a3bdf6cbe9f200bdcddc8",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "21084952305",
+ "pulled_files": [
+  {
+   "bytes": 54033,
+   "file": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
+   "image_magic_ok": true,
+   "layer": "sha256:c411594d8ede5c63c0a0d58db643afe8f691bfed924654dc516f8fc65dfe3838",
+   "role": "media",
+   "sha256": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d"
+  },
+  {
+   "bytes": 8700,
+   "file": "post.json",
+   "layer": "sha256:ec468a3fe7da2ff54bfd0ba07806409094390b8abe015d2e35f9b898d394550d",
+   "role": "post-metadata",
+   "sha256": "eb8a2eb27e2849516570e52bdd860fb7f4c0ea05e3479beb13f9c6862911a6d8"
+  }
+ ],
+ "tag": "21084952305",
+ "verified_at": "2026-10-07T03:48:08Z"
+}

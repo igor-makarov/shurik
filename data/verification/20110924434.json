@@ -1,0 +1,170 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:56eb51d485eda1c9d569a933cd78690f93c7abaa8863f6b0c30f4c0c850df314",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": 51040,
+   "observed": 51040,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "observed": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>צרות של אשכנזים: לא נכנסתי <a href=\"http://digital.timeout.co.il/activemagazine/welcome/timeout_491.asp\" target=\"_blank\">לרשימה של טיים אאוט</a></p>",
+   "observed": "<p>צרות של אשכנזים: לא נכנסתי <a href=\"http://digital.timeout.co.il/activemagazine/welcome/timeout_491.asp\" target=\"_blank\">לרשימה של טיים אאוט</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט"
+   ],
+   "observed": [
+    "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/20110924434",
+   "observed": "http://hazfalafel.com:80/post/20110924434",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "observed": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182121",
+   "observed": "20181225182121",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182121id_/https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182121id_/https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182121",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:9886c738081732c45dc921ecc84892816d062de5cadca3cf0fe89a1e7261198a",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:16Z",
+  "org.opencontainers.image.description": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 20110924434",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/20110924434",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "46",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "20110924434",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "צרות-של-אשכנזים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:bd11c6bf2d6027c30c2050816660a2a86abc193500820d58237a9238084854f5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 51185
+  },
+  {
+   "digest": "sha256:3155ff2ff81b045a42930297295aa5cc4dbfb3bde2b1ee44d20778346ab17a79",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1516
+  }
+ ],
+ "manifest_digest": "sha256:56eb51d485eda1c9d569a933cd78690f93c7abaa8863f6b0c30f4c0c850df314",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "20110924434",
+ "pulled_files": [
+  {
+   "bytes": 51040,
+   "file": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "image_magic_ok": true,
+   "layer": "sha256:bd11c6bf2d6027c30c2050816660a2a86abc193500820d58237a9238084854f5",
+   "role": "media",
+   "sha256": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e"
+  },
+  {
+   "bytes": 9101,
+   "file": "post.json",
+   "layer": "sha256:3155ff2ff81b045a42930297295aa5cc4dbfb3bde2b1ee44d20778346ab17a79",
+   "role": "post-metadata",
+   "sha256": "1500ed50ecddd5de42652cfa1af905c2a9f7e716429b533a4e9716cb42e74050"
+  }
+ ],
+ "tag": "20110924434",
+ "verified_at": "2026-10-07T03:48:07Z"
+}
