@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "experiment": "Four-hour Falafel scan on full GLM 5.3 with hourly progress and cost reports",
+  "generation": 18,
+  "startedAt": "2026-10-07T05:38:27.000Z",
+  "deadline": "2026-10-07T09:38:27.000Z",
+  "deadlineTimezone": "Asia/Jerusalem",
+  "provider": "opencode-go",
+  "model": "glm-5.3",
+  "reasoning": "high",
+  "adapterVersion": "@earendil-works/pi-ai@1.0.2",
+  "supportedReasoningLevels": [
+    "low",
+    "high",
+    "max"
+  ],
+  "adapterPricingPerMillionTokens": {
+    "input": 1.4,
+    "output": 4.4,
+    "cacheRead": 0.26,
+    "cacheWrite": 0
+  },
+  "baseline": {
+    "workCommit": "5b5d88738c80941e861fc6d27192b138ed5e2295",
+    "controlCommit": "506226edb2876d4a089863c23f8a6a65ca08866c",
+    "publicationImages": 114,
+    "postsWithImages": 78,
+    "savedDistinctImageHashes": 87,
+    "usageSource": "state/iterations/17-293.json",
+    "usage": {
+      "models": {
+        "opencode-go/space-bunny-free": {
+          "input": 5125097,
+          "output": 1517617,
+          "cacheRead": 100705076,
+          "cacheWrite": 0,
+          "reasoning": 793737,
+          "totalTokens": 107347790,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/longcat-2.5-preview-free": {
+          "input": 566610,
+          "output": 71420,
+          "cacheRead": 3707008,
+          "cacheWrite": 0,
+          "reasoning": 28500,
+          "totalTokens": 4345038,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/muse-spark-1.3-contributor": {
+          "input": 2253896,
+          "output": 163509,
+          "cacheRead": 24165373,
+          "cacheWrite": 0,
+          "totalTokens": 26582778,
+          "cost": {
+            "input": 0.2253895999999998,
+            "output": 0.032701799999999996,
+            "cacheRead": 0.04833074599999995,
+            "cacheWrite": 0,
+            "total": 0.30642214599999995
+          },
+          "reasoning": 67573
+        },
+        "opencode-go/deepseek-v4.1-flash": {
+          "input": 4849941,
+          "output": 755681,
+          "cacheRead": 79475072,
+          "cacheWrite": 0,
+          "totalTokens": 85080694,
+          "cost": {
+            "input": 0.7274911499999984,
+            "output": 0.4534085999999999,
+            "cacheRead": 0.23842521600000036,
+            "cacheWrite": 0,
+            "total": 1.4193249659999994
+          },
+          "reasoning": 504670
+        }
+      },
+      "tools": {}
+    },
+    "modelUsage": {
+      "input": 0,
+      "output": 0,
+      "cacheRead": 0,
+      "cacheWrite": 0,
+      "reasoning": 0,
+      "totalTokens": 0,
+      "cost": {
+        "input": 0,
+        "output": 0,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "total": 0
+      }
+    }
+  },
+  "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+  "runtime": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
+  "guidance": {
+    "clockAnnouncements": "final_checkpoint_interval_only",
+    "checkpointSeconds": 300,
+    "earlyYieldPolicy": "verified_task_completion_only",
+    "proactiveSelfHealing": true
+  },
+  "pendingKnownImage": {
+    "postId": "29905114965",
+    "bytes": 77784,
+    "sha256": "5f464b02d97fd1a9f8925e23513d4f75e6adabb6dcaaa7304d846eedb7e19c4e",
+    "url": "http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
+    "capture": "20140111015219",
+    "evidenceEntry": 24931,
+    "note": "Validated JPEG downloaded into temporary file but not persisted/published before preceding deadline; URL/hash retained in journal; later CLI pass locally deferred post on cooldown."
+  },
+  "costNote": "Subtract this GLM modelUsage baseline from latest/highest cumulative GLM totals; never sum iteration totals or include prior DeepSeek/Muse usage. Reasoning may be included in output; do not double-count. Saved adapter estimate, not provider invoice or extra subscription charge.",
+  "supervision": {
+    "checks": "hourly",
+    "notifyEveryCheck": true,
+    "includeEstimatedCost": true,
+    "initialModelHealthCheck": "required",
+    "userAuthorizedEmergencyBrake": true,
+    "priorModel": "deepseek-v4.1-flash",
+    "modelChange": true
+  }
+}

@@ -4,19 +4,19 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "deadline",
-  "generation": 17,
+  "status": "running",
+  "generation": 18,
   "next": 294,
   "owner": null,
-  "deadline": "2026-10-07T05:00:00.000Z",
+  "deadline": "2026-10-07T09:38:27.000Z",
   "seconds": 1800,
-  "model": "deepseek-v4.1-flash",
+  "model": "glm-5.3",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37573676334",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
@@ -59,9 +59,9 @@
     "earlyYieldPolicy": "verified_task_completion_only"
   },
   "modelChange": {
-    "at": "2026-10-06T17:42:57.000Z",
-    "from": "muse-spark-1.3-contributor",
-    "to": "deepseek-v4.1-flash",
+    "at": "2026-10-07T05:38:27.000Z",
+    "from": "deepseek-v4.1-flash",
+    "to": "glm-5.3",
     "reasoning": "high",
     "requestedReasoning": "high",
     "supportedReasoningLevels": [
@@ -69,19 +69,18 @@
       "high",
       "max"
     ],
-    "durationSeconds": 3600,
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-relaunch.json",
-    "relaunchAt": "2026-10-06T18:51:35.000Z",
+    "durationSeconds": 14400,
+    "baselinePath": "state/model-experiments/glm-5.3-20261007.json",
     "initialModelHealthCheck": "required"
   },
   "restart": {
-    "at": "2026-10-06T20:10:21Z",
-    "previousGeneration": 16,
-    "generation": 17,
-    "reason": "User requested run until 08:00 Asia/Jerusalem with hourly checks; user delegated emergency brake while sleeping",
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-overnight.json",
-    "previousLastRunId": "37518531988",
-    "modelChanged": false
+    "at": "2026-10-07T05:38:27.000Z",
+    "previousGeneration": 17,
+    "generation": 18,
+    "reason": "User requested full GLM 5.3/high for four hours and accepted hourly progress/cost reports",
+    "baselinePath": "state/model-experiments/glm-5.3-20261007.json",
+    "previousLastRunId": "37573676334",
+    "modelChanged": true
   },
   "guidanceChange": {
     "at": "2026-10-06T15:30:46.000Z",
@@ -93,8 +92,9 @@
   "supervision": {
     "checks": "hourly",
     "userAuthorizedEmergencyBrake": true,
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261006-overnight.json",
+    "baselinePath": "state/model-experiments/glm-5.3-20261007.json",
     "deadlineTimezone": "Asia/Jerusalem",
-    "notifyOn": "serious_problem_or_completion"
+    "notifyOn": "every_check_with_cost_or_serious_problem",
+    "initialModelHealthCheck": "required"
   }
 }
