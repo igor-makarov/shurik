@@ -45,6 +45,10 @@ export const CONFIG = {
   // Idle read timeout and total per-attempt timeout.
   idleTimeoutMs: Number(process.env.NAUKA_IDLE_MS || 30000),
   attemptTimeoutMs: Number(process.env.NAUKA_ATTEMPT_MS || 180000),
+  // Bounded TCP reachability probe before a transfer batch: a down origin
+  // should fail fast and keep its resume state instead of burning the whole
+  // transfer budget on connection retries.
+  originProbeMs: Number(process.env.NAUKA_ORIGIN_PROBE_MS || 8000),
   // Retry policy for transient failures.
   maxAttemptsPerChunk: Number(process.env.NAUKA_MAX_ATTEMPTS || 6),
   baseBackoffMs: 2000,

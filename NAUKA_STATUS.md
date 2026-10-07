@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T17:29:53.320Z
+Updated: 2026-10-07T17:40:52.411Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -101,13 +101,23 @@ Updated: 2026-10-07T17:29:53.320Z
 ## Unavailable (permanent)
 - (none)
 
+## Origin reachability
+- last probe: 2026-10-07T17:39:55.223Z -> UNREACHABLE (connect timeout after 8000ms)
+- probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1935,N01.%5Bdjv%5D.zip
+
+## Recent batch records
+- 2026-10-07T162548-batch1.json: pub 35->38, durable +39637213 B, failure: none
+- 2026-10-07T163533-batch2.json: pub 38->39, durable +60418713 B, failure: none
+- 2026-10-07T164105-batch3.json: pub 39->39, durable +77594624 B, failure: body stream failed after 334684 bytes: aborted (origin closed the connection)
+- 2026-10-07T172634-batch4.json: pub 42->42, durable +0 B, failure: origin-unreachable
+
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
 - concurrency: 24 connections
 - chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
-- per-file in-flight chunk cap: 24 (fair pool sharing)
+- per-file in-flight chunk cap: 6 (fair pool sharing)
 
 ## Commands (list / pull / resume)
 ```bash
@@ -116,6 +126,9 @@ oras manifest fetch ghcr.io/igor-makarov/shurik-nauka:nij-1934-39-index | jq .
 oras pull ghcr.io/igor-makarov/shurik-nauka:nij-1939-n01-djv -o ./out
 node tools/nauka/cli.mjs discover
 node tools/nauka/cli.mjs retrieve --budget-ms 75000
+# focused retrieval (smallest-first, one file at a time) when the origin is up:
+NAUKA_FILE_CONCURRENCY=1 NAUKA_PASS_MS=600000 NAUKA_MIN_CHUNK_MS=90000 \
+  node tools/nauka/cli.mjs retrieve --budget-ms 360000 --cleanup-ms 120000
 node tools/nauka/cli.mjs verify
 node tools/nauka/cli.mjs index
 ```

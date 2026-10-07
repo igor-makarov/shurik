@@ -11,6 +11,7 @@
 
 import https from 'node:https';
 import http from 'node:http';
+import net from 'node:net';
 import { createWriteStream } from 'node:fs';
 import { promises as fs } from 'node:fs';
 
@@ -28,6 +29,62 @@ export function abortError(reason = 'aborted') {
 export function jitter(ms, ratio = 0.3) {
   const d = ms * ratio;
   return Math.round(ms - d + Math.random() * (2 * d));
+}
+
+// ---------------------------------------------------------------------------
+// Origin reachability
+// ---------------------------------------------------------------------------
+
+// One bounded TCP connect. Resolves { ok, reason }; never rejects and always
+// tears the socket down, so it is safe to call from a foreground batch.
+export function tcpConnect(host, port, timeoutMs = 8000) {
+  return new Promise((resolve) => {
+    let settled = false;
+    let sock;
+    const done = (ok, reason) => {
+      if (settled) return;
+      settled = true;
+      try {
+        sock.destroy();
+      } catch {
+        /* already gone */
+      }
+      resolve({ ok, reason });
+    };
+    try {
+      sock = net.connect({ host, port });
+    } catch (err) {
+      resolve({ ok: false, reason: err.code || err.message });
+      return;
+    }
+    sock.setTimeout(timeoutMs, () => done(false, `connect timeout after ${timeoutMs}ms`));
+    sock.once('connect', () => done(true, null));
+    sock.once('error', (err) => done(false, err.code || err.message));
+  });
+}
+
+// Probe the origin host/port a bounded number of times before a transfer batch.
+// A down origin otherwise burns the whole batch retrying connections to a host
+// that cannot be reached and reports it only as per-chunk timeouts.
+export async function originReachable(url, { attempts = 2, timeoutMs = 8000, gapMs = 2000 } = {}) {
+  if (!url) return { ok: true, reason: null };
+  let host;
+  let port;
+  try {
+    const u = new URL(url);
+    host = u.hostname;
+    port = Number(u.port) || (u.protocol === 'https:' ? 443 : 80);
+  } catch (err) {
+    return { ok: false, reason: `bad probe url: ${err.message}` };
+  }
+  let reason = null;
+  for (let i = 0; i < attempts; i++) {
+    const r = await tcpConnect(host, port, timeoutMs);
+    if (r.ok) return { ok: true, reason: null };
+    reason = r.reason;
+    if (i < attempts - 1) await sleep(gapMs);
+  }
+  return { ok: false, reason };
 }
 
 // ---------------------------------------------------------------------------

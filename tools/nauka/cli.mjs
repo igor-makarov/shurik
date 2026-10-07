@@ -16,7 +16,7 @@ import {
   checkpointTag,
 } from './config.mjs';
 import { decodeIndex, manifestFromHtml, parseIndex } from './parse-index.mjs';
-import { httpGetToFile, TransientError, sleep, jitter } from './http.mjs';
+import { httpGetToFile, TransientError, sleep, jitter, originReachable } from './http.mjs';
 import { Ghcr, killActiveChildren } from './ghcr.mjs';
 import {
   loadState,
@@ -255,6 +255,24 @@ async function cmdRetrieve(args) {
   await restoreFromCheckpoints(ctx);
   if (doReconcile) await reconcile(ctx);
 
+  // Fail fast when the origin host is unreachable: without this a batch burns
+  // its whole transfer budget retrying connections to a host that cannot be
+  // reached, and the blocker surfaces only as per-chunk timeouts. The probe is
+  // a bounded TCP connect (no request body), so it costs almost nothing.
+  let originOk = true;
+  if (process.env.NAUKA_SKIP_ORIGIN_PROBE !== '1') {
+    const probeEntry = manifest.entries.find((e) => (state.files[e.id] || {}).status !== 'published') || manifest.entries[0];
+    const r = await originReachable(probeEntry && probeEntry.url, {
+      attempts: 2,
+      timeoutMs: CONFIG.originProbeMs,
+      gapMs: 2000,
+    });
+    originOk = r.ok;
+    state.origin = { reachable: r.ok, reason: r.reason || null, checkedAt: new Date().toISOString(), probeUrl: probeEntry && probeEntry.url };
+    await saveState(state);
+    if (!r.ok) log(`origin unreachable (${r.reason}); skipping transfer phase and keeping resume state`);
+  }
+
   const transferDeadline = Date.now() + budgetMs;
   ctx.deadline = transferDeadline;
   ctx.cleanupDeadline = transferDeadline + cleanupMs;
@@ -275,24 +293,28 @@ async function cmdRetrieve(args) {
   drainTimer.unref?.();
 
   try {
-    for (let p = 0; p < maxPasses; p++) {
-      if (Date.now() >= transferDeadline || controller.signal.aborted) break;
-      ctx.deadline = transferDeadline;
-      log(`=== pass ${p + 1} (budget ${Math.max(0, transferDeadline - Date.now())}ms left) ===`);
-      const results = await runPass(ctx);
-      log(`pass ${p + 1} results: ${JSON.stringify(results)}`);
-      const remaining = remainingCount(state, manifest);
-      log(`remaining files: ${remaining}`);
-      if (remaining === 0) break;
-      // A pass is productive only if it admitted at least one chunk (which can
-      // still become durable) or published a file. Otherwise the next pass can
-      // only spin on the budget guard, re-running checkpoint/state writes until
-      // the deadline. Stop as soon as no further durable progress is possible.
-      const publishedThisPass = results.filter((r) => r.status === 'published').length;
-      const startedThisPass = ctx.chunksStarted || 0;
-      if (startedThisPass === 0 && publishedThisPass === 0) {
-        log(`pass ${p + 1} made no durable progress (started=${startedThisPass}, published=${publishedThisPass}); ending batch`);
-        break;
+    if (!originOk) {
+      log('transfer skipped: origin unreachable (see state.origin)');
+    } else {
+      for (let p = 0; p < maxPasses; p++) {
+        if (Date.now() >= transferDeadline || controller.signal.aborted) break;
+        ctx.deadline = transferDeadline;
+        log(`=== pass ${p + 1} (budget ${Math.max(0, transferDeadline - Date.now())}ms left) ===`);
+        const results = await runPass(ctx);
+        log(`pass ${p + 1} results: ${JSON.stringify(results)}`);
+        const remaining = remainingCount(state, manifest);
+        log(`remaining files: ${remaining}`);
+        if (remaining === 0) break;
+        // A pass is productive only if it admitted at least one chunk (which can
+        // still become durable) or published a file. Otherwise the next pass can
+        // only spin on the budget guard, re-running checkpoint/state writes until
+        // the deadline. Stop as soon as no further durable progress is possible.
+        const publishedThisPass = results.filter((r) => r.status === 'published').length;
+        const startedThisPass = ctx.chunksStarted || 0;
+        if (startedThisPass === 0 && publishedThisPass === 0) {
+          log(`pass ${p + 1} made no durable progress (started=${startedThisPass}, published=${publishedThisPass}); ending batch`);
+          break;
+        }
       }
     }
   } finally {
@@ -549,6 +571,34 @@ async function writeStatus(state, manifest, ctx) {
   lines.push('## Unavailable (permanent)');
   lines.push(permanent.length ? permanent.join('\n') : '- (none)');
   lines.push('');
+  lines.push('## Origin reachability');
+  const origin = state.origin || null;
+  if (origin) {
+    lines.push(`- last probe: ${origin.checkedAt} -> ${origin.reachable ? 'reachable' : 'UNREACHABLE'}${origin.reason ? ` (${origin.reason})` : ''}`);
+    lines.push(`- probe url: ${origin.probeUrl}`);
+  } else {
+    lines.push('- (not probed yet)');
+  }
+  lines.push('');
+  lines.push('## Recent batch records');
+  try {
+    const bdir = path.join(PATHS.stateDir, 'batches');
+    const names = (await fs.readdir(bdir)).filter((n) => n.endsWith('.json')).sort();
+    const recent = names.slice(-4);
+    if (recent.length === 0) lines.push('- (none)');
+    for (const n of recent) {
+      try {
+        const b = JSON.parse(await fs.readFile(path.join(bdir, n), 'utf8'));
+        const fail = (b.failures && b.failures[0] && (b.failures[0].kind || b.failures[0].error)) || 'none';
+        lines.push(`- ${n}: pub ${b.publishedBefore}->${b.publishedAfter}, durable +${b.newOriginBytesDurable || 0} B, failure: ${fail}`);
+      } catch {
+        lines.push(`- ${n}: (unreadable)`);
+      }
+    }
+  } catch {
+    lines.push('- (none)');
+  }
+  lines.push('');
   lines.push('## Throttle and retry settings');
   lines.push(`- aggregate bandwidth cap: ${CONFIG.bandwidthLimitBps} B/s`);
   lines.push(`- concurrency: ${CONFIG.maxConcurrency} connections`);
@@ -564,6 +614,9 @@ async function writeStatus(state, manifest, ctx) {
   lines.push(`oras pull ${REGISTRY}:nij-1939-n01-djv -o ./out`);
   lines.push('node tools/nauka/cli.mjs discover');
   lines.push('node tools/nauka/cli.mjs retrieve --budget-ms 75000');
+  lines.push('# focused retrieval (smallest-first, one file at a time) when the origin is up:');
+  lines.push('NAUKA_FILE_CONCURRENCY=1 NAUKA_PASS_MS=600000 NAUKA_MIN_CHUNK_MS=90000 \\');
+  lines.push('  node tools/nauka/cli.mjs retrieve --budget-ms 360000 --cleanup-ms 120000');
   lines.push('node tools/nauka/cli.mjs verify');
   lines.push('node tools/nauka/cli.mjs index');
   lines.push('```');
