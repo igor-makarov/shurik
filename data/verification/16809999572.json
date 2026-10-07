@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:7669f8e6ddb26215289424a5376d3e89645e8e0c343569c3889386aee9e142a9",
+   "observed": "sha256:369aed02c7542efbd924a27af71fe2a78bb65f9f6d1e554423e4dec35c800302",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_lymln7yrqJ1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lymln7yrqJ1r3it8zo1_250.jpg]",
+   "expected": "2a3229ef82af6ef84c02dda5fad158661526b07ca53d236bb0e5bda4f673799e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lymln7yrqJ1r3it8zo1_250.jpg]",
+   "expected": 31115,
+   "observed": 31115,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lymln7yrqJ1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -134,11 +154,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:e64ff56613d2fbf1e6e79c97b0982052470ee35f4ae55eb0c4df9d5168a53e16",
+ "checks_passed": 23,
+ "checks_total": 23,
+ "config_digest": "sha256:06fb62162f7b02f59e6380d839ad394747666d1add3761b0aba18567c1afcccb",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:02Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: הבימה.",
@@ -150,7 +170,7 @@
   "shurik.post.content_len": "23",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "16809999572",
-  "shurik.post.images": "2",
+  "shurik.post.images": "3",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "צרות-של-אשכנזים,הבימה"
  },
@@ -166,12 +186,17 @@
    "size": 30508
   },
   {
-   "digest": "sha256:9e24f365af990050173fc0199d92d815a82073785ddd87d3ce5cd27add35500a",
+   "digest": "sha256:686241fa0923983e0c737cddf76636136c307279d8453bd96985adebef5a1b85",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 950
+   "size": 31218
+  },
+  {
+   "digest": "sha256:2be20c160a7494860785c012ecac631eeb091230c5ac7130ca06d9e062282ae8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1072
   }
  ],
- "manifest_digest": "sha256:7669f8e6ddb26215289424a5376d3e89645e8e0c343569c3889386aee9e142a9",
+ "manifest_digest": "sha256:369aed02c7542efbd924a27af71fe2a78bb65f9f6d1e554423e4dec35c800302",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "16809999572",
@@ -193,13 +218,21 @@
    "sha256": "2ae2317de83fc2e348f2f0b78abb0757b9c1e3bea1a2473291e8f7c379b7a5bd"
   },
   {
-   "bytes": 3052,
+   "bytes": 31115,
+   "file": "tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:686241fa0923983e0c737cddf76636136c307279d8453bd96985adebef5a1b85",
+   "role": "media",
+   "sha256": "2a3229ef82af6ef84c02dda5fad158661526b07ca53d236bb0e5bda4f673799e"
+  },
+  {
+   "bytes": 3727,
    "file": "post.json",
-   "layer": "sha256:9e24f365af990050173fc0199d92d815a82073785ddd87d3ce5cd27add35500a",
+   "layer": "sha256:2be20c160a7494860785c012ecac631eeb091230c5ac7130ca06d9e062282ae8",
    "role": "post-metadata",
-   "sha256": "bdc7764f692b56cf29511e613a05ca442a1a340954f739a072d5108cc5268b93"
+   "sha256": "fda05454eff28c5d6461e7d1c9cfe595ab62b95fe97f594bb6204f723ea5c40a"
   }
  ],
  "tag": "16809999572",
- "verified_at": "2026-10-06T05:39:05Z"
+ "verified_at": "2026-10-07T00:10:16Z"
 }
