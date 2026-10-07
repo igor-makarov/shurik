@@ -1,0 +1,40 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 3,
+  "iteration": "3-5",
+  "startedAt": "2026-10-07T16:41:05.000Z",
+  "elapsedMs": 274824,
+  "budget": {"budgetMs": 260000, "cleanupMs": 120000, "minChunkBudgetMs": 100000, "passBudgetMs": 280000, "concurrency": 32},
+  "filesAttempted": ["nij-1935-n06-pdf", "nij-1935-n01-pdf", "nij-1937-n11-pdf", "nij-1936-n04-pdf"],
+  "publishedBefore": 39,
+  "publishedAfter": 39,
+  "remainingBefore": 21,
+  "remainingAfter": 21,
+  "verifiedPartialBytesBefore": 78643200,
+  "verifiedPartialBytesAfter": 156237824,
+  "newOriginBytesDurable": 77594624,
+  "discardedTransferBytes": 334684,
+  "throughputKiBps": 276,
+  "published": [],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1935-n01-pdf", "digest": "sha256:4c3886b4278413fb4d8af75893f6cc212dd2e14bc812760ca6e015bee7039823", "bytes": 36700160, "chunks": 35},
+    {"tag": "checkpoint-nij-1935-n06-pdf", "digest": "sha256:d9b871a65ce3ad7e0cfff2cb77f0d5c10b8201b1d4be6bc41af7fbc2b26a0b1a", "bytes": 35651584, "chunks": 34},
+    {"tag": "checkpoint-nij-1936-n04-pdf", "digest": "sha256:15c16030489429bcb7f2fe98ccf852b5059c9142f662c7477259ebb937ddbed2", "bytes": 24117248, "chunks": 23},
+    {"tag": "checkpoint-nij-1937-n11-pdf", "digest": "sha256:a80a89bb092917ef1ec5bd42aeba8bc05ecab0cda0f822f9336cc9989f315e5d", "bytes": 36700160, "chunks": 35},
+    {"tag": "nij-1934-39-index", "digest": "sha256:32633bb0336af54618a3a1697f46e788179d5f55521e653b13d6a79dcf92f082"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:223c810d6e4059939f1eeb50b3146a5fe1d11ed3c8a8c8427218e6cc2ae9b7ab"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1935-n01-pdf", "bytes": 36700160, "expected": 45216869},
+    {"id": "nij-1935-n06-pdf", "bytes": 35651584, "expected": 38417776},
+    {"id": "nij-1936-n04-pdf", "bytes": 24117248, "expected": 55259955},
+    {"id": "nij-1937-n11-pdf", "bytes": 36700160, "expected": 54265237},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298}
+  ],
+  "failures": [
+    {"id": "nij-1936-n04-pdf", "chunk": 14, "attempt": 1, "error": "body stream failed after 334684 bytes: aborted (origin closed the connection)", "retried": true, "retrySucceeded": true}
+  ],
+  "retries": 1,
+  "notes": "concurrency 32 gave ~276 KiB/s, statistically identical to 24 (~285 KiB/s): the origin aggregate is already saturated near ~280 KiB/s, so raising the pool did not help. Revert to 24 for politeness.",
+  "nextAction": "Batch 4 at concurrency 24: finish/publish nij-1935-n06-pdf (3 chunks left) and nij-1935-n01-pdf (9 chunks left); continue nij-1937-n11-pdf and nij-1936-n04-pdf."
+}
