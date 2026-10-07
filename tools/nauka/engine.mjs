@@ -153,15 +153,29 @@ async function downloadChunkOnce(ctx, entry, eff, chunk, effGen) {
   const ifRange = eff.etag || eff.lastModified || null;
 
   await politeGate();
-  const meta = await httpGetToFile(eff.url, {
-    destTmp: tmp,
-    start,
-    end,
-    ifRange,
-    limiter: ctx.limiter,
-    idleTimeoutMs: CONFIG.idleTimeoutMs,
-    attemptTimeoutMs: CONFIG.attemptTimeoutMs,
-  });
+  let meta;
+  try {
+    meta = await httpGetToFile(eff.url, {
+      destTmp: tmp,
+      start,
+      end,
+      ifRange,
+      limiter: ctx.limiter,
+      idleTimeoutMs: CONFIG.idleTimeoutMs,
+      attemptTimeoutMs: CONFIG.attemptTimeoutMs,
+    });
+  } catch (err) {
+    // An If-Range mismatch makes the server send the full entity (200). That is
+    // a validator change, not a plain ignored Range; reset and refetch.
+    if (err.rangeIgnored && ifRange) {
+      await fs.rm(tmp, { force: true });
+      const e = new Error('validator changed (If-Range mismatch: server sent full body)');
+      e.validatorChanged = true;
+      throw e;
+    }
+    await fs.rm(tmp, { force: true });
+    throw err;
+  }
 
   if (effGen !== undefined && eff.gen !== effGen) {
     await fs.rm(tmp, { force: true });
@@ -212,7 +226,7 @@ async function withRetries(ctx, eff, chunkIndex, fn) {
     } catch (err) {
       eff.lastError = err.message;
       eff.lastErrorAt = new Date().toISOString();
-      if (err.validatorChanged || err.aborted || err.permanent || err.rangeNotSatisfiable) throw err;
+      if (err.validatorChanged || err.aborted || err.rangeIgnored || err.permanent || err.rangeNotSatisfiable) throw err;
       eff.retries++;
       if (attempt >= CONFIG.maxAttemptsPerChunk) throw err;
       let wait = err.retryAfterMs != null ? err.retryAfterMs : backoff;
@@ -239,7 +253,7 @@ function resetForRetry(eff, reason) {
   eff.chunks = {};
   eff.receivedBytes = 0;
   eff.gen = (eff.gen || 0) + 1;
-  if (reason === 'validatorChanged') {
+  if (reason === 'validatorChanged' || reason === 'rangeIgnored') {
     eff.etag = null;
     eff.lastModified = null;
   }
@@ -261,7 +275,11 @@ export async function downloadFile(ctx, entry) {
       applyChunkResult(eff, 0, info, gen);
       await saveState(state);
     } catch (err) {
-      if (err.validatorChanged || err.aborted) resetForRetry(eff, err.validatorChanged ? 'validatorChanged' : 'aborted');
+      if (err.validatorChanged || err.aborted || err.rangeIgnored) {
+        resetForRetry(eff, err.validatorChanged ? 'validatorChanged' : err.rangeIgnored ? 'rangeIgnored' : 'aborted');
+      } else if (err.permanent) {
+        eff.status = 'unavailable';
+      }
       await saveState(state);
       throw err;
     }
@@ -290,9 +308,12 @@ export async function downloadFile(ctx, entry) {
   );
 
   if (failures.length > 0) {
-    const hard = failures.find((f) => f.err.validatorChanged || f.err.aborted);
-    if (hard) resetForRetry(eff, hard.err.validatorChanged ? 'validatorChanged' : 'aborted');
-    else if (failures.every((f) => f.err.permanent)) eff.status = 'unavailable';
+    const hard = failures.find((f) => f.err.validatorChanged || f.err.aborted || f.err.rangeIgnored);
+    if (hard) {
+      resetForRetry(eff, hard.err.validatorChanged ? 'validatorChanged' : hard.err.rangeIgnored ? 'rangeIgnored' : 'aborted');
+    } else if (failures.every((f) => f.err.permanent)) {
+      eff.status = 'unavailable';
+    }
     await saveState(state);
     return { done: false, failures: failures.map((f) => f.err.message) };
   }
