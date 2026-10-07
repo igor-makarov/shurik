@@ -209,6 +209,12 @@ def merge_images(old_images: list[dict], new_images: list[dict]) -> list[dict]:
                 merged[key] = merged_list
         if img.get("xshard_capture") and not merged.get("xshard_capture"):
             merged["xshard_capture"] = img["xshard_capture"]
+            # A newly discovered cross-shard form re-opens the image: the
+            # terminal gap was decided without knowing that form, so it must
+            # not suppress the probe the queue would otherwise skip.
+            if not merged.get("sha256"):
+                merged["error"] = None
+                merged["state"] = "pending"
         by_url[url] = merged
     return [by_url[u] for u in order]
 
