@@ -5,7 +5,7 @@
   "branch": "codex/shurik/nauka-20261007",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "running",
+  "status": "stopped",
   "generation": 1,
   "next": 2,
   "owner": {
@@ -21,7 +21,7 @@
   "source": "fff127426bbc303f5c56eeaaf1e594bf87649b2b",
   "sourceRef": "codex/nauka-launch-20261007",
   "createdAt": "2026-10-07T11:32:12.222Z",
-  "lastDispatchAt": "2026-10-07T12:07:04.075Z",
+  "lastDispatchAt": null,
   "checkpoint": {
     "workCommit": "52216b16c2e8b114795017d673ccfd93d76fbab7",
     "generation": 1,
@@ -30,5 +30,20 @@
     "at": "2026-10-07T12:34:35.879Z"
   },
   "pr": "https://github.com/igor-makarov/shurik/pull/6",
-  "lastRunId": "37614954605"
+  "lastRunId": "37614954605",
+  "stoppedAt": "2026-10-07T13:01:43.656Z",
+  "monitorSteering": {
+    "token": "nauka-hourly-watch-1791378103656",
+    "pausedAt": "2026-10-07T13:01:43.656Z",
+    "reason": "Steer task after confirmed orphan download writer caused ENOENT and prevented final checkpoint/continuation",
+    "evidence": "https://github.com/igor-makarov/shurik/actions/runs/37618741012",
+    "lastGoodCheckpoint": {
+      "workCommit": "52216b16c2e8b114795017d673ccfd93d76fbab7",
+      "generation": 1,
+      "sequence": "1-2",
+      "runId": "37618741012",
+      "at": "2026-10-07T12:34:35.879Z"
+    },
+    "generation": 1
+  }
 }
