@@ -1,0 +1,43 @@
+2026-10-07T19:04:17.208Z oras login ok
+2026-10-07T19:04:29.588Z === pass 1 (budget 640000ms left) ===
+2026-10-07T19:04:29.588Z -- file nij-1938-n01-pdf (Pdf-97.3M) --
+2026-10-07T19:04:43.360Z retry nij-1938-n01-pdf chunk 8 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:04:59.441Z retry nij-1938-n01-pdf chunk 17 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:05:17.520Z retry nij-1938-n01-pdf chunk 23 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:05:36.593Z retry nij-1938-n01-pdf chunk 29 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:06:08.595Z retry nij-1938-n01-pdf chunk 43 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:06:36.593Z retry nij-1938-n01-pdf chunk 56 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:06:52.594Z retry nij-1938-n01-pdf chunk 64 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:07:14.594Z retry nij-1938-n01-pdf chunk 74 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:07:30.061Z retry nij-1938-n01-pdf chunk 79 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:07:50.033Z retry nij-1938-n01-pdf chunk 89 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:08:08.593Z retry nij-1938-n01-pdf chunk 89 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-07T19:08:49.439Z publishing nij-1938-n01-pdf (102072758 bytes) as nij-1938-n01-pdf
+2026-10-07T19:08:54.456Z verified nij-1938-n01-pdf: e73bdfb3f4aacce7c80498583fbb74b09e5f477cd06e1efe49b7fb4094bd9b21
+2026-10-07T19:08:54.457Z -- file nij-1938-n02-pdf (Pdf-97.9M) --
+2026-10-07T19:08:59.463Z retry nij-1938-n02-pdf chunk 1 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:09:15.461Z retry nij-1938-n02-pdf chunk 11 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:09:31.461Z retry nij-1938-n02-pdf chunk 21 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:10:02.566Z retry nij-1938-n02-pdf chunk 28 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:10:41.464Z retry nij-1938-n02-pdf chunk 47 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:10:58.272Z retry nij-1938-n02-pdf chunk 47 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-07T19:11:23.462Z retry nij-1938-n02-pdf chunk 66 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:11:42.286Z retry nij-1938-n02-pdf chunk 66 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-07T19:12:08.453Z retry nij-1938-n02-pdf chunk 86 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:13:06.772Z publishing nij-1938-n02-pdf (102697270 bytes) as nij-1938-n02-pdf
+2026-10-07T19:13:11.757Z verified nij-1938-n02-pdf: 1590b45e6bb44bbb297321b6ecbdddd737341915f9fecd049a37828250454a00
+2026-10-07T19:13:11.757Z -- file nij-1938-n05-pdf (Pdf- 100M) --
+2026-10-07T19:13:17.995Z retry nij-1938-n05-pdf chunk 24 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:13:35.934Z retry nij-1938-n05-pdf chunk 32 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:13:52.806Z retry nij-1938-n05-pdf chunk 41 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:14:48.923Z checkpointed nij-1938-n05-pdf (48234496 bytes, 46 chunks) -> sha256:189afe98c55146928062e149a79b7f5e31c411fbb22f3404ea3c6e23e4eb0fe8
+2026-10-07T19:14:48.932Z pass 1 results: [{"id":"nij-1938-n01-pdf","status":"published","sha256":"e73bdfb3f4aacce7c80498583fbb74b09e5f477cd06e1efe49b7fb4094bd9b21","bytes":102072758,"digest":"sha256:d0eceb4e602fff4b6d8374a83ab8ffe7911b18f350950fdc4071e807bb650836","tag":"nij-1938-n01-pdf"},{"id":"nij-1938-n02-pdf","status":"published","sha256":"1590b45e6bb44bbb297321b6ecbdddd737341915f9fecd049a37828250454a00","bytes":102697270,"digest":"sha256:62f261eabb06a49b6b9bf64374d82f9cb78b6d1286bfbbc275cd8590a6465657","tag":"nij-1938-n02-pdf"},{"id":"nij-1938-n05-pdf","status":"in_progress","received":48234496}]
+2026-10-07T19:14:48.932Z remaining files: 1
+2026-10-07T19:14:48.932Z === pass 2 (budget 20656ms left) ===
+2026-10-07T19:14:48.932Z -- file nij-1938-n05-pdf (Pdf- 100M) --
+2026-10-07T19:14:49.129Z pass 2 results: [{"id":"nij-1938-n05-pdf","status":"in_progress","received":48234496}]
+2026-10-07T19:14:49.129Z remaining files: 1
+2026-10-07T19:14:49.129Z pass 2 made no durable progress (started=0, published=0); ending batch
+2026-10-07T19:14:52.635Z published index nij-1934-39-index -> sha256:0f6b4d76e08af543a3618dea519ca2508c208a41ae2213515e0eb1e7ff217005
+2026-10-07T19:14:52.635Z published checkpoint nij-1934-39-checkpoint -> sha256:87f6e0820515b6d5d53d9e1a1d6d140aa5a1d3e16fda57e7d49a837b04a41bd1
+2026-10-07T19:14:52.636Z retrieve batch complete in 635427ms

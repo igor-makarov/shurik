@@ -1,0 +1,34 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 13,
+  "iteration": "3-9",
+  "startedAt": "2026-10-07T18:53:59.000Z",
+  "elapsedMs": 584314,
+  "budget": {"budgetMs": 660000, "cleanupMs": 150000, "minChunkBudgetMs": 90000, "passBudgetMs": 700000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1938-n0910-pdf", "nij-1936-n11-pdf", "nij-1936-n06-pdf", "nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"],
+  "publishedBefore": 54,
+  "publishedAfter": 57,
+  "remainingBefore": 6,
+  "remainingAfter": 3,
+  "verifiedPartialBytesBefore": 133169152,
+  "verifiedPartialBytesAfter": 23068672,
+  "newOriginBytesDurable": 220138051,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No mid-body aborts. Pass 1 finished/published three files; pass 2 correctly ended with no durable progress once <minChunkBudgetMs remained. Several idle-timeout retries on n06-1936 recovered successfully.",
+  "published": [
+    {"id": "nij-1938-n0910-pdf", "bytes": 80935065, "sha256": "3f66ef1486e7a929f1119e629157b0f1c7b344cf403128f342ae2cd7818dad89", "digest": "sha256:9af16b52fc7eabda31fc7c19cb702d6468092e649bab72c904daceffac6fe34b", "tag": "nij-1938-n0910-pdf", "note": "finished from 29 checkpointed chunks + 49 fresh chunks"},
+    {"id": "nij-1936-n11-pdf", "bytes": 83955055, "sha256": "cbde07b3071589649420cf65663b44a56cddea6cd7bcd2af18c4fc5a04a480c5", "digest": "sha256:c6df3c67f72fba1b91c9844dda992029884ef2f904e84dc4bd3da472ed71aa25", "tag": "nij-1936-n11-pdf", "note": "fresh 81 chunks"},
+    {"id": "nij-1936-n06-pdf", "bytes": 85656635, "sha256": "c08fcafcecc631b9c5e16c7712097080b64b999c1c3e508327bcf808780d485a", "digest": "sha256:339a22e86b1a456f365b0a1c66e6ff585c4c760297ca3f8d843cf37f24a2007b", "tag": "nij-1936-n06-pdf", "note": "fresh 82 chunks"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1938-n05-pdf", "digest": "sha256:92e039ad3172e599e35e9941555ed695a2ce6c89a41196b4f73cef0858549dc4", "bytes": 23068672, "chunks": 22},
+    {"tag": "nij-1934-39-index", "digest": "sha256:f5544096135a8016c00fefcc00ee059bdfdc3e5b6da7b5324b5aa6976321ef99"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:18d38b607fa35e21bdba4f17d9bd6c6efcebd237d9a27c417ddf6879df82cb24"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298, "chunks": 22}
+  ],
+  "failures": [],
+  "retries": 10,
+  "nextAction": "Continue fileConcurrency=1 smallest-first: finish nij-1938-n01-pdf (98 fresh chunks, 97.3M), then nij-1938-n02-pdf (98 fresh, 97.9M), then nij-1938-n05-pdf (78 chunks left, 22/100 durable)."
+}
