@@ -5,13 +5,95 @@
   "generation": 18,
   "iteration": 295,
   "startedAt": "2026-10-07T06:16:14.208Z",
-  "outcome": "running",
+  "outcome": "timeout",
   "source": "2049e64581fd1a8536b20fe5c4622777379aa728",
   "runtime": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
   "model": "glm-5.3",
   "reasoning": "high",
-  "workCommit": "26339a780aba1a2efa99c0e7acad29e63298e464",
+  "workCommit": "375bc96f953e8137e4c44a6e9c42a898e92cdc90",
   "minEntryId": 25255,
-  "maxEntryId": 25609,
-  "checkpointAt": "2026-10-07T06:43:47.964Z"
+  "maxEntryId": 25622,
+  "checkpointAt": "2026-10-07T06:43:47.964Z",
+  "finishedAt": "2026-10-07T06:46:41.492Z",
+  "error": "\"\"",
+  "usage": {
+    "models": {
+      "opencode-go/space-bunny-free": {
+        "input": 5125097,
+        "output": 1517617,
+        "cacheRead": 100705076,
+        "cacheWrite": 0,
+        "reasoning": 793737,
+        "totalTokens": 107347790,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/longcat-2.5-preview-free": {
+        "input": 566610,
+        "output": 71420,
+        "cacheRead": 3707008,
+        "cacheWrite": 0,
+        "reasoning": 28500,
+        "totalTokens": 4345038,
+        "cost": {
+          "input": 0,
+          "output": 0,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0
+        }
+      },
+      "opencode-go/muse-spark-1.3-contributor": {
+        "input": 2253896,
+        "output": 163509,
+        "cacheRead": 24165373,
+        "cacheWrite": 0,
+        "totalTokens": 26582778,
+        "cost": {
+          "input": 0.2253895999999998,
+          "output": 0.032701799999999996,
+          "cacheRead": 0.04833074599999995,
+          "cacheWrite": 0,
+          "total": 0.30642214599999995
+        },
+        "reasoning": 67573
+      },
+      "opencode-go/deepseek-v4.1-flash": {
+        "input": 4849941,
+        "output": 755681,
+        "cacheRead": 79475072,
+        "cacheWrite": 0,
+        "totalTokens": 85080694,
+        "cost": {
+          "input": 0.7274911499999984,
+          "output": 0.4534085999999999,
+          "cacheRead": 0.23842521600000036,
+          "cacheWrite": 0,
+          "total": 1.4193249659999994
+        },
+        "reasoning": 504670
+      },
+      "opencode-go/glm-5.3": {
+        "input": 310856,
+        "output": 46039,
+        "cacheRead": 7496748,
+        "cacheWrite": 0,
+        "reasoning": 0,
+        "totalTokens": 7853643,
+        "cost": {
+          "input": 0.4351984000000001,
+          "output": 0.20257160000000007,
+          "cacheRead": 1.9491544800000002,
+          "cacheWrite": 0,
+          "total": 2.58692448
+        }
+      }
+    },
+    "tools": {}
+  }
 }
