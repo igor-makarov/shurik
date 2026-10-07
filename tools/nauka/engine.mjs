@@ -421,9 +421,19 @@ export async function downloadFile(ctx, entry) {
   }
 
   const failures = [];
+  // Cap how many chunks a single file may hold in the SHARED pool. Without
+  // this, a fresh file with many missing chunks floods all slots before a
+  // nearly-complete file finishes verifying its existing chunks and enqueues
+  // its few missing ones, so the nearly-complete file is starved every batch
+  // and never publishes. The cap keeps the pool fairly shared across the
+  // concurrently-running files while still allowing one file to use the whole
+  // pool when it is the only file (fileConcurrency=1).
+  const perFile = Number.isFinite(ctx.chunkConcurrencyPerFile) ? Math.max(1, ctx.chunkConcurrencyPerFile) : Infinity;
+  const local = perFile === Infinity ? null : createPool(perFile);
+  const submit = (fn) => (local ? local.run(() => pool.run(fn)) : pool.run(fn));
   await Promise.all(
     missing.map((i) =>
-      pool.run(async () => {
+      submit(async () => {
         if (isStopped(ctx) || remainingMs(ctx) < CONFIG.minChunkBudgetMs) return;
         const myGen = eff.gen;
         try {
@@ -852,6 +862,9 @@ export async function runPass(ctx) {
   // chunk metadata are per-entry, so this is safe; completed files publish
   // independently as soon as their own chunks are verified.
   const fileConcurrency = Math.max(1, Number(process.env.NAUKA_FILE_CONCURRENCY || 4));
+  // Share the shared chunk pool fairly across the concurrent files so one
+  // large fresh file cannot starve a nearly-complete one (see downloadFile).
+  ctx.chunkConcurrencyPerFile = Math.max(1, Math.floor(CONFIG.maxConcurrency / fileConcurrency));
   let next = 0;
   const worker = async () => {
     for (;;) {

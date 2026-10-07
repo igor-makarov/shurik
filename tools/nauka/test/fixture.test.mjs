@@ -20,6 +20,11 @@ process.env.NAUKA_IDLE_MS = '5000';
 process.env.NAUKA_ATTEMPT_MS = '30000';
 process.env.NAUKA_PASS_MS = '30000';
 process.env.NAUKA_MAX_ATTEMPTS = '4';
+// Two concurrent files share the chunk pool; the per-file cap becomes 1.
+process.env.NAUKA_FILE_CONCURRENCY = '2';
+// Short budgets so a stalled origin is bounded within a test.
+process.env.NAUKA_MIN_CHUNK_MS = '500';
+process.env.NAUKA_PUBLISH_RESERVE_MS = '500';
 // Isolate all state/staging under a throwaway dir so tests never clobber the
 // real task checkpoint at data/nauka/state.
 import os from 'node:os';
@@ -488,6 +493,75 @@ test('a cancelled bounded batch returns promptly and leaves no writer or temp fi
     assert.ok(!names.some((n) => n.endsWith('.tmp')), 'no .tmp writer left behind');
   } finally {
     await srv.close();
+  }
+});
+
+test('a hanging large fresh file cannot starve a nearly-complete file (per-file cap)', async () => {
+  // The big file's origin hangs forever, so its chunks hold pool slots for the
+  // whole pass. Without a per-file cap it grabs every slot and the small file
+  // (which must verify existing chunks before enqueuing its one missing chunk)
+  // never runs. The cap lets the small file use the other slot and publish.
+  const content = randomBytes(4096);
+  const stall = await makeTrickleServer(content);
+  const good = await makeServer(content, {});
+  try {
+    const big = {
+      id: 'fx-cap-big',
+      year: 1937,
+      issue: 'N01',
+      format: 'pdf',
+      filename: 'fx-cap-big.bin',
+      url: stall.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    };
+    const small = {
+      id: 'fx-cap-small',
+      year: 1937,
+      issue: 'N02',
+      format: 'djv',
+      filename: 'fx-cap-small.bin',
+      url: good.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    };
+    const state = { version: 1, files: {} };
+    const effBig = engine.ensureFileEntry(state, big);
+    effBig.expectedBytes = content.length;
+    effBig.chunkSize = CONFIG.chunkSize;
+    effBig.status = 'in_progress';
+    const effSmall = engine.ensureFileEntry(state, small);
+    effSmall.expectedBytes = content.length;
+    effSmall.chunkSize = CONFIG.chunkSize;
+    effSmall.status = 'in_progress';
+    // Small file has every chunk but the last one already verified.
+    const nChunks = Math.ceil(content.length / CONFIG.chunkSize);
+    await fs.mkdir(engine.chunksDir(small.id), { recursive: true });
+    for (let i = 0; i < nChunks - 1; i++) {
+      const buf = content.subarray(i * CONFIG.chunkSize, (i + 1) * CONFIG.chunkSize);
+      await fs.writeFile(chunkFile(small.id, i), buf);
+      effSmall.chunks[i] = { bytes: buf.length, sha256: sha(buf) };
+    }
+    effSmall.receivedBytes = Object.values(effSmall.chunks).reduce((a, c) => a + c.bytes, 0);
+
+    const ctx = {
+      state,
+      manifest: { entries: [big, small], indexUrl: 'http://example/index' },
+      log: () => {},
+      limiter: { take: async () => {} },
+      pool: engine.createPool(CONFIG.maxConcurrency),
+      ghcr: makeFakeGhcr(),
+      deadline: Date.now() + 2500,
+      signal: null,
+    };
+    await engine.runPass(ctx);
+    assert.equal(state.files[small.id].status, 'published', 'nearly-complete file must publish');
+    assert.equal(state.files[small.id].verified.ok, true);
+    // Big file made no progress (origin hangs) but kept its (empty) state sane.
+    assert.ok(['pending', 'in_progress'].includes(state.files[big.id].status));
+  } finally {
+    await stall.close();
+    await good.close();
   }
 });
 
