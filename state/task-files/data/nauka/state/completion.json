@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-completion",
-  "iteration": "3-11",
-  "at": "2026-10-07T19:54:54.000Z",
+  "iteration": "3-12",
+  "at": "2026-10-07T20:08:00.000Z",
   "objective": "Retrieve every original scan/archive directly linked from the 1934-1939 index and publish original bytes + per-file SHA-256 to ghcr.io/igor-makarov/shurik-nauka",
   "indexUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html",
   "indexSha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
@@ -68,5 +68,34 @@
     "publishedFiles": 60,
     "remainingFiles": 0
   },
-  "notes": "All 60 scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. Objective re-verified independently in iteration 3-11 (60/60 GHCR cold round-trip + 60/60 tag digest resolve + discovery re-derivation + fresh end-to-end origin re-download of one file). No unfinished partials remain."
+  "notes": "All 60 scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. Objective re-verified independently in iteration 3-11 (60/60 GHCR cold round-trip + 60/60 tag digest resolve + discovery re-derivation + fresh end-to-end origin re-download of one file). No unfinished partials remain.",
+  "verificationIteration312": {
+    "at": "2026-10-07T20:08:00.000Z",
+    "indexBytesSha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
+    "discoveryRecheck": "re-parsed preserved index -> 60/60, 0 id diff, 0 URL mismatch",
+    "ghcrTagDigestResolve": "60/60 per-file tags resolve with matching immutable digests",
+    "fullSetColdRoundTrip": "node tools/nauka/cli.mjs verify -> 60/60 ok, 0 problems",
+    "independentOriginDownloads": [
+      {
+        "id": "nij-1939-n01-djv",
+        "bytes": 5403202,
+        "sha256": "22fd713736f95105ce2991d8b88457f0a2b73be159c44c4d222df9fa3f56654c",
+        "match": true
+      },
+      {
+        "id": "nij-1939-n02-djv",
+        "bytes": 6675736,
+        "sha256": "f360ce63a3595aa5d46308cb8f50961015b4fcce5c6bb10e38b311d872972b00",
+        "match": true
+      },
+      {
+        "id": "nij-1938-n01-djv",
+        "bytes": 11356688,
+        "sha256": "1c270c811bdc8301eb592b9a72332b94a647f4c56bc25791646c197ce3bd40ab",
+        "match": true
+      }
+    ],
+    "tests": "19/19 pass",
+    "record": "data/nauka/state/batches/2026-10-07T200800-batch18-verify.json"
+  }
 }

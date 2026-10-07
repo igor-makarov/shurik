@@ -1,0 +1,69 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 18,
+  "iteration": "3-12",
+  "startedAt": "2026-10-07T19:59:00.000Z",
+  "finishedAt": "2026-10-07T20:08:00.000Z",
+  "elapsedMs": 540000,
+  "type": "independent ground-truth re-verification (no retrieval remained)",
+  "context": "Continuation prompt carried a stale baseline of 35 published / 25 remaining. Before trusting the prior state file, this iteration re-established the objective's truth from the origin index bytes, GHCR registry ground truth and fresh origin downloads.",
+  "attemptedFileIds": [],
+  "publishedBefore": 60,
+  "publishedAfter": 60,
+  "remainingBefore": 0,
+  "remainingAfter": 0,
+  "verifiedDurablePartialBytesBefore": 0,
+  "verifiedDurablePartialBytesAfter": 0,
+  "newImmutableGhcrReceipts": [],
+  "discardedTransferBytes": 0,
+  "originBytesRetrievedThisBatch": 23435626,
+  "checks": {
+    "preservedIndex": {
+      "file": "data/nauka/state/evidence/index.cp1251.html",
+      "bytes": 198043,
+      "sha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
+      "matchesRecorded": true
+    },
+    "discoveryRecheck": {
+      "method": "decodeIndex + manifestFromHtml over the preserved windows-1251 index, diff vs tools/nauka/manifest.json",
+      "reparsedEntries": 60,
+      "trackedEntries": 60,
+      "idsOnlyInReparse": 0,
+      "idsOnlyInTracked": 0,
+      "urlMismatches": 0,
+      "perYearFiles": {"1934": 5, "1935": 5, "1936": 9, "1937": 11, "1938": 19, "1939": 11}
+    },
+    "ghcrTagDigestResolve": {
+      "method": "oras repo tags + oras resolve for every per-file tag (tools/nauka/ghcr.mjs); no pulls",
+      "registryTagCount": 107,
+      "perFileTags": 60,
+      "digestMatches": 60,
+      "problems": 0,
+      "record": "data/nauka/state/gt-check.json"
+    },
+    "fullSetColdRoundTrip": {
+      "command": "node tools/nauka/cli.mjs verify",
+      "method": "for each of the 60 per-file tags: oras resolve digest, oras pull the tag, sha256 of pulled bytes vs recorded sha256, digest vs recorded immutable digest",
+      "result": "60/60 ok; problems: 0",
+      "elapsedMs": 124673
+    },
+    "independentOriginDownloads": {
+      "method": "fresh throttled ranged-chunk downloads from publ.lib.ru with the task engine into an isolated NAUKA_DATA_DIR (data/nauka/staging/origin-check), assembled, sha256 vs published state",
+      "files": [
+        {"id": "nij-1939-n01-djv", "bytes": 5403202, "sha256": "22fd713736f95105ce2991d8b88457f0a2b73be159c44c4d222df9fa3f56654c", "match": true},
+        {"id": "nij-1939-n02-djv", "bytes": 6675736, "sha256": "f360ce63a3595aa5d46308cb8f50961015b4fcce5c6bb10e38b311d872972b00", "match": true},
+        {"id": "nij-1938-n01-djv", "bytes": 11356688, "sha256": "1c270c811bdc8301eb592b9a72332b94a647f4c56bc25791646c197ce3bd40ab", "match": true}
+      ],
+      "originBytes": 23435626,
+      "elapsedMs": 161093,
+      "record": "data/nauka/state/origin-check.json (last run; the 1939 pair is recorded above)"
+    },
+    "tests": "npm run test:nauka -> 19/19 pass (0 fail)"
+  },
+  "emergencyArchive": {
+    "artifact": "shurik-emergency-37638996048",
+    "status": "already recovered in an earlier iteration (data/nauka/state/recovery-37638996048.json); its staging chunks were merged and every recovered file has since been published. No partials remain, so no further extraction was needed or useful this iteration."
+  },
+  "failures": [],
+  "nextAction": "Objective complete and independently re-verified in iteration 3-12 from index bytes + registry ground truth + fresh origin bytes. No retrieval remains. A future runner need only spot-check; no republishing required."
+}

@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "3-11",
-  "at": "2026-10-07T19:54:54.000Z",
+  "iteration": "3-12",
+  "at": "2026-10-07T20:08:00.000Z",
   "published": 60,
   "remaining": 0,
   "bytesPublished": 2311630290,
@@ -9,8 +9,8 @@
   "status": "COMPLETE",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-07T19:32:40Z",
-    "note": "Origin publ.lib.ru up. Iteration 3-10 did no bulk retrieval; it independently re-verified the completed set. 1-byte ranged GETs on three published files returned 206 with ETag/Content-Length/Last-Modified identical to the recorded validators."
+    "lastChecked": "2026-10-07T20:06:02Z",
+    "note": "Origin publ.lib.ru up. Iteration 3-12 did no bulk retrieval (none remains); it independently re-verified the completed set and downloaded two files fresh from origin."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
@@ -21,17 +21,16 @@
   "verificationThisIteration": {
     "command": "node tools/nauka/cli.mjs verify",
     "result": "60/60 ok; problems: 0",
-    "elapsedMs": 124000,
-    "tagDigestResolve": "60/60 per-file tags present with matching immutable digests",
-    "contentSample": "4 files (incl. largest 127 MB) pulled and rehashed, all match",
+    "elapsedMs": 124673,
+    "tagDigestResolve": "60/60 per-file tags resolve with matching immutable digests (registry ground truth, no pulls)",
     "discoveryRecheck": "re-parsed preserved index -> 60/60 entries, 0 id diff, 0 URL mismatch",
-    "endToEndOriginRedownload": "nij-1934-n01-djv re-downloaded from origin -> sha256 814b7b0b... == published",
+    "independentOriginDownloads": "nij-1939-n01-djv, nij-1939-n02-djv and nij-1938-n01-djv downloaded fresh from origin -> sha256/bytes match published state",
     "tests": "npm run test:nauka -> 19/19 pass",
-    "record": "data/nauka/state/batches/2026-10-07T195454-batch17-reverify.json"
+    "record": "data/nauka/state/batches/2026-10-07T200800-batch18-verify.json"
   },
   "publishedThisIteration": [],
   "remainingFiles": [],
-  "nextAction": "Objective complete and independently re-verified. No further retrieval needed. Optionally re-run `node tools/nauka/cli.mjs verify` on a future runner for a spot check.",
+  "nextAction": "Objective complete and independently re-verified (iteration 3-12: index re-derivation + 60/60 registry tag/digest resolve + 60/60 cold pull+rehash + two fresh origin downloads). No further retrieval needed. Optionally re-run `node tools/nauka/cli.mjs verify` on a future runner for a spot check.",
   "codeChangesThisIteration": [],
-  "notes": "Iteration 3-11 independently re-verified from GHCR ground truth that the set is complete (60/60). The continuation prompt's 35/25 baseline was stale; iterations 3-7..3-9 had already driven it to 60/60 and 3-10/3-11 confirmed it. No retrieval remains."
+  "notes": "The continuation prompt's 35/25 baseline was stale; iterations 3-7..3-9 had already driven the set to 60/60 and 3-10..3-12 confirmed it from GHCR ground truth and origin bytes. No retrieval remains."
 }
