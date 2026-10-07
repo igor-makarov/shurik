@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T14:39:08.950Z
+Updated: 2026-10-07T14:40:50.601Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -12,11 +12,11 @@ Updated: 2026-10-07T14:39:08.950Z
 ## Totals
 - discovered: 60
 - published (GHCR, round-trip verified): 32
-- in progress: 4
-- pending: 24
+- in progress: 7
+- pending: 21
 - unavailable/permanent: 0
 - remaining: 28
-- bytes published: 611639087 / 825046787
+- bytes published: 611639087 / 887752672
 
 ## Per year
 - 1934: 5/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
@@ -72,27 +72,27 @@ Updated: 2026-10-07T14:39:08.950Z
 - nij-1935-n01-djv: pending 0/? B (no error)
 - nij-1935-n01-pdf: pending 0/? B (no error)
 - nij-1935-n02-pdf: pending 0/? B (no error)
-- nij-1935-n06-pdf: pending 0/? B (no error)
-- nij-1935-n11-pdf: pending 0/? B (no error)
+- nij-1935-n06-pdf: pending 0/? B (aborted)
+- nij-1935-n11-pdf: pending 0/? B (aborted)
 - nij-1936-n01-pdf: pending 0/? B (no error)
-- nij-1936-n03-pdf: in_progress 18874368/27733124 B (aborted)
+- nij-1936-n03-pdf: in_progress 25165824/27733124 B (aborted)
 - nij-1936-n04-pdf: pending 0/? B (no error)
 - nij-1936-n06-pdf: pending 0/? B (no error)
-- nij-1936-n07-pdf: pending 0/? B (no error)
-- nij-1936-n10-pdf: pending 0/27865676 B (aborted)
+- nij-1936-n07-pdf: in_progress 0/28542773 B (no error)
+- nij-1936-n10-pdf: in_progress 6291456/27865676 B (aborted)
 - nij-1936-n11-pdf: pending 0/? B (no error)
 - nij-1937-n02-pdf: pending 0/? B (no error)
-- nij-1937-n03-pdf: pending 0/? B (no error)
+- nij-1937-n03-pdf: in_progress 0/34163112 B (no error)
 - nij-1937-n05-pdf: pending 0/? B (no error)
 - nij-1937-n06-pdf: pending 0/? B (no error)
 - nij-1937-n07-pdf: pending 0/? B (no error)
-- nij-1937-n0809-pdf: in_progress 25165824/27197718 B (aborted)
+- nij-1937-n0809-pdf: in_progress 27197718/27197718 B (aborted)
 - nij-1937-n10-pdf: pending 0/? B (no error)
 - nij-1937-n11-pdf: pending 0/? B (no error)
 - nij-1937-n12-pdf: pending 0/? B (no error)
 - nij-1938-n01-pdf: pending 0/? B (no error)
 - nij-1938-n02-pdf: pending 0/? B (no error)
-- nij-1938-n03-pdf: in_progress 23068672/26092884 B (aborted)
+- nij-1938-n03-pdf: in_progress 26092884/26092884 B (aborted)
 - nij-1938-n05-pdf: in_progress 23068672/104518298 B (attempt timeout after 1500ms)
 - nij-1938-n07-pdf: pending 0/? B (no error)
 - nij-1938-n08-pdf: pending 0/? B (no error)
