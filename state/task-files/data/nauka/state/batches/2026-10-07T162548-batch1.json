@@ -1,0 +1,40 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 1,
+  "iteration": "3-5",
+  "startedAt": "2026-10-07T16:25:48.000Z",
+  "elapsedMs": 206169,
+  "budget": {"budgetMs": 200000, "cleanupMs": 150000, "minChunkBudgetMs": 95000, "passBudgetMs": 220000},
+  "filesAttempted": [
+    "nij-1936-n10-pdf", "nij-1936-n07-pdf", "nij-1937-n03-pdf", "nij-1935-n11-pdf",
+    "nij-1935-n06-pdf", "nij-1938-n05-pdf"
+  ],
+  "publishedBefore": 35,
+  "publishedAfter": 38,
+  "remainingBefore": 25,
+  "remainingAfter": 22,
+  "verifiedPartialBytesBefore": 105459916,
+  "verifiedPartialBytesAfter": 54525952,
+  "newOriginBytesDurable": 39637213,
+  "discardedTransferBytes": 0,
+  "discardedNote": "Pass 1 drained before the transfer deadline (no in-flight request at abort); minChunkBudgetMs=95000 stopped late admissions so nothing was killed mid-body.",
+  "published": [
+    {"id": "nij-1936-n07-pdf", "bytes": 28542773, "sha256": "45bbf4f5e00b00bd8676520baec597b0f169941e9b2356b0e078321dd3032f13", "digest": "sha256:f1972304bc54b89243e51d15fdfeacc18737319c8cfb09dda5ba9c2a90cae093", "tag": "nij-1936-n07-pdf"},
+    {"id": "nij-1936-n10-pdf", "bytes": 27865676, "sha256": "5191c89a5d9580f4cf8850ad8e81067b534bff47a910398c10d5a2b23a2b9c9c", "digest": "sha256:8371b6ec8a00b5221304df2e495a7014893cc51b00ae0cef35a43978780f56fe", "tag": "nij-1936-n10-pdf", "note": "finished from emergency-artifact recovery (chunks 18-23,26)"},
+    {"id": "nij-1937-n03-pdf", "bytes": 34163112, "sha256": "8882d4d5d3270fdf910ef2222a16f0741a862dc131fa7ecdfe4d1708854a4378", "digest": "sha256:21d0b918273da686394dabc732ee56858f0650ba542db57cd94111c0137d1752", "tag": "nij-1937-n03-pdf"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1935-n06-pdf", "digest": "sha256:eebad37cafafc6bb191075c19e51262aa28ef583511f410a14a44e9c419eaa9e", "bytes": 6291456, "chunks": 6},
+    {"tag": "checkpoint-nij-1935-n11-pdf", "digest": "sha256:80d270d43571a0eb8fbc43c34b28a820c77ef2f4e34a27acc3604c8d64b1f2a8", "bytes": 25165824, "chunks": 24},
+    {"tag": "nij-1934-39-index", "digest": "sha256:f8c2b49ff305a65e39e3ee8d590bb1dc6976a0914e9474312028a011748da3e4"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:43855b01afecfeeaff54468724e11368b7b1342ad645fdacbe36e066ed99c888"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1935-n06-pdf", "bytes": 6291456, "expected": 38417776},
+    {"id": "nij-1935-n11-pdf", "bytes": 25165824, "expected": 36301465},
+    {"id": "nij-1938-n05-pdf", "bytes": 23068672, "expected": 104518298}
+  ],
+  "failures": [],
+  "retries": 0,
+  "nextAction": "Fix no-op pass spin (done), then run a longer bounded batch; finish nij-1935-n11-pdf (11 chunks left), nij-1935-n06-pdf (31 chunks left)."
+}
