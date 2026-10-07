@@ -34,8 +34,9 @@ export const CONFIG = {
   bandwidthLimitBps: Number(process.env.NAUKA_BPS || 256 * 1024),
   // Number of simultaneous origin connections (one per chunk).
   maxConcurrency: Number(process.env.NAUKA_CONCURRENCY || 16),
-  // Per-chunk size. Bounded so a failed chunk re-download is cheap.
-  chunkSize: Number(process.env.NAUKA_CHUNK || 4 * 1024 * 1024),
+  // Per-chunk size. Bounded so a failed chunk re-download is cheap (~1 MiB at
+  // the measured ~16 KiB/s per connection is ~60 s of work).
+  chunkSize: Number(process.env.NAUKA_CHUNK || 1024 * 1024),
   // Politeness gap between new origin requests (ms).
   requestGapMs: Number(process.env.NAUKA_GAP_MS || 2000),
   // Idle read timeout and total per-attempt timeout.
