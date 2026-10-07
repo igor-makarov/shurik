@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T19:32:51.000Z
+Updated: 2026-10-07T19:52:54.358Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -17,16 +17,6 @@ Updated: 2026-10-07T19:32:51.000Z
 - unavailable/permanent: 0
 - remaining: 0
 - bytes published: 2311630290 / 2311630290
-
-## Independent verification (iteration 3-10)
-- `node tools/nauka/cli.mjs verify` (fresh runner): **60/60 ok; problems: 0**
-  - per tag: oras resolve digest + oras pull + sha256 of pulled bytes vs recorded sha256 + digest vs immutable digest
-- Discovery re-derived from the preserved windows-1251 index (`e24f0a5d…`): 60/60 entries, 0 id diff, 0 URL mismatch
-- Origin spot-check (1-byte ranged GET) on 3 files: HTTP 206, ETag / Content-Length / Last-Modified all match state
-- End-to-end: `nij-1934-n01-djv` re-downloaded in full from the origin (6 throttled ranged chunks) -> sha256 matches the published digest exactly (origin bytes == published bytes)
-- `npm run test:nauka`: 19/19 pass
-- Record: `data/nauka/state/batches/2026-10-07T193251-batch16-verify.json`
-- Note: the continuation prompt's 35-published/25-remaining baseline was stale; iterations 3-7..3-9 had already completed the set.
 
 ## Per year
 - 1934: 5/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
@@ -113,15 +103,14 @@ Updated: 2026-10-07T19:32:51.000Z
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-07T19:32:40.000Z -> reachable
+- last probe: 2026-10-07T19:15:37.207Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1938,N05.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 2026-10-07T184639-batch12.json: pub 53->54, durable +33611713 B, failure: none
 - 2026-10-07T185359-batch13.json: pub 54->57, durable +220138051 B, failure: none
 - 2026-10-07T190417-batch14.json: pub 57->59, durable +230351306 B, failure: none
 - 2026-10-07T191525-batch15.json: pub 59->60, durable +56283802 B, failure: none
-- 2026-10-07T193251-batch16-verify.json: pub 60->60, independent full-set verify 60/60 ok, no retrieval, failure: none
+- 2026-10-07T193251-batch16-verify.json: pub 60->60, durable +0 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s

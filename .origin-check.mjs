@@ -1,0 +1,18 @@
+import { promises as fs } from 'node:fs';
+import path from 'node:path';
+process.env.NAUKA_DATA_DIR = '/tmp/nauka-origin-check';
+const E = await import('/tmp/shurik-workspace-ja42eT/tools/nauka/engine.mjs');
+const { createContext, downloadFile, sha256File } = E;
+const id = process.argv[2] || 'nij-1934-n01-djv';
+const manifest = JSON.parse(await fs.readFile('/tmp/shurik-workspace-ja42eT/tools/nauka/manifest.json','utf8'));
+const entry = manifest.entries.find(e=>e.id===id);
+const state = { version:1, files:{}, updatedAt:new Date().toISOString(), origin:{} };
+const ctx = createContext({ state, manifest, ghcr:null, log:(...a)=>console.log('LOG',...a), deadline: Date.now()+240000 });
+const t0=Date.now();
+const r = await downloadFile(ctx, entry);
+const eff = state.files[id];
+const dest = path.join('/tmp/nauka-origin-check', 'assembled.bin');
+const bytes = await E.assembleToFile(eff, dest);
+const hash = await sha256File(dest);
+console.log(JSON.stringify({id, done:r.done, expectedBytes:eff.expectedBytes, receivedBytes:eff.receivedBytes, bytes, hash, ms:Date.now()-t0, status:eff.status, lastError:eff.lastError}, null, 2));
+process.exit(r.done?0:1);
