@@ -94,6 +94,11 @@ export function ensureFileEntry(state, entry) {
       updatedAt: new Date().toISOString(),
     };
     state.files[entry.id] = e;
+  } else if (e.status !== 'published' && Object.keys(e.chunks || {}).length === 0) {
+    // Untouched entry: let a config/chunk-size change take effect. Entries with
+    // bytes already on disk keep their size so recorded chunk hashes stay valid.
+    e.chunkSize = CONFIG.chunkSize;
+    if (e.expectedBytes == null) e.singleRequest = false;
   }
   return e;
 }
