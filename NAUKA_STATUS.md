@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T19:03:40.579Z
+Updated: 2026-10-07T19:14:49.160Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -11,19 +11,19 @@ Updated: 2026-10-07T19:03:40.579Z
 
 ## Totals
 - discovered: 60
-- published (GHCR, round-trip verified): 57
-- in progress: 3
+- published (GHCR, round-trip verified): 59
+- in progress: 1
 - pending: 0
 - unavailable/permanent: 0
-- remaining: 3
-- bytes published: 2002341964 / 2311630290
+- remaining: 1
+- bytes published: 2207111992 / 2311630290
 
 ## Per year
 - 1934: 5/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
 - 1935: 5/5 published; missing months: 3,4,5,7,8,9,10,12
 - 1936: 9/9 published; missing months: 2,5,8,12
 - 1937: 11/11 published; missing months: none
-- 1938: 16/19 published; missing months: none
+- 1938: 18/19 published; missing months: none
 - 1939: 11/11 published; missing months: none
 
 ## Registry
@@ -66,7 +66,9 @@ Updated: 2026-10-07T19:03:40.579Z
 - `nij-1937-n11-pdf` @ `sha256:8f9d27dd95488814a7bab621861257e974024e92998e866364d5a848c3cb653b` — Nauka_i_jizn',1937,N11.[pdf].zip (54265237 B, sha256 8cc64dac906695c1…)
 - `nij-1937-n12-pdf` @ `sha256:2eb34108133b133e49035be2ac62f9f6e6b8a4987be8c9ea9e24d57357fbe431` — Nauka_i_jizn',1937,N12.[pdf].zip (80815773 B, sha256 043af3db5eb239a6…)
 - `nij-1938-n01-djv` @ `sha256:2351897ac8d6f331dfd257c27e678870de3d1d47b79265cdcccb67bd0a2436d7` — Nauka_i_jizn',1938,N01.[djv].zip (11356688 B, sha256 1c270c811bdc8301…)
+- `nij-1938-n01-pdf` @ `sha256:d0eceb4e602fff4b6d8374a83ab8ffe7911b18f350950fdc4071e807bb650836` — Nauka_i_jizn',1938,N01.[pdf].zip (102072758 B, sha256 e73bdfb3f4aacce7…)
 - `nij-1938-n02-djv` @ `sha256:59ddd4d0d857182ae020663ee6ed9de593c50cb37d759b7a2b3466db756c5714` — Nauka_i_jizn',1938,N02.[djv].zip (11240094 B, sha256 c8d0af453b951d64…)
+- `nij-1938-n02-pdf` @ `sha256:62f261eabb06a49b6b9bf64374d82f9cb78b6d1286bfbbc275cd8590a6465657` — Nauka_i_jizn',1938,N02.[pdf].zip (102697270 B, sha256 1590b45e6bb44bbb…)
 - `nij-1938-n03-pdf` @ `sha256:2f0f8161f7f364fbb2dc5315e4a4061431e190e6f5eabaea2bb22146302cd946` — Nauka_i_jizn',1938,N03.[pdf].zip (26092884 B, sha256 05d8202fe6a09aa3…)
 - `nij-1938-n04-djv` @ `sha256:8c8c360b7b29136443a612a077e79f0b74496e03122ce658eca9f380e34f15e3` — Nauka_i_jizn',1938,N04.[djv].zip (13873078 B, sha256 c962277c015b08db…)
 - `nij-1938-n04-pdf` @ `sha256:f51407131ae97ce116a288f0ace8063f2d2ec40e992a8259cae6c9cc7e00b380` — Nauka_i_jizn',1938,N04.[pdf].zip (127130077 B, sha256 fd8eb21dfa5102b2…)
@@ -94,22 +96,20 @@ Updated: 2026-10-07T19:03:40.579Z
 - `nij-1939-n1112-djv` @ `sha256:278e15282fd49a685cc7f40623c637a98e596d6010e0f18b072d38a66128cddb` — Nauka_i_jizn',1939,N11-12.[djv].zip (12689851 B, sha256 e9118936d56c2fa3…)
 
 ## Retryable / in-progress
-- nij-1938-n01-pdf: in_progress 0/102072758 B (no error)
-- nij-1938-n02-pdf: in_progress 0/102697270 B (no error)
-- nij-1938-n05-pdf: in_progress 23068672/104518298 B (attempt timeout after 1500ms)
+- nij-1938-n05-pdf: in_progress 48234496/104518298 B (request failed: idle timeout after 30000ms)
 
 ## Unavailable (permanent)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-07T18:54:03.022Z -> reachable
-- probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1936,N06.%5Bpdf%5D.zip
+- last probe: 2026-10-07T19:04:29.583Z -> reachable
+- probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1938,N01.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 2026-10-07T182205-batch9.json: pub 48->50, durable +117240567 B, failure: none
 - 2026-10-07T182917-batch10.json: pub 50->52, durable +146838085 B, failure: none
 - 2026-10-07T183749-batch11.json: pub 52->53, durable +154506371 B, failure: none
 - 2026-10-07T184639-batch12.json: pub 53->54, durable +33611713 B, failure: none
+- 2026-10-07T185359-batch13.json: pub 54->57, durable +220138051 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
