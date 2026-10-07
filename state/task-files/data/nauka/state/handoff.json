@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "3-12",
-  "at": "2026-10-07T20:08:00.000Z",
+  "iteration": "3-13",
+  "at": "2026-10-07T20:15:30.000Z",
   "published": 60,
   "remaining": 0,
   "bytesPublished": 2311630290,
@@ -9,28 +9,25 @@
   "status": "COMPLETE",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-07T20:06:02Z",
-    "note": "Origin publ.lib.ru up. Iteration 3-12 did no bulk retrieval (none remains); it independently re-verified the completed set and downloaded two files fresh from origin."
+    "lastChecked": "2026-10-07T20:09:03Z",
+    "note": "Origin publ.lib.ru up. No bulk retrieval remains; iteration 3-13 did not contact the origin (nothing to fetch)."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
     "verifiedPartialBytes": 0,
     "partialFiles": [],
-    "note": "No unfinished partials remain. Every discovered file is published and round-trip verified."
+    "note": "No unfinished partials remain. Every one of the 60 discovered files is published and round-trip verified."
   },
   "verificationThisIteration": {
-    "command": "node tools/nauka/cli.mjs verify",
-    "result": "60/60 ok; problems: 0",
-    "elapsedMs": 124673,
-    "tagDigestResolve": "60/60 per-file tags resolve with matching immutable digests (registry ground truth, no pulls)",
-    "discoveryRecheck": "re-parsed preserved index -> 60/60 entries, 0 id diff, 0 URL mismatch",
-    "independentOriginDownloads": "nij-1939-n01-djv, nij-1939-n02-djv and nij-1938-n01-djv downloaded fresh from origin -> sha256/bytes match published state",
+    "registryGroundTruth": "oras repo tags -> 107 tags; oras resolve for all 60 per-file tags -> 60/60 digests match the recorded immutable state digests; 0 problems (no blob pulls). Record: data/nauka/state/gt-check.json",
+    "preservedIndex": "data/nauka/state/evidence/index.cp1251.html 198043 B sha256 e24f0a5d…acea2 matches recorded",
+    "manifestStateConsistency": "60 manifest entries, 0 URL mismatches vs state",
     "tests": "npm run test:nauka -> 19/19 pass",
-    "record": "data/nauka/state/batches/2026-10-07T200800-batch18-verify.json"
+    "record": "data/nauka/state/batches/2026-10-07T201400-batch19-verify.json"
   },
   "publishedThisIteration": [],
   "remainingFiles": [],
-  "nextAction": "Objective complete and independently re-verified (iteration 3-12: index re-derivation + 60/60 registry tag/digest resolve + 60/60 cold pull+rehash + two fresh origin downloads). No further retrieval needed. Optionally re-run `node tools/nauka/cli.mjs verify` on a future runner for a spot check.",
+  "nextAction": "Objective complete and independently re-verified in iteration 3-13 from registry ground truth (60/60 immutable tag digests). The 35/25 baseline in the continuation prompt is stale. No retrieval or republishing is needed. A future runner may optionally run `node tools/nauka/cli.mjs verify` for a full cold round-trip spot check; do not redownload the published set.",
   "codeChangesThisIteration": [],
-  "notes": "The continuation prompt's 35/25 baseline was stale; iterations 3-7..3-9 had already driven the set to 60/60 and 3-10..3-12 confirmed it from GHCR ground truth and origin bytes. No retrieval remains."
+  "notes": "Iterations 3-7..3-9 drove the set to 60/60; 3-10..3-13 confirmed it from index bytes, registry ground truth and (3-12) fresh origin downloads. The 15:14 GitHub atomic work/control push Internal Server Error was supervisor infrastructure, not a task/origin failure; task code and the origin were unaffected. The emergency artifact shurik-emergency-37638996048 was already recovered earlier (data/nauka/state/recovery-37638996048.json); no partials remained to merge this iteration."
 }

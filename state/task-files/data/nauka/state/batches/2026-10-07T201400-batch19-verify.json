@@ -1,0 +1,48 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 19,
+  "iteration": "3-13",
+  "startedAt": "2026-10-07T20:12:30.000Z",
+  "finishedAt": "2026-10-07T20:15:30.000Z",
+  "elapsedMs": 180000,
+  "type": "independent ground-truth re-verification (no retrieval remained)",
+  "context": "Continuation prompt still carried the stale 35-published/25-remaining baseline and the 15:14 GitHub atomic-push Internal Server Error. Current durable state is 60/60 published; this iteration re-confirmed that from registry ground truth instead of trusting the state file, without redownloading the published set.",
+  "attemptedFileIds": [],
+  "publishedBefore": 60,
+  "publishedAfter": 60,
+  "remainingBefore": 0,
+  "remainingAfter": 0,
+  "verifiedDurablePartialBytesBefore": 0,
+  "verifiedDurablePartialBytesAfter": 0,
+  "newImmutableGhcrReceipts": [],
+  "discardedTransferBytes": 0,
+  "originBytesRetrievedThisBatch": 0,
+  "checks": {
+    "preservedIndex": {
+      "file": "data/nauka/state/evidence/index.cp1251.html",
+      "bytes": 198043,
+      "sha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
+      "matchesRecorded": true
+    },
+    "manifestStateUrlConsistency": {
+      "manifestEntries": 60,
+      "urlMismatches": 0
+    },
+    "ghcrTagDigestResolve": {
+      "method": "oras repo tags + oras resolve for every per-file tag (tools/nauka/ghcr.mjs); no blob pulls",
+      "registryTagCount": 107,
+      "perFileTags": 60,
+      "digestMatches": 60,
+      "problems": 0,
+      "record": "data/nauka/state/gt-check.json"
+    },
+    "collectionAndCheckpointTags": {
+      "nij-1934-39-index": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+      "nij-1934-39-checkpoint": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+      "note": "collection index manifest present (1 layer, shurik.nauka.index-url + created annotations)"
+    },
+    "tests": "npm run test:nauka -> 19/19 pass (0 fail)"
+  },
+  "failures": [],
+  "nextAction": "Objective complete and independently re-verified from registry ground truth in iteration 3-13. No retrieval or republishing remains. Future runners need only an optional spot-check; do not redownload the 60 published files."
+}
