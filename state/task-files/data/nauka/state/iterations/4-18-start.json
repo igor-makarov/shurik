@@ -1,0 +1,47 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-18",
+  "phase": "start",
+  "at": "2026-10-07T23:42:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "note": "Scope is ALL YEARS (expanded from the completed 1934-1939 subset). The old NAUKA_STATUS 60/60 refers only to the completed 1934-1939 subset, not this objective. All 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ_stat'i_.html and the .Online redirect are visited and represented (genericUnrepresented=0).",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "retrievalAtStart": {
+    "publishedFiles": 277,
+    "publishedBytes": 3433507820,
+    "remainingFiles": 835,
+    "remainingEstimatedBytes": 18135357175,
+    "remainingUnknownSizeFiles": 11
+  },
+  "discoveryAtStart": {
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "directoryVisited": true,
+    "genericTotal": 1112,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "nextActions": [
+    "Fix discoverySummary so it truthfully reports 'complete' once every linked era page is visited and every flat-listing file is represented (previously it could only ever return 'provisional').",
+    "Run a bounded foreground retrieve batch (smallest-first) and publish complete files.",
+    "Refresh the master index and re-verify by immutable digest."
+  ]
+}
