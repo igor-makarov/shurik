@@ -187,6 +187,7 @@ export async function httpGetToFile(url, opts) {
     });
 
   let timer;
+  const attemptDeadline = Date.now() + attemptTimeoutMs;
   const overall = new Promise((_, reject) => {
     timer = setTimeout(
       () => reject(new TransientError(`attempt timeout after ${attemptTimeoutMs}ms`)),
@@ -263,6 +264,21 @@ export async function httpGetToFile(url, opts) {
     return finish(0);
   }
 
+  // The overall per-attempt timeout must cover body streaming too, not just the
+  // response headers: a server that trickles bytes would otherwise keep a
+  // writer alive past the batch deadline.
+  const remaining = attemptDeadline - Date.now();
+  if (remaining <= 0) {
+    res.destroy();
+    throw new TransientError(`attempt timeout after ${attemptTimeoutMs}ms`);
+  }
+  let bodyTimedOut = false;
+  const bodyTimer = setTimeout(() => {
+    bodyTimedOut = true;
+    res.destroy(new Error('attempt timeout during body'));
+  }, remaining);
+  bodyTimer.unref?.();
+
   const out = createWriteStream(destTmp, { flags: 'w' });
   let written = 0;
   let failed = null;
@@ -283,9 +299,15 @@ export async function httpGetToFile(url, opts) {
     }
     await new Promise((resolve, reject) => out.end((err) => (err ? reject(err) : resolve())));
   } catch (err) {
-    failed = signal && signal.aborted ? abortError() : err;
+    failed = signal && signal.aborted
+      ? abortError()
+      : bodyTimedOut
+        ? new TransientError(`attempt timeout after ${attemptTimeoutMs}ms`)
+        : err;
     out.destroy();
     res.destroy();
+  } finally {
+    clearTimeout(bodyTimer);
   }
   if (failed) {
     // The caller removes the incomplete .tmp; the chunk model never keeps it.

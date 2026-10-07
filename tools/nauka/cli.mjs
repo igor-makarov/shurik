@@ -232,11 +232,18 @@ async function cmdRetrieve(args) {
   // GHCR checkpoint pushes are durable but secondary to transfer; bound them.
   ctx.cleanupDeadline = transferDeadline + cleanupMs;
 
+  // Two-stage watchdog: first abort/kill stragglers, then force exit.
+  const drainTimer = setTimeout(() => {
+    log('cleanup window elapsed; aborting remaining work');
+    controller.abort();
+    killActiveChildren();
+  }, budgetMs + cleanupMs);
   const hardTimer = setTimeout(() => {
     log('shutdown watchdog fired; forcing exit');
     killActiveChildren();
     process.exit(124);
   }, budgetMs + cleanupMs + 30000);
+  drainTimer.unref?.();
   hardTimer.unref?.();
 
   await restoreFromGitPartials(state, log);
@@ -260,11 +267,16 @@ async function cmdRetrieve(args) {
     const removed = await cleanupTempFiles(state);
     if (removed) log(`removed ${removed} abandoned chunk temp file(s)`);
     await flushState();
-    await checkpointPartials(ctx);
+    try {
+      await checkpointPartials(ctx);
+    } catch (err) {
+      log(`checkpoint error (non-fatal): ${err.message}`);
+    }
     await saveState(state);
     await flushState();
     await writeStatus(state, manifest, ctx);
     killActiveChildren();
+    clearTimeout(drainTimer);
     clearTimeout(hardTimer);
   }
   log(`retrieve batch complete in ${Date.now() - startedAt}ms`);
@@ -504,6 +516,18 @@ async function writeStatus(state, manifest, ctx) {
   lines.push('Run `retrieve` directly (no `timeout`/pipe): one bounded batch, ~75 s of');
   lines.push('transfer plus bounded cleanup, then it drains writers and exits so the');
   lines.push('supervisor can publish at the tool boundary.');
+  lines.push('');
+  lines.push('## Lifecycle / shutdown protocol');
+  lines.push('- Each `retrieve` invocation is bounded (`--budget-ms` transfer + `--cleanup-ms`');
+  lines.push('  durable checkpoint) and installs SIGINT/SIGTERM/SIGHUP + watchdog shutdown.');
+  lines.push('- On timeout/signal: in-flight HTTP requests are destroyed, queued chunks are');
+  lines.push('  skipped, `.tmp` writers are swept, state is flushed atomically and the');
+  lines.push('  process exits. No child (oras) or writer survives the tool call.');
+  lines.push('- Ordinary cancellation preserves every verified chunk/validator; only a');
+  lines.push('  real ETag/If-Range validator change resets progress.');
+  lines.push('- Resume: durable state in `data/nauka/state` + selected prefixes in');
+  lines.push('  `data/nauka/partials` on the control branch, plus GHCR checkpoint artifacts');
+  lines.push('  pulled by immutable digest and re-validated chunk-by-chunk.');
   lines.push('');
   await fs.writeFile(STATUS_FILE, lines.join('\n') + '\n');
 }

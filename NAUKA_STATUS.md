@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T13:34:43.954Z
+Updated: 2026-10-07T13:38:14.803Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -79,7 +79,7 @@ Updated: 2026-10-07T13:34:43.954Z
 - nij-1938-n03-pdf: pending 0/? B (no error)
 - nij-1938-n04-djv: pending 0/? B (no error)
 - nij-1938-n05-djv: pending 0/? B (no error)
-- nij-1938-n05-pdf: in_progress 23068672/104518298 B (attempt timeout after 3166ms)
+- nij-1938-n05-pdf: in_progress 33554432/104518298 B (attempt timeout after 1500ms)
 - nij-1938-n06-djv: pending 0/? B (no error)
 - nij-1938-n06-pdf: pending 0/? B (no error)
 - nij-1938-n07-djv: pending 0/? B (no error)
@@ -122,4 +122,16 @@ node tools/nauka/cli.mjs index
 Run `retrieve` directly (no `timeout`/pipe): one bounded batch, ~75 s of
 transfer plus bounded cleanup, then it drains writers and exits so the
 supervisor can publish at the tool boundary.
+
+## Lifecycle / shutdown protocol
+- Each `retrieve` invocation is bounded (`--budget-ms` transfer + `--cleanup-ms`
+  durable checkpoint) and installs SIGINT/SIGTERM/SIGHUP + watchdog shutdown.
+- On timeout/signal: in-flight HTTP requests are destroyed, queued chunks are
+  skipped, `.tmp` writers are swept, state is flushed atomically and the
+  process exits. No child (oras) or writer survives the tool call.
+- Ordinary cancellation preserves every verified chunk/validator; only a
+  real ETag/If-Range validator change resets progress.
+- Resume: durable state in `data/nauka/state` + selected prefixes in
+  `data/nauka/partials` on the control branch, plus GHCR checkpoint artifacts
+  pulled by immutable digest and re-validated chunk-by-chunk.
 

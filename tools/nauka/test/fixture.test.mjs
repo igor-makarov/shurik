@@ -441,6 +441,28 @@ test('a cancelled bounded batch returns promptly and leaves no writer or temp fi
   }
 });
 
+test('per-attempt timeout bounds a stalled body, not just the headers', async () => {
+  const content = randomBytes(4096);
+  const srv = await makeTrickleServer(content);
+  try {
+    const t0 = Date.now();
+    await assert.rejects(
+      () =>
+        httpGetToFile(srv.url, {
+          destTmp: path.join(PATHS.stagingDir, 'test', `stall-${Date.now()}.bin`),
+          start: 0,
+          end: content.length - 1,
+          idleTimeoutMs: 60000,
+          attemptTimeoutMs: 500,
+        }),
+      TransientError,
+    );
+    assert.ok(Date.now() - t0 < 3000, 'body attempt timeout fired promptly');
+  } finally {
+    await srv.close();
+  }
+});
+
 function makeFakeGhcr() {
   const store = new Map();
   return {
