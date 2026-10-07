@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
   "iteration": "4-17",
-  "at": "2026-10-07T23:28:30.000Z",
+  "at": "2026-10-07T23:33:20.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -30,29 +30,45 @@
     "issues": 941,
     "files": 1112,
     "supplementaryFiles": 5,
-    "knownGapYears": [1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029]
+    "knownGapYears": [
+      1891,
+      1892,
+      2016,
+      2017,
+      2018,
+      2019,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029
+    ]
   },
   "publication": {
-    "publishedFiles": 265,
+    "publishedFiles": 277,
     "publishedIssues": 186,
-    "publishedBytes": 3350921850,
-    "remainingFiles": 847,
-    "inProgressEntries": 170,
+    "publishedBytes": 3433507820,
+    "remainingFiles": 835,
+    "inProgressEntries": 158,
     "inProgressWithDurableChunks": 0,
     "verifiedPartialBytes": 0,
     "knownBytesTotal": 4588225255,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 205,
-    "newPublishedBytesBeyondBaseline": 1039291560
+    "newPublishedBeyondBaseline": 217,
+    "newPublishedBytesBeyondBaseline": 1121877530
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:dc972e3da8da4cdceb94394fc5af63041d4dbb4ac911bdc63fe0848af692572c",
-    "bytes": 1237087,
-    "catalogDigest": "sha256:2936eeaaeaa8cace5e9db3b6cdc78f88c8e17efced343799d537a12ea3db783b",
-    "checkpointDigest": "sha256:c02ae265a96804a90cd1f506b94bad3692ae9da6a879b0dc6c1d6e437f678e82",
+    "digest": "sha256:f83a73a43851334d2ca32d9a729552a875b72ff0c99ab6f14fd4d6fc1db31572",
+    "bytes": 1241182,
+    "catalogDigest": "sha256:6f0fad0c18c4f8cbadaaa2c19bd2770102b4621a003a5cb88f2aeaae5fa88d33",
+    "checkpointDigest": "sha256:f1186210ba16bed08393d606d4f26321fd9d13ece8880c02b78fc09d076c0968",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-07T23:28:13.623Z",
+    "verifiedAt": "2026-10-07T23:34:11.360Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
@@ -65,7 +81,12 @@
   },
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 847 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 835 files.",
     "Refresh and re-verify the master index by immutable digest after each batch."
-  ]
+  ],
+  "batch22": {
+    "record": "data/nauka/state/batches/2026-10-07T233258-batch22.json",
+    "publishedThisBatch": 12,
+    "durableNewBytes": 82585970
+  }
 }
