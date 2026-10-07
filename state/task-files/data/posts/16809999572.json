@@ -45,8 +45,8 @@
  "content_text": "צרות של אשכנזים: הבימה.",
  "date_text": "Posted 5 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T05:30:33Z",
- "image_count": 2,
+ "fetched_at": "2026-10-07T00:09:40Z",
+ "image_count": 3,
  "images": [
   {
    "attempts": [
@@ -234,13 +234,64 @@
    ]
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_1280.jpg",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_1024.jpg",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_540.jpg",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1.png",
+      "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 2,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1",
+     "url": "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 31115,
+     "capture_timestamp": "20181225182106",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "2a3229ef82af6ef84c02dda5fad158661526b07ca53d236bb0e5bda4f673799e",
+     "status": 200,
+     "url": "https://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lymln7yrqJ1r3it8zo1.jpg",
+   "blob_path": "data/blobs/2a/2a3229ef82af6ef84c02dda5fad158661526b07ca53d236bb0e5bda4f673799e",
+   "bytes": 31115,
    "caption_alt": "",
+   "capture": {
+    "archive_digest": "TJEJJYBTGPYXY5UD5MYE6KX4KJ6CQVGR",
+    "original": "https://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181225182106id_/https://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg",
+    "timestamp": "20181225182106"
+   },
+   "capture_count": 2,
+   "file": "tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20181225182106 of https://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg (31115 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "2a3229ef82af6ef84c02dda5fad158661526b07ca53d236bb0e5bda4f673799e",
+   "state": "recovered",
    "url_forms": [
     "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg"
    ],
@@ -282,35 +333,29 @@
    "url": "http://hazfalafel.com:80/post/16809999572"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "http://66.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com:80/post/16809999572",
  "page_bytes": 63830,
  "page_sha256": "897987b4b482553ecba745bde48c4e010f5ab3577699489a6f8057c1b2eeccec",
- "partial": true,
+ "partial": false,
  "post_id": "16809999572",
  "posted_on": "Posted on Tuesday the 31st of January 2012 at 9:00 AM",
  "published": {
   "action": "updated",
-  "at": "2026-10-06T05:30:41Z",
-  "image_count": 2,
-  "manifest_digest": "sha256:7669f8e6ddb26215289424a5376d3e89645e8e0c343569c3889386aee9e142a9",
+  "at": "2026-10-07T00:09:46Z",
+  "image_count": 3,
+  "manifest_digest": "sha256:369aed02c7542efbd924a27af71fe2a78bb65f9f6d1e554423e4dec35c800302",
   "missing_count": 0,
   "quality": [
-   2,
+   3,
    23,
    1
   ]
  },
  "replay_url": "https://web.archive.org/web/20131215143328id_/http://hazfalafel.com:80/post/16809999572",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "צרות-של-אשכנזים",
   "הבימה"
