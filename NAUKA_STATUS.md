@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T14:09:36.283Z
+Updated: 2026-10-07T14:19:23.884Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -11,15 +11,15 @@ Updated: 2026-10-07T14:09:36.283Z
 
 ## Totals
 - discovered: 60
-- published (GHCR, round-trip verified): 27
-- in progress: 4
-- pending: 29
+- published (GHCR, round-trip verified): 28
+- in progress: 5
+- pending: 27
 - unavailable/permanent: 0
-- remaining: 33
-- bytes published: 507227709 / 690975178
+- remaining: 32
+- bytes published: 527922960 / 716157385
 
 ## Per year
-- 1934: 3/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
+- 1934: 4/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
 - 1935: 0/5 published; missing months: 3,4,5,7,8,9,10,12
 - 1936: 1/9 published; missing months: 2,5,8,12
 - 1937: 2/11 published; missing months: none
@@ -35,6 +35,7 @@ Updated: 2026-10-07T14:09:36.283Z
 - Per-file tags: `nij-<year>-<issue>-<format>`
 
 ## Verified GHCR references
+- `nij-1934-n01p-djv` @ `sha256:f9e2f28bbd103ff49a236f0dae76239c5b8aae01cfa1552895c44859945e8cca` — Nauka_i_jizn',1934,N01p.[djv].zip (20695251 B, sha256 89ee5509fa0f9823…)
 - `nij-1934-n01-djv` @ `sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9` — Nauka_i_jizn',1934,N01.[djv].zip (5346121 B, sha256 814b7b0b7228f932…)
 - `nij-1934-n02-djv` @ `sha256:0b838a01b2beb5bfcef5b7ef0858dd1fe2747949599eb15123ae282e84a63768` — Nauka_i_jizn',1934,N02.[djv].zip (15516473 B, sha256 396c9260e00ec9d6…)
 - `nij-1934-n02-pdf` @ `sha256:d44054025032c1a7033d0f54944235d07a9cf9b1f5cea5a65379ac620b9db548` — Nauka_i_jizn',1934,N02.[pdf].zip (8560307 B, sha256 c504a3e0240daae2…)
@@ -64,8 +65,7 @@ Updated: 2026-10-07T14:09:36.283Z
 - `nij-1939-n1112-djv` @ `sha256:278e15282fd49a685cc7f40623c637a98e596d6010e0f18b072d38a66128cddb` — Nauka_i_jizn',1939,N11-12.[djv].zip (12689851 B, sha256 e9118936d56c2fa3…)
 
 ## Retryable / in-progress
-- nij-1934-n01p-djv: pending 0/20695251 B (aborted)
-- nij-1934-n01p-pdf: in_progress 0/20700468 B (aborted)
+- nij-1934-n01p-pdf: in_progress 1048576/20700468 B (aborted)
 - nij-1935-n01-djv: pending 0/? B (no error)
 - nij-1935-n01-pdf: pending 0/? B (no error)
 - nij-1935-n02-pdf: pending 0/? B (no error)
@@ -76,7 +76,7 @@ Updated: 2026-10-07T14:09:36.283Z
 - nij-1936-n04-pdf: pending 0/? B (no error)
 - nij-1936-n06-pdf: pending 0/? B (no error)
 - nij-1936-n07-pdf: pending 0/? B (no error)
-- nij-1936-n09-pdf: in_progress 0/23960374 B (aborted)
+- nij-1936-n09-pdf: in_progress 22911798/23960374 B (aborted)
 - nij-1936-n10-pdf: pending 0/? B (no error)
 - nij-1936-n11-pdf: pending 0/? B (no error)
 - nij-1937-n02-pdf: pending 0/? B (no error)
@@ -96,7 +96,7 @@ Updated: 2026-10-07T14:09:36.283Z
 - nij-1938-n07-pdf: pending 0/? B (no error)
 - nij-1938-n08-pdf: pending 0/? B (no error)
 - nij-1938-n0910-pdf: pending 0/? B (no error)
-- nij-1938-n1112-djv: pending 0/? B (aborted)
+- nij-1938-n1112-djv: in_progress 0/25182207 B (aborted)
 
 ## Unavailable (permanent)
 - (none)
