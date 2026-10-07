@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T18:05:27.455Z
+Updated: 2026-10-07T18:12:32.384Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -11,19 +11,19 @@ Updated: 2026-10-07T18:05:27.455Z
 
 ## Totals
 - discovered: 60
-- published (GHCR, round-trip verified): 46
-- in progress: 14
+- published (GHCR, round-trip verified): 47
+- in progress: 13
 - pending: 0
 - unavailable/permanent: 0
-- remaining: 14
-- bytes published: 1180145836 / 2311630290
+- remaining: 13
+- bytes published: 1240421773 / 2311630290
 
 ## Per year
 - 1934: 5/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
 - 1935: 4/5 published; missing months: 3,4,5,7,8,9,10,12
 - 1936: 7/9 published; missing months: 2,5,8,12
 - 1937: 6/11 published; missing months: none
-- 1938: 13/19 published; missing months: none
+- 1938: 14/19 published; missing months: none
 - 1939: 11/11 published; missing months: none
 
 ## Registry
@@ -67,6 +67,7 @@ Updated: 2026-10-07T18:05:27.455Z
 - `nij-1938-n06-pdf` @ `sha256:b156894103d115297365ef9e6c9493ca472d597d6f9fba5fc85003f1738a2938` — Nauka_i_jizn',1938,N06.[pdf].zip (14359308 B, sha256 33342c533503f3c6…)
 - `nij-1938-n07-djv` @ `sha256:efba72653a3cd1dce4c00fe689fda668111d51efbee72a7e39c838569aef9945` — Nauka_i_jizn',1938,N07.[djv].zip (17035717 B, sha256 5438d824edf01e12…)
 - `nij-1938-n08-djv` @ `sha256:93c9b693e016afc4b3081cefd3247432e3bf58b767e368dfee32c83c15aa439e` — Nauka_i_jizn',1938,N08.[djv].zip (14058694 B, sha256 08c322afa60bf0a9…)
+- `nij-1938-n08-pdf` @ `sha256:5eef40755f36464c3cf179cc1fe739b25f04ddcc9d2c1df8b736101ec89224f4` — Nauka_i_jizn',1938,N08.[pdf].zip (60275937 B, sha256 150f1f03a6594efe…)
 - `nij-1938-n0910-djv` @ `sha256:096cd2cc1c0edc4fc68deee5f5cede4546075cc03bec5f4636d2faada0a0ef74` — Nauka_i_jizn',1938,N09-10.[djv].zip (11370548 B, sha256 58572b42de40d63d…)
 - `nij-1938-n1112-djv` @ `sha256:71aef2fa7165faf4e0fcb3430436972116fe46965ca4ddc89b018173369aacbf` — Nauka_i_jizn',1938,N11-12.[djv].zip (25182207 B, sha256 87ff2c87ebd3bf64…)
 - `nij-1938-n1112-pdf` @ `sha256:7c260a65880e7b2827022c5f63f4dc460498572150404e92053de88af4fde96a` — Nauka_i_jizn',1938,N11-12.[pdf].zip (108251947 B, sha256 f7fe3ac1c5cc5196…)
@@ -83,7 +84,7 @@ Updated: 2026-10-07T18:05:27.455Z
 - `nij-1939-n1112-djv` @ `sha256:278e15282fd49a685cc7f40623c637a98e596d6010e0f18b072d38a66128cddb` — Nauka_i_jizn',1939,N11-12.[djv].zip (12689851 B, sha256 e9118936d56c2fa3…)
 
 ## Retryable / in-progress
-- nij-1935-n01-djv: in_progress 0/67393099 B (no error)
+- nij-1935-n01-djv: in_progress 40894464/67393099 B (no error)
 - nij-1936-n06-pdf: in_progress 0/85656635 B (no error)
 - nij-1936-n11-pdf: in_progress 0/83955055 B (no error)
 - nij-1937-n02-pdf: in_progress 0/74814595 B (no error)
@@ -95,21 +96,20 @@ Updated: 2026-10-07T18:05:27.455Z
 - nij-1938-n02-pdf: in_progress 0/102697270 B (no error)
 - nij-1938-n05-pdf: in_progress 23068672/104518298 B (attempt timeout after 1500ms)
 - nij-1938-n07-pdf: in_progress 0/72819415 B (no error)
-- nij-1938-n08-pdf: in_progress 0/60275937 B (no error)
 - nij-1938-n0910-pdf: in_progress 0/80935065 B (no error)
 
 ## Unavailable (permanent)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-07T17:58:56.835Z -> reachable
+- last probe: 2026-10-07T18:05:59.466Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1935,N01.%5Bdjv%5D.zip
 
 ## Recent batch records
-- 2026-10-07T163533-batch2.json: pub 38->39, durable +60418713 B, failure: none
 - 2026-10-07T164105-batch3.json: pub 39->39, durable +77594624 B, failure: body stream failed after 334684 bytes: aborted (origin closed the connection)
 - 2026-10-07T172634-batch4.json: pub 42->42, durable +0 B, failure: origin-unreachable
 - 2026-10-07T175247-batch5.json: pub 42->44, durable +63560586 B, failure: none
+- 2026-10-07T175855-batch6.json: pub 44->46, durable +104623577 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
