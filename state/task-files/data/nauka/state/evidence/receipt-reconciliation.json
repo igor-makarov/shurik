@@ -1,0 +1,11 @@
+{
+  "kind": "shurik-nauka-receipt-reconciliation",
+  "at": "2026-10-07T17:46:00.000Z",
+  "method": "oras repo tags (once) + oras resolve per published tag; NO artifact bytes pulled/re-downloaded",
+  "publishedInState": 42,
+  "tagsPresent": 42,
+  "digestMatches": 42,
+  "missing": 0,
+  "moved": 0,
+  "note": "Every published per-file receipt (tag + immutable digest) matches state; no complete artifact needs re-publishing or re-verification."
+}
