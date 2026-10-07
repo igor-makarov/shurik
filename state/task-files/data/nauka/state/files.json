@@ -15,18 +15,117 @@
       "lastModified": "Wed, 28 Aug 2019 14:30:39 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "d32a44d5c44598fd65418bdeea1bb20c909d6b23208c0db8cd096f4eff1fef1e"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "c309c3d1ef7a39a0c70cf70a0d0ed1c11b27bab29ef25b118366d65c62d1578d"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "5ac0f5098ddd42c8aa70265e44a4d786c5ee6455fa88904599e863de15ad7063"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "51968ed1697a5cad0a2045728cc30952503c61dee69ac94640e4a5f26742525e"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "df57cc86e20e6d032ed8378197df625fd80279b11c0a1f6f58c9e3dd387f834a"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "2cc725200368ccf959e3cc1f553d08eb731859ef64086342f27ea3860ed1a6de"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "e8cc092b88ad758cd7b00512da87f49cecc10f9a58a69beee9af53421b71a71a"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "5bcaa8e4611bf4e6bf18e493c0c2914c62cd9983cd5c6c2d05235b98d741dda5"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "8b4b5c47f85272f036d66b43196e0660465c95e7c7382b4f56b03b7f0951a9ca"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "1b5cf4317423a2578c8f4001719532f3c6ae98bd30dd926cd2985aba60e31e87"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "03bd04f75459798f3fa9d134f68c08ca7bd4d7142ba2cd0dcd7e64dbfc649f71"
+        },
+        "11": {
+          "bytes": 1048576,
+          "sha256": "cb67d5f68f8a958bbbeeae79b9361fbc6e519a64327a220c56cd686a18ea1d18"
+        },
+        "12": {
+          "bytes": 1048576,
+          "sha256": "494f441a83b9a105c294ed115243b50a65ce3850e10bfdd0c8a13199f18424ea"
+        },
+        "13": {
+          "bytes": 1048576,
+          "sha256": "bd28f66c75f65032cdcdb5c5c4ae00677f580f5e91df5af6fdf0966d1a3953a0"
+        },
+        "14": {
+          "bytes": 1048576,
+          "sha256": "bd8d68ccd3bbfebb08b936d12237fab3f7c60e0df6285418c93d3c6d53734609"
+        },
+        "15": {
+          "bytes": 1048576,
+          "sha256": "27ec2506133418544540fad18ac6e009bfe36cf657b095d0edc384fb16ba508e"
+        },
+        "16": {
+          "bytes": 1048576,
+          "sha256": "6d8ab975b48233640571f4670c87d5547543cfc208fc7e69724c0fba8b8e669d"
+        },
+        "17": {
+          "bytes": 1048576,
+          "sha256": "82c4907756cc7b3fa23b9c8a6ac00ae82ef362c9d019781f58f1dcb1ecf5346f"
+        },
+        "18": {
+          "bytes": 1048576,
+          "sha256": "89a0e41fc2056b6ad14ec999589841f30dd51b69ed0e1f4bd43648369d5bdc40"
+        },
+        "19": {
+          "bytes": 772307,
+          "sha256": "b98b3a6ece56177bf251820e507d22cc6a46bb027b4283305ccc0ea89fd8982c"
+        }
+      },
+      "receivedBytes": 20695251,
+      "status": "published",
       "gen": 0,
-      "attempts": 19,
+      "attempts": 39,
       "retries": 0,
-      "lastError": "aborted",
+      "lastError": null,
       "lastErrorAt": "2026-10-07T14:09:29.945Z",
-      "ghcr": null,
-      "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T12:17:53.766Z"
+      "ghcr": {
+        "tag": "nij-1934-n01p-djv",
+        "digest": "sha256:f9e2f28bbd103ff49a236f0dae76239c5b8aae01cfa1552895c44859945e8cca",
+        "title": "Nauka_i_jizn',1934,N01p.[djv].zip",
+        "pushedAt": "2026-10-07T14:17:55.070Z"
+      },
+      "checkpoint": {
+        "digest": "sha256:518e15930e7e917b306d3c4208c62d5884eda01506ebf56a34417bab54d7c715",
+        "bytes": 20695251,
+        "chunks": 20,
+        "at": "2026-10-07T14:17:10.875Z"
+      },
+      "verified": {
+        "at": "2026-10-07T14:17:55.770Z",
+        "pulledSha256": "89ee5509fa0f9823cc061b86ff6a862a3e3d7ca11a529d0610f0b6ebd89376d3",
+        "ok": true,
+        "digest": "sha256:f9e2f28bbd103ff49a236f0dae76239c5b8aae01cfa1552895c44859945e8cca"
+      },
+      "updatedAt": "2026-10-07T12:17:53.766Z",
+      "cleanupPasses": 0,
+      "sha256": "89ee5509fa0f9823cc061b86ff6a862a3e3d7ca11a529d0610f0b6ebd89376d3",
+      "publishedAt": "2026-10-07T14:17:55.773Z"
     },
     "nij-1934-n01p-pdf": {
       "id": "nij-1934-n01p-pdf",
@@ -42,18 +141,29 @@
       "lastModified": "Wed, 28 Aug 2019 14:30:35 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "e2df6617b7c0c01c2733a20aa1ab3fff1d2296d83b1a4091e30b6020f72e7d17"
+        }
+      },
+      "receivedBytes": 1048576,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 2,
-      "retries": 0,
+      "attempts": 41,
+      "retries": 2,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:07:23.701Z",
+      "lastErrorAt": "2026-10-07T14:19:16.934Z",
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:8d9367e2291e8a01b11722910be5f71a949a7204fd7762f86648904eaedcaaec",
+        "bytes": 1048576,
+        "chunks": 1,
+        "at": "2026-10-07T14:17:12.834Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T12:17:53.766Z"
+      "updatedAt": "2026-10-07T12:17:53.766Z",
+      "cleanupPasses": 0
     },
     "nij-1934-n01-djv": {
       "id": "nij-1934-n01-djv",
@@ -612,18 +722,113 @@
       "lastModified": "Fri, 14 Jun 2019 15:07:50 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "3083c49e5695b5e0eaec519579fe1eedf7aac7094fe2531cb7084bd53ae806b2"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "ad1f3dd2aebdc727aec0799d03cbfca9ee2fcfe00f3785e604c712db1fae3a9c"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "0db7327d371f6231e8c0312261e1e07e3f254ff44c9e61563d8f98a453c3d056"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "c0ce04663671b9058e9d4bb0598d889651bac8055ac28fb9eabfba15f1695645"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "cbb8b7a7e2d58ac4759788257ef5678c229ae236f3adca7371570edf38aa6f75"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "9cb90b5531513f59018ed1f5f34cf7822e2183babd96a6c0ec8969ff31fc284d"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "5721f884fcb0f57e3dab6d309bba49db1bccfcad3fa77041ab31ddff04507ec6"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "e92dae0ba1bba2739ae631752f6571597726e7ec5b6839dba53390b8a1912e61"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "bba462adc89d494aaf19b70a46252f29d21ba300eef5310c8aa6bb82fa57461e"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "4e078b5336b57ab1f31e5872c049c1183678f7ae1a791bc34c083a28219cb49c"
+        },
+        "11": {
+          "bytes": 1048576,
+          "sha256": "b7cc9b0bcb45f72350356797192d8d60b6e2e083ba2723f058826d063ee4415c"
+        },
+        "12": {
+          "bytes": 1048576,
+          "sha256": "427419758649be466c1cf53ddb050f7ab9677ab1df9098655e5994562b4c7b15"
+        },
+        "13": {
+          "bytes": 1048576,
+          "sha256": "dba75c8040d7937ed149b876ba5cb54ead0ba84b36cf01bc3748c7a3b5b6091d"
+        },
+        "14": {
+          "bytes": 1048576,
+          "sha256": "fe9e01d2937f511574e3197846cde83cb93706e438caae758dd444621d1f15f5"
+        },
+        "15": {
+          "bytes": 1048576,
+          "sha256": "eb8f7f0ee532c667b83582b90556b0b0290b4ec183b2a72697d0e19be60d06ac"
+        },
+        "16": {
+          "bytes": 1048576,
+          "sha256": "878c1abe8322f6bce8f9a2e21a68ba494c13366a99752e931bec614aa232711d"
+        },
+        "17": {
+          "bytes": 1048576,
+          "sha256": "c6591ac3593f324a1f68fd871936f8fe959709f84f2c14dcb8b2751014865544"
+        },
+        "18": {
+          "bytes": 1048576,
+          "sha256": "2924890e796cfbb85e7604c1ff3e9f32745fa7a0ef4d4ba15741e861cdce982a"
+        },
+        "19": {
+          "bytes": 1048576,
+          "sha256": "f433d57037d64df682c3045d037b20943d09ae35c831a6187f4b9f0112b11cb1"
+        },
+        "20": {
+          "bytes": 1048576,
+          "sha256": "d91ce67f243429bd8db2c2cd3c5aed5ba7b232b04bba0279ffb7fdb44f9c904f"
+        },
+        "21": {
+          "bytes": 1048576,
+          "sha256": "f3b829443b3a95be230978f729e8ec009c2286284cefef791d3d8045aeef853a"
+        },
+        "22": {
+          "bytes": 891702,
+          "sha256": "5d2115c94628f06ee1d9b969b3936b7ef395bd43e0a52f913da5ba382ca6576c"
+        }
+      },
+      "receivedBytes": 22911798,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 2,
+      "attempts": 27,
       "retries": 0,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:07:25.699Z",
+      "lastErrorAt": "2026-10-07T14:19:07.932Z",
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:4aff2740f3bdedd617a0e8c9c6b1b37369bbce552ea72939cf338cc81a35aa7c",
+        "bytes": 22911798,
+        "chunks": 22,
+        "at": "2026-10-07T14:19:23.793Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T12:17:54.061Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z",
+      "cleanupPasses": 0
     },
     "nij-1936-n09-djv": {
       "id": "nij-1936-n09-djv",
@@ -1501,10 +1706,10 @@
       "receivedBytes": 0,
       "status": "pending",
       "gen": 0,
-      "attempts": 1,
+      "attempts": 3,
       "retries": 0,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:09:33.946Z",
+      "lastErrorAt": "2026-10-07T14:19:20.936Z",
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
@@ -1573,10 +1778,10 @@
       "receivedBytes": 10727350,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 66,
+      "attempts": 67,
       "retries": 0,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:09:21.947Z",
+      "lastErrorAt": "2026-10-07T14:19:18.936Z",
       "ghcr": null,
       "checkpoint": {
         "digest": "sha256:3aebad47cdbbdcf819945c62a7add30b6304ca8de0e41eb374092148ad0a09ba",
@@ -3404,19 +3609,19 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1938,N11-12.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1938, №11-12.",
       "labelSize": "Djv-24.0M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 25182207,
+      "etag": "\"5cfd45ad-1803fff\"",
+      "lastModified": "Sun, 09 Jun 2019 17:45:17 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
       "chunks": {},
       "receivedBytes": 0,
-      "status": "pending",
+      "status": "in_progress",
       "gen": 0,
-      "attempts": 1,
+      "attempts": 3,
       "retries": 0,
       "lastError": "aborted",
-      "lastErrorAt": "2026-10-07T14:09:31.946Z",
+      "lastErrorAt": "2026-10-07T14:17:06.382Z",
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
@@ -4794,5 +4999,5 @@
       "publishedAt": "2026-10-07T14:00:42.438Z"
     }
   },
-  "updatedAt": "2026-10-07T14:09:36.281Z"
+  "updatedAt": "2026-10-07T14:19:23.882Z"
 }
