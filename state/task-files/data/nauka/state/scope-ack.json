@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-scope-ack",
-  "iteration": "4-15",
-  "at": "2026-10-07T22:10:00.000Z",
+  "iteration": "4-17",
+  "at": "2026-10-07T23:28:20.000Z",
   "acknowledgedScopeChange": true,
   "previousObjective": "1934-1939 only, 60 files (completed subset)",
   "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
@@ -31,16 +31,17 @@
     "files": 1112,
     "supplementaryFiles": 5,
     "status": "provisional",
-    "note": "all archive-linked era pages visited and represented; master index stays provisional until explicitly re-audited against every era page"
+    "note": "all archive-linked era pages visited and represented; master index stays provisional until explicitly re-audited against every era page",
+    "publishedFiles": 265,
+    "remainingFiles": 847
   },
   "publishedAtAck": {
-    "publishedFiles": 100,
-    "publishedIssues": null,
-    "note": "published count read from data/nauka/state/files.json at iteration 4-15 start; master index receipt was stale (67) and will be refreshed"
+    "publishedFiles": 265,
+    "publishedIssues": 186,
+    "note": "master-index-receipt + verification, iteration 4-17"
   },
   "nextActions": [
-    "Refresh nij-master-index to reflect current durable state",
-    "Fetch master JSON back by immutable digest and verify bytes/hash + representative entries",
-    "Continue bounded origin retrieval batches for newly inventoried scans"
+    "Continue bounded smallest-first retrieve batches (847 remaining).",
+    "Refresh+re-verify master index after each batch."
   ]
 }

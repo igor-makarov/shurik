@@ -1,0 +1,71 @@
+{
+  "kind": "shurik-nauka-all-years-progress",
+  "iteration": "4-17",
+  "at": "2026-10-07T23:28:30.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "masterTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "discovery": {
+    "status": "provisional",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "outOfScopePagesVisited": 2,
+    "directoryVisited": true,
+    "genericTotal": 1112,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5,
+    "knownGapYears": [1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029]
+  },
+  "publication": {
+    "publishedFiles": 265,
+    "publishedIssues": 186,
+    "publishedBytes": 3350921850,
+    "remainingFiles": 847,
+    "inProgressEntries": 170,
+    "inProgressWithDurableChunks": 0,
+    "verifiedPartialBytes": 0,
+    "knownBytesTotal": 4588225255,
+    "baselinePublishedFiles": 60,
+    "newPublishedBeyondBaseline": 205,
+    "newPublishedBytesBeyondBaseline": 1039291560
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:dc972e3da8da4cdceb94394fc5af63041d4dbb4ac911bdc63fe0848af692572c",
+    "bytes": 1237087,
+    "catalogDigest": "sha256:2936eeaaeaa8cace5e9db3b6cdc78f88c8e17efced343799d537a12ea3db783b",
+    "checkpointDigest": "sha256:c02ae265a96804a90cd1f506b94bad3692ae9da6a879b0dc6c1d6e437f678e82",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-07T23:28:13.623Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "batch21": {
+    "record": "data/nauka/state/batches/2026-10-07T232812-batch21.json",
+    "publishedThisBatch": 55,
+    "durableNewBytes": 365899060,
+    "elapsedMs": 811186,
+    "originApproxKiBps": 435
+  },
+  "blockers": [],
+  "nextActions": [
+    "Continue bounded smallest-first retrieve batches for the remaining 847 files.",
+    "Refresh and re-verify the master index by immutable digest after each batch."
+  ]
+}

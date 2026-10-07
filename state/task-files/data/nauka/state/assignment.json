@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "4-16",
-  "at": "2026-10-07T23:04:17.311Z",
+  "iteration": "4-17",
+  "at": "2026-10-07T23:28:20.000Z",
   "deadline": "2026-10-08T07:00:00.000Z",
   "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -22,10 +22,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 210,
-  "publishedBytesNow": 2985022790,
-  "remainingFilesNow": 902,
-  "masterIndexDigestNow": "sha256:dae5dc83ee71c1dc1bbfd05c21365df89cb97813c7198272e6902bf97188de78",
+  "publishedFilesNow": 265,
+  "publishedBytesNow": 3350921850,
+  "remainingFilesNow": 847,
+  "masterIndexDigestNow": "sha256:dc972e3da8da4cdceb94394fc5af63041d4dbb4ac911bdc63fe0848af692572c",
   "discovery": {
     "scope": "all-years",
     "status": "provisional",
@@ -147,7 +147,10 @@
       2028,
       2029
     ],
-    "note": "provisional: era pages visited and parsed; status flips to complete only after every linked era page is visited and represented"
+    "note": "provisional: era pages visited and parsed; status flips to complete only after every linked era page is visited and represented",
+    "inProgressFiles": 170,
+    "pendingFiles": 677,
+    "publishedFiles": 265
   },
   "totals": {
     "years": 87,
@@ -158,8 +161,9 @@
     "Scope expanded by the user from 1934-1939-only to ALL YEARS on 2026-10-07.",
     "Era pages traversed: 1890-93, 1904-05, 1934-39, 1940-49, 1950-59, 1960-69, 1970-79, 1980-89, 1990-99, 2000-09, 2010-19, 2020-29 plus the archive directory.",
     "60 original 1934-1939 files remain published and are included in the master index unchanged.",
-    "Master index is provisional until every linked era page is visited and represented."
+    "Master index is provisional until every linked era page is visited and represented.",
+    "Iteration 4-17: first all-years retrieve batch published 55 files (210->265); both prior partials completed; master index refreshed and verified by immutable digest."
   ],
-  "masterIndexVerifiedAt": "2026-10-07T23:04:17.311Z",
-  "verifiedPartialBytesNow": 12582912
+  "masterIndexVerifiedAt": "2026-10-07T23:28:13.623Z",
+  "verifiedPartialBytesNow": 0
 }

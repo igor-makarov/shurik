@@ -1,12 +1,12 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-16",
-  "at": "2026-10-07T23:04:17.311Z",
+  "iteration": "4-17",
+  "at": "2026-10-07T23:28:20.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 210,
-  "remaining": 902,
-  "bytesPublished": 2985022790,
+  "published": 265,
+  "remaining": 847,
+  "bytesPublished": 3350921850,
   "blocker": null,
   "status": "IN_PROGRESS",
   "origin": {
@@ -16,8 +16,8 @@
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 12582912,
-    "partialFiles": "231 in_progress entries; ~12 MB of hash-validated chunk bytes durable across them",
+    "verifiedPartialBytes": 0,
+    "partialFiles": "170 in_progress entries; 0 with durable chunk bytes (both prior partials published in batch21)",
     "note": "Batch18 admitted real chunks (unlike batch16), so partial bytes are durable and resumable. No abandoned .tmp writers remain (cleanup swept them)."
   },
   "discovery": {
@@ -31,20 +31,20 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:dae5dc83ee71c1dc1bbfd05c21365df89cb97813c7198272e6902bf97188de78",
-    "bytes": 1218296,
+    "digest": "sha256:dc972e3da8da4cdceb94394fc5af63041d4dbb4ac911bdc63fe0848af692572c",
+    "bytes": 1237087,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:a86ddc8a4963863e4f9f8987746e2acae3fd27a130d20f1a7a16bdd373341508",
+    "catalogDigest": "sha256:2936eeaaeaa8cace5e9db3b6cdc78f88c8e17efced343799d537a12ea3db783b",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:cceb635b8f5f1b6742cef0ef6bbd43f215c94d6e3804c5b421343befd95fee59",
-    "verified": "Batch18 digest e0128df1 and batch19 digest fd0d1b98 both pulled back by immutable digest with tools/nauka/verify-master.mjs: bytes+sha256 matched, tag resolve matched, structure/published-refs OK, 0 published-flag mismatches vs local state. Records: data/nauka/state/master-index-verification.json.",
-    "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched, not relabelled)"
+    "checkpointDigest": "sha256:c02ae265a96804a90cd1f506b94bad3692ae9da6a879b0dc6c1d6e437f678e82",
+    "verified": "verify-master.mjs immutable-digest pull OK (bytes+sha256, tag resolve, 265 published, 0 mismatches)",
+    "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched)"
   },
   "codeChangesThisIteration": [
     "tools/nauka/verify-master.mjs (new): reusable immutable-digest verifier for the published all-years master index (+ catalog + checkpoint siblings). Re-hashes pulled bytes, re-resolves the tag, checks totals/structure/published refs, and cross-checks the published set against durable local state. Small JSON only, never pulls a scan blob."
   ],
-  "publishedThisIteration": 67,
-  "remainingFiles": 902,
-  "nextAction": "Continue bounded smallest-first retrieve batches, e.g. `node tools/nauka/cli.mjs retrieve --budget-ms 780000 --cleanup-ms 90000` with NAUKA_FILE_CONCURRENCY=4. ~14.8 GB still pending. Re-verify each freshly published master digest by immutable pull.",
-  "notes": "Master index ddf3b1f2 (batch17) was verified at iteration start; batch18 auto-refreshed it to e0128df1, which was verified OK. The old nij-1934-39-index remains correctly scoped and untouched."
+  "publishedThisIteration": 55,
+  "remainingFiles": 847,
+  "nextAction": "Continue bounded smallest-first retrieve batches, e.g. node tools/nauka/cli.mjs retrieve --budget-ms 840000 --cleanup-ms 100000 --reconcile with NAUKA_CONCURRENCY=32.",
+  "notes": "Iteration 4-17 batch21: 55 files published (210->265), +365,899,060 durable bytes, ~435 KiB/s origin. Both prior partials published. Master refreshed to dc972e3d and verified."
 }
