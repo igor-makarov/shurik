@@ -116,12 +116,19 @@ function entryFromHref(href, { page = null, url = null } = {}) {
     sourcePage: page,
     sourceUrl: url,
     synthesized: true,
+    discoveredVia: 'flat-listing',
   };
 }
 
 // Merge parsed era pages + the flat listing into a single all-years manifest.
 export function buildManifest({ nav, eraPages, directory, generatedAt }) {
   const fileMap = new Map(); // href -> entry
+  const pageForYear = (year) => {
+    for (const p of eraPages) {
+      if (p.years && year >= p.years[0] && year <= p.years[1]) return p;
+    }
+    return eraPages.find((p) => p.ok) || eraPages[0] || null;
+  };
   const addFile = (entry) => {
     if (!entry) return;
     const prev = fileMap.get(entry.href);
@@ -138,7 +145,9 @@ export function buildManifest({ nav, eraPages, directory, generatedAt }) {
   };
 
   for (const page of eraPages) {
-    for (const e of page.entries || []) addFile({ ...e, sourcePage: page.name, sourceUrl: page.url });
+    for (const e of page.entries || []) {
+      addFile({ ...e, sourcePage: page.name, sourceUrl: page.url, discoveredVia: 'structured' });
+    }
   }
   // Flat listing union across all pages (identical on every page; this also
   // catches files the structured rows omit, e.g. 2014/2015 pdf).
@@ -149,14 +158,17 @@ export function buildManifest({ nav, eraPages, directory, generatedAt }) {
       genericByHref.get(href).push(page.name);
     }
   }
-  for (const [href, pages] of genericByHref) {
-    const entry = entryFromHref(href, { page: pages[0], url: eraPageUrl(pages[0]) });
+  for (const [href] of genericByHref) {
+    const fm = FILE_RE.exec(href);
+    if (!fm) continue;
+    const cover = pageForYear(Number(fm[1]));
+    const entry = entryFromHref(href, { page: cover ? cover.name : null, url: cover ? cover.url : null });
     if (!entry) continue;
     if (fileMap.has(href)) {
       const prev = fileMap.get(href);
-      for (const p of pages) if (!prev.sourcePages.includes(p)) prev.sourcePages.push(p);
+      if (cover && !prev.sourcePages.includes(cover.name)) prev.sourcePages.push(cover.name);
     } else {
-      entry.sourcePages = pages;
+      entry.sourcePages = cover ? [cover.name] : [];
       fileMap.set(href, entry);
     }
   }
@@ -213,6 +225,10 @@ export function buildManifest({ nav, eraPages, directory, generatedAt }) {
     kind: 'shurik-nauka-all-years-manifest',
     scope: 'all-years',
     generatedAt: generatedAt || new Date().toISOString(),
+    // Compatibility aliases (the retrieval engine annotates pushes with these).
+    indexUrl: nav ? nav.url : INDEX_URL,
+    indexSha256: nav ? nav.sha256 : null,
+    indexBytes: nav ? nav.bytes : null,
     nav: nav || null,
     directory: directory || null,
     eraPages,

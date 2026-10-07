@@ -34,6 +34,7 @@ export const CHECKPOINT_ARTIFACT_TYPE = 'application/vnd.shurik.nauka.checkpoint
 // Canonical user-facing master index (all years) and its resume/checkpoint.
 export const MASTER_INDEX_TAG = 'nij-master-index';
 export const MASTER_CHECKPOINT_TAG = 'nij-master-checkpoint';
+export const MASTER_CATALOG_TAG = 'nij-master-catalog';
 // Legacy completed-subset tags (preserved as-is).
 export const INDEX_TAG = 'nij-1934-39-index';
 export const CHECKPOINT_TAG = 'nij-1934-39-checkpoint';

@@ -10,12 +10,18 @@ import {
   INDEX_URL,
   INDEX_TAG,
   CHECKPOINT_TAG,
+  MASTER_INDEX_TAG,
+  MASTER_CHECKPOINT_TAG,
+  MASTER_CATALOG_TAG,
   ARTIFACT_TYPE,
   SOURCE_REPO,
+  SUBSET_YEARS,
   entryTag,
   checkpointTag,
 } from './config.mjs';
 import { decodeIndex, manifestFromHtml, parseIndex } from './parse-index.mjs';
+import { discoverAll } from './discover.mjs';
+import { buildMasterIndex, buildMasterCheckpoint, buildCatalogMarkdown } from './master-index.mjs';
 import { httpGetToFile, TransientError, sleep, jitter, originReachable } from './http.mjs';
 import { Ghcr, killActiveChildren } from './ghcr.mjs';
 import {
@@ -83,58 +89,51 @@ async function fetchIndexBytes({ offline } = {}) {
 }
 
 async function cmdDiscover(args) {
-  const offline = args.includes('--offline') ? args[args.indexOf('--offline') + 1] : null;
-  const fetched = await fetchIndexBytes({ offline });
-  const sha256 = sha256Buf(fetched.bytes);
-  const html = decodeIndex(fetched.bytes);
-  const manifest = manifestFromHtml(html, {
-    indexSha256: sha256,
-    indexBytes: fetched.bytes.length,
-    fetchedAt: fetched.fetchedAt,
-    fetchSource: fetched.source,
-  });
+  const refresh = args.includes('--refresh');
+  const { manifest } = await discoverAll({ log, refresh });
   await saveManifest(manifest);
-  // Keep a compact, auditable copy on the work branch too.
+  // Keep a compact, auditable summary on the work branch too (the full
+  // per-file entries live in the GHCR master index artifact).
   await fs.mkdir(path.dirname(TOOLS_MANIFEST), { recursive: true });
-  await atomicWriteJson(TOOLS_MANIFEST, compactManifest(manifest));
-  if (!offline) {
-    await saveIndexEvidence(fetched.bytes, {
-      url: INDEX_URL,
-      fetchedAt: fetched.fetchedAt,
-      bytes: fetched.bytes.length,
-      sha256,
-      encoding: 'windows-1251',
-      attempts: fetched.attempts,
-    });
-  }
-  log(`discovered ${manifest.totalFiles} files across years ${manifest.years.join(',')}; index sha256=${sha256}`);
+  await atomicWriteJson(TOOLS_MANIFEST, compactSummary(manifest));
+  const d = manifest.discovery || {};
+  log(`discovered ${manifest.totalFiles} files / ${manifest.totalIssues} issues across ${manifest.years.length} years; era pages ${d.eraPagesVisited}/${d.eraPagesTotal}, directory ${d.directoryVisited ? 'ok' : 'pending'}`);
   for (const y of manifest.years) {
-    const c = manifest.coverage[y];
-    log(`  ${y}: ${c.fileCount} files, issues ${c.issues.join(',')}, missing months ${c.missingMonths.join(',') || 'none'}`);
+    const c = manifest.coverage[y] || {};
+    log(`  ${y}: ${c.fileCount || 0} files, issues ${(c.issues || []).join(',') || 'none'}`);
   }
   return manifest;
 }
 
-function compactManifest(manifest) {
+function compactSummary(manifest) {
   return {
-    version: 1,
+    version: 2,
+    kind: manifest.kind,
+    scope: manifest.scope,
+    generatedAt: manifest.generatedAt,
     indexUrl: manifest.indexUrl,
     indexSha256: manifest.indexSha256,
     indexBytes: manifest.indexBytes,
-    fetchedAt: manifest.fetchedAt,
     years: manifest.years,
     totalFiles: manifest.totalFiles,
-    entries: manifest.entries.map((e) => ({
-      id: e.id,
-      year: e.year,
-      issue: e.issue,
-      format: e.format,
-      filename: e.filename,
-      url: e.url,
-      labelText: e.labelText,
-      labelSize: e.labelSize,
+    totalIssues: manifest.totalIssues,
+    byYearCounts: manifest.byYearCounts,
+    discovery: manifest.discovery,
+    knownGaps: manifest.knownGaps,
+    eraPages: (manifest.eraPages || []).map((p) => ({
+      name: p.name,
+      url: p.url,
+      label: p.label,
+      years: p.years,
+      ok: p.ok,
+      bytes: p.bytes,
+      sha256: p.sha256,
+      rows: p.rows,
+      structuredFiles: p.structuredFiles,
+      genericFiles: p.genericFiles,
+      error: p.error || null,
     })),
-    coverage: manifest.coverage,
+    note: 'Compact tracked summary. Full per-file entries are published in the master index artifact (ghcr nij-master-index).',
   };
 }
 
@@ -339,10 +338,10 @@ async function cmdRetrieve(args) {
       log(`status write error (non-fatal): ${err.message}`);
     }
     try {
-      // Keep the discoverable collection + resume index current each batch.
-      await publishCollectionIndex(state, manifest, ghcr, log);
+      // Keep the canonical all-years master index current each batch.
+      await publishMasterIndex(state, manifest, ghcr, log);
     } catch (err) {
-      log(`index publish error (non-fatal): ${err.message}`);
+      log(`master index publish error (non-fatal): ${err.message}`);
     }
     killActiveChildren();
     clearTimeout(hardTimer);
@@ -407,14 +406,88 @@ async function cmdIndex() {
   const manifest = await loadManifest();
   const state = await loadState();
   const ghcr = await makeGhcr();
-  await publishCollectionIndex(state, manifest, ghcr, log);
+  const r = await publishMasterIndex(state, manifest, ghcr, log, { catalog: true });
   await writeStatus(state, manifest, { manifest });
+  return r;
 }
 
-// Publish the discoverable collection index and the resume/checkpoint marker.
-// Small JSON only; safe to call from every retrieve batch.
+// Publish the canonical all-years master index (+ readable catalog + resume
+// checkpoint). Small JSON/Markdown only; safe to call from every batch.
+async function publishMasterIndex(state, manifest, ghcr, log, { catalog = true } = {}) {
+  const master = buildMasterIndex({ manifest, state, generatedAt: new Date().toISOString() });
+  const tmpDir = path.join(PATHS.stagingDir, 'master-index');
+  await fs.rm(tmpDir, { recursive: true, force: true });
+  await fs.mkdir(tmpDir, { recursive: true });
+
+  const jsonFile = path.join(tmpDir, 'nij-master-index.json');
+  await fs.writeFile(jsonFile, JSON.stringify(master, null, 2) + '\n');
+  const res = await ghcr.pushFile(MASTER_INDEX_TAG, jsonFile, {
+    title: 'nij-master-index.json',
+    annotations: {
+      'org.opencontainers.image.title': 'nij-master-index.json',
+      'shurik.nauka.kind': 'master-index',
+      'shurik.nauka.scope': 'all-years',
+      'shurik.nauka.discovery-status': String(master.discovery ? master.discovery.status : 'unknown'),
+      'shurik.nauka.total-files': String(master.totals.files),
+      'shurik.nauka.published-files': String(master.totals.publishedFiles),
+      'shurik.nauka.total-issues': String(master.totals.issues),
+      'shurik.nauka.discovery-entry-point': master.discoveryEntryPoint,
+    },
+  });
+
+  let catalogDigest = null;
+  if (catalog) {
+    const catFile = path.join(tmpDir, 'nij-master-catalog.md');
+    await fs.writeFile(catFile, buildCatalogMarkdown(master));
+    const catRes = await ghcr.pushFile(MASTER_CATALOG_TAG, catFile, {
+      title: 'nij-master-catalog.md',
+      annotations: {
+        'org.opencontainers.image.title': 'nij-master-catalog.md',
+        'shurik.nauka.kind': 'master-catalog',
+        'shurik.nauka.scope': 'all-years',
+      },
+    });
+    catalogDigest = catRes.digest;
+    log(`published catalog ${MASTER_CATALOG_TAG} -> ${catalogDigest}`);
+  }
+
+  const checkpoint = buildMasterCheckpoint({ master });
+  const ckFile = path.join(tmpDir, 'nij-master-checkpoint.json');
+  await fs.writeFile(ckFile, JSON.stringify(checkpoint, null, 2) + '\n');
+  const ckRes = await ghcr.pushFile(MASTER_CHECKPOINT_TAG, ckFile, {
+    title: 'nij-master-checkpoint.json',
+    annotations: {
+      'org.opencontainers.image.title': 'nij-master-checkpoint.json',
+      'shurik.nauka.kind': 'master-checkpoint',
+      'shurik.nauka.scope': 'all-years',
+      'shurik.nauka.published-files': String(master.totals.publishedFiles),
+    },
+  });
+
+  const receipt = {
+    kind: 'shurik-nauka-master-index-receipt',
+    at: master.generatedAt,
+    indexTag: MASTER_INDEX_TAG,
+    indexDigest: res.digest,
+    catalogTag: catalog ? MASTER_CATALOG_TAG : null,
+    catalogDigest,
+    checkpointTag: MASTER_CHECKPOINT_TAG,
+    checkpointDigest: ckRes.digest,
+    discoveryStatus: master.discovery ? master.discovery.status : null,
+    totals: master.totals,
+    indexBytes: (await fs.stat(jsonFile)).size,
+  };
+  await atomicWriteJson(path.join(PATHS.stateDir, 'master-index-receipt.json'), receipt);
+  log(`published master index ${MASTER_INDEX_TAG} -> ${res.digest} (${receipt.indexBytes} B, status ${receipt.discoveryStatus})`);
+  log(`published master checkpoint ${MASTER_CHECKPOINT_TAG} -> ${ckRes.digest}`);
+  return receipt;
+}
+
+// Publish the legacy 1934-1939 collection index + resume marker. Scoped to the
+// 1934-1939 subset ONLY; preserved as-is (never called with all-years data).
 async function publishCollectionIndex(state, manifest, ghcr, log) {
-  const files = manifest.entries.map((e) => {
+  const subset = manifest.entries.filter((e) => SUBSET_YEARS.includes(e.year));
+  const files = subset.map((e) => {
     const eff = state.files[e.id] || {};
     return {
       id: e.id,
@@ -434,6 +507,7 @@ async function publishCollectionIndex(state, manifest, ghcr, log) {
   const indexDoc = {
     version: 1,
     kind: 'shurik-nauka-collection',
+    scope: '1934-1939-subset',
     indexUrl: manifest.indexUrl,
     indexSha256: manifest.indexSha256,
     registry: REGISTRY,
@@ -442,7 +516,6 @@ async function publishCollectionIndex(state, manifest, ghcr, log) {
     totalFiles: files.length,
     publishedFiles: published.length,
     remainingFiles: files.length - published.length,
-    coverage: manifest.coverage,
     files,
   };
   const tmpDir = path.join(PATHS.stagingDir, 'index-publish');
@@ -455,12 +528,12 @@ async function publishCollectionIndex(state, manifest, ghcr, log) {
     annotations: {
       'org.opencontainers.image.title': 'nij-1934-39-index.json',
       'shurik.nauka.kind': 'collection-index',
+      'shurik.nauka.scope': '1934-1939-subset',
       'shurik.nauka.total-files': String(files.length),
       'shurik.nauka.published-files': String(published.length),
       'shurik.nauka.index-url': manifest.indexUrl,
     },
   });
-  // Resume/checkpoint marker tag.
   const checkpointFile = path.join(tmpDir, 'nij-1934-39-checkpoint.json');
   await fs.writeFile(
     checkpointFile,
@@ -468,6 +541,7 @@ async function publishCollectionIndex(state, manifest, ghcr, log) {
       {
         version: 1,
         kind: 'shurik-nauka-resume-checkpoint',
+        scope: '1934-1939-subset',
         generatedAt: new Date().toISOString(),
         published: published.map((f) => ({ id: f.id, tag: f.tag, digest: f.digest, sha256: f.sha256, bytes: f.bytes })),
         remaining: files.filter((f) => f.status !== 'published').map((f) => ({ id: f.id, status: f.status })),
@@ -482,6 +556,7 @@ async function publishCollectionIndex(state, manifest, ghcr, log) {
     annotations: {
       'org.opencontainers.image.title': 'nij-1934-39-checkpoint.json',
       'shurik.nauka.kind': 'resume-checkpoint',
+      'shurik.nauka.scope': '1934-1939-subset',
     },
   });
   log(`published index ${INDEX_TAG} -> ${res.digest}`);
@@ -527,16 +602,18 @@ async function writeStatus(state, manifest, ctx) {
     bytesTotal += eff.expectedBytes || 0;
   }
   const lines = [];
-  lines.push('# NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval');
+  lines.push('# NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval');
   lines.push('');
   lines.push(`Updated: ${new Date().toISOString()}`);
+  lines.push(`Scope: all-years (supersedes the completed 1934-1939-only objective)`);
   lines.push('');
   lines.push('## Index evidence');
-  lines.push(`- Index URL: ${manifest.indexUrl}`);
-  lines.push(`- Index sha256 (windows-1251 bytes): \`${manifest.indexSha256}\``);
-  lines.push(`- Index bytes: ${manifest.indexBytes}`);
-  lines.push(`- Discovered scan files: ${entries.length} (years ${manifest.years.join(', ')})`);
-  lines.push(`- Manifest (tracked copy): \`tools/nauka/manifest.json\`; raw index preserved at \`data/nauka/state/evidence/index.cp1251.html\``);
+  lines.push(`- Discovery entry point (nav): ${manifest.indexUrl}`);
+  lines.push(`- Nav sha256 (windows-1251 bytes): \`${manifest.indexSha256}\``);
+  lines.push(`- Nav bytes: ${manifest.indexBytes}`);
+  lines.push(`- Discovered scan files: ${entries.length}; issues: ${(manifest.issues || []).length}; years: ${manifest.years.length} (${manifest.years[0]}..${manifest.years[manifest.years.length - 1]})`);
+  lines.push(`- Era pages visited: ${(manifest.discovery && manifest.discovery.eraPagesVisited) || '?'}/${(manifest.discovery && manifest.discovery.eraPagesTotal) || '?'}`);
+  lines.push(`- Manifest (tracked summary): \`tools/nauka/manifest.json\`; full manifest in \`data/nauka/state/manifest.json\`; era evidence under \`data/nauka/state/evidence/eras/\``);
   lines.push('');
   lines.push('## Totals');
   lines.push(`- discovered: ${entries.length}`);
@@ -550,16 +627,34 @@ async function writeStatus(state, manifest, ctx) {
   lines.push('## Per year');
   for (const [year, y] of [...byYear.entries()].sort()) {
     const c = (manifest.coverage && manifest.coverage[year]) || null;
-    const missing = c && Array.isArray(c.missingMonths) ? c.missingMonths.join(',') || 'none' : 'unknown';
-    lines.push(`- ${year}: ${y.published}/${y.total} published; missing months: ${missing}`);
+    const missing = c && c.monthly ? c.missingMonths.join(',') || 'none' : 'n/a';
+    lines.push(`- ${year}: ${y.published}/${y.total} published; issues ${c ? (c.issues || []).join(',') : '?'}; missing months: ${missing}`);
+  }
+  const gaps = (manifest.discovery && manifest.discovery.knownGapYears) || [];
+  lines.push('');
+  lines.push(`## Known archive gaps (years inside an era range with no listed scan)`);
+  lines.push(`- ${gaps.length ? gaps.join(', ') : 'none'}`);
+  lines.push('');
+  lines.push('## Master index');
+  try {
+    const receipt = JSON.parse(await fs.readFile(path.join(PATHS.stateDir, 'master-index-receipt.json'), 'utf8'));
+    lines.push(`- canonical tag: \`${receipt.indexTag}\` @ \`${receipt.indexDigest}\``);
+    lines.push(`- catalog tag: \`${receipt.catalogTag}\` @ \`${receipt.catalogDigest}\``);
+    lines.push(`- checkpoint tag: \`${receipt.checkpointTag}\` @ \`${receipt.checkpointDigest}\``);
+    lines.push(`- discovery status: ${receipt.discoveryStatus}; files ${receipt.totals.files}, published ${receipt.totals.publishedFiles}, issues ${receipt.totals.issues}`);
+  } catch {
+    lines.push('- (not published yet this run)');
   }
   lines.push('');
   lines.push('## Registry');
   lines.push(`- Registry: ${REGISTRY}`);
   lines.push(`- Source annotation: ${SOURCE_REPO}`);
   lines.push(`- Artifact type: ${ARTIFACT_TYPE}`);
-  lines.push(`- Collection/index tag: ${INDEX_TAG}`);
-  lines.push(`- Resume/checkpoint tag: ${CHECKPOINT_TAG}`);
+  lines.push(`- Master index tag: ${MASTER_INDEX_TAG}`);
+  lines.push(`- Master catalog tag: ${MASTER_CATALOG_TAG}`);
+  lines.push(`- Master checkpoint tag: ${MASTER_CHECKPOINT_TAG}`);
+  lines.push(`- Legacy 1934-1939 subset index tag: ${INDEX_TAG} (preserved, correctly scoped)`);
+  lines.push(`- Legacy 1934-1939 subset checkpoint tag: ${CHECKPOINT_TAG} (preserved)`);
   lines.push(`- Per-file tags: \`nij-<year>-<issue>-<format>\``);
   lines.push('');
   lines.push('## Verified GHCR references');
@@ -656,6 +751,9 @@ async function main() {
     case 'verify':
       return (await cmdVerify()) ? 0 : 1;
     case 'index':
+      await cmdIndex();
+      return 0;
+    case 'master':
       await cmdIndex();
       return 0;
     case 'status':
