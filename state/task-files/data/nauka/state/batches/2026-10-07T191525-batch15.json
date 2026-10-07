@@ -1,0 +1,29 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 15,
+  "iteration": "3-9",
+  "startedAt": "2026-10-07T19:15:25.000Z",
+  "elapsedMs": 178613,
+  "budget": {"budgetMs": 300000, "cleanupMs": 120000, "minChunkBudgetMs": 90000, "passBudgetMs": 320000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1938-n05-pdf"],
+  "publishedBefore": 59,
+  "publishedAfter": 60,
+  "remainingBefore": 1,
+  "remainingAfter": 0,
+  "verifiedPartialBytesBefore": 48234496,
+  "verifiedPartialBytesAfter": 0,
+  "newOriginBytesDurable": 56283802,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No mid-body aborts. Final 54 chunks of the last remaining file downloaded, assembled and round-trip verified.",
+  "published": [
+    {"id": "nij-1938-n05-pdf", "bytes": 104518298, "sha256": "a1726b01edd74eeeaf0017150b8f38f3db0d69f4ba5c6e59b5ac538cf4d56dcd", "digest": "sha256:5bbd14274255389e4bd63fd391e965d7ac0ebb26205397d61947558d00ff7fb8", "tag": "nij-1938-n05-pdf", "note": "finished from 46 checkpointed chunks + 54 fresh chunks"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "nij-1934-39-index", "digest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d"}
+  ],
+  "partialAfter": [],
+  "failures": [],
+  "retries": 0,
+  "nextAction": "ALL 60 DISCOVERED FILES PUBLISHED AND ROUND-TRIP VERIFIED. Run `node tools/nauka/cli.mjs verify` for a final full-set check and update NAUKA_STATUS.md/handoff."
+}

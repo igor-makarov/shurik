@@ -1,0 +1,25 @@
+{
+  "kind": "shurik-nauka-completion",
+  "iteration": "3-9",
+  "at": "2026-10-07T19:19:30.000Z",
+  "objective": "Retrieve every original scan/archive directly linked from the 1934-1939 index and publish original bytes + per-file SHA-256 to ghcr.io/igor-makarov/shurik-nauka",
+  "indexUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html",
+  "indexSha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
+  "discovered": 60,
+  "published": 60,
+  "remaining": 0,
+  "bytesPublished": 2311630290,
+  "collectionTag": "nij-1934-39-index",
+  "checkpointTag": "nij-1934-39-checkpoint",
+  "perFileVerification": "Every file was published with a genuine round-trip: oras push of the assembled original bytes, then oras pull of the pushed tag, re-hash of the pulled bytes, and comparison to the assembled sha256. status='published' is only set when the hashes match (engine.publishFile).",
+  "iterationBatches": [
+    {"batch": 13, "publishedBefore": 54, "publishedAfter": 57, "durableNewBytes": 220138051, "discardedBytes": 0},
+    {"batch": 14, "publishedBefore": 57, "publishedAfter": 59, "durableNewBytes": 230351306, "discardedBytes": 0},
+    {"batch": 15, "publishedBefore": 59, "publishedAfter": 60, "durableNewBytes": 56283802, "discardedBytes": 0}
+  ],
+  "publishedThisIteration": [
+    "nij-1938-n0910-pdf", "nij-1936-n11-pdf", "nij-1936-n06-pdf",
+    "nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"
+  ],
+  "notes": "All scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. No unfinished partials remain."
+}

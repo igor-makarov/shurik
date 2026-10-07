@@ -1,0 +1,33 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 14,
+  "iteration": "3-9",
+  "startedAt": "2026-10-07T19:04:17.000Z",
+  "elapsedMs": 635427,
+  "budget": {"budgetMs": 640000, "cleanupMs": 150000, "minChunkBudgetMs": 90000, "passBudgetMs": 680000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"],
+  "publishedBefore": 57,
+  "publishedAfter": 59,
+  "remainingBefore": 3,
+  "remainingAfter": 1,
+  "verifiedPartialBytesBefore": 23068672,
+  "verifiedPartialBytesAfter": 48234496,
+  "newOriginBytesDurable": 230351306,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No mid-body aborts. n01 (98 chunks) and n02 (98 chunks) each downloaded fresh and published; n05 advanced 22->46 durable chunks and checkpointed before the deadline.",
+  "published": [
+    {"id": "nij-1938-n01-pdf", "bytes": 102072758, "sha256": "e73bdfb3f4aacce7c80498583fbb74b09e5f477cd06e1efe49b7fb4094bd9b21", "digest": "sha256:d0eceb4e602fff4b6d8374a83ab8ffe7911b18f350950fdc4071e807bb650836", "tag": "nij-1938-n01-pdf", "note": "fresh 98 chunks"},
+    {"id": "nij-1938-n02-pdf", "bytes": 102697270, "sha256": "1590b45e6bb44bbb297321b6ecbdddd737341915f9fecd049a37828250454a00", "digest": "sha256:62f261eabb06a49b6b9bf64374d82f9cb78b6d1286bfbbc275cd8590a6465657", "tag": "nij-1938-n02-pdf", "note": "fresh 98 chunks"}
+  ],
+  "checkpointReceipts": [
+    {"tag": "checkpoint-nij-1938-n05-pdf", "digest": "sha256:189afe98c55146928062e149a79b7f5e31c411fbb22f3404ea3c6e23e4eb0fe8", "bytes": 48234496, "chunks": 46},
+    {"tag": "nij-1934-39-index", "digest": "sha256:0f6b4d76e08af543a3618dea519ca2508c208a41ae2213515e0eb1e7ff217005"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:87f6e0820515b6d5d53d9e1a1d6d140aa5a1d3e16fda57e7d49a837b04a41bd1"}
+  ],
+  "partialAfter": [
+    {"id": "nij-1938-n05-pdf", "bytes": 48234496, "expected": 104518298, "chunks": 46}
+  ],
+  "failures": [],
+  "retries": 0,
+  "nextAction": "Finish the last file: nij-1938-n05-pdf, 54 chunks left (46/100 durable). One ~250-300 s bounded batch at fileConcurrency=1."
+}

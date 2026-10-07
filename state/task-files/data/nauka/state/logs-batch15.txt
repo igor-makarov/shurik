@@ -1,0 +1,16 @@
+2026-10-07T19:15:25.704Z oras login ok
+2026-10-07T19:15:37.211Z === pass 1 (budget 300000ms left) ===
+2026-10-07T19:15:37.212Z -- file nij-1938-n05-pdf (Pdf- 100M) --
+2026-10-07T19:15:51.254Z retry nij-1938-n05-pdf chunk 51 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:16:08.303Z retry nij-1938-n05-pdf chunk 59 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:16:24.304Z retry nij-1938-n05-pdf chunk 67 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:16:52.303Z retry nij-1938-n05-pdf chunk 78 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:17:08.306Z retry nij-1938-n05-pdf chunk 78 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-07T19:17:34.306Z retry nij-1938-n05-pdf chunk 97 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-07T19:18:15.822Z publishing nij-1938-n05-pdf (104518298 bytes) as nij-1938-n05-pdf
+2026-10-07T19:18:20.947Z verified nij-1938-n05-pdf: a1726b01edd74eeeaf0017150b8f38f3db0d69f4ba5c6e59b5ac538cf4d56dcd
+2026-10-07T19:18:20.951Z pass 1 results: [{"id":"nij-1938-n05-pdf","status":"published","sha256":"a1726b01edd74eeeaf0017150b8f38f3db0d69f4ba5c6e59b5ac538cf4d56dcd","bytes":104518298,"digest":"sha256:5bbd14274255389e4bd63fd391e965d7ac0ebb26205397d61947558d00ff7fb8","tag":"nij-1938-n05-pdf"}]
+2026-10-07T19:18:20.951Z remaining files: 0
+2026-10-07T19:18:24.318Z published index nij-1934-39-index -> sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d
+2026-10-07T19:18:24.318Z published checkpoint nij-1934-39-checkpoint -> sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d
+2026-10-07T19:18:24.318Z retrieve batch complete in 178613ms

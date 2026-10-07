@@ -1,40 +1,33 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "3-8",
-  "at": "2026-10-07T18:50:00.000Z",
-  "published": 54,
-  "remaining": 6,
-  "bytesPublished": 1751795209,
+  "iteration": "3-9",
+  "at": "2026-10-07T19:19:00.000Z",
+  "published": 60,
+  "remaining": 0,
+  "bytesPublished": 2311630290,
   "blocker": null,
+  "status": "COMPLETE",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-07T18:45:00Z",
-    "note": "Origin publ.lib.ru up all iteration. Three clean batches (9-11) ran at ~330-360 KiB/s aggregate with zero discarded transfer bytes."
+    "lastChecked": "2026-10-07T19:15:00Z",
+    "note": "Origin publ.lib.ru up for the whole iteration. Three clean foreground batches (13-15) published all 6 remaining files at ~350-360 KiB/s aggregate with zero discarded transfer bytes."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 133169152,
-    "partialFiles": [
-      {"id": "nij-1938-n0910-pdf", "chunks": 29, "remainingChunks": 49, "expected": 80935065, "chunkSize": 1048576, "checkpoint": "sha256:74d1b695fd928539f2231d6f0e4f39b7549581413e48fa068344f183b0b4e197"},
-      {"id": "nij-1938-n05-pdf", "chunks": 22, "remainingChunks": 78, "expected": 104518298, "chunkSize": 1048576, "checkpoint": "sha256:92e039ad3172e599e35e9941555ed695a2ce6c89a41196b4f73cef0858549dc4"}
-    ],
-    "note": "git partials hold the first 8 MiB (chunks 0-7) of each; all later chunks restore from GHCR checkpoint digests recorded in files.json."
+    "verifiedPartialBytes": 0,
+    "partialFiles": [],
+    "note": "No unfinished partials remain. Every discovered file is published and round-trip verified."
   },
   "publishedThisIteration": [
-    "nij-1937-n06-pdf", "nij-1937-n05-pdf", "nij-1938-n07-pdf",
-    "nij-1937-n07-pdf", "nij-1937-n02-pdf", "nij-1937-n12-pdf"
+    {"id": "nij-1938-n0910-pdf", "bytes": 80935065, "sha256": "3f66ef1486e7a929f1119e629157b0f1c7b344cf403128f342ae2cd7818dad89", "digest": "sha256:9af16b52fc7eabda31fc7c19cb702d6468092e649bab72c904daceffac6fe34b"},
+    {"id": "nij-1936-n11-pdf", "bytes": 83955055, "sha256": "cbde07b3071589649420cf65663b44a56cddea6cd7bcd2af18c4fc5a04a480c5", "digest": "sha256:c6df3c67f72fba1b91c9844dda992029884ef2f904e84dc4bd3da472ed71aa25"},
+    {"id": "nij-1936-n06-pdf", "bytes": 85656635, "sha256": "c08fcafcecc631b9c5e16c7712097080b64b999c1c3e508327bcf808780d485a", "digest": "sha256:339a22e86b1a456f365b0a1c66e6ff585c4c760297ca3f8d843cf37f24a2007b"},
+    {"id": "nij-1938-n01-pdf", "bytes": 102072758, "sha256": "e73bdfb3f4aacce7c80498583fbb74b09e5f477cd06e1efe49b7fb4094bd9b21", "digest": "sha256:d0eceb4e602fff4b6d8374a83ab8ffe7911b18f350950fdc4071e807bb650836"},
+    {"id": "nij-1938-n02-pdf", "bytes": 102697270, "sha256": "1590b45e6bb44bbb297321b6ecbdddd737341915f9fecd049a37828250454a00", "digest": "sha256:62f261eabb06a49b6b9bf64374d82f9cb78b6d1286bfbbc275cd8590a6465657"},
+    {"id": "nij-1938-n05-pdf", "bytes": 104518298, "sha256": "a1726b01edd74eeeaf0017150b8f38f3db0d69f4ba5c6e59b5ac538cf4d56dcd", "digest": "sha256:5bbd14274255389e4bd63fd391e965d7ac0ebb26205397d61947558d00ff7fb8"}
   ],
-  "remainingFiles": [
-    {"id": "nij-1938-n0910-pdf", "remainingChunks": 49, "expected": 80935065},
-    {"id": "nij-1936-n11-pdf", "remainingChunks": 81, "expected": 83955055},
-    {"id": "nij-1936-n06-pdf", "remainingChunks": 82, "expected": 85656635},
-    {"id": "nij-1938-n01-pdf", "remainingChunks": 98, "expected": 102072758},
-    {"id": "nij-1938-n02-pdf", "remainingChunks": 98, "expected": 102697270},
-    {"id": "nij-1938-n05-pdf", "remainingChunks": 78, "expected": 104518298}
-  ],
-  "nextAction": "Origin is up. Run bounded foreground batches with fileConcurrency=1 (smallest-first). Finish nij-1938-n0910-pdf (49 chunks left, 29 durable), then n11-1936, n06-1936, n01-1938, n02-1938, and finally n05-1938 (22/100 durable).",
-  "recommendedCommand": "NAUKA_FILE_CONCURRENCY=1 NAUKA_PASS_MS=480000 NAUKA_MIN_CHUNK_MS=90000 node tools/nauka/cli.mjs retrieve --budget-ms 480000 --cleanup-ms 120000",
+  "remainingFiles": [],
+  "nextAction": "Objective complete: all 60 discovered scans are published to ghcr.io/igor-makarov/shurik-nauka with per-file SHA-256 and immutable digests. No further retrieval needed. Optionally re-run `node tools/nauka/cli.mjs verify` for a full-set cold pull check.",
   "codeChangesThisIteration": [],
-  "notes": "No code changes needed. Four batches (9-12) published six files (48->54). Zero discarded bytes: the minChunkBudgetMs guard kept late chunks from being admitted and killed mid-body. Tests: npm run test:nauka 19/19 pass.",
-  "emergencyArtifactRecovery": "Not re-attempted this iteration: recovery-37638996048.json (from iteration 3-5/3-6) records the archive was already recovered and verified (SHA-256 match), with nij-1936-n10-pdf chunks merged and all other staging sets already covered by GHCR checkpoints. No newer archive data was indicated."
+  "notes": "Iteration 3-9 published the final 6 files in three bounded batches (13: 54->57, 14: 57->59, 15: 59->60). Tests: npm run test:nauka 19/19 pass. Emergency archive not re-downloaded: recovery-37638996048.json shows it was already recovered/verified and its partials are superseded by GHCR checkpoints."
 }
