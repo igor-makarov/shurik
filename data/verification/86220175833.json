@@ -1,0 +1,172 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:ac9fd42161a560ec23748394da5104c6977a4dd9b93abbf2ef6dfff3cff06693",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_n5txr5ou4I1r3it8zo1_250.jpg]",
+   "expected": "1dfa947460015eaa849e70f5ac94f8167c056fb48f66a7b68702d3adda9249c4",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_n5txr5ou4I1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_n5txr5ou4I1r3it8zo1_250.jpg]",
+   "expected": 63499,
+   "observed": 63499,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_n5txr5ou4I1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אמריקאים לאמריקה!",
+   "observed": "אמריקאים לאמריקה!",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1488;&#1502;&#1512;&#1497;&#1511;&#1488;&#1497;&#1501; &#1500;&#1488;&#1502;&#1512;&#1497;&#1511;&#1492;!</p>",
+   "observed": "<p>&#1488;&#1502;&#1512;&#1497;&#1511;&#1488;&#1497;&#1501; &#1500;&#1488;&#1502;&#1512;&#1497;&#1511;&#1492;!</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "רדנק-כמעט-פוליטיקלי-קורקט",
+    "almost-politically-correct-redneck",
+    "מכבי-תל-אביב",
+    "כדורסל",
+    "יורוליג"
+   ],
+   "observed": [
+    "רדנק-כמעט-פוליטיקלי-קורקט",
+    "almost-politically-correct-redneck",
+    "מכבי-תל-אביב",
+    "כדורסל",
+    "יורוליג"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "אמריקאים לאמריקה!"
+   ],
+   "observed": [
+    "אמריקאים לאמריקה!"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/86220175833",
+   "observed": "http://hazfalafel.com/post/86220175833",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20160917022638",
+   "observed": "20160917022638",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20160917022638id_/https://67.media.tumblr.com/8f5fca8e43f0198a9975ac70bc7124b0/tumblr_n5txr5ou4I1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20160917022638id_/https://67.media.tumblr.com/8f5fca8e43f0198a9975ac70bc7124b0/tumblr_n5txr5ou4I1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20160917022638",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:281e3a0e1a215ef7cd54f2459768b4c508c699bd7da5be6b6b243d0e3411cedd",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T08:46:41Z",
+  "org.opencontainers.image.description": "אמריקאים לאמריקה!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 86220175833",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/86220175833",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "17",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "86220175833",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "רדנק-כמעט-פוליטיקלי-קורקט,almost-politically-correct-redneck,מכבי-תל-אביב,כדורסל,יורוליג"
+ },
+ "layers": [
+  {
+   "digest": "sha256:313213508227f5458592f23da1814cce246216b0cfecd2fb5b8178c84cd02301",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 63394
+  },
+  {
+   "digest": "sha256:d0ee831da45a7bde54d02efe60f29330abca4640c7da17bf0fe62f6f9815c010",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1412
+  }
+ ],
+ "manifest_digest": "sha256:ac9fd42161a560ec23748394da5104c6977a4dd9b93abbf2ef6dfff3cff06693",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "86220175833",
+ "pulled_files": [
+  {
+   "bytes": 63499,
+   "file": "tumblr_n5txr5ou4I1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:313213508227f5458592f23da1814cce246216b0cfecd2fb5b8178c84cd02301",
+   "role": "media",
+   "sha256": "1dfa947460015eaa849e70f5ac94f8167c056fb48f66a7b68702d3adda9249c4"
+  },
+  {
+   "bytes": 6539,
+   "file": "post.json",
+   "layer": "sha256:d0ee831da45a7bde54d02efe60f29330abca4640c7da17bf0fe62f6f9815c010",
+   "role": "post-metadata",
+   "sha256": "ec6307b9cb2915a7f331dfde95564a58cac21dcf306442c9defb5a5b2ea956e2"
+  }
+ ],
+ "tag": "86220175833",
+ "verified_at": "2026-10-07T00:23:49Z"
+}
