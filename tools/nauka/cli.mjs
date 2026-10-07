@@ -531,6 +531,7 @@ async function writeStatus(state, manifest, ctx) {
   lines.push(`- chunk size: ${CONFIG.chunkSize} B`);
   lines.push(`- request-start gap: ${CONFIG.requestGapMs} ms`);
   lines.push(`- retries/chunk: ${CONFIG.maxAttemptsPerChunk}; backoff ${CONFIG.baseBackoffMs}-${CONFIG.maxBackoffMs} ms with jitter`);
+  lines.push(`- per-file in-flight chunk cap: ${Math.max(1, Math.floor(CONFIG.maxConcurrency / CONFIG.fileConcurrency))} (fair pool sharing)`);
   lines.push('');
   lines.push('## Commands (list / pull / resume)');
   lines.push('```bash');
@@ -555,6 +556,8 @@ async function writeStatus(state, manifest, ctx) {
   lines.push('  process exits. No child (oras) or writer survives the tool call.');
   lines.push('- Ordinary cancellation preserves every verified chunk/validator; only a');
   lines.push('  real ETag/If-Range validator change resets progress.');
+  lines.push('- Each file may hold at most `floor(concurrency / fileConcurrency)` chunks in');
+  lines.push('  the shared pool, so a large fresh file cannot starve a nearly-complete one.');
   lines.push('- Resume: durable state in `data/nauka/state` + selected prefixes in');
   lines.push('  `data/nauka/partials` on the control branch, plus GHCR checkpoint artifacts');
   lines.push('  pulled by immutable digest and re-validated chunk-by-chunk.');

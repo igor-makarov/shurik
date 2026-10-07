@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T14:36:41.289Z
+Updated: 2026-10-07T14:37:26.389Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -107,6 +107,7 @@ Updated: 2026-10-07T14:36:41.289Z
 - chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
+- per-file in-flight chunk cap: 6 (fair pool sharing)
 
 ## Commands (list / pull / resume)
 ```bash
@@ -131,6 +132,8 @@ supervisor can publish at the tool boundary.
   process exits. No child (oras) or writer survives the tool call.
 - Ordinary cancellation preserves every verified chunk/validator; only a
   real ETag/If-Range validator change resets progress.
+- Each file may hold at most `floor(concurrency / fileConcurrency)` chunks in
+  the shared pool, so a large fresh file cannot starve a nearly-complete one.
 - Resume: durable state in `data/nauka/state` + selected prefixes in
   `data/nauka/partials` on the control branch, plus GHCR checkpoint artifacts
   pulled by immutable digest and re-validated chunk-by-chunk.
