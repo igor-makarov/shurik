@@ -180,6 +180,30 @@
     "http://67.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
     "http://67.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
    ]
+  },
+  {
+   "attempts": [],
+   "base_key": "tumblr_lx10poUPex1r3it8zo1.png",
+   "caption_alt": "",
+   "found_in": "amp-img",
+   "link_text": "",
+   "media_key": "tumblr_lx10poUPex1r3it8zo1_1280.png",
+   "media_url": "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png",
+   "state": "unresolved",
+   "url_forms": [
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png"
+   ],
+   "variants": [
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1024.png",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_540.png",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_500.png",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_400.png",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_100.png",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.gif",
+    "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1.jpg"
+   ]
   }
  ],
  "images_done": true,
@@ -205,9 +229,19 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/15037458998/5"
+  },
+  {
+   "bytes": 41251,
+   "capture_timestamp": "20171207084559",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "amp",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/15037458998/amp"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 3,
  "missing_images": [
   {
    "attempts": [
@@ -317,6 +351,11 @@
    "attempts": [],
    "media_url": "http://67.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_250.png",
    "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://78.media.tumblr.com/tumblr_lx10poUPex1r3it8zo1_1280.png",
+   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/15037458998/5",
@@ -336,6 +375,9 @@
    1
   ]
  },
+ "refetched_captures": [
+  "20171207084559"
+ ],
  "replay_url": "https://web.archive.org/web/20120117232051id_/http://hazfalafel.com:80/post/15037458998/5",
  "snapshot_retries": 0,
  "state": "partial",
