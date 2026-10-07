@@ -328,6 +328,7 @@ export async function downloadFile(ctx, entry) {
   const { state, pool } = ctx;
   const eff = ensureFileEntry(state, entry);
   if (eff.status === 'published') return { done: true };
+  if (ctx.deadline && Date.now() >= ctx.deadline) return { done: false, budget: true };
   eff.status = 'in_progress';
   const gen = eff.gen;
 
@@ -376,6 +377,7 @@ export async function downloadFile(ctx, entry) {
   await Promise.all(
     missing.map((i) =>
       pool.run(async () => {
+        if (ctx.deadline && Date.now() >= ctx.deadline) return;
         const myGen = eff.gen;
         try {
           const info = await withRetries(ctx, eff, i, () => downloadChunkOnce(ctx, entry, eff, i, myGen));
@@ -735,6 +737,7 @@ export function createContext({ state, manifest, ghcr, log = console.log }) {
 export async function runPass(ctx) {
   const { state, manifest, log } = ctx;
   const deadline = Date.now() + CONFIG.passBudgetMs;
+  ctx.deadline = deadline;
   const ordered = orderEntries(manifest.entries, state);
   const results = [];
   for (const entry of ordered) {

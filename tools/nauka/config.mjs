@@ -35,9 +35,11 @@ export const CONFIG = {
   bandwidthLimitBps: Number(process.env.NAUKA_BPS || 512 * 1024),
   // Number of simultaneous origin connections (one per chunk).
   maxConcurrency: Number(process.env.NAUKA_CONCURRENCY || 24),
-  // Per-chunk size. Bounded so a failed chunk re-download is cheap (~512 KiB at
-  // the measured ~20 KiB/s per connection is ~26 s of work).
-  chunkSize: Number(process.env.NAUKA_CHUNK || 512 * 1024),
+  // Per-chunk size. Bounded so a failed chunk re-download is cheap. 1 MiB at
+  // the measured ~20 KiB/s per connection is ~52 s; combined with the 2 s
+  // request gate this keeps request starts just under 0.5/s while allowing the
+  // pool to reach the aggregate cap.
+  chunkSize: Number(process.env.NAUKA_CHUNK || 1024 * 1024),
   // Politeness gap between new origin requests (ms).
   requestGapMs: Number(process.env.NAUKA_GAP_MS || 2000),
   // Idle read timeout and total per-attempt timeout.
@@ -48,7 +50,7 @@ export const CONFIG = {
   baseBackoffMs: 2000,
   maxBackoffMs: 120000,
   // Bounded wall-clock budget for a single foreground transfer pass.
-  passBudgetMs: Number(process.env.NAUKA_PASS_MS || 95 * 1000),
+  passBudgetMs: Number(process.env.NAUKA_PASS_MS || 90 * 1000),
   // Selected partial bytes kept on the control branch. Beyond this we rely on
   // GHCR checkpoint artifacts and keep Git small.
   gitPartialMaxBytesPerFile: 8 * 1024 * 1024,
