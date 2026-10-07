@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T14:52:10.012Z
+Updated: 2026-10-07T15:06:09.713Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -12,8 +12,8 @@ Updated: 2026-10-07T14:52:10.012Z
 ## Totals
 - discovered: 60
 - published (GHCR, round-trip verified): 35
-- in progress: 5
-- pending: 20
+- in progress: 6
+- pending: 19
 - unavailable/permanent: 0
 - remaining: 25
 - bytes published: 692662813 / 962471913
@@ -76,15 +76,15 @@ Updated: 2026-10-07T14:52:10.012Z
 - nij-1935-n01-pdf: pending 0/? B (attempt timeout after 1639ms)
 - nij-1935-n02-pdf: pending 0/? B (no error)
 - nij-1935-n06-pdf: in_progress 0/38417776 B (aborted)
-- nij-1935-n11-pdf: pending 0/36301465 B (aborted)
+- nij-1935-n11-pdf: in_progress 12582912/36301465 B (aborted)
 - nij-1936-n01-pdf: pending 0/? B (no error)
 - nij-1936-n04-pdf: pending 0/? B (no error)
 - nij-1936-n06-pdf: pending 0/? B (no error)
-- nij-1936-n07-pdf: in_progress 12582912/28542773 B (aborted)
+- nij-1936-n07-pdf: in_progress 22020096/28542773 B (aborted)
 - nij-1936-n10-pdf: in_progress 18874368/27865676 B (aborted)
 - nij-1936-n11-pdf: pending 0/? B (no error)
 - nij-1937-n02-pdf: pending 0/? B (no error)
-- nij-1937-n03-pdf: in_progress 9437184/34163112 B (aborted)
+- nij-1937-n03-pdf: in_progress 22020096/34163112 B (aborted)
 - nij-1937-n05-pdf: pending 0/? B (no error)
 - nij-1937-n06-pdf: pending 0/? B (no error)
 - nij-1937-n07-pdf: pending 0/? B (no error)
