@@ -10,23 +10,75 @@ export const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url
 
 // The origin percent-encodes the two single quotes and the trailing triple
 // quote in the directory name; we keep that exact quoting.
+//
+// INDEX_URL is the *navigation* page for the 1934-39 era. It embeds the
+// magazine's own "Список описываемых изданий" table that links every era page
+// (1890-93 .. 2020-29), so it is the discovery entry point for ALL years.
 export const INDEX_URL =
   "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html";
 
 export const BASE_URL =
   "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/";
 
-// Only this page's own issue sections are in scope (1934-1939). The page also
-// carries a generic "archive of this page" directory listing that enumerates
-// every year of the journal; that is deliberately excluded.
+export const ARCHIVE_DIR_URL = BASE_URL;
+
+// The subset index/checkpoint tags remain correctly scoped to the completed
+// 1934-1939 collection; they are preserved, never relabelled as all-years.
 export const YEARS = [1934, 1935, 1936, 1937, 1938, 1939];
+export const SUBSET_YEARS = YEARS;
 
 export const REGISTRY = 'ghcr.io/igor-makarov/shurik-nauka';
 export const SOURCE_REPO = 'https://github.com/igor-makarov/shurik';
 export const ARTIFACT_TYPE = 'application/vnd.shurik.nauka.scan.v1';
 export const CHECKPOINT_ARTIFACT_TYPE = 'application/vnd.shurik.nauka.checkpoint.v1';
+// Canonical user-facing master index (all years) and its resume/checkpoint.
+export const MASTER_INDEX_TAG = 'nij-master-index';
+export const MASTER_CHECKPOINT_TAG = 'nij-master-checkpoint';
+// Legacy completed-subset tags (preserved as-is).
 export const INDEX_TAG = 'nij-1934-39-index';
 export const CHECKPOINT_TAG = 'nij-1934-39-checkpoint';
+
+// Every era page the archive links from its own "Список описываемых изданий"
+// table. Discovery re-derives this list from the nav page when possible; this
+// constant is the conservative fallback and the ordering used for reports.
+export const ERA_PAGE_NAMES = [
+  '_NiJ_1890-93_.html',
+  '_NiJ_1904-05_.html',
+  '_NiJ_1934-39_.html',
+  '_NiJ_1940-49_.html',
+  '_NiJ_1950-59_.html',
+  '_NiJ_1960-69_.html',
+  '_NiJ_1970-79_.html',
+  '_NiJ_1980-89_.html',
+  '_NiJ_1990-99_.html',
+  '_NiJ_2000-09_.html',
+  '_NiJ_2010-19_.html',
+  '_NiJ_2020-29_.html',
+];
+
+// Pages that are deliberately out of scope for full-issue discovery but are
+// still recorded as visited (so the master index never claims a silent gap).
+export const OUT_OF_SCOPE_PAGES = ["_NiJ_stat'i_.html", '_NiJ.html'];
+
+export function eraPageUrl(name) {
+  return BASE_URL + encodeSegment(name);
+}
+
+// "_NiJ_1890-93_.html" -> [1890, 1893]; "_NiJ_2000-09_.html" -> [2000, 2009].
+export function eraYearRange(name) {
+  const m = /_NiJ_(\d{4})-(\d{2,4})_\.html$/.exec(name);
+  if (!m) return null;
+  const start = Number(m[1]);
+  const endRaw = m[2];
+  const end = endRaw.length === 2 ? Math.floor(start / 100) * 100 + Number(endRaw) : Number(endRaw);
+  if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) return null;
+  return [start, end];
+}
+
+export function eraPageLabel(name) {
+  const m = /_NiJ_(\d{4}-\d{2,4})_\.html$/.exec(name);
+  return m ? m[1] : name;
+}
 
 export const CONFIG = {
   // Aggregate origin bandwidth cap. Measured single-connection throughput is
