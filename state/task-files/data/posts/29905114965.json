@@ -26,26 +26,18 @@
  "content_text": "ומחר הוא עוד ישאל אותי אם שמעתי את השיר…\nתודה לבר ארנון",
  "date_text": "Posted 1 week ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T10:05:24Z",
+ "fetched_at": "2026-10-07T04:20:53Z",
  "image_count": 0,
  "images": [
   {
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1280.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1024.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_540.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_400.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_250.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_100.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.png",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.gif"
-     ]
+     "earlier_endpoints": [
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "captures": 0,
@@ -66,19 +58,81 @@
      "status": "cached",
      "stem": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1",
      "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": "20140111015219",
+     "endpoint": "replay-probe",
+     "error": "ok",
+     "location": "https://web.archive.org/web/20140111015219im_/http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
+     "message": "",
+     "requested_timestamp": "20191231235959",
+     "status": 302,
+     "url": "http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "timeout",
+     "location": "",
+     "message": "HTTPConnectionPool(host='web.archive.org', port=80): Read timed out. (read timeout=90.0)",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1024.jpg"
+    },
+    {
+     "bytes": 0,
+     "capture_timestamp": "20140111015219",
+     "endpoint": "replay id_",
+     "error": "transport",
+     "media_type": "not-an-image",
+     "message": "circuit breaker open for 50s after 3 consecutive no-answer results (transport; trip 1); no request was sent",
+     "status": null,
+     "url": "http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_m947u12PIw1r3it8zo1.jpg",
    "caption": "ומחר הוא עוד ישאל אותי אם שמעתי את השיר&#8230;\nתודה לבר ארנון",
    "caption_alt": "ומחר הוא עוד ישאל אותי אם שמעתי את השיר&#8230;\nתודה לבר ארנון",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture_count": 1,
+   "error": "transport",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_m947u12PIw1r3it8zo1_500.jpg",
    "media_url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "pending",
+   "note": "captures existed but no replay produced a valid image body",
+   "state": "missing",
    "url_forms": [
     "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
     "http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
@@ -158,7 +212,7 @@
    ]
   }
  ],
- "images_done": true,
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 1,
  "listing_images_added": 0,
@@ -188,20 +242,12 @@
   {
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1280.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1024.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_540.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_400.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_250.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_100.jpg",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.png",
-      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.gif"
-     ]
+     "earlier_endpoints": [
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "captures": 0,
@@ -222,10 +268,72 @@
      "status": "cached",
      "stem": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1",
      "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": "20140111015219",
+     "endpoint": "replay-probe",
+     "error": "ok",
+     "location": "https://web.archive.org/web/20140111015219im_/http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
+     "message": "",
+     "requested_timestamp": "20191231235959",
+     "status": 302,
+     "url": "http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "timeout",
+     "location": "",
+     "message": "HTTPConnectionPool(host='web.archive.org', port=80): Read timed out. (read timeout=90.0)",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_1024.jpg"
+    },
+    {
+     "bytes": 0,
+     "capture_timestamp": "20140111015219",
+     "endpoint": "replay id_",
+     "error": "transport",
+     "media_type": "not-an-image",
+     "message": "circuit breaker open for 50s after 3 consecutive no-answer results (transport; trip 1); no request was sent",
+     "status": null,
+     "url": "http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
     }
    ],
    "media_url": "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
+   "reason": "transport"
   },
   {
    "attempts": [

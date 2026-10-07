@@ -26,11 +26,93 @@
  "content_text": "מה את ומי את",
  "date_text": "Posted 1 week ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:32Z",
- "image_count": 0,
+ "fetched_at": "2026-10-07T04:18:09Z",
+ "image_count": 1,
  "images": [
   {
    "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx-stem"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1",
+     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.png",
+      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
+    },
+    {
+     "capture_timestamp": "20140111020504",
+     "endpoint": "replay-probe",
+     "error": "ok",
+     "location": "https://web.archive.org/web/20140111020504im_/http://31.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
+     "message": "",
+     "requested_timestamp": "20191231235959",
+     "status": 302,
+     "url": "http://31.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1024.jpg"
+    },
+    {
+     "bytes": 60920,
+     "capture_timestamp": "20140111020504",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "f599e86e5f31268410a9e98ab8fb122a8472c3b8a6f93ba6266dbbf1a44b8c24",
+     "status": 200,
+     "url": "http://31.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
+    },
     {
      "endpoint": "variant-plan",
      "media_url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
@@ -46,39 +128,31 @@
       "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.png",
       "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.gif"
      ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1",
-     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1",
-     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
     }
    ],
    "base_key": "tumblr_ma3jonzKKS1r3it8zo1_r1.jpg",
+   "blob_path": "data/blobs/f5/f599e86e5f31268410a9e98ab8fb122a8472c3b8a6f93ba6266dbbf1a44b8c24",
+   "bytes": 60920,
    "caption": "מה את ומי את",
    "caption_alt": "מה את ומי את",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "",
+    "original": "http://31.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111020504id_/http://31.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
+    "timestamp": "20140111020504"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20140111020504 of http://31.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg (60920 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "f599e86e5f31268410a9e98ab8fb122a8472c3b8a6f93ba6266dbbf1a44b8c24",
+   "state": "recovered",
    "url_forms": [
     "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
     "http://31.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
@@ -140,6 +214,48 @@
      "status": "cached",
      "stem": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1",
      "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.png",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1024.jpg"
     }
    ],
    "base_key": "tumblr_ma3jonzKKS1r3it8zo1_r1.jpg",
@@ -150,8 +266,8 @@
    "link_text": "",
    "media_key": "tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg",
    "media_url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "pending",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg"
    ],
@@ -193,50 +309,8 @@
    "url": "http://hazfalafel.com:80/post/32538974144"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1280.jpg",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1024.jpg",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_540.jpg",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_400.jpg",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_100.jpg",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.png",
-      "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.gif"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1",
-     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1",
-     "url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg"
-    }
-   ],
-   "media_url": "http://24.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
-   "reason": "archive_gap"
-  },
   {
    "attempts": [
     {
@@ -274,6 +348,48 @@
      "status": "cached",
      "stem": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1",
      "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.png",
+      "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_1024.jpg"
     }
    ],
    "media_url": "http://25.media.tumblr.com/tumblr_ma3jonzKKS1r3it8zo1_r1_250.jpg",
