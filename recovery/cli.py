@@ -628,20 +628,26 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
     seen: set[str] = set()
     for rec in store.all():
         for img in rec.get("images") or []:
-            url = img.get("media_url")
-            if not url:
-                continue
-            stem = stem_prefix(url)
-            if not stem:
-                continue
-            if stem not in seen:
-                seen.add(stem)
-                all_stems.append(stem)
-            # A stem counts as work when *any* image behind it is unresolved:
-            # the same picture can appear in several posts, and one recovered
-            # copy must not hide an unresolved one.
-            if not img.get("sha256"):
-                unresolved.add(stem)
+            # Every URL form of the image is a candidate question, not just the
+            # form the permalink used: `stem_prefix` keeps the CDN host (and the
+            # hash directory), so the same photo referenced on a different
+            # shard is a *different* CDX prefix. Listing evidence routinely
+            # adds such forms, and before 18-295 they were silently never asked
+            # (~100 measured unanswered stems), which suppressed real work.
+            forms = [img.get("media_url") or ""]
+            forms += [f for f in (img.get("url_forms") or []) if f]
+            for url in forms:
+                stem = stem_prefix(url)
+                if not stem:
+                    continue
+                if stem not in seen:
+                    seen.add(stem)
+                    all_stems.append(stem)
+                # A stem counts as work when *any* image behind it is unresolved:
+                # the same picture can appear in several posts, and one recovered
+                # copy must not hide an unresolved one.
+                if not img.get("sha256"):
+                    unresolved.add(stem)
     fresh_stems = [s for s in all_stems if s in unresolved]
     held_stems = len(all_stems) - len(fresh_stems)
     stems = fresh_stems
@@ -742,13 +748,23 @@ def posts_with_stem_hits() -> list[str]:
         return []
     store = PostStore()
     out: list[str] = []
+
+    def _stems_of(img: dict) -> set[str]:
+        forms = [img.get("media_url") or ""]
+        forms += [f for f in (img.get("url_forms") or []) if f]
+        forms += [v for v in (img.get("variants") or [])
+                  if isinstance(v, str) and v.startswith(("http://", "https://"))]
+        return {stem_prefix(f) for f in forms if f}
+
     for rec in store.all():
         # Only images we do *not* already hold. A hit stem whose image is
         # already recovered is a re-download of published bytes: it burns
         # replay requests and, in 6-85, was the reason a stem-hit pass reported
         # five "recoveries" while the published total moved by one image.
-        if any(not img.get("sha256") and img.get("media_url")
-               and stem_prefix(img["media_url"]) in hits
+        # Every URL form of the image counts (a hit recorded for a form on
+        # another shard is bytes behind that form), not just `media_url`.
+        if any(not img.get("sha256") and (img.get("media_url") or img.get("url_forms"))
+               and _stems_of(img) & hits
                for img in rec.get("images") or []):
             out.append(rec["post_id"])
     return sorted(out)

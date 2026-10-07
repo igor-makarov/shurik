@@ -90,16 +90,16 @@ def main() -> int:
     for pid in store.ids():
         if wanted and pid not in wanted:
             continue
-    # A post with every referenced image already recovered has nothing left to
-    # learn from its other captures -- but a post with *zero* images (text
-    # post or a permalink parse that found no media) must NOT be skipped: its
-    # photoset_iframe/amp captures can still reference photos the permalink
-    # never showed (post 15193982461 is the concrete case: an unparsed
-    # photoset_iframe capture whose stem was never CDX-queried).
-    rec = store.get(pid)
-    images = rec.get("images") or []
-    if images and all(im.get("sha256") for im in images):
-        continue
+        # A post with every referenced image already recovered has nothing
+        # left to learn from its other captures -- but a post with *zero*
+        # images (a permalink parse that found no media) must NOT be skipped:
+        # its photoset_iframe/amp captures can still reference photos the
+        # permalink never showed (post 15193982461 is the concrete case: an
+        # unparsed photoset_iframe capture whose stem was never CDX-queried).
+        rec = store.get(pid)
+        images = rec.get("images") or []
+        if images and all(im.get("sha256") for im in images):
+            continue
         done = _parsed_timestamps(rec)
         caps = [c for c in grouped.get(pid, [])
                 if _kind(c) in kinds and c.timestamp not in done]
