@@ -94,7 +94,8 @@
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
-    "http://41.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_500.jpg"
+    "http://41.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_500.jpg",
+    "http://67.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_500.jpg"
    ],
    "variants": [
     "http://41.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_500.jpg",
@@ -172,7 +173,8 @@
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
-    "http://41.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_1280.jpg"
+    "http://41.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_1280.jpg",
+    "http://67.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_1280.jpg"
    ],
    "variants": [
     "http://41.media.tumblr.com/7e4641d23f9748d341c151046c22b89b/tumblr_nhsvlyqOTk1r3it8zo1_1280.jpg",
@@ -236,6 +238,16 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/107397615743"
+  },
+  {
+   "bytes": 72305,
+   "capture_timestamp": "20160817101635",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/107397615743"
   }
  ],
  "missing_image_count": 3,
@@ -376,7 +388,9 @@
    1
   ]
  },
- "refetched_captures": [],
+ "refetched_captures": [
+  "20160817101635"
+ ],
  "replay_url": "https://web.archive.org/web/20150119073002id_/http://hazfalafel.com:80/post/107397615743",
  "snapshot_retries": 0,
  "state": "partial",

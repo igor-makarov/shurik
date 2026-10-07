@@ -94,7 +94,8 @@
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
-    "http://40.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_500.jpg"
+    "http://40.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_500.jpg",
+    "http://78.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_500.jpg"
    ],
    "variants": [
     "http://40.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_500.jpg",
@@ -172,7 +173,8 @@
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
-    "http://41.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_1280.jpg"
+    "http://41.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_1280.jpg",
+    "http://78.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_1280.jpg"
    ],
    "variants": [
     "http://41.media.tumblr.com/ee4ef1369ade53e87bc47661b0ca46b9/tumblr_ni6czj8qCA1r3it8zo1_1280.jpg",
@@ -236,6 +238,16 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/108082118498"
+  },
+  {
+   "bytes": 66645,
+   "capture_timestamp": "20171111011759",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/108082118498"
   }
  ],
  "missing_image_count": 3,
@@ -376,7 +388,9 @@
    1
   ]
  },
- "refetched_captures": [],
+ "refetched_captures": [
+  "20171111011759"
+ ],
  "replay_url": "https://web.archive.org/web/20150206043842id_/http://hazfalafel.com:80/post/108082118498",
  "snapshot_retries": 0,
  "state": "partial",

@@ -115,7 +115,8 @@
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
-    "http://36.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_500.jpg"
+    "http://36.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_500.jpg",
+    "http://78.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_500.jpg"
    ],
    "variants": [
     "http://36.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_500.jpg",
@@ -193,7 +194,8 @@
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
-    "http://40.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_1280.jpg"
+    "http://40.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_1280.jpg",
+    "http://78.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_1280.jpg"
    ],
    "variants": [
     "http://40.media.tumblr.com/84f85b318db3b9724d2ce34289bc3d96/tumblr_niadh2kb2A1r3it8zo1_1280.jpg",
@@ -302,6 +304,16 @@
    "message": "",
    "status": 200,
    "url": "https://hazfalafel.com/post/108279761263/amp"
+  },
+  {
+   "bytes": 69602,
+   "capture_timestamp": "20171110231133",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/108279761263"
   }
  ],
  "missing_image_count": 4,
@@ -449,7 +461,8 @@
  },
  "refetched_captures": [
   "20171206235617",
-  "20190824094659"
+  "20190824094659",
+  "20171110231133"
  ],
  "replay_url": "https://web.archive.org/web/20150206043857id_/http://hazfalafel.com:80/post/108279761263",
  "snapshot_retries": 0,
