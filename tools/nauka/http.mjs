@@ -13,7 +13,6 @@ import https from 'node:https';
 import http from 'node:http';
 import { createWriteStream } from 'node:fs';
 import { promises as fs } from 'node:fs';
-import { pipeline } from 'node:stream/promises';
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, Math.max(0, ms)));
 
@@ -162,10 +161,14 @@ export async function httpGetToFile(url, opts) {
       req.end();
     });
 
-  const overall = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error(`attempt timeout after ${attemptTimeoutMs}ms`)), attemptTimeoutMs),
-  );
-  overall.catch(() => {});
+  let timer;
+  const overall = new Promise((_, reject) => {
+    timer = setTimeout(
+      () => reject(new TransientError(`attempt timeout after ${attemptTimeoutMs}ms`)),
+      attemptTimeoutMs,
+    );
+    timer.unref?.();
+  });
 
   let res;
   let finalUrl;
@@ -174,7 +177,9 @@ export async function httpGetToFile(url, opts) {
     res = r.res;
     finalUrl = r.finalUrl;
   } catch (err) {
-    throw new TransientError(`request failed: ${err.message}`);
+    throw err instanceof TransientError ? err : new TransientError(`request failed: ${err.message}`);
+  } finally {
+    clearTimeout(timer);
   }
 
   const status = res.statusCode;
@@ -231,7 +236,6 @@ export async function httpGetToFile(url, opts) {
   const out = createWriteStream(destTmp, { flags: 'w' });
   let written = 0;
   let failed = null;
-  res.on('data', () => {}); // keep flowing via async iterator
   try {
     for await (const chunk of res) {
       if (limiter) await limiter.take(chunk.length);

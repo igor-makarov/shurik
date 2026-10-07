@@ -1,20 +1,11 @@
 // Retrieval engine: durable state, chunked resumable downloads, assembly,
 // GHCR publication and round-trip verification.
 
-import { promises as fs } from 'node:fs';
+import { promises as fs, createReadStream } from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { CONFIG, PATHS, REGISTRY, entryTag, checkpointTag, ARTIFACT_TYPE } from './config.mjs';
-import {
-  httpGetToFile,
-  createRateLimiter,
-  sleep,
-  jitter,
-  TransientError,
-  RangeIgnoredError,
-  RangeMismatchError,
-  RangeNotSatisfiableError,
-} from './http.mjs';
+import { CONFIG, PATHS, entryTag, checkpointTag } from './config.mjs';
+import { httpGetToFile, createRateLimiter, sleep, jitter, TransientError } from './http.mjs';
 
 const STATE_FILE = path.join(PATHS.stateDir, 'files.json');
 const PARTIAL_INDEX = path.join(PATHS.partialDir, 'partial-index.json');
@@ -23,15 +14,12 @@ const EVIDENCE_DIR = path.join(PATHS.stateDir, 'evidence');
 export function sha256File(p) {
   return new Promise((resolve, reject) => {
     const h = createHash('sha256');
-    const stream = require('node:fs').createReadStream(p);
+    const stream = createReadStream(p);
     stream.on('data', (d) => h.update(d));
     stream.on('end', () => resolve(h.digest('hex')));
     stream.on('error', reject);
   });
 }
-
-import { createRequire } from 'node:module';
-const require = createRequire(import.meta.url);
 
 export function sha256Buf(buf) {
   return createHash('sha256').update(buf).digest('hex');
@@ -39,7 +27,7 @@ export function sha256Buf(buf) {
 
 export async function atomicWriteFile(file, data) {
   await fs.mkdir(path.dirname(file), { recursive: true });
-  const tmp = `${file}.tmp-${process.pid}-${Date.now()}`;
+  const tmp = `${file}.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
   await fs.writeFile(tmp, data);
   await fs.rename(tmp, file);
 }
@@ -67,9 +55,12 @@ export async function loadState() {
   return s;
 }
 
+let saveChain = Promise.resolve();
 export async function saveState(state) {
   state.updatedAt = new Date().toISOString();
-  await atomicWriteJson(STATE_FILE, state);
+  const snapshot = JSON.stringify(state, null, 2) + '\n';
+  saveChain = saveChain.then(() => atomicWriteFile(STATE_FILE, snapshot)).catch(() => {});
+  return saveChain;
 }
 
 export function ensureFileEntry(state, entry) {
@@ -91,13 +82,14 @@ export function ensureFileEntry(state, entry) {
       chunks: {},
       receivedBytes: 0,
       status: 'pending',
+      gen: 0,
       attempts: 0,
       retries: 0,
       lastError: null,
       lastErrorAt: null,
       ghcr: null,
       checkpoint: null,
-      validator: null,
+      verified: null,
       updatedAt: new Date().toISOString(),
     };
     state.files[entry.id] = e;
@@ -111,8 +103,16 @@ function chunkName(i) {
 export function workspaceDir(id) {
   return path.join(PATHS.stagingDir, id);
 }
+export function chunksDir(id) {
+  return path.join(workspaceDir(id), 'chunks');
+}
 function chunkPath(id, i) {
-  return path.join(workspaceDir(id), chunkName(i));
+  return path.join(chunksDir(id), chunkName(i));
+}
+export function chunkCount(eff) {
+  if (!eff.expectedBytes) return 0;
+  if (eff.chunks[0] && eff.chunks[0].bytes >= eff.expectedBytes) return 1;
+  return Math.ceil(eff.expectedBytes / eff.chunkSize);
 }
 
 // ---------------------------------------------------------------------------
@@ -122,11 +122,9 @@ function chunkPath(id, i) {
 export async function loadManifest() {
   return loadJson(path.join(PATHS.stateDir, 'manifest.json'), null);
 }
-
 export async function saveManifest(manifest) {
   await atomicWriteJson(path.join(PATHS.stateDir, 'manifest.json'), manifest);
 }
-
 export async function saveIndexEvidence(rawBuf, meta) {
   await fs.mkdir(EVIDENCE_DIR, { recursive: true });
   await atomicWriteFile(path.join(EVIDENCE_DIR, 'index.cp1251.html'), rawBuf);
@@ -137,19 +135,18 @@ export async function saveIndexEvidence(rawBuf, meta) {
 // Chunk download with retries
 // ---------------------------------------------------------------------------
 
-// Global request-start gate to keep >= requestGapMs between origin requests.
 let lastRequestStart = 0;
 async function politeGate() {
   const now = Date.now();
-  const wait = lastRequestStart + CONFIG.requestGapMs - now;
-  lastRequestStart = Math.max(now, lastRequestStart + CONFIG.requestGapMs);
-  if (wait > 0) await sleep(wait);
+  const at = Math.max(now, lastRequestStart + CONFIG.requestGapMs);
+  lastRequestStart = at;
+  if (at > now) await sleep(at - now);
 }
 
-export async function downloadChunk(ctx, entry, eff, chunk, { attempt } = {}) {
-  const { limiter, log } = ctx;
+async function downloadChunkOnce(ctx, entry, eff, chunk, effGen) {
   const start = chunk * eff.chunkSize;
-  const end = Math.min(start + eff.chunkSize - 1, (eff.expectedBytes ?? Infinity) - 1);
+  const end =
+    eff.expectedBytes != null ? Math.min(start + eff.chunkSize - 1, eff.expectedBytes - 1) : start + eff.chunkSize - 1;
   const dest = chunkPath(eff.id, chunk);
   const tmp = `${dest}.tmp`;
   await fs.mkdir(path.dirname(dest), { recursive: true });
@@ -158,15 +155,20 @@ export async function downloadChunk(ctx, entry, eff, chunk, { attempt } = {}) {
   await politeGate();
   const meta = await httpGetToFile(eff.url, {
     destTmp: tmp,
-    start: eff.expectedBytes && start === 0 && eff.chunks[0] ? 0 : start,
-    end: Number.isFinite(end) ? end : null,
+    start,
+    end,
     ifRange,
-    limiter,
+    limiter: ctx.limiter,
     idleTimeoutMs: CONFIG.idleTimeoutMs,
     attemptTimeoutMs: CONFIG.attemptTimeoutMs,
   });
 
-  // Validator changed beneath us -> restart the whole file.
+  if (effGen !== undefined && eff.gen !== effGen) {
+    await fs.rm(tmp, { force: true });
+    const err = new Error('file reset during download');
+    err.aborted = true;
+    throw err;
+  }
   if (eff.etag && meta.etag && meta.etag !== eff.etag) {
     await fs.rm(tmp, { force: true });
     const err = new Error('validator (ETag) changed');
@@ -175,99 +177,28 @@ export async function downloadChunk(ctx, entry, eff, chunk, { attempt } = {}) {
   }
 
   let total = eff.expectedBytes;
-  let bytes = meta.bytesWritten;
   if (meta.contentRange && meta.contentRange.total != null) total = meta.contentRange.total;
-  if (meta.status === 200) {
-    // Whole body returned (range ignored or first request). total falls back to
-    // Content-Length.
-    if (meta.contentLength != null && (total == null || meta.contentLength === total || start === 0)) {
-      total = meta.contentLength;
-    }
-  }
+  if (meta.status === 200 && meta.contentLength != null) total = meta.contentLength;
   if (total == null) {
     await fs.rm(tmp, { force: true });
-    throw new TransientError('no total size available (server without Content-Length)');
+    throw new TransientError('no total size available (server without validators)');
   }
-  eff.expectedBytes = total;
 
   const expectedThis = meta.status === 200 ? total : Math.min(eff.chunkSize, total - start);
-  if (bytes !== expectedThis) {
+  if (meta.bytesWritten !== expectedThis) {
     await fs.rm(tmp, { force: true });
-    throw new TransientError(`short body ${bytes}/${expectedThis}`);
+    throw new TransientError(`short body ${meta.bytesWritten}/${expectedThis}`);
   }
   const hash = await sha256File(tmp);
   await fs.rename(tmp, dest);
-  return { bytes, sha256: hash, total, etag: meta.etag || eff.etag, lastModified: meta.lastModified || eff.lastModified, status: meta.status };
-}
-
-// Download one file's chunks with a global concurrency pool and retries.
-export async function downloadFile(ctx, entry) {
-  const { state, log, pool } = ctx;
-  const eff = ensureFileEntry(state, entry);
-  if (eff.status === 'published') return { done: true };
-  eff.status = 'in_progress';
-
-  // First chunk establishes the total size (or the whole body when the server
-  // ignores Range).
-  if (eff.expectedBytes == null || !eff.chunks[0]) {
-    await withRetries(ctx, eff, 0, (attempt) => downloadChunk(ctx, entry, eff, 0, { attempt }));
-    await saveState(state);
-  }
-
-  const total = eff.expectedBytes;
-  const nChunks = Math.max(1, Math.ceil(total / eff.chunkSize));
-
-  const tasks = [];
-  for (let i = 0; i < nChunks; i++) {
-    if (eff.chunks[i] && (await fileValid(eff.id, i, eff.chunks[i]))) continue;
-    tasks.push(i);
-  }
-  await Promise.all(
-    tasks.map((i) =>
-      pool.run(async () => {
-        try {
-          const info = await withRetries(ctx, eff, i, (attempt) => downloadChunk(ctx, entry, eff, i, { attempt }));
-          eff.chunks[i] = { bytes: info.bytes, sha256: info.sha256 };
-          eff.expectedBytes = info.total ?? eff.expectedBytes;
-          eff.etag = info.etag || eff.etag;
-          eff.lastModified = info.lastModified || eff.lastModified;
-          eff.receivedBytes = Object.values(eff.chunks).reduce((a, c) => a + c.bytes, 0);
-          await saveState(state);
-        } catch (err) {
-          handleFileError(eff, err);
-          await saveState(state);
-          throw err;
-        }
-      }),
-    ),
-  ).catch((err) => {
-    if (err && (err.validatorChanged || err.rangeIgnored)) {
-      // handled by caller; swallow to let pass continue with other files
-    } else if (err && err.permanent) {
-      /* recorded */
-    } else {
-      throw err;
-    }
-  });
-
-  const have = Object.keys(eff.chunks).length;
-  if (have >= nChunks) {
-    eff.receivedBytes = Object.values(eff.chunks).reduce((a, c) => a + c.bytes, 0);
-    return { done: true };
-  }
-  return { done: false };
-}
-
-async function fileValid(id, i, info) {
-  const p = chunkPath(id, i);
-  try {
-    const st = await fs.stat(p);
-    if (st.size !== info.bytes) return false;
-    const h = await sha256File(p);
-    return h === info.sha256;
-  } catch {
-    return false;
-  }
+  return {
+    bytes: meta.bytesWritten,
+    sha256: hash,
+    total,
+    etag: meta.etag || eff.etag,
+    lastModified: meta.lastModified || eff.lastModified,
+    wholeBody: meta.status === 200,
+  };
 }
 
 async function withRetries(ctx, eff, chunkIndex, fn) {
@@ -281,41 +212,115 @@ async function withRetries(ctx, eff, chunkIndex, fn) {
     } catch (err) {
       eff.lastError = err.message;
       eff.lastErrorAt = new Date().toISOString();
-      if (err.validatorChanged || err.rangeIgnored || err.permanent || err.rangeNotSatisfiable) {
-        throw err;
-      }
+      if (err.validatorChanged || err.aborted || err.permanent || err.rangeNotSatisfiable) throw err;
       eff.retries++;
-      if (attempt >= CONFIG.maxAttemptsPerChunk) {
-        throw err;
-      }
+      if (attempt >= CONFIG.maxAttemptsPerChunk) throw err;
       let wait = err.retryAfterMs != null ? err.retryAfterMs : backoff;
       wait = Math.max(wait, CONFIG.requestGapMs);
-      ctx.log(`retry chunk ${chunkIndex} of ${eff.id} attempt ${attempt}: ${err.message} (wait ${Math.round(wait)}ms)`);
+      ctx.log(`retry ${eff.id} chunk ${chunkIndex} #${attempt}: ${err.message} (wait ${Math.round(wait)}ms)`);
       await sleep(jitter(wait));
       backoff = Math.min(CONFIG.maxBackoffMs, backoff * 2);
-      // Reduce speed after repeated failures.
-      if (eff.retries % 3 === 0 && CONFIG.bandwidthLimitBps > 64 * 1024) {
-        ctx.reportThrottle?.(eff.retries);
-      }
     }
   }
 }
 
-function handleFileError(eff, err) {
-  if (err.validatorChanged) {
-    eff.chunks = {};
-    eff.receivedBytes = 0;
+function applyChunkResult(eff, i, info, effGen) {
+  if (effGen !== undefined && eff.gen !== effGen) return false;
+  eff.chunks[i] = { bytes: info.bytes, sha256: info.sha256 };
+  eff.expectedBytes = info.total ?? eff.expectedBytes;
+  eff.etag = info.etag || eff.etag;
+  eff.lastModified = info.lastModified || eff.lastModified;
+  eff.receivedBytes = Object.values(eff.chunks).reduce((a, c) => a + c.bytes, 0);
+  eff.cleanupPasses = 0;
+  return true;
+}
+
+function resetForRetry(eff, reason) {
+  eff.chunks = {};
+  eff.receivedBytes = 0;
+  eff.gen = (eff.gen || 0) + 1;
+  if (reason === 'validatorChanged') {
     eff.etag = null;
     eff.lastModified = null;
-    eff.status = 'pending';
-  } else if (err.rangeIgnored) {
-    eff.chunks = {};
-    eff.receivedBytes = 0;
-    eff.status = 'pending';
-  } else if (err.permanent) {
-    eff.status = 'unavailable';
-  } else {
-    eff.status = 'pending';
+  }
+  eff.status = 'pending';
+  eff.lastError = reason;
+}
+
+export async function downloadFile(ctx, entry) {
+  const { state, pool } = ctx;
+  const eff = ensureFileEntry(state, entry);
+  if (eff.status === 'published') return { done: true };
+  eff.status = 'in_progress';
+  const gen = eff.gen;
+
+  // Chunk 0 establishes size (or the whole body when the range is ignored).
+  if (eff.expectedBytes == null || !eff.chunks[0]) {
+    try {
+      const info = await withRetries(ctx, eff, 0, () => downloadChunkOnce(ctx, entry, eff, 0, gen));
+      applyChunkResult(eff, 0, info, gen);
+      await saveState(state);
+    } catch (err) {
+      if (err.validatorChanged || err.aborted) resetForRetry(eff, err.validatorChanged ? 'validatorChanged' : 'aborted');
+      await saveState(state);
+      throw err;
+    }
+  }
+
+  const n = chunkCount(eff);
+  const missing = [];
+  for (let i = 0; i < n; i++) {
+    if (eff.chunks[i] && (await fileValid(eff.id, i, eff.chunks[i]))) continue;
+    missing.push(i);
+  }
+
+  const failures = [];
+  await Promise.all(
+    missing.map((i) =>
+      pool.run(async () => {
+        const myGen = eff.gen;
+        try {
+          const info = await withRetries(ctx, eff, i, () => downloadChunkOnce(ctx, entry, eff, i, myGen));
+          if (applyChunkResult(eff, i, info, myGen)) await saveState(state);
+        } catch (err) {
+          failures.push({ i, err });
+        }
+      }),
+    ),
+  );
+
+  if (failures.length > 0) {
+    const hard = failures.find((f) => f.err.validatorChanged || f.err.aborted);
+    if (hard) resetForRetry(eff, hard.err.validatorChanged ? 'validatorChanged' : 'aborted');
+    else if (failures.every((f) => f.err.permanent)) eff.status = 'unavailable';
+    await saveState(state);
+    return { done: false, failures: failures.map((f) => f.err.message) };
+  }
+
+  const haveAll = chunkCount(eff) > 0 && (await allChunksValid(eff));
+  if (haveAll) {
+    eff.receivedBytes = Object.values(eff.chunks).reduce((a, c) => a + c.bytes, 0);
+    return { done: true };
+  }
+  return { done: false };
+}
+
+async function allChunksValid(eff) {
+  const n = chunkCount(eff);
+  for (let i = 0; i < n; i++) {
+    if (!eff.chunks[i]) return false;
+    if (!(await fileValid(eff.id, i, eff.chunks[i]))) return false;
+  }
+  return true;
+}
+
+async function fileValid(id, i, info) {
+  try {
+    const st = await fs.stat(chunkPath(id, i));
+    if (st.size !== info.bytes) return false;
+    return (await sha256File(chunkPath(id, i))) === info.sha256;
+  } catch {
+    return false;
   }
 }
 
@@ -326,12 +331,12 @@ function handleFileError(eff, err) {
 export async function assembleHex(eff) {
   const h = createHash('sha256');
   let bytes = 0;
-  const n = Math.ceil(eff.expectedBytes / eff.chunkSize);
+  const n = chunkCount(eff);
   for (let i = 0; i < n; i++) {
     const info = eff.chunks[i];
     if (!info) throw new Error(`missing chunk ${i} for ${eff.id}`);
     const buf = await fs.readFile(chunkPath(eff.id, i));
-    if (buf.length !== info.bytes) throw new Error(`chunk ${i} length mismatch`);
+    if (buf.length !== info.bytes) throw new Error(`chunk ${i} length mismatch for ${eff.id}`);
     h.update(buf);
     bytes += buf.length;
   }
@@ -342,11 +347,12 @@ export async function assembleToFile(eff, dest) {
   await fs.mkdir(path.dirname(dest), { recursive: true });
   const out = await fs.open(dest, 'w');
   try {
-    const n = Math.ceil(eff.expectedBytes / eff.chunkSize);
+    const n = chunkCount(eff);
     for (let i = 0; i < n; i++) {
       const info = eff.chunks[i];
+      if (!info) throw new Error(`missing chunk ${i} for ${eff.id}`);
       const buf = await fs.readFile(chunkPath(eff.id, i));
-      if (buf.length !== info.bytes) throw new Error(`chunk ${i} length mismatch`);
+      if (buf.length !== info.bytes) throw new Error(`chunk ${i} length mismatch for ${eff.id}`);
       await out.write(buf);
     }
   } finally {
@@ -358,13 +364,12 @@ export async function publishFile(ctx, entry) {
   const { state, ghcr, log } = ctx;
   const eff = ensureFileEntry(state, entry);
   const tag = entryTag(entry);
-  const dir = workspaceDir(eff.id);
-  const work = path.join(dir, `upload-${eff.id}.bin`);
+  const work = path.join(workspaceDir(eff.id), 'out', `${eff.id}.bin`);
 
   const { sha256, bytes } = await assembleHex(eff);
   await assembleToFile(eff, work);
 
-  log(`publishing ${eff.id} (${bytes} bytes, ${sha256.slice(0, 12)}) as ${tag}`);
+  log(`publishing ${eff.id} (${bytes} bytes) as ${tag}`);
   const push = await ghcr.pushFile(tag, work, {
     title: eff.filename,
     annotations: {
@@ -381,11 +386,9 @@ export async function publishFile(ctx, entry) {
   eff.sha256 = sha256;
   eff.expectedBytes = bytes;
   eff.ghcr = { tag, digest: push.digest, title: eff.filename, pushedAt: new Date().toISOString() };
-  eff.status = 'published';
-  eff.publishedAt = new Date().toISOString();
   await saveState(state);
 
-  // Round-trip verification: pull it back and compare bytes.
+  // Round-trip verification: pull the tag back and compare bytes.
   const verifyDir = path.join(PATHS.stagingDir, 'verify', eff.id);
   await fs.rm(verifyDir, { recursive: true, force: true });
   await ghcr.pull(tag, verifyDir);
@@ -393,14 +396,20 @@ export async function publishFile(ctx, entry) {
   const pulledHash = await sha256File(pulled);
   const ok = pulledHash === sha256;
   eff.verified = { at: new Date().toISOString(), pulledSha256: pulledHash, ok, digest: push.digest };
-  eff.lastError = ok ? null : 'round-trip verification mismatch';
   await fs.rm(verifyDir, { recursive: true, force: true });
   if (!ok) {
     eff.status = 'in_progress';
+    eff.lastError = 'round-trip verification mismatch';
+    eff.lastErrorAt = new Date().toISOString();
+    await saveState(state);
     throw new Error(`round-trip verification failed for ${eff.id}`);
   }
-  // Cleanup local bytes and checkpoint.
-  await fs.rm(dir, { recursive: true, force: true });
+  eff.status = 'published';
+  eff.publishedAt = new Date().toISOString();
+  eff.lastError = null;
+  await saveState(state);
+
+  await fs.rm(workspaceDir(eff.id), { recursive: true, force: true });
   await clearGitPartial(eff.id);
   await saveState(state);
   log(`verified ${eff.id}: ${sha256}`);
@@ -415,15 +424,13 @@ async function clearGitPartial(id) {
 // Durable checkpoints
 // ---------------------------------------------------------------------------
 
-// Push in-progress chunk workspaces to GHCR and record selected small prefixes
-// on the control-branch partial path.
 export async function checkpointPartials(ctx) {
   const { state, ghcr, log } = ctx;
   const inProgress = Object.values(state.files).filter(
     (e) => e.status === 'in_progress' && Object.keys(e.chunks).length > 0,
   );
 
-  // 1) Selected small prefixes for the control branch.
+  // Selected small prefixes on the control branch.
   await fs.mkdir(PATHS.partialDir, { recursive: true });
   const partialIndex = { version: 1, updatedAt: new Date().toISOString(), partials: {} };
   let budget = CONFIG.gitPartialMaxTotalBytes;
@@ -433,8 +440,7 @@ export async function checkpointPartials(ctx) {
     if (!prefix || prefix.bytes === 0) continue;
     const cap = Math.min(prefix.bytes, CONFIG.gitPartialMaxBytesPerFile, budget);
     const buf = prefix.buffer.subarray(0, cap);
-    const file = path.join(PATHS.partialDir, `${eff.id}.prefix`);
-    await atomicWriteFile(file, buf);
+    await atomicWriteFile(path.join(PATHS.partialDir, `${eff.id}.prefix`), buf);
     partialIndex.partials[eff.id] = {
       bytes: buf.length,
       sha256: sha256Buf(buf),
@@ -445,26 +451,27 @@ export async function checkpointPartials(ctx) {
   }
   await atomicWriteJson(PARTIAL_INDEX, partialIndex);
 
-  // 2) Full chunk workspaces to GHCR checkpoint artifacts.
+  // Full chunk workspaces to GHCR checkpoint artifacts.
   for (const eff of inProgress) {
-    const dir = workspaceDir(eff.id);
-    let entries = [];
+    const dir = chunksDir(eff.id);
+    let names = [];
     try {
-      entries = (await fs.readdir(dir)).filter((f) => f.startsWith('chunk-'));
+      names = (await fs.readdir(dir)).filter((f) => f.startsWith('chunk-'));
     } catch {
       continue;
     }
-    if (entries.length === 0) continue;
-    // remove temp files so they never get pushed
-    for (const f of await fs.readdir(dir)) if (f.endsWith('.tmp')) await fs.rm(path.join(dir, f), { force: true });
+    if (names.length === 0) continue;
+    for (const f of await fs.readdir(dir)) {
+      if (f.endsWith('.tmp')) await fs.rm(path.join(dir, f), { force: true });
+    }
     const bytes = (
-      await Promise.all(entries.map(async (f) => (await fs.stat(path.join(dir, f))).size))
+      await Promise.all(names.map(async (f) => (await fs.stat(path.join(dir, f))).size))
     ).reduce((a, b) => a + b, 0);
-    if (eff.checkpoint && eff.checkpoint.bytes === bytes) continue; // unchanged
+    if (eff.checkpoint && eff.checkpoint.bytes === bytes) continue;
     try {
       const res = await ghcr.pushDir(checkpointTag(eff.id), dir);
-      eff.checkpoint = { digest: res.digest, bytes, at: new Date().toISOString() };
-      log(`checkpointed ${eff.id} (${bytes} bytes) -> ${res.digest}`);
+      eff.checkpoint = { digest: res.digest, bytes, chunks: names.length, at: new Date().toISOString() };
+      log(`checkpointed ${eff.id} (${bytes} bytes, ${names.length} chunks) -> ${res.digest}`);
     } catch (err) {
       log(`checkpoint push failed for ${eff.id}: ${err.message}`);
     }
@@ -479,11 +486,11 @@ async function buildContiguousPrefix(id, chunks, chunkSize) {
   for (let i = 0; ; i++) {
     if (!chunks[i]) break;
     const buf = await fs.readFile(chunkPath(id, i)).catch(() => null);
-    if (!buf) break;
-    if (buf.length !== chunks[i].bytes) break;
+    if (!buf || buf.length !== chunks[i].bytes) break;
     if (sha256Buf(buf) !== chunks[i].sha256) break;
     parts.push(buf);
     bytes += buf.length;
+    if (bytes >= CONFIG.gitPartialMaxBytesPerFile) break;
   }
   if (parts.length === 0) return null;
   return { buffer: Buffer.concat(parts), bytes, chunkCount: parts.length };
@@ -491,14 +498,14 @@ async function buildContiguousPrefix(id, chunks, chunkSize) {
 
 export async function restoreFromGitPartials(state, log = () => {}) {
   const idx = await loadJson(PARTIAL_INDEX, null);
-  if (!idx) return;
+  if (!idx) return 0;
+  let restored = 0;
   for (const [id, info] of Object.entries(idx.partials || {})) {
     const eff = state.files[id];
     if (!eff || eff.status === 'published') continue;
-    const file = path.join(PATHS.partialDir, `${id}.prefix`);
     let buf;
     try {
-      buf = await fs.readFile(file);
+      buf = await fs.readFile(path.join(PATHS.partialDir, `${id}.prefix`));
     } catch {
       continue;
     }
@@ -506,34 +513,33 @@ export async function restoreFromGitPartials(state, log = () => {}) {
       log(`ignoring torn git partial for ${id}`);
       continue;
     }
-    const nChunks = Math.floor(buf.length / info.chunkSize) + (buf.length % info.chunkSize ? 1 : 0);
+    const nChunks = Math.ceil(buf.length / info.chunkSize);
     for (let i = 0; i < nChunks; i++) {
       const start = i * info.chunkSize;
       const chunkBuf = buf.subarray(start, Math.min(start + info.chunkSize, buf.length));
-      const info2 = eff.chunks[i];
-      if (!info2) continue;
-      if (chunkBuf.length !== info2.bytes) continue;
-      if (sha256Buf(chunkBuf) !== info2.sha256) continue;
+      const ci = eff.chunks[i];
+      if (!ci || chunkBuf.length !== ci.bytes || sha256Buf(chunkBuf) !== ci.sha256) continue;
       const dest = chunkPath(id, i);
       try {
         const st = await fs.stat(dest);
-        if (st.size === chunkBuf.length) continue;
+        if (st.size === chunkBuf.length && (await sha256File(dest)) === ci.sha256) continue;
       } catch {
         /* missing */
       }
-      await fs.mkdir(path.dirname(dest), { recursive: true });
       await atomicWriteFile(dest, chunkBuf);
+      restored++;
       log(`restored chunk ${i} of ${id} from git partial`);
     }
   }
+  return restored;
 }
 
 export async function restoreFromCheckpoints(ctx) {
   const { state, ghcr, log } = ctx;
+  let restored = 0;
   for (const eff of Object.values(state.files)) {
     if (eff.status === 'published') continue;
     if (!eff.checkpoint || !eff.checkpoint.digest) continue;
-    const dir = workspaceDir(eff.id);
     let missing = false;
     for (const i of Object.keys(eff.chunks)) {
       if (!(await fileValid(eff.id, Number(i), eff.chunks[i]))) {
@@ -544,26 +550,28 @@ export async function restoreFromCheckpoints(ctx) {
     if (!missing) continue;
     log(`restoring ${eff.id} from GHCR checkpoint ${eff.checkpoint.digest}`);
     try {
-      await ghcr.pull(checkpointTag(eff.id), dir);
+      await ghcr.pull(checkpointTag(eff.id), chunksDir(eff.id));
     } catch (err) {
       log(`checkpoint pull failed for ${eff.id}: ${err.message}`);
       continue;
     }
-    // verify restored chunks against state
     for (const i of Object.keys(eff.chunks)) {
-      const ok = await fileValid(eff.id, Number(i), eff.chunks[i]);
-      if (!ok) {
+      if (!(await fileValid(eff.id, Number(i), eff.chunks[i]))) {
         await fs.rm(chunkPath(eff.id, Number(i)), { force: true });
         delete eff.chunks[i];
+        restored--;
+      } else {
+        restored++;
       }
     }
     eff.receivedBytes = Object.values(eff.chunks).reduce((a, c) => a + c.bytes, 0);
     await saveState(state);
   }
+  return restored;
 }
 
 // ---------------------------------------------------------------------------
-// Concurrency pool + pass runner
+// Concurrency pool + ordering + pass runner
 // ---------------------------------------------------------------------------
 
 export function createPool(size) {
@@ -594,23 +602,33 @@ export function createPool(size) {
   };
 }
 
+export function estimateBytes(labelSize) {
+  const m = /(\d+(?:\.\d+)?)\s*M/i.exec(labelSize || '');
+  return m ? Math.round(Number(m[1]) * 1024 * 1024) : null;
+}
+
 export function orderEntries(entries, state) {
-  const arr = [...entries];
-  arr.sort((a, b) => {
+  return [...entries].sort((a, b) => {
     const ea = state.files[a.id];
     const eb = state.files[b.id];
-    if (ea && ea.status === 'published' && !(eb && eb.status === 'published')) return 1;
-    if (eb && eb.status === 'published' && !(ea && ea.status === 'published')) return -1;
+    const pa = ea && ea.status === 'published';
+    const pb = eb && eb.status === 'published';
+    if (pa !== pb) return pa ? 1 : -1;
     const sa = (ea && ea.expectedBytes) || estimateBytes(a.labelSize) || 1e12;
     const sb = (eb && eb.expectedBytes) || estimateBytes(b.labelSize) || 1e12;
     return sa - sb;
   });
-  return arr;
 }
 
-export function estimateBytes(labelSize) {
-  const m = /(\d+(?:\.\d+)?)\s*M/i.exec(labelSize || '');
-  return m ? Math.round(Number(m[1]) * 1024 * 1024) : null;
+export function createContext({ state, manifest, ghcr, log = console.log }) {
+  return {
+    state,
+    manifest,
+    ghcr,
+    log,
+    limiter: createRateLimiter(CONFIG.bandwidthLimitBps),
+    pool: createPool(CONFIG.maxConcurrency),
+  };
 }
 
 export async function runPass(ctx) {
@@ -621,9 +639,8 @@ export async function runPass(ctx) {
   for (const entry of ordered) {
     if (Date.now() >= deadline) break;
     const eff = ensureFileEntry(state, entry);
-    if (eff.status === 'published') continue;
-    if (eff.status === 'unavailable') continue;
-    ctx.log(`-- file ${eff.id} (${eff.labelSize}) --`);
+    if (eff.status === 'published' || eff.status === 'unavailable') continue;
+    log(`-- file ${eff.id} (${eff.labelSize}) --`);
     try {
       const r = await downloadFile(ctx, entry);
       if (r.done) {
@@ -631,17 +648,19 @@ export async function runPass(ctx) {
         results.push({ id: eff.id, status: 'published', ...pub });
       } else {
         results.push({ id: eff.id, status: 'in_progress', received: eff.receivedBytes });
+        // If a file cannot progress (repeated failures), move on.
+        if ((eff.lastError || '').includes('short body') && eff.retries > 0) continue;
       }
     } catch (err) {
-      ctx.log(`file ${eff.id} error: ${err.message}`);
+      log(`file ${eff.id} error: ${err.message}`);
       results.push({ id: eff.id, status: eff.status, error: err.message });
-      if (err.validatorChanged || err.rangeIgnored) {
-        // reset and let a later pass retry cleanly
-        await saveState(state);
-      }
+      if (err.validatorChanged || err.aborted) resetForRetry(eff, 'validatorChanged');
+      await saveState(state);
     }
   }
   await checkpointPartials(ctx);
   await saveState(state);
   return results;
 }
+
+export { checkpointTag, entryTag };
