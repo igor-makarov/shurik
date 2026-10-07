@@ -389,24 +389,39 @@ export function discoverySummary(manifest) {
   const structured = eraPages.reduce((a, p) => a + (p.structuredFiles || 0), 0);
   const generic = manifest.genericTotal || 0;
   const supp = (manifest.directory && manifest.directory.supplementary) || [];
+  const directoryVisited = !!(manifest.directory && manifest.directory.ok);
+  // A file in the archive's own flat directory listing that no manifest entry
+  // represents would be a silent gap. Only an explicit empty list confirms
+  // there is none; a missing list (older fixture/state) cannot confirm it.
+  const unrepresented = Array.isArray(manifest.genericUnrepresented)
+    ? manifest.genericUnrepresented.length
+    : null;
+  // Truthful completeness: every linked era page visited AND the archive
+  // directory visited AND every flat-listing file represented. A pending page
+  // is 'incomplete' (discovery failure), never silently 'complete'.
+  let status;
+  if (pending > 0) status = 'incomplete';
+  else if (directoryVisited && unrepresented === 0) status = 'complete';
+  else status = 'provisional';
   return {
     scope: 'all-years',
-    status: pending > 0 ? 'incomplete' : 'provisional',
+    status,
     eraPagesTotal: eraPages.length,
     eraPagesVisited: visited,
     eraPagesPending: pending,
     eraPagesFailed: failed,
     outOfScopePagesVisited: (manifest.outOfScopePages || []).filter((p) => p.ok).length,
-    directoryVisited: !!(manifest.directory && manifest.directory.ok),
+    directoryVisited,
     directoryFiles: manifest.directory ? manifest.directory.files.length : 0,
     structuredFiles: structured,
     genericFiles: generic,
+    genericUnrepresented: unrepresented,
     supplementaryFiles: supp.length,
     totalFiles: manifest.totalFiles,
     totalIssues: manifest.totalIssues,
     years: manifest.years,
     knownGapYears: Object.values(manifest.knownGaps || {}).flatMap((g) => g.missingYears),
-    note: 'provisional: era pages visited and parsed; status flips to complete only after every linked era page is visited and represented',
+    note: 'complete: every archive-linked era page visited and every flat-listing file represented; incomplete if a page failed; provisional only while completeness cannot be confirmed',
   };
 }
 

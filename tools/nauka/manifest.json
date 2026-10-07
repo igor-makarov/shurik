@@ -2,7 +2,7 @@
   "version": 2,
   "kind": "shurik-nauka-all-years-manifest",
   "scope": "all-years",
-  "generatedAt": "2026-10-07T21:52:30.425Z",
+  "generatedAt": "2026-10-07T23:41:55.138Z",
   "indexUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html",
   "indexSha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
   "indexBytes": 198043,
@@ -536,7 +536,7 @@
   },
   "discovery": {
     "scope": "all-years",
-    "status": "provisional",
+    "status": "complete",
     "eraPagesTotal": 12,
     "eraPagesVisited": 12,
     "eraPagesPending": 0,
@@ -546,6 +546,7 @@
     "directoryFiles": 1117,
     "structuredFiles": 1102,
     "genericFiles": 1112,
+    "genericUnrepresented": 0,
     "supplementaryFiles": 5,
     "totalFiles": 1112,
     "totalIssues": 941,
@@ -655,7 +656,7 @@
       2028,
       2029
     ],
-    "note": "provisional: era pages visited and parsed; status flips to complete only after every linked era page is visited and represented"
+    "note": "complete: every archive-linked era page visited and every flat-listing file represented; incomplete if a page failed; provisional only while completeness cannot be confirmed"
   },
   "knownGaps": {
     "_NiJ_1890-93_.html": {

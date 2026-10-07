@@ -184,8 +184,21 @@ test('master index totals and checkpoint are truthful and consistent', () => {
   assert.match(md, /Legend/);
 });
 
-test('discoverySummary marks a page gap as incomplete, otherwise provisional', () => {
+test('discoverySummary reports complete only with full evidence, else provisional/incomplete', () => {
   const complete = discoverySummary({
+    eraPages: [{ name: 'a', ok: true }, { name: 'b', ok: true }],
+    years: [1934],
+    totalFiles: 1,
+    totalIssues: 1,
+    genericTotal: 1,
+    genericUnrepresented: [],
+    knownGaps: {},
+    directory: { ok: true, files: [], supplementary: [] },
+  });
+  assert.equal(complete.status, 'complete');
+  // Missing the explicit unrepresented list means completeness cannot be
+  // confirmed, so the summary must stay provisional rather than over-claim.
+  const provisional = discoverySummary({
     eraPages: [{ name: 'a', ok: true }, { name: 'b', ok: true }],
     years: [1934],
     totalFiles: 1,
@@ -194,7 +207,7 @@ test('discoverySummary marks a page gap as incomplete, otherwise provisional', (
     knownGaps: {},
     directory: { ok: true, files: [], supplementary: [] },
   });
-  assert.equal(complete.status, 'provisional');
+  assert.equal(provisional.status, 'provisional');
   const incomplete = discoverySummary({
     eraPages: [{ name: 'a', ok: true }, { name: 'b', ok: false, error: 'HTTP 500' }],
     years: [],
