@@ -1,0 +1,29 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 4,
+  "iteration": "3-6",
+  "startedAt": "2026-10-07T17:26:34.000Z",
+  "elapsedMs": 202533,
+  "budget": {"budgetMs": 280000, "cleanupMs": 120000, "minChunkBudgetMs": 90000, "passBudgetMs": 600000, "fileConcurrency": 1, "concurrency": 24},
+  "filesAttempted": ["nij-1936-n04-pdf"],
+  "publishedBefore": 42,
+  "publishedAfter": 42,
+  "remainingBefore": 18,
+  "remainingAfter": 18,
+  "verifiedPartialBytesBefore": 77594624,
+  "verifiedPartialBytesAfter": 77594624,
+  "newOriginBytesDurable": 0,
+  "discardedTransferBytes": 0,
+  "discardedNote": "No bytes were transferred: every connection to the origin failed before any body byte.",
+  "published": [],
+  "checkpointReceipts": [
+    {"tag": "nij-1934-39-index", "digest": "sha256:26b6ddeec92858cf70e51858ea4f16509a2e334f7675cdab4718658cf3e3113a"},
+    {"tag": "nij-1934-39-checkpoint", "digest": "sha256:c55a09339e69dee6b44af600fae2f993bac573c311e199e027584aa0cb43840d"}
+  ],
+  "failures": [
+    {"kind": "origin-unreachable", "detail": "TCP connect to publ.lib.ru (81.176.66.167) times out on ports 443 and 80; ping 100% packet loss. 15 missing chunks of nij-1936-n04-pdf each failed 6 attempts with 'request failed: idle timeout'."}
+  ],
+  "retries": 75,
+  "notes": "Restore succeeded: git partials + GHCR checkpoint digests re-validated 38 chunks of nij-1936-n04-pdf and 7 chunks each of nij-1936-n01-pdf / nij-1937-n10-pdf, 22 of nij-1938-n05-pdf. No durable progress was possible because the origin host is unreachable from the runner. General egress is healthy (github.com, example.com, google.com, ghcr.io all open), so this is host-specific, not runner-wide.",
+  "nextAction": "Add a fail-fast origin reachability probe so a down origin does not burn a whole batch; retry the origin periodically; run full focused batches when it returns."
+}
