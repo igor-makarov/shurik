@@ -1,7 +1,8 @@
 {
   "version": 1,
   "provider": "opencode-go",
-  "model": "space-bunny-free",
+  "model": "deepseek-v4.1-flash",
   "iterationSeconds": 1800,
-  "checkpointSeconds": 300
+  "checkpointSeconds": 120,
+  "checkpointPaths": ["data/nauka/state", "data/nauka/partials"]
 }
