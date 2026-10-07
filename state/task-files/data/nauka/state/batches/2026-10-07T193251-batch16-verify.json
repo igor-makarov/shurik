@@ -1,0 +1,54 @@
+{
+  "kind": "shurik-nauka-verification-record",
+  "batch": 16,
+  "iteration": "3-10",
+  "startedAt": "2026-10-07T19:29:02.000Z",
+  "finishedAt": "2026-10-07T19:32:51.000Z",
+  "elapsedMs": 229000,
+  "type": "independent full-set round-trip verification (no new origin retrieval)",
+  "context": "Continuation prompt stated a stale baseline of 35 published / 25 remaining. The work branch already carried iterations 3-7..3-9 which drove published 42 -> 60. This iteration independently re-verified the 60/60 claim instead of re-downloading anything.",
+  "command": "node tools/nauka/cli.mjs verify",
+  "method": "For each of the 60 per-file tags: oras resolve (immutable digest), oras pull of the tag, sha256 of the pulled bytes vs the recorded sha256, and tag digest vs the recorded immutable digest. Genuine cold round-trip, not a smoke artifact.",
+  "result": {"ok": 60, "total": 60, "problems": 0},
+  "discoveryRecheck": {
+    "preservedIndexPath": "data/nauka/state/evidence/index.cp1251.html",
+    "preservedIndexSha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
+    "preservedIndexBytes": 198043,
+    "encoding": "windows-1251",
+    "reparsedEntries": 60,
+    "trackedManifestEntries": 60,
+    "idsOnlyInReparse": 0,
+    "idsOnlyInTracked": 0,
+    "urlMismatches": 0,
+    "perYearFiles": {"1934": 5, "1935": 5, "1936": 9, "1937": 11, "1938": 19, "1939": 11}
+  },
+  "originSpotCheck": {
+    "note": "1-byte ranged GET against the recorded (correctly encoded) URLs, confirming validators still match state; no bulk re-download.",
+    "checks": [
+      {"id": "nij-1934-n01-djv", "status": 206, "etagMatch": true, "totalMatch": true, "lastModifiedMatch": true},
+      {"id": "nij-1938-n03-pdf", "status": 206, "etagMatch": true, "totalMatch": true, "lastModifiedMatch": true},
+      {"id": "nij-1939-n1112-djv", "status": 206, "etagMatch": true, "totalMatch": true, "lastModifiedMatch": true}
+    ]
+  },
+  "collectionIndex": {
+    "tag": "nij-1934-39-index",
+    "annotations": {"shurik.nauka.total-files": "60", "shurik.nauka.published-files": "60"},
+    "layerTitle": "nij-1934-39-index.json",
+    "layerBytes": 38481
+  },
+  "checkpointTagPresent": true,
+  "registryTagCount": 107,
+  "perFileTags": 60,
+  "tests": "npm run test:nauka -> 19/19 pass (0 fail)",
+  "publishedBefore": 60,
+  "publishedAfter": 60,
+  "remainingBefore": 0,
+  "remainingAfter": 0,
+  "verifiedPartialBytesBefore": 0,
+  "verifiedPartialBytesAfter": 0,
+  "newOriginBytesDurable": 0,
+  "discardedTransferBytes": 0,
+  "published": [],
+  "failures": [],
+  "nextAction": "Objective complete and independently verified. No further retrieval or republishing needed; per-file bytes, sha256 and immutable digests all confirmed against GHCR and origin validators."
+}

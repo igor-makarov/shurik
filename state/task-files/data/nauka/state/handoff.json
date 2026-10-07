@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "3-9",
-  "at": "2026-10-07T19:19:00.000Z",
+  "iteration": "3-10",
+  "at": "2026-10-07T19:32:51.000Z",
   "published": 60,
   "remaining": 0,
   "bytesPublished": 2311630290,
@@ -9,8 +9,8 @@
   "status": "COMPLETE",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-07T19:15:00Z",
-    "note": "Origin publ.lib.ru up for the whole iteration. Three clean foreground batches (13-15) published all 6 remaining files at ~350-360 KiB/s aggregate with zero discarded transfer bytes."
+    "lastChecked": "2026-10-07T19:32:40Z",
+    "note": "Origin publ.lib.ru up. Iteration 3-10 did no bulk retrieval; it independently re-verified the completed set. 1-byte ranged GETs on three published files returned 206 with ETag/Content-Length/Last-Modified identical to the recorded validators."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
@@ -18,16 +18,17 @@
     "partialFiles": [],
     "note": "No unfinished partials remain. Every discovered file is published and round-trip verified."
   },
-  "publishedThisIteration": [
-    {"id": "nij-1938-n0910-pdf", "bytes": 80935065, "sha256": "3f66ef1486e7a929f1119e629157b0f1c7b344cf403128f342ae2cd7818dad89", "digest": "sha256:9af16b52fc7eabda31fc7c19cb702d6468092e649bab72c904daceffac6fe34b"},
-    {"id": "nij-1936-n11-pdf", "bytes": 83955055, "sha256": "cbde07b3071589649420cf65663b44a56cddea6cd7bcd2af18c4fc5a04a480c5", "digest": "sha256:c6df3c67f72fba1b91c9844dda992029884ef2f904e84dc4bd3da472ed71aa25"},
-    {"id": "nij-1936-n06-pdf", "bytes": 85656635, "sha256": "c08fcafcecc631b9c5e16c7712097080b64b999c1c3e508327bcf808780d485a", "digest": "sha256:339a22e86b1a456f365b0a1c66e6ff585c4c760297ca3f8d843cf37f24a2007b"},
-    {"id": "nij-1938-n01-pdf", "bytes": 102072758, "sha256": "e73bdfb3f4aacce7c80498583fbb74b09e5f477cd06e1efe49b7fb4094bd9b21", "digest": "sha256:d0eceb4e602fff4b6d8374a83ab8ffe7911b18f350950fdc4071e807bb650836"},
-    {"id": "nij-1938-n02-pdf", "bytes": 102697270, "sha256": "1590b45e6bb44bbb297321b6ecbdddd737341915f9fecd049a37828250454a00", "digest": "sha256:62f261eabb06a49b6b9bf64374d82f9cb78b6d1286bfbbc275cd8590a6465657"},
-    {"id": "nij-1938-n05-pdf", "bytes": 104518298, "sha256": "a1726b01edd74eeeaf0017150b8f38f3db0d69f4ba5c6e59b5ac538cf4d56dcd", "digest": "sha256:5bbd14274255389e4bd63fd391e965d7ac0ebb26205397d61947558d00ff7fb8"}
-  ],
+  "verificationThisIteration": {
+    "command": "node tools/nauka/cli.mjs verify",
+    "result": "60/60 ok; problems: 0",
+    "elapsedMs": 126000,
+    "discoveryRecheck": "re-parsed preserved index -> 60/60 entries, 0 id diff, 0 URL mismatch",
+    "tests": "npm run test:nauka -> 19/19 pass",
+    "record": "data/nauka/state/batches/2026-10-07T193251-batch16-verify.json"
+  },
+  "publishedThisIteration": [],
   "remainingFiles": [],
-  "nextAction": "Objective complete: all 60 discovered scans are published to ghcr.io/igor-makarov/shurik-nauka with per-file SHA-256 and immutable digests. No further retrieval needed. Optionally re-run `node tools/nauka/cli.mjs verify` for a full-set cold pull check.",
+  "nextAction": "Objective complete and independently re-verified. No further retrieval needed. Optionally re-run `node tools/nauka/cli.mjs verify` on a future runner for a spot check.",
   "codeChangesThisIteration": [],
-  "notes": "Iteration 3-9 published the final 6 files in three bounded batches (13: 54->57, 14: 57->59, 15: 59->60). Tests: npm run test:nauka 19/19 pass. Emergency archive not re-downloaded: recovery-37638996048.json shows it was already recovered/verified and its partials are superseded by GHCR checkpoints."
+  "notes": "The continuation prompt's baseline (35 published / 25 remaining) was stale; iterations 3-7..3-9 had already driven the count to 60/60. Iteration 3-10 spent its budget confirming this independently rather than re-downloading: full-set cold round-trip (60/60), discovery re-derivation from the preserved index (exact match), origin validator spot-check, and the nauka test suite (19/19)."
 }

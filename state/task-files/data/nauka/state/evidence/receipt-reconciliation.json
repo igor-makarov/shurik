@@ -1,11 +1,13 @@
 {
   "kind": "shurik-nauka-receipt-reconciliation",
-  "at": "2026-10-07T17:46:00.000Z",
-  "method": "oras repo tags (once) + oras resolve per published tag; NO artifact bytes pulled/re-downloaded",
-  "publishedInState": 42,
-  "tagsPresent": 42,
-  "digestMatches": 42,
+  "at": "2026-10-07T19:31:08.000Z",
+  "iteration": "3-10",
+  "method": "oras resolve per published tag (digest compare) PLUS a full cold round-trip: oras pull each tag and re-hash the pulled bytes against the recorded sha256",
+  "publishedInState": 60,
+  "tagsPresent": 60,
+  "digestMatches": 60,
+  "byteHashMatches": 60,
   "missing": 0,
   "moved": 0,
-  "note": "Every published per-file receipt (tag + immutable digest) matches state; no complete artifact needs re-publishing or re-verification."
+  "note": "Every published per-file receipt (tag + immutable digest + sha256 of pulled bytes) matches state. No complete artifact needs re-publishing or re-verification. Supersedes the 42-file reconciliation of 17:46."
 }

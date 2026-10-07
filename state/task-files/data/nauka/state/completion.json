@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-completion",
-  "iteration": "3-9",
-  "at": "2026-10-07T19:19:30.000Z",
+  "iteration": "3-10",
+  "at": "2026-10-07T19:32:51.000Z",
   "objective": "Retrieve every original scan/archive directly linked from the 1934-1939 index and publish original bytes + per-file SHA-256 to ghcr.io/igor-makarov/shurik-nauka",
   "indexUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html",
   "indexSha256": "e24f0a5daea3b1e738b5c327994f342084584d8803370398d81517a9e65acea2",
@@ -22,10 +22,21 @@
     "nij-1938-n01-pdf", "nij-1938-n02-pdf", "nij-1938-n05-pdf"
   ],
   "fullSetVerify": {
-    "at": "2026-10-07T19:20:45.000Z",
+    "at": "2026-10-07T19:31:08.000Z",
+    "iteration": "3-10",
     "command": "node tools/nauka/cli.mjs verify",
     "result": "60/60 ok; problems: 0",
-    "detail": "Cold pull of every tag, re-hash of pulled bytes vs recorded sha256, and tag digest vs recorded immutable digest. All matched."
+    "detail": "Independent cold pull of every tag, re-hash of pulled bytes vs recorded sha256, and tag digest vs recorded immutable digest. All matched. Run on a fresh runner in iteration 3-10, not the publishing iteration.",
+    "record": "data/nauka/state/batches/2026-10-07T193251-batch16-verify.json"
+  },
+  "discoveryRecheck": {
+    "at": "2026-10-07T19:32:00.000Z",
+    "iteration": "3-10",
+    "method": "re-parse the preserved windows-1251 index (sha256 e24f0a5d...) with parse-index.mjs and diff against tools/nauka/manifest.json",
+    "reparsedEntries": 60,
+    "trackedEntries": 60,
+    "idDiff": 0,
+    "urlMismatches": 0
   },
   "collectionIndex": {
     "digest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
@@ -33,5 +44,5 @@
     "publishedFiles": 60,
     "remainingFiles": 0
   },
-  "notes": "All scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. No unfinished partials remain. Objective fully achieved and verified."
+  "notes": "All scans published as original bytes; no OCR/conversion. Source filenames and windows-1251 decoding preserved in manifest.json. No unfinished partials remain. Objective fully achieved and independently re-verified in iteration 3-10 (60/60 cold round-trip + discovery re-derivation + origin validator spot-check)."
 }
