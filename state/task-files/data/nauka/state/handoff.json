@@ -11,7 +11,14 @@
     "address": "81.176.66.167",
     "detail": "TCP connect times out on 443 and 80; ping 100% packet loss; no AAAA. General egress (github.com, ghcr.io, example.com, google.com) is healthy, so this is host-specific / origin cooldown or block.",
     "firstObserved": "2026-10-07T17:26:45Z",
-    "lastChecked": "2026-10-07T17:39:55Z"
+    "lastChecked": "2026-10-07T17:47:36Z",
+    "probeHistory": [
+      "2026-10-07T17:39:55Z unreachable (connect timeout after 8000ms)",
+      "2026-10-07T17:41:51Z unreachable (connect timeout after 8000ms)",
+      "2026-10-07T17:42:57Z unreachable (connect timeout after 8000ms)",
+      "2026-10-07T17:45:17Z unreachable (connect timeout after 8000ms)",
+      "2026-10-07T17:47:36Z unreachable (connect timeout after 8000ms)"
+    ]
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
