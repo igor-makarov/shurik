@@ -44,11 +44,30 @@ Derived from `data/published.jsonl` (max `image_count` once per post id) and
 
 | Metric | Value |
 | --- | ---: |
-| Discovered / parsed posts | 1186 / 1222 (+11 this pass) |
+| Discovered / parsed posts | 1186 / 1478 |
 | Distinct Tumblr photo identities | 1824 stems (pending 0; all answered) |
-| Published images (max per tag; includes 3 same-byte aliases) | **86** across 53 image-bearing tags (83 unique-byte images; unchanged) |
-| Posts recorded published (metadata-only tags included) | 741 |
-| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 1937 stems (29 rows with captures) |
+| Published images (max per tag; includes 3 same-byte aliases) | **119** across 80 image-bearing tags |
+| Posts recorded published (metadata-only tags included) | 751 |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 3109 stems (45 rows with captures) |
+
+## 18-294 result: amp/photoset refetch plan exhausted -> 5 new published images (119 total)
+
+Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
+**119 images across 80 image-bearing tags** (751 tags total), was 86/53 at the
+loop baseline. This pass: `scripts/refetch-captures.py` exhausted its remaining
+plan (135 never-parsed amp/photoset/other captures in 130 posts, 3x45 fetched,
+0 failures): 14 new image identities, 112 new URL forms. `stem-scan` answered
+the new stems: 2 hits converted by `fetch-images --method stem
+--only-stem-hits` into **5 new published images** in 4 posts (180550090138,
+20110924434, 21084952305, 93093713638 = 2 images), each anonymously verified
+(16/16, 20/20, 20/20, 20/20 checks). The refetch plan is now empty (`--dry-run`
+reports 0) -- do not re-run it without new captures.
+
+Also this pass: two 25-post probe batches settled 16 posts with genuine 404
+gaps before transport refusals tripped the breaker (cooldown honored);
+`probe-availability --limit 150`: 0 hits, 131 gaps, 19 transient.
+Crawl-state checkpoint `sha256:eb2ec711796c277cc7255d679ad67e63f30f5b7c6de0cc4da46b82011e669141`
+(`--pull` verified, preserved 1493 files).
 
 Iteration 7-95: `--method stem --retry-missing` over 300 previously settled
 posts recovered **14 images in 7 posts** (each published immediately and
