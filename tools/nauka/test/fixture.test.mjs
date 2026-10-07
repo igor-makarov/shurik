@@ -428,7 +428,12 @@ test('a cancelled bounded batch returns promptly and leaves no writer or temp fi
     assert.equal(eff.chunks[0].sha256, sha(c0));
 
     const removed = await engine.cleanupTempFiles(state);
-    assert.ok(removed >= 1, `expected a temp file to clean, removed ${removed}`);
+    // The chunk writer removes its own .tmp on abort; cleanupTempFiles is the
+    // belt-and-braces sweep of any abandoned writer leftovers.
+    assert.equal(removed, 0);
+    const planted = path.join(engine.chunksDir(entry.id), 'chunk-000099.tmp');
+    await fs.writeFile(planted, 'leftover');
+    assert.equal(await engine.cleanupTempFiles(state), 1, 'stale temp file swept');
     const names = await fs.readdir(engine.chunksDir(entry.id)).catch(() => []);
     assert.ok(!names.some((n) => n.endsWith('.tmp')), 'no .tmp writer left behind');
   } finally {

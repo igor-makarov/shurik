@@ -229,6 +229,8 @@ async function cmdRetrieve(args) {
   const startedAt = Date.now();
   const transferDeadline = startedAt + budgetMs;
   const ctx = createContext({ state, manifest, ghcr, log, signal: controller.signal, deadline: transferDeadline });
+  // GHCR checkpoint pushes are durable but secondary to transfer; bound them.
+  ctx.cleanupDeadline = transferDeadline + cleanupMs;
 
   const hardTimer = setTimeout(() => {
     log('shutdown watchdog fired; forcing exit');

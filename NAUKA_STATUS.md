@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T12:34:32.885Z
+Updated: 2026-10-07T13:21:18.457Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -76,7 +76,7 @@ Updated: 2026-10-07T12:34:32.885Z
 - nij-1938-n02-pdf: pending 0/? B (no error)
 - nij-1938-n03-pdf: pending 0/? B (no error)
 - nij-1938-n04-djv: pending 0/? B (no error)
-- nij-1938-n04-pdf: in_progress 92274688/127130077 B (no error)
+- nij-1938-n04-pdf: in_progress 127130077/127130077 B (aborted)
 - nij-1938-n05-djv: pending 0/? B (no error)
 - nij-1938-n05-pdf: pending 0/? B (no error)
 - nij-1938-n06-djv: pending 0/? B (no error)
@@ -114,8 +114,12 @@ oras repo tags ghcr.io/igor-makarov/shurik-nauka | sort
 oras manifest fetch ghcr.io/igor-makarov/shurik-nauka:nij-1934-39-index | jq .
 oras pull ghcr.io/igor-makarov/shurik-nauka:nij-1939-n01-djv -o ./out
 node tools/nauka/cli.mjs discover
-node tools/nauka/cli.mjs retrieve --passes 4
+node tools/nauka/cli.mjs retrieve --budget-ms 75000
 node tools/nauka/cli.mjs verify
 node tools/nauka/cli.mjs index
 ```
+
+Run `retrieve` directly (no `timeout`/pipe): one bounded batch, ~75 s of
+transfer plus bounded cleanup, then it drains writers and exits so the
+supervisor can publish at the tool boundary.
 

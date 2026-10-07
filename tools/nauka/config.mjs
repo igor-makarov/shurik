@@ -51,6 +51,9 @@ export const CONFIG = {
   maxBackoffMs: 120000,
   // Bounded wall-clock budget for a single foreground transfer pass.
   passBudgetMs: Number(process.env.NAUKA_PASS_MS || 90 * 1000),
+  // Do not start a new chunk download when less than this remains in the batch;
+  // a short request would be killed mid-body and retried pointlessly.
+  minChunkBudgetMs: Number(process.env.NAUKA_MIN_CHUNK_MS || 8000),
   // Do not start assembling/pushing a completed file when less than this much
   // of the batch budget remains; the durable chunks are published next batch.
   publishReserveMs: Number(process.env.NAUKA_PUBLISH_RESERVE_MS || 30 * 1000),

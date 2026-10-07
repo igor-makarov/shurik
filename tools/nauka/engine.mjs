@@ -256,6 +256,7 @@ async function withRetries(ctx, eff, chunkIndex, fn) {
       if (err.validatorChanged || err.aborted || err.rangeIgnored || err.permanent || err.rangeNotSatisfiable) throw err;
       eff.retries++;
       if (attempt >= CONFIG.maxAttemptsPerChunk) throw err;
+      if (isStopped(ctx)) throw abortError('batch budget exhausted during retry');
       let wait = err.retryAfterMs != null ? err.retryAfterMs : backoff;
       wait = Math.max(wait, CONFIG.requestGapMs);
       ctx.log(`retry ${eff.id} chunk ${chunkIndex} #${attempt}: ${err.message} (wait ${Math.round(wait)}ms)`);
@@ -423,7 +424,7 @@ export async function downloadFile(ctx, entry) {
   await Promise.all(
     missing.map((i) =>
       pool.run(async () => {
-        if (isStopped(ctx)) return;
+        if (isStopped(ctx) || remainingMs(ctx) < CONFIG.minChunkBudgetMs) return;
         const myGen = eff.gen;
         try {
           const info = await withRetries(ctx, eff, i, () => downloadChunkOnce(ctx, entry, eff, i, myGen));

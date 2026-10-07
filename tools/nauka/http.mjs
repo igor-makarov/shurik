@@ -266,6 +266,10 @@ export async function httpGetToFile(url, opts) {
   const out = createWriteStream(destTmp, { flags: 'w' });
   let written = 0;
   let failed = null;
+  let streamError = null;
+  out.on('error', (e) => {
+    streamError = e;
+  });
   try {
     for await (const chunk of res) {
       if (signal && signal.aborted) throw abortError();
@@ -274,6 +278,7 @@ export async function httpGetToFile(url, opts) {
       if (!out.write(chunk)) {
         await new Promise((r) => out.once('drain', r));
       }
+      if (streamError) throw streamError;
       written += chunk.length;
     }
     await new Promise((resolve, reject) => out.end((err) => (err ? reject(err) : resolve())));
