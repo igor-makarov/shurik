@@ -137,7 +137,8 @@
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
-    "http://25.media.tumblr.com/e5bc926b4549041ed17ce4c9497c0629/tumblr_mlc9bx8IEX1r3it8zo1_1280.jpg"
+    "http://25.media.tumblr.com/e5bc926b4549041ed17ce4c9497c0629/tumblr_mlc9bx8IEX1r3it8zo1_1280.jpg",
+    "http://78.media.tumblr.com/e5bc926b4549041ed17ce4c9497c0629/tumblr_mlc9bx8IEX1r3it8zo1_1280.jpg"
    ],
    "variants": [
     "http://25.media.tumblr.com/e5bc926b4549041ed17ce4c9497c0629/tumblr_mlc9bx8IEX1r3it8zo1_1280.jpg",
@@ -201,6 +202,16 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/48109531322"
+  },
+  {
+   "bytes": 40771,
+   "capture_timestamp": "20171205121918",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "amp",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/48109531322/amp"
   }
  ],
  "missing_image_count": 3,
@@ -293,7 +304,9 @@
    1
   ]
  },
- "refetched_captures": [],
+ "refetched_captures": [
+  "20171205121918"
+ ],
  "replay_url": "https://web.archive.org/web/20130419015432id_/http://hazfalafel.com:80/post/48109531322",
  "snapshot_retries": 0,
  "state": "partial",

@@ -194,6 +194,16 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/88397211828"
+  },
+  {
+   "bytes": 65524,
+   "capture_timestamp": "20140616082926",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "other",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/88397211828?route=%2Fpost%2F%3Aid"
   }
  ],
  "missing_image_count": 3,
@@ -274,7 +284,9 @@
  "partial": true,
  "post_id": "88397211828",
  "posted_on": "Posted on Tuesday the 10th of June 2014 at 10:16 PM",
- "refetched_captures": [],
+ "refetched_captures": [
+  "20140616082926"
+ ],
  "replay_url": "https://web.archive.org/web/20140614152237id_/http://hazfalafel.com:80/post/88397211828",
  "snapshot_retries": 0,
  "state": "partial",

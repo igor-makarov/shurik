@@ -209,6 +209,16 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/89258777583"
+  },
+  {
+   "bytes": 66251,
+   "capture_timestamp": "20140623064135",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "other",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/89258777583?route=%2Fpost%2F%3Aid"
   }
  ],
  "missing_image_count": 2,
@@ -269,7 +279,9 @@
    1
   ]
  },
- "refetched_captures": [],
+ "refetched_captures": [
+  "20140623064135"
+ ],
  "replay_url": "https://web.archive.org/web/20140622040551id_/http://hazfalafel.com:80/post/89258777583",
  "snapshot_retries": 0,
  "state": "partial",

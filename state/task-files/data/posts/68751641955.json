@@ -197,6 +197,16 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/68751641955"
+  },
+  {
+   "bytes": 61631,
+   "capture_timestamp": "20131218064124",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "other",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/68751641955?route=%2Fpost%2F%3Aid"
   }
  ],
  "missing_image_count": 3,
@@ -287,7 +297,9 @@
  "partial": true,
  "post_id": "68751641955",
  "posted_on": "Posted on Monday the 2nd of December 2013 at 6:52 AM",
- "refetched_captures": [],
+ "refetched_captures": [
+  "20131218064124"
+ ],
  "replay_url": "https://web.archive.org/web/20131216230555id_/http://hazfalafel.com:80/post/68751641955",
  "snapshot_retries": 0,
  "state": "partial",
