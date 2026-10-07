@@ -25,7 +25,33 @@
  "failure_count": 0,
  "fetched_at": "2026-10-06T19:08:01Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": "tumblr_pdgajy7dAs1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "amp-img",
+   "link_text": "",
+   "media_key": "tumblr_pdgajy7dAs1r3it8zo1_1280.jpg",
+   "media_url": "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_1280.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_1280.jpg"
+   ],
+   "variants": [
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_1280.jpg",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_1024.jpg",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_540.jpg",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_500.jpg",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_400.jpg",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_250.jpg",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_100.jpg",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1.png",
+    "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "methods": [
   {
    "bytes": 11832,
@@ -48,16 +74,22 @@
    "url": "https://hazfalafel.com/post/176985571488/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "https://66.media.tumblr.com/44646eafbcfe364f01951a46dc3dcd24/tumblr_pdgajy7dAs1r3it8zo1_1280.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "https://hazfalafel.com/post/176985571488/amp",
  "page_bytes": 41229,
  "page_sha256": "60885805cc8302f355dc86956fe977d65baf09da3a9a29752834b842080787c5",
- "partial": false,
+ "partial": true,
  "post_id": "176985571488",
  "replay_url": "https://web.archive.org/web/20190824095759id_/https://hazfalafel.com/post/176985571488/amp",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "חנין זועבי",
   "התוכנית של גרו",

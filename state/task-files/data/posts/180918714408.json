@@ -23,9 +23,86 @@
  "content_source": "div.post-content",
  "content_text": "מוצר שמצאנו ב-Aliexpress\nאדיר מילרAliexpress",
  "failure_count": 0,
- "fetched_at": "2026-10-06T19:10:13Z",
- "image_count": 0,
- "images": [],
+ "fetched_at": "2026-10-06T23:57:35Z",
+ "image_count": 1,
+ "images": [
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1024.jpg",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_540.jpg",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_400.jpg",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_250.jpg",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_100.jpg",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1.png",
+      "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1",
+     "url": "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1280.jpg"
+    },
+    {
+     "bytes": 66277,
+     "capture_timestamp": "20181225182206",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c",
+     "status": 200,
+     "url": "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg"
+    }
+   ],
+   "base_key": "tumblr_pjf25mwdcq1r3it8zo1.jpg",
+   "blob_path": "data/blobs/cb/cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c",
+   "bytes": 66277,
+   "caption_alt": "",
+   "capture": {
+    "archive_digest": "GL3ZW66H6EDM4T42TVDPQLPLFCOGERVE",
+    "original": "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181225182206id_/https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+    "timestamp": "20181225182206"
+   },
+   "capture_count": 1,
+   "file": "tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+   "found_in": "amp-img",
+   "link_text": "",
+   "media_key": "tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+   "note": "recovered from pre-cutoff capture 20181225182206 of https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg (66277 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c",
+   "state": "recovered",
+   "url_forms": [
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1280.jpg"
+   ],
+   "variants": [
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_1024.jpg",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_540.jpg",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_400.jpg",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_250.jpg",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_100.jpg",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1.png",
+    "https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1.gif"
+   ]
+  }
+ ],
+ "images_done": true,
  "methods": [
   {
    "bytes": 4611,
@@ -55,9 +132,21 @@
  "page_sha256": "70d0d8eb2d69003d51616129496afffebca634accf8c70f964defb03cab96c11",
  "partial": false,
  "post_id": "180918714408",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-06T23:57:43Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:ece473b3cc55faded1992b964bd6500a6032df0b64199ff215db76cc3e8e5d9b",
+  "missing_count": 0,
+  "quality": [
+   1,
+   44,
+   0
+  ]
+ },
  "replay_url": "https://web.archive.org/web/20190519193424id_/https://hazfalafel.com/post/180918714408/amp",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "recovered",
  "tags": [
   "אדיר מילר",
   "Aliexpress"
