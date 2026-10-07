@@ -22,6 +22,16 @@
     "urlMismatches": 0,
     "perYearFiles": {"1934": 5, "1935": 5, "1936": 9, "1937": 11, "1938": 19, "1939": 11}
   },
+  "endToEndOriginCheck": {
+    "id": "nij-1934-n01-djv",
+    "note": "Full re-download of the smallest published file directly from the origin (6 ranged chunks, 512 KiB/s aggregate limit, 2 s request gate, 8 bounded connections, If-Range validator).",
+    "bytes": 5346121,
+    "elapsedMs": 50000,
+    "originSha256": "814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6",
+    "publishedSha256": "814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6",
+    "match": true,
+    "result": "origin bytes == published bytes for this file; proves the published sha256 is the true origin file hash"
+  },
   "originSpotCheck": {
     "note": "1-byte ranged GET against the recorded (correctly encoded) URLs, confirming validators still match state; no bulk re-download.",
     "checks": [

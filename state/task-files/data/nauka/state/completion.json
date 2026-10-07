@@ -27,7 +27,8 @@
     "command": "node tools/nauka/cli.mjs verify",
     "result": "60/60 ok; problems: 0",
     "detail": "Independent cold pull of every tag, re-hash of pulled bytes vs recorded sha256, and tag digest vs recorded immutable digest. All matched. Run on a fresh runner in iteration 3-10, not the publishing iteration.",
-    "record": "data/nauka/state/batches/2026-10-07T193251-batch16-verify.json"
+    "record": "data/nauka/state/batches/2026-10-07T193251-batch16-verify.json",
+    "endToEndOriginCheck": "nij-1934-n01-djv re-downloaded in full from origin (6 ranged chunks, throttled) -> sha256 814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6 == published digest. Proves published bytes are the true origin file bytes."
   },
   "discoveryRecheck": {
     "at": "2026-10-07T19:32:00.000Z",
