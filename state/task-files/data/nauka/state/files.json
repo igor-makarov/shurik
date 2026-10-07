@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "files": {
+    "fx-pub": {
+      "id": "fx-pub",
+      "year": 1934,
+      "issue": "N02",
+      "format": "pdf",
+      "filename": "fx-pub.bin",
+      "url": "http://127.0.0.1:43801/file.bin",
+      "labelText": "fx",
+      "labelSize": "1M",
+      "expectedBytes": 2048,
+      "etag": "\"v1\"",
+      "lastModified": "Wed, 01 Jan 2020 00:00:00 GMT",
+      "chunkSize": 1024,
+      "chunks": {
+        "0": {
+          "bytes": 1024,
+          "sha256": "bfc9f34a5654d071cba008133eff4ec47aab46e563281ffb7683d603b9d9cea2"
+        },
+        "1": {
+          "bytes": 1024,
+          "sha256": "89baf541e0f09d7766da59f00883963906ca7d7ff5b13e1932dd40909071442a"
+        }
+      },
+      "receivedBytes": 2048,
+      "status": "published",
+      "gen": 0,
+      "attempts": 2,
+      "retries": 0,
+      "lastError": null,
+      "lastErrorAt": null,
+      "ghcr": {
+        "tag": "nij-1934-n02-pdf",
+        "digest": "sha256:e53cbd2261005776850879a8db583da1d6858115737c6277f66dba8dc7c4211e",
+        "title": "fx-pub.bin",
+        "pushedAt": "2026-10-07T12:00:14.131Z"
+      },
+      "checkpoint": null,
+      "verified": {
+        "at": "2026-10-07T12:00:14.132Z",
+        "pulledSha256": "e53cbd2261005776850879a8db583da1d6858115737c6277f66dba8dc7c4211e",
+        "ok": true,
+        "digest": "sha256:e53cbd2261005776850879a8db583da1d6858115737c6277f66dba8dc7c4211e"
+      },
+      "updatedAt": "2026-10-07T12:00:14.125Z",
+      "cleanupPasses": 0,
+      "sha256": "e53cbd2261005776850879a8db583da1d6858115737c6277f66dba8dc7c4211e",
+      "publishedAt": "2026-10-07T12:00:14.133Z"
+    }
+  },
+  "updatedAt": "2026-10-07T12:00:14.134Z"
+}
