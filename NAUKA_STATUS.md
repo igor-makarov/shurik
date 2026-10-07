@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T16:50:22.483Z
+Updated: 2026-10-07T17:29:53.320Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -82,7 +82,7 @@ Updated: 2026-10-07T16:50:22.483Z
 - nij-1935-n01-djv: in_progress 0/67393099 B (no error)
 - nij-1935-n02-pdf: in_progress 0/56507287 B (no error)
 - nij-1936-n01-pdf: in_progress 7340032/55439030 B (no error)
-- nij-1936-n04-pdf: in_progress 39845888/55307476 B (body stream failed after 334684 bytes: aborted)
+- nij-1936-n04-pdf: in_progress 39845888/55307476 B (request failed: idle timeout after 30000ms)
 - nij-1936-n06-pdf: in_progress 0/85656635 B (no error)
 - nij-1936-n11-pdf: in_progress 0/83955055 B (no error)
 - nij-1937-n02-pdf: in_progress 0/74814595 B (no error)
@@ -107,7 +107,7 @@ Updated: 2026-10-07T16:50:22.483Z
 - chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
-- per-file in-flight chunk cap: 6 (fair pool sharing)
+- per-file in-flight chunk cap: 24 (fair pool sharing)
 
 ## Commands (list / pull / resume)
 ```bash

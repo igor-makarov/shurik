@@ -431,10 +431,19 @@ export async function downloadFile(ctx, entry) {
   const perFile = Number.isFinite(ctx.chunkConcurrencyPerFile) ? Math.max(1, ctx.chunkConcurrencyPerFile) : Infinity;
   const local = perFile === Infinity ? null : createPool(perFile);
   const submit = (fn) => (local ? local.run(() => pool.run(fn)) : pool.run(fn));
+  // A chunk admitted with less time left than it needs is killed mid-body at
+  // the batch deadline and its bytes discarded, so never admit one. Cap the
+  // threshold at ~40% of the transfer budget so a short batch still admits its
+  // first wave instead of doing nothing.
+  const transferBudgetMs = ctx.transferBudgetMs || CONFIG.retrieveBudgetMs;
+  const minChunkBudgetMs = Math.min(
+    CONFIG.minChunkBudgetMs,
+    Math.max(15000, Math.round(transferBudgetMs * 0.4)),
+  );
   await Promise.all(
     missing.map((i) =>
       submit(async () => {
-        if (isStopped(ctx) || remainingMs(ctx) < CONFIG.minChunkBudgetMs) return;
+        if (isStopped(ctx) || remainingMs(ctx) < minChunkBudgetMs) return;
         // Count only chunks that actually get admitted, so the outer pass loop
         // can tell a productive pass from a no-op pass and stop spinning once
         // no further chunk can become durable within the batch.

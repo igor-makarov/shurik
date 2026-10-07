@@ -236,6 +236,7 @@ async function cmdRetrieve(args) {
 
   const startedAt = Date.now();
   const ctx = createContext({ state, manifest, ghcr, log, signal: controller.signal, deadline: null });
+  ctx.transferBudgetMs = budgetMs;
 
   // Hard cap on the WHOLE invocation (restore + transfer + cleanup). This is
   // the ultimate guarantee that a foreground tool call returns and leaves no

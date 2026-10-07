@@ -56,9 +56,12 @@ export const CONFIG = {
   // busy and reach the measured ~220 KiB/s aggregate. Each file's chunks and
   // metadata are independent, so progress stays per-file and durable.
   fileConcurrency: Number(process.env.NAUKA_FILE_CONCURRENCY || 4),
-  // Do not start a new chunk download when less than this remains in the batch;
-  // a short request would be killed mid-body and retried pointlessly.
-  minChunkBudgetMs: Number(process.env.NAUKA_MIN_CHUNK_MS || 8000),
+  // Do not start a new chunk download when less than this remains in the batch.
+  // A 1 MiB chunk needs ~60-90 s at the measured ~15 KiB/s per connection, so a
+  // chunk admitted with less time left is killed mid-body at the deadline and
+  // its transferred bytes are discarded (useless). The engine also caps this at
+  // ~40% of the transfer budget so a short batch still admits its first wave.
+  minChunkBudgetMs: Number(process.env.NAUKA_MIN_CHUNK_MS || 90000),
   // Do not start assembling/pushing a completed file when less than this much
   // of the batch budget remains; the durable chunks are published next batch.
   publishReserveMs: Number(process.env.NAUKA_PUBLISH_RESERVE_MS || 20 * 1000),
