@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn 1934-39 scan retrieval
 
-Updated: 2026-10-07T12:19:44.535Z
+Updated: 2026-10-07T12:26:29.251Z
 
 ## Index evidence
 - Index URL: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html
@@ -11,12 +11,12 @@ Updated: 2026-10-07T12:19:44.535Z
 
 ## Totals
 - discovered: 60
-- published (GHCR, round-trip verified): 2
-- in progress: 0
-- pending: 58
+- published (GHCR, round-trip verified): 4
+- in progress: 1
+- pending: 55
 - unavailable/permanent: 0
-- remaining: 58
-- bytes published: 10749323 / 10749323
+- remaining: 56
+- bytes published: 24287392 / 151417469
 
 ## Per year
 - 1934: 1/5 published; missing months: 3,4,5,6,7,8,9,10,11,12
@@ -24,7 +24,7 @@ Updated: 2026-10-07T12:19:44.535Z
 - 1936: 0/9 published; missing months: 2,5,8,12
 - 1937: 0/11 published; missing months: none
 - 1938: 0/19 published; missing months: none
-- 1939: 1/11 published; missing months: none
+- 1939: 3/11 published; missing months: none
 
 ## Registry
 - Registry: ghcr.io/igor-makarov/shurik-nauka
@@ -37,6 +37,8 @@ Updated: 2026-10-07T12:19:44.535Z
 ## Verified GHCR references
 - `nij-1934-n01-djv` @ `sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9` — Nauka_i_jizn',1934,N01.[djv].zip (5346121 B, sha256 814b7b0b7228f932…)
 - `nij-1939-n01-djv` @ `sha256:ec58e7fa7267e0b58b1c06407be6840eb6576753eabc643c161ed77492134bc9` — Nauka_i_jizn',1939,N01.[djv].zip (5403202 B, sha256 22fd713736f95105…)
+- `nij-1939-n02-djv` @ `sha256:7e09b638fc1e8a7a40b5b9cc9ef5b5227979a2008cbd717f21f1997a7508ecad` — Nauka_i_jizn',1939,N02.[djv].zip (6675736 B, sha256 f360ce63a3595aa5…)
+- `nij-1939-n07-djv` @ `sha256:1f5cf20b669444532fb9596572f5a7cfb4def9862e34e9f9376f01cf2e616aa0` — Nauka_i_jizn',1939,N07.[djv].zip (6862333 B, sha256 d8f8ee15b04d8f0a…)
 
 ## Retryable / in-progress
 - nij-1934-n01p-djv: pending 0/? B (no error)
@@ -74,7 +76,7 @@ Updated: 2026-10-07T12:19:44.535Z
 - nij-1938-n02-pdf: pending 0/? B (no error)
 - nij-1938-n03-pdf: pending 0/? B (no error)
 - nij-1938-n04-djv: pending 0/? B (no error)
-- nij-1938-n04-pdf: pending 0/? B (no error)
+- nij-1938-n04-pdf: in_progress 24117248/127130077 B (no error)
 - nij-1938-n05-djv: pending 0/? B (no error)
 - nij-1938-n05-pdf: pending 0/? B (no error)
 - nij-1938-n06-djv: pending 0/? B (no error)
@@ -87,12 +89,10 @@ Updated: 2026-10-07T12:19:44.535Z
 - nij-1938-n0910-pdf: pending 0/? B (no error)
 - nij-1938-n1112-djv: pending 0/? B (no error)
 - nij-1938-n1112-pdf: pending 0/? B (no error)
-- nij-1939-n02-djv: pending 0/? B (no error)
 - nij-1939-n03-djv: pending 0/? B (no error)
 - nij-1939-n04-djv: pending 0/? B (no error)
 - nij-1939-n05-djv: pending 0/? B (no error)
 - nij-1939-n06-djv: pending 0/? B (no error)
-- nij-1939-n07-djv: pending 0/? B (no error)
 - nij-1939-n08-djv: pending 0/? B (no error)
 - nij-1939-n09-djv: pending 0/? B (no error)
 - nij-1939-n10-djv: pending 0/? B (no error)
@@ -104,7 +104,7 @@ Updated: 2026-10-07T12:19:44.535Z
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
 - concurrency: 24 connections
-- chunk size: 524288 B
+- chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
 
