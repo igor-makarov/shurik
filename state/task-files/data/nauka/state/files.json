@@ -1,54 +1,6 @@
 {
   "version": 1,
   "files": {
-    "fx-pub": {
-      "id": "fx-pub",
-      "year": 1934,
-      "issue": "N02",
-      "format": "pdf",
-      "filename": "fx-pub.bin",
-      "url": "http://127.0.0.1:43001/file.bin",
-      "labelText": "fx",
-      "labelSize": "1M",
-      "expectedBytes": 2048,
-      "etag": "\"v1\"",
-      "lastModified": "Wed, 01 Jan 2020 00:00:00 GMT",
-      "chunkSize": 1024,
-      "chunks": {
-        "0": {
-          "bytes": 1024,
-          "sha256": "2b94f41bf844edc13ade5cee81475a5e311dbe34eb33ef4ab99cdf5291a82735"
-        },
-        "1": {
-          "bytes": 1024,
-          "sha256": "c16acfe32186db2076ccb941f88cac81c705100a3f131b8882e3ca4a3287bc27"
-        }
-      },
-      "receivedBytes": 2048,
-      "status": "published",
-      "gen": 0,
-      "attempts": 2,
-      "retries": 0,
-      "lastError": null,
-      "lastErrorAt": null,
-      "ghcr": {
-        "tag": "nij-1934-n02-pdf",
-        "digest": "sha256:9b83ef033c659f80b34a607222d298d775ca24734f5d9b3d9d79857f6ca26335",
-        "title": "fx-pub.bin",
-        "pushedAt": "2026-10-07T12:11:13.546Z"
-      },
-      "checkpoint": null,
-      "verified": {
-        "at": "2026-10-07T12:11:13.547Z",
-        "pulledSha256": "9b83ef033c659f80b34a607222d298d775ca24734f5d9b3d9d79857f6ca26335",
-        "ok": true,
-        "digest": "sha256:9b83ef033c659f80b34a607222d298d775ca24734f5d9b3d9d79857f6ca26335"
-      },
-      "updatedAt": "2026-10-07T12:11:13.540Z",
-      "cleanupPasses": 0,
-      "sha256": "9b83ef033c659f80b34a607222d298d775ca24734f5d9b3d9d79857f6ca26335",
-      "publishedAt": "2026-10-07T12:11:13.548Z"
-    },
     "nij-1934-n01p-djv": {
       "id": "nij-1934-n01p-djv",
       "year": 1934,
@@ -61,7 +13,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -73,7 +26,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:53.766Z"
     },
     "nij-1934-n01p-pdf": {
       "id": "nij-1934-n01p-pdf",
@@ -87,7 +40,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -99,7 +53,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:53.766Z"
     },
     "nij-1934-n01-djv": {
       "id": "nij-1934-n01-djv",
@@ -113,29 +67,50 @@
       "expectedBytes": 5346121,
       "etag": "\"5d669025-519349\"",
       "lastModified": "Wed, 28 Aug 2019 14:31:01 GMT",
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {
         "0": {
-          "bytes": 1048576,
-          "sha256": "edeffc3e6802bce48b5b28650e6ede56b6f52455b4b9ad52daa4ed6c97e656a8"
+          "bytes": 524288,
+          "sha256": "90409eae22ac75fbdc634b0c33274b4dd342ae1db55a96684360323e1655e2b3"
         },
         "1": {
-          "bytes": 1048576,
-          "sha256": "82cb3175c11d70a7bcd8caf169f5ff60f1a6cd3a0dd914352595c2582191f8ca"
+          "bytes": 524288,
+          "sha256": "c416abe9079ad328c180794f88dc35201187439597ae6bd00a3776eddc3f99ab"
         },
         "2": {
-          "bytes": 1048576,
-          "sha256": "24d7dd0e90abbfe78d1508563d30c7bc7743b0180cd34f048dcb9b4df3ecbc76"
+          "bytes": 524288,
+          "sha256": "5d6fd2559d3d858485541b821580f7a72a3f534ffc55a661e6273da43eb3d9db"
         },
         "3": {
-          "bytes": 1048576,
-          "sha256": "78e4213d6b2e8a1e6107d05b675e24c56bc98834837e1fb17a435436ba4cdbb8"
+          "bytes": 524288,
+          "sha256": "2b59cbabab52629d6f73b05dfe1f787cdf6e70b259f438858b27b52e94d7c986"
         },
         "4": {
-          "bytes": 1048576,
-          "sha256": "bd9628a601cf161ec781f391c2123a9f2dc3e706d638531c689f725aeac40387"
+          "bytes": 524288,
+          "sha256": "b968eb6d862603576e20c9f22aa89e5339816670a4c46ecd1831efadae544030"
         },
         "5": {
+          "bytes": 524288,
+          "sha256": "f7d6662d7e0e36602171ce1c5c9c67ac594c59f459de70139f5fcd9aba2e2684"
+        },
+        "6": {
+          "bytes": 524288,
+          "sha256": "1b96e87b54b5062702bf05e734fce52950827abad7019c5076c10f26de9e8784"
+        },
+        "7": {
+          "bytes": 524288,
+          "sha256": "c50766dfe27265907cf5c8ea1f5a0f65ad114f77ab3e5efb6af2abb212c5ae6b"
+        },
+        "8": {
+          "bytes": 524288,
+          "sha256": "339958e595063c66ea5259eb058e4ef9dc1e3f7ad8676aeef3460d2b3debe551"
+        },
+        "9": {
+          "bytes": 524288,
+          "sha256": "322311f8b49f1e0e9533854cb0469ef5768a4c0931b6478181a4af838a75a566"
+        },
+        "10": {
           "bytes": 103241,
           "sha256": "06588c9d12837301dd0a9ebcc85fc1bcb9cd314a0bafa83c99152f7e90f295ba"
         }
@@ -143,32 +118,27 @@
       "receivedBytes": 5346121,
       "status": "published",
       "gen": 0,
-      "attempts": 6,
+      "attempts": 12,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": {
         "tag": "nij-1934-n01-djv",
-        "digest": "sha256:0ef7a6d665afe7ab650f29068a7bced2e8ccb477c470e2d882dae505f466fa46",
+        "digest": "sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9",
         "title": "Nauka_i_jizn',1934,N01.[djv].zip",
-        "pushedAt": "2026-10-07T12:13:42.755Z"
+        "pushedAt": "2026-10-07T12:18:48.098Z"
       },
-      "checkpoint": {
-        "digest": "sha256:06fb69b34c2ab87724860f5be1b70dc2098d8fd2eb0ad0eb3e424bd077c1ba9f",
-        "bytes": 5346121,
-        "chunks": 6,
-        "at": "2026-10-07T12:13:20.091Z"
-      },
+      "checkpoint": null,
       "verified": {
-        "at": "2026-10-07T12:13:43.387Z",
+        "at": "2026-10-07T12:18:48.643Z",
         "pulledSha256": "814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6",
         "ok": true,
-        "digest": "sha256:0ef7a6d665afe7ab650f29068a7bced2e8ccb477c470e2d882dae505f466fa46"
+        "digest": "sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9"
       },
-      "updatedAt": "2026-10-07T12:11:32.533Z",
+      "updatedAt": "2026-10-07T12:17:53.766Z",
       "cleanupPasses": 0,
       "sha256": "814b7b0b7228f9325be554a8017242181aa9d176484ee8ca1f99ce59f99dcfa6",
-      "publishedAt": "2026-10-07T12:13:43.388Z"
+      "publishedAt": "2026-10-07T12:18:48.644Z"
     },
     "nij-1934-n02-djv": {
       "id": "nij-1934-n02-djv",
@@ -182,7 +152,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -194,7 +165,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1934-n02-pdf": {
       "id": "nij-1934-n02-pdf",
@@ -208,7 +179,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -220,7 +192,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1935-n01-djv": {
       "id": "nij-1935-n01-djv",
@@ -234,7 +206,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -246,7 +219,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1935-n01-pdf": {
       "id": "nij-1935-n01-pdf",
@@ -260,7 +233,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -272,7 +246,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1935-n02-pdf": {
       "id": "nij-1935-n02-pdf",
@@ -286,7 +260,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -298,7 +273,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1935-n06-pdf": {
       "id": "nij-1935-n06-pdf",
@@ -312,7 +287,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -324,7 +300,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1935-n11-pdf": {
       "id": "nij-1935-n11-pdf",
@@ -338,7 +314,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -350,7 +327,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n01-pdf": {
       "id": "nij-1936-n01-pdf",
@@ -364,7 +341,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -376,7 +354,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n03-pdf": {
       "id": "nij-1936-n03-pdf",
@@ -390,7 +368,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -402,7 +381,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n04-pdf": {
       "id": "nij-1936-n04-pdf",
@@ -416,7 +395,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -428,7 +408,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n06-pdf": {
       "id": "nij-1936-n06-pdf",
@@ -442,7 +422,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -454,7 +435,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n07-pdf": {
       "id": "nij-1936-n07-pdf",
@@ -468,7 +449,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -480,7 +462,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n09-pdf": {
       "id": "nij-1936-n09-pdf",
@@ -494,7 +476,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -506,7 +489,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n09-djv": {
       "id": "nij-1936-n09-djv",
@@ -520,7 +503,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -532,7 +516,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n10-pdf": {
       "id": "nij-1936-n10-pdf",
@@ -546,7 +530,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -558,7 +543,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1936-n11-pdf": {
       "id": "nij-1936-n11-pdf",
@@ -572,7 +557,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -584,7 +570,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n01-pdf": {
       "id": "nij-1937-n01-pdf",
@@ -598,7 +584,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -610,7 +597,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n02-pdf": {
       "id": "nij-1937-n02-pdf",
@@ -624,7 +611,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -636,7 +624,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n03-pdf": {
       "id": "nij-1937-n03-pdf",
@@ -650,7 +638,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -662,7 +651,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n04-pdf": {
       "id": "nij-1937-n04-pdf",
@@ -676,7 +665,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -688,7 +678,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n05-pdf": {
       "id": "nij-1937-n05-pdf",
@@ -702,7 +692,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -714,7 +705,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n06-pdf": {
       "id": "nij-1937-n06-pdf",
@@ -728,7 +719,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -740,7 +732,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n07-pdf": {
       "id": "nij-1937-n07-pdf",
@@ -754,7 +746,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -766,7 +759,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n0809-pdf": {
       "id": "nij-1937-n0809-pdf",
@@ -780,7 +773,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -792,7 +786,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n10-pdf": {
       "id": "nij-1937-n10-pdf",
@@ -806,7 +800,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -818,7 +813,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n11-pdf": {
       "id": "nij-1937-n11-pdf",
@@ -832,7 +827,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -844,7 +840,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1937-n12-pdf": {
       "id": "nij-1937-n12-pdf",
@@ -858,7 +854,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -870,7 +867,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n01-djv": {
       "id": "nij-1938-n01-djv",
@@ -884,7 +881,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -896,7 +894,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n01-pdf": {
       "id": "nij-1938-n01-pdf",
@@ -910,7 +908,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -922,7 +921,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n02-djv": {
       "id": "nij-1938-n02-djv",
@@ -936,7 +935,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -948,7 +948,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n02-pdf": {
       "id": "nij-1938-n02-pdf",
@@ -962,7 +962,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -974,7 +975,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n03-pdf": {
       "id": "nij-1938-n03-pdf",
@@ -988,7 +989,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1000,7 +1002,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n04-djv": {
       "id": "nij-1938-n04-djv",
@@ -1014,7 +1016,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1026,7 +1029,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n04-pdf": {
       "id": "nij-1938-n04-pdf",
@@ -1040,7 +1043,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1052,7 +1056,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n05-djv": {
       "id": "nij-1938-n05-djv",
@@ -1066,7 +1070,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1078,7 +1083,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n05-pdf": {
       "id": "nij-1938-n05-pdf",
@@ -1092,7 +1097,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1104,7 +1110,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n06-djv": {
       "id": "nij-1938-n06-djv",
@@ -1118,7 +1124,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1130,7 +1137,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n06-pdf": {
       "id": "nij-1938-n06-pdf",
@@ -1144,7 +1151,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1156,7 +1164,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n07-djv": {
       "id": "nij-1938-n07-djv",
@@ -1170,7 +1178,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1182,7 +1191,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n07-pdf": {
       "id": "nij-1938-n07-pdf",
@@ -1196,7 +1205,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1208,7 +1218,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n08-djv": {
       "id": "nij-1938-n08-djv",
@@ -1222,7 +1232,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1234,7 +1245,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n08-pdf": {
       "id": "nij-1938-n08-pdf",
@@ -1248,7 +1259,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1260,7 +1272,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n0910-djv": {
       "id": "nij-1938-n0910-djv",
@@ -1274,7 +1286,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1286,7 +1299,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n0910-pdf": {
       "id": "nij-1938-n0910-pdf",
@@ -1300,7 +1313,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1312,7 +1326,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n1112-djv": {
       "id": "nij-1938-n1112-djv",
@@ -1326,7 +1340,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1338,7 +1353,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1938-n1112-pdf": {
       "id": "nij-1938-n1112-pdf",
@@ -1352,7 +1367,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1364,7 +1380,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.061Z"
     },
     "nij-1939-n01-djv": {
       "id": "nij-1939-n01-djv",
@@ -1378,29 +1394,50 @@
       "expectedBytes": 5403202,
       "etag": "\"5cfd46de-527242\"",
       "lastModified": "Sun, 09 Jun 2019 17:50:22 GMT",
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {
         "0": {
-          "bytes": 1048576,
-          "sha256": "6b8ed252a2d3ae15798f0340b31dea13b62907d3871b03d1a8d9c86cfec48372"
+          "bytes": 524288,
+          "sha256": "2cdf0bf2db8b2c10a5062c68691a69688b2b9ab641f5551802be8ea8ed22a045"
         },
         "1": {
-          "bytes": 1048576,
-          "sha256": "cd5808febee1842299fe3a2eff6d341fd291bd9b79a2baeff9b339e8550e4862"
+          "bytes": 524288,
+          "sha256": "81bc7ebd6f5f4b920ad315f1713236bfc587a582cbfdba35f220cf7f0a63545f"
         },
         "2": {
-          "bytes": 1048576,
-          "sha256": "e475ceb54a24a90f6acca0732c9ded3b8e4f9281efb6f12afeacdfc039521619"
+          "bytes": 524288,
+          "sha256": "2c0b8ac41cec3a9ae321084fcbf8a38c3af8caa0b4b8c2592c20e9c3d67c2118"
         },
         "3": {
-          "bytes": 1048576,
-          "sha256": "c7c70ab473df089f1d950ff5a3c6fa3a2a288b53de6df55a529d001e97576b1d"
+          "bytes": 524288,
+          "sha256": "843578e75ad868caef4c127762da171cfdff0176803a5e0ae5de03eecf745a28"
         },
         "4": {
-          "bytes": 1048576,
-          "sha256": "6d865e64455c12651f3d61910333f20d79e7daa73fc29cb3f5a7ad4fcc5d9dd0"
+          "bytes": 524288,
+          "sha256": "f61d166012fdbed293d65a57b2fcdca3f1b02c64cfcde0c1c2571aeb386c88ee"
         },
         "5": {
+          "bytes": 524288,
+          "sha256": "8973b4741fd6f1970cb23ab50ce6e16e26379b4fd9073795452dce1426e93795"
+        },
+        "6": {
+          "bytes": 524288,
+          "sha256": "c9d5b370c096888c7a9da0bced8ec0b1dadeb14acee8dfdeca3dc56d767e855c"
+        },
+        "7": {
+          "bytes": 524288,
+          "sha256": "937119faed697ae4a143de9c96fa9da578553bb3b2f502c17197dc2b9404937d"
+        },
+        "8": {
+          "bytes": 524288,
+          "sha256": "b054545aeba50683e0ed2a59a1af8e4ee724ae08cb5b900ccbd3bb0cb44974be"
+        },
+        "9": {
+          "bytes": 524288,
+          "sha256": "3b42c540f1790e99d84f0de4f6f4f9eb72903ffd2b11efd23c59ac32984e1fb8"
+        },
+        "10": {
           "bytes": 160322,
           "sha256": "0774f208a0dc8ec3f08345d028315e42ef0d4fc1a6bf468edfdd5356fb193058"
         }
@@ -1408,27 +1445,27 @@
       "receivedBytes": 5403202,
       "status": "published",
       "gen": 0,
-      "attempts": 6,
+      "attempts": 12,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": {
         "tag": "nij-1939-n01-djv",
-        "digest": "sha256:4e73754fcc6b4fad5fae5ee7416b102cfe94eff1544336d36ca8ba1697c120b0",
+        "digest": "sha256:ec58e7fa7267e0b58b1c06407be6840eb6576753eabc643c161ed77492134bc9",
         "title": "Nauka_i_jizn',1939,N01.[djv].zip",
-        "pushedAt": "2026-10-07T12:15:25.213Z"
+        "pushedAt": "2026-10-07T12:19:42.099Z"
       },
       "checkpoint": null,
       "verified": {
-        "at": "2026-10-07T12:15:25.854Z",
+        "at": "2026-10-07T12:19:42.655Z",
         "pulledSha256": "22fd713736f95105ce2991d8b88457f0a2b73be159c44c4d222df9fa3f56654c",
         "ok": true,
-        "digest": "sha256:4e73754fcc6b4fad5fae5ee7416b102cfe94eff1544336d36ca8ba1697c120b0"
+        "digest": "sha256:ec58e7fa7267e0b58b1c06407be6840eb6576753eabc643c161ed77492134bc9"
       },
-      "updatedAt": "2026-10-07T12:11:32.533Z",
+      "updatedAt": "2026-10-07T12:17:54.061Z",
       "cleanupPasses": 0,
       "sha256": "22fd713736f95105ce2991d8b88457f0a2b73be159c44c4d222df9fa3f56654c",
-      "publishedAt": "2026-10-07T12:15:25.860Z"
+      "publishedAt": "2026-10-07T12:19:42.656Z"
     },
     "nij-1939-n02-djv": {
       "id": "nij-1939-n02-djv",
@@ -1442,7 +1479,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1454,7 +1492,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.337Z"
     },
     "nij-1939-n03-djv": {
       "id": "nij-1939-n03-djv",
@@ -1468,7 +1506,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1480,7 +1519,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.337Z"
     },
     "nij-1939-n04-djv": {
       "id": "nij-1939-n04-djv",
@@ -1494,7 +1533,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1506,7 +1546,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.337Z"
     },
     "nij-1939-n05-djv": {
       "id": "nij-1939-n05-djv",
@@ -1520,7 +1560,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1532,7 +1573,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.337Z"
     },
     "nij-1939-n06-djv": {
       "id": "nij-1939-n06-djv",
@@ -1546,7 +1587,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1558,7 +1600,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.337Z"
     },
     "nij-1939-n07-djv": {
       "id": "nij-1939-n07-djv",
@@ -1572,7 +1614,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1584,7 +1627,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.337Z"
     },
     "nij-1939-n08-djv": {
       "id": "nij-1939-n08-djv",
@@ -1598,7 +1641,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1610,7 +1654,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.338Z"
     },
     "nij-1939-n09-djv": {
       "id": "nij-1939-n09-djv",
@@ -1624,7 +1668,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1636,7 +1681,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.338Z"
     },
     "nij-1939-n10-djv": {
       "id": "nij-1939-n10-djv",
@@ -1650,7 +1695,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1662,7 +1708,7 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.338Z"
     },
     "nij-1939-n1112-djv": {
       "id": "nij-1939-n1112-djv",
@@ -1676,7 +1722,8 @@
       "expectedBytes": null,
       "etag": null,
       "lastModified": null,
-      "chunkSize": 1048576,
+      "singleRequest": false,
+      "chunkSize": 524288,
       "chunks": {},
       "receivedBytes": 0,
       "status": "pending",
@@ -1688,8 +1735,8 @@
       "ghcr": null,
       "checkpoint": null,
       "verified": null,
-      "updatedAt": "2026-10-07T12:11:32.533Z"
+      "updatedAt": "2026-10-07T12:17:54.338Z"
     }
   },
-  "updatedAt": "2026-10-07T12:15:25.865Z"
+  "updatedAt": "2026-10-07T12:19:44.533Z"
 }
