@@ -197,6 +197,18 @@ def merge_images(old_images: list[dict], new_images: list[dict]) -> list[dict]:
                 if img.get(key) not in (None, "", [], {}):
                     merged[key] = img[key]
         merged["attempts"] = merge_attempts(cur.get("attempts"), img.get("attempts"))
+        # Alternate CDN URL forms and the size/extension variant list only ever
+        # grow: a form learned later (e.g. a capture on a different shard) must
+        # survive a re-put, or the resolver can never probe it.
+        for key in ("url_forms", "variants"):
+            merged_list = list(cur.get(key) or [])
+            for item in img.get(key) or []:
+                if item and item not in merged_list:
+                    merged_list.append(item)
+            if merged_list:
+                merged[key] = merged_list
+        if img.get("xshard_capture") and not merged.get("xshard_capture"):
+            merged["xshard_capture"] = img["xshard_capture"]
         by_url[url] = merged
     return [by_url[u] for u in order]
 

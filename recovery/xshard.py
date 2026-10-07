@@ -26,7 +26,7 @@ from typing import Iterable, Optional
 from . import config
 from .cdx import Capture, cdx_query, normalize_url, within_cutoff
 from .http import GAP, OK, TRANSPORT, Fetcher
-from .parsing import base_media_key, host_of
+from .parsing import base_media_key, host_of, media_key
 from .store import PostStore
 
 # Tumblr's blog index inside an image filename (`tumblr_<key>1r3it8zo<n>`).
@@ -82,7 +82,8 @@ def scan_host(fetcher: Fetcher, host: str, *, blog_index: str = BLOG_INDEX,
     prefix = f"http://{host}/tumblr_"
     caps, resp = cdx_query(fetcher, prefix, match="prefix", limit=limit,
                            extra={"filter": f"original:.*{blog_index}.*"})
-    diag = {"host": host, "status": resp.status, "error": resp.error,
+    diag = {"host": host, "status": resp.status,
+            "error": None if resp.ok else resp.error,
             "message": resp.message, "rows": len(caps)}
     if not resp.ok:
         return [], diag
@@ -101,52 +102,70 @@ def apply_captures(store: Optional[PostStore], captures: Iterable[Capture], *,
     resolver pass probes the new form.
     """
     store = store or PostStore()
-    by_base: dict[str, list[tuple[str, dict]]] = {}
+    # base key -> the media_urls of every unresolved image that carries it, and
+    # exact media key -> the same, so a found file can prefer the image that
+    # links the *same size* instead of every sibling of the photo.
+    by_base: dict[str, list[tuple[str, str]]] = {}
+    by_key: dict[str, list[tuple[str, str]]] = {}
     for rec in store.all():
         pid = str(rec.get("post_id") or "")
         for img in rec.get("images") or []:
-            base = img.get("base_key") or base_media_key(img.get("media_url") or "")
+            if img.get("sha256"):
+                continue
+            url = img.get("media_url") or ""
+            if not url:
+                continue
+            base = img.get("base_key") or base_media_key(url)
             if base:
-                by_base.setdefault(base, []).append((pid, img))
+                by_base.setdefault(base, []).append((pid, url))
+            key = img.get("media_key")
+            if key:
+                by_key.setdefault(key, []).append((pid, url))
     stats = {"captures": 0, "matched": 0, "added_forms": 0, "posts": 0,
              "already": 0, "unmatched": 0}
-    touched: dict[str, dict] = {}
+    # pid -> list of (media_url, cross-shard url, capture timestamp)
+    wanted: dict[str, list[tuple[str, str, str]]] = {}
     for cap in captures:
         stats["captures"] += 1
         base = base_media_key(cap.original)
         if not base:
             stats["unmatched"] += 1
             continue
-        matches = by_base.get(base)
+        # Prefer the image that links the identical filename (same size); only
+        # fall back to any size sibling when the post does not link this size.
+        matches = by_key.get(media_key(cap.original) or "") or by_base.get(base)
         if not matches:
             stats["unmatched"] += 1
             continue
         stats["matched"] += 1
-        for pid, img in matches:
-            if img.get("sha256"):
-                stats["already"] += 1
-                continue
-            forms = img.setdefault("url_forms", [img.get("media_url")])
-            if cap.original in forms:
-                stats["already"] += 1
-                continue
-            forms.append(cap.original)
-            # A discovered capture makes the image worth probing again: clear
-            # the terminal gap so the queue will select it without
-            # `--retry-missing`.
-            img["error"] = None
-            img["state"] = "pending"
-            img["xshard_capture"] = {"timestamp": cap.timestamp,
-                                     "url": cap.original,
-                                     "source": "xshard-host-scan"}
-            stats["added_forms"] += 1
-            touched[pid] = None
-    for pid in touched:
+        for pid, media_url in matches:
+            wanted.setdefault(pid, []).append((media_url, cap.original, cap.timestamp))
+    for pid, adds in wanted.items():
         rec = store.get(pid)
-        if rec:
-            rec["fetched_at"] = rec.get("fetched_at") or ""
+        if not rec:
+            continue
+        changed = False
+        for img in rec.get("images") or []:
+            for media_url, form, ts in adds:
+                if img.get("media_url") != media_url:
+                    continue
+                forms = img.setdefault("url_forms", [media_url])
+                if form in forms:
+                    stats["already"] += 1
+                    continue
+                forms.append(form)
+                # A discovered capture makes the image worth probing again:
+                # clear the terminal gap so the queue selects it without
+                # `--retry-missing`.
+                img["error"] = None
+                img["state"] = "pending"
+                img["xshard_capture"] = {"timestamp": ts, "url": form,
+                                         "source": "xshard-host-scan"}
+                stats["added_forms"] += 1
+                changed = True
+        if changed:
             store.put(pid, rec)
-    stats["posts"] = len(touched)
+            stats["posts"] += 1
     return stats
 
 
