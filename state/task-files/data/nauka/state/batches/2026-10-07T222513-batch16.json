@@ -1,0 +1,38 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 16,
+  "iteration": "4-15",
+  "startedAt": "2026-10-07T22:11:13.000Z",
+  "elapsedMs": 853457,
+  "budget": {"budgetMs": 840000, "cleanupMs": 90000, "minChunkBudgetMs": 90000, "passBudgetMs": 100000, "fileConcurrency": 4, "concurrency": 24},
+  "note": "Ran BEFORE the pass-budget fix. passBudgetMs was still the old 100000 default, so chunks were only admitted in the first ~10 s of each 100 s pass and the tail of each pass degenerated into a queue walk (1644 '-- file' log lines, 303 spurious in_progress marks). Throughput ~150 KB/s. Fixed afterwards: config.mjs passBudgetMs default -> 600000 and engine.downloadFile now refuses to probe/mark a file when remaining pass budget < minChunkBudgetMs.",
+  "filesAttempted": 303,
+  "publishedBefore": 100,
+  "publishedAfter": 132,
+  "remainingBefore": 1012,
+  "remainingAfter": 980,
+  "verifiedPartialBytesBefore": 15728640,
+  "verifiedPartialBytesAfter": 0,
+  "newOriginBytesDurable": 125870106,
+  "discardedTransferBytes": null,
+  "discardedNote": "4 in-flight chunk bodies aborted at the pass deadline plus 7 retry attempts cut off by the batch budget; exact discarded byte count not instrumented. No complete file was lost.",
+  "published": [
+    "nij-1893-n1213-djv", "nij-1893-n2526-djv", "nij-1940-n10-djv", "nij-1942-n06-djv",
+    "nij-1942-n0708-djv", "nij-1942-n1112-djv", "nij-1946-n01-djv", "nij-1946-n0203-djv",
+    "nij-1946-n0506-djv", "nij-1946-n10-pdf", "nij-1947-n06-djv", "nij-1948-n12-djv",
+    "nij-1950-n03-djv", "nij-1951-n01-pdf", "nij-1951-n06-djv", "nij-1951-n06-pdf",
+    "nij-1951-n07-djv", "nij-1951-n09-djv", "nij-1951-n10-djv", "nij-1952-n01-djv",
+    "nij-1952-n02-djv", "nij-1953-n01-djv", "nij-1953-n01-pdf", "nij-1953-n03-djv",
+    "nij-1953-n05-djv", "nij-1953-n06-djv", "nij-1953-n08-djv", "nij-1953-n09-djv",
+    "nij-1957-n08-djv", "nij-1957-n10-djv", "nij-1972-n10-djv", "nij-1992-n03-djv"
+  ],
+  "checkpointReceipts": [
+    {"tag": "nij-master-index", "digest": "sha256:c49a9d39603b6580c5c879e5a8be66dbdd88e167d2894729d43a08c45f2b925d", "fileSha256": "f0f080e90cea3c1798725021bb8fd13dcce6909a3efd8c22df1bc65fa6c9fbf4", "bytes": 1191533},
+    {"tag": "nij-master-catalog", "digest": "sha256:8b35065bf74cc8129d5cd1b6c0c403b4e2661c9a116599934b947deef903af10"},
+    {"tag": "nij-master-checkpoint", "digest": "sha256:43999e754ef9bc2bc99cec6592ad96d651ed7b82a63f39a967a2190661a706fc"}
+  ],
+  "partialAfter": [],
+  "failures": [],
+  "retries": 0,
+  "nextAction": "Run the next retrieve batch WITH the fixed defaults (passBudgetMs=600000). Expected ~3x throughput (chunks admitted throughout the pass instead of only the first 10 s). Keep smallest-first ordering."
+}

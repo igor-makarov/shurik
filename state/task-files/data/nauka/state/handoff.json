@@ -1,33 +1,51 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "3-13",
-  "at": "2026-10-07T20:15:30.000Z",
-  "published": 60,
-  "remaining": 0,
-  "bytesPublished": 2311630290,
+  "iteration": "4-15",
+  "at": "2026-10-07T22:33:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "published": 143,
+  "remaining": 969,
+  "bytesPublished": 2578418244,
   "blocker": null,
-  "status": "COMPLETE",
+  "status": "IN_PROGRESS",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-07T20:09:03Z",
-    "note": "Origin publ.lib.ru up. No bulk retrieval remains; iteration 3-13 did not contact the origin (nothing to fetch)."
+    "lastChecked": "2026-10-07T22:11:14Z",
+    "note": "Origin publ.lib.ru up; slow per-connection (~20-25 KB/s) but ~400 KB/s aggregate across 24 connections during the download window."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
     "verifiedPartialBytes": 0,
     "partialFiles": [],
-    "note": "No unfinished partials remain. Every one of the 60 discovered files is published and round-trip verified."
+    "note": "No durable partial chunks survived batch16: it ran with the old 100 s pass budget so most passes walked the queue without admitting chunks. 303 files are marked in_progress with 0 bytes and expectedBytes learned; they will be re-fetched from chunk 0 next batch."
   },
-  "verificationThisIteration": {
-    "registryGroundTruth": "oras repo tags -> 107 tags; oras resolve for all 60 per-file tags -> 60/60 digests match the recorded immutable state digests; 0 problems (no blob pulls). Record: data/nauka/state/gt-check.json",
-    "preservedIndex": "data/nauka/state/evidence/index.cp1251.html 198043 B sha256 e24f0a5d…acea2 matches recorded",
-    "manifestStateConsistency": "60 manifest entries, 0 URL mismatches vs state",
-    "tests": "npm run test:nauka -> 19/19 pass",
-    "record": "data/nauka/state/batches/2026-10-07T201400-batch19-verify.json"
+  "discovery": {
+    "status": "provisional",
+    "eraPagesVisited": "12/12",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "note": "All archive-linked era pages and the archive directory were visited and parsed in 4-14. Master index stays provisional until an explicit re-audit."
   },
-  "publishedThisIteration": [],
-  "remainingFiles": [],
-  "nextAction": "Objective complete and independently re-verified in iteration 3-13 from registry ground truth (60/60 immutable tag digests). The 35/25 baseline in the continuation prompt is stale. No retrieval or republishing is needed. A future runner may optionally run `node tools/nauka/cli.mjs verify` for a full cold round-trip spot check; do not redownload the published set.",
-  "codeChangesThisIteration": [],
-  "notes": "Iterations 3-7..3-9 drove the set to 60/60; 3-10..3-13 confirmed it from index bytes, registry ground truth and (3-12) fresh origin downloads. The 15:14 GitHub atomic work/control push Internal Server Error was supervisor infrastructure, not a task/origin failure; task code and the origin were unaffected. The emergency artifact shurik-emergency-37638996048 was already recovered earlier (data/nauka/state/recovery-37638996048.json); no partials remained to merge this iteration."
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:ddf3b1f2caa691d4da6c39e9d3f0fc76e622c8e4ddd0b9805d51657550c59cdb",
+    "bytes": 1195300,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:362a3395b2a76d19badc9f673743566a6cca83ec4cfd4a59596ceb5936985851",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:f8dce4a7a33294ce2c7974e6d66a1eedcf746e8222e469436f60894a7ff0fd91",
+    "verified": "The earlier 4-15 digest c49a9d39... was pulled back by immutable digest (bytes+sha256 matched, representative entries present, 0 published-flag mismatches). The current digest ddf3b1f2... was auto-published by batch17 and has NOT yet been pulled back; verify it next iteration.",
+    "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched, not relabelled)"
+  },
+  "codeChangesThisIteration": [
+    "tools/nauka/config.mjs: passBudgetMs default 100000 -> 600000 (a pass shorter than minChunkBudgetMs admitted almost no chunks; the batch degenerated into a queue walk).",
+    "tools/nauka/engine.mjs: downloadFile now computes minChunkBudgetMs before probing and returns early (no probe, no in_progress mark) when the remaining pass budget is below it, so the tail of a pass no longer walks the queue spending a request per file.",
+    "tests: npm run test:nauka -> 30/30 pass after the change."
+  ],
+  "publishedThisIteration": 43,
+  "remainingFiles": 980,
+  "nextAction": "Run `node tools/nauka/cli.mjs retrieve --budget-ms 840000 --cleanup-ms 90000` (passBudgetMs now defaults to 600000) to publish the next smallest-first wave. ~19 GB still pending; at the ~512 KiB/s cap the deadline cannot cover all of it, so smallest-first maximizes published file count. Refresh/verify the master index at the end of each batch (auto-published in the retrieve finally block).",
+  "notes": "Discovery is complete at the era-page level (12/12 + directory). No partial chunks are durable yet; the 303 in_progress entries have 0 bytes. The master index is truthful (132 published / 980 remaining / provisional)."
 }

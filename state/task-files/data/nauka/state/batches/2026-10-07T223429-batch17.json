@@ -1,0 +1,24 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 17,
+  "iteration": "4-15",
+  "startedAt": "2026-10-07T22:32:13.000Z",
+  "elapsedMs": 137691,
+  "budget": {"budgetMs": 150000, "cleanupMs": 45000, "minChunkBudgetMs": 60000, "passBudgetMs": 600000, "fileConcurrency": 4, "concurrency": 24},
+  "note": "First batch AFTER the pass-budget fix. Throughput ~365 KB/s (50.4 MB durable in 138 s) vs ~150 KB/s for batch16. The early-return guard prevented the tail-of-pass queue walk from inflating in_progress (292 in_progress, all 0 bytes, unchanged behaviour vs batch16's 303 minus the 11 published).",
+  "publishedBefore": 132,
+  "publishedAfter": 143,
+  "remainingBefore": 980,
+  "remainingAfter": 969,
+  "verifiedPartialBytesBefore": 0,
+  "verifiedPartialBytesAfter": 0,
+  "newOriginBytesDurable": 50364850,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "checkpointReceipts": [
+    {"tag": "nij-master-index", "digest": "sha256:ddf3b1f2caa691d4da6c39e9d3f0fc76e622c8e4ddd0b9805d51657550c59cdb", "bytes": 1195300},
+    {"tag": "nij-master-catalog", "digest": "sha256:362a3395b2a76d19badc9f673743566a6cca83ec4cfd4a59596ceb5936985851"},
+    {"tag": "nij-master-checkpoint", "digest": "sha256:f8dce4a7a33294ce2c7974e6d66a1eedcf746e8222e469436f60894a7ff0fd91"}
+  ],
+  "nextAction": "Keep running smallest-first retrieve batches with the fixed defaults; ~17.9 GB still pending."
+}
