@@ -435,6 +435,10 @@ export async function downloadFile(ctx, entry) {
     missing.map((i) =>
       submit(async () => {
         if (isStopped(ctx) || remainingMs(ctx) < CONFIG.minChunkBudgetMs) return;
+        // Count only chunks that actually get admitted, so the outer pass loop
+        // can tell a productive pass from a no-op pass and stop spinning once
+        // no further chunk can become durable within the batch.
+        ctx.chunksStarted = (ctx.chunksStarted || 0) + 1;
         const myGen = eff.gen;
         try {
           const info = await withRetries(ctx, eff, i, () => downloadChunkOnce(ctx, entry, eff, i, myGen));
@@ -845,6 +849,7 @@ export async function cleanupTempFiles(state) {
 
 export async function runPass(ctx) {
   const { state, manifest, log } = ctx;
+  ctx.chunksStarted = 0;
   const deadline = Math.min(ctx.deadline ?? Infinity, Date.now() + CONFIG.passBudgetMs);
   ctx.deadline = deadline;
   const ordered = orderEntries(manifest.entries, state);

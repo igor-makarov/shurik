@@ -283,6 +283,16 @@ async function cmdRetrieve(args) {
       const remaining = remainingCount(state, manifest);
       log(`remaining files: ${remaining}`);
       if (remaining === 0) break;
+      // A pass is productive only if it admitted at least one chunk (which can
+      // still become durable) or published a file. Otherwise the next pass can
+      // only spin on the budget guard, re-running checkpoint/state writes until
+      // the deadline. Stop as soon as no further durable progress is possible.
+      const publishedThisPass = results.filter((r) => r.status === 'published').length;
+      const startedThisPass = ctx.chunksStarted || 0;
+      if (startedThisPass === 0 && publishedThisPass === 0) {
+        log(`pass ${p + 1} made no durable progress (started=${startedThisPass}, published=${publishedThisPass}); ending batch`);
+        break;
+      }
     }
   } finally {
     // Drain: never return while a request or rename/delete writer is alive.
