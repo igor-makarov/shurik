@@ -50,17 +50,23 @@ export const CONFIG = {
   baseBackoffMs: 2000,
   maxBackoffMs: 120000,
   // Bounded wall-clock budget for a single foreground transfer pass.
-  passBudgetMs: Number(process.env.NAUKA_PASS_MS || 90 * 1000),
+  passBudgetMs: Number(process.env.NAUKA_PASS_MS || 100 * 1000),
+  // A single origin connection sustains only ~15 KiB/s, so small files cannot
+  // fill the pool alone. Work on a few files at once to keep ~24 connections
+  // busy and reach the measured ~220 KiB/s aggregate. Each file's chunks and
+  // metadata are independent, so progress stays per-file and durable.
+  fileConcurrency: Number(process.env.NAUKA_FILE_CONCURRENCY || 4),
   // Do not start a new chunk download when less than this remains in the batch;
   // a short request would be killed mid-body and retried pointlessly.
   minChunkBudgetMs: Number(process.env.NAUKA_MIN_CHUNK_MS || 8000),
   // Do not start assembling/pushing a completed file when less than this much
   // of the batch budget remains; the durable chunks are published next batch.
-  publishReserveMs: Number(process.env.NAUKA_PUBLISH_RESERVE_MS || 30 * 1000),
+  publishReserveMs: Number(process.env.NAUKA_PUBLISH_RESERVE_MS || 20 * 1000),
   // Default bounded wall-clock budget for one whole `retrieve` invocation
-  // (transfer) and for its durable checkpoint/cleanup phase.
-  retrieveBudgetMs: Number(process.env.NAUKA_RETRIEVE_MS || 75 * 1000),
-  cleanupBudgetMs: Number(process.env.NAUKA_CLEANUP_MS || 45 * 1000),
+  // (transfer) and for its durable checkpoint/cleanup phase. A 1 MiB chunk
+  // needs ~68 s at ~15 KiB/s, so the transfer window must exceed that.
+  retrieveBudgetMs: Number(process.env.NAUKA_RETRIEVE_MS || 100 * 1000),
+  cleanupBudgetMs: Number(process.env.NAUKA_CLEANUP_MS || 35 * 1000),
   // Selected partial bytes kept on the control branch. Beyond this we rely on
   // GHCR checkpoint artifacts and keep Git small.
   gitPartialMaxBytesPerFile: 8 * 1024 * 1024,

@@ -839,34 +839,55 @@ export async function runPass(ctx) {
   ctx.deadline = deadline;
   const ordered = orderEntries(manifest.entries, state);
   const results = [];
+
+  const queue = [];
   for (const entry of ordered) {
-    if (isStopped(ctx)) break;
     const eff = ensureFileEntry(state, entry);
     if (eff.status === 'published' || eff.status === 'unavailable') continue;
-    log(`-- file ${eff.id} (${eff.labelSize}) --`);
-    try {
-      const r = await downloadFile(ctx, entry);
-      if (r.done) {
-        // Only publish when enough budget remains to assemble, push and
-        // round-trip verify. Otherwise the complete chunks stay durable and the
-        // next bounded batch publishes them; nothing is restarted from zero.
-        if (ctx.deadline && Date.now() > ctx.deadline - CONFIG.publishReserveMs) {
-          results.push({ id: eff.id, status: 'ready', received: eff.receivedBytes });
-          continue;
-        }
-        const pub = await publishFile(ctx, entry);
-        results.push({ id: eff.id, status: 'published', ...pub });
-      } else {
-        results.push({ id: eff.id, status: 'in_progress', received: eff.receivedBytes });
-      }
-    } catch (err) {
-      log(`file ${eff.id} error: ${err.message}`);
-      classifyError(eff, err);
-      results.push({ id: eff.id, status: eff.status, error: err.message });
-      await saveState(state);
-      if (isStopped(ctx)) break;
-    }
+    queue.push(entry);
   }
+
+  // Work on a few files at once, feeding the shared chunk pool so it stays
+  // saturated even for files smaller than the connection count. File bytes and
+  // chunk metadata are per-entry, so this is safe; completed files publish
+  // independently as soon as their own chunks are verified.
+  const fileConcurrency = Math.max(1, Number(process.env.NAUKA_FILE_CONCURRENCY || 4));
+  let next = 0;
+  const worker = async () => {
+    for (;;) {
+      if (isStopped(ctx)) return;
+      const i = next++;
+      if (i >= queue.length) return;
+      const entry = queue[i];
+      const eff = ensureFileEntry(state, entry);
+      if (eff.status === 'published' || eff.status === 'unavailable') continue;
+      log(`-- file ${eff.id} (${eff.labelSize}) --`);
+      try {
+        const r = await downloadFile(ctx, entry);
+        if (r.done) {
+          // Only publish when enough budget remains to assemble, push and
+          // round-trip verify. Otherwise the complete chunks stay durable and
+          // the next bounded batch publishes them; nothing restarts from zero.
+          if (ctx.deadline && Date.now() > ctx.deadline - CONFIG.publishReserveMs) {
+            results.push({ id: eff.id, status: 'ready', received: eff.receivedBytes });
+            continue;
+          }
+          const pub = await publishFile(ctx, entry);
+          results.push({ id: eff.id, status: 'published', ...pub });
+        } else {
+          results.push({ id: eff.id, status: 'in_progress', received: eff.receivedBytes });
+        }
+      } catch (err) {
+        log(`file ${eff.id} error: ${err.message}`);
+        classifyError(eff, err);
+        results.push({ id: eff.id, status: eff.status, error: err.message });
+        await saveState(state);
+        if (isStopped(ctx)) return;
+      }
+    }
+  };
+  await Promise.all(Array.from({ length: fileConcurrency }, () => worker()));
+
   await checkpointPartials(ctx);
   await saveState(state);
   return results;

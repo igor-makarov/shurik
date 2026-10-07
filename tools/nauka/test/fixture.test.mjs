@@ -491,6 +491,43 @@ test('a cancelled bounded batch returns promptly and leaves no writer or temp fi
   }
 });
 
+test('runPass downloads several files concurrently and publishes each', async () => {
+  const content = randomBytes(3000);
+  await withServer(content, {}, async (srv) => {
+    const entries = [1, 2, 3].map((n) => ({
+      id: `fx-multi-${n}`,
+      year: 1936,
+      issue: `N0${n}`,
+      format: 'pdf',
+      filename: `fx-multi-${n}.bin`,
+      url: srv.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    }));
+    const state = { version: 1, files: {} };
+    const fakeGhcr = makeFakeGhcr();
+    const ctx = {
+      state,
+      manifest: { entries, indexUrl: 'http://example/index' },
+      log: () => {},
+      limiter: { take: async () => {} },
+      pool: engine.createPool(3),
+      ghcr: fakeGhcr,
+      deadline: Date.now() + 30000,
+      signal: null,
+    };
+    const results = await engine.runPass(ctx);
+    const published = results.filter((r) => r.status === 'published');
+    assert.equal(published.length, 3, JSON.stringify(results));
+    for (const e of entries) {
+      const eff = state.files[e.id];
+      assert.equal(eff.status, 'published');
+      assert.equal(eff.verified.ok, true);
+      assert.equal(eff.sha256, sha(content));
+    }
+  });
+});
+
 test('per-attempt timeout bounds a stalled body, not just the headers', async () => {
   const content = randomBytes(4096);
   const srv = await makeTrickleServer(content);
