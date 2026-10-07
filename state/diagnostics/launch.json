@@ -1,0 +1,16 @@
+{
+  "method": "Native initializeCheckpoint followed by re-running the existing scheduled Shurik Recovery job",
+  "reason": "Workspace HTTP policy blocks api.github.com; connected GitHub supports recovery job reruns but no workflow dispatch.",
+  "parent": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+  "source": "fff127426bbc303f5c56eeaaf1e594bf87649b2b",
+  "createdAt": "2026-10-07T11:32:12.222Z",
+  "verification": {
+    "typecheck": "passed",
+    "build": "passed",
+    "checkpointTests": "passed",
+    "failureTests": "passed",
+    "stateTests": "passed",
+    "workerTests": "passed",
+    "supervisorTests": "13/14 passed; existing expired-invocation test expected child stdout /invocation skipped/ but received an empty string in this workspace; no source changes made."
+  }
+}
