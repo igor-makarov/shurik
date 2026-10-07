@@ -107,7 +107,14 @@ export const CONFIG = {
   baseBackoffMs: 2000,
   maxBackoffMs: 120000,
   // Bounded wall-clock budget for a single foreground transfer pass.
-  passBudgetMs: Number(process.env.NAUKA_PASS_MS || 100 * 1000),
+  //
+  // This must comfortably exceed minChunkBudgetMs: the pass deadline is what
+  // `remainingMs` measures, so if a pass is shorter than the minimum chunk
+  // budget almost no chunk is ever admitted and the batch degenerates into a
+  // queue walk (probes + spurious in_progress marks, no durable bytes). 600 s
+  // keeps ~85% of each pass admitting chunks while still re-sorting and
+  // checkpointing partials regularly. Tests override this via NAUKA_PASS_MS.
+  passBudgetMs: Number(process.env.NAUKA_PASS_MS || 600 * 1000),
   // A single origin connection sustains only ~15 KiB/s, so small files cannot
   // fill the pool alone. Work on a few files at once to keep ~24 connections
   // busy and reach the measured ~220 KiB/s aggregate. Each file's chunks and

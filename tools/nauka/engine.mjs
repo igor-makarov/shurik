@@ -381,6 +381,19 @@ export async function downloadFile(ctx, entry) {
   const eff = ensureFileEntry(state, entry);
   if (eff.status === 'published') return { done: true };
   if (isStopped(ctx)) return { done: false, budget: true };
+  // A chunk admitted with less time left than it needs is killed mid-body at
+  // the pass deadline and its bytes discarded. Refuse to even probe/mark the
+  // file when there is not enough pass budget for one chunk: otherwise the
+  // workers walk the whole remaining queue in the tail of every pass, spending
+  // a request per file and inflating the in_progress set with 0-byte entries.
+  // The threshold is capped at ~40% of the transfer budget so a short batch
+  // still admits its first wave instead of doing nothing.
+  const transferBudgetMs = ctx.transferBudgetMs || CONFIG.retrieveBudgetMs;
+  const minChunkBudgetMs = Math.min(
+    CONFIG.minChunkBudgetMs,
+    Math.max(15000, Math.round(transferBudgetMs * 0.4)),
+  );
+  if (remainingMs(ctx) < minChunkBudgetMs) return { done: false, budget: true };
   eff.status = 'in_progress';
   const gen = eff.gen;
 
@@ -431,15 +444,6 @@ export async function downloadFile(ctx, entry) {
   const perFile = Number.isFinite(ctx.chunkConcurrencyPerFile) ? Math.max(1, ctx.chunkConcurrencyPerFile) : Infinity;
   const local = perFile === Infinity ? null : createPool(perFile);
   const submit = (fn) => (local ? local.run(() => pool.run(fn)) : pool.run(fn));
-  // A chunk admitted with less time left than it needs is killed mid-body at
-  // the batch deadline and its bytes discarded, so never admit one. Cap the
-  // threshold at ~40% of the transfer budget so a short batch still admits its
-  // first wave instead of doing nothing.
-  const transferBudgetMs = ctx.transferBudgetMs || CONFIG.retrieveBudgetMs;
-  const minChunkBudgetMs = Math.min(
-    CONFIG.minChunkBudgetMs,
-    Math.max(15000, Math.round(transferBudgetMs * 0.4)),
-  );
   await Promise.all(
     missing.map((i) =>
       submit(async () => {
