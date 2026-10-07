@@ -42,6 +42,12 @@ EXCLUDE_IMG_HINTS = (
     "tumblr_avatar", "/images/logo", "gravatar", "b-static", "s24h.ak.tumblr.com",
 )
 
+# Tags that carry a post image. Tumblr's AMP captures use `<amp-img>` (and
+# occasionally `<amp-anim>`) instead of `<img>`; the parser used to look at
+# `<img>` only, so every image on an AMP page was dropped before it could be
+# queued, queried or recovered.
+IMAGE_TAGS = ("img", "amp-img", "amp-anim")
+
 TAGGED_RE = re.compile(r'href="([^"]*?/tagged/[^"?#]+)[^"]*"', re.I)
 POST_ID_RE = re.compile(r"/post/(\d+)")
 POSTED_TITLE_RE = re.compile(r'title="(Posted on [^"]+)"', re.I)
@@ -250,7 +256,7 @@ class _ImageCollector(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         a = {k.lower(): (v or "") for k, v in attrs}
-        if tag == "img":
+        if tag in IMAGE_TAGS:
             src = a.get("src") or a.get("data-src") or ""
             entry = {
                 "url": src,
@@ -258,7 +264,7 @@ class _ImageCollector(HTMLParser):
                 "title": a.get("title", ""),
                 "class": a.get("class", ""),
                 "attrs": " ".join(f'{k}="{v}"' for k, v in a.items()),
-                "via": "img",
+                "via": tag,
             }
             reason = is_excluded_image(src, entry["attrs"])
             entry["excluded_reason"] = reason
@@ -290,7 +296,7 @@ class _ImageCollector(HTMLParser):
         self.handle_starttag(tag, attrs)
 
     def handle_endtag(self, tag):
-        if tag in ("a", "img"):
+        if tag == "a" or tag in IMAGE_TAGS:
             self._cur_entry = None
 
     def handle_data(self, data):

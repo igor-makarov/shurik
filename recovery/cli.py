@@ -24,7 +24,7 @@ from .listing import (listing_kind, merge_listing_evidence, parse_listing_page)
 from .media import (HOST_RE, MEDIA_CAPTURE_FILE, SHARED_MEDIA_HOSTS, MediaIndex, host_of,
                     hosts_for, scan_host, stems_of)
 from . import hostdump
-from .parsing import parse_post_page, post_id_from_url
+from .parsing import extract_images, parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .queue import ImageQueue
 from .restore import restore_posts
@@ -1001,6 +1001,53 @@ def _assign_file(rec: dict) -> None:
 
 
 # --------------------------------------------------------------------- repair
+def merge_reparsed_images(post_ids: Optional[list[str]] = None) -> dict:
+    """Re-extract images from stored `content_html` and merge unseen ones (offline).
+
+    The stored `content_html` is the post body. Re-running the *current*
+    parser over it recovers images an older parser version dropped -- notably
+    every image on a Tumblr AMP page, which uses `<amp-img>` instead of
+    `<img>` -- without re-fetching the archived page or touching the archive.
+    Existing image records are preserved by `merge_post`; only media keys that
+    are not already present are added, unresolved.
+    """
+    store = PostStore()
+    wanted = {str(i) for i in (post_ids or [])}
+    out = {"posts": 0, "added": 0, "posts_changed": []}
+    for pid in store.ids():
+        if wanted and str(pid) not in wanted:
+            continue
+        rec = store.get(pid)
+        html = rec.get("content_html") or ""
+        out["posts"] += 1
+        if not html:
+            continue
+        existing = {img.get("media_key") for img in rec.get("images") or []}
+        new_images: list[dict] = []
+        for img in extract_images(html):
+            key = img.get("media_key")
+            if not key or key in existing:
+                continue
+            existing.add(key)
+            new_images.append({
+                "media_url": img["media_url"],
+                "media_key": key,
+                "base_key": img.get("base_key", ""),
+                "caption_alt": img.get("caption_alt", ""),
+                "link_text": img.get("link_text", ""),
+                "found_in": img.get("found_in", ""),
+                "url_forms": img.get("url_forms", [img["media_url"]]),
+                "variants": img.get("variants", []),
+                "state": "unresolved",
+                "attempts": [],
+            })
+        if new_images:
+            store.put(pid, {"images": new_images, "images_done": False})
+            out["added"] += len(new_images)
+            out["posts_changed"].append(pid)
+    return out
+
+
 def repair_posts() -> dict:
     """Re-derive bookkeeping fields in every stored post record (no network).
 
@@ -1412,6 +1459,9 @@ def main(argv: Optional[list[str]] = None) -> int:
                    help="restore the checkpoint instead of pushing it")
     p = sub.add_parser("status", help="print recovery counters")
     sub.add_parser("repair", help="re-derive post bookkeeping fields (offline)")
+    p = sub.add_parser("merge-images",
+                       help="re-extract images from stored content_html and merge unseen ones (offline)")
+    p.add_argument("--ids", default="", help="comma separated post ids; default = all posts")
     sub.add_parser("report", help="write RECOVERY_REPORT.md")
     args = parser.parse_args(argv)
 
@@ -1420,6 +1470,9 @@ def main(argv: Optional[list[str]] = None) -> int:
     out: dict = {}
     if args.cmd == "repair":
         out = repair_posts()
+    elif args.cmd == "merge-images":
+        ids = [i.strip() for i in args.ids.split(",") if i.strip()]
+        out = merge_reparsed_images(ids or None)
     elif args.cmd == "discover":
         years = [y.strip() for y in args.years.split(",") if y.strip()] or None
         out["posts"] = discover_posts(fetcher, years=years, force=args.force)

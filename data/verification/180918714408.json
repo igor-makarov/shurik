@@ -1,0 +1,162 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:ece473b3cc55faded1992b964bd6500a6032df0b64199ff215db76cc3e8e5d9b",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_pjf25mwdcq1r3it8zo1_1280.jpg]",
+   "expected": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_pjf25mwdcq1r3it8zo1_1280.jpg]",
+   "expected": 66277,
+   "observed": 66277,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_pjf25mwdcq1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מוצר שמצאנו ב-Aliexpress\nאדיר מילרAliexpress",
+   "observed": "מוצר שמצאנו ב-Aliexpress\nאדיר מילרAliexpress",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<604 chars>",
+   "observed": "<604 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אדיר מילר",
+    "Aliexpress"
+   ],
+   "observed": [
+    "אדיר מילר",
+    "Aliexpress"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/180918714408/amp",
+   "observed": "https://hazfalafel.com/post/180918714408/amp",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182206",
+   "observed": "20181225182206",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182206id_/https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182206id_/https://66.media.tumblr.com/7d32e4c5fdefc5148aa1a6de0e7f866f/tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182206",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:c24f0a17bbc5d1dcc34590a25a6c23bac8ecdd3b68b3c7f1dd232693e9cdd414",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-05-19T19:34:24Z",
+  "org.opencontainers.image.description": "מוצר שמצאנו ב-Aliexpress",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 180918714408",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/180918714408/amp",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "44",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "180918714408",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "אדיר מילר,Aliexpress"
+ },
+ "layers": [
+  {
+   "digest": "sha256:1af59216a05e315a4b1665b918f09d35efd2cb5086ade16ca75cffb421322053",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 65998
+  },
+  {
+   "digest": "sha256:c59b8e235265593091eedd127964ede28eae549f3798fa1d7dbedae603226fa7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1033
+  }
+ ],
+ "manifest_digest": "sha256:ece473b3cc55faded1992b964bd6500a6032df0b64199ff215db76cc3e8e5d9b",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "180918714408",
+ "pulled_files": [
+  {
+   "bytes": 66277,
+   "file": "tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:1af59216a05e315a4b1665b918f09d35efd2cb5086ade16ca75cffb421322053",
+   "role": "media",
+   "sha256": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c"
+  },
+  {
+   "bytes": 2414,
+   "file": "post.json",
+   "layer": "sha256:c59b8e235265593091eedd127964ede28eae549f3798fa1d7dbedae603226fa7",
+   "role": "post-metadata",
+   "sha256": "e166cc5ee39534ca9d0a493734d4509837dfe80980aea9d235fb11706df964f4"
+  }
+ ],
+ "tag": "180918714408",
+ "verified_at": "2026-10-06T23:57:47Z"
+}
