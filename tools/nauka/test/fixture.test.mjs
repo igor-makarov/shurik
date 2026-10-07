@@ -34,7 +34,8 @@ const sha = (b) => createHash('sha256').update(b).digest('hex');
 const chunkFile = (id, i) => path.join(engine.chunksDir(id), `chunk-${String(i).padStart(6, '0')}`);
 
 function makeServer(content, opts = {}) {
-  const state = { etag: opts.etag || '"v1"', dropAfter: opts.dropAfter ?? null, ignoreRange: !!opts.ignoreRange };
+  const state = { etag: opts.etag || '"v1"', dropAfter: opts.dropAfter ?? null, ignoreRange: !!opts.ignoreRange, requests: [] };
+  const delayMs = opts.delayMs || 0;
   const server = http.createServer((req, res) => {
     const range = req.headers.range;
     const ifRange = req.headers['if-range'];
@@ -56,23 +57,54 @@ function makeServer(content, opts = {}) {
         status = 206;
       }
     }
+    state.requests.push(range || 'full');
     const body = content.subarray(start, end + 1);
     const headers = { ETag: state.etag, 'Last-Modified': 'Wed, 01 Jan 2020 00:00:00 GMT' };
     if (status === 206) headers['Content-Range'] = `bytes ${start}-${end}/${content.length}`;
     headers['Content-Length'] = String(status === 206 ? body.length : content.length);
-    res.writeHead(status, headers);
-    if (state.dropAfter != null) {
-      res.write(body.subarray(0, state.dropAfter));
-      setTimeout(() => res.socket.destroy(), 5);
-      return;
-    }
-    res.end(body);
+    const send = () => {
+      res.writeHead(status, headers);
+      if (state.dropAfter != null) {
+        res.write(body.subarray(0, state.dropAfter));
+        setTimeout(() => res.socket.destroy(), 5);
+        return;
+      }
+      res.end(body);
+    };
+    if (delayMs > 0) setTimeout(send, delayMs);
+    else send();
   });
   return new Promise((resolve) => {
     server.listen(0, '127.0.0.1', () => {
       resolve({
         url: `http://127.0.0.1:${server.address().port}/file.bin`,
         state,
+        close: () => new Promise((r) => server.close(r)),
+      });
+    });
+  });
+}
+
+// A server that announces a correct Content-Range/Length but only ever writes
+// part of the body, so a writer is guaranteed to have an open .tmp file when
+// the batch is cancelled.
+function makeTrickleServer(content) {
+  const server = http.createServer((req, res) => {
+    const m = /bytes=(\d+)-(\d*)/.exec(req.headers.range || '');
+    const start = m ? Number(m[1]) : 0;
+    const end = m && m[2] ? Math.min(Number(m[2]), content.length - 1) : content.length - 1;
+    res.writeHead(206, {
+      ETag: '"v1"',
+      'Content-Range': `bytes ${start}-${end}/${content.length}`,
+      'Content-Length': String(end - start + 1),
+    });
+    res.write(content.subarray(start, start + 50));
+    // deliberately never end the response
+  });
+  return new Promise((resolve) => {
+    server.listen(0, '127.0.0.1', () => {
+      resolve({
+        url: `http://127.0.0.1:${server.address().port}/file.bin`,
         close: () => new Promise((r) => server.close(r)),
       });
     });
@@ -303,6 +335,105 @@ test('probe learns the total size from a 1-byte ranged response', async () => {
     assert.equal(assembled.bytes, content.length);
     assert.equal(assembled.sha256, sha(content));
   });
+});
+
+test('ordinary cancellation preserves verified chunks and never restarts them', async () => {
+  const content = randomBytes(8192);
+  await withServer(content, { delayMs: 80 }, async (srv) => {
+    const entry = {
+      id: 'fx-abort',
+      year: 1934,
+      issue: 'N03',
+      format: 'pdf',
+      filename: 'fx-abort.bin',
+      url: srv.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    };
+    const state = { version: 1, files: {} };
+    const eff = engine.ensureFileEntry(state, entry);
+    eff.expectedBytes = content.length;
+    eff.chunkSize = CONFIG.chunkSize;
+    eff.status = 'in_progress';
+
+    const controller = new AbortController();
+    const ctx = { ...makeCtx(state, entry, makeFakeGhcr()), signal: controller.signal };
+    ctx.pool = engine.createPool(2);
+    const pending = engine.downloadFile(ctx, entry);
+    setTimeout(() => controller.abort(), 200);
+    const r = await pending;
+    assert.equal(r.done, false);
+
+    const doneIdx = Object.keys(eff.chunks).map(Number).sort((a, b) => a - b);
+    assert.ok(doneIdx.length > 0, 'some chunks were verified before cancellation');
+    assert.ok(doneIdx.length < 8, 'the whole file was not downloaded');
+    assert.equal(eff.status, 'in_progress', 'abort must not reset progress');
+    for (const i of doneIdx) {
+      const buf = content.subarray(i * CONFIG.chunkSize, (i + 1) * CONFIG.chunkSize);
+      assert.equal(eff.chunks[i].sha256, sha(buf), `chunk ${i} hash intact`);
+    }
+
+    const before = srv.state.requests.length;
+    const ctx2 = makeCtx(state, entry, makeFakeGhcr());
+    const r2 = await engine.downloadFile(ctx2, entry);
+    assert.equal(r2.done, true);
+    const assembled = await engine.assembleHex(eff);
+    assert.equal(assembled.sha256, sha(content));
+
+    const after = srv.state.requests.slice(before);
+    for (const i of doneIdx) {
+      const start = i * CONFIG.chunkSize;
+      const full = `bytes=${start}-${start + CONFIG.chunkSize - 1}`;
+      assert.ok(!after.includes(full), `verified chunk ${i} was not re-requested`);
+    }
+  });
+});
+
+test('a cancelled bounded batch returns promptly and leaves no writer or temp file', async () => {
+  const content = randomBytes(4096);
+  const srv = await makeTrickleServer(content);
+  try {
+    const entry = {
+      id: 'fx-cancel',
+      year: 1935,
+      issue: 'N04',
+      format: 'pdf',
+      filename: 'fx-cancel.bin',
+      url: srv.url,
+      labelText: 'fx',
+      labelSize: '1M',
+    };
+    const state = { version: 1, files: {} };
+    const eff = engine.ensureFileEntry(state, entry);
+    eff.expectedBytes = content.length;
+    eff.chunkSize = CONFIG.chunkSize;
+    eff.status = 'in_progress';
+    // Seed one already-verified chunk so cancellation has real progress to keep.
+    await fs.mkdir(engine.chunksDir(entry.id), { recursive: true });
+    const c0 = content.subarray(0, CONFIG.chunkSize);
+    await fs.writeFile(chunkFile(entry.id, 0), c0);
+    eff.chunks[0] = { bytes: c0.length, sha256: sha(c0) };
+
+    const controller = new AbortController();
+    const ctx = { ...makeCtx(state, entry, makeFakeGhcr()), signal: controller.signal };
+    ctx.pool = engine.createPool(2);
+    const t0 = Date.now();
+    setTimeout(() => controller.abort(), 150);
+    const r = await engine.downloadFile(ctx, entry);
+    const elapsed = Date.now() - t0;
+    assert.ok(elapsed < 4000, `cancellation drained promptly (${elapsed}ms)`);
+    assert.equal(r.done, false);
+    assert.equal(eff.status, 'in_progress', 'verified chunk progress preserved');
+    assert.ok(eff.chunks[0], 'the verified chunk entry survived cancellation');
+    assert.equal(eff.chunks[0].sha256, sha(c0));
+
+    const removed = await engine.cleanupTempFiles(state);
+    assert.ok(removed >= 1, `expected a temp file to clean, removed ${removed}`);
+    const names = await fs.readdir(engine.chunksDir(entry.id)).catch(() => []);
+    assert.ok(!names.some((n) => n.endsWith('.tmp')), 'no .tmp writer left behind');
+  } finally {
+    await srv.close();
+  }
 });
 
 function makeFakeGhcr() {

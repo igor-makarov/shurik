@@ -4,8 +4,8 @@
 import { promises as fs, createReadStream } from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
-import { CONFIG, PATHS, entryTag, checkpointTag } from './config.mjs';
-import { httpGetToFile, createRateLimiter, sleep, jitter, TransientError } from './http.mjs';
+import { CONFIG, PATHS, REGISTRY, entryTag, checkpointTag } from './config.mjs';
+import { httpGetToFile, createRateLimiter, sleep, jitter, TransientError, abortError } from './http.mjs';
 
 const STATE_FILE = path.join(PATHS.stateDir, 'files.json');
 const PARTIAL_INDEX = path.join(PATHS.partialDir, 'partial-index.json');
@@ -61,6 +61,9 @@ export async function saveState(state) {
   const snapshot = JSON.stringify(state, null, 2) + '\n';
   saveChain = saveChain.then(() => atomicWriteFile(STATE_FILE, snapshot)).catch(() => {});
   return saveChain;
+}
+export async function flushState() {
+  await saveChain.catch(() => {});
 }
 
 export function ensureFileEntry(state, entry) {
@@ -149,6 +152,22 @@ async function politeGate() {
   if (at > now) await sleep(at - now);
 }
 
+// Remaining wall-clock budget for the current bounded foreground invocation.
+function remainingMs(ctx) {
+  if (!ctx || !ctx.deadline) return Infinity;
+  return ctx.deadline - Date.now();
+}
+function attemptBudget(ctx, base) {
+  const rem = remainingMs(ctx);
+  if (!Number.isFinite(rem)) return base;
+  return Math.max(1500, Math.min(base, rem));
+}
+function isStopped(ctx) {
+  if (!ctx) return false;
+  if (ctx.signal && ctx.signal.aborted) return true;
+  return remainingMs(ctx) <= 0;
+}
+
 async function downloadChunkOnce(ctx, entry, eff, chunk, effGen) {
   const start = chunk * eff.chunkSize;
   const end =
@@ -157,6 +176,7 @@ async function downloadChunkOnce(ctx, entry, eff, chunk, effGen) {
   const tmp = `${dest}.tmp`;
   await fs.mkdir(path.dirname(dest), { recursive: true });
   const ifRange = eff.etag || eff.lastModified || null;
+  if (isStopped(ctx)) throw abortError();
 
   await politeGate();
   let meta;
@@ -167,8 +187,9 @@ async function downloadChunkOnce(ctx, entry, eff, chunk, effGen) {
       end,
       ifRange,
       limiter: ctx.limiter,
-      idleTimeoutMs: CONFIG.idleTimeoutMs,
-      attemptTimeoutMs: CONFIG.attemptTimeoutMs,
+      signal: ctx.signal,
+      idleTimeoutMs: attemptBudget(ctx, CONFIG.idleTimeoutMs),
+      attemptTimeoutMs: attemptBudget(ctx, CONFIG.attemptTimeoutMs),
     });
   } catch (err) {
     // An If-Range mismatch makes the server send the full entity (200). That is
@@ -272,14 +293,16 @@ function resetForRetry(eff, reason) {
 // Content-Length for a 200 response (server that ignores Range).
 async function probeTotal(ctx, entry, eff, effGen) {
   const ifRange = eff.etag || eff.lastModified || null;
+  if (isStopped(ctx)) throw abortError();
   await politeGate();
   const meta = await httpGetToFile(eff.url, {
     metaOnly: true,
     start: 0,
     end: 0,
     ifRange,
-    idleTimeoutMs: CONFIG.idleTimeoutMs,
-    attemptTimeoutMs: CONFIG.attemptTimeoutMs,
+    signal: ctx.signal,
+    idleTimeoutMs: attemptBudget(ctx, CONFIG.idleTimeoutMs),
+    attemptTimeoutMs: attemptBudget(ctx, CONFIG.attemptTimeoutMs),
   });
   if (effGen !== undefined && eff.gen !== effGen) {
     const err = new Error('file reset during probe');
@@ -303,14 +326,16 @@ async function downloadWhole(ctx, entry, eff, effGen) {
   const dest = chunkPath(eff.id, 0);
   const tmp = `${dest}.tmp`;
   await fs.mkdir(path.dirname(dest), { recursive: true });
+  if (isStopped(ctx)) throw abortError();
   await politeGate();
   const meta = await httpGetToFile(eff.url, {
     destTmp: tmp,
     start: 0,
     end: null,
     limiter: ctx.limiter,
-    idleTimeoutMs: CONFIG.idleTimeoutMs,
-    attemptTimeoutMs: CONFIG.attemptTimeoutMs * 10,
+    signal: ctx.signal,
+    idleTimeoutMs: attemptBudget(ctx, CONFIG.idleTimeoutMs),
+    attemptTimeoutMs: attemptBudget(ctx, CONFIG.attemptTimeoutMs * 10),
   });
   if (effGen !== undefined && eff.gen !== effGen) {
     await fs.rm(tmp, { force: true });
@@ -329,11 +354,32 @@ async function downloadWhole(ctx, entry, eff, effGen) {
   return { bytes, sha256: hash, total, etag: meta.etag || eff.etag, lastModified: meta.lastModified || eff.lastModified };
 }
 
+function preserveOnAbort(eff, err) {
+  // Ordinary cancellation must NOT discard verified chunks. Only a validator
+  // change may reset progress. Keep whatever bytes are on disk and durable.
+  const hasChunks = Object.keys(eff.chunks || {}).length > 0;
+  eff.status = hasChunks ? 'in_progress' : 'pending';
+  eff.receivedBytes = Object.values(eff.chunks || {}).reduce((a, c) => a + c.bytes, 0);
+  if (err && !eff.lastError) eff.lastError = err.message;
+}
+
+function classifyError(eff, err) {
+  if (err.validatorChanged) {
+    resetForRetry(eff, 'validatorChanged');
+  } else if (err.rangeIgnored) {
+    resetForRetry(eff, 'rangeIgnored');
+  } else if (err.aborted) {
+    preserveOnAbort(eff, err);
+  } else if (err.permanent) {
+    eff.status = 'unavailable';
+  }
+}
+
 export async function downloadFile(ctx, entry) {
   const { state, pool } = ctx;
   const eff = ensureFileEntry(state, entry);
   if (eff.status === 'published') return { done: true };
-  if (ctx.deadline && Date.now() >= ctx.deadline) return { done: false, budget: true };
+  if (isStopped(ctx)) return { done: false, budget: true };
   eff.status = 'in_progress';
   const gen = eff.gen;
 
@@ -347,11 +393,7 @@ export async function downloadFile(ctx, entry) {
       if (p.status === 200) eff.singleRequest = true;
       await saveState(state);
     } catch (err) {
-      if (err.validatorChanged || err.aborted || err.rangeIgnored) {
-        resetForRetry(eff, err.validatorChanged ? 'validatorChanged' : err.rangeIgnored ? 'rangeIgnored' : 'aborted');
-      } else if (err.permanent) {
-        eff.status = 'unavailable';
-      }
+      classifyError(eff, err);
       await saveState(state);
       throw err;
     }
@@ -363,8 +405,7 @@ export async function downloadFile(ctx, entry) {
       applyChunkResult(eff, 0, info, gen);
       await saveState(state);
     } catch (err) {
-      if (err.validatorChanged || err.aborted || err.rangeIgnored) resetForRetry(eff, 'validatorChanged');
-      else if (err.permanent) eff.status = 'unavailable';
+      classifyError(eff, err);
       await saveState(state);
       throw err;
     }
@@ -382,7 +423,7 @@ export async function downloadFile(ctx, entry) {
   await Promise.all(
     missing.map((i) =>
       pool.run(async () => {
-        if (ctx.deadline && Date.now() >= ctx.deadline) return;
+        if (isStopped(ctx)) return;
         const myGen = eff.gen;
         try {
           const info = await withRetries(ctx, eff, i, () => downloadChunkOnce(ctx, entry, eff, i, myGen));
@@ -395,9 +436,11 @@ export async function downloadFile(ctx, entry) {
   );
 
   if (failures.length > 0) {
-    const hard = failures.find((f) => f.err.validatorChanged || f.err.aborted || f.err.rangeIgnored);
+    const hard = failures.find((f) => f.err.validatorChanged || f.err.rangeIgnored);
     if (hard) {
-      resetForRetry(eff, hard.err.validatorChanged ? 'validatorChanged' : hard.err.rangeIgnored ? 'rangeIgnored' : 'aborted');
+      resetForRetry(eff, hard.err.validatorChanged ? 'validatorChanged' : 'rangeIgnored');
+    } else if (failures.some((f) => f.err.aborted)) {
+      preserveOnAbort(eff, failures.find((f) => f.err.aborted).err);
     } else if (failures.every((f) => f.err.permanent)) {
       eff.status = 'unavailable';
     }
@@ -561,6 +604,10 @@ export async function checkpointPartials(ctx) {
 
   // Full chunk workspaces to GHCR checkpoint artifacts.
   for (const eff of inProgress) {
+    if (ctx.cleanupDeadline && Date.now() >= ctx.cleanupDeadline) {
+      log('cleanup budget exhausted; skipping remaining GHCR checkpoints');
+      break;
+    }
     const dir = chunksDir(eff.id);
     let names = [];
     try {
@@ -658,7 +705,11 @@ export async function restoreFromCheckpoints(ctx) {
     if (!missing) continue;
     log(`restoring ${eff.id} from GHCR checkpoint ${eff.checkpoint.digest}`);
     try {
-      await ghcr.pull(checkpointTag(eff.id), chunksDir(eff.id));
+      // Pull the immutable digest that state recorded, not a movable tag.
+      const ref = eff.checkpoint.digest
+        ? `${REGISTRY}@${eff.checkpoint.digest}`
+        : `${REGISTRY}:${checkpointTag(eff.id)}`;
+      await ghcr.pullRef(ref, chunksDir(eff.id));
     } catch (err) {
       log(`checkpoint pull failed for ${eff.id}: ${err.message}`);
       continue;
@@ -730,43 +781,74 @@ export function orderEntries(entries, state) {
   });
 }
 
-export function createContext({ state, manifest, ghcr, log = console.log }) {
+export function createContext({ state, manifest, ghcr, log = console.log, signal = null, deadline = null }) {
   return {
     state,
     manifest,
     ghcr,
     log,
+    signal,
+    deadline,
     limiter: createRateLimiter(CONFIG.bandwidthLimitBps),
     pool: createPool(CONFIG.maxConcurrency),
   };
 }
 
+// Remove any abandoned chunk temp files so no writer's leftovers survive a
+// tool boundary (the supervisor scans the checkout for credentials).
+export async function cleanupTempFiles(state) {
+  let removed = 0;
+  for (const eff of Object.values(state.files)) {
+    if (eff.status === 'published') continue;
+    const dir = chunksDir(eff.id);
+    let names;
+    try {
+      names = await fs.readdir(dir);
+    } catch {
+      continue;
+    }
+    for (const n of names) {
+      if (n.endsWith('.tmp')) {
+        await fs.rm(path.join(dir, n), { force: true });
+        removed++;
+      }
+    }
+  }
+  return removed;
+}
+
 export async function runPass(ctx) {
   const { state, manifest, log } = ctx;
-  const deadline = Date.now() + CONFIG.passBudgetMs;
+  const deadline = Math.min(ctx.deadline ?? Infinity, Date.now() + CONFIG.passBudgetMs);
   ctx.deadline = deadline;
   const ordered = orderEntries(manifest.entries, state);
   const results = [];
   for (const entry of ordered) {
-    if (Date.now() >= deadline) break;
+    if (isStopped(ctx)) break;
     const eff = ensureFileEntry(state, entry);
     if (eff.status === 'published' || eff.status === 'unavailable') continue;
     log(`-- file ${eff.id} (${eff.labelSize}) --`);
     try {
       const r = await downloadFile(ctx, entry);
       if (r.done) {
+        // Only publish when enough budget remains to assemble, push and
+        // round-trip verify. Otherwise the complete chunks stay durable and the
+        // next bounded batch publishes them; nothing is restarted from zero.
+        if (ctx.deadline && Date.now() > ctx.deadline - CONFIG.publishReserveMs) {
+          results.push({ id: eff.id, status: 'ready', received: eff.receivedBytes });
+          continue;
+        }
         const pub = await publishFile(ctx, entry);
         results.push({ id: eff.id, status: 'published', ...pub });
       } else {
         results.push({ id: eff.id, status: 'in_progress', received: eff.receivedBytes });
-        // If a file cannot progress (repeated failures), move on.
-        if ((eff.lastError || '').includes('short body') && eff.retries > 0) continue;
       }
     } catch (err) {
       log(`file ${eff.id} error: ${err.message}`);
+      classifyError(eff, err);
       results.push({ id: eff.id, status: eff.status, error: err.message });
-      if (err.validatorChanged || err.aborted) resetForRetry(eff, 'validatorChanged');
       await saveState(state);
+      if (isStopped(ctx)) break;
     }
   }
   await checkpointPartials(ctx);

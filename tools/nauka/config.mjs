@@ -51,6 +51,13 @@ export const CONFIG = {
   maxBackoffMs: 120000,
   // Bounded wall-clock budget for a single foreground transfer pass.
   passBudgetMs: Number(process.env.NAUKA_PASS_MS || 90 * 1000),
+  // Do not start assembling/pushing a completed file when less than this much
+  // of the batch budget remains; the durable chunks are published next batch.
+  publishReserveMs: Number(process.env.NAUKA_PUBLISH_RESERVE_MS || 30 * 1000),
+  // Default bounded wall-clock budget for one whole `retrieve` invocation
+  // (transfer) and for its durable checkpoint/cleanup phase.
+  retrieveBudgetMs: Number(process.env.NAUKA_RETRIEVE_MS || 75 * 1000),
+  cleanupBudgetMs: Number(process.env.NAUKA_CLEANUP_MS || 45 * 1000),
   // Selected partial bytes kept on the control branch. Beyond this we rely on
   // GHCR checkpoint artifacts and keep Git small.
   gitPartialMaxBytesPerFile: 8 * 1024 * 1024,

@@ -16,6 +16,15 @@ import { promises as fs } from 'node:fs';
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, Math.max(0, ms)));
 
+// A cooperative cancellation error. It is distinct from transient/validator
+// errors so callers can preserve already-verified chunks on ordinary abort.
+export function abortError(reason = 'aborted') {
+  const e = new Error(reason);
+  e.name = 'AbortError';
+  e.aborted = true;
+  return e;
+}
+
 export function jitter(ms, ratio = 0.3) {
   const d = ms * ratio;
   return Math.round(ms - d + Math.random() * (2 * d));
@@ -129,7 +138,10 @@ export async function httpGetToFile(url, opts) {
     headers: extraHeaders = {},
     metaOnly = false,
     maxRedirects = 5,
+    signal = null,
   } = opts;
+
+  if (signal && signal.aborted) throw abortError();
 
   const headers = { 'User-Agent': 'shurik-nauka/1.0', Accept: '*/*', ...extraHeaders };
   if (end != null) {
@@ -143,6 +155,12 @@ export async function httpGetToFile(url, opts) {
   const doRequest = (target, redirectsLeft) =>
     new Promise((resolve, reject) => {
       const mod = target.protocol === 'http:' ? http : https;
+      let settled = false;
+      const onAbort = () => {
+        if (settled) return;
+        settled = true;
+        req.destroy(abortError());
+      };
       const req = mod.request(
         target,
         { method: 'GET', headers: { ...headers, Host: target.host } },
@@ -157,6 +175,12 @@ export async function httpGetToFile(url, opts) {
           resolve({ res, finalUrl: target.toString() });
         },
       );
+      const cleanup = () => {
+        settled = true;
+        if (signal) signal.removeEventListener('abort', onAbort);
+      };
+      if (signal) signal.addEventListener('abort', onAbort, { once: true });
+      req.on('close', cleanup);
       req.setTimeout(idleTimeoutMs, () => req.destroy(new Error(`idle timeout after ${idleTimeoutMs}ms`)));
       req.on('error', reject);
       req.end();
@@ -178,9 +202,14 @@ export async function httpGetToFile(url, opts) {
     res = r.res;
     finalUrl = r.finalUrl;
   } catch (err) {
+    if (err && err.aborted) throw err;
     throw err instanceof TransientError ? err : new TransientError(`request failed: ${err.message}`);
   } finally {
     clearTimeout(timer);
+  }
+  if (signal && signal.aborted) {
+    res.destroy();
+    throw abortError();
   }
 
   const status = res.statusCode;
@@ -239,7 +268,9 @@ export async function httpGetToFile(url, opts) {
   let failed = null;
   try {
     for await (const chunk of res) {
+      if (signal && signal.aborted) throw abortError();
       if (limiter) await limiter.take(chunk.length);
+      if (signal && signal.aborted) throw abortError();
       if (!out.write(chunk)) {
         await new Promise((r) => out.once('drain', r));
       }
@@ -247,12 +278,13 @@ export async function httpGetToFile(url, opts) {
     }
     await new Promise((resolve, reject) => out.end((err) => (err ? reject(err) : resolve())));
   } catch (err) {
-    failed = err;
+    failed = signal && signal.aborted ? abortError() : err;
     out.destroy();
+    res.destroy();
   }
   if (failed) {
-    // Deliberately keep whatever landed in destTmp for diagnostics; the caller
-    // decides whether to keep it (chunk model discards incomplete chunks).
+    // The caller removes the incomplete .tmp; the chunk model never keeps it.
+    if (failed.aborted) throw failed;
     throw new TransientError(`body stream failed after ${written} bytes: ${failed.message}`);
   }
   return finish(written);

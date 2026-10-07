@@ -17,7 +17,7 @@ import {
 } from './config.mjs';
 import { decodeIndex, manifestFromHtml, parseIndex } from './parse-index.mjs';
 import { httpGetToFile, TransientError, sleep, jitter } from './http.mjs';
-import { Ghcr } from './ghcr.mjs';
+import { Ghcr, killActiveChildren } from './ghcr.mjs';
 import {
   loadState,
   saveState,
@@ -36,6 +36,9 @@ import {
   chunkCount,
   workspaceDir,
   chunksDir,
+  cleanupTempFiles,
+  flushState,
+  checkpointPartials,
 } from './engine.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..', '..');
@@ -193,6 +196,11 @@ async function reconcile(ctx) {
 // ---------------------------------------------------------------------------
 
 async function cmdRetrieve(args) {
+  const budgetMs = Number(getFlag(args, '--budget-ms') || CONFIG.retrieveBudgetMs);
+  const cleanupMs = Number(getFlag(args, '--cleanup-ms') || CONFIG.cleanupBudgetMs);
+  const maxPasses = Number(getFlag(args, '--passes') || 1000);
+  const doReconcile = args.includes('--reconcile');
+
   let manifest = await loadManifest();
   if (!manifest) {
     log('no manifest; running discover first');
@@ -200,22 +208,64 @@ async function cmdRetrieve(args) {
   }
   const state = await loadState();
   const ghcr = await makeGhcr();
-  const ctx = createContext({ state, manifest, ghcr, log });
+
+  // Cooperative cancellation: a single signal aborts in-flight requests and
+  // lets the durable cleanup below run; a second signal or the watchdog forces
+  // exit so no writer or child survives the foreground tool call.
+  const controller = new AbortController();
+  let signals = 0;
+  for (const sig of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+    process.on(sig, () => {
+      signals++;
+      log(`received ${sig}; ${signals > 1 ? 'forcing exit' : 'aborting gracefully'}`);
+      if (signals > 1) {
+        killActiveChildren();
+        process.exit(130);
+      }
+      controller.abort();
+    });
+  }
+
+  const startedAt = Date.now();
+  const transferDeadline = startedAt + budgetMs;
+  const ctx = createContext({ state, manifest, ghcr, log, signal: controller.signal, deadline: transferDeadline });
+
+  const hardTimer = setTimeout(() => {
+    log('shutdown watchdog fired; forcing exit');
+    killActiveChildren();
+    process.exit(124);
+  }, budgetMs + cleanupMs + 30000);
+  hardTimer.unref?.();
 
   await restoreFromGitPartials(state, log);
   await restoreFromCheckpoints(ctx);
-  await reconcile(ctx);
+  if (doReconcile) await reconcile(ctx);
 
-  const passes = Number(getFlag(args, '--passes') || 1);
-  for (let p = 0; p < passes; p++) {
-    log(`=== pass ${p + 1}/${passes} ===`);
-    const results = await runPass(ctx);
-    log(`pass ${p + 1} results: ${JSON.stringify(results)}`);
-    const remaining = remainingCount(state, manifest);
-    log(`remaining files: ${remaining}`);
-    if (remaining === 0) break;
+  try {
+    for (let p = 0; p < maxPasses; p++) {
+      if (Date.now() >= transferDeadline || controller.signal.aborted) break;
+      ctx.deadline = transferDeadline;
+      log(`=== pass ${p + 1} (budget ${Math.max(0, transferDeadline - Date.now())}ms left) ===`);
+      const results = await runPass(ctx);
+      log(`pass ${p + 1} results: ${JSON.stringify(results)}`);
+      const remaining = remainingCount(state, manifest);
+      log(`remaining files: ${remaining}`);
+      if (remaining === 0) break;
+    }
+  } finally {
+    // Drain: never return while a request or rename/delete writer is alive.
+    ctx.cleanupDeadline = Date.now() + cleanupMs;
+    const removed = await cleanupTempFiles(state);
+    if (removed) log(`removed ${removed} abandoned chunk temp file(s)`);
+    await flushState();
+    await checkpointPartials(ctx);
+    await saveState(state);
+    await flushState();
+    await writeStatus(state, manifest, ctx);
+    killActiveChildren();
+    clearTimeout(hardTimer);
   }
-  await writeStatus(state, manifest, ctx);
+  log(`retrieve batch complete in ${Date.now() - startedAt}ms`);
 }
 
 function getFlag(args, name) {
@@ -444,10 +494,14 @@ async function writeStatus(state, manifest, ctx) {
   lines.push(`oras manifest fetch ${REGISTRY}:${INDEX_TAG} | jq .`);
   lines.push(`oras pull ${REGISTRY}:nij-1939-n01-djv -o ./out`);
   lines.push('node tools/nauka/cli.mjs discover');
-  lines.push('node tools/nauka/cli.mjs retrieve --passes 4');
+  lines.push('node tools/nauka/cli.mjs retrieve --budget-ms 75000');
   lines.push('node tools/nauka/cli.mjs verify');
   lines.push('node tools/nauka/cli.mjs index');
   lines.push('```');
+  lines.push('');
+  lines.push('Run `retrieve` directly (no `timeout`/pipe): one bounded batch, ~75 s of');
+  lines.push('transfer plus bounded cleanup, then it drains writers and exits so the');
+  lines.push('supervisor can publish at the tool boundary.');
   lines.push('');
   await fs.writeFile(STATUS_FILE, lines.join('\n') + '\n');
 }
@@ -459,26 +513,28 @@ async function main() {
   switch (cmd) {
     case 'discover':
       await cmdDiscover(args);
-      break;
+      return 0;
     case 'retrieve':
       await cmdRetrieve(args);
-      break;
+      return 0;
     case 'verify':
-      await cmdVerify();
-      break;
+      return (await cmdVerify()) ? 0 : 1;
     case 'index':
       await cmdIndex();
-      break;
+      return 0;
     case 'status':
       await cmdStatus();
-      break;
+      return 0;
     default:
       console.error('usage: cli.mjs <discover|retrieve|verify|index|status> [args]');
-      process.exit(2);
+      return 2;
   }
 }
 
-main().catch((err) => {
-  console.error('FATAL', err && err.stack ? err.stack : err);
-  process.exit(1);
-});
+main().then(
+  (code) => process.exit(code),
+  (err) => {
+    console.error('FATAL', err && err.stack ? err.stack : err);
+    process.exit(1);
+  },
+);

@@ -9,6 +9,19 @@ import { REPO_ROOT, PATHS, REGISTRY, SOURCE_REPO, ARTIFACT_TYPE, CHECKPOINT_ARTI
 const ORAS_VERSION = '1.2.0';
 const TOOLS_DIR = path.join(REPO_ROOT, 'data/nauka/tools');
 
+// Track every spawned child so a cancelled tool call never orphans an oras
+// process holding a network connection or a staging file open.
+const activeChildren = new Set();
+export function killActiveChildren(signal = 'SIGTERM') {
+  for (const child of activeChildren) {
+    try {
+      child.kill(signal);
+    } catch {
+      /* already gone */
+    }
+  }
+}
+
 function run(cmd, args, opts = {}) {
   return new Promise((resolve, reject) => {
     const child = execFile(
@@ -25,6 +38,10 @@ function run(cmd, args, opts = {}) {
         }
       },
     );
+    activeChildren.add(child);
+    const done = () => activeChildren.delete(child);
+    child.on('close', done);
+    child.on('error', done);
     if (opts.stdin) {
       child.stdin.end(opts.stdin);
     }
@@ -146,11 +163,17 @@ export class Ghcr {
     return { tag, digest: digestMatch[1], stdout: out };
   }
 
+  // Pull a tag or an immutable digest reference into outDir. Prefer an
+  // immutable digest when a recorded checkpoint digest is available.
+  async pullRef(ref, outDir) {
+    await fs.mkdir(outDir, { recursive: true });
+    await run(this.oras, ['pull', ref, '-o', outDir]);
+    return outDir;
+  }
+
   // Pull a tag into outDir. Returns list of files pulled.
   async pull(tag, outDir) {
-    await fs.mkdir(outDir, { recursive: true });
-    await run(this.oras, ['pull', `${REGISTRY}:${tag}`, '-o', outDir]);
-    return outDir;
+    return this.pullRef(`${REGISTRY}:${tag}`, outDir);
   }
 }
 
