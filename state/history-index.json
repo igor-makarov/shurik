@@ -2998,11 +2998,12 @@
   },
   {
     "id": "18-302",
-    "outcome": "running",
+    "outcome": "agent_failure",
     "runId": "37585580878",
     "minEntryId": 25775,
-    "maxEntryId": 25775,
+    "maxEntryId": 25781,
     "checkpointAt": "2026-10-07T07:11:44.110Z",
-    "transcript": "checkpoint"
+    "error": "{\"conversationId\":1,\"requestId\":\"hazfalafel-20261004t213311:18-302\",\"type\":\"input\",\"status\":\"unanswered\",\"entry\":25777,\"id\":25778,\"reason\":\"model_error\",\"detail\":\"429: {\\\"type\\\":\\\"GoUsageLimitError\\\",\\\"message\\\":\\\"Go usage limit exceeded\\\"}\"}",
+    "transcript": "complete"
   }
 ]
