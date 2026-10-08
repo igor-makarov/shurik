@@ -1,0 +1,61 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-22",
+  "phase": "start",
+  "at": "2026-10-08T01:42:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "note": "User scope remains ALL YEARS of Nauka i Zhizn plus the canonical all-years GHCR master issue index, with retrieval continuing until the stated absolute deadline. NAUKA_STATUS 60/60 refers ONLY to the completed 1934-1939 subset and does NOT mean the all-years assignment is complete.",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "publication": {
+    "publishedFiles": 515,
+    "publishedBytes": 5241182833,
+    "remainingFiles": 597,
+    "inProgressFiles": 3,
+    "verifiedPartialBytes": 16777216,
+    "baselinePublishedFiles": 60,
+    "newPublishedBeyondBaseline": 455,
+    "newPublishedBytesBeyondBaseline": 2929552543
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:eddd8b0cfc435855fa8d30d3e05c882a4feea6ab111797026f930918b2411e0b",
+    "bytes": 1323222,
+    "catalogDigest": "sha256:fe6aea1dd8fb4f518ea5d4dc7bd2c10f04462e6c57d9163a64493cd2ff924343",
+    "checkpointDigest": "sha256:5083125e279e260a0e73c3f1ce2dcf75db37d2124eb077ee077d66fa36b84e8c",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T01:35:33.441Z"
+  },
+  "plan": [
+    "Run bounded smallest-first retrieve batches via tools/nauka/batch.mjs (records durable delta + checkpoint receipts per batch).",
+    "Refresh + re-verify the master index by immutable digest after batches.",
+    "Maintain durable partial/checkpoint receipts for cold resume; never relabel the preserved 1934-1939 subset index."
+  ]
+}
