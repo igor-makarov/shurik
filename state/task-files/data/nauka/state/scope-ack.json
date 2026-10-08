@@ -1,12 +1,12 @@
 {
   "kind": "shurik-nauka-scope-ack",
-  "iteration": "5-45",
-  "at": "2026-10-08T17:56:52.885Z",
+  "iteration": "5-46",
+  "at": "2026-10-08T18:08:13.198Z",
   "acknowledgedScopeChange": true,
   "previousObjective": "1934-1939 only, 60 files (completed subset)",
   "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
   "scope": "all-years",
-  "deadline": "2026-10-08T18:00:00.000Z",
+  "deadline": null,
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "masterIndexTag": "nij-master-index",
   "masterCatalogTag": "nij-master-catalog",
@@ -70,10 +70,10 @@
   ],
   "continuationAck": {
     "authorized": true,
-    "at": "2026-10-08T16:56:09.000Z",
-    "previousDeadline": "2026-10-08T14:45:32.395Z",
-    "newDeadline": "2026-10-08T18:00:00.000Z",
-    "note": "Iteration 5-44 acknowledges the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem). Scope all-years. Continuation baseline work commit 15b89ae8, 875 files / 9,777,993,649 bytes preserved; true current durable state 999 published / 113 remaining (104 pending + 9 in_progress). Not extending the deadline."
+    "at": "2026-10-08T18:08:13.198Z",
+    "previousDeadline": "2026-10-08T18:00:00.000Z",
+    "newDeadline": null,
+    "note": "Iteration 5-46 acknowledges completion-driven continuation: publish all 1112 regular files + 5 supplementary archives; master index kept current; hourly monitor stops when complete."
   },
   "trueStateAtAck": {
     "publishedFiles": 999,
@@ -99,5 +99,6 @@
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0
-  }
+  },
+  "deadlineNote": "Completion-driven continuation authorized (control.json monitorCompletion, token nauka-user-until-complete-1791481729758). Time deadline removed."
 }

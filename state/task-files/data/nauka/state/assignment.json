@@ -1,9 +1,9 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-45",
-  "at": "2026-10-08T17:56:52.885Z",
-  "deadline": "2026-10-08T18:00:00.000Z",
+  "iteration": "5-46",
+  "at": "2026-10-08T18:08:13.194Z",
+  "deadline": null,
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
   "masterIndexTag": "nij-master-index",
@@ -83,13 +83,14 @@
     "Iteration 5-43: batches 95-96 published 8 fresh files (991->999), +409,591,368 durable origin bytes, by restoring+finishing prior in_progress files from immutable GHCR chunk checkpoints (no re-download). 113 remain (105 pending + 8 in_progress ~50-90MB PDFs). Master index republished and verified by immutable pull (sha256:5690145e..., 1493138 B, status complete, 0 problems, 1112 files/941 issues/87 years). Also reconciled the 6 files published by the timed-out batch 94 that the prior index had not yet reflected.",
     "Iteration 5-43: batches 95-97 published 8 fresh files (991->999), +409,591,368 durable origin bytes, plus +218,103,808 B durable chunk checkpoints across 9 in_progress files (batch 97 had no publish but real durable partial progress). 113 remain (104 pending + 9 in_progress ~50-90MB PDFs). Master index republished; verified by immutable pull (sha256:5690145e..., 0 problems). Final index digest after batch 97: sha256:c09a1c84... (1493156 B, status complete).",
     "Iteration 5-45: batches 100-101 published 4 fresh files (1010->1014), +210,779,483 durable origin bytes, by restoring+finishing prior in_progress files from immutable GHCR chunk checkpoints (no re-download); batch 102 added +81,788,928 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index nij-master-index @ sha256:7d292bfc3db6dd47b230abd3ca3b32e62624d5e1ca586dda71d0817b8c773702 (1498335 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years).",
-    "Iteration 5-45 (final): batches 100-101 published 4 files (1010->1014), +210,779,483 durable bytes; batches 102-103 added +103,809,024 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index nij-master-index @ sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162 (1498337 B, status complete) independently verified by immutable pull (0 problems)."
+    "Iteration 5-45 (final): batches 100-101 published 4 files (1010->1014), +210,779,483 durable bytes; batches 102-103 added +103,809,024 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index nij-master-index @ sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162 (1498337 B, status complete) independently verified by immutable pull (0 problems).",
+    "Iteration 5-46: continuation acknowledged; supervisor deadline now null (completion-driven, token nauka-user-until-complete-1791481729758). True current state 1014 published / 15,500,678,516 B; 98 remain (94 pending + 4 in_progress)."
   ],
   "masterIndexVerifiedAt": "2026-10-08T17:56:52.885Z",
   "verifiedPartialBytesNow": 103809024,
   "continuation": {
     "authorized": true,
-    "note": "Iteration 5-43 acknowledges the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem). Scope all-years. Continuation baseline at work 15b89ae8: 875 files / 9,777,993,649 B. Current durable state: 999 files / 14,717,489,211 B published; 113 regular files remain (105 pending + 8 in_progress); durable GHCR chunk checkpoints hold 122,683,392 B across 8 in_progress files.",
+    "note": "Iteration 5-46 acknowledges the user-authorized completion-driven continuation (deadline null). Scope all-years. Completion target: 1112 regular files + 5 supplementary archives published with a truthful all-years master index.",
     "baselineWorkCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
@@ -98,8 +99,8 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
     "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
-    "iteration": "5-43",
-    "acknowledgedAt": "2026-10-08T16:21:00.000Z"
+    "iteration": "5-46",
+    "acknowledgedAt": "2026-10-08T18:08:13.194Z"
   },
-  "deadlineNote": "Supervisor control.json deadline 2026-10-08T18:00:00.000Z (user-authorized 21:00 Asia/Jerusalem extension) is authoritative and replaces the expired 2026-10-08T14:45:32.395Z deadline."
+  "deadlineNote": "Supervisor control.json monitorCompletion (token nauka-user-until-complete-1791481729758, requestedAt 2026-10-08T17:48:51.903Z) removed the time deadline and authorized completion-driven continuation: publish all 1112 regular files + 5 supplementary archives and keep the master index current, then the hourly monitor cooperatively stops. Supersedes the expired 2026-10-08T18:00:00.000Z deadline. Not extended by the model."
 }

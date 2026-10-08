@@ -1,0 +1,68 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-46",
+  "phase": "start",
+  "at": "2026-10-08T18:02:30.000Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json monitorCompletion (token nauka-user-until-complete-1791481729758, requestedAt 2026-10-08T17:48:51.903Z) removed the time deadline and authorized completion-driven continuation: publish all regularFiles=1112 plus supplementaryArchives=5, keep the master index current, then the hourly monitor cooperatively stops. This supersedes the expired 2026-10-08T18:00:00.000Z deadline. Not extending anything myself.",
+  "acknowledgement": "Acknowledged the user-authorized completion-driven continuation: supervisor deadline is now null; success = every regular scan file and all 5 supplementary archives published with a truthful master index. Scope all-years. All work inside this Shurik loop; no falafel code/artifacts/history used.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "remainingRegularFiles": 237,
+    "remainingSupplementaryArchives": 5,
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 1014,
+    "publishedBytes": 15500678516,
+    "remainingFiles": 98,
+    "pendingFiles": 94,
+    "inProgressFiles": 4,
+    "durableGhcrCheckpointBytes": 103809024,
+    "newPublishedBeyondBaseline": 139,
+    "newPublishedBytesBeyondBaseline": 5722684867
+  },
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "preserved": true
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162",
+    "bytes": 1498337,
+    "catalogDigest": "sha256:0745b537cff0c59b53338843d5810ef5ec087579a1ed876248cb08cc39caa232",
+    "checkpointDigest": "sha256:fdd3019f2220ff4a9eb9d18e8cae7298efc0cda9bac46aca5cd2c33b4ff6dbd2",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0
+  },
+  "discovery": {
+    "status": "complete",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5,
+    "note": "Discovery complete; not restarted."
+  },
+  "inProgressIds": [
+    "nij-1972-n12-pdf",
+    "nij-1965-n01-pdf",
+    "nij-1965-n02-pdf",
+    "nij-1965-n05-pdf"
+  ],
+  "nextActions": [
+    "Restore the 4 checkpointed in_progress partials from immutable GHCR digests and finish/publish them (no re-download).",
+    "Continue bounded smallest-first retrieve batches for the 94 pending regular PDFs/DJVs.",
+    "Publish the 5 supplementary archives once regular files complete.",
+    "Republish and verify the master index by immutable digest after batches."
+  ],
+  "blockers": []
+}
