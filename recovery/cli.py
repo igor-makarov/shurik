@@ -49,6 +49,19 @@ def capture_file(name: str) -> str:
 POST_ID_RE = re.compile(r"/post/(\d+)")
 # CDX matchType=prefix wants a bare directory prefix, never `.../*`.
 POST_CAPTURE_PREFIX = "hazfalafel.com/post/"
+# Listing families beyond archive/tagged/post. The main index (`/page/N`) and the
+# mobile index enumerate the most recent 20 posts at their capture time, so a
+# 2019 snapshot carries 2019 posts that the monthly archive pages never showed
+# (the archive index stops at what the theme paginated to). Measured 2026-10:
+# `/page/2` capture 20190824090303 named 9 posts absent from the corpus and 8
+# photos on 66.media.tumblr.com -- a shard with real captures. They were never
+# fetched because `discover_listings` only indexed archive/tagged/post.
+EXTRA_LISTING_PREFIXES = (
+    "hazfalafel.com/page/",
+    "hazfalafel.com/mobile",
+    "hazfalafel.com/category/",
+    "hazfalafel.com/rss",
+)
 
 
 def _now() -> str:
@@ -91,7 +104,8 @@ def discover_listings(fetcher: Fetcher, force: bool = False) -> dict:
     """Archive/tag/monthly pages: discovery leads for posts without permalinks."""
     index = CaptureIndex(capture_file("listing.jsonl"))
     stats = {"new": 0, "queries": 0, "skipped": 0}
-    for prefix in ("hazfalafel.com/archive/", "hazfalafel.com/tagged/", POST_CAPTURE_PREFIX):
+    for prefix in ("hazfalafel.com/archive/", "hazfalafel.com/tagged/",
+                   POST_CAPTURE_PREFIX, *EXTRA_LISTING_PREFIXES):
         name = f"listing:{prefix}"
         if index.query_done(name) and not force:
             stats["skipped"] += 1

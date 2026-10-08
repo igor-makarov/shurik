@@ -167,6 +167,77 @@ class _ListingCollector(HTMLParser):
             self._post(pid)
 
 
+RSS_ITEM_RE = re.compile(r"<item\b.*?</item>", re.S | re.I)
+RSS_LINK_RE = re.compile(r"<(?:link|guid)\b[^>]*>(.*?)</(?:link|guid)>", re.S | re.I)
+RSS_IMG_RE = re.compile(r"(?:src|url)\s*=\s*[\"']([^\"']+)[\"']", re.I)
+
+
+def _rss_image_entry(src: str, base: str) -> Optional[dict]:
+    src = _abs(base, src)
+    if is_excluded_image(src) or not is_tumblr_media(src):
+        return None
+    key = media_key(src)
+    if not key:
+        return None
+    return {"media_url": src, "media_key": key, "base_key": base_media_key(src),
+            "caption_alt": "", "found_in": "listing:rss", "url_forms": [src],
+            "variants": parse_image_variants(src)}
+
+
+def parse_rss_feed(xml: str, original_url: str, timestamp: str,
+                   replay_url: str = "") -> dict:
+    """Parse an archived Tumblr RSS feed into the same evidence shape.
+
+    The feed carries `<description>` with *escaped* HTML (`&lt;img src=...`), so
+    the HTML collector sees no image tags. Each `<item>` still names its post
+    permalink and the full-size image URL, which is exactly the evidence a
+    never-captured permalink needs. Decoding entities first, then extracting the
+    `src=` URL and the `/post/<id>` link per item, keeps one post per item.
+    """
+    import hashlib
+    from html import unescape
+
+    posts: list[dict] = []
+    post_ids: list[str] = []
+    seen: set[str] = set()
+    for item in RSS_ITEM_RE.findall(xml or ""):
+        pid = ""
+        for link in RSS_LINK_RE.findall(item):
+            m = LISTING_POST_ANCHOR_RE.search(link)
+            if m:
+                pid = m.group(1)
+                break
+        if not pid:
+            m = LISTING_POST_ANCHOR_RE.search(item)
+            if m:
+                pid = m.group(1)
+        if not pid:
+            continue
+        images: list[dict] = []
+        known: set[str] = set()
+        for src in RSS_IMG_RE.findall(unescape(item)):
+            entry = _rss_image_entry(src, original_url)
+            if entry is None or entry["media_key"] in known:
+                continue
+            known.add(entry["media_key"])
+            images.append(entry)
+        if pid not in seen:
+            seen.add(pid)
+            post_ids.append(pid)
+        posts.append({"post_id": pid, "images": images,
+                      "urls": [f"http://hazfalafel.com/post/{pid}"]})
+    return {
+        "original_url": original_url,
+        "timestamp": timestamp,
+        "replay_url": replay_url or "",
+        "page_sha256": hashlib.sha256((xml or "").encode("utf-8", "replace")).hexdigest(),
+        "page_bytes": len((xml or "").encode("utf-8", "replace")),
+        "posts": posts,
+        "post_ids": post_ids,
+        "unassigned_images": [],
+    }
+
+
 def parse_listing_page(html: str, original_url: str, timestamp: str,
                        replay_url: str = "") -> dict:
     """Parse one archived listing page into per-post evidence.
@@ -175,6 +246,10 @@ def parse_listing_page(html: str, original_url: str, timestamp: str,
     "post_ids": [...], "unassigned_images": [...], "page_sha256"}`.
     """
     import hashlib
+
+    head = (html or "").lstrip()[:200].lower()
+    if head.startswith("<?xml") or "<rss" in head:
+        return parse_rss_feed(html, original_url, timestamp, replay_url)
 
     col = _ListingCollector(original_url)
     try:
