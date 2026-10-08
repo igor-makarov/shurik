@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-08T12:17:29.477Z
+Updated: 2026-10-08T12:21:59.748Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
@@ -18,7 +18,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - pending: 189
 - unavailable/permanent: 0
 - remaining: 194
-- bytes published: 11037216127 / 11214789654
+- bytes published: 11037216127 / 11250749036
 
 ## Per year
 - 1890: 1/1 published; issues N01; missing months: 2,3,4,5,6,7,8,9,10,11,12
@@ -113,10 +113,10 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
 
 ## Master index
-- canonical tag: `nij-master-index` @ `sha256:23e55f2d201833682ab1cca479b0128f5ece22edd2922dc66eb7dc123127ed4f`
-- catalog tag: `nij-master-catalog` @ `sha256:c84546dec2bcf6762da9ddf27be266fe7c7e1e4b595fc2b77417935b3b1377b9`
-- checkpoint tag: `nij-master-checkpoint` @ `sha256:83bd2e3af2c46e40f57090b8a2880f4b368010dc275bfc5bbf87e15197340395`
-- discovery status: complete; files 1112, published 913, issues 941
+- canonical tag: `nij-master-index` @ `sha256:ed5b618e05d65d21b729ed57deca0ce9492bcb387e4e058f0af26771f2cd7057`
+- catalog tag: `nij-master-catalog` @ `sha256:6c4812600075b66493fd03cc06137433521180a79ec24a3f72febc84179f6765`
+- checkpoint tag: `nij-master-checkpoint` @ `sha256:eb34c7f2d8c432ab6fdba893ffbb2f87a4bf6f4ac83254eeee2c3fd883daf8ad`
+- discovery status: complete; files 1112, published 918, issues 941
 
 ## Registry
 - Registry: ghcr.io/igor-makarov/shurik-nauka
@@ -1072,7 +1072,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1949-n12-djv: pending 0/? B (no error)
 - nij-1949-n12-pdf: pending 0/? B (no error)
 - nij-1950-n01-pdf: pending 0/? B (no error)
-- nij-1950-n04-pdf: pending 0/? B (no error)
+- nij-1950-n04-pdf: pending 0/35959382 B (aborted)
 - nij-1950-n05-pdf: pending 0/? B (no error)
 - nij-1950-n06-pdf: pending 0/? B (no error)
 - nij-1950-n07-pdf: pending 0/? B (no error)
@@ -1080,7 +1080,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1950-n09-pdf: pending 0/? B (no error)
 - nij-1950-n10-pdf: pending 0/? B (no error)
 - nij-1950-n11-pdf: pending 0/? B (no error)
-- nij-1950-n12-pdf: in_progress 16777216/35560579 B (no error)
+- nij-1950-n12-pdf: in_progress 25165824/35560579 B (no error)
 - nij-1954-n03-pdf: pending 0/? B (no error)
 - nij-1954-n04-pdf: pending 0/? B (no error)
 - nij-1954-n05-pdf: pending 0/? B (no error)
@@ -1089,7 +1089,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1954-n09-pdf: pending 0/? B (no error)
 - nij-1954-n10-pdf: pending 0/? B (no error)
 - nij-1954-n11-pdf: pending 0/? B (no error)
-- nij-1956-n06-pdf: in_progress 8388608/35687220 B (no error)
+- nij-1956-n06-pdf: in_progress 16777216/35687220 B (aborted)
 - nij-1956-n10-pdf: pending 0/? B (no error)
 - nij-1956-n11-pdf: pending 0/? B (no error)
 - nij-1956-n12-pdf: pending 0/? B (no error)
@@ -1098,7 +1098,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1957-n04-pdf: pending 0/? B (no error)
 - nij-1957-n05-pdf: pending 0/? B (no error)
 - nij-1961-n08-pdf: pending 0/? B (no error)
-- nij-1961-n11-pdf: in_progress 25165824/35295091 B (no error)
+- nij-1961-n11-pdf: in_progress 32505856/35295091 B (aborted)
 - nij-1962-n01-pdf: pending 0/? B (no error)
 - nij-1962-n02-pdf: pending 0/? B (no error)
 - nij-1962-n03-pdf: pending 0/? B (no error)
@@ -1111,11 +1111,11 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1962-n12-pdf: pending 0/? B (no error)
 - nij-1963-n03-pdf: pending 0/? B (no error)
 - nij-1963-n04-pdf: pending 0/? B (no error)
-- nij-1963-n05-pdf: in_progress 16777216/35491044 B (no error)
+- nij-1963-n05-pdf: in_progress 25165824/35491044 B (no error)
 - nij-1963-n06-pdf: pending 0/? B (no error)
 - nij-1963-n07-pdf: pending 0/? B (no error)
 - nij-1963-n08-pdf: pending 0/? B (no error)
-- nij-1963-n09-pdf: in_progress 15728640/35539593 B (no error)
+- nij-1963-n09-pdf: in_progress 24117248/35539593 B (aborted)
 - nij-1963-n10-pdf: pending 0/? B (no error)
 - nij-1963-n12-pdf: pending 0/? B (no error)
 - nij-1964-n01-pdf: pending 0/? B (no error)
@@ -1249,14 +1249,14 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-08T12:11:25.782Z -> reachable
+- last probe: 2026-10-08T12:19:14.321Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1904,N01-04.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 20261008T113230-batch75.json: pub 885->892, durable +191942665 B, failure: none
 - 20261008T114219-batch76.json: pub 892->899, durable +195585139 B, failure: none
 - 20261008T115210-batch77.json: pub 899->905, durable +175412136 B, failure: none
 - 20261008T120003-batch78.json: pub 905->913, durable +262577827 B, failure: none
+- 20261008T121736-batch79.json: pub 913->918, durable +172327365 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
