@@ -1,0 +1,50 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-41",
+  "phase": "progress",
+  "at": "2026-10-08T15:39:40.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T18:00:00.000Z",
+  "acknowledgement": "Acknowledged user-authorized four-hour continuation; supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem) is authoritative.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "remainingRegularFiles": 237,
+    "remainingSupplementaryArchives": 5,
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 977,
+    "publishedBytes": 13600290068,
+    "remainingFiles": 135,
+    "pendingFiles": 127,
+    "inProgressFiles": 8,
+    "durableGhcrCheckpointBytes": 251658240,
+    "gitPrefixPartialBytes": 16777216
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:a0226e98a63f5d93bd17ed00dd2f4a5168977f7cf257d4db90270071cd3e38c1",
+    "bytes": 1485436,
+    "catalogDigest": "sha256:152c92d6c18d84dbfa999c6538747936c3b5c4f3388efce1232b5ec7067174ba",
+    "checkpointDigest": "sha256:8cfe627cfab533058133f8661fc4d99f60e85b65c43ced66baaab84584fe9c3b",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T15:39:40.000Z"
+  },
+  "nextActions": [
+    "Restore the 6 in_progress files from their immutable GHCR chunk checkpoint digests, finish and publish them.",
+    "Run bounded smallest-first retrieve batches for the remaining 137 pending regular files.",
+    "Publish the 5 supplementary archives when regular files complete.",
+    "Republish and verify the master index by immutable digest after batches."
+  ],
+  "batches": [
+    90,
+    91
+  ],
+  "newPublishedThisIteration": 8,
+  "newPublishedBytesThisIteration": 394805766
+}

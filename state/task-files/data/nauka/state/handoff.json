@@ -1,13 +1,13 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "5-40",
-  "at": "2026-10-08T15:06:38.434Z",
+  "iteration": "5-41",
+  "at": "2026-10-08T15:39:40.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T18:00:00.000Z",
   "status": "IN_PROGRESS",
-  "published": 969,
-  "remaining": 143,
-  "bytesPublished": 13205484302,
+  "published": 977,
+  "remaining": 135,
+  "bytesPublished": 13600290068,
   "origin": {
     "reachable": true,
     "note": "publ.lib.ru up; batches 88-89 exit 0, zero failures; 24/4 then 64/8."
@@ -20,28 +20,25 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:cb9326d0260936e890fecdfde299c3dc2964a39e61ea3f1a2a227d9b0bf009c6",
-    "bytes": 1482604,
-    "catalogDigest": "sha256:1a6abcaa176b6374e1bded61df552150222abc41e3e48e64c95b5f360f3e1210",
-    "checkpointDigest": "sha256:96460e842b64d4a76541f1cb83a3605275bc043af7851874fb0ea7f46ab16653",
+    "digest": "sha256:a0226e98a63f5d93bd17ed00dd2f4a5168977f7cf257d4db90270071cd3e38c1",
+    "bytes": 1485436,
+    "catalogDigest": "sha256:152c92d6c18d84dbfa999c6538747936c3b5c4f3388efce1232b5ec7067174ba",
+    "checkpointDigest": "sha256:8cfe627cfab533058133f8661fc4d99f60e85b65c43ced66baaab84584fe9c3b",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T15:06:38.434Z",
-    "pulledFileSha256": "cb9326d0260936e890fecdfde299c3dc2964a39e61ea3f1a2a227d9b0bf009c6",
+    "verifiedAt": "2026-10-08T15:39:40.000Z",
+    "pulledFileSha256": "a0226e98a63f5d93bd17ed00dd2f4a5168977f7cf257d4db90270071cd3e38c1",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "durablePartials": {
-    "files": 2,
-    "bytes": 67108864,
-    "ids": [
-      "nij-1974-n11-pdf",
-      "nij-1967-n10-pdf"
-    ],
+    "ghcrCheckpointFiles": 8,
+    "ghcrCheckpointBytes": 251658240,
+    "gitPrefixBytes": 16777216,
     "note": "restorable from immutable GHCR checkpoint digests"
   },
-  "newPublishedBytesThisIteration": 193220540,
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 143 regular files + 5 supplementary archives. Restore the 2 in_progress files (nij-1974-n11-pdf, nij-1967-n10-pdf) from GHCR checkpoints first.",
-  "notes": "Iteration 5-40: batches 88-89 published 4 fresh files (965->969), +193,220,540 origin bytes; resumed the 2 saved in_progress files first. Master index republished and verified by immutable pull (sha256:cb9326d0, 1482604 B, status complete, 0 mismatches).",
-  "masterIndexVerifiedAt": "2026-10-08T15:06:38.434Z"
+  "newPublishedBytesThisIteration": 394805766,
+  "nextAction": "Batch 92: restore 8 in_progress from GHCR checkpoints, then bounded smallest-first batches for 127 pending. Republish+verify master index.",
+  "notes": "Iteration 5-41: batches 90-91 published 8 files (969->977), +394,805,766 origin bytes; remaining 135. Master index republished and verified by immutable pull (sha256:a0226e98, 1485436 B, status complete, 0 mismatches, 1112 files/941 issues/87 years).",
+  "masterIndexVerifiedAt": "2026-10-08T15:39:40.000Z"
 }

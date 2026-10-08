@@ -95752,7 +95752,7 @@
       "receivedBytes": 40894464,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 48,
+      "attempts": 56,
       "retries": 8,
       "lastError": "body stream failed after 813916 bytes: attempt timeout after 65580ms",
       "lastErrorAt": "2026-10-08T15:38:01.213Z",
@@ -95938,7 +95938,7 @@
       "receivedBytes": 39845888,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 41,
+      "attempts": 49,
       "retries": 2,
       "lastError": "body stream failed after 645980 bytes: aborted",
       "lastErrorAt": "2026-10-08T15:33:39.727Z",
@@ -96124,7 +96124,7 @@
       "receivedBytes": 39845888,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 46,
+      "attempts": 54,
       "retries": 7,
       "lastError": "body stream failed after 581340 bytes: attempt timeout after 49580ms",
       "lastErrorAt": "2026-10-08T15:38:01.189Z",
@@ -96306,7 +96306,7 @@
       "receivedBytes": 38797312,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 41,
+      "attempts": 49,
       "retries": 3,
       "lastError": "body stream failed after 609116 bytes: attempt timeout after 51580ms",
       "lastErrorAt": "2026-10-08T15:38:01.166Z",
@@ -96480,7 +96480,7 @@
       "receivedBytes": 36700160,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 41,
+      "attempts": 49,
       "retries": 5,
       "lastError": "body stream failed after 1026908 bytes: attempt timeout after 79581ms",
       "lastErrorAt": "2026-10-08T15:38:01.201Z",
@@ -96573,12 +96573,40 @@
         "15": {
           "bytes": 1048576,
           "sha256": "4e43e330cb6f73215e584f1cbc53b96485d3572ae9c33697b2391983ebeda008"
+        },
+        "16": {
+          "bytes": 1048576,
+          "sha256": "84cc502699d94004c150319b25a300ba10500fd1f0eae822c28f6e4e4f61cb58"
+        },
+        "17": {
+          "bytes": 1048576,
+          "sha256": "a21712459c517852ba2c7257ec6571aab5a74f41c17e8945be33d481c2aae9b4"
+        },
+        "18": {
+          "bytes": 1048576,
+          "sha256": "187580a68c6e4a1bd1f6579cf25734fdabd5aba1c61c8d3a3d459fa06437051b"
+        },
+        "19": {
+          "bytes": 1048576,
+          "sha256": "190fd05421bc7165e6037989c9f31c84f29b1e3cc36b12d1b92ca6a591003b1a"
+        },
+        "20": {
+          "bytes": 1048576,
+          "sha256": "b46f7adde58c430d61f3a4e1bbec6e2ef535185003819d9ce6d227943d141fa7"
+        },
+        "21": {
+          "bytes": 1048576,
+          "sha256": "ea707a5d99e1ce478cd48b419bf53cd8b3f3b5a6c53308a75c0f9aff864f7b9b"
+        },
+        "22": {
+          "bytes": 1048576,
+          "sha256": "fc5a58506d180ddbcb619a94640b0726802e79f8651336a9df2e8c3023e35c88"
         }
       },
-      "receivedBytes": 16777216,
+      "receivedBytes": 24117248,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 17,
+      "attempts": 31,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
@@ -96732,7 +96760,7 @@
       "receivedBytes": 31457280,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 32,
+      "attempts": 40,
       "retries": 1,
       "lastError": "body stream failed after 133981 bytes: aborted",
       "lastErrorAt": "2026-10-08T15:34:48.505Z",
@@ -96786,15 +96814,47 @@
           "bytes": 1048576,
           "sha256": "6ffde346dd17f53bb2f2dae6000d8f6f29b44f27942bb308b4e43c8f6de197c5"
         },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "fcc168c6b29a7579584afe17a428327cdcfa7e23cc86a440a3b815f6419aee53"
+        },
         "7": {
           "bytes": 1048576,
           "sha256": "53baf7b5394f44a96f3a559d54175f32d7c47c0704a18b57401787ad62aee799"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "28624bc31cd7af8dad41e2bccb455934399fe72587811b1907b375fb8391bf3d"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "aaf8e2138ee32b7f39de5c6d8f6375bb794c704e4faaeacc7f77a03edca9556e"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "7761cea902b656ab60930c25f304865ad6f692a3964e7a1efdee994a8e39a56a"
+        },
+        "11": {
+          "bytes": 1048576,
+          "sha256": "f70c9b78bb363123f4a1849ca0c64ed994c0cf4557335211d1abe8f4f893416a"
+        },
+        "12": {
+          "bytes": 1048576,
+          "sha256": "ec0ba89c4c82be249f96d9bd1a22d56dfb29865596f1c406b9817f7b39a4bc92"
+        },
+        "13": {
+          "bytes": 1048576,
+          "sha256": "fdff17fbb029c6e49ca18b414391df811cf3ca338a000d32ccee38ac4c38d40b"
+        },
+        "14": {
+          "bytes": 1048576,
+          "sha256": "d50091f2165ef457f65dd3a141c97092f5560756da40ee9ea9e90f380c17c27b"
         }
       },
-      "receivedBytes": 7340032,
+      "receivedBytes": 15728640,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 10,
+      "attempts": 26,
       "retries": 2,
       "lastError": "body stream failed after 289630 bytes: attempt timeout after 29287ms",
       "lastErrorAt": "2026-10-08T15:38:01.178Z",
@@ -100239,11 +100299,11 @@
       "updatedAt": "2026-10-07T21:54:14.914Z"
     }
   },
-  "updatedAt": "2026-10-08T15:38:47.212Z",
+  "updatedAt": "2026-10-08T15:41:21.844Z",
   "origin": {
     "reachable": true,
     "reason": null,
-    "checkedAt": "2026-10-08T15:28:01.136Z",
+    "checkedAt": "2026-10-08T15:39:47.734Z",
     "probeUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip"
   }
 }
