@@ -1,0 +1,45 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-43",
+  "phase": "start",
+  "at": "2026-10-08T16:21:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T18:00:00.000Z",
+  "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
+  "acknowledgement": "Acknowledged the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem). Scope all-years. Not extending the deadline.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "remainingRegularFiles": 237,
+    "remainingSupplementaryArchives": 5,
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 991,
+    "publishedBytes": 14307897843,
+    "remainingFiles": 121,
+    "pendingFiles": 113,
+    "inProgressFiles": 8,
+    "note": "files.json is ahead of the last master-index receipt (985) by the 6 files published at the tail of the timed-out batch 94 that were not yet indexed; this batch republishes the index."
+  },
+  "discovery": {
+    "status": "complete",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5,
+    "note": "Discovery complete; not restarting. Revisit only for a concrete missing-page/inventory error."
+  },
+  "inProgressIds": [
+    "nij-1967-n09-pdf","nij-1967-n11-pdf","nij-1970-n02-pdf","nij-1970-n10-pdf",
+    "nij-1971-n07-pdf","nij-1972-n04-pdf","nij-1973-n07-pdf","nij-1974-n08-pdf"
+  ],
+  "nextActions": [
+    "Restore the 2 checkpointed in_progress files from their immutable GHCR chunk digests, then finish and publish in_progress files.",
+    "Run bounded smallest-first retrieve batches for the remaining 113 pending regular files.",
+    "Republish and verify the master index by immutable digest after batches."
+  ]
+}
