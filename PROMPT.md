@@ -2,7 +2,7 @@
 
 ## Current assignment — explicitly expanded by the user
 
-The user now requests ALL YEARS of the magazine, a master index of all issues on GHCR, and continued retrieval until 2026-10-08T07:00:00.000Z (10:00 Asia/Jerusalem on October 8). This replaces the former 1934-1939-only objective and its expired deadlines. The model remains opencode-go/deepseek-v4.1-flash, reasoning high, 1800-second iterations and 120-second cooperative checkpoints. Obey the supervisor's new absolute deadline; do not extend it yourself.
+The user requests ALL YEARS of the magazine and a master index of all issues on GHCR. On October 8 the user explicitly authorized another FOUR HOURS after the previous deadline ("Run 4 hours more"). The new absolute deadline supplied by the supervisor/control.json is authoritative and replaces the expired 2026-10-08T07:00:00.000Z deadline and all earlier deadlines. The model remains opencode-go/deepseek-v4.1-flash, reasoning high, 1800-second iterations and 120-second cooperative checkpoints. Obey the supervisor's new absolute deadline; do not extend it yourself.
 
 All task discovery, implementation, tests, origin retrieval and artifact publication must be performed by you inside this Shurik loop. Never read or reuse falafel code, artifacts or history. Leave supervisor/workflows, .shurik settings, ownership, dispatch, native journal bookkeeping and atomic work/control commits unchanged.
 
@@ -12,9 +12,23 @@ and its magazine archive directory. Locate and traverse every available magazine
 
 The old NAUKA_STATUS.md saying "60/60" means only the completed 1934-1939 subset. It does NOT mean this new all-years assignment is complete.
 
+## Four-hour continuation: resume useful retrieval immediately
+
+At the preceding final saved boundary, work 15b89ae8ecc6c86aeb2570dfcb354b1baba3b154, 875 regular scan files were retrieved and published, totaling 9,777,993,649 bytes. All 875 immutable scan manifests match saved scan-layer hashes/sizes, and saved full-file pull hashes match. Preserve these results; do not redownload or re-audit them.
+
+The archive-listed inventory is already complete: 87 listed years, 941 issue entries, 1,112 regular files and 5 supplementary archives. Of these, 237 regular files and all 5 supplementary archives remain; 187 issue entries have no published copy and 36 have some formats still missing. No complete-but-unpublished files were recorded. This is the continuation baseline, not a new stopping condition.
+
+The master and resume indexes already exist:
+- nij-master-index @ sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1
+- nij-master-checkpoint @ sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805
+
+Resume the five saved partials first where practical: nij-1949-n06-djv, nij-2010-n10-pdf, nij-1949-n06-pdf, nij-1949-n07-djv and nij-1971-n02-djv. Their GHCR chunk checkpoints contain 92,274,688 durable bytes (88 MiB), with per-chunk hashes in saved state. Restore and hash-validate the needed existing chunks before continuing. Selected control prefixes are fallback subsets, not the full durable partial total.
+
+Acknowledge the authorized four-hour continuation and current supervisor deadline in the first reply and refresh the compact assignment record. Then promptly run bounded foreground retrieval/publication batches and keep the master/resume indexes accurate. Do not repeat completed inventory discovery, boot audits, broad history reads, disposable speed probes or fixture/test cycles without a concrete new failure. Ordinary checkpoints should be followed by more retrieval while time and work remain.
+
 ## Preserve verified results and resume data
 
-The existing 60 original files are fully published in ghcr.io/igor-makarov/shurik-nauka, totaling 2,311,630,290 bytes. Their immutable manifests and scan layer hashes/sizes have been independently checked, and saved worker full-pull SHA-256 receipts match all 60. Preserve all existing file IDs, publication references, original filenames and valid resume state. Do not redownload or repeatedly pull all 60 files.
+The preserved original 1934-1939 subset consists of 60 files, fully published in ghcr.io/igor-makarov/shurik-nauka, totaling 2,311,630,290 bytes. Their immutable manifests and scan layer hashes/sizes have been independently checked, and saved worker full-pull SHA-256 receipts match all 60. Preserve all existing file IDs, publication references, original filenames and valid resume state. Do not redownload or repeatedly pull all 60 files.
 
 Baseline work commit: af65e939ed127760c1df8c7b4bdca754a3a2a78c.
 Existing 1934-1939 collection: sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d.
@@ -29,7 +43,7 @@ ghcr.io/igor-makarov/shurik-nauka:nij-master-index
 Suggested all-years resume index:
 ghcr.io/igor-makarov/shurik-nauka:nij-master-checkpoint
 
-Implement and publish the master index early in this first expanded iteration, before bulk retrieval dominates the session. Do not wait until every scan is downloaded. It may begin as an explicitly provisional index while year-page discovery continues; never label it complete while magazine catalog pages remain unvisited. Continue expanding it until all archive-listed years/issues are inventoried.
+The all-years master is already published and the archive-listed inventory is complete. Keep it current as remaining originals and supplementary archives publish. Revisit catalog discovery only for a concrete missing-page or inventory error; do not restart the completed discovery pass.
 
 The master index must let a reader find all discovered issues by year and issue number, including combined/special issues, with available file variants, source page/URL and original filename, truthful retrieval status, known sizes and SHA-256 hashes, and immutable per-file GHCR references for published originals. Include magazine/year coverage, source pages visited/pending/failed, discovery completeness, available issue and file totals, published/remaining totals, and generation/update metadata. Distinguish issues from files and known archive gaps from discovery failures. Do not invent absent months or downloadable scans.
 
@@ -37,14 +51,12 @@ Use JSON as the machine-readable entry point; include a readable catalog if usef
 
 After publication, fetch the master JSON artifact back by immutable digest and verify its bytes/hash and representative entries, including old published files and newly discovered years. Record the tag, immutable digest, counts, discovery-complete/provisional status and verification receipt in compact task status. The operator must be able to verify the index without pulling large scan blobs.
 
-## First iteration and continued useful work
+## Continued useful work
 
-1. Read this revised assignment and compact saved task state. Explicitly acknowledge the scope change in your first reply. Record a small durable assignment/progress record under data/nauka/state showing scope "all-years", the new deadline, master tag, preserved 60-file baseline and discovery progress. Avoid rereading the full old history or doing general repository audits.
-2. Adapt task discovery/merge and completion logic to all years. Use targeted fixtures for new catalog parsing, repeated links, preserving the existing published records and master-index status if those paths change; existing cancellation/cold-resume fixtures have already passed. Do not repeatedly rerun or redesign unrelated fixtures.
-3. Publish the truthful provisional master promptly, then complete the year/issue inventory and update it. Do real durable work on catalog discovery, master publication and new scan retrieval, not disposable speed probes or a renamed old 60-file index.
-4. Retrieve newly inventoried scans in bounded foreground batches, promptly publishing complete files and prioritizing nearly complete partials. Continue retrieval/publication after ordinary checkpoints. The full expanded discovery backlog remains in scope even when a batch focuses on selected files.
-5. Keep compact status and small batch records: years/pages/issues/files discovered, discovery completeness, total and newly published files/bytes beyond the 60-file baseline, verified durable partial bytes, immutable master/checkpoint receipts, discarded transfer bytes if known, and concrete blockers/next actions. Refresh the master when catalog or durable publication progress changes.
-6. If several batches save no new inventory, verified bytes or publication while work remains, diagnose the actual task blocker instead of repeating the same no-op command, audits or benchmarks. Respect origin cooldowns and save precise retry/resume evidence. Do not confuse a flat published count with a lack of useful durable partial progress.
+1. Read this continuation assignment and compact saved task state. Record scope "all-years", the current supervisor deadline, master tag and 875-file continuation baseline; acknowledge the continuation in your first reply.
+2. Restore valid saved partial chunks, then retrieve remaining regular files and supplementary archives in bounded foreground batches. Publish complete originals promptly and retain hash-validated resume receipts.
+3. Keep small batch/status records of newly published files/bytes, remaining issue/file variants, durable partial bytes, master/checkpoint immutable receipts and concrete blockers. Refresh the master when durable publication or resume progress changes.
+4. If several batches save no verified bytes or publication while work remains, diagnose the concrete blocker rather than repeating no-op commands, audits or benchmarks. Respect origin cooldowns and preserve precise retry/resume evidence. Flat publication counts alone do not mean no useful durable partial progress.
 
 ## Retrieval and persistence constraints
 
