@@ -29,15 +29,17 @@
  "image_count": 0,
  "images": [
   {
+   "alt_sources": [
+    "http://hazfalafel.com:80/page/19"
+   ],
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "replay-probe"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -139,12 +141,63 @@
    "media_url": "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_500.png",
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
-   "variants": [
+   "url_forms": [
     "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_500.png"
+   ],
+   "variants": [
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_500.png",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_1280.png",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_1024.png",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_540.png",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_400.png",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_250.png",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_100.png",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1.gif",
+    "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1.jpg"
+   ]
+  },
+  {
+   "base_key": "tumblr_lxa9awy16V1r0lm3p.jpg",
+   "caption_alt": "",
+   "found_in": "listing:img",
+   "media_key": "tumblr_lxa9awy16V1r0lm3p.jpg",
+   "media_url": "http://media.tumblr.com/tumblr_lxa9awy16V1r0lm3p.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://media.tumblr.com/tumblr_lxa9awy16V1r0lm3p.jpg"
+   ],
+   "variants": [
+    "http://media.tumblr.com/tumblr_lxa9awy16V1r0lm3p.jpg"
+   ]
+  },
+  {
+   "base_key": "tumblr_lxa9b3zLCi1r0lm3p.jpg",
+   "caption_alt": "",
+   "found_in": "listing:img",
+   "media_key": "tumblr_lxa9b3zLCi1r0lm3p.jpg",
+   "media_url": "http://media.tumblr.com/tumblr_lxa9b3zLCi1r0lm3p.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://media.tumblr.com/tumblr_lxa9b3zLCi1r0lm3p.jpg"
+   ],
+   "variants": [
+    "http://media.tumblr.com/tumblr_lxa9b3zLCi1r0lm3p.jpg"
    ]
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 1,
+ "listing_images_added": 2,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20120420232803",
+   "listing_url": "http://hazfalafel.com:80/page/19"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/15309438453"
+ ],
  "methods": [
   {
    "bytes": 49499,
@@ -157,18 +210,17 @@
    "url": "http://hazfalafel.com:80/post/15309438453"
   }
  ],
- "missing_image_count": 1,
+ "missing_image_count": 3,
  "missing_images": [
   {
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "replay-probe"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -261,6 +313,16 @@
    ],
    "media_url": "http://24.media.tumblr.com/tumblr_lxan2dofK31r3it8zo1_r1_500.png",
    "reason": "archive_gap"
+  },
+  {
+   "attempts": [],
+   "media_url": "http://media.tumblr.com/tumblr_lxa9awy16V1r0lm3p.jpg",
+   "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://media.tumblr.com/tumblr_lxa9b3zLCi1r0lm3p.jpg",
+   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/15309438453",

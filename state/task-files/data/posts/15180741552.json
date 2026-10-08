@@ -29,10 +29,13 @@
  "image_count": 0,
  "images": [
   {
+   "alt_sources": [
+    "http://hazfalafel.com:80/page/20"
+   ],
    "attempts": [
     {
      "earlier_endpoints": [
-      "variant-plan"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
      "n_earlier_attempts": 1,
@@ -138,12 +141,35 @@
    "media_url": "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_400.jpg",
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
-   "variants": [
+   "url_forms": [
     "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_400.jpg"
+   ],
+   "variants": [
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_400.jpg",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_1280.jpg",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_1024.jpg",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_540.jpg",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_500.jpg",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_250.jpg",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1_100.jpg",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1.png",
+    "http://28.media.tumblr.com/tumblr_lx69jdX8Bg1r3it8zo1.gif"
    ]
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 1,
+ "listing_images_added": 0,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20120420232813",
+   "listing_url": "http://hazfalafel.com:80/page/20"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/15180741552"
+ ],
  "methods": [
   {
    "bytes": 49996,
@@ -162,7 +188,7 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "variant-plan"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
      "n_earlier_attempts": 1,

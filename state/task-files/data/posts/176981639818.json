@@ -23,7 +23,43 @@
  "failure_count": 1,
  "fetched_at": "2026-10-06T19:08:17Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": "tumblr_pdg0oyRsM11r3it8zo1.png",
+   "caption_alt": "מי היה מאמין שאי פעם יהיה פוסט שיכלול גם את יאיר לפיד וגם את Full Metal Alchemist",
+   "found_in": "listing:img",
+   "media_key": "tumblr_pdg0oyRsM11r3it8zo1_500.png",
+   "media_url": "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_500.png",
+   "state": "unresolved",
+   "url_forms": [
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_500.png"
+   ],
+   "variants": [
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_500.png",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_1280.png",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_1024.png",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_540.png",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_400.png",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_250.png",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_100.png",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1.gif",
+    "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1.jpg"
+   ]
+  }
+ ],
+ "listing_evidence": 1,
+ "listing_forms_merged": 0,
+ "listing_images_added": 1,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20190911114856",
+   "listing_url": "http://hazfalafel.com:80/page/3"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/176981639818"
+ ],
  "methods": [
   {
    "bytes": 4608,
@@ -46,14 +82,20 @@
    "url": "https://hazfalafel.com/post/176981639818"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "https://66.media.tumblr.com/f4a2b4cb30fef06d73f5af39a85110ea/tumblr_pdg0oyRsM11r3it8zo1_500.png",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/176981639818",
- "partial": false,
+ "partial": true,
  "post_id": "176981639818",
  "reason": "snapshot_exists",
  "refetched_captures": [],
  "snapshot_retries": 1,
- "state": "failed",
+ "state": "partial",
  "tags": []
 }

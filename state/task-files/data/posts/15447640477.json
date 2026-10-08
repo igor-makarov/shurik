@@ -35,15 +35,17 @@
  "image_count": 0,
  "images": [
   {
+   "alt_sources": [
+    "http://hazfalafel.com:80/page/18"
+   ],
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "variant-budget"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -144,12 +146,35 @@
    "media_url": "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_500.jpg",
    "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
-   "variants": [
+   "url_forms": [
     "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_500.jpg"
+   ],
+   "variants": [
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_500.jpg",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_1280.jpg",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_1024.jpg",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_540.jpg",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_400.jpg",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_250.jpg",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1_100.jpg",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1.png",
+    "http://29.media.tumblr.com/tumblr_lxaqnthu131r3it8zo1_r1.gif"
    ]
   }
  ],
  "images_done": true,
+ "listing_evidence": 1,
+ "listing_forms_merged": 1,
+ "listing_images_added": 0,
+ "listing_sources": [
+  {
+   "capture_timestamp": "20120420232749",
+   "listing_url": "http://hazfalafel.com:80/page/18"
+  }
+ ],
+ "listing_urls": [
+  "http://hazfalafel.com/post/15447640477"
+ ],
  "methods": [
   {
    "bytes": 53130,
@@ -168,12 +193,11 @@
    "attempts": [
     {
      "earlier_endpoints": [
-      "attempt-log",
-      "variant-budget"
+      "attempt-log"
      ],
      "endpoint": "attempt-log",
-     "n_earlier_attempts": 2,
-     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
