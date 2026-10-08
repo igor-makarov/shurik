@@ -5,16 +5,70 @@
  "content_html": "",
  "content_text": "",
  "failure_count": 0,
- "image_count": 0,
+ "fetched_at": "2026-10-08T21:39:13Z",
+ "image_count": 1,
  "images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_1280.jpg",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_1024.jpg",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_540.jpg",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_400.jpg",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_250.jpg",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_100.jpg",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1.png",
+      "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1",
+     "url": "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 52874,
+     "capture_timestamp": "20181225182156",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "4ccb58712fcfe2d85f0ff17821335042a523ada21eca3e95f3d5acb48dd17622",
+     "status": 200,
+     "url": "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_pjkn2dbr991r3it8zo1.jpg",
+   "blob_path": "data/blobs/4c/4ccb58712fcfe2d85f0ff17821335042a523ada21eca3e95f3d5acb48dd17622",
+   "bytes": 52874,
+   "caption": "עוד בכותרת: אנג'לינה ג'ולי ואני חיים על אותו כוכב לכת.",
    "caption_alt": "עוד בכותרת: אנג'לינה ג'ולי ואני חיים על אותו כוכב לכת.",
+   "capture": {
+    "archive_digest": "ODZLELJNZAGQIZYWZ2E4JN4I257TQDJR",
+    "original": "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181225182156id_/https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg",
+    "timestamp": "20181225182156"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_pjkn2dbr991r3it8zo1_500.jpg",
    "found_in": "listing:img",
    "media_key": "tumblr_pjkn2dbr991r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20181225182156 of https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg (52874 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "4ccb58712fcfe2d85f0ff17821335042a523ada21eca3e95f3d5acb48dd17622",
+   "state": "recovered",
    "url_forms": [
     "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg"
    ],
@@ -31,6 +85,7 @@
    ]
   }
  ],
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -43,19 +98,25 @@
  "listing_urls": [
   "http://hazfalafel.com/post/181014648708"
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "https://66.media.tumblr.com/ade4d37e54d9f3d042be5e82447cb212/tumblr_pjkn2dbr991r3it8zo1_500.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/181014648708",
- "partial": true,
+ "partial": false,
  "post_id": "181014648708",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-08T21:39:29Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:95fb6374286e7080583e8c6afabbb98ab3f14cf3d7855eadcde885fb74606952",
+  "missing_count": 0,
+  "quality": [
+   1,
+   0,
+   0
+  ]
+ },
  "refetched_captures": [],
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": []
 }
