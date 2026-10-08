@@ -118,6 +118,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg]",
+   "expected": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "observed": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20170107150905",
    "observed": "20170107150905",
@@ -136,8 +142,8 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
+ "checks_passed": 21,
+ "checks_total": 21,
  "config_digest": "sha256:689fcf145d923756eed643e0e8a7685385176fb6f10744a3623891404989f51a",
  "failed_checks": [],
  "images_verified": 2,
@@ -203,5 +209,5 @@
   }
  ],
  "tag": "70476601245",
- "verified_at": "2026-10-05T17:31:32Z"
+ "verified_at": "2026-10-08T22:22:00Z"
 }

@@ -1,0 +1,178 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:6acab3a39e6f18e1a066fedce42ba14b72b1018c5359fa07b900fd5c6b564219",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": 76505,
+   "observed": 76505,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "observed": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<206 chars>",
+   "observed": "<206 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אוסטין-פאוורס",
+    "שגב-משה",
+    "שרה-נתניהו",
+    "ביבי-נתניהו",
+    "ביבי"
+   ],
+   "observed": [
+    "אוסטין-פאוורס",
+    "שגב-משה",
+    "שרה-נתניהו",
+    "ביבי-נתניהו",
+    "ביבי"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף"
+   ],
+   "observed": [
+    "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173666327993",
+   "observed": "https://hazfalafel.com/post/173666327993",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "observed": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120425",
+   "observed": "20180721120425",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120425id_/https://78.media.tumblr.com/85e540104caf933e6d497197d11ec9ac/tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120425id_/https://78.media.tumblr.com/85e540104caf933e6d497197d11ec9ac/tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120425",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:d0c8277374539d9d9d83235d864cc80c40ea7ae381e08a0df25f0bdd6e22bc92",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-07-28T17:39:50Z",
+  "org.opencontainers.image.description": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173666327993",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173666327993",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "51",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173666327993",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "אוסטין-פאוורס,שגב-משה,שרה-נתניהו,ביבי-נתניהו,ביבי"
+ },
+ "layers": [
+  {
+   "digest": "sha256:656d9901af315d87b54c0258bb4af1b1494ff3b4db1e320f7f815d0937d6606f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 76154
+  },
+  {
+   "digest": "sha256:49f600681eb437183234a9440f29140b703a74cc0b89c59574a9634fb92632c6",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1236
+  }
+ ],
+ "manifest_digest": "sha256:6acab3a39e6f18e1a066fedce42ba14b72b1018c5359fa07b900fd5c6b564219",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173666327993",
+ "pulled_files": [
+  {
+   "bytes": 76505,
+   "file": "tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:656d9901af315d87b54c0258bb4af1b1494ff3b4db1e320f7f815d0937d6606f",
+   "role": "media",
+   "sha256": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531"
+  },
+  {
+   "bytes": 3899,
+   "file": "post.json",
+   "layer": "sha256:49f600681eb437183234a9440f29140b703a74cc0b89c59574a9634fb92632c6",
+   "role": "post-metadata",
+   "sha256": "8875354938448a8c9ecfcce0c2c4fc57e5db6d77b96b09a9277327beb820807a"
+  }
+ ],
+ "tag": "173666327993",
+ "verified_at": "2026-10-08T22:21:56Z"
+}

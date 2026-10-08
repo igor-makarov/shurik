@@ -1,0 +1,170 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:63e49d535e1e170ee65b3d1268c941c2eb508e6c0d9ed115bd6e61f5f506b571",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8kw3wSY7R1r3it8zo1_500.jpg]",
+   "expected": "a203ef02c26383bb35c323ec99284a6367e7c4f1cfb5a34dc018b97dcf436da9",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8kw3wSY7R1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8kw3wSY7R1r3it8zo1_500.jpg]",
+   "expected": 89375,
+   "observed": 89375,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8kw3wSY7R1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
+   "observed": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<380 chars>",
+   "observed": "<380 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ובכן-יונית"
+   ],
+   "observed": [
+    "ובכן-יונית"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html"
+   ],
+   "observed": [
+    "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173804792543",
+   "observed": "https://hazfalafel.com/post/173804792543",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8kw3wSY7R1r3it8zo1_500.jpg]",
+   "expected": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
+   "observed": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120435",
+   "observed": "20180721120435",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120435id_/https://78.media.tumblr.com/fa806638d007ddab3475174810f4c77d/tumblr_p8kw3wSY7R1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120435id_/https://78.media.tumblr.com/fa806638d007ddab3475174810f4c77d/tumblr_p8kw3wSY7R1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120435",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:18bfaa47d5fdbf790464b9611f80099d00eeb05d1b42456bf35c7135832392e0",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T09:36:54Z",
+  "org.opencontainers.image.description": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173804792543",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173804792543",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "56",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173804792543",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "ובכן-יונית"
+ },
+ "layers": [
+  {
+   "digest": "sha256:9b7fe8e7b901317a551a0ce4bf64e37c2d3a2fcbfaf07ca18f4793da1ad35171",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 88650
+  },
+  {
+   "digest": "sha256:2fc5721376891df8076b5cee1576eae380914519e81b64fac2c4a36b2487e2e5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1330
+  }
+ ],
+ "manifest_digest": "sha256:63e49d535e1e170ee65b3d1268c941c2eb508e6c0d9ed115bd6e61f5f506b571",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173804792543",
+ "pulled_files": [
+  {
+   "bytes": 89375,
+   "file": "tumblr_p8kw3wSY7R1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:9b7fe8e7b901317a551a0ce4bf64e37c2d3a2fcbfaf07ca18f4793da1ad35171",
+   "role": "media",
+   "sha256": "a203ef02c26383bb35c323ec99284a6367e7c4f1cfb5a34dc018b97dcf436da9"
+  },
+  {
+   "bytes": 4120,
+   "file": "post.json",
+   "layer": "sha256:2fc5721376891df8076b5cee1576eae380914519e81b64fac2c4a36b2487e2e5",
+   "role": "post-metadata",
+   "sha256": "5b74e7e92ee6ee282359345b35ad2a3979accce5c57b2a96dd71867920089f03"
+  }
+ ],
+ "tag": "173804792543",
+ "verified_at": "2026-10-08T22:21:56Z"
+}
