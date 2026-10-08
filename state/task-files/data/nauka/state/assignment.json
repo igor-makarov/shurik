@@ -1,10 +1,10 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-36",
-  "at": "2026-10-08T12:28:00.545Z",
-  "deadline": "2026-10-08T14:45:32.395Z",
-  "deadlineLocal": "2026-10-08 17:45 Asia/Jerusalem",
+  "iteration": "5-37",
+  "at": "2026-10-08T13:04:59.599Z",
+  "deadline": "2026-10-08T18:00:00.000Z",
+  "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
   "masterIndexTag": "nij-master-index",
   "masterCatalogTag": "nij-master-catalog",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 918,
-  "publishedBytesNow": 11037216127,
-  "remainingFilesNow": 194,
-  "masterIndexDigestNow": "sha256:3b0c15550cc9559cc5479931e93b436315c496fabf114b6b3e1fc2d7574c3cf2",
+  "publishedFilesNow": 935,
+  "publishedBytesNow": 11659453893,
+  "remainingFilesNow": 177,
+  "masterIndexDigestNow": "sha256:0f6fe7a6f6ffa9b75a0c624db85d56b6a7e83ece4066e39f2bdf0bfc47ff7ebf",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -80,10 +80,10 @@
     "Iteration 5-36: batches 81-82 published 17 fresh files (918->935), +622,237,766 origin bytes; durable partials 119,537,664 B in 6 files. Master index republished and verified by immutable pull (sha256:0f6fe7a6..., 1470667 B, status complete, 0 mismatches, 1112 files/941 issues/87 years). Remaining 177 files + 5 supplementary archives."
   ],
   "masterIndexVerifiedAt": "2026-10-08T12:55:26.819Z",
-  "verifiedPartialBytesNow": 123731968,
+  "verifiedPartialBytesNow": 119537664,
   "continuation": {
     "authorized": true,
-    "note": "Iteration 5-36 acknowledges the user-authorized four-hour continuation (\"Run 4 hours more\"); supervisor deadline 2026-10-08T14:45:32.395Z is authoritative. Scope all-years. Continuation baseline 875 files / 9,777,993,649 B; now 918 files / 11,037,216,127 B; 194 regular files + 5 supplementary archives remain; 123,731,968 durable partial bytes in 5 files.",
+    "note": "Iteration 5-37 acknowledges the user-authorized four-hour continuation (\"Run 4 hours more\") and the supervisor deadline-only extension to 2026-10-08T18:00:00.000Z. Scope all-years. Continuation baseline at work 15b89ae8: 875 files / 9,777,993,649 B. Current: 935 files / 11,659,453,893 B published; 177 regular files + 5 supplementary archives remain; 119,537,664 durable partial bytes in 6 files.",
     "baselineWorkCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
@@ -92,7 +92,8 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
     "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
-    "iteration": "5-36",
-    "acknowledgedAt": "2026-10-08T12:28:00.545Z"
-  }
+    "iteration": "5-37",
+    "acknowledgedAt": "2026-10-08T13:04:59.599Z"
+  },
+  "deadlineNote": "Supervisor control.json deadline 2026-10-08T18:00:00.000Z (user-authorized 21:00 Asia/Jerusalem extension) is authoritative and replaces the expired 2026-10-08T14:45:32.395Z deadline."
 }
