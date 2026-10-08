@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-preservation-check",
-  "iteration": "4-25",
-  "at": "2026-10-08T03:36:52.406Z",
+  "iteration": "4-28",
+  "at": "2026-10-08T05:14:00.000Z",
   "checks": [
     {
       "tag": "nij-1934-39-index",
@@ -17,10 +17,11 @@
     },
     {
       "tag": "nij-master-index",
-      "resolvedDigest": "sha256:960429045126a2a9ac559a538af66dd39654bcaa1a50869bafba31a67917021c",
-      "expectedDigest": "sha256:960429045126a2a9ac559a538af66dd39654bcaa1a50869bafba31a67917021c",
+      "resolvedDigest": "sha256:58e10ce7d3533ab737c4ff0917fc0f4ce3bb6883c49cf2e9d1644db054020f4d",
+      "expectedDigest": "sha256:58e10ce7d3533ab737c4ff0917fc0f4ce3bb6883c49cf2e9d1644db054020f4d",
       "ok": true
     }
   ],
-  "allOk": true
+  "allOk": true,
+  "note": "Legacy 60-file subset index/checkpoint untouched and byte-identical; master index resolves to the freshly verified digest."
 }

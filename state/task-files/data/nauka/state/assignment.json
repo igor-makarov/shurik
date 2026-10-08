@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "4-27",
-  "at": "2026-10-08T04:42:00.000Z",
+  "iteration": "4-28",
+  "at": "2026-10-08T05:12:00.000Z",
   "deadline": "2026-10-08T07:00:00.000Z",
   "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 767,
-  "publishedBytesNow": 7943376605,
-  "remainingFilesNow": 345,
-  "masterIndexDigestNow": "sha256:129c933265ec8ffb231a3ebf682607e925ca8b0de4c23ee8d058dcbfbd7c0261",
+  "publishedFilesNow": 791,
+  "publishedBytesNow": 8266891943,
+  "remainingFilesNow": 321,
+  "masterIndexDigestNow": "sha256:58e10ce7d3533ab737c4ff0917fc0f4ce3bb6883c49cf2e9d1644db054020f4d",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,10 +41,27 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 345,
-    "publishedFiles": 767,
-    "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented.",
-    "inProgressFiles": 3
+    "pendingFiles": 321,
+    "publishedFiles": 791,
+    "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
+    "inProgressFiles": 5,
+    "knownGapYears": [
+      1891,
+      1892,
+      2016,
+      2017,
+      2018,
+      2019,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029
+    ]
   },
   "totals": {
     "years": 87,
@@ -63,8 +80,9 @@
     "Iteration 4-25: batches 48-50 published 38 fresh files (658->696), +424,558,773 durable bytes; master index refreshed and re-verified by immutable digest (96042904, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files).",
     "Iteration 4-25: batches 48-51 published 43 fresh files (658->701), +481,719,294 durable bytes; master index refreshed and re-verified by immutable digest (ba29cda4, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files).",
     "Iteration 4-26: batches 52-55 published 39 fresh files (701->740), +466,806,593 durable bytes; master index refreshed and re-verified by immutable digest (67e98d9b, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files).",
-    "Iteration 4-27: batches 56-58 published 27 fresh files (740->767), +344,740,440 durable origin bytes; master index refreshed and re-verified by immutable digest (129c9332, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files)."
+    "Iteration 4-27: batches 56-58 published 27 fresh files (740->767), +344,740,440 durable origin bytes; master index refreshed and re-verified by immutable digest (129c9332, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files).",
+    "Iteration 4-28: batches 59-60 published 24 fresh files (767->791), +323,515,338 durable origin bytes; master index refreshed and re-verified by immutable digest (58e10ce7, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files). Bounded concurrency raised to 48/6 then 64/8 (aggregate still <=512 KiB/s) for ~1.5x throughput."
   ],
-  "masterIndexVerifiedAt": "2026-10-08T04:41:12.819Z",
-  "verifiedPartialBytesNow": 16777216
+  "masterIndexVerifiedAt": "2026-10-08T05:11:21.904Z",
+  "verifiedPartialBytesNow": 35651584
 }

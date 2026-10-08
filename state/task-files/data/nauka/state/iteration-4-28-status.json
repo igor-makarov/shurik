@@ -1,0 +1,78 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "4-28",
+  "at": "2026-10-08T05:14:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "discovery": {
+    "status": "complete",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "eraPages": "12/12",
+    "directoryVisited": true,
+    "knownGapYears": [
+      1891,
+      1892,
+      2016,
+      2017,
+      2018,
+      2019,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029
+    ]
+  },
+  "publication": {
+    "publishedFiles": 791,
+    "publishedIssues": 650,
+    "remainingFiles": 321,
+    "publishedBytes": 8266891943,
+    "newBeyond60BaselineFiles": 731,
+    "newBeyond60BaselineBytes": 5955261653,
+    "verifiedPartialBytes": 35651584,
+    "durablePartialFiles": 5
+  },
+  "baseline60": {
+    "files": 60,
+    "bytes": 2311630290,
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "preserved": true
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:58e10ce7d3533ab737c4ff0917fc0f4ce3bb6883c49cf2e9d1644db054020f4d",
+    "bytes": 1420080,
+    "status": "complete",
+    "verified": true,
+    "verifiedAt": "2026-10-08T05:11:21.904Z",
+    "mismatches": 0,
+    "checkpointDigest": "sha256:5a1dd1d6dee5c021e23e410ed976dc5615a67b0b468bc7caf732ce91ae177a2b",
+    "catalogDigest": "sha256:4daa5bd46198948fd859d409658364832a11cc238a0095fa3e9290e5ac8bc419"
+  },
+  "batchesThisIteration": [
+    {
+      "batch": 59,
+      "published": 14,
+      "bytes": 185819207
+    },
+    {
+      "batch": 60,
+      "published": 10,
+      "bytes": 137696131
+    }
+  ],
+  "totalsThisIteration": {
+    "published": 24,
+    "bytes": 323515338
+  },
+  "tests": "30/30 nauka tests pass",
+  "blockers": [],
+  "nextAction": "Continue bounded retrieve batches; remaining 321 files."
+}
