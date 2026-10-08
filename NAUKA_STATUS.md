@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-08T18:25:43.239Z
+Updated: 2026-10-08T18:27:09.324Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
@@ -113,9 +113,9 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
 
 ## Master index
-- canonical tag: `nij-master-index` @ `sha256:3eb54ce25eb890c68ea934a87f1025bbfb9205f215a7c3037696e33b1636dc11`
-- catalog tag: `nij-master-catalog` @ `sha256:dd4ba006681d710c1820047e2cdde5f9d523212142d28fd21e8c4396ef9065f2`
-- checkpoint tag: `nij-master-checkpoint` @ `sha256:ad901837e3a4e0ae9a89a62a9cb02de268df97e48b9291529d92049907033fc2`
+- canonical tag: `nij-master-index` @ `sha256:3968fd2cb928605ebc5113309a05d485826a8c3a8f6091a5a23cff1c7c406480`
+- catalog tag: `nij-master-catalog` @ `sha256:2edad3a735ee5ac84c9b9b255a2a9015fdab3e7bfd397db0ce77ec94151247ae`
+- checkpoint tag: `nij-master-checkpoint` @ `sha256:3694dede0d9eb74151c5124a89a4c9026b15109b77c8f05ac5c1aa96da63a526`
 - discovery status: complete; files 1112, published 1018, issues 941
 
 ## Registry
@@ -1225,7 +1225,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1970-n05-pdf: pending 0/? B (no error)
 - nij-1970-n07-djv: pending 0/? B (no error)
 - nij-1970-n07-pdf: pending 0/? B (no error)
-- nij-1974-n01-pdf: in_progress 12582912/53649767 B (no error)
+- nij-1974-n01-pdf: in_progress 12582912/53649767 B (aborted)
 - nij-1974-n02-pdf: pending 0/? B (no error)
 - nij-2008-n12-pdf: pending 0/? B (no error)
 - nij-2009-n03-pdf: pending 0/? B (no error)
@@ -1249,14 +1249,14 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-08T18:24:39.117Z -> reachable
+- last probe: 2026-10-08T18:26:23.007Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 20261008T175623-batch103.json: pub 1014->1014, durable +0 B, failure: none
 - 20261008T181543-batch104.json: pub 1014->1018, durable +212659816 B, failure: none
 - 20261008T182047-batch105.json: pub 1018->1018, durable +0 B, failure: none
 - 20261008T182407-batch106.json: pub 1018->1018, durable +0 B, failure: none
+- 20261008T182550-batch107.json: pub 1018->1018, durable +0 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
