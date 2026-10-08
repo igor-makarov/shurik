@@ -1,0 +1,63 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 48,
+  "iteration": "4-25",
+  "startedAt": "2026-10-08T03:19:05.033Z",
+  "elapsedMs": 398708,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 420000,
+    "cleanupMs": 80000,
+    "concurrency": 32,
+    "fileConcurrency": 4,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "First bounded batch of iteration 4-25 (all-years). Smallest-first retrieval; master index refreshed in finally.",
+  "publishedBefore": 658,
+  "publishedAfter": 675,
+  "remainingBefore": 454,
+  "remainingAfter": 437,
+  "publishedBytesAfter": 6837707612,
+  "verifiedPartialBytesBefore": 16777216,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 187597334,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1942-n06-pdf",
+    "nij-1945-n01-pdf",
+    "nij-1948-n01-djv",
+    "nij-1954-n12-pdf",
+    "nij-1963-n02-djv",
+    "nij-1975-n07-djv",
+    "nij-1975-n11-djv",
+    "nij-1977-n06-djv",
+    "nij-1977-n10-djv",
+    "nij-1979-n01-djv",
+    "nij-1982-n01-djv",
+    "nij-1982-n06-djv",
+    "nij-1996-n07-djv",
+    "nij-1996-n11-djv",
+    "nij-2007-n09-djv",
+    "nij-2008-n09-djv",
+    "nij-2010-n08-pdf"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:f967f9600229ca2fa7f909b05f3482d4dfdeb4580b0f183328ea0b4c8cdc8165",
+      "bytes": 1379294,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:5ef19560f4d829c33f94539291c7cf6cadf37cc16629f8f2332c9e0cc41d23a2"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:3185b2115856a6f79bcdc2796c41ef1a2b0dcc1a4ac44f165f7fb410eaa75e79"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 437 files."
+}
