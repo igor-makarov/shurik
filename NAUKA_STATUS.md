@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-08T21:25:21.630Z
+Updated: 2026-10-08T21:28:38.601Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
@@ -113,9 +113,9 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
 
 ## Master index
-- canonical tag: `nij-master-index` @ `sha256:5f5626e24384a67628f749b8b831d6770e945a48c8fa9b449d78dc043c76a967`
-- catalog tag: `nij-master-catalog` @ `sha256:560de925ad198651246d7e5c40bc1235ad3eac352c075b43eae74c4502d25b2e`
-- checkpoint tag: `nij-master-checkpoint` @ `sha256:9b02f50cd029d7f29fb3f0066ab3b6708e114cbcfa2c6f77ccd58b426f802666`
+- canonical tag: `nij-master-index` @ `sha256:a3afbe9dfa9ffcd71188b5ddc31411cf02f286d17c07e2390fd54904a19164c7`
+- catalog tag: `nij-master-catalog` @ `sha256:ce816c43a486286702070d1ba20079597419b559248d976150e162478cc94adb`
+- checkpoint tag: `nij-master-checkpoint` @ `sha256:54e20ee944d1cbcc9b556155d5a2f33ad0f640d65cc16afdcce1e5ea01860676`
 - discovery status: complete; files 1112, published 1061, issues 941
 
 ## Registry
@@ -1249,14 +1249,14 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-08T21:22:25.433Z -> reachable
+- last probe: 2026-10-08T21:27:32.278Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 20261008T205544-batch120.json: pub 1053->1057, durable +254964823 B, failure: none
 - 20261008T205916-batch121.json: pub 1057->1057, durable +0 B, failure: none
 - 20261008T211434-batch122.json: pub 1057->1061, durable +260132604 B, failure: none
 - 20261008T212139-batch123.json: pub 1061->1061, durable +0 B, failure: none
+- 20261008T212526-batch124.json: pub 1061->1061, durable +0 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
@@ -1264,7 +1264,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
-- per-file in-flight chunk cap: 12 (fair pool sharing)
+- per-file in-flight chunk cap: 24 (fair pool sharing)
 
 ## Commands (list / pull / resume)
 ```bash
