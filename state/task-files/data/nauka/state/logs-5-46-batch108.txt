@@ -1,0 +1,13 @@
+2026-10-08T18:26:21.023Z oras login ok
+2026-10-08T18:26:23.035Z === pass 1 (budget 30000ms left) ===
+2026-10-08T18:26:23.039Z -- file nij-1968-n12-pdf (Pdf-51.0M) --
+2026-10-08T18:26:23.039Z -- file nij-1974-n01-pdf (Pdf-51.2M) --
+2026-10-08T18:26:23.039Z -- file nij-1954-n11-pdf (Pdf-51.2M) --
+2026-10-08T18:26:23.039Z -- file nij-1966-n09-pdf (Pdf-51.2M) --
+2026-10-08T18:26:53.035Z transfer budget elapsed; aborting in-flight requests
+2026-10-08T18:27:09.233Z pass 1 results: [{"id":"nij-1974-n01-pdf","status":"in_progress","received":12582912},{"id":"nij-1966-n09-pdf","status":"in_progress","received":25165824},{"id":"nij-1954-n11-pdf","status":"in_progress","received":25165824},{"id":"nij-1968-n12-pdf","status":"in_progress","received":31457280}]
+2026-10-08T18:27:09.234Z remaining files: 94
+2026-10-08T18:27:13.912Z published catalog nij-master-catalog -> sha256:1bff1bf8b33660cd8c9d780195f073773a86d937010601e971a0a3a57d0702f8
+2026-10-08T18:27:15.994Z published master index nij-master-index -> sha256:2e8d7963e0daa5c16156dc6341035c128ca9144a4f46cfe8617c567cfc850ae3 (1499759 B, status complete)
+2026-10-08T18:27:15.994Z published master checkpoint nij-master-checkpoint -> sha256:f0dc5a58953d2acc4b8befc12fe8abd57027425fc22a792a52eabc5500ecdb2f
+2026-10-08T18:27:15.994Z retrieve batch complete in 54970ms

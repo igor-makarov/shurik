@@ -2,7 +2,7 @@
   "kind": "shurik-nauka-iteration-status",
   "iteration": "5-46",
   "phase": "progress",
-  "at": "2026-10-08T18:26:06.312Z",
+  "at": "2026-10-08T18:27:30.191Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Supervisor control.json monitorCompletion (token nauka-user-until-complete-1791481729758, requestedAt 2026-10-08T17:48:51.903Z) removed the time deadline and authorized completion-driven continuation (1112 regular files + 5 supplementary archives). Supersedes the expired 2026-10-08T18:00:00.000Z deadline.",
@@ -26,11 +26,11 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:3968fd2cb928605ebc5113309a05d485826a8c3a8f6091a5a23cff1c7c406480",
+    "digest": "sha256:2e8d7963e0daa5c16156dc6341035c128ca9144a4f46cfe8617c567cfc850ae3",
     "bytes": 1499759,
-    "pulledFileSha256": "8f9ab8141828ef539df1a59e1791b43fb71723c8a78e3bd7e634a6ce0ec3093f",
-    "catalogDigest": "sha256:2edad3a735ee5ac84c9b9b255a2a9015fdab3e7bfd397db0ce77ec94151247ae",
-    "checkpointDigest": "sha256:3694dede0d9eb74151c5124a89a4c9026b15109b77c8f05ac5c1aa96da63a526",
+    "pulledFileSha256": "06a15b1afb0b5976b2fabe89b3ef57f35d8bf6479c7415fcc5c410fc2d677236",
+    "catalogDigest": "sha256:1bff1bf8b33660cd8c9d780195f073773a86d937010601e971a0a3a57d0702f8",
+    "checkpointDigest": "sha256:f0dc5a58953d2acc4b8befc12fe8abd57027425fc22a792a52eabc5500ecdb2f",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0
@@ -82,6 +82,18 @@
       "durablePartialBytesAdded": 6291456,
       "remainingAfter": 94,
       "note": "final short tail batch; durable GHCR chunk checkpoints; master index republished and verified"
+    },
+    {
+      "batch": 108,
+      "budgetMs": 30000,
+      "cleanupMs": 20000,
+      "elapsedMs": 55468,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "durablePartialBytesAdded": 0,
+      "remainingAfter": 94,
+      "note": "final micro batch; master index republished and verified"
     }
   ],
   "newPublishedThisIteration": 4,
@@ -109,5 +121,5 @@
     "Republish and verify the master index by immutable digest after batches."
   ],
   "blockers": [],
-  "masterIndexVerifiedAt": "2026-10-08T18:26:06.312Z"
+  "masterIndexVerifiedAt": "2026-10-08T18:27:30.191Z"
 }
