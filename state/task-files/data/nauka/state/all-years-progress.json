@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-29",
-  "at": "2026-10-08T05:46:41.443Z",
+  "iteration": "4-30",
+  "at": "2026-10-08T06:08:20.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -26,7 +26,6 @@
     "years": 87,
     "issues": 941,
     "totalFiles": 1112,
-    "totalIssues": 941,
     "knownGapYears": [
       1891,
       1892,
@@ -47,57 +46,66 @@
     "note": "Discovery complete; preserved from prior iterations, unchanged this iteration."
   },
   "publication": {
-    "publishedFiles": 824,
-    "publishedBytes": 8773388102,
-    "remainingFiles": 288,
+    "publishedFiles": 848,
+    "publishedIssues": 697,
+    "publishedBytes": 9200204047,
+    "remainingFiles": 264,
     "inProgressFiles": 4,
-    "inProgressDurableBytes": 41747899,
-    "pendingFiles": 284,
-    "verifiedPartialBytes": 16777216,
-    "controlBranchPrefixBytes": 16777216,
+    "verifiedPartialBytes": 33554432,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 764,
-    "newPublishedBytesBeyondBaseline": 6461757812
+    "newPublishedBeyondBaseline": 788,
+    "newPublishedBytesBeyondBaseline": 6888573757,
+    "newBeyond60BaselineFiles": 788,
+    "newBeyond60BaselineBytes": 6888573757
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:b5dab8026358ef14694a6c89337dce1aeebd9f2a713a5a9d154df938bc4d4071",
-    "bytes": 1431657,
-    "catalogDigest": "sha256:21d7cbb56a200a9c47939bd9aeb4c849cbb3bbd72882433288c678c95b4b6779",
-    "checkpointDigest": "sha256:5116cf84d4225b600af1ede3c28e7779a5e95b107fc5d8cf8064ad1f1ce92433",
+    "digest": "sha256:62bccd3b8f1cb875dd35ecd773634b93f2f036a76ffc92e72f779fa844778a18",
+    "bytes": 1440069,
+    "catalogDigest": "sha256:7a2a1086e99e96206d72bd1f81c046102a99c906af5fd76eee4947afe5d0f015",
+    "checkpointDigest": "sha256:a9aa4c3a06ee924a538b97b84776c0601c52dedf526a135faf6f3303a01f8b01",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T05:45:35.116Z",
+    "verifiedAt": "2026-10-08T06:12:15.799Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "batchesThisIteration": [
     {
-      "batch": 61,
-      "published": 20,
-      "durableNewBytes": 298665964,
-      "elapsedMs": 738224
+      "batch": 64,
+      "published": 11,
+      "durableNewBytes": 188423115,
+      "elapsedMs": 479626
     },
     {
-      "batch": 62,
-      "published": 12,
-      "durableNewBytes": 191227756,
-      "elapsedMs": 467598
+      "batch": 65,
+      "published": 8,
+      "durableNewBytes": 145710356,
+      "elapsedMs": 341740
     },
     {
-      "batch": 63,
-      "published": 1,
-      "durableNewBytes": 16602439,
-      "elapsedMs": 168696
+      "batch": 66,
+      "published": 5,
+      "durableNewBytes": 92682474,
+      "elapsedMs": 226627,
+      "bytes": 92682474,
+      "exitCode": 0
     }
   ],
-  "newPublishedThisIteration": 33,
-  "throughputNote": "Batches 61-62 at 48/6 measured ~405 and ~409 KiB/s (best observed); aggregate token bucket <=512 KiB/s; both exit 0, zero transfer failures.",
+  "newPublishedThisIteration": 24,
+  "newDurableBytesThisIteration": 426815945,
+  "throughputNote": "Batches 64-65 at 48/6; aggregate token bucket <=512 KiB/s; both exit 0, zero transfer failures.",
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 288 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 269 files.",
     "Refresh+re-verify master index by immutable digest after each batch."
-  ]
+  ],
+  "totalsThisIteration": {
+    "published": 24,
+    "bytes": 426815945,
+    "throughputNote": "48/6; aggregate <=512 KiB/s; zero origin failures"
+  },
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 264 files."
 }
