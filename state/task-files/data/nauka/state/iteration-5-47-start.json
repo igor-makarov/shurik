@@ -1,0 +1,67 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-47",
+  "phase": "start",
+  "at": "2026-10-08T18:35:00.000Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "User authorized a further FOUR HOURS on 2026-10-08; the supervisor's authoritative control is the completion-driven monitor (token nauka-user-until-complete-1791481729758), which removed the time deadline. I obey the supervisor's current control and do not extend anything myself.",
+  "acknowledgement": "Acknowledged: all-years scope; success = every one of the 1112 regular scan files plus the 5 supplementary archives published to ghcr.io/igor-makarov/shurik-nauka with a truthful all-years master index. All discovery/retrieval/publication is done inside this Shurik loop; no falafel code, artifacts or history used.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 1018,
+    "publishedBytes": 15713338332,
+    "remainingFiles": 94,
+    "pendingFiles": 89,
+    "inProgressFiles": 5,
+    "durableGhcrCheckpointBytes": 113246208,
+    "newPublishedBeyondBaseline": 143,
+    "newPublishedBytesBeyondBaseline": 5935344683
+  },
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "preserved": true
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:2e8d7963e0daa5c16156dc6341035c128ca9144a4f46cfe8617c567cfc850ae3",
+    "bytes": 1499759,
+    "catalogDigest": "sha256:1bff1bf8b33660cd8c9d780195f073773a86d937010601e971a0a3a57d0702f8",
+    "checkpointDigest": "sha256:f0dc5a58953d2acc4b8befc12fe8abd57027425fc22a792a52eabc5500ecdb2f",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0
+  },
+  "discovery": {
+    "status": "complete",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5,
+    "note": "Discovery complete; not restarted."
+  },
+  "inProgressIds": [
+    "nij-1968-n12-pdf",
+    "nij-1954-n11-pdf",
+    "nij-1964-n05-pdf",
+    "nij-1966-n09-pdf",
+    "nij-1974-n01-pdf"
+  ],
+  "nextActions": [
+    "Restore the 5 checkpointed in_progress partials from immutable GHCR digests and finish/publish them (no re-download).",
+    "Continue bounded smallest-first retrieve batches for the 89 pending regular files.",
+    "Publish the 5 supplementary archives once regular files complete.",
+    "Republish and verify the master index by immutable digest after batches."
+  ],
+  "blockers": []
+}

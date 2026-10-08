@@ -1,0 +1,51 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 109,
+  "iteration": "5-47",
+  "startedAt": "2026-10-08T18:36:30.448Z",
+  "elapsedMs": 602671,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 600000,
+    "cleanupMs": 90000,
+    "concurrency": 32,
+    "fileConcurrency": 6,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "5-47 batch 109: restore 5 in_progress from GHCR checkpoints; smallest-first continue",
+  "publishedBefore": 1018,
+  "publishedAfter": 1023,
+  "remainingBefore": 94,
+  "remainingAfter": 89,
+  "publishedBytesAfter": 15981572367,
+  "verifiedPartialBytesBefore": 16777216,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 268234035,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1954-n11-pdf",
+    "nij-1964-n05-pdf",
+    "nij-1966-n09-pdf",
+    "nij-1968-n12-pdf",
+    "nij-1974-n01-pdf"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:6d40d43ca8fb8041ca0713e482a7c41ad9af227cb387013386eea8e531ed36d5",
+      "bytes": 1501530,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:bd33be054a9e40bc325a52c7cb5bff7bb8eec34e73aecc51ec8fb7a281c5cce9"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:d50c6a128ec7296422b6951ecc0dcfdf09b6ac9182b929dcd4d0794e3f523973"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 89 files."
+}

@@ -1,0 +1,234 @@
+2026-10-08T18:36:30.554Z downloading oras 1.2.0 from release
+2026-10-08T18:36:30.998Z oras login ok
+2026-10-08T18:36:31.011Z restored chunk 0 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.012Z restored chunk 1 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.014Z restored chunk 2 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.015Z restored chunk 3 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.017Z restored chunk 4 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.018Z restored chunk 5 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.020Z restored chunk 6 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.021Z restored chunk 7 of nij-1968-n12-pdf from git partial
+2026-10-08T18:36:31.032Z restored chunk 0 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.033Z restored chunk 1 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.035Z restored chunk 2 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.036Z restored chunk 3 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.038Z restored chunk 4 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.039Z restored chunk 5 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.041Z restored chunk 6 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.042Z restored chunk 7 of nij-1954-n11-pdf from git partial
+2026-10-08T18:36:31.063Z restoring nij-1968-n12-pdf from GHCR checkpoint sha256:d23f0f3b3cd91f058dcab0385184157bac24f2c0a2bf40d6a9dab2e72a55b61e
+2026-10-08T18:36:32.104Z restoring nij-1954-n11-pdf from GHCR checkpoint sha256:bfdcf7d3f609661de2606e5199bfa33150beac5934f07fdd08d0d02837164d8b
+2026-10-08T18:36:32.970Z restoring nij-1964-n05-pdf from GHCR checkpoint sha256:db9e36781504cf4d30e120a71ba329c1d3e6e9be0b73e0e9962a920abf2989ab
+2026-10-08T18:36:33.642Z restoring nij-1966-n09-pdf from GHCR checkpoint sha256:456b685faafeeb8429765b15c6201ef947dd3c5cfae3f21aa92ac206e94123f8
+2026-10-08T18:36:34.400Z restoring nij-1974-n01-pdf from GHCR checkpoint sha256:494ba6212d6b9c5c541349d5715405f958c2fdb671dd54d7405fd463d206e846
+2026-10-08T18:36:35.548Z === pass 1 (budget 600000ms left) ===
+2026-10-08T18:36:35.552Z -- file nij-1968-n12-pdf (Pdf-51.0M) --
+2026-10-08T18:36:35.552Z -- file nij-1974-n01-pdf (Pdf-51.2M) --
+2026-10-08T18:36:35.552Z -- file nij-1954-n11-pdf (Pdf-51.2M) --
+2026-10-08T18:36:35.552Z -- file nij-1966-n09-pdf (Pdf-51.2M) --
+2026-10-08T18:36:35.552Z -- file nij-1964-n05-pdf (Pdf-51.2M) --
+2026-10-08T18:36:35.552Z -- file nij-1954-n07-pdf (Pdf-51.3M) --
+2026-10-08T18:40:06.905Z retry nij-1954-n07-pdf chunk 11 #1: body stream failed after 133980 bytes: aborted (wait 2000ms)
+2026-10-08T18:41:41.426Z publishing nij-1968-n12-pdf (53483803 bytes) as nij-1968-n12-pdf
+2026-10-08T18:41:44.934Z verified nij-1968-n12-pdf: 71aa35122b30930c07a9d501f8a780c9bbe73e4292ce2999fa0e415c804a79e5
+2026-10-08T18:41:44.934Z -- file nij-1954-n09-pdf (Pdf-51.3M) --
+2026-10-08T18:42:12.294Z publishing nij-1954-n11-pdf (53689182 bytes) as nij-1954-n11-pdf
+2026-10-08T18:42:15.813Z verified nij-1954-n11-pdf: 9ba23ac408d891e370c45abe2cdbd3184c7c9b90406e22d11160730f00b6a425
+2026-10-08T18:42:15.813Z -- file nij-1965-n04-pdf (Pdf-51.4M) --
+2026-10-08T18:42:22.302Z publishing nij-1966-n09-pdf (53691888 bytes) as nij-1966-n09-pdf
+2026-10-08T18:42:25.989Z verified nij-1966-n09-pdf: 47d1f5c5cf4583e835d3e0da0b5a6a6707455899da3663b50991850e4e054cd4
+2026-10-08T18:42:25.989Z -- file nij-1966-n03-pdf (Pdf-51.5M) --
+2026-10-08T18:43:02.303Z publishing nij-1964-n05-pdf (53719395 bytes) as nij-1964-n05-pdf
+2026-10-08T18:43:05.614Z verified nij-1964-n05-pdf: ed4cb33e07a32e5baf3ae6adcd46776f0e28b0f54f43464f8c777eac3fa05e22
+2026-10-08T18:43:05.614Z -- file nij-1965-n09-pdf (Pdf-51.6M) --
+2026-10-08T18:44:27.826Z publishing nij-1974-n01-pdf (53649767 bytes) as nij-1974-n01-pdf
+2026-10-08T18:44:31.282Z verified nij-1974-n01-pdf: 76f8356ff5af164f7bd36d96312d6c0c8b01bd679d01f5d7ece8f5c684b71941
+2026-10-08T18:44:31.282Z -- file nij-1954-n08-pdf (Pdf-51.8M) --
+2026-10-08T18:45:17.241Z -- file nij-1964-n04-pdf (Pdf-51.9M) --
+2026-10-08T18:45:17.241Z -- file nij-1965-n03-pdf (Pdf-51.9M) --
+2026-10-08T18:45:17.241Z -- file nij-1966-n11-pdf (Pdf-51.9M) --
+2026-10-08T18:45:17.241Z -- file nij-1965-n10-pdf (Pdf-52.1M) --
+2026-10-08T18:45:17.241Z -- file nij-1974-n02-pdf (Pdf-52.1M) --
+2026-10-08T18:45:17.241Z -- file nij-1966-n10-pdf (Pdf-52.4M) --
+2026-10-08T18:45:17.241Z -- file nij-1954-n10-pdf (Pdf-52.7M) --
+2026-10-08T18:45:17.241Z -- file nij-1965-n08-pdf (Pdf-52.8M) --
+2026-10-08T18:45:17.241Z -- file nij-1965-n12-pdf (Pdf-53.0M) --
+2026-10-08T18:45:17.241Z -- file nij-1966-n06-pdf (Pdf-53.5M) --
+2026-10-08T18:45:17.241Z -- file nij-1965-n11-pdf (Pdf-53.6M) --
+2026-10-08T18:45:17.241Z -- file nij-1965-n07-pdf (Pdf-53.7M) --
+2026-10-08T18:45:17.241Z -- file nij-1940-n02-pdf (Pdf-53.9M) --
+2026-10-08T18:45:17.241Z -- file nij-2009-n05-pdf (Pdf-54.1M) --
+2026-10-08T18:45:17.241Z -- file nij-1968-n01-pdf (Pdf-54.2M) --
+2026-10-08T18:45:17.241Z -- file nij-1966-n12-pdf (Pdf-55.1M) --
+2026-10-08T18:45:17.241Z -- file nij-1962-n06-pdf (Pdf-55.4M) --
+2026-10-08T18:45:17.241Z -- file nij-1965-n06-pdf (Pdf-55.5M) --
+2026-10-08T18:45:17.241Z -- file nij-1962-n10-pdf (Pdf-56.7M) --
+2026-10-08T18:45:17.241Z -- file nij-2009-n04-pdf (Pdf-57.2M) --
+2026-10-08T18:45:17.241Z -- file nij-1970-n07-djv (Djv-58.1M) --
+2026-10-08T18:45:17.241Z -- file nij-1964-n12-pdf (Pdf-58.4M) --
+2026-10-08T18:45:17.241Z -- file nij-1970-n03-pdf (Pdf-58.4M) --
+2026-10-08T18:45:17.241Z -- file nij-1967-n07-djv (Djv-59.9M) --
+2026-10-08T18:45:17.241Z -- file nij-1968-n08-pdf (Pdf-60.4M) --
+2026-10-08T18:45:17.241Z -- file nij-1956-n11-pdf (Pdf-60.5M) --
+2026-10-08T18:45:17.241Z -- file nij-1969-n01-pdf (Pdf-60.7M) --
+2026-10-08T18:45:17.241Z -- file nij-1940-n01-pdf (Pdf-61.5M) --
+2026-10-08T18:45:17.241Z -- file nij-1970-n07-pdf (Pdf-61.9M) --
+2026-10-08T18:45:17.241Z -- file nij-1940-n04-pdf (Pdf-62.0M) --
+2026-10-08T18:45:17.241Z -- file nij-1967-n07-pdf (Pdf-62.0M) --
+2026-10-08T18:45:17.241Z -- file nij-1956-n10-pdf (Pdf-62.1M) --
+2026-10-08T18:45:17.241Z -- file nij-1964-n01-pdf (Pdf-62.1M) --
+2026-10-08T18:45:17.241Z -- file nij-1970-n05-djv (Djv-63.9M) --
+2026-10-08T18:45:17.241Z -- file nij-1964-n10-pdf (Pdf-64.5M) --
+2026-10-08T18:45:17.241Z -- file nij-1940-n0809-pdf (Pdf-65.4M) --
+2026-10-08T18:45:17.241Z -- file nij-1963-n07-pdf (Pdf-65.6M) --
+2026-10-08T18:45:17.241Z -- file nij-1956-n12-pdf (Pdf-65.8M) --
+2026-10-08T18:45:17.241Z -- file nij-2009-n07-pdf (Pdf-68.2M) --
+2026-10-08T18:45:17.241Z -- file nij-2009-n08-pdf (Pdf-68.4M) --
+2026-10-08T18:45:17.241Z -- file nij-1970-n05-pdf (Pdf-69.3M) --
+2026-10-08T18:45:17.242Z -- file nij-1940-n03-pdf (Pdf-71.3M) --
+2026-10-08T18:45:17.242Z -- file nij-1963-n10-pdf (Pdf-73.3M) --
+2026-10-08T18:45:17.242Z -- file nij-1905-n0106-pdf (Pdf-74.8M) --
+2026-10-08T18:45:17.242Z -- file nij-1970-n04-pdf (Pdf-75.3M) --
+2026-10-08T18:45:17.242Z -- file nij-2009-n09-pdf (Pdf-76.2M) --
+2026-10-08T18:45:17.242Z -- file nij-1964-n03-pdf (Pdf-76.4M) --
+2026-10-08T18:45:17.242Z -- file nij-1964-n02-pdf (Pdf-76.7M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n07-pdf (Pdf-77.8M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n03-pdf (Pdf-78.2M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n09-pdf (Pdf-80.0M) --
+2026-10-08T18:45:17.242Z -- file nij-1969-n02-pdf (Pdf-81.4M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n01-pdf (Pdf-82.4M) --
+2026-10-08T18:45:17.242Z -- file nij-1968-n06-pdf (Pdf-82.8M) --
+2026-10-08T18:45:17.242Z -- file nij-2009-n03-pdf (Pdf-82.9M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n02-pdf (Pdf-83.4M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n04-pdf (Pdf-83.9M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n12-pdf (Pdf-84.4M) --
+2026-10-08T18:45:17.242Z -- file nij-1964-n07-pdf (Pdf-84.8M) --
+2026-10-08T18:45:17.242Z -- file nij-1964-n08-pdf (Pdf-85.3M) --
+2026-10-08T18:45:17.242Z -- file nij-1969-n10-pdf (Pdf-85.3M) --
+2026-10-08T18:45:17.242Z -- file nij-1964-n09-pdf (Pdf-85.4M) --
+2026-10-08T18:45:17.242Z -- file nij-1964-n06-pdf (Pdf-85.5M) --
+2026-10-08T18:45:17.242Z -- file nij-1969-n07-pdf (Pdf-85.5M) --
+2026-10-08T18:45:17.242Z -- file nij-1969-n08-pdf (Pdf-85.6M) --
+2026-10-08T18:45:17.242Z -- file nij-1964-n11-pdf (Pdf-86.6M) --
+2026-10-08T18:45:17.242Z -- file nij-1969-n11-pdf (Pdf-86.9M) --
+2026-10-08T18:45:17.242Z -- file nij-1969-n09-pdf (Pdf-87.3M) --
+2026-10-08T18:45:17.242Z -- file nij-1962-n05-pdf (Pdf-89.7M) --
+2026-10-08T18:45:17.242Z -- file nij-2008-n12-pdf (Pdf-96.7M) --
+2026-10-08T18:45:17.242Z -- file nij-1940-n0506-pdf (Pdf- 103M) --
+2026-10-08T18:45:17.242Z -- file nij-1940-n1112-pdf (Pdf- 138M) --
+2026-10-08T18:45:17.242Z -- file nij-1947-n06-pdf (Pdf- 928k) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n01-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n02-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n03-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n04-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n05-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n06-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n07-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n08-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2014-n09-pdf (null) --
+2026-10-08T18:45:17.242Z -- file nij-2015-n01-pdf (null) --
+2026-10-08T18:46:15.792Z checkpointed nij-1954-n07-pdf (47185920 bytes, 45 chunks) -> sha256:7b5643ca99d558f9b3afdad631dab1f2307c3851a41f837b36d2f944beaa5869
+2026-10-08T18:46:18.384Z checkpointed nij-1954-n09-pdf (20971520 bytes, 20 chunks) -> sha256:148ee53c5bc9c55056c8f24a23a01f1262f14257f3b9160b69960fb60cb0ff14
+2026-10-08T18:46:20.811Z checkpointed nij-1965-n04-pdf (15728640 bytes, 15 chunks) -> sha256:0aa1feccddaaa3b3450e742c011bc883bb109b7d181c468078380197fd783bcb
+2026-10-08T18:46:23.219Z checkpointed nij-1966-n03-pdf (15728640 bytes, 15 chunks) -> sha256:bcc0f58fc11b6ca84c8eb7dc6c05e8ead2d4f4049e47e3094aa6908efc296deb
+2026-10-08T18:46:25.442Z checkpointed nij-1965-n09-pdf (10485760 bytes, 10 chunks) -> sha256:94b1c7eab425a2f25a57f3d96bbc7f6322b399a4797a1e899c02ca8bd4bfbaff
+2026-10-08T18:46:27.466Z checkpointed nij-1954-n08-pdf (5242880 bytes, 5 chunks) -> sha256:dbf9935a767f8d58005e1554e18a8d001d1de40367e2d24e11b6a41afc5dc1f9
+2026-10-08T18:46:27.521Z pass 1 results: [{"id":"nij-1968-n12-pdf","status":"published","sha256":"71aa35122b30930c07a9d501f8a780c9bbe73e4292ce2999fa0e415c804a79e5","bytes":53483803,"digest":"sha256:3f3814fd102370fadc8676195fe41823f27b518c79a565dc3d37909ca1ae0938","tag":"nij-1968-n12-pdf"},{"id":"nij-1954-n11-pdf","status":"published","sha256":"9ba23ac408d891e370c45abe2cdbd3184c7c9b90406e22d11160730f00b6a425","bytes":53689182,"digest":"sha256:8c1001570c24eabf2df7ebf989339102a38294abb124b804842b4543b55f591b","tag":"nij-1954-n11-pdf"},{"id":"nij-1966-n09-pdf","status":"published","sha256":"47d1f5c5cf4583e835d3e0da0b5a6a6707455899da3663b50991850e4e054cd4","bytes":53691888,"digest":"sha256:5b8f2fe3d391c70b668e18cabe656539680a7f399e7a0c5dd931187c5e340398","tag":"nij-1966-n09-pdf"},{"id":"nij-1964-n05-pdf","status":"published","sha256":"ed4cb33e07a32e5baf3ae6adcd46776f0e28b0f54f43464f8c777eac3fa05e22","bytes":53719395,"digest":"sha256:f257811d9c8f6c630523cf602d8d98343f257f91dd1adc5fcf6e5490758fe77a","tag":"nij-1964-n05-pdf"},{"id":"nij-1974-n01-pdf","status":"published","sha256":"76f8356ff5af164f7bd36d96312d6c0c8b01bd679d01f5d7ece8f5c684b71941","bytes":53649767,"digest":"sha256:2e41123d754118835c414f5892d199bb7b15c96f475b0a738f74391b4e5a3420","tag":"nij-1974-n01-pdf"},{"id":"nij-1965-n04-pdf","status":"in_progress","received":15728640},{"id":"nij-1964-n04-pdf","status":"in_progress","received":0},{"id":"nij-1965-n03-pdf","status":"in_progress","received":0},{"id":"nij-1966-n11-pdf","status":"in_progress","received":0},{"id":"nij-1965-n10-pdf","status":"in_progress","received":0},{"id":"nij-1974-n02-pdf","status":"in_progress","received":0},{"id":"nij-1966-n10-pdf","status":"in_progress","received":0},{"id":"nij-1954-n10-pdf","status":"in_progress","received":0},{"id":"nij-1965-n08-pdf","status":"in_progress","received":0},{"id":"nij-1965-n12-pdf","status":"in_progress","received":0},{"id":"nij-1966-n06-pdf","status":"in_progress","received":0},{"id":"nij-1965-n11-pdf","status":"in_progress","received":0},{"id":"nij-1965-n07-pdf","status":"in_progress","received":0},{"id":"nij-1940-n02-pdf","status":"in_progress","received":0},{"id":"nij-2009-n05-pdf","status":"in_progress","received":0},{"id":"nij-1968-n01-pdf","status":"in_progress","received":0},{"id":"nij-1966-n12-pdf","status":"in_progress","received":0},{"id":"nij-1962-n06-pdf","status":"in_progress","received":0},{"id":"nij-1965-n06-pdf","status":"in_progress","received":0},{"id":"nij-1962-n10-pdf","status":"in_progress","received":0},{"id":"nij-2009-n04-pdf","status":"in_progress","received":0},{"id":"nij-1970-n07-djv","status":"in_progress","received":0},{"id":"nij-1964-n12-pdf","status":"in_progress","received":0},{"id":"nij-1970-n03-pdf","status":"in_progress","received":0},{"id":"nij-1967-n07-djv","status":"in_progress","received":0},{"id":"nij-1968-n08-pdf","status":"in_progress","received":0},{"id":"nij-1956-n11-pdf","status":"in_progress","received":0},{"id":"nij-1969-n01-pdf","status":"in_progress","received":0},{"id":"nij-1940-n01-pdf","status":"in_progress","received":0},{"id":"nij-1970-n07-pdf","status":"in_progress","received":0},{"id":"nij-1940-n04-pdf","status":"in_progress","received":0},{"id":"nij-1967-n07-pdf","status":"in_progress","received":0},{"id":"nij-1956-n10-pdf","status":"in_progress","received":0},{"id":"nij-1964-n01-pdf","status":"in_progress","received":0},{"id":"nij-1970-n05-djv","status":"in_progress","received":0},{"id":"nij-1964-n10-pdf","status":"in_progress","received":0},{"id":"nij-1940-n0809-pdf","status":"in_progress","received":0},{"id":"nij-1963-n07-pdf","status":"in_progress","received":0},{"id":"nij-1956-n12-pdf","status":"in_progress","received":0},{"id":"nij-2009-n07-pdf","status":"in_progress","received":0},{"id":"nij-2009-n08-pdf","status":"in_progress","received":0},{"id":"nij-1970-n05-pdf","status":"in_progress","received":0},{"id":"nij-1940-n03-pdf","status":"in_progress","received":0},{"id":"nij-1963-n10-pdf","status":"in_progress","received":0},{"id":"nij-1905-n0106-pdf","status":"in_progress","received":0},{"id":"nij-1970-n04-pdf","status":"in_progress","received":0},{"id":"nij-2009-n09-pdf","status":"in_progress","received":0},{"id":"nij-1964-n03-pdf","status":"in_progress","received":0},{"id":"nij-1964-n02-pdf","status":"in_progress","received":0},{"id":"nij-1962-n07-pdf","status":"in_progress","received":0},{"id":"nij-1962-n03-pdf","status":"in_progress","received":0},{"id":"nij-1962-n09-pdf","status":"in_progress","received":0},{"id":"nij-1969-n02-pdf","status":"in_progress","received":0},{"id":"nij-1962-n01-pdf","status":"in_progress","received":0},{"id":"nij-1968-n06-pdf","status":"in_progress","received":0},{"id":"nij-2009-n03-pdf","status":"in_progress","received":0},{"id":"nij-1962-n02-pdf","status":"in_progress","received":0},{"id":"nij-1962-n04-pdf","status":"in_progress","received":0},{"id":"nij-1962-n12-pdf","status":"in_progress","received":0},{"id":"nij-1964-n07-pdf","status":"in_progress","received":0},{"id":"nij-1964-n08-pdf","status":"in_progress","received":0},{"id":"nij-1969-n10-pdf","status":"in_progress","received":0},{"id":"nij-1964-n09-pdf","status":"in_progress","received":0},{"id":"nij-1964-n06-pdf","status":"in_progress","received":0},{"id":"nij-1969-n07-pdf","status":"in_progress","received":0},{"id":"nij-1969-n08-pdf","status":"in_progress","received":0},{"id":"nij-1964-n11-pdf","status":"in_progress","received":0},{"id":"nij-1969-n11-pdf","status":"in_progress","received":0},{"id":"nij-1969-n09-pdf","status":"in_progress","received":0},{"id":"nij-1962-n05-pdf","status":"in_progress","received":0},{"id":"nij-2008-n12-pdf","status":"in_progress","received":0},{"id":"nij-1940-n0506-pdf","status":"in_progress","received":0},{"id":"nij-1940-n1112-pdf","status":"in_progress","received":0},{"id":"nij-1947-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n01-pdf","status":"in_progress","received":0},{"id":"nij-2014-n02-pdf","status":"in_progress","received":0},{"id":"nij-2014-n03-pdf","status":"in_progress","received":0},{"id":"nij-2014-n04-pdf","status":"in_progress","received":0},{"id":"nij-2014-n05-pdf","status":"in_progress","received":0},{"id":"nij-2014-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n07-pdf","status":"in_progress","received":0},{"id":"nij-2014-n08-pdf","status":"in_progress","received":0},{"id":"nij-2014-n09-pdf","status":"in_progress","received":0},{"id":"nij-2015-n01-pdf","status":"in_progress","received":0},{"id":"nij-1965-n09-pdf","status":"in_progress","received":10485760},{"id":"nij-1966-n03-pdf","status":"in_progress","received":15728640},{"id":"nij-1954-n08-pdf","status":"in_progress","received":5242880},{"id":"nij-1954-n09-pdf","status":"in_progress","received":20971520},{"id":"nij-1954-n07-pdf","status":"in_progress","received":47185920}]
+2026-10-08T18:46:27.522Z remaining files: 89
+2026-10-08T18:46:27.522Z === pass 2 (budget 8026ms left) ===
+2026-10-08T18:46:27.524Z -- file nij-1954-n09-pdf (Pdf-51.3M) --
+2026-10-08T18:46:27.524Z -- file nij-1954-n07-pdf (Pdf-51.3M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n04-pdf (Pdf-51.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1966-n03-pdf (Pdf-51.5M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n09-pdf (Pdf-51.6M) --
+2026-10-08T18:46:27.524Z -- file nij-1954-n08-pdf (Pdf-51.8M) --
+2026-10-08T18:46:27.524Z -- file nij-1964-n04-pdf (Pdf-51.9M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n03-pdf (Pdf-51.9M) --
+2026-10-08T18:46:27.524Z -- file nij-1966-n11-pdf (Pdf-51.9M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n10-pdf (Pdf-52.1M) --
+2026-10-08T18:46:27.524Z -- file nij-1974-n02-pdf (Pdf-52.1M) --
+2026-10-08T18:46:27.524Z -- file nij-1966-n10-pdf (Pdf-52.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1954-n10-pdf (Pdf-52.7M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n08-pdf (Pdf-52.8M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n12-pdf (Pdf-53.0M) --
+2026-10-08T18:46:27.524Z -- file nij-1966-n06-pdf (Pdf-53.5M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n11-pdf (Pdf-53.6M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n07-pdf (Pdf-53.7M) --
+2026-10-08T18:46:27.524Z -- file nij-1940-n02-pdf (Pdf-53.9M) --
+2026-10-08T18:46:27.524Z -- file nij-2009-n05-pdf (Pdf-54.1M) --
+2026-10-08T18:46:27.524Z -- file nij-1968-n01-pdf (Pdf-54.2M) --
+2026-10-08T18:46:27.524Z -- file nij-1966-n12-pdf (Pdf-55.1M) --
+2026-10-08T18:46:27.524Z -- file nij-1962-n06-pdf (Pdf-55.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1965-n06-pdf (Pdf-55.5M) --
+2026-10-08T18:46:27.524Z -- file nij-1962-n10-pdf (Pdf-56.7M) --
+2026-10-08T18:46:27.524Z -- file nij-2009-n04-pdf (Pdf-57.2M) --
+2026-10-08T18:46:27.524Z -- file nij-1970-n07-djv (Djv-58.1M) --
+2026-10-08T18:46:27.524Z -- file nij-1964-n12-pdf (Pdf-58.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1970-n03-pdf (Pdf-58.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1967-n07-djv (Djv-59.9M) --
+2026-10-08T18:46:27.524Z -- file nij-1968-n08-pdf (Pdf-60.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1956-n11-pdf (Pdf-60.5M) --
+2026-10-08T18:46:27.524Z -- file nij-1969-n01-pdf (Pdf-60.7M) --
+2026-10-08T18:46:27.524Z -- file nij-1940-n01-pdf (Pdf-61.5M) --
+2026-10-08T18:46:27.524Z -- file nij-1970-n07-pdf (Pdf-61.9M) --
+2026-10-08T18:46:27.524Z -- file nij-1940-n04-pdf (Pdf-62.0M) --
+2026-10-08T18:46:27.524Z -- file nij-1967-n07-pdf (Pdf-62.0M) --
+2026-10-08T18:46:27.524Z -- file nij-1956-n10-pdf (Pdf-62.1M) --
+2026-10-08T18:46:27.524Z -- file nij-1964-n01-pdf (Pdf-62.1M) --
+2026-10-08T18:46:27.524Z -- file nij-1970-n05-djv (Djv-63.9M) --
+2026-10-08T18:46:27.524Z -- file nij-1964-n10-pdf (Pdf-64.5M) --
+2026-10-08T18:46:27.524Z -- file nij-1940-n0809-pdf (Pdf-65.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1963-n07-pdf (Pdf-65.6M) --
+2026-10-08T18:46:27.524Z -- file nij-1956-n12-pdf (Pdf-65.8M) --
+2026-10-08T18:46:27.524Z -- file nij-2009-n07-pdf (Pdf-68.2M) --
+2026-10-08T18:46:27.524Z -- file nij-2009-n08-pdf (Pdf-68.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1970-n05-pdf (Pdf-69.3M) --
+2026-10-08T18:46:27.524Z -- file nij-1940-n03-pdf (Pdf-71.3M) --
+2026-10-08T18:46:27.524Z -- file nij-1963-n10-pdf (Pdf-73.3M) --
+2026-10-08T18:46:27.524Z -- file nij-1905-n0106-pdf (Pdf-74.8M) --
+2026-10-08T18:46:27.524Z -- file nij-1970-n04-pdf (Pdf-75.3M) --
+2026-10-08T18:46:27.524Z -- file nij-2009-n09-pdf (Pdf-76.2M) --
+2026-10-08T18:46:27.524Z -- file nij-1964-n03-pdf (Pdf-76.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1964-n02-pdf (Pdf-76.7M) --
+2026-10-08T18:46:27.524Z -- file nij-1962-n07-pdf (Pdf-77.8M) --
+2026-10-08T18:46:27.524Z -- file nij-1962-n03-pdf (Pdf-78.2M) --
+2026-10-08T18:46:27.524Z -- file nij-1962-n09-pdf (Pdf-80.0M) --
+2026-10-08T18:46:27.524Z -- file nij-1969-n02-pdf (Pdf-81.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1962-n01-pdf (Pdf-82.4M) --
+2026-10-08T18:46:27.524Z -- file nij-1968-n06-pdf (Pdf-82.8M) --
+2026-10-08T18:46:27.525Z -- file nij-2009-n03-pdf (Pdf-82.9M) --
+2026-10-08T18:46:27.525Z -- file nij-1962-n02-pdf (Pdf-83.4M) --
+2026-10-08T18:46:27.525Z -- file nij-1962-n04-pdf (Pdf-83.9M) --
+2026-10-08T18:46:27.525Z -- file nij-1962-n12-pdf (Pdf-84.4M) --
+2026-10-08T18:46:27.525Z -- file nij-1964-n07-pdf (Pdf-84.8M) --
+2026-10-08T18:46:27.525Z -- file nij-1964-n08-pdf (Pdf-85.3M) --
+2026-10-08T18:46:27.525Z -- file nij-1969-n10-pdf (Pdf-85.3M) --
+2026-10-08T18:46:27.525Z -- file nij-1964-n09-pdf (Pdf-85.4M) --
+2026-10-08T18:46:27.525Z -- file nij-1964-n06-pdf (Pdf-85.5M) --
+2026-10-08T18:46:27.525Z -- file nij-1969-n07-pdf (Pdf-85.5M) --
+2026-10-08T18:46:27.525Z -- file nij-1969-n08-pdf (Pdf-85.6M) --
+2026-10-08T18:46:27.525Z -- file nij-1964-n11-pdf (Pdf-86.6M) --
+2026-10-08T18:46:27.525Z -- file nij-1969-n11-pdf (Pdf-86.9M) --
+2026-10-08T18:46:27.525Z -- file nij-1969-n09-pdf (Pdf-87.3M) --
+2026-10-08T18:46:27.525Z -- file nij-1962-n05-pdf (Pdf-89.7M) --
+2026-10-08T18:46:27.525Z -- file nij-2008-n12-pdf (Pdf-96.7M) --
+2026-10-08T18:46:27.525Z -- file nij-1940-n0506-pdf (Pdf- 103M) --
+2026-10-08T18:46:27.525Z -- file nij-1940-n1112-pdf (Pdf- 138M) --
+2026-10-08T18:46:27.525Z -- file nij-1947-n06-pdf (Pdf- 928k) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n01-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n02-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n03-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n04-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n05-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n06-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n07-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n08-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2014-n09-pdf (null) --
+2026-10-08T18:46:27.525Z -- file nij-2015-n01-pdf (null) --
+2026-10-08T18:46:27.598Z pass 2 results: [{"id":"nij-1954-n09-pdf","status":"in_progress","received":20971520},{"id":"nij-1954-n07-pdf","status":"in_progress","received":47185920},{"id":"nij-1965-n04-pdf","status":"in_progress","received":15728640},{"id":"nij-1966-n03-pdf","status":"in_progress","received":15728640},{"id":"nij-1965-n09-pdf","status":"in_progress","received":10485760},{"id":"nij-1954-n08-pdf","status":"in_progress","received":5242880},{"id":"nij-1964-n04-pdf","status":"in_progress","received":0},{"id":"nij-1965-n03-pdf","status":"in_progress","received":0},{"id":"nij-1966-n11-pdf","status":"in_progress","received":0},{"id":"nij-1965-n10-pdf","status":"in_progress","received":0},{"id":"nij-1974-n02-pdf","status":"in_progress","received":0},{"id":"nij-1966-n10-pdf","status":"in_progress","received":0},{"id":"nij-1954-n10-pdf","status":"in_progress","received":0},{"id":"nij-1965-n08-pdf","status":"in_progress","received":0},{"id":"nij-1965-n12-pdf","status":"in_progress","received":0},{"id":"nij-1966-n06-pdf","status":"in_progress","received":0},{"id":"nij-1965-n11-pdf","status":"in_progress","received":0},{"id":"nij-1965-n07-pdf","status":"in_progress","received":0},{"id":"nij-1940-n02-pdf","status":"in_progress","received":0},{"id":"nij-2009-n05-pdf","status":"in_progress","received":0},{"id":"nij-1968-n01-pdf","status":"in_progress","received":0},{"id":"nij-1966-n12-pdf","status":"in_progress","received":0},{"id":"nij-1962-n06-pdf","status":"in_progress","received":0},{"id":"nij-1965-n06-pdf","status":"in_progress","received":0},{"id":"nij-1962-n10-pdf","status":"in_progress","received":0},{"id":"nij-2009-n04-pdf","status":"in_progress","received":0},{"id":"nij-1970-n07-djv","status":"in_progress","received":0},{"id":"nij-1964-n12-pdf","status":"in_progress","received":0},{"id":"nij-1970-n03-pdf","status":"in_progress","received":0},{"id":"nij-1967-n07-djv","status":"in_progress","received":0},{"id":"nij-1968-n08-pdf","status":"in_progress","received":0},{"id":"nij-1956-n11-pdf","status":"in_progress","received":0},{"id":"nij-1969-n01-pdf","status":"in_progress","received":0},{"id":"nij-1940-n01-pdf","status":"in_progress","received":0},{"id":"nij-1970-n07-pdf","status":"in_progress","received":0},{"id":"nij-1940-n04-pdf","status":"in_progress","received":0},{"id":"nij-1967-n07-pdf","status":"in_progress","received":0},{"id":"nij-1956-n10-pdf","status":"in_progress","received":0},{"id":"nij-1964-n01-pdf","status":"in_progress","received":0},{"id":"nij-1970-n05-djv","status":"in_progress","received":0},{"id":"nij-1964-n10-pdf","status":"in_progress","received":0},{"id":"nij-1940-n0809-pdf","status":"in_progress","received":0},{"id":"nij-1963-n07-pdf","status":"in_progress","received":0},{"id":"nij-1956-n12-pdf","status":"in_progress","received":0},{"id":"nij-2009-n07-pdf","status":"in_progress","received":0},{"id":"nij-2009-n08-pdf","status":"in_progress","received":0},{"id":"nij-1970-n05-pdf","status":"in_progress","received":0},{"id":"nij-1940-n03-pdf","status":"in_progress","received":0},{"id":"nij-1963-n10-pdf","status":"in_progress","received":0},{"id":"nij-1905-n0106-pdf","status":"in_progress","received":0},{"id":"nij-1970-n04-pdf","status":"in_progress","received":0},{"id":"nij-2009-n09-pdf","status":"in_progress","received":0},{"id":"nij-1964-n03-pdf","status":"in_progress","received":0},{"id":"nij-1964-n02-pdf","status":"in_progress","received":0},{"id":"nij-1962-n07-pdf","status":"in_progress","received":0},{"id":"nij-1962-n03-pdf","status":"in_progress","received":0},{"id":"nij-1962-n09-pdf","status":"in_progress","received":0},{"id":"nij-1969-n02-pdf","status":"in_progress","received":0},{"id":"nij-1962-n01-pdf","status":"in_progress","received":0},{"id":"nij-1968-n06-pdf","status":"in_progress","received":0},{"id":"nij-2009-n03-pdf","status":"in_progress","received":0},{"id":"nij-1962-n02-pdf","status":"in_progress","received":0},{"id":"nij-1962-n04-pdf","status":"in_progress","received":0},{"id":"nij-1962-n12-pdf","status":"in_progress","received":0},{"id":"nij-1964-n07-pdf","status":"in_progress","received":0},{"id":"nij-1964-n08-pdf","status":"in_progress","received":0},{"id":"nij-1969-n10-pdf","status":"in_progress","received":0},{"id":"nij-1964-n09-pdf","status":"in_progress","received":0},{"id":"nij-1964-n06-pdf","status":"in_progress","received":0},{"id":"nij-1969-n07-pdf","status":"in_progress","received":0},{"id":"nij-1969-n08-pdf","status":"in_progress","received":0},{"id":"nij-1964-n11-pdf","status":"in_progress","received":0},{"id":"nij-1969-n11-pdf","status":"in_progress","received":0},{"id":"nij-1969-n09-pdf","status":"in_progress","received":0},{"id":"nij-1962-n05-pdf","status":"in_progress","received":0},{"id":"nij-2008-n12-pdf","status":"in_progress","received":0},{"id":"nij-1940-n0506-pdf","status":"in_progress","received":0},{"id":"nij-1940-n1112-pdf","status":"in_progress","received":0},{"id":"nij-1947-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n01-pdf","status":"in_progress","received":0},{"id":"nij-2014-n02-pdf","status":"in_progress","received":0},{"id":"nij-2014-n03-pdf","status":"in_progress","received":0},{"id":"nij-2014-n04-pdf","status":"in_progress","received":0},{"id":"nij-2014-n05-pdf","status":"in_progress","received":0},{"id":"nij-2014-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n07-pdf","status":"in_progress","received":0},{"id":"nij-2014-n08-pdf","status":"in_progress","received":0},{"id":"nij-2014-n09-pdf","status":"in_progress","received":0},{"id":"nij-2015-n01-pdf","status":"in_progress","received":0}]
+2026-10-08T18:46:27.599Z remaining files: 89
+2026-10-08T18:46:27.599Z pass 2 made no durable progress (started=0, published=0); ending batch
+2026-10-08T18:46:31.320Z published catalog nij-master-catalog -> sha256:bd33be054a9e40bc325a52c7cb5bff7bb8eec34e73aecc51ec8fb7a281c5cce9
+2026-10-08T18:46:33.103Z published master index nij-master-index -> sha256:6d40d43ca8fb8041ca0713e482a7c41ad9af227cb387013386eea8e531ed36d5 (1501530 B, status complete)
+2026-10-08T18:46:33.103Z published master checkpoint nij-master-checkpoint -> sha256:d50c6a128ec7296422b6951ecc0dcfdf09b6ac9182b929dcd4d0794e3f523973
+2026-10-08T18:46:33.103Z retrieve batch complete in 602104ms
