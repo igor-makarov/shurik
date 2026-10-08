@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-21",
-  "at": "2026-10-08T01:36:48.601Z",
+  "iteration": "4-22",
+  "at": "2026-10-08T02:05:00.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -30,9 +30,9 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "inProgressFiles": 3,
-    "pendingFiles": 594,
-    "publishedFiles": 515,
+    "inProgressFiles": 1,
+    "pendingFiles": 557,
+    "publishedFiles": 554,
     "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented.",
     "genericTotal": 1112,
     "knownGapYears": [
@@ -54,54 +54,56 @@
     ]
   },
   "publication": {
-    "publishedFiles": 515,
-    "publishedIssues": 421,
-    "publishedBytes": 5241182833,
-    "remainingFiles": 597,
-    "inProgressEntries": 3,
-    "inProgressWithDurableChunks": 3,
-    "verifiedPartialBytes": 16777216,
-    "controlBranchPrefixBytes": 16777216,
-    "knownBytesTotal": 5266958863,
+    "publishedFiles": 554,
+    "publishedIssues": 449,
+    "publishedBytes": 5593461891,
+    "remainingFiles": 558,
+    "inProgressEntries": 1,
+    "inProgressWithDurableChunks": 1,
+    "verifiedPartialBytes": 6291456,
+    "controlBranchPrefixBytes": 6291456,
+    "knownBytesTotal": 5602886850,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 455,
-    "newPublishedBytesBeyondBaseline": 2929552543
+    "newPublishedBeyondBaseline": 494,
+    "newPublishedBytesBeyondBaseline": 3281831601
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:eddd8b0cfc435855fa8d30d3e05c882a4feea6ab111797026f930918b2411e0b",
-    "bytes": 1323222,
-    "catalogDigest": "sha256:fe6aea1dd8fb4f518ea5d4dc7bd2c10f04462e6c57d9163a64493cd2ff924343",
-    "checkpointDigest": "sha256:5083125e279e260a0e73c3f1ce2dcf75db37d2124eb077ee077d66fa36b84e8c",
+    "digest": "sha256:a10e4a9e4373f536272ae5abc67d8720d5faa9e0e7d008c8231a41a6cf608b90",
+    "bytes": 1336838,
+    "catalogDigest": "sha256:f57369506a2d1442f371f4e82bbfe6d674ab4b01af347da37622fe4844e23734",
+    "checkpointDigest": "sha256:987455e4cbc9e724d3f9fa6ecf26fd203520af8103cb3b066a261ee35ceb10ae",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T01:35:33.441Z",
+    "verifiedAt": "2026-10-08T02:04:10.516Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "batchesThisIteration": [
     {
-      "batch": 33,
-      "publishedThisBatch": 21,
-      "durableNewBytes": 172505776,
-      "elapsedMs": 397652
+      "batch": 36,
+      "publishedThisBatch": 11,
+      "durableNewBytes": 96016103,
+      "elapsedMs": 396589
     },
     {
-      "batch": 34,
-      "publishedThisBatch": 13,
-      "durableNewBytes": 108942209,
-      "elapsedMs": 395820
+      "batch": 37,
+      "publishedThisBatch": 14,
+      "durableNewBytes": 126466127,
+      "elapsedMs": 384717
     },
     {
-      "batch": 35,
-      "publishedThisBatch": 13,
-      "durableNewBytes": 111186215,
-      "elapsedMs": 406235
+      "batch": 38,
+      "publishedThisBatch": 14,
+      "durableNewBytes": 129796828,
+      "elapsedMs": 370133
     }
   ],
+  "newPublishedThisIteration": 39,
+  "newDurableBytesThisIteration": 352279058,
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 597 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 558 files.",
     "Refresh and re-verify the master index by immutable digest after each batch.",
     "Update all-years-progress.json + batch records with new published counts/bytes."
   ]
