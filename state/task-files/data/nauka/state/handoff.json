@@ -1,20 +1,20 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "5-53",
-  "at": "2026-10-08T22:02:40.891Z",
+  "iteration": "5-54",
+  "at": "2026-10-08T22:36:00.000Z",
   "scope": "all-years",
   "deadline": null,
   "status": "IN_PROGRESS",
-  "publishedRegular": 1069,
+  "publishedRegular": 1073,
   "publishedSupplementary": 5,
-  "publishedTotal": 1074,
-  "remainingRegular": 43,
-  "bytesPublishedRegular": 18741920056,
+  "publishedTotal": 1078,
+  "remainingRegular": 39,
+  "bytesPublishedRegular": 19044687685,
   "bytesPublishedSupplementary": 70214939,
-  "bytesPublishedTotal": 18812134995,
+  "bytesPublishedTotal": 19114902624,
   "origin": {
     "reachable": true,
-    "note": "publ.lib.ru reachable; batches 126-128 exit 0; measured ~370-395 KiB/s aggregate; nothing concatenated from a full 200."
+    "note": "publ.lib.ru reachable (206); batches 129-130 exit 0; measured ~530 KiB/s aggregate; nothing concatenated from a full 200."
   },
   "discovery": {
     "status": "complete",
@@ -28,24 +28,24 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:998721509296320c79e83bd4e4a0faec5fd18a337f278c5b46de78d00be4e747",
-    "bytes": 1518291,
-    "catalogDigest": "sha256:34ac087be6d30f6e0b32c4bca217747969da74744a55203ae2c25f7e20899ee3",
-    "checkpointDigest": "sha256:892c2c8f46b94ea2cef5b984d456443f53fca20069963e3b1f70c4dfe182be29",
+    "digest": "sha256:ce5c9d5029dc8495141e9d6d3a166aadb15659fc69beb1a64d5ea035ddf6b880",
+    "bytes": 1519697,
+    "catalogDigest": "sha256:4e0373234d9ec668b82dc15af5fd9f58c48cf751edc88d0ae7b29a283164a5f3",
+    "checkpointDigest": "sha256:f5f61fcc83a6e9c89f9989e3703fd46a2832d59feab37430f607b8141df5b6e9",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T22:01:54.245Z",
+    "verifiedAt": "2026-10-08T22:36:17.903Z",
     "verificationProblems": 0,
     "receipt": "data/nauka/state/master-index-verification.json"
   },
   "durablePartials": {
     "inProgress": [
-      "nij-1905-n0106-pdf",
-      "nij-1940-n03-pdf",
-      "nij-1963-n10-pdf",
-      "nij-1970-n05-pdf"
+      "nij-1964-n02-pdf",
+      "nij-1964-n03-pdf",
+      "nij-1970-n04-pdf",
+      "nij-2009-n09-pdf"
     ],
-    "ghcrCheckpointBytes": 91226112,
+    "ghcrCheckpointBytes": 262144000,
     "note": "each in_progress file holds an immutable GHCR chunk checkpoint restorable by digest"
   },
   "supplementary": {
@@ -55,14 +55,14 @@
     "status": "complete"
   },
   "newPublishedThisIteration": {
-    "regularFiles": 8,
-    "regularBytes": 549232191
+    "regularFiles": 4,
+    "regularBytes": 302767629
   },
   "batchesThisIteration": [
-    126,
-    127,
-    128
+    129,
+    130,
+    131
   ],
-  "nextAction": "Restore+finish the 4 durable in-progress files (nij-1970-n05-pdf 25,165,824 B; nij-1940-n03-pdf 20,971,520; nij-1963-n10-pdf 23,068,672; nij-1905-n0106-pdf 22,020,096) from their immutable GHCR digests, then smallest-first the 39 pending regular PDFs.",
-  "notes": "Iteration 5-53: batches 126-128. Batch 126 restored the 4 saved GHCR chunk checkpoints (155,189,248 B) and published them (268,280,026 B). Batch 127 restored the resulting 4 checkpoints (141,557,760 B) and published them (280,952,165 B). Batch 128 (short tail) published 0 but added 75,497,984 B of durable GHCR chunk checkpoint bytes across 4 new in-progress files. Published regular 1061->1069 (+549,232,191 B). Master index nij-master-index @ sha256:998721509296320c79e83bd4e4a0faec5fd18a337f278c5b46de78d00be4e747 (1518291 B, status complete, 1069 published) independently verified by immutable pull with 0 problems."
+  "nextAction": "Restore+finish the 4 durable in-progress files (nij-1970-n04-pdf 65,011,712 B; nij-2009-n09-pdf 61,865,984; nij-1964-n03-pdf 62,914,560; nij-1964-n02-pdf 48,234,496) from their immutable GHCR digests, then smallest-first the 35 pending regular PDFs.",
+  "notes": "Iteration 5-54: batch 129 restored+hash-validated 4 saved GHCR chunk checkpoints and published them (302,767,629 B); batch 130 advanced 4 new partials to 48-65 MB (+238,026,752 B durable); batch 131 advanced them further to 54-70 MB (+24,117,248 B durable). Published regular 1069->1073. Master index nij-master-index @ sha256:ce5c9d5029dc8495141e9d6d3a166aadb15659fc69beb1a64d5ea035ddf6b880 (1519697 B, status complete, 1073 published); prior digest sha256:e4dacbdd... independently verified by immutable pull with 0 problems. 39 regular files remain; supplementary 5/5 complete."
 }
