@@ -1,24 +1,32 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-28",
-  "at": "2026-10-08T05:12:00.000Z",
+  "iteration": "4-29",
+  "at": "2026-10-08T05:46:41.444Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 791,
-  "remaining": 321,
-  "bytesPublished": 8266891943,
+  "published": 824,
+  "remaining": 288,
+  "bytesPublished": 8773388102,
   "blocker": null,
   "status": "IN_PROGRESS",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-08T05:10:57.000Z",
-    "note": "Origin publ.lib.ru up; iteration 4-28 batches 59-60 completed cleanly (exit 0), zero transfer failures."
+    "lastChecked": "2026-10-08T05:47:20.888Z",
+    "note": "Origin publ.lib.ru up; iteration 4-29 batches 61-63 exit 0, zero transfer failures, ~405-409 KiB/s at 48/6."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 35651584,
+    "verifiedPartialBytes": 16777216,
     "controlBranchPrefixBytes": 16777216,
-    "partialFiles": 5
+    "partialFiles": 4,
+    "readyToPublishFirst": [
+      "nij-1949-n03-pdf (all 16 chunks durable, received==expectedBytes; publish reserve ran out)"
+    ],
+    "inProgress": [
+      "nij-1941-n03-pdf (8/16 chunks)",
+      "nij-1941-n04-pdf (8/17 chunks)",
+      "nij-1955-n03-pdf (8/17 chunks)"
+    ]
   },
   "discovery": {
     "status": "complete",
@@ -31,23 +39,22 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:58e10ce7d3533ab737c4ff0917fc0f4ce3bb6883c49cf2e9d1644db054020f4d",
-    "bytes": 1420080,
-    "catalogDigest": "sha256:4daa5bd46198948fd859d409658364832a11cc238a0095fa3e9290e5ac8bc419",
-    "checkpointDigest": "sha256:5a1dd1d6dee5c021e23e410ed976dc5615a67b0b468bc7caf732ce91ae177a2b",
+    "digest": "sha256:b5dab8026358ef14694a6c89337dce1aeebd9f2a713a5a9d154df938bc4d4071",
+    "bytes": 1431657,
+    "catalogDigest": "sha256:21d7cbb56a200a9c47939bd9aeb4c849cbb3bbd72882433288c678c95b4b6779",
+    "checkpointDigest": "sha256:5116cf84d4225b600af1ede3c28e7779a5e95b107fc5d8cf8064ad1f1ce92433",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T05:11:21.904Z",
+    "verifiedAt": "2026-10-08T05:45:35.116Z",
     "publishedFlagMismatches": 0,
     "problems": [],
-    "verified": "verify-master.mjs immutable-digest pull OK (791 published, 0 mismatches, status complete, representative entries incl. 1934-39 + newly published years + pending)",
-    "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched)"
+    "verified": "verify-master.mjs immutable-digest pull OK (published 824, status complete)"
   },
   "codeChangesThisIteration": [],
-  "publishedThisIteration": 24,
-  "newDurableBytesThisIteration": 323515338,
-  "nextAction": "Continue bounded retrieve batches; remaining 321 files.",
-  "notes": "Iteration 4-28: batches 59-60 published 24 fresh files (767->791), +323,515,338 durable bytes. Master index refreshed + re-verified by immutable pull (58e10ce7, status complete, 0 mismatches). Discovery complete (87 years, 941 issues, 1112 files). Concurrency 48/6 then 64/8, aggregate <=512 KiB/s."
+  "publishedThisIteration": 33,
+  "newDurableBytesThisIteration": 506496159,
+  "nextAction": "Continue bounded retrieve batches; remaining 288 files.",
+  "notes": "Iteration 4-29: batches 61-63 published 33 fresh files (791->824), +506496159 durable bytes. Master index refreshed + re-verified by immutable pull (sha256:b5dab8026358ef14694a6c89337dce1aeebd9f2a713a5a9d154df938bc4d4071, status complete, 0 mismatches). Discovery complete (87 years, 941 issues, 1112 files). 48/6, aggregate <=512 KiB/s."
 }

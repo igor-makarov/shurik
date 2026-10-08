@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
   "iteration": "4-29",
-  "at": "2026-10-08T05:42:20.920Z",
+  "at": "2026-10-08T05:46:41.443Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -47,30 +47,29 @@
     "note": "Discovery complete; preserved from prior iterations, unchanged this iteration."
   },
   "publication": {
-    "publishedFiles": 823,
-    "publishedBytes": 8756785663,
-    "remainingFiles": 289,
+    "publishedFiles": 824,
+    "publishedBytes": 8773388102,
+    "remainingFiles": 288,
     "inProgressFiles": 4,
-    "inProgressDurableBytes": 16777216,
-    "pendingFiles": 285,
-    "unavailableFiles": 0,
+    "inProgressDurableBytes": 41747899,
+    "pendingFiles": 284,
     "verifiedPartialBytes": 16777216,
     "controlBranchPrefixBytes": 16777216,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 763,
-    "newPublishedBytesBeyondBaseline": 6445155373
+    "newPublishedBeyondBaseline": 764,
+    "newPublishedBytesBeyondBaseline": 6461757812
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:e258be5e3a72997756a44113cb4d811af721d29f4078bed53b556d984149f408",
-    "bytes": 1431289,
-    "catalogDigest": "sha256:29a541815564d7635b4b66e13e3abf4380c93c9b0ecbdc2022a001bb0817778c",
-    "checkpointDigest": "sha256:e041754ede4bb7b19b9278e0dcf2bcdbbe54ab93af7e9b3737a23ce13633239a",
+    "digest": "sha256:b5dab8026358ef14694a6c89337dce1aeebd9f2a713a5a9d154df938bc4d4071",
+    "bytes": 1431657,
+    "catalogDigest": "sha256:21d7cbb56a200a9c47939bd9aeb4c849cbb3bbd72882433288c678c95b4b6779",
+    "checkpointDigest": "sha256:5116cf84d4225b600af1ede3c28e7779a5e95b107fc5d8cf8064ad1f1ce92433",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T05:40:57.428Z",
+    "verifiedAt": "2026-10-08T05:45:35.116Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
@@ -79,24 +78,26 @@
       "batch": 61,
       "published": 20,
       "durableNewBytes": 298665964,
-      "elapsedMs": 738224,
-      "concurrency": 48,
-      "fileConcurrency": 6
+      "elapsedMs": 738224
     },
     {
       "batch": 62,
       "published": 12,
       "durableNewBytes": 191227756,
-      "elapsedMs": 467598,
-      "concurrency": 48,
-      "fileConcurrency": 6
+      "elapsedMs": 467598
+    },
+    {
+      "batch": 63,
+      "published": 1,
+      "durableNewBytes": 16602439,
+      "elapsedMs": 168696
     }
   ],
-  "newPublishedThisIteration": 32,
+  "newPublishedThisIteration": 33,
   "throughputNote": "Batches 61-62 at 48/6 measured ~405 and ~409 KiB/s (best observed); aggregate token bucket <=512 KiB/s; both exit 0, zero transfer failures.",
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 289 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 288 files.",
     "Refresh+re-verify master index by immutable digest after each batch."
   ]
 }
