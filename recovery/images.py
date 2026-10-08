@@ -572,9 +572,37 @@ def resolve_image(
         "variants": _variants(url),
         "note": "every size/extension variant considered before declaring a gap",
     })
+    # A recorded stem-index hit for this URL or any alternate CDN form is a
+    # capture the archive already told us about. Seed it *before* any
+    # host-inventory early return, because a complete inventory of this host
+    # says nothing about bytes archived under a different shard. Posts
+    # 106259335043, 115926815733 and 31650451836 were declared a host-inventory
+    # gap even though their alternate-shard stem was a recorded hit.
+    if stem_index is not None:
+        seeded_stems: set[str] = set()
+        for form in [url, *extra_forms]:
+            stem = stem_prefix(form)
+            norm = normalize_url(stem)
+            if not stem or norm in seeded_stems:
+                continue
+            seeded_stems.add(norm)
+            cached = [c for c in (stem_index.lookup(stem) or []) if c.statuscode == "200"]
+            if not cached:
+                continue
+            captures.extend(cached)
+            record["attempts"].append({
+                "endpoint": "cdx-stem-batch",
+                "url": form,
+                "stem": stem,
+                "captures": len(cached),
+                "status": "cached",
+                "error": "ok",
+                "note": "recorded stem-index hit for this URL or an alternate CDN form; used "
+                        "before the host-inventory early return",
+            })
     if media_index is not None:
         local = media_index.lookup(url)
-        if local:
+        if local and not captures:
             captures = local
             record["attempts"].append({
                 "endpoint": "media-index",
@@ -586,7 +614,7 @@ def resolve_image(
             from .media import host_of
 
             state = media_index.host_complete(host_of(url))
-            if state and _conclusive(state, key_known_at):
+            if state and _conclusive(state, key_known_at) and not captures:
                 record["host_inventory"] = {"host": host_of(url), "rows": state.get("rows"),
                                             "pages": state.get("pages"),
                                             "scanned_at": state.get("scanned_at"),

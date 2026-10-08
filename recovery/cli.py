@@ -880,11 +880,31 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             if img.get("sha256") and img.get("blob_path"):
                 merged.append(img)
                 continue
+            # A stem index hit is a capture the archive already told us about,
+            # so it is worth downloading whatever method the pass is running.
+            # Every URL form counts: a hit recorded for a form on another shard
+            # (post 29905114965) is bytes behind that form, and the linked
+            # shard's own stem can be a recorded miss. Detect it before the
+            # `wanted` lookup: `--only-stem-hits` selects a post for a hit image
+            # whose own terminal verdict (archive_gap/bad_body) excludes it from
+            # `eligible_images`, and dropping it here wasted the selection.
+            eff_method = method
+            stem_hit = False
+            if stem_index is not None:
+                for form in [img.get("media_url") or "", *(img.get("url_forms") or [])]:
+                    if form and stem_index.lookup(stem_prefix(form)):
+                        eff_method = "stem"
+                        stem_hit = True
+                        break
             entry = wanted_urls.get(img.get("media_url"))
             if entry is None:
-                merged.append(img)
-                missing += 1
-                continue
+                if not stem_hit:
+                    merged.append(img)
+                    missing += 1
+                    continue
+                # Synthesise a minimal work item for the hit image so the pass
+                # actually downloads the capture the index recorded.
+                entry = {"image": img, "media_url": img.get("media_url"), "tried": []}
             if breaker_open():
                 # Leave this image exactly as it is: a pass cut short by an open
                 # circuit is not evidence about the image, and the post record
@@ -894,19 +914,6 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 continue
             considered.append(entry)
             skip = set(entry.get("tried") or [])
-            # A stem index hit is a capture the archive already told us about,
-            # so it is worth downloading whatever method the pass is running.
-            # Every URL form counts: a hit recorded for a form on another shard
-            # (post 29905114965) is bytes behind that form, and the linked
-            # shard's own stem can be a recorded miss.
-            eff_method = method
-            stem_hit = False
-            if stem_index is not None:
-                for form in [img.get("media_url") or "", *(img.get("url_forms") or [])]:
-                    if form and stem_index.lookup(stem_prefix(form)):
-                        eff_method = "stem"
-                        stem_hit = True
-                        break
             # An image with no untried URL form left has nothing to ask; it is
             # counted as missing but must not hold up the rest of the post.
             # A recorded stem-index hit is the exception: the archive already
