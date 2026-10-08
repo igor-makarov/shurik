@@ -1,0 +1,68 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 29,
+  "iteration": "4-20",
+  "startedAt": "2026-10-08T00:38:41.000Z",
+  "elapsedMs": 393461,
+  "budget": {
+    "budgetMs": 420000,
+    "cleanupMs": 80000,
+    "concurrency": 32,
+    "fileConcurrency": 4,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "First bounded batch of iteration 4-20 (all-years). Resumed 2 durable git partials (nij-1953-n07-djv, nij-1958-n04-djv) and published 24 fresh files, all round-trip verified. Origin sustained ~450 KiB/s across 32 connections; idle-timeout retries only.",
+  "publishedBefore": 401,
+  "publishedAfter": 425,
+  "remainingBefore": 711,
+  "remainingAfter": 687,
+  "verifiedPartialBytesBefore": 15099551,
+  "verifiedPartialBytesAfter": 0,
+  "newOriginBytesDurable": 182202279,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1958-n04-djv",
+    "nij-1953-n07-djv",
+    "nij-1948-n08-djv",
+    "nij-1958-n01-djv",
+    "nij-1951-n07-pdf",
+    "nij-1992-n0506-djv",
+    "nij-1992-n10-djv",
+    "nij-1995-n05-djv",
+    "nij-1948-n07-djv",
+    "nij-2004-n06-djv",
+    "nij-2005-n12-djv",
+    "nij-1957-n07-pdf",
+    "nij-1991-n04-djv",
+    "nij-2002-n07-djv",
+    "nij-1983-n11-djv",
+    "nij-1995-n11-djv",
+    "nij-1990-n08-djv",
+    "nij-1961-n01-djv",
+    "nij-1960-n11-djv",
+    "nij-2003-n03-djv",
+    "nij-2006-n08-djv",
+    "nij-1995-n08-djv",
+    "nij-2003-n01-djv",
+    "nij-2002-n06-djv"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:7b2fc8dfa51a6b2253604f1e037aaf8c3dc89f6be05ba20b94d2e2e2bf3d46cd",
+      "bytes": 1291776,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:cb14a5f7f84a0f91877cc750a4fb0e7a444c375a2815a5285de63a1a28e7fcaa"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:7b740cf692dc8fa48f78d3e4ddefd41f8d3f3cae26c314479d10a4642885694b"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 687 files."
+}
