@@ -1,0 +1,55 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-19",
+  "phase": "start",
+  "at": "2026-10-08T00:08:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "note": "Scope remains ALL YEARS. The old NAUKA_STATUS 60/60 refers only to the completed 1934-1939 subset, not this objective. Discovery is already complete (12/12 era pages + directory, genericUnrepresented=0); the master index nij-master-index is published and verified. This iteration continues bounded scan retrieval for the remaining files and refreshes the master index.",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "retrievalAtStart": {
+    "publishedFiles": 341,
+    "publishedBytes": 3886241576,
+    "remainingFiles": 771,
+    "inProgressEntries": 94,
+    "inProgressWithDurableChunks": 0,
+    "verifiedPartialBytes": 0
+  },
+  "discoveryAtStart": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "directoryVisited": true,
+    "genericTotal": 1112,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "environmentChecks": {
+    "originReachable": true,
+    "ghcrReachable": true,
+    "tests": "node --test tools/nauka/test/*.test.mjs -> 30/30 pass",
+    "oras": "not preinstalled; provisioned from release into git-ignored data/nauka/tools"
+  },
+  "nextActions": [
+    "Run bounded smallest-first foreground retrieve batches; publish complete files and prioritize nearly-complete partials.",
+    "Refresh and re-verify the master index by immutable digest after each batch.",
+    "Update all-years-progress.json + batch records with new published counts/bytes."
+  ]
+}
