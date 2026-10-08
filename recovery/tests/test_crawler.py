@@ -8,10 +8,12 @@ import tempfile
 import unittest
 
 from recovery import config
-from recovery.cdx import CaptureIndex, cdx_query, parse_cdx_json, within_cutoff
+from recovery.cdx import Capture, CaptureIndex, cdx_query, parse_cdx_json, within_cutoff
 from recovery.http import BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, TRANSPORT, Fetcher, RecoveryError, Response
-from recovery.images import image_capture_candidates, resolve_image, sniff_image
+from recovery.images import (image_capture_candidates, image_capture_candidates_stem,
+                             resolve_image, sniff_image, stem_prefix)
 from recovery.media import MediaIndex
+from recovery.stemindex import StemIndex
 from recovery.parsing import (html_to_text, inner_html, is_excluded_image, parse_image_variants,
                               parse_post_page)
 from recovery.store import merge_post
@@ -280,6 +282,54 @@ class VariantPlanningTests(unittest.TestCase):
                                 media_index=MediaIndex(path))
             self.assertNotEqual(rec["state"], "recovered",
                                 "a post-cutoff capture must never be used")
+
+
+class StemMethodTests(unittest.TestCase):
+    """`--method stem` must consult every URL form, not only the linked shard.
+
+    Post 29905114965 (2026-10): the post linked `25.media.tumblr.com` (whose
+    stem the index answered as a miss) while the bytes were archived under
+    `31.media.tumblr.com` (a recorded stem *hit*). The stem step only asked the
+    linked shard's stem, so it declared a gap for an image whose bytes the
+    index already held, and the hit could not be converted.
+    """
+
+    LINK = "http://25.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+    OTHER = "http://31.media.tumblr.com/tumblr_m947u12PIw1r3it8zo1_500.jpg"
+
+    def _index(self, tmp: str, link_hit: bool) -> StemIndex:
+        idx = StemIndex(os.path.join(tmp, "stems.jsonl"))
+        cap = Capture(timestamp="20140111015219", original=self.OTHER,
+                      statuscode="200", mimetype="image/jpeg", urlkey="k",
+                      digest="IGIWWWZE2JJDZZONKBY6KD6WA4OEW6G2", length="64646",
+                      redirect="None", source_query="stem-scan")
+        idx.record(stem_prefix(self.LINK), [])
+        idx.record(stem_prefix(self.OTHER), [cap] if link_hit else [])
+        return idx
+
+    def test_stem_step_answers_alternate_form_stems(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            idx = self._index(tmp, link_hit=True)
+            f = FakeArchive({})
+            caps, attempts, _after = image_capture_candidates_stem(
+                f, self.LINK, stem_index=idx, extra_urls=[self.OTHER])
+        self.assertEqual([c.original for c in caps], [self.OTHER])
+        batch_attempts = [a for a in attempts if a.get("endpoint") == "cdx-stem-batch"]
+        self.assertEqual({a["stem"] for a in batch_attempts},
+                         {stem_prefix(self.LINK), stem_prefix(self.OTHER)})
+        self.assertEqual(f.requests, [], "a recorded answer must not be re-asked")
+
+    def test_resolve_stem_recovers_from_the_other_shard(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            idx = self._index(tmp, link_hit=True)
+            f = FakeArchive({"web/20140111015219id_": binary(JPEG_BYTES)})
+            rec = resolve_image(
+                f, {"media_url": self.LINK, "caption_alt": "", "found_in": "img",
+                    "url_forms": [self.LINK, self.OTHER]},
+                method="stem", stem_index=idx)
+        self.assertEqual(rec["state"], "recovered", rec.get("note"))
+        self.assertEqual(rec["capture"]["original"], self.OTHER)
+        self.assertEqual(rec["capture"]["timestamp"], "20140111015219")
 
 
 if __name__ == "__main__":

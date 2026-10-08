@@ -874,11 +874,15 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 continue
             # A stem index hit is a capture the archive already told us about,
             # so it is worth downloading whatever method the pass is running.
+            # Every URL form counts: a hit recorded for a form on another shard
+            # (post 29905114965) is bytes behind that form, and the linked
+            # shard's own stem can be a recorded miss.
             eff_method = method
             if stem_index is not None:
-                cached = stem_index.lookup(stem_prefix(img.get("media_url") or ""))
-                if cached:
-                    eff_method = "stem"
+                for form in [img.get("media_url") or "", *(img.get("url_forms") or [])]:
+                    if form and stem_index.lookup(stem_prefix(form)):
+                        eff_method = "stem"
+                        break
             resolved = resolve_image(fetcher, img, media_index=media_index,
                                      key_known_at=rec.get("fetched_at", ""),
                                      method=eff_method, variant_budget=variant_budget,

@@ -201,9 +201,9 @@ def image_capture_candidates(fetcher: Fetcher, image_url: str, limit: int = 6,
 
 
 def image_capture_candidates_stem(fetcher: Fetcher, image_url: str, limit: int = 8,
-                                  stem_index=None
+                                  stem_index=None, extra_urls: Optional[Iterable[str]] = None
                                   ) -> tuple[list[Capture], list[dict], bool]:
-    """One CDX prefix query on the size-stem: the whole variant family at once.
+    """One CDX prefix query per size-stem: the whole variant family at once.
 
     The replay probe answers authoritatively about the *exact* URL it asked, and
     the fixed variant list only enumerates a handful of size tokens. A stem
@@ -216,34 +216,59 @@ def image_capture_candidates_stem(fetcher: Fetcher, image_url: str, limit: int =
     recorded miss is scoped negative evidence -- no pre-cutoff `statuscode:200`
     capture for that exact prefix under those filters -- so the archive is not
     asked the identical question twice.
+
+    `extra_urls` are alternate CDN URL forms of the same file (a different
+    Tumblr shard the post never linked). An archived capture can exist only
+    under a form the linked URL never enumerated, so each distinct stem is
+    consulted too. Without this, `--method stem` answered only the linked
+    shard's stem and reported a gap for an image whose bytes the stem index
+    already held under another shard (post 29905114965, 2026-10).
     """
-    stem = stem_prefix(image_url)
-    attempt: dict = {"url": image_url, "stem": stem, "endpoint": "cdx-stem",
-                     "note": "single prefix query covering every size/extension variant"}
-    if normalize_url(stem) == normalize_url(image_url):
-        attempt["note"] = ("filename carries no size token; the prefix query is the exact URL")
-    if stem_index is not None and stem_index.has(stem):
-        cached = list(stem_index.lookup(stem) or [])
-        attempt.update(endpoint="cdx-stem-batch", captures=len(cached), status="cached",
-                       error="ok", message="",
-                       note="answered from the batched stem index (same prefix, filters "
-                            "and cutoff as a single-stem query)")
-        return [c for c in cached if c.statuscode == "200"], [attempt], False
-    caps, resp = cdx_query(fetcher, stem, match="prefix", limit=limit,
-                           extra={"filter": "statuscode:200", "collapse": "urlkey"})
-    attempt.update(status=resp.status, error=resp.error, message=resp.message,
-                   captures=len(caps))
-    # An answered query is real evidence for this exact prefix, so keep it.
-    # Recording here (not only in `stem-scan`) is what makes a `--method stem`
-    # pass cumulative: the next runner answers the same stem from disk instead of
-    # spending a CDX request on it again, and `--only-stem-hits` can turn the
-    # recorded hits into bytes without re-asking anything. Only an answered
-    # response is recorded -- a timeout, throttle or transport failure leaves the
-    # stem pending instead of poisoning it with a false negative.
-    if stem_index is not None and resp.ok:
-        stem_index.record(stem, [c for c in caps if c.statuscode == "200"])
-    caps = [c for c in caps if c.statuscode == "200"]
-    return caps, [attempt], False
+    stems: list[tuple[str, str]] = []
+    seen: set[str] = set()
+    for form in [image_url, *(extra_urls or ())]:
+        if not form:
+            continue
+        stem = stem_prefix(form)
+        norm = normalize_url(stem)
+        if norm in seen:
+            continue
+        seen.add(norm)
+        stems.append((form, stem))
+    attempts: list[dict] = []
+    captures: list[Capture] = []
+    for form, stem in stems:
+        attempt: dict = {"url": form, "stem": stem, "endpoint": "cdx-stem",
+                         "note": "single prefix query covering every size/extension variant"}
+        if normalize_url(stem) == normalize_url(form):
+            attempt["note"] = ("filename carries no size token; the prefix query is the exact URL")
+        if form != image_url:
+            attempt["note"] = "alternate CDN URL form of the linked image"
+        if stem_index is not None and stem_index.has(stem):
+            cached = list(stem_index.lookup(stem) or [])
+            attempt.update(endpoint="cdx-stem-batch", captures=len(cached), status="cached",
+                           error="ok", message="",
+                           note="answered from the batched stem index (same prefix, filters "
+                                "and cutoff as a single-stem query)")
+            captures.extend(c for c in cached if c.statuscode == "200")
+            attempts.append(attempt)
+            continue
+        caps, resp = cdx_query(fetcher, stem, match="prefix", limit=limit,
+                               extra={"filter": "statuscode:200", "collapse": "urlkey"})
+        attempt.update(status=resp.status, error=resp.error, message=resp.message,
+                       captures=len(caps))
+        # An answered query is real evidence for this exact prefix, so keep it.
+        # Recording here (not only in `stem-scan`) is what makes a `--method stem`
+        # pass cumulative: the next runner answers the same stem from disk instead of
+        # spending a CDX request on it again, and `--only-stem-hits` can turn the
+        # recorded hits into bytes without re-asking anything. Only an answered
+        # response is recorded -- a timeout, throttle or transport failure leaves the
+        # stem pending instead of poisoning it with a false negative.
+        if stem_index is not None and resp.ok:
+            stem_index.record(stem, [c for c in caps if c.statuscode == "200"])
+        captures.extend(c for c in caps if c.statuscode == "200")
+        attempts.append(attempt)
+    return captures, attempts, False
 
 
 def _variants(image_url: str) -> list[str]:
@@ -640,8 +665,10 @@ def resolve_image(
         # load (see ReplayProbeTests). A timed-out probe is transient evidence,
         # and an empty stem query would silently overwrite it with a "gap" that
         # no answered request supports. `--method stem` asks for it explicitly.
+        # Alternate CDN URL forms are consulted too: the bytes may be archived
+        # only under a shard the post never linked.
         extra, stem_attempts, stem_after = image_capture_candidates_stem(
-            fetcher, url, stem_index=stem_index)
+            fetcher, url, stem_index=stem_index, extra_urls=extra_forms)
         captures.extend(extra)
         record["attempts"].extend(stem_attempts)
         after_cutoff_only = after_cutoff_only or stem_after

@@ -16,7 +16,7 @@ import unittest
 from recovery import config
 from recovery.http import GAP, OK, THROTTLED, TIMEOUT
 from recovery.images import image_capture_candidates_probe
-from recovery.queue import QUEUE_VERSION, ImageQueue, variant_outcomes
+from recovery.queue import QUEUE_VERSION, TERMINAL_OUTCOMES, ImageQueue, variant_outcomes
 from recovery.tests.fixtures import FakeArchive, Response
 
 MEDIA = "http://29.media.tumblr.com/tumblr_aaa_500.jpg"
@@ -187,6 +187,24 @@ class VariantFairnessTests(unittest.TestCase):
         self.assertEqual(out[MEDIA], "gap")
         self.assertEqual(out[MEDIA + "x"], TIMEOUT)
         self.assertNotIn(TIMEOUT, ("gap",), "a timeout is not a terminal verdict")
+
+    def test_probe_capture_hit_stays_fetchable(self):
+        """A known capture is not a recovered image.
+
+        Post 29905114965: the probe found a capture on an alternate shard but
+        the replay was cut short by an open circuit breaker. Marking the form
+        "recovered" put it in the terminal `tried` set, so every later pass
+        skipped the one URL that held the bytes.
+        """
+        hit = dict(probe_attempt(MEDIA, OK), status=302,
+                   capture_timestamp="20140111015219")
+        img = image(attempts=[hit])
+        out = variant_outcomes(img)
+        self.assertEqual(out[MEDIA], "capture_known")
+        self.assertNotIn("capture_known", TERMINAL_OUTCOMES)
+        wanted, _row = ImageQueue(self.path).eligible_images(post("1", [img]))
+        self.assertEqual(wanted[0]["tried"], [],
+                         "a capture-known form must not be treated as settled")
 
 
 class QueueFileTests(unittest.TestCase):

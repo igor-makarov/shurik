@@ -74,7 +74,14 @@ def variant_outcomes(image: dict) -> dict[str, str]:
             continue
         err = att.get("error")
         if att.get("capture_timestamp"):
-            outcome = "recovered"
+            # A probe/availability hit means a capture is *known*, not that its
+            # bytes were fetched. Marking it "recovered" put the URL into the
+            # terminal `tried` set, so a pass whose replay was cut short by an
+            # open circuit breaker (post 29905114965, 2026-10) skipped the very
+            # form holding the bytes on every later run. "capture_known" is
+            # deliberately non-terminal: the form stays fetchable, while a true
+            # recovery is recorded by note_attempt from `img["sha256"]`.
+            outcome = "capture_known"
         elif err in (None, "", OK):
             outcome = GAP_TOKEN
         else:
