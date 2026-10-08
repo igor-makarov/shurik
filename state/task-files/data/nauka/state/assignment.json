@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-34",
-  "at": "2026-10-08T11:23:02.869Z",
+  "iteration": "5-35",
+  "at": "2026-10-08T11:59:56.845Z",
   "deadline": "2026-10-08T14:45:32.395Z",
   "deadlineLocal": "2026-10-08 17:45 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 791,
-  "publishedBytesNow": 8266891943,
-  "remainingFilesNow": 321,
-  "masterIndexDigestNow": "sha256:58e10ce7d3533ab737c4ff0917fc0f4ce3bb6883c49cf2e9d1644db054020f4d",
+  "publishedFilesNow": 905,
+  "publishedBytesNow": 10602310935,
+  "remainingFilesNow": 207,
+  "masterIndexDigestNow": "sha256:5e95bb9280e4d66e715cfb990de86d903d254f47d6792338c581866dd0326c91",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,8 +41,8 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 321,
-    "publishedFiles": 791,
+    "pendingFiles": 207,
+    "publishedFiles": 905,
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
     "inProgressFiles": 5,
     "knownGapYears": [
@@ -84,10 +84,10 @@
     "Iteration 4-28: batches 59-60 published 24 fresh files (767->791), +323,515,338 durable origin bytes; master index refreshed and re-verified by immutable digest (58e10ce7, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files). Bounded concurrency raised to 48/6 then 64/8 (aggregate still <=512 KiB/s) for ~1.5x throughput."
   ],
   "masterIndexVerifiedAt": "2026-10-08T05:11:21.904Z",
-  "verifiedPartialBytesNow": 35651584,
+  "verifiedPartialBytesNow": 16777216,
   "continuation": {
     "authorized": true,
-    "note": "Iteration 5-34 acknowledges the user-authorized four-hour continuation (\"Run 4 hours more\"); supervisor deadline 2026-10-08T14:45:32.395Z is authoritative. Scope remains all-years; 875-file/9,777,993,649-byte baseline preserved; 227 regular files + 5 supplementary archives remain.",
+    "note": "Iteration 5-35 acknowledges the user-authorized four-hour continuation (\"Run 4 hours more\"); supervisor deadline 2026-10-08T14:45:32.395Z is authoritative. Scope all-years. Continuation baseline was 875 files / 9,777,993,649 B; iterations 5-33/5-34 advanced durable publication to 905 files / 10,602,310,935 B. 207 regular files + 5 supplementary archives remain.",
     "baselineWorkCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
@@ -96,7 +96,7 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
     "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
-    "iteration": "5-34",
-    "acknowledgedAt": "2026-10-08T11:23:02.869Z"
+    "iteration": "5-35",
+    "acknowledgedAt": "2026-10-08T11:59:56.845Z"
   }
 }
