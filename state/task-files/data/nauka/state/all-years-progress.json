@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "5-37",
-  "at": "2026-10-08T13:29:45.710Z",
+  "iteration": "5-40",
+  "at": "2026-10-08T14:44:31.055Z",
   "scope": "all-years",
   "deadline": "2026-10-08T18:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -41,9 +41,9 @@
     "note": "Discovery complete; unchanged this iteration."
   },
   "publication": {
-    "publishedFiles": 947,
-    "publishedBytes": 12162354953,
-    "remainingFiles": 165,
+    "publishedFiles": 965,
+    "publishedBytes": 13012263762,
+    "remainingFiles": 147,
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
     "newPublishedBeyondBaseline": 72,
@@ -84,19 +84,26 @@
       "note": "remaining 171->165"
     }
   ],
-  "newPublishedThisIteration": 12,
-  "newDurableBytesThisIteration": 502901060,
+  "newPublishedThisIteration": 0,
+  "newDurableBytesThisIteration": 0,
   "throughputNote": "Bounded batches 600-720s at 48/6; effective ~340-400 KiB/s under the 512 KiB/s cap; origin intermittently stalls (30s idle timeouts).",
   "blockers": [],
   "nextActions": [
-    "Continue long bounded smallest-first retrieve batches for the remaining 165 files.",
-    "Verify master index by immutable digest.",
-    "Investigate the 10 null-labelSize 2014/2015 synthesized entries (possible catalog gap)."
+    "Restore the 2 in_progress files from immutable GHCR checkpoint digests, then continue bounded smallest-first retrieve batches for the remaining 147 regular files.",
+    "Verify master index by immutable digest after batches.",
+    "Publish the 5 supplementary archives when regular files complete."
   ],
   "continuation": {
     "authorized": true,
     "deadline": "2026-10-08T18:00:00.000Z",
-    "note": "Iteration 5-37 acknowledged four-hour continuation + 21:00 Asia/Jerusalem extension."
+    "iteration": "5-40",
+    "acknowledgedAt": "2026-10-08T14:44:31.055Z",
+    "note": "Four-hour continuation acknowledged; 21:00 Asia/Jerusalem extension is authoritative."
   },
-  "masterIndexVerifiedAt": "2026-10-08T13:29:53.879Z"
+  "masterIndexVerifiedAt": "2026-10-08T13:29:53.879Z",
+  "durablePartials": {
+    "files": 2,
+    "bytes": 67108864,
+    "note": "nij-1967-n12-pdf + nij-1972-n02-pdf, 32 chunks each, restorable from immutable GHCR checkpoint digests"
+  }
 }

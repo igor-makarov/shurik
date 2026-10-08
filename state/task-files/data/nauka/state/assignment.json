@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-37",
-  "at": "2026-10-08T13:04:59.599Z",
+  "iteration": "5-40",
+  "at": "2026-10-08T14:44:30.862Z",
   "deadline": "2026-10-08T18:00:00.000Z",
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,9 +23,9 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 935,
-  "publishedBytesNow": 11659453893,
-  "remainingFilesNow": 177,
+  "publishedFilesNow": 965,
+  "publishedBytesNow": 13012263762,
+  "remainingFilesNow": 147,
   "masterIndexDigestNow": "sha256:0f6fe7a6f6ffa9b75a0c624db85d56b6a7e83ece4066e39f2bdf0bfc47ff7ebf",
   "discovery": {
     "status": "complete",
@@ -77,13 +77,14 @@
     "Iteration 5-35: batches 78-80 published 13 fresh files (905->918), +434,905,192 origin bytes; durable GHCR partial bytes advanced 16,777,216 -> 123,731,968. Master index refreshed+verified by immutable pull (sha256:3b0c1555..., 1464699 B, status complete, 0 mismatches, 1112 files/941 issues/87 years).",
     "Iteration 5-35 continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; remaining 194 regular files + 5 supplementary archives.",
     "Iteration 5-36: continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; resume retrieval of remaining 194 regular files + 5 supplementary archives.",
-    "Iteration 5-36: batches 81-82 published 17 fresh files (918->935), +622,237,766 origin bytes; durable partials 119,537,664 B in 6 files. Master index republished and verified by immutable pull (sha256:0f6fe7a6..., 1470667 B, status complete, 0 mismatches, 1112 files/941 issues/87 years). Remaining 177 files + 5 supplementary archives."
+    "Iteration 5-36: batches 81-82 published 17 fresh files (918->935), +622,237,766 origin bytes; durable partials 119,537,664 B in 6 files. Master index republished and verified by immutable pull (sha256:0f6fe7a6..., 1470667 B, status complete, 0 mismatches, 1112 files/941 issues/87 years). Remaining 177 files + 5 supplementary archives.",
+    "Iteration 5-40: continuation acknowledged; supervisor deadline 2026-10-08T18:00:00.000Z authoritative. True current state 965 published / 13,012,263,762 B; 147 regular files remain; 2 in_progress (nij-1967-n12-pdf, nij-1972-n02-pdf) with 64 MiB durable GHCR checkpoint bytes. Batch87 (interrupted iteration 5-39) published 6 files durably."
   ],
   "masterIndexVerifiedAt": "2026-10-08T12:55:26.819Z",
-  "verifiedPartialBytesNow": 119537664,
+  "verifiedPartialBytesNow": 67108864,
   "continuation": {
     "authorized": true,
-    "note": "Iteration 5-37 acknowledges the user-authorized four-hour continuation (\"Run 4 hours more\") and the supervisor deadline-only extension to 2026-10-08T18:00:00.000Z. Scope all-years. Continuation baseline at work 15b89ae8: 875 files / 9,777,993,649 B. Current: 935 files / 11,659,453,893 B published; 177 regular files + 5 supplementary archives remain; 119,537,664 durable partial bytes in 6 files.",
+    "note": "Iteration 5-40 acknowledges the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z. Scope all-years. Continuation baseline at work 15b89ae8: 875 files / 9,777,993,649 B. Current: 965 files / 13,012,263,762 B published; 147 regular files remain (145 pending + 2 in_progress) + 5 supplementary archives; 67,108,864 durable checkpoint bytes in 2 files (nij-1967-n12-pdf, nij-1972-n02-pdf).",
     "baselineWorkCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
@@ -92,8 +93,8 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
     "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
-    "iteration": "5-37",
-    "acknowledgedAt": "2026-10-08T13:04:59.599Z"
+    "iteration": "5-40",
+    "acknowledgedAt": "2026-10-08T14:44:30.862Z"
   },
   "deadlineNote": "Supervisor control.json deadline 2026-10-08T18:00:00.000Z (user-authorized 21:00 Asia/Jerusalem extension) is authoritative and replaces the expired 2026-10-08T14:45:32.395Z deadline."
 }
