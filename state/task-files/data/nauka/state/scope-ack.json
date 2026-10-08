@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-scope-ack",
-  "iteration": "5-44",
-  "at": "2026-10-08T16:56:09.000Z",
+  "iteration": "5-45",
+  "at": "2026-10-08T17:56:52.885Z",
   "acknowledgedScopeChange": true,
   "previousObjective": "1934-1939 only, 60 files (completed subset)",
   "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
@@ -33,8 +33,8 @@
     "supplementaryFiles": 5,
     "status": "complete",
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
-    "publishedFiles": 791,
-    "remainingFiles": 321,
+    "publishedFiles": 1014,
+    "remainingFiles": 98,
     "outOfScopePagesVisited": 2,
     "genericFiles": 1112,
     "totalFiles": 1112,
@@ -83,5 +83,21 @@
     "inProgressFiles": 9,
     "durableGhcrCheckpointBytes": 218103808,
     "masterIndexDigest": "sha256:c09a1c84625a7a52e4f4d7052e9a74eeb171e81dcbfeabcd726529df559159da"
+  },
+  "currentPublication": {
+    "publishedFiles": 1014,
+    "publishedBytes": 15500678516,
+    "remainingFiles": 98,
+    "pendingFiles": 94,
+    "inProgressFiles": 4,
+    "durablePartialBytes": 103809024
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162",
+    "bytes": 1498337,
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0
   }
 }

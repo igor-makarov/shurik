@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
   "iteration": "5-45",
-  "at": "2026-10-08T17:53:37.067Z",
+  "at": "2026-10-08T17:56:52.885Z",
   "scope": "all-years",
   "deadline": "2026-10-08T18:00:00.000Z",
   "status": "IN_PROGRESS",
@@ -21,17 +21,17 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:7d292bfc3db6dd47b230abd3ca3b32e62624d5e1ca586dda71d0817b8c773702",
-    "bytes": 1498335,
-    "catalogDigest": "sha256:01c397a102bb438e5efbbd20bd53bce7f0341ebded51842169c9ee1a1fbfb94b",
-    "checkpointDigest": "sha256:fa370a22f63ae2829d5f654e997a415123eead363df96e6260a1c3e1c0d182da",
+    "digest": "sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162",
+    "bytes": 1498337,
+    "catalogDigest": "sha256:0745b537cff0c59b53338843d5810ef5ec087579a1ed876248cb08cc39caa232",
+    "checkpointDigest": "sha256:fdd3019f2220ff4a9eb9d18e8cae7298efc0cda9bac46aca5cd2c33b4ff6dbd2",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0
   },
   "durablePartials": {
     "ghcrCheckpointFiles": 4,
-    "ghcrCheckpointBytes": 81788928,
+    "ghcrCheckpointBytes": 103809024,
     "note": "4 in_progress files hold hash-validated chunk checkpoints restorable by immutable digest"
   },
   "newPublishedBytesThisIteration": 210779483,
@@ -43,5 +43,6 @@
     "nij-1965-n05-pdf"
   ],
   "nextAction": "Restore+finish the 4 in_progress partials from immutable GHCR digests (no re-download), then smallest-first the 94 pending regular PDFs, then the 5 supplementary archives.",
-  "notes": "Iteration 5-45: batches 100-101 published 4 fresh files (+210,779,483 B durable) from immutable GHCR checkpoints; batch 102 added +81,788,928 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index republished each batch and independently verified by immutable pull at sha256:7d292bfc3db6dd47b230abd3ca3b32e62624d5e1ca586dda71d0817b8c773702 (0 problems, status complete, 1112 files/941 issues/87 years)."
+  "notes": "Iteration 5-45: batches 100-101 published 4 fresh files (+210,779,483 B durable) by restoring+finishing prior in_progress files from immutable GHCR chunk checkpoints (no re-download); batches 102-103 added +103,809,024 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress: nij-1972-n12 ~28MB, nij-1965-n01/n02/n05 ~18MB). Master index republished each batch and independently verified by immutable pull at sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162 (0 problems, status complete, 1112 files/941 issues/87 years).",
+  "newDurablePartialBytesAddedThisIteration": 103809024
 }

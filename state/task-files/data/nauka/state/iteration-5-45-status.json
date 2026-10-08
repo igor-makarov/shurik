@@ -2,7 +2,7 @@
   "kind": "shurik-nauka-iteration-status",
   "iteration": "5-45",
   "phase": "progress",
-  "at": "2026-10-08T17:53:37.067Z",
+  "at": "2026-10-08T17:56:52.885Z",
   "scope": "all-years",
   "deadline": "2026-10-08T18:00:00.000Z",
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
@@ -23,17 +23,17 @@
     "remainingFiles": 98,
     "pendingFiles": 94,
     "inProgressFiles": 4,
-    "durableGhcrCheckpointBytes": 81788928,
+    "durableGhcrCheckpointBytes": 103809024,
     "newPublishedBeyondBaseline": 139,
     "newPublishedBytesBeyondBaseline": 5722684867
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:7d292bfc3db6dd47b230abd3ca3b32e62624d5e1ca586dda71d0817b8c773702",
-    "bytes": 1498335,
-    "pulledFileSha256": "b3bce446dfb8e1629a35d82eb012378bb313c164979114f99fc50c89c3f8a142",
-    "catalogDigest": "sha256:01c397a102bb438e5efbbd20bd53bce7f0341ebded51842169c9ee1a1fbfb94b",
-    "checkpointDigest": "sha256:fa370a22f63ae2829d5f654e997a415123eead363df96e6260a1c3e1c0d182da",
+    "digest": "sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162",
+    "bytes": 1498337,
+    "pulledFileSha256": "f8b560448251df4874212194c8ff5a87e5257d3312a944a3f93c3e2fd69b5870",
+    "catalogDigest": "sha256:0745b537cff0c59b53338843d5810ef5ec087579a1ed876248cb08cc39caa232",
+    "checkpointDigest": "sha256:fdd3019f2220ff4a9eb9d18e8cae7298efc0cda9bac46aca5cd2c33b4ff6dbd2",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0,
@@ -73,11 +73,23 @@
       "durablePartialBytesAdded": 81788928,
       "remainingAfter": 98,
       "note": "tail batch; advanced 4 in_progress checkpoints; no publish"
+    },
+    {
+      "batch": 103,
+      "budgetMs": 120000,
+      "cleanupMs": 40000,
+      "elapsedMs": 152771,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "durablePartialBytesAdded": 22020096,
+      "remainingAfter": 98,
+      "note": "final tail batch; advanced in_progress 81,788,928 -> 103,809,024 B; no publish"
     }
   ],
   "newPublishedThisIteration": 4,
   "newDurableBytesThisIteration": 210779483,
-  "newDurablePartialBytesThisIteration": 159445655,
+  "newDurablePartialBytesThisIteration": 103809024,
   "inProgressIds": [
     "nij-1972-n12-pdf",
     "nij-1965-n01-pdf",
@@ -98,5 +110,6 @@
     "supplementaryFiles": 5,
     "note": "Discovery complete; not restarted."
   },
-  "blockers": []
+  "blockers": [],
+  "masterIndexVerifiedAt": "2026-10-08T17:56:52.885Z"
 }
