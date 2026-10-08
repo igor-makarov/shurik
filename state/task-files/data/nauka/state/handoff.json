@@ -1,22 +1,22 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-30",
-  "at": "2026-10-08T06:16:54.369Z",
+  "iteration": "4-31",
+  "at": "2026-10-08T06:51:30.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 851,
-  "remaining": 261,
-  "bytesPublished": 9257285723,
+  "published": 875,
+  "remaining": 237,
+  "bytesPublished": 9777993649,
   "blocker": null,
   "status": "IN_PROGRESS",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-08T06:12:11.000Z",
-    "note": "Origin publ.lib.ru up; iteration 4-30 batches 64-66 exit 0, zero transfer failures, 48/6, aggregate <=512 KiB/s."
+    "lastChecked": "2026-10-08T06:26:30.000Z",
+    "note": "Origin publ.lib.ru up; iteration 4-31 batches 68-70 exit 0, zero transfer failures, 48/6, aggregate <=512 KiB/s."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 54525952,
+    "verifiedPartialBytes": 68157440,
     "partialFiles": 4
   },
   "discovery": {
@@ -30,22 +30,22 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:fc88443125f7495e5d23d0b8a5c215e22d2ea54b39a0adf0deea3668d812838b",
-    "bytes": 1440069,
-    "catalogDigest": "sha256:6a70b153c56e5e7996ac73352e9c73cbadd3ee522741565e7b0dc378f420da6d",
-    "checkpointDigest": "sha256:78503b289afc9751797cf99cb6bbe35d0df1f375b423b7615c036b5c9877706a",
+    "digest": "sha256:94503d91093369eed78e988cee4e879fca3c06b1eed2e71cc49fc2eb9cb2464f",
+    "bytes": 1449579,
+    "catalogDigest": "sha256:5cf56326f5610f4664439c514585ee4726853b1c3d3809451c47e8b13facd058",
+    "checkpointDigest": "sha256:ed3249ff52dc1dc33ceeb75db18dbfb91bb1fe384dfde5f1061e31abf9ff0aae",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T06:16:54.369Z",
+    "verifiedAt": "2026-10-08T06:50:38.960Z",
     "publishedFlagMismatches": 0,
     "problems": [],
-    "verified": "verify-master.mjs immutable-digest pull OK (published 848, status complete)"
+    "verified": "verify-master.mjs immutable-digest pull OK (published 875, status complete)"
   },
   "codeChangesThisIteration": [],
-  "publishedThisIteration": 27,
-  "newDurableBytesThisIteration": 483897621,
-  "nextAction": "Continue bounded retrieve batches; remaining 261 files.",
-  "notes": "Iteration 4-30: batches 64-67 published 27 fresh files (824->851), +483897621 durable bytes. Master index refreshed + re-verified by immutable pull (sha256:fc88443125f7495e5d23d0b8a5c215e22d2ea54b39a0adf0deea3668d812838b, status complete, 0 mismatches). Discovery complete (87 years, 941 issues, 1112 files). 48/6, aggregate <=512 KiB/s."
+  "publishedThisIteration": 24,
+  "newDurableBytesThisIteration": 520707926,
+  "nextAction": "Continue bounded retrieve batches; remaining 237 files.",
+  "notes": "Iteration 4-31: batches 68-70 published 24 fresh files (851->875), +520707926 durable bytes. Master index refreshed + re-verified by immutable pull (sha256:94503d91093369eed78e988cee4e879fca3c06b1eed2e71cc49fc2eb9cb2464f, status complete, 0 mismatches). Discovery complete (87 years, 941 issues, 1112 files). 48/6, aggregate <=512 KiB/s."
 }

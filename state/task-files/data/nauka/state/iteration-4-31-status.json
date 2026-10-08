@@ -1,0 +1,62 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "4-31",
+  "at": "2026-10-08T06:51:30.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "acknowledgedScopeChange": true,
+  "discovery": {
+    "status": "complete",
+    "eraPages": "12/12",
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "note": "Discovery unchanged this iteration; preserved from prior iterations."
+  },
+  "publication": {
+    "publishedFiles": 875,
+    "publishedIssues": 718,
+    "remainingFiles": 237,
+    "publishedBytes": 9777993649,
+    "newBeyond60BaselineFiles": 815,
+    "newBeyond60BaselineBytes": 7466363359,
+    "verifiedPartialBytes": 68157440,
+    "durablePartialFiles": 4
+  },
+  "baseline60": {
+    "files": 60,
+    "bytes": 2311630290,
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "preserved": true,
+    "note": "old NAUKA_STATUS 60/60 is only the completed 1934-1939 subset, not the all-years objective"
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:94503d91093369eed78e988cee4e879fca3c06b1eed2e71cc49fc2eb9cb2464f",
+    "bytes": 1449579,
+    "catalogDigest": "sha256:5cf56326f5610f4664439c514585ee4726853b1c3d3809451c47e8b13facd058",
+    "checkpointDigest": "sha256:ed3249ff52dc1dc33ceeb75db18dbfb91bb1fe384dfde5f1061e31abf9ff0aae",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T06:50:38.960Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "batchesThisIteration": [
+    { "batch": 68, "published": 10, "durableNewBytes": 203818450, "elapsedMs": 480351, "exitCode": 0 },
+    { "batch": 69, "published": 9, "durableNewBytes": 198336720, "elapsedMs": 469714, "exitCode": 0 },
+    { "batch": 70, "published": 5, "durableNewBytes": 118552756, "elapsedMs": 322728, "exitCode": 0 }
+  ],
+  "totalsThisIteration": {
+    "published": 24,
+    "bytes": 520707926,
+    "throughputNote": "48/6; aggregate <=512 KiB/s; zero origin failures"
+  },
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 237 files.",
+  "newPublishedThisIteration": 24,
+  "newDurableBytesThisIteration": 520707926
+}

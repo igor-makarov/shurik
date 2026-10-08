@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-30",
-  "at": "2026-10-08T06:16:54.369Z",
+  "iteration": "4-31",
+  "at": "2026-10-08T06:51:30.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -27,95 +27,52 @@
     "issues": 941,
     "totalFiles": 1112,
     "knownGapYears": [
-      1891,
-      1892,
-      2016,
-      2017,
-      2018,
-      2019,
-      2021,
-      2022,
-      2023,
-      2024,
-      2025,
-      2026,
-      2027,
-      2028,
-      2029
+      1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
     ],
     "note": "Discovery complete; preserved from prior iterations, unchanged this iteration."
   },
   "publication": {
-    "publishedFiles": 851,
-    "publishedIssues": 698,
-    "publishedBytes": 9257285723,
-    "remainingFiles": 261,
+    "publishedFiles": 875,
+    "publishedIssues": 718,
+    "publishedBytes": 9777993649,
+    "remainingFiles": 237,
     "inProgressFiles": 4,
-    "verifiedPartialBytes": 54525952,
+    "verifiedPartialBytes": 68157440,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 791,
-    "newPublishedBytesBeyondBaseline": 6945655433
+    "newPublishedBeyondBaseline": 815,
+    "newPublishedBytesBeyondBaseline": 7466363359
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:fc88443125f7495e5d23d0b8a5c215e22d2ea54b39a0adf0deea3668d812838b",
-    "bytes": 1441138,
-    "catalogDigest": "sha256:6a70b153c56e5e7996ac73352e9c73cbadd3ee522741565e7b0dc378f420da6d",
-    "checkpointDigest": "sha256:78503b289afc9751797cf99cb6bbe35d0df1f375b423b7615c036b5c9877706a",
+    "digest": "sha256:94503d91093369eed78e988cee4e879fca3c06b1eed2e71cc49fc2eb9cb2464f",
+    "bytes": 1449579,
+    "catalogDigest": "sha256:5cf56326f5610f4664439c514585ee4726853b1c3d3809451c47e8b13facd058",
+    "checkpointDigest": "sha256:ed3249ff52dc1dc33ceeb75db18dbfb91bb1fe384dfde5f1061e31abf9ff0aae",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T06:16:54.369Z",
+    "verifiedAt": "2026-10-08T06:50:38.960Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "batchesThisIteration": [
-    {
-      "batch": 64,
-      "published": 11,
-      "durableNewBytes": 188423115,
-      "elapsedMs": 479626,
-      "bytes": 188423115,
-      "exitCode": 0
-    },
-    {
-      "batch": 65,
-      "published": 8,
-      "durableNewBytes": 145710356,
-      "elapsedMs": 341740,
-      "bytes": 145710356,
-      "exitCode": 0
-    },
-    {
-      "batch": 66,
-      "published": 5,
-      "durableNewBytes": 92682474,
-      "elapsedMs": 226627,
-      "bytes": 92682474,
-      "exitCode": 0
-    },
-    {
-      "batch": 67,
-      "published": 3,
-      "durableNewBytes": 57081676,
-      "elapsedMs": 213219,
-      "bytes": 57081676,
-      "exitCode": 0
-    }
+    { "batch": 68, "published": 10, "durableNewBytes": 203818450, "elapsedMs": 480351, "exitCode": 0 },
+    { "batch": 69, "published": 9, "durableNewBytes": 198336720, "elapsedMs": 469714, "exitCode": 0 },
+    { "batch": 70, "published": 5, "durableNewBytes": 118552756, "elapsedMs": 322728, "exitCode": 0 }
   ],
-  "newPublishedThisIteration": 27,
-  "newDurableBytesThisIteration": 483897621,
-  "throughputNote": "Batches 64-65 at 48/6; aggregate token bucket <=512 KiB/s; both exit 0, zero transfer failures.",
+  "newPublishedThisIteration": 24,
+  "newDurableBytesThisIteration": 520707926,
+  "throughputNote": "Batches 68-70 at 48/6; aggregate token bucket <=512 KiB/s; all exit 0, zero transfer failures.",
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 261 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 237 files.",
     "Refresh+re-verify master index by immutable digest after each batch."
   ],
   "totalsThisIteration": {
     "published": 24,
-    "bytes": 426815945,
+    "bytes": 520707926,
     "throughputNote": "48/6; aggregate <=512 KiB/s; zero origin failures"
   },
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 264 files."
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 237 files."
 }
