@@ -75,8 +75,15 @@ def discover_posts(fetcher: Fetcher, years: Optional[list[str]] = None, force: b
         stats["queries"] += 1
         new = index.add(caps)
         stats["new"] += new
-        index.mark_done(name, {"captures": len(caps), "new": new, "response_error": resp.error,
-                               "status": resp.status, "message": resp.message[:200]})
+        info = {"captures": len(caps), "new": new, "response_error": resp.error,
+                "status": resp.status, "message": resp.message[:200]}
+        if resp.ok:
+            index.mark_done(name, info)
+        else:
+            # A failed request is not a "no captures" answer. Leave the window
+            # retryable instead of settling it (see CaptureIndex.mark_failed).
+            index.mark_failed(name, info)
+            stats.setdefault("failed", []).append(name)
     return {**stats, "total": len(index.all())}
 
 
@@ -92,7 +99,12 @@ def discover_listings(fetcher: Fetcher, force: bool = False) -> dict:
         caps, resp = cdx_query(fetcher, prefix, match="prefix", limit=20000)
         stats["queries"] += 1
         stats["new"] += index.add(caps)
-        index.mark_done(name, {"captures": len(caps), "response_error": resp.error, "status": resp.status})
+        info = {"captures": len(caps), "response_error": resp.error, "status": resp.status}
+        if resp.ok:
+            index.mark_done(name, info)
+        else:
+            index.mark_failed(name, info)
+            stats.setdefault("failed", []).append(name)
     return {**stats, "total": len(index.all())}
 
 

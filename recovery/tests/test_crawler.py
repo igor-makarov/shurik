@@ -22,6 +22,19 @@ from recovery.tests.fixtures import (CAPTION_HEBREW, JPEG_BYTES, NOT_ARCHIVED_HT
                                      entities, html)
 
 
+class CaptureIndexFailureTests(unittest.TestCase):
+    def test_failed_query_is_not_marked_done(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            idx = CaptureIndex(os.path.join(tmp, "posts.jsonl"))
+            idx.mark_failed("posts:2015", {"response_error": TIMEOUT, "status": None})
+            self.assertFalse(idx.query_done("posts:2015"),
+                             "a timed-out query must stay retryable")
+            self.assertEqual(idx.manifest["failed"]["posts:2015"]["response_error"], TIMEOUT)
+            idx.mark_done("posts:2015", {"captures": 0})
+            self.assertTrue(idx.query_done("posts:2015"))
+            self.assertNotIn("posts:2015", idx.manifest.get("failed", {}))
+
+
 class CutoffTests(unittest.TestCase):
     def test_replay_after_cutoff_is_refused(self):
         with self.assertRaises(RecoveryError):

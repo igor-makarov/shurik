@@ -63,6 +63,15 @@ class HostDumpTests(unittest.TestCase):
         self.assertEqual(caps[0].timestamp, "20160125230748")
         self.assertNotIn("tumblr_x500", key)
 
+    def test_resume_key_is_kept_verbatim_not_decoded(self):
+        raw = b"com,tumblr,media,68)/zzz/tumblr_y.jpg 20140101"
+        key = base64.b64encode(zlib.compress(raw, 9)).decode()
+        page = json.dumps([list(hostdump.HEADERS), list(ROW), [key]])
+        _caps, next_key = hostdump.parse_page(page)
+        self.assertEqual(next_key, key,
+                         "the opaque key must go back to the server unchanged")
+        self.assertNotIn("tumblr_y", next_key)
+
     def test_parse_page_drops_after_cutoff_rows(self):
         late = list(ROW)
         late[1] = "20200101000000"

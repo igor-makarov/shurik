@@ -144,7 +144,12 @@ def parse_page(payload: str, source_query: str = "") -> tuple[list[Capture], str
     # Never the header: a header row is also a list, and mistaking it for the key
     # would drop every capture of the page.
     if len(rows) > 1 and isinstance(last, list) and len(last) == 1 and isinstance(last[0], str):
-        next_key = decode_resume_key(last[0])
+        # Verbatim, never decoded: the CDX server only accepts the opaque
+        # base64-deflate token it handed out. Feeding it the human-readable
+        # `urlkey timestamp` view (what `decode_resume_key` returns for many
+        # keys) makes the next page answer HTTP 400 and strands the walk --
+        # observed on 68.media.tumblr.com, 2026-10-08, page 11.
+        next_key = last[0]
         rows = rows[:-1]
     return parse_cdx_json(rows, source_query), next_key
 

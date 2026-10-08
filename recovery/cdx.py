@@ -191,6 +191,24 @@ class CaptureIndex:
 
     def mark_done(self, name: str, info: dict | None = None) -> None:
         self.manifest.setdefault("done", {})[name] = info or {"at": _now()}
+        # A successful (re)query supersedes an earlier failure record.
+        self.manifest.get("failed", {}).pop(name, None)
+        self.save_manifest()
+
+    def mark_failed(self, name: str, info: dict | None = None) -> None:
+        """Record a query that did *not* get an answer, without settling it.
+
+        A transport failure, timeout or throttle is not negative evidence about
+        the archive. Marking such a query done (the old behaviour) turned a
+        lost request into a permanent "this window has no captures" claim, so
+        the year/prefix was never asked again. Keeping it out of `done` makes
+        `query_done` false and the next pass retries it.
+        """
+        entry = dict(info or {})
+        entry.setdefault("at", _now())
+        self.manifest.setdefault("failed", {})[name] = entry
+        # A later successful query of the same name clears the failure record.
+        self.manifest.get("done", {}).pop(name, None)
         self.save_manifest()
 
     def add(self, captures: Iterable[Capture]) -> int:
