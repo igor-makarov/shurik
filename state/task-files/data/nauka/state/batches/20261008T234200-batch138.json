@@ -1,0 +1,45 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 138,
+  "iteration": "5-56",
+  "startedAt": "2026-10-08T23:39:21.513Z",
+  "elapsedMs": 158441,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 150000,
+    "cleanupMs": 45000,
+    "concurrency": 24,
+    "fileConcurrency": 4,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "5-56 short tail: restore+advance the 4 new durable in-progress files from immutable GHCR digests",
+  "publishedBefore": 1085,
+  "publishedAfter": 1085,
+  "remainingBefore": 27,
+  "remainingAfter": 27,
+  "publishedBytesAfter": 20044491081,
+  "verifiedPartialBytesBefore": 16777216,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 0,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:b330eda2e53d32d91c7c099628a2cd8d295a5c694239799b4615eab9df6210ee",
+      "bytes": 1523911,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:e3ab0568944483fa5cf6d89209779a31309e9c46417f0dc21da1f7447fec89a3"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:94a971447c47d4e7aa397855ee8a5ddedf255968a3e691d9a470cdb96ae715ef"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 27 files."
+}

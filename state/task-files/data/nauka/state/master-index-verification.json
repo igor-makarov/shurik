@@ -1,25 +1,25 @@
 {
   "kind": "shurik-nauka-master-index-verification",
-  "at": "2026-10-08T23:08:40.750Z",
+  "at": "2026-10-08T23:42:58.742Z",
   "tag": "nij-master-index",
-  "immutableDigest": "sha256:e58c4ac52779fb92bfa0139a061f24d400c52e6a5c637992c97ad56cbaa0a0b8",
-  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:e58c4ac52779fb92bfa0139a061f24d400c52e6a5c637992c97ad56cbaa0a0b8",
-  "pulledBytes": 1522495,
-  "pulledFileSha256": "9049ba044a2a0e9a75a5cb9009fd9199eaac83fdfabafc7c4f6cd636ac1a2948",
+  "immutableDigest": "sha256:b330eda2e53d32d91c7c099628a2cd8d295a5c694239799b4615eab9df6210ee",
+  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:b330eda2e53d32d91c7c099628a2cd8d295a5c694239799b4615eab9df6210ee",
+  "pulledBytes": 1523911,
+  "pulledFileSha256": "577bf160509f3d5bdfc723ea6480e2b84fb9117b2c98786949420794db20a00c",
   "pulledFileName": "nij-master-index.json",
   "tagResolveMatchesDigest": true,
   "discoveryStatus": "complete",
   "totals": {
     "years": 87,
     "issues": 941,
-    "publishedIssues": 910,
+    "publishedIssues": 914,
     "files": 1112,
-    "publishedFiles": 1081,
-    "remainingFiles": 31,
-    "knownBytes": 20044491081,
-    "publishedBytes": 19696837873,
-    "inFlightReceivedBytes": 84934656,
-    "durablePartialBytes": 84934656,
+    "publishedFiles": 1085,
+    "remainingFiles": 27,
+    "knownBytes": 20488847392,
+    "publishedBytes": 20044491081,
+    "inFlightReceivedBytes": 198180864,
+    "durablePartialBytes": 198180864,
     "supplementaryFiles": 5,
     "supplementaryPublished": 5
   },
@@ -75,7 +75,7 @@
   },
   "checks": {
     "filesLength": 1112,
-    "publishedFiles": 1081,
+    "publishedFiles": 1085,
     "publishedFlagMismatchesVsState": 0,
     "years": 87,
     "issues": 941,
@@ -85,15 +85,15 @@
   "problems": [],
   "ok": true,
   "catalogVerified": {
-    "digest": "sha256:3fd39c6e7499098be4e9027332b81a9d318c7bc28aa26cc865ea66df71a6a295",
-    "bytes": 32563,
-    "sha256": "7c90cf2452b25645ade3d68564b00201ffbd48a56966bacf0628c8588d4359ae"
+    "digest": "sha256:e3ab0568944483fa5cf6d89209779a31309e9c46417f0dc21da1f7447fec89a3",
+    "bytes": 32620,
+    "sha256": "a81aa8a3d647ccc9c4d9cac71cfdd11294aa43d0af4ac342083d90d3174d5ed2"
   },
   "checkpointVerified": {
-    "digest": "sha256:05d71c0efce103f5476c397c93355737426171fce595541deb7da0872a72d5b2",
-    "bytes": 375920,
-    "sha256": "31eb0f5c6ce1c422678858b2eea44cbb818df8a3e7c9887ab366cc4afa81724a"
+    "digest": "sha256:94a971447c47d4e7aa397855ee8a5ddedf255968a3e691d9a470cdb96ae715ef",
+    "bytes": 376572,
+    "sha256": "0fe7feed75465860e8d87bac42739ef0b8951c18bf0ca610ced362c7a7111ae3"
   },
-  "checkpointPublished": 1081,
-  "checkpointRemaining": 31
+  "checkpointPublished": 1085,
+  "checkpointRemaining": 27
 }
