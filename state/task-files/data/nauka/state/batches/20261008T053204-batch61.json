@@ -1,0 +1,66 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 61,
+  "iteration": "4-29",
+  "startedAt": "2026-10-08T05:19:46.314Z",
+  "elapsedMs": 738224,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 720000,
+    "cleanupMs": 120000,
+    "concurrency": 48,
+    "fileConcurrency": 6,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "all-years continuation; smallest-first; 48/6; aggregate <=512 KiB/s",
+  "publishedBefore": 791,
+  "publishedAfter": 811,
+  "remainingBefore": 321,
+  "remainingAfter": 301,
+  "publishedBytesAfter": 8565557907,
+  "verifiedPartialBytesBefore": 16777216,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 298665964,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1941-n0708-pdf",
+    "nij-1948-n04-djv",
+    "nij-1948-n10-djv",
+    "nij-1955-n11-pdf",
+    "nij-1959-n04-djv",
+    "nij-1959-n12-djv",
+    "nij-1961-n08-djv",
+    "nij-1961-n10-pdf",
+    "nij-1971-n03-djv",
+    "nij-1975-n05-djv",
+    "nij-1977-n03-djv",
+    "nij-1978-n06-djv",
+    "nij-2009-n10-djv",
+    "nij-2010-n02-pdf",
+    "nij-2011-n03-pdf",
+    "nij-2011-n07-pdf",
+    "nij-2011-n08-pdf",
+    "nij-2011-n12-pdf",
+    "nij-2012-n09-pdf",
+    "nij-2013-n11-pdf"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:57a18a7c4b5f236d5841dfd9abe6f22beb788bf8d4911557a01353389af9f43d",
+      "bytes": 1427068,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:30d0007f55e27e06d0abbf690605e795f19004d38999f7e4ef61313b8098c4f2"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:3c8c09aa9cbc1677447f7901ba8b0379c6153115b2fa939bf1fc587ef32b74e2"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 301 files."
+}
