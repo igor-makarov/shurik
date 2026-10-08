@@ -76,6 +76,28 @@
    "note": "recovered from pre-cutoff capture 20130924034019 of http://i.imgur.com/prUsdqz.png (31319 bytes, image/png); every URL form tried earlier is kept in `attempts`",
    "sha256": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
    "state": "recovered"
+  },
+  {
+   "base_key": "tumblr_mnv48wKhCI1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+   "media_url": "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_1280.jpg",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_1024.jpg",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_540.jpg",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_500.jpg",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_400.jpg",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_100.jpg",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1.png",
+    "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1.gif"
+   ]
   }
  ],
  "listing_evidence": 1,
@@ -102,12 +124,18 @@
    "url": "http://hazfalafel.com/post/52151844735"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://25.media.tumblr.com/7242b2f2a7e1a6396ff5e89dffa5469d/tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/52151844735",
  "page_bytes": 61687,
  "page_sha256": "e61e31038711ddaf88e366f467c0d0524fd9a0290dd567cc33a3b6f9ce501c7d",
- "partial": false,
+ "partial": true,
  "post_id": "52151844735",
  "posted_on": "Posted on Tuesday the 4th of June 2013 at 8:58 PM",
  "published": {
@@ -125,7 +153,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20130923182316id_/http://hazfalafel.com/post/52151844735",
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "בחזרה-לעתיד",
   "back-to-the-future",
