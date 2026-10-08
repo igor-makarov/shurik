@@ -1,0 +1,55 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-26",
+  "phase": "start",
+  "at": "2026-10-08T03:46:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "note": "Scope is ALL YEARS of Nauka i Zhizn plus the canonical all-years GHCR master issue index, retrieval continuing until the supervisor's absolute deadline. NAUKA_STATUS 60/60 is ONLY the completed 1934-1939 subset and does NOT mean the all-years assignment is complete. No hard-coded 60-file stop and no year restriction. Discovery remains complete (87 years, 941 issues, 1112 files); this iteration continues bounded retrieval and keeps the master index refreshed/verified.",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "publicationAtStart": {
+    "publishedFiles": 701,
+    "publishedBytes": 7131829572,
+    "remainingFiles": 411,
+    "verifiedPartialBytes": 8388608
+  },
+  "masterIndexAtStart": {
+    "digest": "sha256:ba29cda4bcb967b913289114c6d0a3c8b443e0aa95695ae21d60c4383145d8aa",
+    "bytes": 1388406,
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T03:39:28.935Z"
+  },
+  "testsAtStart": "node --test tools/nauka/test/*.test.mjs -> 30/30 pass",
+  "plan": [
+    "Continue bounded smallest-first retrieve batches (foreground, throttled <=512 KiB/s).",
+    "CLI republishes nij-master-index / nij-master-catalog / nij-master-checkpoint each batch; re-verify by immutable digest.",
+    "Record per-batch records and refresh all-years-progress/handoff/assignment/end record."
+  ]
+}
