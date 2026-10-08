@@ -20,11 +20,11 @@
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
-    "workCommit": "375bc96f953e8137e4c44a6e9c42a898e92cdc90",
+    "workCommit": "361d21d83a54bc47d54ef5b4ca8898b4e4850377",
     "generation": 18,
-    "sequence": "18-306",
-    "runId": "37586719095",
-    "at": "2026-10-07T07:22:26.837Z"
+    "sequence": "maintainer-resume-guidance",
+    "runId": null,
+    "at": "2026-10-08T18:20:03Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -98,5 +98,18 @@
     "initialModelHealthCheck": "required"
   },
   "stoppedAt": "2026-10-07T07:22:51.000Z",
-  "stopReason": "User requested stop: GLM 5.3 experiment is too expensive"
+  "stopReason": "User requested stop: GLM 5.3 experiment is too expensive",
+  "recoveryGuidanceChange": {
+    "at": "2026-10-08T18:20:03Z",
+    "workCommit": "361d21d83a54bc47d54ef5b4ca8898b4e4850377",
+    "fromWorkCommit": "375bc96f953e8137e4c44a6e9c42a898e92cdc90",
+    "naukaSource": "b6f21781a59925619541a6a16453f6b4ee68b114",
+    "focus": [
+      "durable resume",
+      "Wayback API choice",
+      "Nauka validator/chunk/drain lessons",
+      "proactive diagnosis"
+    ],
+    "clockPolicy": "final_checkpoint_interval_only"
+  }
 }
