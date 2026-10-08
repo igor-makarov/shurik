@@ -1,0 +1,55 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-24",
+  "phase": "start",
+  "at": "2026-10-08T02:45:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "note": "Scope is ALL YEARS of Nauka i Zhizn plus the canonical all-years GHCR master issue index, with retrieval continuing until the stated absolute deadline. NAUKA_STATUS 60/60 refers ONLY to the completed 1934-1939 subset and does NOT mean the all-years assignment is complete. Old hard-coded 60-file stopping condition and 1934-1939 restriction are retired.",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "publicationAtStart": {
+    "publishedFiles": 606,
+    "publishedBytes": 6104567400,
+    "remainingFiles": 506,
+    "inProgressFiles": 3,
+    "verifiedPartialBytes": 15728640,
+    "estimatedRemainingBytes": 15464615109
+  },
+  "masterIndexAtStart": {
+    "digest": "sha256:6eaf4bbad1371a4a4e04d01ec883eedb9bce0401289c2a5993eaaecda3f00267",
+    "bytes": 1355097,
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true
+  },
+  "plan": [
+    "Continue bounded smallest-first retrieve batches (foreground, throttled <=512 KiB/s).",
+    "CLI republishes nij-master-index / nij-master-catalog / nij-master-checkpoint each batch; re-verify by immutable digest.",
+    "Record per-batch records and refresh all-years-progress/handoff."
+  ]
+}
