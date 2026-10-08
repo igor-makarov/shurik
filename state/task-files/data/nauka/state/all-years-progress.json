@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "5-46",
-  "at": "2026-10-08T18:27:30.191Z",
+  "iteration": "5-47",
+  "at": "2026-10-08T18:55:23.870Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Completion-driven continuation authorized (control.json monitorCompletion token nauka-user-until-complete-1791481729758); time deadline removed. Completion target: 1112 regular files + 5 supplementary archives.",
@@ -26,95 +26,60 @@
     "note": "Discovery complete; not restarted this iteration."
   },
   "publication": {
-    "publishedFiles": 1018,
-    "publishedBytes": 15713338332,
-    "remainingFiles": 94,
-    "pendingFiles": 89,
-    "inProgressFiles": 5,
+    "publishedFiles": 1025,
+    "publishedBytes": 16089171695,
+    "remainingFiles": 87,
+    "pendingFiles": 87,
+    "inProgressFiles": 0,
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
-    "newPublishedBeyondBaseline": 143,
-    "newPublishedBytesBeyondBaseline": 5935344683
+    "newPublishedBeyondBaseline": 150,
+    "newPublishedBytesBeyondBaseline": 6311178046
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:2e8d7963e0daa5c16156dc6341035c128ca9144a4f46cfe8617c567cfc850ae3",
-    "bytes": 1499759,
+    "digest": "sha256:6c5485f2ee35848e50b59c381e40b97e87c0046a9b864f154a41235a6e559a69",
+    "bytes": 1502217,
     "pulledFileSha256": "06a15b1afb0b5976b2fabe89b3ef57f35d8bf6479c7415fcc5c410fc2d677236",
-    "catalogDigest": "sha256:1bff1bf8b33660cd8c9d780195f073773a86d937010601e971a0a3a57d0702f8",
-    "checkpointDigest": "sha256:f0dc5a58953d2acc4b8befc12fe8abd57027425fc22a792a52eabc5500ecdb2f",
+    "catalogDigest": "sha256:421a94790742552a316620d0946990bc926d04f0ebab62d06fe6281361cb5f88",
+    "checkpointDigest": "sha256:ed04bce9c5d828c62a1116838b03de3c5d56b666732b06eaeedf9887126d3051",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0,
     "publishedByBatch": true,
-    "verifiedAt": "2026-10-08T18:27:30.191Z"
+    "verifiedAt": "2026-10-08T18:55:23.870Z"
   },
   "batchesThisIteration": [
     {
-      "batch": 104,
-      "budgetMs": 480000,
-      "cleanupMs": 110000,
-      "elapsedMs": 443920,
-      "exitCode": 0,
-      "published": 4,
-      "publishedBytes": 212659816,
-      "durablePartialBytesAdded": 0,
-      "note": "restore+finish 4 checkpointed in_progress files"
-    },
-    {
-      "batch": 105,
-      "budgetMs": 300000,
+      "batch": 109,
+      "budgetMs": 600000,
       "cleanupMs": 90000,
-      "elapsedMs": 289409,
+      "elapsedMs": 602671,
       "exitCode": 0,
-      "published": 0,
-      "publishedBytes": 0,
-      "durablePartialBytesAdded": 81788928,
-      "note": "started 4 new in_progress; durable GHCR chunk checkpoints"
+      "published": 5,
+      "publishedBytes": 268234035,
+      "note": "restore 5 in_progress from GHCR checkpoints then publish"
     },
     {
-      "batch": 106,
-      "budgetMs": 100000,
-      "cleanupMs": 50000,
-      "elapsedMs": 120860,
+      "batch": 110,
+      "budgetMs": 480000,
+      "cleanupMs": 80000,
+      "elapsedMs": 472681,
       "exitCode": 0,
-      "published": 0,
-      "publishedBytes": 0,
-      "durablePartialBytesAdded": 25065472,
-      "note": "tail batch; durable GHCR chunk checkpoints"
-    },
-    {
-      "batch": 107,
-      "budgetMs": 60000,
-      "cleanupMs": 40000,
-      "elapsedMs": 72022,
-      "exitCode": 0,
-      "published": 0,
-      "publishedBytes": 0,
-      "durablePartialBytesAdded": 6291456,
-      "note": "final tail batch; durable GHCR chunk checkpoints"
-    },
-    {
-      "batch": 108,
-      "budgetMs": 30000,
-      "cleanupMs": 20000,
-      "elapsedMs": 55468,
-      "exitCode": 0,
-      "published": 0,
-      "publishedBytes": 0,
-      "durablePartialBytesAdded": 0,
-      "note": "final micro batch"
+      "published": 2,
+      "publishedBytes": 107598928,
+      "note": "published nij-1970-n07-djv + nij-1967-n07-djv; durable chunk checkpoints advanced"
     }
   ],
-  "newPublishedThisIteration": 4,
-  "newDurableBytesThisIteration": 212659816,
+  "newPublishedThisIteration": 7,
+  "newDurableBytesThisIteration": 375832963,
   "newDurablePartialBytesThisIteration": 113246208,
   "throughputNote": "Origin reachable; batches at 24/4; zero non-transient failures.",
   "blockers": [],
   "nextActions": [
-    "Restore+finish the 5 checkpointed in_progress partials; smallest-first the 89 pending regular PDFs/DVJs; then the 5 supplementary archives."
+    "Restore+finish checkpointed in_progress partials; smallest-first the 87 pending regular PDFs/DVJs; then the 5 supplementary archives."
   ],
   "durablePartials": {
     "ghcrCheckpointFiles": 5,
