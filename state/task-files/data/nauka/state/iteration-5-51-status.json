@@ -1,0 +1,128 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-51",
+  "phase": "progress",
+  "at": "2026-10-08T20:57:30.000Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json monitorCompletion (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The earlier four-hour window (previousDeadline 2026-10-08T18:00:00Z) is superseded. I obey the supervisor deadline and set none of my own.",
+  "acknowledgement": "Acknowledged the all-years continuation under the supervisor completion-driven control. Preserved the completed 1934-1939 subset and every existing file id/receipt. Work done inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "masterTag": "nij-master-index",
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 1057,
+    "publishedBytes": 17932555261,
+    "remainingRegularFiles": 55,
+    "inProgressFiles": 4,
+    "durableChunkCheckpointBytes": 100663296,
+    "durablePartialBytesGit": 16777216,
+    "durablePartialBytes": 100663296,
+    "knownBytes": 18192687865
+  },
+  "inProgressIds": [
+    "nij-1940-n04-pdf",
+    "nij-1970-n07-pdf",
+    "nij-1967-n07-pdf",
+    "nij-1956-n10-pdf"
+  ],
+  "batchesThisIteration": [
+    {
+      "batch": 119,
+      "budgetMs": 620000,
+      "cleanupMs": 100000,
+      "elapsedMs": 588721,
+      "exitCode": 0,
+      "published": 4,
+      "publishedBytes": 246151823,
+      "publishedThisBatch": [
+        "nij-1964-n12-pdf",
+        "nij-1967-n07-djv",
+        "nij-1970-n03-pdf",
+        "nij-1970-n07-djv"
+      ],
+      "note": "restored the 4 saved GHCR chunk checkpoints and finished/published them"
+    },
+    {
+      "batch": 120,
+      "budgetMs": 420000,
+      "cleanupMs": 80000,
+      "elapsedMs": 402026,
+      "exitCode": 0,
+      "published": 4,
+      "publishedBytes": 254964823,
+      "publishedThisBatch": [
+        "nij-1940-n01-pdf",
+        "nij-1956-n11-pdf",
+        "nij-1968-n08-pdf",
+        "nij-1969-n01-pdf"
+      ],
+      "note": "bounded smallest-first continue"
+    },
+    {
+      "batch": 121,
+      "budgetMs": 150000,
+      "cleanupMs": 30000,
+      "elapsedMs": 156858,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "publishedThisBatch": [],
+      "note": "short tail batch: advanced durable GHCR chunk checkpoints for the 4 in_progress files (nij-1970-n07-pdf 18.9->25.2 MiB received; nij-1940-n04-pdf, nij-1967-n07-pdf, nij-1956-n10-pdf also advanced); no publish in 150s window"
+    }
+  ],
+  "newPublishedThisIteration": 8,
+  "newPublishedBytesThisIteration": 501116646,
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:02afe5862d43abd492cdc9bf4ba8ac778869b95fc4e8866e38c919556e3fccc2",
+    "bytes": 1513409,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:34a51f2f1157ffce7d4db8f7c3aeeeda94f5c560debfce9edfdb3ccce8227c0c",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:7f6de9a89f68320804ea5e61569a87661be2da6e6fd116869537dfef5fd8e667",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T20:56:03.317Z",
+    "verifiedDigest": "sha256:2f964308c3fba35103a70533a31ae99fe3056b58367c18d9e3e93f3706fa3ce8",
+    "verificationProblems": 0,
+    "verifiedCounts": { "years": 87, "issues": 941, "files": 1112, "publishedFiles": 1057 },
+    "note": "batch 119-120 index (2f964308) independently verified by immutable pull at 20:56:03Z with 0 problems; batch 121 republished the same-count index as 02afe586 (bytes 1513409) and nij-master-checkpoint as 7f6de9a8; re-verify at next batch boundary"
+  },
+  "resumeIndex": {
+    "tag": "nij-master-checkpoint",
+    "digest": "sha256:7f6de9a89f68320804ea5e61569a87661be2da6e6fd116869537dfef5fd8e667",
+    "receipt": "data/nauka/state/master-index-verification.json"
+  },
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "preserved": true
+  },
+  "supplementary": {
+    "count": 5,
+    "published": 0,
+    "status": "pending",
+    "ids": [
+      "nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip",
+      "nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip",
+      "nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip",
+      "nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip",
+      "nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip"
+    ],
+    "note": "archive-directory supplementary Izbrannoe archives; not in manifest.entries so the retrieve engine does not currently process them; dedicated retrieval path still to be added. Exact hrefs present in data/nauka/state/evidence/archive-dir.html."
+  },
+  "nextActions": [
+    "Continue bounded smallest-first retrieve batches for the 55 pending regular files plus the durable in_progress files.",
+    "Add a dedicated retrieval path for the 5 supplementary Izbrannoe archives (build explicit id/tag entries from manifest.directory.supplementary and reuse engine downloadFile/publishFile).",
+    "Republish+verify the master index by immutable digest after each batch."
+  ],
+  "blockers": []
+}

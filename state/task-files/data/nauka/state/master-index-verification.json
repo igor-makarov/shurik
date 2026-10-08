@@ -1,36 +1,99 @@
 {
-  "kind": "shurik-nauka-master-verify",
-  "at": "2026-10-08T20:29:55.851Z",
+  "kind": "shurik-nauka-master-index-verification",
+  "at": "2026-10-08T20:56:02.127Z",
   "tag": "nij-master-index",
-  "pulledByImmutableDigest": "sha256:9d414d6a96b354056965165471fe095ab8db3afa398fcab44132a8250c26064b",
-  "pulledBytes": 1510607,
-  "pulledContentSha256": "0f14763f3fed98feed12cee97fe435439f6b62084b6cff683c39eb10b3315ffd",
+  "immutableDigest": "sha256:2f964308c3fba35103a70533a31ae99fe3056b58367c18d9e3e93f3706fa3ce8",
+  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:2f964308c3fba35103a70533a31ae99fe3056b58367c18d9e3e93f3706fa3ce8",
+  "pulledBytes": 1513406,
+  "pulledFileSha256": "cd1aa0650c1987b02aa7c8688e01cb039253438eb3f7fefdc65f870ba8c8f401",
+  "pulledFileName": "nij-master-index.json",
+  "tagResolveMatchesDigest": true,
+  "discoveryStatus": "complete",
   "totals": {
     "years": 87,
     "issues": 941,
-    "publishedIssues": 881,
+    "publishedIssues": 887,
     "files": 1112,
-    "publishedFiles": 1049,
-    "remainingFiles": 63,
-    "knownBytes": 17677590438,
-    "publishedBytes": 17431438615,
-    "inFlightReceivedBytes": 121634816,
-    "durablePartialBytes": 121634816,
+    "publishedFiles": 1057,
+    "remainingFiles": 55,
+    "knownBytes": 18192687865,
+    "publishedBytes": 17932555261,
+    "inFlightReceivedBytes": 56623104,
+    "durablePartialBytes": 56623104,
     "supplementaryFiles": 5,
     "supplementaryPublished": 0
   },
-  "discoveryStatus": "complete",
-  "representative": [
-    "nij-1934-n01-djv:published sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9 814b7b0b7228",
-    "nij-1939-n01-djv:published sha256:ec58e7fa7267e0b58b1c06407be6840eb6576753eabc643c161ed77492134bc9 22fd713736f9",
-    "nij-1893-n01-djv:published sha256:14238fb6c75e1acc67226cc8f492ef1ab81911873b4f0fcc07a654d15188fc98 addb1e6a6299",
-    "nij-1953-n06-djv:published sha256:9d2a5a2486b981d63ecf8ff6bd39f882d1718d8e6e43910172399a9044472c2d 56498891abc1",
-    "nij-1972-n10-djv:published sha256:539d0e153ed3be72a392a0b24b84f90d96ff6fac17a1da863ab8699868a5c9b4 f60931981ffc",
-    "nij-1992-n03-djv:published sha256:c30967a52f43f5d304d3f66997d901a1b8b9f1f888e742611cb5ff4b9507068c 6a6482475f42",
-    "nij-1948-n01-pdf:published sha256:6f53f72b26510a3d16f090335c26139da2eed3cc26310b0b4045aec4f77cbb68 0f0af971c257",
-    "nij-2020-n01-pdf:published sha256:f6ff667b3dee50b77c8046727abb867910f0aedc61075898216b644e06dcfbbb 854e68b1d1f5",
-    "nij-1940-n02-pdf:published sha256:615d04e26c0c3f2b4bbb977ae97841af915035c2f0086ad295f3c6d777d2143d f860d344d642",
-    "nij-1962-n06-pdf:published sha256:507b2195c4a602935969c7969ea55449eb41390d38498deab2ebf4cd241c56fb adc9382e3b52"
-  ],
-  "problems": 0
+  "representative": {
+    "nij-1934-n01-djv": {
+      "status": "published",
+      "year": 1934,
+      "published": true,
+      "digest": "sha256:398ea1c980ae0eccf0bdd55ef34d27961d59f913435d03e75572f3a01d2d31a9"
+    },
+    "nij-1939-n01-djv": {
+      "status": "published",
+      "year": 1939,
+      "published": true,
+      "digest": "sha256:ec58e7fa7267e0b58b1c06407be6840eb6576753eabc643c161ed77492134bc9"
+    },
+    "nij-1893-n01-djv": {
+      "status": "published",
+      "year": 1893,
+      "published": true,
+      "digest": "sha256:14238fb6c75e1acc67226cc8f492ef1ab81911873b4f0fcc07a654d15188fc98"
+    },
+    "nij-1953-n06-djv": {
+      "status": "published",
+      "year": 1953,
+      "published": true,
+      "digest": "sha256:9d2a5a2486b981d63ecf8ff6bd39f882d1718d8e6e43910172399a9044472c2d"
+    },
+    "nij-1972-n10-djv": {
+      "status": "published",
+      "year": 1972,
+      "published": true,
+      "digest": "sha256:539d0e153ed3be72a392a0b24b84f90d96ff6fac17a1da863ab8699868a5c9b4"
+    },
+    "nij-1992-n03-djv": {
+      "status": "published",
+      "year": 1992,
+      "published": true,
+      "digest": "sha256:c30967a52f43f5d304d3f66997d901a1b8b9f1f888e742611cb5ff4b9507068c"
+    },
+    "nij-1948-n01-pdf": {
+      "status": "published",
+      "year": 1948,
+      "published": true,
+      "digest": "sha256:6f53f72b26510a3d16f090335c26139da2eed3cc26310b0b4045aec4f77cbb68"
+    },
+    "nij-2020-n01-pdf": {
+      "status": "published",
+      "year": 2020,
+      "published": true,
+      "digest": "sha256:f6ff667b3dee50b77c8046727abb867910f0aedc61075898216b644e06dcfbbb"
+    }
+  },
+  "checks": {
+    "filesLength": 1112,
+    "publishedFiles": 1057,
+    "publishedFlagMismatchesVsState": 0,
+    "years": 87,
+    "issues": 941,
+    "combinedIssues": 38,
+    "specialIssues": 1
+  },
+  "problems": [],
+  "ok": true,
+  "catalogVerified": {
+    "digest": "sha256:cc2aad135375d11a7189c9477d1c8a538f02430bc1b9fcc639ccd813e86e371d",
+    "bytes": 32293,
+    "sha256": "fe4bf03968a97832683dfa8272268cd43c7af5586c37542386a5b04f7fe53173"
+  },
+  "checkpointVerified": {
+    "digest": "sha256:6720f789b366d5147416c3763b7e43692829ae9dc3bb28a06e09858a236210ab",
+    "bytes": 372099,
+    "sha256": "1a37abcc0ff45eeda25ab5c371fd3d5c71501bd6c16274d04efafee43e5b9e5a"
+  },
+  "checkpointPublished": 1057,
+  "checkpointRemaining": 55
 }
