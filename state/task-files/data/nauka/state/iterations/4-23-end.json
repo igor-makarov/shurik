@@ -1,0 +1,82 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-23",
+  "phase": "end",
+  "at": "2026-10-08T02:37:30.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "status": "IN_PROGRESS",
+  "summary": "Iteration 4-23 ran four bounded smallest-first retrieve batches (39-42) publishing 52 fresh files (554->606) for +511,105,509 durable bytes, then refreshed and re-verified the canonical all-years master index by immutable pull.",
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "publication": {
+    "publishedFiles": 606,
+    "publishedBytes": 6104567400,
+    "remainingFiles": 506,
+    "inProgressFiles": 2,
+    "verifiedPartialBytes": 14680064,
+    "baselinePublishedFiles": 60,
+    "newPublishedBeyondBaseline": 546,
+    "newPublishedBytesBeyondBaseline": 3792937110,
+    "newPublishedThisIteration": 52,
+    "newDurableBytesThisIteration": 511105509
+  },
+  "batches": [
+    {
+      "batch": 39,
+      "publishedThisBatch": 14,
+      "durableNewBytes": 133221693,
+      "elapsedMs": 388826
+    },
+    {
+      "batch": 40,
+      "publishedThisBatch": 15,
+      "durableNewBytes": 146772364,
+      "elapsedMs": 369233
+    },
+    {
+      "batch": 41,
+      "publishedThisBatch": 16,
+      "durableNewBytes": 160190359,
+      "elapsedMs": 381989
+    },
+    {
+      "batch": 42,
+      "publishedThisBatch": 7,
+      "durableNewBytes": 70921093,
+      "elapsedMs": 193093
+    }
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:6eaf4bbad1371a4a4e04d01ec883eedb9bce0401289c2a5993eaaecda3f00267",
+    "bytes": 1355097,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:d976a06283f4963be8cf4f362371083e433cc33eaa1904f0c6c6467afad078bc",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:4828b0d7dc40fe86ad38dad968f5fc68fd5c933b7d3c7f65c38c432067617c0d",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T02:37:15.618Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 506 files. Refresh + re-verify master after each batch.",
+  "notes": [
+    "No code changes were required this iteration; existing durable tooling (batch.mjs, cli.mjs master publish, verify-master.mjs) worked as designed.",
+    "All three batches exited 0 with zero failures; origin publ.lib.ru and GHCR reachable throughout.",
+    "Preserved 1934-1939 subset index (nij-1934-39-index) untouched; NAUKA_STATUS 60/60 still refers only to that subset.",
+    "Master index verified by immutable digest pull: 6eaf4bba, 1355097 B, 1112 files, 606 published, status complete, 0 mismatches."
+  ]
+}

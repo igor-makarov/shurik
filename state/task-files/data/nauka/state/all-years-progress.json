@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-22",
-  "at": "2026-10-08T02:05:00.000Z",
+  "iteration": "4-23",
+  "at": "2026-10-08T02:37:30.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -30,10 +30,10 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "inProgressFiles": 1,
-    "pendingFiles": 557,
-    "publishedFiles": 554,
-    "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented.",
+    "inProgressFiles": 2,
+    "pendingFiles": 504,
+    "publishedFiles": 606,
+    "note": "Discovery stays complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented. No new catalog pages were listed since iteration 4-20.",
     "genericTotal": 1112,
     "knownGapYears": [
       1891,
@@ -54,56 +54,65 @@
     ]
   },
   "publication": {
-    "publishedFiles": 554,
-    "publishedIssues": 449,
-    "publishedBytes": 5593461891,
-    "remainingFiles": 558,
-    "inProgressEntries": 1,
-    "inProgressWithDurableChunks": 1,
-    "verifiedPartialBytes": 6291456,
-    "controlBranchPrefixBytes": 6291456,
-    "knownBytesTotal": 5602886850,
+    "publishedFiles": 606,
+    "publishedIssues": 491,
+    "publishedBytes": 6104567400,
+    "remainingFiles": 506,
+    "inProgressEntries": 2,
+    "inProgressWithDurableChunks": 2,
+    "verifiedPartialBytes": 14680064,
+    "controlBranchPrefixBytes": 14680064,
+    "knownBytesTotal": 6135040837,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 494,
-    "newPublishedBytesBeyondBaseline": 3281831601
+    "newPublishedBeyondBaseline": 546,
+    "newPublishedBytesBeyondBaseline": 3792937110,
+    "note": "verifiedPartialBytes reflects current on-disk durable prefixes (data/nauka/partials); the master artifact recorded 15728640 at its generation instant."
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:a10e4a9e4373f536272ae5abc67d8720d5faa9e0e7d008c8231a41a6cf608b90",
-    "bytes": 1336838,
-    "catalogDigest": "sha256:f57369506a2d1442f371f4e82bbfe6d674ab4b01af347da37622fe4844e23734",
-    "checkpointDigest": "sha256:987455e4cbc9e724d3f9fa6ecf26fd203520af8103cb3b066a261ee35ceb10ae",
+    "digest": "sha256:6eaf4bbad1371a4a4e04d01ec883eedb9bce0401289c2a5993eaaecda3f00267",
+    "bytes": 1355097,
+    "catalogDigest": "sha256:d976a06283f4963be8cf4f362371083e433cc33eaa1904f0c6c6467afad078bc",
+    "checkpointDigest": "sha256:4828b0d7dc40fe86ad38dad968f5fc68fd5c933b7d3c7f65c38c432067617c0d",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T02:04:10.516Z",
+    "verifiedAt": "2026-10-08T02:37:15.618Z",
     "publishedFlagMismatches": 0,
-    "problems": []
+    "problems": [],
+    "catalogTag": "nij-master-catalog",
+    "checkpointTag": "nij-master-checkpoint"
   },
   "batchesThisIteration": [
     {
-      "batch": 36,
-      "publishedThisBatch": 11,
-      "durableNewBytes": 96016103,
-      "elapsedMs": 396589
+      "batch": 39,
+      "publishedThisBatch": 14,
+      "durableNewBytes": 133221693,
+      "elapsedMs": 388826
     },
     {
-      "batch": 37,
-      "publishedThisBatch": 14,
-      "durableNewBytes": 126466127,
-      "elapsedMs": 384717
+      "batch": 40,
+      "publishedThisBatch": 15,
+      "durableNewBytes": 146772364,
+      "elapsedMs": 369233
     },
     {
-      "batch": 38,
-      "publishedThisBatch": 14,
-      "durableNewBytes": 129796828,
-      "elapsedMs": 370133
+      "batch": 41,
+      "publishedThisBatch": 16,
+      "durableNewBytes": 160190359,
+      "elapsedMs": 381989
+    },
+    {
+      "batch": 42,
+      "publishedThisBatch": 7,
+      "durableNewBytes": 70921093,
+      "elapsedMs": 193093
     }
   ],
-  "newPublishedThisIteration": 39,
-  "newDurableBytesThisIteration": 352279058,
+  "newPublishedThisIteration": 52,
+  "newDurableBytesThisIteration": 511105509,
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 558 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 513 files.",
     "Refresh and re-verify the master index by immutable digest after each batch.",
     "Update all-years-progress.json + batch records with new published counts/bytes."
   ]

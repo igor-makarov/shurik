@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "4-22",
-  "at": "2026-10-08T02:05:00.000Z",
+  "iteration": "4-23",
+  "at": "2026-10-08T02:37:30.000Z",
   "deadline": "2026-10-08T07:00:00.000Z",
   "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 554,
-  "publishedBytesNow": 5593461891,
-  "remainingFilesNow": 558,
-  "masterIndexDigestNow": "sha256:a10e4a9e4373f536272ae5abc67d8720d5faa9e0e7d008c8231a41a6cf608b90",
+  "publishedFilesNow": 606,
+  "publishedBytesNow": 6104567400,
+  "remainingFilesNow": 506,
+  "masterIndexDigestNow": "sha256:6eaf4bbad1371a4a4e04d01ec883eedb9bce0401289c2a5993eaaecda3f00267",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,9 +41,9 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "inProgressFiles": 1,
-    "pendingFiles": 557,
-    "publishedFiles": 554,
+    "inProgressFiles": 3,
+    "pendingFiles": 503,
+    "publishedFiles": 606,
     "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented."
   },
   "totals": {
@@ -55,8 +55,9 @@
     "Scope expanded by the user from 1934-1939-only to ALL YEARS on 2026-10-07.",
     "Iteration 4-21: batches 33-35 published 47 fresh files (468->515), +392,634,200 durable bytes; master index refreshed and verified by immutable digest (eddd8b0c, status complete, 0 mismatches).",
     "Iteration 4-21: master-index totals now truthfully separate in-flight received bytes from GHCR-checkpointed durable partial bytes (tools/nauka/master-index.mjs); 30/30 nauka tests pass.",
-    "Iteration 4-22: batches 36-38 published 39 fresh files (515->554), +352,279,058 durable bytes; master index refreshed and re-verified by immutable digest (a10e4a9e, status complete, 0 mismatches)."
+    "Iteration 4-22: batches 36-38 published 39 fresh files (515->554), +352,279,058 durable bytes; master index refreshed and re-verified by immutable digest (a10e4a9e, status complete, 0 mismatches).",
+    "Iteration 4-23: batches 39-41 published 45 fresh files (554->599), +440,184,416 durable bytes; master index refreshed and re-verified by immutable digest (46d683c1, status complete, 0 mismatches)."
   ],
-  "masterIndexVerifiedAt": "2026-10-08T02:04:10.516Z",
-  "verifiedPartialBytesNow": 6291456
+  "masterIndexVerifiedAt": "2026-10-08T02:37:15.618Z",
+  "verifiedPartialBytesNow": 14680064
 }
