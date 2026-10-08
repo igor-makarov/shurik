@@ -1,0 +1,49 @@
+{
+  "kind": "shurik-nauka-iteration-start",
+  "iteration": "5-56",
+  "at": "2026-10-08T23:16:00.000Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (git show, generation 5, next 56, seconds 1800) sets deadline=null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The user-authorized four-hour continuation is acknowledged; earlier time deadlines superseded. I obey the supervisor control and set no deadline of my own.",
+  "acknowledgement": "Iteration 5-56 acknowledges the user-authorized four-hour continuation and the current completion-driven supervisor deadline (null). Scope all-years. Preserved the completed 1934-1939 60-file subset (2,311,630,290 B), every existing file id, publication reference, original filename and valid resume state; no redownload of the 60. Work performed inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "continuationBaselineNote": "The 875-file boundary (work 15b89ae8...) named in the assignment is superseded by later durable progress; the saved baseline for this iteration is 1081 published regular + 5/5 supplementary, 31 regular remaining.",
+  "baseline": {
+    "publishedRegularFiles": 1081,
+    "publishedRegularBytes": 19696837873,
+    "supplementaryFiles": 5,
+    "supplementaryBytes": 70214939,
+    "supplementaryStatus": "complete",
+    "remainingRegularFiles": 31,
+    "inProgressFiles": 4,
+    "pendingFiles": 27,
+    "durableChunkCheckpointBytes": 84934656,
+    "inProgress": [
+      {"id": "nij-1962-n01-pdf", "received": 22020096, "checkpointDigest": "sha256:fbd5cee7c2e8ed06d5606bc14308c4e3166599659c71986ec2cee05920c3cbf2"},
+      {"id": "nij-1962-n02-pdf", "received": 18874368, "checkpointDigest": "sha256:6de93866f98a811b3b2445d6bdbc44c0c96b3222e5442e13cea8328424018e6a"},
+      {"id": "nij-1968-n06-pdf", "received": 25165824, "checkpointDigest": "sha256:075811191a970075baa01003620d9e0991bbb6515358332472a0953e7ba8fe84"},
+      {"id": "nij-2009-n03-pdf", "received": 18874368, "checkpointDigest": "sha256:0951eb14599d9e1ca6b8d4ad8e73a36670d65f3a018f42e0e96e364cfdb76b5c"}
+    ]
+  },
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "years": 87,
+    "issues": 941,
+    "totalFiles": 1112,
+    "supplementaryFiles": 5,
+    "note": "Inventory discovery complete; not restarted."
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:e58c4ac52779fb92bfa0139a061f24d400c52e6a5c637992c97ad56cbaa0a0b8",
+    "bytes": 1522495,
+    "discoveryStatus": "complete"
+  },
+  "preserved60FileBaseline": {"files": 60, "bytes": 2311630290, "subsetIndexTag": "nij-1934-39-index", "preserved": true},
+  "nextActions": [
+    "Restore+finish the 4 durable in-progress files (nij-1962-n01, nij-1962-n02, nij-1968-n06, nij-2009-n03) from their immutable GHCR chunk digests, then smallest-first the 27 pending regular PDFs in bounded foreground batches.",
+    "Keep republishing+verifying the master index by immutable digest after batches."
+  ],
+  "blockers": []
+}
