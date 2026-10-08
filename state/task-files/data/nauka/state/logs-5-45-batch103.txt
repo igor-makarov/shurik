@@ -1,0 +1,23 @@
+2026-10-08T17:53:50.713Z oras login ok
+2026-10-08T17:54:02.693Z === pass 1 (budget 119999ms left) ===
+2026-10-08T17:54:02.696Z -- file nij-1972-n12-pdf (Pdf-50.6M) --
+2026-10-08T17:54:02.696Z -- file nij-1965-n01-pdf (Pdf-50.7M) --
+2026-10-08T17:54:02.696Z -- file nij-1965-n05-pdf (Pdf-50.7M) --
+2026-10-08T17:54:02.696Z -- file nij-1965-n02-pdf (Pdf-50.9M) --
+2026-10-08T17:54:08.760Z retry nij-1965-n05-pdf chunk 17 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T17:54:18.531Z retry nij-1965-n05-pdf chunk 20 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T17:54:29.350Z retry nij-1965-n01-pdf chunk 21 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T17:54:39.766Z retry nij-1965-n02-pdf chunk 21 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T17:54:49.769Z retry nij-1972-n12-pdf chunk 31 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T17:54:59.767Z retry nij-1965-n01-pdf chunk 21 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-08T17:56:02.692Z transfer budget elapsed; aborting in-flight requests
+2026-10-08T17:56:06.636Z checkpointed nij-1972-n12-pdf (33554432 bytes, 32 chunks) -> sha256:dee21a2246832aa7df46a0f86551242397b5375838d1649e20c46c15e4617343
+2026-10-08T17:56:09.775Z checkpointed nij-1965-n01-pdf (23068672 bytes, 22 chunks) -> sha256:46429ad75f47c695b6a8398b83170a43020b3aa8e394ed339036707c8c76e3fd
+2026-10-08T17:56:12.901Z checkpointed nij-1965-n05-pdf (24117248 bytes, 23 chunks) -> sha256:902e02d8dbd625a7d0b9b38b1799c5f5927707245d42e664d854477e6d378872
+2026-10-08T17:56:16.109Z checkpointed nij-1965-n02-pdf (23068672 bytes, 22 chunks) -> sha256:aea383a4490937cf46dcab45e39da7fa7b1177623da12ddf44fd677dec6283e6
+2026-10-08T17:56:16.283Z pass 1 results: [{"id":"nij-1965-n01-pdf","status":"in_progress","received":23068672},{"id":"nij-1972-n12-pdf","status":"in_progress","received":33554432},{"id":"nij-1965-n05-pdf","status":"in_progress","received":24117248},{"id":"nij-1965-n02-pdf","status":"in_progress","received":23068672}]
+2026-10-08T17:56:16.283Z remaining files: 98
+2026-10-08T17:56:20.979Z published catalog nij-master-catalog -> sha256:0745b537cff0c59b53338843d5810ef5ec087579a1ed876248cb08cc39caa232
+2026-10-08T17:56:23.022Z published master index nij-master-index -> sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162 (1498337 B, status complete)
+2026-10-08T17:56:23.022Z published master checkpoint nij-master-checkpoint -> sha256:fdd3019f2220ff4a9eb9d18e8cae7298efc0cda9bac46aca5cd2c33b4ff6dbd2
+2026-10-08T17:56:23.022Z retrieve batch complete in 152309ms

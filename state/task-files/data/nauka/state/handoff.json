@@ -1,16 +1,16 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "5-43",
-  "at": "2026-10-08T16:46:30.000Z",
+  "iteration": "5-45",
+  "at": "2026-10-08T17:53:37.067Z",
   "scope": "all-years",
   "deadline": "2026-10-08T18:00:00.000Z",
   "status": "IN_PROGRESS",
-  "published": 999,
-  "remaining": 113,
-  "bytesPublished": 14717489211,
+  "published": 1014,
+  "remaining": 98,
+  "bytesPublished": 15500678516,
   "origin": {
     "reachable": true,
-    "note": "publ.lib.ru reachable; batches 95-96 exit 0; 64/8; a few transient body-stream aborts retried cleanly."
+    "note": "publ.lib.ru reachable; batches 100-102 exit 0; no non-transient failures."
   },
   "discovery": {
     "status": "complete",
@@ -21,33 +21,27 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:c09a1c84625a7a52e4f4d7052e9a74eeb171e81dcbfeabcd726529df559159da",
-    "bytes": 1493156,
-    "catalogDigest": "sha256:6349940e19f9f800d828a9d026f79c7d6f512d1baa0baec61644415b71cba160",
-    "checkpointDigest": "sha256:1a1ff4df0cc5c2a5d2a85a6254f6909b2a76673d546f384402e7a226bfd5d47d",
+    "digest": "sha256:7d292bfc3db6dd47b230abd3ca3b32e62624d5e1ca586dda71d0817b8c773702",
+    "bytes": 1498335,
+    "catalogDigest": "sha256:01c397a102bb438e5efbbd20bd53bce7f0341ebded51842169c9ee1a1fbfb94b",
+    "checkpointDigest": "sha256:fa370a22f63ae2829d5f654e997a415123eead363df96e6260a1c3e1c0d182da",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0
   },
   "durablePartials": {
-    "ghcrCheckpointFiles": 9,
-    "ghcrCheckpointBytes": 218103808,
-    "gitPrefixBytes": 16777216,
-    "note": "9 in_progress files hold hash-validated chunk checkpoints restorable by immutable digest"
+    "ghcrCheckpointFiles": 4,
+    "ghcrCheckpointBytes": 81788928,
+    "note": "4 in_progress files hold hash-validated chunk checkpoints restorable by immutable digest"
   },
-  "newPublishedBytesThisIteration": 409591368,
-  "durablePartialBytesAddedThisIteration": 218103808,
+  "newPublishedBytesThisIteration": 210779483,
+  "durablePartialBytesAddedThisIteration": 159445655,
   "inProgressIds": [
-    "nij-1950-n10-pdf",
-    "nij-1954-n03-pdf",
-    "nij-1954-n04-pdf",
-    "nij-1957-n05-pdf",
-    "nij-1966-n07-pdf",
-    "nij-1968-n02-pdf",
-    "nij-1971-n08-pdf",
-    "nij-1973-n09-pdf",
-    "nij-1974-n04-pdf"
+    "nij-1972-n12-pdf",
+    "nij-1965-n01-pdf",
+    "nij-1965-n02-pdf",
+    "nij-1965-n05-pdf"
   ],
-  "nextAction": "Batch 98: restoreFromCheckpoints (no re-download), finish/publish nij-1957-n05 (~81%) and nij-1974-n04 (~83%), then smallest-first retrieve the 104 pending regular PDFs.",
-  "notes": "Iteration 5-43: batches 95-96 published 8 fresh files (+409,591,368 B durable) by restoring+finishing in_progress files from immutable GHCR checkpoints; batch 97 added +95,420,416 B durable partial chunks with no publish (flat count hides durable progress). 113 remain (104 pending + 9 in_progress). Master index republished; verified by immutable pull at sha256:5690145e... (0 problems); final index digest after batch 97 sha256:c09a1c84... (1493156 B, complete)."
+  "nextAction": "Restore+finish the 4 in_progress partials from immutable GHCR digests (no re-download), then smallest-first the 94 pending regular PDFs, then the 5 supplementary archives.",
+  "notes": "Iteration 5-45: batches 100-101 published 4 fresh files (+210,779,483 B durable) from immutable GHCR checkpoints; batch 102 added +81,788,928 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index republished each batch and independently verified by immutable pull at sha256:7d292bfc3db6dd47b230abd3ca3b32e62624d5e1ca586dda71d0817b8c773702 (0 problems, status complete, 1112 files/941 issues/87 years)."
 }
