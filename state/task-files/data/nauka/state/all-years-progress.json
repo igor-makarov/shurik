@@ -1,9 +1,9 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-32",
-  "at": "2026-10-08T06:59:00.000Z",
+  "iteration": "5-33",
+  "at": "2026-10-08T10:57:13.534Z",
   "scope": "all-years",
-  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadline": "2026-10-08T14:45:32.395Z",
   "masterTag": "nij-master-index",
   "masterCatalogTag": "nij-master-catalog",
   "masterCheckpointTag": "nij-master-checkpoint",
@@ -27,7 +27,21 @@
     "issues": 941,
     "totalFiles": 1112,
     "knownGapYears": [
-      1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
+      1891,
+      1892,
+      2016,
+      2017,
+      2018,
+      2019,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029
     ],
     "note": "Discovery complete; preserved from prior iterations, unchanged this iteration."
   },
@@ -56,11 +70,9 @@
     "publishedFlagMismatches": 0,
     "problems": []
   },
-  "batchesThisIteration": [
-    { "batch": 71, "published": 0, "durableNewPartialBytes": 24117248, "elapsedMs": 112975, "exitCode": 0 }
-  ],
+  "batchesThisIteration": [],
   "newPublishedThisIteration": 0,
-  "newDurableBytesThisIteration": 24117248,
+  "newDurableBytesThisIteration": 0,
   "throughputNote": "Batch 71 at 48/6; aggregate token bucket <=512 KiB/s; exit 0, zero transfer failures.",
   "blockers": [],
   "nextActions": [
@@ -68,5 +80,10 @@
     "Resume the 4 files with durable GHCR partials first (nij-1949-n06-djv, nij-2010-n10-pdf, nij-1949-n06-pdf, nij-1949-n07-djv).",
     "Refresh+re-verify master index by immutable digest after each batch."
   ],
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 237 files."
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 237 files.",
+  "continuation": {
+    "authorized": true,
+    "previousDeadline": "2026-10-08T07:00:00.000Z",
+    "note": "Resumed from work 15b89ae8; 875 files / 9,777,993,649 bytes preserved; 237 regular files + 5 supplementary archives remain."
+  }
 }

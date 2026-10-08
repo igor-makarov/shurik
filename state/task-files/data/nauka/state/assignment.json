@@ -1,10 +1,10 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "4-28",
-  "at": "2026-10-08T05:12:00.000Z",
-  "deadline": "2026-10-08T07:00:00.000Z",
-  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "iteration": "5-33",
+  "at": "2026-10-08T10:57:13.534Z",
+  "deadline": "2026-10-08T14:45:32.395Z",
+  "deadlineLocal": "2026-10-08 17:45 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
   "masterIndexTag": "nij-master-index",
   "masterCatalogTag": "nij-master-catalog",
@@ -84,5 +84,17 @@
     "Iteration 4-28: batches 59-60 published 24 fresh files (767->791), +323,515,338 durable origin bytes; master index refreshed and re-verified by immutable digest (58e10ce7, status complete, 0 mismatches). Discovery still complete (87 years, 941 issues, 1112 files). Bounded concurrency raised to 48/6 then 64/8 (aggregate still <=512 KiB/s) for ~1.5x throughput."
   ],
   "masterIndexVerifiedAt": "2026-10-08T05:11:21.904Z",
-  "verifiedPartialBytesNow": 35651584
+  "verifiedPartialBytesNow": 35651584,
+  "continuation": {
+    "authorized": true,
+    "note": "User explicitly authorized another four hours (Run 4 hours more) after the 2026-10-08T07:00Z all-years deadline; supervisor control.json deadline is authoritative.",
+    "baselineWorkCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "baselinePublishedFiles": 875,
+    "baselinePublishedBytes": 9777993649,
+    "baselineDurablePartialBytes": 92274688,
+    "baselineRemainingRegularFiles": 237,
+    "baselineRemainingSupplementaryArchives": 5,
+    "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  }
 }

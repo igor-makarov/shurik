@@ -1,13 +1,13 @@
 {
   "kind": "shurik-nauka-scope-ack",
-  "iteration": "4-28",
-  "at": "2026-10-08T05:12:00.000Z",
+  "iteration": "5-33",
+  "at": "2026-10-08T10:57:13.534Z",
   "acknowledgedScopeChange": true,
   "previousObjective": "1934-1939 only, 60 files (completed subset)",
   "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
   "scope": "all-years",
-  "deadline": "2026-10-08T07:00:00.000Z",
-  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "deadline": "2026-10-08T14:45:32.395Z",
+  "deadlineLocal": "2026-10-08 17:45 Asia/Jerusalem",
   "masterIndexTag": "nij-master-index",
   "masterCatalogTag": "nij-master-catalog",
   "masterCheckpointTag": "nij-master-checkpoint",
@@ -67,5 +67,12 @@
   "nextActions": [
     "Continue bounded smallest-first retrieve batches (345 remaining).",
     "Refresh+re-verify master index after each batch."
-  ]
+  ],
+  "continuationAck": {
+    "authorized": true,
+    "at": "2026-10-08T10:57:13.534Z",
+    "previousDeadline": "2026-10-08T07:00:00.000Z",
+    "newDeadline": "2026-10-08T14:45:32.395Z",
+    "note": "Acknowledged user-authorized four-hour continuation; scope remains all-years; 875-file/9,777,993,649-byte published baseline preserved."
+  }
 }
