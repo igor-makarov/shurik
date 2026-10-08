@@ -19,7 +19,7 @@
  "content_text": "קרדיט: OmerLink54",
  "date_text": "Posted 1 year ago",
  "failure_count": 0,
- "fetched_at": "2026-10-08T22:47:37Z",
+ "fetched_at": "2026-10-08T22:56:18Z",
  "image_count": 0,
  "images": [
   {
@@ -70,13 +70,32 @@
      "status": "cached",
      "stem": "http://66.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1",
      "url": "http://66.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1",
+     "url": "http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 4729,
+     "capture_timestamp": "20161003084927",
+     "endpoint": "replay id_",
+     "error": "http_error",
+     "media_type": "not-an-image",
+     "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
+     "status": 404,
+     "url": "http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_nmj66mcM4Y1r3it8zo1.jpg",
    "caption": "קרדיט: OmerLink54",
    "caption_alt": "קרדיט: OmerLink54",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture_count": 1,
+   "error": "http_error",
    "found_in": "img",
    "host_inventory": {
     "host": "66.media.tumblr.com",
@@ -88,7 +107,7 @@
    "link_text": "",
    "media_key": "tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
    "media_url": "http://66.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "note": "captures existed but no replay produced a valid image body",
    "state": "missing",
    "url_forms": [
     "http://66.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
@@ -355,10 +374,29 @@
      "status": "cached",
      "stem": "http://66.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1",
      "url": "http://66.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1",
+     "url": "http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 4729,
+     "capture_timestamp": "20161003084927",
+     "endpoint": "replay id_",
+     "error": "http_error",
+     "media_type": "not-an-image",
+     "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
+     "status": 404,
+     "url": "http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg"
     }
    ],
    "media_url": "http://66.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
+   "reason": "http_error"
   },
   {
    "attempts": [

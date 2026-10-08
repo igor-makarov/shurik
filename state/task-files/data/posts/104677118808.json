@@ -19,7 +19,7 @@
  "content_text": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer",
  "date_text": "Posted 2 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-08T22:47:41Z",
+ "fetched_at": "2026-10-08T22:54:16Z",
  "image_count": 1,
  "images": [
   {
@@ -279,11 +279,11 @@
    "caption": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer",
    "caption_alt": "Not sure if yo-dawg.jpg or we-need-to-go-deeper.jpg\nתודה לנבות מ-imp.computer",
    "capture_count": 1,
-   "error": "bad_body",
+   "error": "http_error",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_ng9t0fiXyk1r3it8zo1_250.jpg",
    "media_url": "http://67.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_250.jpg",
-   "note": "captures existed but replays returned non-image bodies",
+   "note": "captures existed but no replay produced a valid image body",
    "state": "missing",
    "url_forms": [
     "http://67.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_250.jpg",
@@ -484,7 +484,7 @@
     }
    ],
    "media_url": "http://67.media.tumblr.com/95aac92a8b3044805e0eb69594d49cf7/tumblr_ng9t0fiXyk1r3it8zo1_250.jpg",
-   "reason": "bad_body"
+   "reason": "http_error"
   }
  ],
  "original_url": "http://hazfalafel.com/post/104677118808",
