@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "4-20",
-  "at": "2026-10-08T01:04:30.000Z",
+  "iteration": "4-21",
+  "at": "2026-10-08T01:36:48.601Z",
   "deadline": "2026-10-08T07:00:00.000Z",
   "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -17,20 +17,20 @@
     "bytes": 2311630290,
     "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
     "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true,
     "note": "preserved as-is; never relabelled as the all-years master"
   },
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 468,
-  "publishedBytesNow": 4848548633,
-  "remainingFilesNow": 644,
-  "masterIndexDigestNow": "sha256:3f298be3c669f12f4e0c87ee3b53918be21a74a3a9d4feb5a0a55496a6d7d921",
+  "publishedFilesNow": 515,
+  "publishedBytesNow": 5241182833,
+  "remainingFilesNow": 597,
+  "masterIndexDigestNow": "sha256:eddd8b0cfc435855fa8d30d3e05c882a4feea6ab111797026f930918b2411e0b",
   "discovery": {
-    "scope": "all-years",
     "status": "complete",
-    "eraPagesTotal": 12,
     "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
     "eraPagesPending": 0,
     "eraPagesFailed": 0,
     "outOfScopePagesVisited": 2,
@@ -40,10 +40,11 @@
     "supplementaryFiles": 5,
     "totalFiles": 1112,
     "totalIssues": 941,
-    "inProgressFiles": 0,
-    "pendingFiles": 644,
-    "publishedFiles": 468,
-    "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ_stat'i_.html and the .Online redirect are visited and every flat-listing file is represented."
+    "years": 87,
+    "inProgressFiles": 3,
+    "pendingFiles": 594,
+    "publishedFiles": 515,
+    "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented."
   },
   "totals": {
     "years": 87,
@@ -52,9 +53,9 @@
   },
   "notes": [
     "Scope expanded by the user from 1934-1939-only to ALL YEARS on 2026-10-07.",
-    "Iteration 4-20: batches 29-31 published 64 fresh files (401->465), +492,449,441 durable bytes; master index refreshed and verified by immutable digest (854396b0, status complete, 0 mismatches).",
-    "Iteration 4-20 final: batch 32 published 3 more files (465->468); master index refreshed (3f298be3, status complete)."
+    "Iteration 4-21: batches 33-35 published 47 fresh files (468->515), +392,634,200 durable bytes; master index refreshed and verified by immutable digest (eddd8b0c, status complete, 0 mismatches).",
+    "Iteration 4-21: master-index totals now truthfully separate in-flight received bytes from GHCR-checkpointed durable partial bytes (tools/nauka/master-index.mjs); 30/30 nauka tests pass."
   ],
-  "masterIndexVerifiedAt": "2026-10-08T01:04:20Z",
-  "verifiedPartialBytesNow": 0
+  "masterIndexVerifiedAt": "2026-10-08T01:35:33.441Z",
+  "verifiedPartialBytesNow": 16777216
 }

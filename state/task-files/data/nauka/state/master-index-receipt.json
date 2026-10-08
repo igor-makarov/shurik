@@ -1,12 +1,12 @@
 {
   "kind": "shurik-nauka-master-index-receipt",
-  "at": "2026-10-08T01:32:36.892Z",
+  "at": "2026-10-08T01:35:25.490Z",
   "indexTag": "nij-master-index",
-  "indexDigest": "sha256:2420a354eb799c80c10e121b5b130bc61ef4efe59a561955e3b54b5c86e45a13",
+  "indexDigest": "sha256:eddd8b0cfc435855fa8d30d3e05c882a4feea6ab111797026f930918b2411e0b",
   "catalogTag": "nij-master-catalog",
-  "catalogDigest": "sha256:0cb65731b1957e80855b566f486d34f7fcd5330153d7c0f7e92274a74d44bc60",
+  "catalogDigest": "sha256:fe6aea1dd8fb4f518ea5d4dc7bd2c10f04462e6c57d9163a64493cd2ff924343",
   "checkpointTag": "nij-master-checkpoint",
-  "checkpointDigest": "sha256:c6a07c36b6ab0f2e19cc713394b65e7a3be23eab62497ef2c2f1b323a31eafde",
+  "checkpointDigest": "sha256:5083125e279e260a0e73c3f1ce2dcf75db37d2124eb077ee077d66fa36b84e8c",
   "discoveryStatus": "complete",
   "totals": {
     "years": 87,
@@ -17,9 +17,10 @@
     "remainingFiles": 597,
     "knownBytes": 5266958863,
     "publishedBytes": 5241182833,
-    "receivedPartialBytes": 16777216,
+    "inFlightReceivedBytes": 16777216,
+    "durablePartialBytes": 16777216,
     "supplementaryFiles": 5,
     "supplementaryPublished": 0
   },
-  "indexBytes": 1323184
+  "indexBytes": 1323222
 }

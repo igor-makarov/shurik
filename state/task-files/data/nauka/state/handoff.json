@@ -1,23 +1,24 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-20",
-  "at": "2026-10-08T01:04:30.000Z",
+  "iteration": "4-21",
+  "at": "2026-10-08T01:36:48.601Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 468,
-  "remaining": 644,
-  "bytesPublished": 4848548633,
+  "published": 515,
+  "remaining": 597,
+  "bytesPublished": 5241182833,
   "blocker": null,
   "status": "IN_PROGRESS",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-08T00:52:21Z",
-    "note": "Origin publ.lib.ru up; batches 29-31 sustained ~370-450 KiB/s across 32 connections with only idle-timeout retries. No unresolved failures."
+    "lastChecked": "2026-10-08T01:36:48.601Z",
+    "note": "Origin publ.lib.ru up; batches 33-35 sustained ~370-450 KiB/s across 32 connections with only idle-timeout retries. No unresolved failures."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 0,
-    "partialFiles": "0 durable partials at handoff; partial-index.json empty"
+    "verifiedPartialBytes": 16777216,
+    "controlBranchPrefixBytes": 16777216,
+    "partialFiles": 2
   },
   "discovery": {
     "status": "complete",
@@ -30,18 +31,21 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:3f298be3c669f12f4e0c87ee3b53918be21a74a3a9d4feb5a0a55496a6d7d921",
-    "bytes": 1306752,
+    "digest": "sha256:eddd8b0cfc435855fa8d30d3e05c882a4feea6ab111797026f930918b2411e0b",
+    "bytes": 1323222,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:ed53e92c0e5141f2a3aa10d9524a065b58b1c4809468974e75fe3fe931757c4f",
+    "catalogDigest": "sha256:fe6aea1dd8fb4f518ea5d4dc7bd2c10f04462e6c57d9163a64493cd2ff924343",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:7b8ac74eadf36d1a3275f59f5d4100f9722cf3917b8e5b21feceb84df797f641",
+    "checkpointDigest": "sha256:5083125e279e260a0e73c3f1ce2dcf75db37d2124eb077ee077d66fa36b84e8c",
     "discoveryStatus": "complete",
-    "verified": "verify-master.mjs immutable-digest pull OK (468 published, status complete)",
+    "verified": "verify-master.mjs immutable-digest pull OK (515 published, status complete)",
     "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched)"
   },
-  "codeChangesThisIteration": [],
-  "publishedThisIteration": 67,
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 644 files.",
-  "notes": "Iteration 4-20: batches 29-32 published 67 fresh files (401->468), +519498599 durable bytes. Master index refreshed and verified (3f298be3, status complete). No code changes needed; nauka tests 30/30."
+  "codeChangesThisIteration": [
+    "tools/nauka/batch.mjs (new bounded batch driver writing durable batch records)",
+    "tools/nauka/master-index.mjs + tools/nauka/test/discovery.test.mjs (truthful in-flight vs durable partial byte totals)"
+  ],
+  "publishedThisIteration": 47,
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 597 files.",
+  "notes": "Iteration 4-21: batches 33-35 published 47 fresh files (468->515), +392634200 durable bytes. Master index refreshed and verified (eddd8b0c, status complete). nauka tests 30/30."
 }
