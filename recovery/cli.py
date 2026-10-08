@@ -19,7 +19,8 @@ from .images import stem_prefix
 from .stemindex import SCOPE as STEM_SCOPE, StemIndex
 from .http import (AFTER_CUTOFF_ONLY, BAD_BODY, GAP, OK, Fetcher, RateLimiter, Response)
 from .gaps import best_capture, prove
-from .images import (TRANSIENT_CLASSES, blob_path, resolve_image, sniff_image, store_blob)
+from .images import (TRANSIENT_CLASSES, blob_path, inherit_image_captions,
+                     resolve_image, sniff_image, store_blob)
 from .listing import (listing_kind, merge_listing_evidence, parse_listing_page)
 from .media import (HOST_RE, MEDIA_CAPTURE_FILE, SHARED_MEDIA_HOSTS, MediaIndex, host_of,
                     hosts_for, scan_host, stems_of)
@@ -939,11 +940,13 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             # the local blob cache during this process.
             if resolved["state"] == "recovered":
                 updated = dict(rec)
+                inherit_image_captions(merged)
                 updated["images"] = merged
                 updated["images_done"] = False
                 updated["fetched_at"] = _now()
                 store.put(pid, updated)
         updated = dict(rec)
+        inherit_image_captions(merged)
         updated["images"] = merged
         updated["images_done"] = not deferred
         updated["fetched_at"] = _now()
@@ -1106,7 +1109,8 @@ def repair_posts() -> dict:
     fixed = []
     for pid in store.ids():
         before = store.get(pid)
-        after = store.put(pid, {})
+        inherit_image_captions(before.get("images") or [])
+        after = store.put(pid, before)
         if before != after:
             fixed.append(pid)
     return {"posts": len(store.ids()), "repaired": fixed}

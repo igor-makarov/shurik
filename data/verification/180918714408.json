@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:ece473b3cc55faded1992b964bd6500a6032df0b64199ff215db76cc3e8e5d9b",
+   "observed": "sha256:0bea83a9c9bd5d34202d1824656bac0b2cb4108eade8a501deb4b6222f960f38",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_pjf25mwdcq1r3it8zo1_1280.jpg]",
    "expected": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_pjf25mwdcq1r3it8zo1_1280.jpg",
+   "observed": "tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_pjf25mwdcq1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_pjf25mwdcq1r3it8zo1_500.jpg]",
+   "expected": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_pjf25mwdcq1r3it8zo1_500.jpg]",
+   "expected": 66277,
+   "observed": 66277,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_pjf25mwdcq1r3it8zo1_500.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -86,6 +106,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_pjf25mwdcq1r3it8zo1_1280.jpg]",
+   "expected": "מוצר שמצאנו ב-Aliexpress",
+   "observed": "מוצר שמצאנו ב-Aliexpress",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_pjf25mwdcq1r3it8zo1_500.jpg]",
+   "expected": "מוצר שמצאנו ב-Aliexpress",
+   "observed": "מוצר שמצאנו ב-Aliexpress",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20181225182206",
    "observed": "20181225182206",
@@ -104,11 +136,11 @@
    "passed": true
   }
  ],
- "checks_passed": 16,
- "checks_total": 16,
- "config_digest": "sha256:c24f0a17bbc5d1dcc34590a25a6c23bac8ecdd3b68b3c7f1dd232693e9cdd414",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:2bcad2bf73284f570d4ad8b51dfcf613195463a5feb866514844c303da05d28e",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2019-05-19T19:34:24Z",
   "org.opencontainers.image.description": "מוצר שמצאנו ב-Aliexpress",
@@ -120,7 +152,7 @@
   "shurik.post.content_len": "44",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "180918714408",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "אדיר מילר,Aliexpress"
  },
@@ -131,12 +163,17 @@
    "size": 65998
   },
   {
-   "digest": "sha256:c59b8e235265593091eedd127964ede28eae549f3798fa1d7dbedae603226fa7",
+   "digest": "sha256:7ac94ef5b8983576e3541d07cdfd2d9f92b5bd22c44d463a11ae06e95be7b922",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1033
+   "size": 65994
+  },
+  {
+   "digest": "sha256:fa5a7686e2d956027d6a51b41b0d2c76c36d58f6d9e7c593960c2c8cdb073a7e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1058
   }
  ],
- "manifest_digest": "sha256:ece473b3cc55faded1992b964bd6500a6032df0b64199ff215db76cc3e8e5d9b",
+ "manifest_digest": "sha256:0bea83a9c9bd5d34202d1824656bac0b2cb4108eade8a501deb4b6222f960f38",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "180918714408",
@@ -150,13 +187,21 @@
    "sha256": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c"
   },
   {
-   "bytes": 2414,
+   "bytes": 66277,
+   "file": "tumblr_pjf25mwdcq1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:7ac94ef5b8983576e3541d07cdfd2d9f92b5bd22c44d463a11ae06e95be7b922",
+   "role": "media",
+   "sha256": "cb8b5deb0795c462631f7ce3cce23c646c5deb3bf6e32c8fac08bdd29125024c"
+  },
+  {
+   "bytes": 3259,
    "file": "post.json",
-   "layer": "sha256:c59b8e235265593091eedd127964ede28eae549f3798fa1d7dbedae603226fa7",
+   "layer": "sha256:fa5a7686e2d956027d6a51b41b0d2c76c36d58f6d9e7c593960c2c8cdb073a7e",
    "role": "post-metadata",
-   "sha256": "e166cc5ee39534ca9d0a493734d4509837dfe80980aea9d235fb11706df964f4"
+   "sha256": "feb57ada4471df1f1408c38896791bb76df3eae46508e0e3a2328589aa8ad5dc"
   }
  ],
  "tag": "180918714408",
- "verified_at": "2026-10-06T23:57:47Z"
+ "verified_at": "2026-10-08T21:44:33Z"
 }

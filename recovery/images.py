@@ -64,6 +64,38 @@ def stem_prefix(media_url: str) -> str:
     return f"http://{parts.netloc}{directory}/{base[:len(base) - len(token) - 1]}"
 
 
+def inherit_image_captions(images: list[dict]) -> int:
+    """Copy a sibling photo's caption onto same-photo entries that lack one.
+
+    A post routinely names the same picture at several sizes (`_500`, `_1280`):
+    the permalink's entry carries the caption, while listing mining / `og:image`
+    add uncaptioned size entries. Resolving such an entry then publishes a
+    second layer of the *same bytes* with an empty caption, and the anonymous
+    verifier matches layers by sha256 -- it can pick the empty one and fail
+    `image_caption` (observed 2026-10 on tags 176725047613, 180918714408).
+    Grouping by `base_key` keeps the copy scoped to the same photo. Returns the
+    number of entries whose caption was filled in.
+    """
+    by_base: dict[str, str] = {}
+    for img in images:
+        cap = (img.get("caption") or img.get("caption_alt") or "").strip()
+        base = img.get("base_key")
+        if cap and base and base not in by_base:
+            by_base[base] = cap
+    fixed = 0
+    for img in images:
+        if (img.get("caption") or "").strip():
+            continue
+        cap = by_base.get(img.get("base_key"))
+        if not cap:
+            continue
+        img["caption"] = cap
+        if not (img.get("caption_alt") or "").strip():
+            img["caption_alt"] = cap
+        fixed += 1
+    return fixed
+
+
 def cap_attempts(attempts: list[dict], keep: int = MAX_ATTEMPTS_PER_IMAGE) -> list[dict]:
     """Bound an attempt log without losing the fact that it was longer."""
     if len(attempts) <= keep:

@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:47e385b025eaa09c619af0ec55992c73572b93360a60c96b74fdb70967e892fe",
+   "observed": "sha256:a2077b10b31b482c25c5ac0962fbb14cc4c9e90dc4202151f4c355b721c2f99c",
    "passed": true
   },
   {
@@ -14,9 +14,29 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_piuqkpx3Yt1r3it8zo1_500.jpg]",
+   "expected": "199f18257fed81886ae22e2cf7c4bd6aac2ca93f07214befac1b85d66f850436",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_piuqkpx3Yt1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_piuqkpx3Yt1r3it8zo1_500.jpg]",
+   "expected": 61283,
+   "observed": 61283,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_piuqkpx3Yt1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
    "passed": true
   },
   {
@@ -94,6 +114,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_piuqkpx3Yt1r3it8zo1_500.jpg]",
+   "expected": "ביבי גם עומד מאחורי עסקת ווטני",
+   "observed": "ביבי גם עומד מאחורי עסקת ווטני",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20181225182222",
    "observed": "20181225182222",
@@ -112,11 +138,11 @@
    "passed": true
   }
  ],
- "checks_passed": 16,
- "checks_total": 16,
- "config_digest": "sha256:a0942cf348484285b45f690f157e2bf98de9ccbd75fde5e64e86356c8a92ff97",
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:132416e5a7025bd83ef7ed6f8845e4251a80d09f3b5f87e3b9079a5157b9a9cb",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2019-01-29T00:34:15Z",
   "org.opencontainers.image.description": "ביבי גם עומד מאחורי עסקת ווטני",
@@ -128,27 +154,40 @@
   "shurik.post.content_len": "30",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "180550090138",
-  "shurik.post.images": "1",
-  "shurik.post.missing_images": "2",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "ביבי,ביבי-נתניהו,ביבי-גאמפ,ביבי-בומינג"
  },
  "layers": [
+  {
+   "digest": "sha256:0228dbc15359227c45cce168ebc5ca7997959513c665e9a6a9c7ae08f86c982b",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 61384
+  },
   {
    "digest": "sha256:7b37a87cfbcf90841d58d855e897038203aecc5ca68e8e441e87e8d3222d8b51",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
    "size": 61385
   },
   {
-   "digest": "sha256:ed8cb3f6cebb93d8951779c803bd937af7705089aaf70e419da5a09c74e55e86",
+   "digest": "sha256:768a29476e6c2fcf96a63dd07662e99ddb3d806e5722502d3674ffd2ce0fd9b6",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1282
+   "size": 1271
   }
  ],
- "manifest_digest": "sha256:47e385b025eaa09c619af0ec55992c73572b93360a60c96b74fdb70967e892fe",
+ "manifest_digest": "sha256:a2077b10b31b482c25c5ac0962fbb14cc4c9e90dc4202151f4c355b721c2f99c",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "180550090138",
  "pulled_files": [
+  {
+   "bytes": 61283,
+   "file": "tumblr_piuqkpx3Yt1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0228dbc15359227c45cce168ebc5ca7997959513c665e9a6a9c7ae08f86c982b",
+   "role": "media",
+   "sha256": "199f18257fed81886ae22e2cf7c4bd6aac2ca93f07214befac1b85d66f850436"
+  },
   {
    "bytes": 61283,
    "file": "tumblr_piuqkpx3Yt1r3it8zo1_1280.jpg",
@@ -158,13 +197,13 @@
    "sha256": "199f18257fed81886ae22e2cf7c4bd6aac2ca93f07214befac1b85d66f850436"
   },
   {
-   "bytes": 6021,
+   "bytes": 5016,
    "file": "post.json",
-   "layer": "sha256:ed8cb3f6cebb93d8951779c803bd937af7705089aaf70e419da5a09c74e55e86",
+   "layer": "sha256:768a29476e6c2fcf96a63dd07662e99ddb3d806e5722502d3674ffd2ce0fd9b6",
    "role": "post-metadata",
-   "sha256": "d32b7bfd2602671e787a7f3d6571ffbec75c9e4cf9195df45a54e8db191326a7"
+   "sha256": "364bf50477eade33c1020c6ff867d976ca506c3fa7b1946aab9df355f5b5b270"
   }
  ],
  "tag": "180550090138",
- "verified_at": "2026-10-07T06:03:31Z"
+ "verified_at": "2026-10-08T21:41:29Z"
 }

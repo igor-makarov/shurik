@@ -11,7 +11,7 @@ from recovery import config
 from recovery.cdx import Capture, CaptureIndex, cdx_query, parse_cdx_json, within_cutoff
 from recovery.http import BAD_BODY, GAP, OK, THROTTLED, TIMEOUT, TRANSPORT, Fetcher, RecoveryError, Response
 from recovery.images import (image_capture_candidates, image_capture_candidates_stem,
-                             resolve_image, sniff_image, stem_prefix)
+                             inherit_image_captions, resolve_image, sniff_image, stem_prefix)
 from recovery.media import MediaIndex
 from recovery.stemindex import StemIndex
 from recovery.parsing import (html_to_text, inner_html, is_excluded_image, parse_image_variants,
@@ -167,6 +167,26 @@ class ImageRecoveryTests(unittest.TestCase):
         self.assertIsNone(sniff_image(b""))
         self.assertIsNone(sniff_image(b"<html>not an image</html>" * 5))
         self.assertEqual(sniff_image(JPEG_BYTES), "image/jpeg")
+
+    def test_uncaptioned_size_alias_inherits_sibling_caption(self):
+        # The `_1280` entry has the same bytes but no caption; the `_500` entry
+        # carries it. Both layers of one sha256 must agree, or the anonymous
+        # verifier can match the empty layer and fail `image_caption`.
+        images = [
+            {"media_url": "u_1280", "media_key": "x_1280.jpg", "base_key": "x.jpg",
+             "sha256": "abc", "caption": None, "caption_alt": ""},
+            {"media_url": "u_500", "media_key": "x_500.jpg", "base_key": "x.jpg",
+             "sha256": "abc", "caption": "\u05e1\u05dc\u05de\u05d4", "caption_alt": "\u05e1\u05dc\u05de\u05d4"},
+        ]
+        fixed = inherit_image_captions(images)
+        self.assertEqual(fixed, 1)
+        self.assertEqual(images[0]["caption"], "\u05e1\u05dc\u05de\u05d4")
+        self.assertEqual(images[0]["caption_alt"], "\u05e1\u05dc\u05de\u05d4")
+        # A different photo must not leak its caption in.
+        other = [{"base_key": "y.jpg", "caption": None},
+                 {"base_key": "x.jpg", "caption": "cap"}]
+        self.assertEqual(inherit_image_captions(other), 0)
+        self.assertIsNone(other[0]["caption"])
 
 
 class MergeTests(unittest.TestCase):

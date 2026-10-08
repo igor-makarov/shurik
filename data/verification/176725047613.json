@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:3e6c4505414395adcd9a74d8b788d7ba7d2a00cbf6d04e21231c91bf9fec9383",
+   "observed": "sha256:440df2b77925ad0d56a9010c59790f26a21959cc4b7667d11c87c07cc5a2a0a3",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_pd2vqjhrle1r3it8zo1_640.jpg]",
    "expected": "ef85541d2244212eb25e53a38077d408e691b73ac5cdaf7569163d5528b498e7",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_pd2vqjhrle1r3it8zo1_640.jpg",
+   "observed": "tumblr_pd2vqjhrle1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_pd2vqjhrle1r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_pd2vqjhrle1r3it8zo1_500.jpg]",
+   "expected": "ef85541d2244212eb25e53a38077d408e691b73ac5cdaf7569163d5528b498e7",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_pd2vqjhrle1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_pd2vqjhrle1r3it8zo1_500.jpg]",
+   "expected": 37941,
+   "observed": 37941,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_pd2vqjhrle1r3it8zo1_500.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -90,6 +110,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_pd2vqjhrle1r3it8zo1_640.jpg]",
+   "expected": "הסלמה? בסך הכל עברתם חוויה",
+   "observed": "הסלמה? בסך הכל עברתם חוויה",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_pd2vqjhrle1r3it8zo1_500.jpg]",
+   "expected": "הסלמה? בסך הכל עברתם חוויה",
+   "observed": "הסלמה? בסך הכל עברתם חוויה",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20190430110606",
    "observed": "20190430110606",
@@ -108,11 +140,11 @@
    "passed": true
   }
  ],
- "checks_passed": 16,
- "checks_total": 16,
- "config_digest": "sha256:ab049cf79e6c1aff03c53c0042e0401fc78ab838527e84f35fc9230a0643465f",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:b538c53a854671ecc90297e042cc2691ae0b726361fcb926afca1c9439af6b0e",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2019-08-24T09:37:11Z",
   "org.opencontainers.image.description": "הסלמה? בסך הכל עברתם חוויה",
@@ -124,7 +156,7 @@
   "shurik.post.content_len": "95",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "176725047613",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "ביבי,ביבי נתניהו,Trying to Hold a Fart Next to a Cute Girl in Class,קיץ"
  },
@@ -135,12 +167,17 @@
    "size": 37452
   },
   {
-   "digest": "sha256:8c6b90147a86a74cf81d3ba3c7e602969baded55e9759ac40a3406544c733949",
+   "digest": "sha256:2ad67910acd33272d20996d4743ab4d0f906ee49857acef5368d64a476604330",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1136
+   "size": 37453
+  },
+  {
+   "digest": "sha256:09011172b40aeeb83edea5a67b6c7be2d8cf39a9e8e5be7301b224c250c245fc",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1164
   }
  ],
- "manifest_digest": "sha256:3e6c4505414395adcd9a74d8b788d7ba7d2a00cbf6d04e21231c91bf9fec9383",
+ "manifest_digest": "sha256:440df2b77925ad0d56a9010c59790f26a21959cc4b7667d11c87c07cc5a2a0a3",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "176725047613",
@@ -154,13 +191,21 @@
    "sha256": "ef85541d2244212eb25e53a38077d408e691b73ac5cdaf7569163d5528b498e7"
   },
   {
-   "bytes": 2849,
+   "bytes": 37941,
+   "file": "tumblr_pd2vqjhrle1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:2ad67910acd33272d20996d4743ab4d0f906ee49857acef5368d64a476604330",
+   "role": "media",
+   "sha256": "ef85541d2244212eb25e53a38077d408e691b73ac5cdaf7569163d5528b498e7"
+  },
+  {
+   "bytes": 3718,
    "file": "post.json",
-   "layer": "sha256:8c6b90147a86a74cf81d3ba3c7e602969baded55e9759ac40a3406544c733949",
+   "layer": "sha256:09011172b40aeeb83edea5a67b6c7be2d8cf39a9e8e5be7301b224c250c245fc",
    "role": "post-metadata",
-   "sha256": "6d0da51b314afa06ce258487dc325ef5eda1c581a3bfaf9b1978f2a679b8a89c"
+   "sha256": "a6a286c3289b2f7ff6c42aaa20cf03b05e8f18d8e4c68c98ca13c72519e00e8e"
   }
  ],
  "tag": "176725047613",
- "verified_at": "2026-10-06T23:57:47Z"
+ "verified_at": "2026-10-08T21:44:33Z"
 }

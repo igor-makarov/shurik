@@ -1,0 +1,160 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:6de07af74578a8a6aa0b8a95f2424e4d6580b41dc13a30e4cdfd1ec35ef73ca1",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_pjkghejybC1r3it8zo1_500.jpg]",
+   "expected": "d040cc19970384be416c44299f4031d31098d6e65f94331e8d28ba81879e9b0b",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_pjkghejybC1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_pjkghejybC1r3it8zo1_500.jpg]",
+   "expected": 74305,
+   "observed": 74305,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_pjkghejybC1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "",
+   "observed": "",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "",
+   "observed": "",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/181012468563",
+   "observed": "http://hazfalafel.com/post/181012468563",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_pjkghejybC1r3it8zo1_500.jpg]",
+   "expected": "כפיים",
+   "observed": "כפיים",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182159",
+   "observed": "20181225182159",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182159id_/https://66.media.tumblr.com/5c8007f6e1e2daaba48e1da970d2d5f7/tumblr_pjkghejybC1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182159id_/https://66.media.tumblr.com/5c8007f6e1e2daaba48e1da970d2d5f7/tumblr_pjkghejybC1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182159",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:cca2551ad7ec9670f7bbdeb0a4af89d5e8be741497f092fd7905a23539f09e29",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:21:59Z",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 181012468563",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/181012468563",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "0",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "181012468563",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0"
+ },
+ "layers": [
+  {
+   "digest": "sha256:6aa7923dbd3e54472ff8c1aac0e639b544c3bf6f3ad61731b98a32e13667f215",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 73542
+  },
+  {
+   "digest": "sha256:5f3d65885a79ac3b7d3d3b6c15a8c873cf83441ccb10fd792a4771b96abd2dfb",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 679
+  }
+ ],
+ "manifest_digest": "sha256:6de07af74578a8a6aa0b8a95f2424e4d6580b41dc13a30e4cdfd1ec35ef73ca1",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "181012468563",
+ "pulled_files": [
+  {
+   "bytes": 74305,
+   "file": "tumblr_pjkghejybC1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:6aa7923dbd3e54472ff8c1aac0e639b544c3bf6f3ad61731b98a32e13667f215",
+   "role": "media",
+   "sha256": "d040cc19970384be416c44299f4031d31098d6e65f94331e8d28ba81879e9b0b"
+  },
+  {
+   "bytes": 1281,
+   "file": "post.json",
+   "layer": "sha256:5f3d65885a79ac3b7d3d3b6c15a8c873cf83441ccb10fd792a4771b96abd2dfb",
+   "role": "post-metadata",
+   "sha256": "ea1c6dcfc6079bbdc07f25cd72895019028a260ee59140fe37f807a291154b69"
+  }
+ ],
+ "tag": "181012468563",
+ "verified_at": "2026-10-08T21:41:28Z"
+}
