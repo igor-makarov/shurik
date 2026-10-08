@@ -19,7 +19,7 @@
  "content_text": "ואז תראה לה את כמה מרחב ציבורי אתה מסוגל לתפוס",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T09:45:55Z",
+ "fetched_at": "2026-10-08T23:05:25Z",
  "image_count": 0,
  "images": [
   {
@@ -61,13 +61,32 @@
      "status": 200,
      "stem": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
      "url": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://31.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
+     "url": "http://31.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 4729,
+     "capture_timestamp": "20140111015019",
+     "endpoint": "replay id_",
+     "error": "http_error",
+     "media_type": "not-an-image",
+     "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
+     "status": 404,
+     "url": "http://31.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_mpohoz7kkP1r3it8zo1.jpg",
    "caption": "ואז תראה לה את כמה מרחב ציבורי אתה מסוגל לתפוס",
    "caption_alt": "ואז תראה לה את כמה מרחב ציבורי אתה מסוגל לתפוס",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture_count": 1,
+   "error": "http_error",
    "found_in": "img",
    "host_inventory": {
     "host": "78.media.tumblr.com",
@@ -79,7 +98,7 @@
    "link_text": "",
    "media_key": "tumblr_mpohoz7kkP1r3it8zo1_500.jpg",
    "media_url": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "note": "captures existed but no replay produced a valid image body",
    "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg",
@@ -190,14 +209,54 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2013/11?before_time=1383508022"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1.png",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
+     "url": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
+     "url": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg"
+    }
+   ],
    "base_key": "tumblr_mpohoz7kkP1r3it8zo1.jpg",
    "caption": "ואז תראה לה את כמה מרחב ציבורי אתה מסוגל לתפוס",
    "caption_alt": "ואז תראה לה את כמה מרחב ציבורי אתה מסוגל לתפוס",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
    "media_url": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
     "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg"
@@ -224,12 +283,43 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1.png",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1",
+     "url": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg"
+    }
+   ],
    "base_key": "tumblr_mpmm28UFe61r3it8zo1.jpg",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mpmm28UFe61r3it8zo1_250.jpg",
    "media_url": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg"
    ],
@@ -308,10 +398,29 @@
      "status": 200,
      "stem": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
      "url": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://31.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
+     "url": "http://31.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 4729,
+     "capture_timestamp": "20140111015019",
+     "endpoint": "replay id_",
+     "error": "http_error",
+     "media_type": "not-an-image",
+     "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
+     "status": 404,
+     "url": "http://31.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg"
     }
    ],
    "media_url": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
+   "reason": "http_error"
   },
   {
    "attempts": [
@@ -354,14 +463,78 @@
    "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1.png",
+      "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
+     "url": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1",
+     "url": "http://78.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg"
+    }
+   ],
    "media_url": "http://67.media.tumblr.com/90c8933eda327cff2f7393185fcc6b64/tumblr_mpohoz7kkP1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1.png",
+      "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1",
+     "url": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg"
+    }
+   ],
    "media_url": "http://25.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/55009527099",
