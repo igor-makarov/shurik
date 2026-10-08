@@ -26,7 +26,7 @@
   "publishedFilesNow": 999,
   "publishedBytesNow": 14717489211,
   "remainingFilesNow": 113,
-  "masterIndexDigestNow": "sha256:5690145e1a3aa30a3a27a7fd8fd675fe69da6244a83180bda98eab85af01ff4a",
+  "masterIndexDigestNow": "sha256:c09a1c84625a7a52e4f4d7052e9a74eeb171e81dcbfeabcd726529df559159da",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,10 +41,10 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 105,
+    "pendingFiles": 104,
     "publishedFiles": 999,
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
-    "inProgressFiles": 8,
+    "inProgressFiles": 9,
     "knownGapYears": [
       1891,
       1892,
@@ -80,10 +80,11 @@
     "Iteration 5-36: batches 81-82 published 17 fresh files (918->935), +622,237,766 origin bytes; durable partials 119,537,664 B in 6 files. Master index republished and verified by immutable pull (sha256:0f6fe7a6..., 1470667 B, status complete, 0 mismatches, 1112 files/941 issues/87 years). Remaining 177 files + 5 supplementary archives.",
     "Iteration 5-40: continuation acknowledged; supervisor deadline 2026-10-08T18:00:00.000Z authoritative. True current state 965 published / 13,012,263,762 B; 147 regular files remain; 2 in_progress (nij-1967-n12-pdf, nij-1972-n02-pdf) with 64 MiB durable GHCR checkpoint bytes. Batch87 (interrupted iteration 5-39) published 6 files durably.",
     "Iteration 5-41: continuation acknowledged; supervisor deadline 2026-10-08T18:00:00.000Z authoritative. True current state 969 published / 13,205,484,302 B; 143 regular files remain (137 pending + 6 in_progress) + 5 supplementary archives; durable GHCR chunk checkpoints total 161,480,704 B across 6 files (all restorable by immutable digest); master index nij-master-index @ sha256:cb9326d0260936e890fecdfde299c3dc2964a39e61ea3f1a2a227d9b0bf009c6.",
-    "Iteration 5-43: batches 95-96 published 8 fresh files (991->999), +409,591,368 durable origin bytes, by restoring+finishing prior in_progress files from immutable GHCR chunk checkpoints (no re-download). 113 remain (105 pending + 8 in_progress ~50-90MB PDFs). Master index republished and verified by immutable pull (sha256:5690145e..., 1493138 B, status complete, 0 problems, 1112 files/941 issues/87 years). Also reconciled the 6 files published by the timed-out batch 94 that the prior index had not yet reflected."
+    "Iteration 5-43: batches 95-96 published 8 fresh files (991->999), +409,591,368 durable origin bytes, by restoring+finishing prior in_progress files from immutable GHCR chunk checkpoints (no re-download). 113 remain (105 pending + 8 in_progress ~50-90MB PDFs). Master index republished and verified by immutable pull (sha256:5690145e..., 1493138 B, status complete, 0 problems, 1112 files/941 issues/87 years). Also reconciled the 6 files published by the timed-out batch 94 that the prior index had not yet reflected.",
+    "Iteration 5-43: batches 95-97 published 8 fresh files (991->999), +409,591,368 durable origin bytes, plus +218,103,808 B durable chunk checkpoints across 9 in_progress files (batch 97 had no publish but real durable partial progress). 113 remain (104 pending + 9 in_progress ~50-90MB PDFs). Master index republished; verified by immutable pull (sha256:5690145e..., 0 problems). Final index digest after batch 97: sha256:c09a1c84... (1493156 B, status complete)."
   ],
   "masterIndexVerifiedAt": "2026-10-08T16:40:26.669Z",
-  "verifiedPartialBytesNow": 122683392,
+  "verifiedPartialBytesNow": 218103808,
   "continuation": {
     "authorized": true,
     "note": "Iteration 5-43 acknowledges the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem). Scope all-years. Continuation baseline at work 15b89ae8: 875 files / 9,777,993,649 B. Current durable state: 999 files / 14,717,489,211 B published; 113 regular files remain (105 pending + 8 in_progress); durable GHCR chunk checkpoints hold 122,683,392 B across 8 in_progress files.",
