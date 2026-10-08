@@ -103733,77 +103733,21 @@
         "29": {
           "bytes": 1048576,
           "sha256": "1dc58d5a86cc4f57277609c9bc5167928aaa278c032a01116260bdd5511977ff"
-        },
-        "30": {
-          "bytes": 1048576,
-          "sha256": "56b8723229fca73ac0f7e0f7f7c31340c213f829efa645418dca16276cc8f556"
-        },
-        "31": {
-          "bytes": 1048576,
-          "sha256": "1e6c2f1f2be4097f86ed0520fdfbcc25ca7d9a66b303a96c1dfee345ca9418a5"
-        },
-        "32": {
-          "bytes": 1048576,
-          "sha256": "140d6ab60a587b53f1fd9f34452295b5ebda58f4631249b7ce2cc4d87afc63d1"
-        },
-        "33": {
-          "bytes": 1048576,
-          "sha256": "8d370473edfd4f8b3866b17b3ba8c2f28bb3294a7b82a03c6c01cc8a80d126a5"
-        },
-        "34": {
-          "bytes": 1048576,
-          "sha256": "f1053a28c6814249cb9fc235358865b478c15a035558f317276d55343a2c4a81"
-        },
-        "35": {
-          "bytes": 1048576,
-          "sha256": "962010aee93ced2738ce587c68c265766072303a26a43b89b329ac0582000e38"
-        },
-        "36": {
-          "bytes": 1048576,
-          "sha256": "2b2d46b222864acfd1ca0133d6f0d5fe72d3df0a2eb8e701195a60b07cf77e90"
-        },
-        "37": {
-          "bytes": 1048576,
-          "sha256": "3178bbbf150e795ac62868854d2c6ccdb048cd56473784122b18850d66cf7ded"
-        },
-        "38": {
-          "bytes": 1048576,
-          "sha256": "1944bd9d0294cda8e67edafb7c246fc532e99a1a1184c7850aef0832a89d9c9c"
-        },
-        "39": {
-          "bytes": 1048576,
-          "sha256": "7d10ac89e74f2f47a9b375f0fef033eb1421b3a043f722c924670922b2ef99d4"
-        },
-        "40": {
-          "bytes": 1048576,
-          "sha256": "b7fe981fd3901c832d045bcaf618121cd1d85dd3bab61da8e187c1931a43e59b"
-        },
-        "41": {
-          "bytes": 1048576,
-          "sha256": "9f3cdd1fdcc22ce4b61418daeeab8f513dd28edaabfb5c1b01551ea0c2d33b65"
-        },
-        "42": {
-          "bytes": 1048576,
-          "sha256": "03588eb4458eb3f36940f7d34ebe578cc8514ad3377c1fc144199b445d618a11"
-        },
-        "43": {
-          "bytes": 1048576,
-          "sha256": "40721e9d5da8f8f25ae7bf76fa085a96c0879ca628f888976de820518b934dbd"
         }
       },
-      "receivedBytes": 46137344,
+      "receivedBytes": 31457280,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 50,
+      "attempts": 68,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": null,
       "checkpoint": {
-        "digest": "sha256:8c232d431608b8057978aa12fe90d65fc764f9a65560e049b038f6bdec4d943d",
-        "bytes": 12582912,
-        "chunks": 12,
-        "at": "2026-10-08T17:12:37.021Z"
+        "digest": "sha256:d8b92236b69da8a87f48c70ae0dde2c538920742040d469ddfe58e5e64c516b4",
+        "bytes": 31457280,
+        "chunks": 30,
+        "at": "2026-10-08T17:35:54.985Z"
       },
       "verified": null,
       "updatedAt": "2026-10-07T21:54:14.914Z",
@@ -103948,12 +103892,17 @@
       "receivedBytes": 31457280,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 37,
+      "attempts": 55,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:f512fb0c01f9a5317ac3deab3c7d8ef9852c3d83a17429bb461ce0790de7e3ee",
+        "bytes": 18874368,
+        "chunks": 18,
+        "at": "2026-10-08T17:35:58.105Z"
+      },
       "verified": null,
       "updatedAt": "2026-10-07T21:54:14.914Z",
       "cleanupPasses": 0
@@ -104049,12 +103998,17 @@
       "receivedBytes": 18874368,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 25,
+      "attempts": 43,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:fbb550cde9e283311f82af6f6bbd286a18a829090972bdf9afa76b498ae6f4e4",
+        "bytes": 18874368,
+        "chunks": 18,
+        "at": "2026-10-08T17:36:01.734Z"
+      },
       "verified": null,
       "updatedAt": "2026-10-07T21:54:14.914Z",
       "cleanupPasses": 0
@@ -104097,17 +104051,70 @@
         "5": {
           "bytes": 1048576,
           "sha256": "fa7d310bddf7bb26c5a0f8d789947f60a6ffeba1f439e8daba4da27ad9195026"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "a6505d809260c6bb2dc9d1ea95b6da094e3c8c6f82e50d5805dd48c403e5893f"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "5028e98e30c61bec7c875cd328ba302149d79aece3968feeca60c09e051067eb"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "7a07bf50ce7851381fb95f44468f335c3ec0d9da210709aedcf7b24de578eb01"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "49f84c6a894558c8a4d1d7573f2081ff90041299109bc3b6b75577eff7caba71"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "e7f7ed229a769ee3f6650579698f97f1960760597657c4818282743186447ac5"
+        },
+        "11": {
+          "bytes": 1048576,
+          "sha256": "14708b946a56604e34a8e23e9bdae14c75ddc5021fba1aee512eb28ce16e3419"
+        },
+        "12": {
+          "bytes": 1048576,
+          "sha256": "ed444f633811d20fdbb39db4422aaa675507c21cb40a88d5f7fa4e751816f67e"
+        },
+        "13": {
+          "bytes": 1048576,
+          "sha256": "03617e5bacd0c4990d53274972abdc483afdee7ee0d408f83b5d60dfb7ff1455"
+        },
+        "14": {
+          "bytes": 1048576,
+          "sha256": "3882fcc3cac185157e8b5a5680e3b18c3f465285f2cc02addca4223104de3893"
+        },
+        "15": {
+          "bytes": 1048576,
+          "sha256": "7f96b00fc0d0d01670454f2547d1fa7afec5d1d635d85ff92050c55319786bf5"
+        },
+        "16": {
+          "bytes": 1048576,
+          "sha256": "c3d91c3f40de1277595eb2700f726faeae979f5a83950e8f0866db5a2f966b00"
+        },
+        "17": {
+          "bytes": 1048576,
+          "sha256": "b049488be2fecba9aaa41e00aa4e0c79d0cb329f2ffb0af9d98e36aa9ae6ca1d"
         }
       },
-      "receivedBytes": 6291456,
+      "receivedBytes": 18874368,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 13,
-      "retries": 0,
-      "lastError": null,
-      "lastErrorAt": null,
+      "attempts": 32,
+      "retries": 1,
+      "lastError": "request failed: idle timeout after 30000ms",
+      "lastErrorAt": "2026-10-08T17:32:17.870Z",
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:6172767ff838c844fa1d363cc5083502dde6336bc47ace5e5d17170b252b70f6",
+        "bytes": 18874368,
+        "chunks": 18,
+        "at": "2026-10-08T17:36:04.825Z"
+      },
       "verified": null,
       "updatedAt": "2026-10-07T21:54:14.914Z",
       "cleanupPasses": 0
@@ -106759,11 +106766,11 @@
       "updatedAt": "2026-10-07T21:54:14.914Z"
     }
   },
-  "updatedAt": "2026-10-08T17:21:09.777Z",
+  "updatedAt": "2026-10-08T17:36:05.024Z",
   "origin": {
     "reachable": true,
     "reason": null,
-    "checkedAt": "2026-10-08T17:13:04.391Z",
+    "checkedAt": "2026-10-08T17:31:11.659Z",
     "probeUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip"
   }
 }
