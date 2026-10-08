@@ -13,337 +13,88 @@ Git keeps **code, tests and compact records only**: `data/image-queue.json`,
 Bulk crawl state (`data/posts/`, `data/cdx/`, the retry queues) is gitignored
 and travels in the same package under the `crawl-state` tag.
 
-## Crawl-state checkpoint (new in 6-83)
-
-`recovery/state_checkpoint.py` pushes `data/posts`, `data/cdx`,
-`data/image-queue.json`, `data/missing.jsonl` and `data/gaps.jsonl` as one gzip
-tar layer under the `crawl-state` tag and writes the committed pointer
-`data/checkpoint.json` (schema version + manifest digest).
-
 ```sh
-python3 -m recovery.cli checkpoint          # push, then write the pointer
-python3 -m recovery.cli checkpoint --pull   # anonymous pull back into the tree
+python3 -m recovery.cli checkpoint          # push crawl-state, write pointer
+python3 -m recovery.cli checkpoint --pull   # anonymous pull into the tree
 ```
 
-It is internal crawl state: not a recovered post and not progress toward image
-recovery. Recovered bytes never go there -- they go into the numeric post tags,
-which is why every `fetch-images` pass publishes on recovery.
-
-On a fresh runner restore the checkpoint first; only if no `crawl-state` tag
-exists, bootstrap from Git history (restores ignored working files, not files to
-recommit):
+Only if no `crawl-state` tag exists, bootstrap from Git history (ignored files,
+not to recommit):
 
 ```sh
 git archive 0924dd45a67e16a107c97c46b8c6282895cf6835 data/posts data/cdx | tar -x
 ```
 
-## Current counts
-
-Derived from `data/published.jsonl` (max `image_count` once per post id) and
-`python3 -m recovery.cli status`.
+## Current counts (derived: max `image_count` once per post id in `data/published.jsonl`)
 
 | Metric | Value |
 | --- | ---: |
-| Discovered / parsed posts | 1186 / 1478 |
-| Distinct Tumblr photo identities | 1824 stems (pending 0; all answered) |
-| Published images (max per tag; includes 3 same-byte aliases) | **119** across 80 image-bearing tags |
-| Posts recorded published (metadata-only tags included) | 751 |
-| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 3109 stems (45 rows with captures) |
+| Published images (per-tag max; includes same-byte aliases) | **201** across 147 image-bearing tags |
+| Distinct recovered SHA-256 among post image entries | 155 (of 202 entries) |
+| Posts parsed / recovered | 1611 / 147 |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 5208 stems (136 with captures) |
+| Pending stem questions | 0 |
 
-## 18-294 result: amp/photoset refetch plan exhausted -> 5 new published images (119 total)
+## 19-314 result: the unasked-stem queue was the lever -> +23 images (201/147), 3 tags anonymously verified
 
-Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
-**119 images across 80 image-bearing tags** (751 tags total), was 86/53 at the
-loop baseline. This pass: `scripts/refetch-captures.py` exhausted its remaining
-plan (135 never-parsed amp/photoset/other captures in 130 posts, 3x45 fetched,
-0 failures): 14 new image identities, 112 new URL forms. `stem-scan` answered
-the new stems: 2 hits converted by `fetch-images --method stem
---only-stem-hits` into **5 new published images** in 4 posts (180550090138,
-20110924434, 21084952305, 93093713638 = 2 images), each anonymously verified
-(16/16, 20/20, 20/20, 20/20 checks). The refetch plan is now empty (`--dry-run`
-reports 0) -- do not re-run it without new captures.
+The iteration opened with `stem-scan --dry-run` reporting **235 stems with no
+recorded CDX answer** (RECOVERY_STATUS's "all stems answered / pending 0" claim
+was stale). Two bounded passes answered all 235 (`--limit-stems 80` then the
+remaining 155; every request sent, 0 failures, 0 deferred) for **33 stem hits
+(14% hit rate, vs the ~2% figure the old notes quoted)**. `fetch-images --method
+stem --only-stem-hits` converted them into **23 new published images across 24
+tags** (178/123 -> 201/147); 3 of the new tags (60159692969, 84431586913,
+91931326063) passed anonymous `verify-artifact` (16/16, 16/16, 17/17 checks).
+Pending stems are now 0 again.
 
-Also this pass: two 25-post probe batches settled 16 posts with genuine 404
-gaps before transport refusals tripped the breaker (cooldown honored);
-`probe-availability --limit 150`: 0 hits, 131 gaps, 19 transient.
-Crawl-state checkpoint `sha256:eb2ec711796c277cc7255d679ad67e63f30f5b7c6de0cc4da46b82011e669141`
-(`--pull` verified, preserved 1493 files).
+Lesson: before trusting "discovery exhausted", re-run `stem-scan --dry-run` and
+count `scanning`. The unanswered pool regenerates whenever post records gain new
+`url_forms` (listing/xshard/merge passes), and it is the highest-yield work
+available. Do not spend a pass on replay probes of settled gaps while
+`scanning > 0`.
 
-Iteration 7-95: `--method stem --retry-missing` over 300 previously settled
-posts recovered **14 images in 7 posts** (each published immediately and
-verified anonymously, 20/20 checks per tag): 16809999572, 16881301957,
-17269876288, 18244186719, 18502938203, 18859742391, 23113407036.
-`--retry-missing` is what opens the settled pool: without it the pass reports
-`no_work_left` for 786 posts and only ~300 remain eligible.
+## Earlier results (kept as evidence)
 
-## Negative evidence worth keeping (7-95)
+* 18-294: refetch plan (135 never-parsed amp/photoset captures) exhausted -> 5
+  new published images; plan now empty, do not re-run without new captures.
+* 7-95: `--method stem --retry-missing` over 300 *settled* posts recovered 14
+  images in 7 posts. `--retry-missing` is what opens the settled pool.
+* 12-245: `classify_exception` maps a refused TCP connection to TRANSPORT, not
+  THROTTLED; only genuine 429/503 is throttled. Breaker trips on THROTTLED or
+  refusal, resets on any answered HTTP status.
+* 19-313: `--only-stem-hits` no longer skips a stem-index hit just because the
+  exact URL has a terminal archive_gap/bad_body verdict, and a non-200 replay of
+  a listed 200 capture is transient (HTTP_ERROR), not a permanent bad body.
 
-* **CDX host wildcards are silently empty.** `url=*.media.tumblr.com/<stem>`
-  and `url=*.tumblr.com/<stem>` answer `200` with **zero rows even for a
-  control stem known to have a pre-cutoff capture**, so they are false
-  negatives, not evidence. Do not use them (`scripts/wildcard-host-probe.py`).
-* **Cross-shard copies do not exist for our photos.** The control photo
-  `40.media.tumblr.com/acd66e1322aeb10e0ec13ae1659eae09/tumblr_o07sizvpqP1r3it8zo1`
-  was asked on 18 `NN.media.tumblr.com` shards: only shard 40 answers. 18
-  queries per photo for zero hits is a dead end.
-* **No pre-2012 captures of the blog itself.** `hazfalafel.com/post/` holds
-  1562 captures, all 2012-2019 (2017: 761, 2012: 226, 2016: 222, 2019: 149,
-  2015: 69, 2013: 61, 2018: 47, 2014: 27); `hazfalafel.tumblr.com` has none
-  at all. Pre-2013 posts are only visible through the 2016+ theme pages, whose
-  image URLs are the modern `<hash>/tumblr_*` form -- which is also the only
-  form the archive captured. Alternate permalink forms of old posts therefore
-  cannot surface older image URLs.
-* Stem answers so far: 18 of ~1040 stems returned captures (~2%), all on
-  shards 40/24/41/78/28/25.
+## Negative evidence worth keeping
 
-## Archive behaviour observed in 6-83
-
-* `https://web.archive.org` answered normally the whole iteration (CDX and
-  replay), so the plain-HTTP downgrade in `recovery/http.py` was not needed.
-* `--method stem` (one CDX prefix query per image, covering every size and
-  extension sibling) is the productive method: 220 posts over four passes
-  recovered **20 images**, every one of them published inside the same pass and
-  anonymously verified afterwards (12/12 tags, 20/20 images, byte-level).
-  Yield is ~9% of images, far above earlier "3 hits per 195 stems" notes --
-  those older passes concentrated on hosts/pools that answer `[]`.
-* Re-posts that already existed were only re-published when the recovered image
-  count grew (`images 2>-1`), so no duplicate versions were created.
+* **CDX host wildcards are silently empty** (`url=*.media.tumblr.com/<stem>`),
+  false negatives even for a known capture. Do not use.
+* **CDX regex filters over the whole `media.tumblr.com` domain 504.** A
+  server-side `filter=original:.*<id>.*` cross-shard search times out; per-shard
+  local matching (hostdump) is the only variant, and cross-shard copies are
+  already falsified (0/308 for listing-only photos).
+* **Cross-shard copies do not exist for our photos** (12-246: 308/308 gaps).
+* **No pre-2012 captures of the blog itself.** `hazfalafel.tumblr.com` has zero
+  captures; `icanhazfalafel.tumblr.com` has only 32 captures through the cutoff
+  (2 real HTML: the 2011-11-30 root and 2012-01-01 `/about`), and the root's 8
+  photo URLs are all already-known stems. Subdomain mining is closed.
+* **Multi-`url=` CDX batching is unsupported**: the endpoint answers only the
+  first `url=` parameter. `stem_scan` deliberately sends one request per stem.
+* Stem answers so far: 136 of ~5200 stems returned captures (~2.6%), spread
+  across shards 24/25/31/37/38/40/media.
 
 ## Next work
 
-Stem/CDX discovery is exhausted (all 1824 stems answered, `posts_with_stem_hits` empty; listing mining yields only same-photo `_250` aliases). The remaining lever is replay probes of never-probed sibling forms and availability sweeps of never-swept URLs: 451 posts still have work without `--retry-missing`, 1131 with it. Cross-shard copies are now falsified for listing-only photos too (12-246: 308/308 gaps across 22 hosts x sizes) -- do not spend more on shard swaps; spend replay/availability on untried same-shard siblings instead. `fetch-images --method probe --limit 25 --concurrency 2` settles ~9 posts per healthy window between refusal blocks; `probe-availability --limit 150` runs on the unblocked host during replay cooldowns. Re-push the `crawl-state` checkpoint (12-246 did NOT push; new avail rows since de7ce3d1 live only in local data/cdx + supervisor control snapshot) and `verify-artifact` any new tags.
-
-Known weak spots: posts 13833997906-14996000761 (2010-2011,
-`27.media.tumblr.com` style) answered HTTP 404 on every size/extension variant;
-that verdict is scoped to those exact URLs only.
-
-Crawl-state pointer still `sha256:de7ce3d1de32d84f8d36856e30a22348538cf35d6bfe7cd07709648d48e244bf` (12-245; 12-246 added ~150 avail rows + 9 settled probe posts on top, not yet pushed). Replay cooldown recorded until 14:09:58Z by the 12-246 probe pass; health-check before surrendering a pass.
-
-## 12-246 result: 25-probe batch (9 settled, 16 honestly deferred) + 150 avail gaps + 308-query cross-shard falsification, 0 new bytes
-
-## 12-246 result: 25-probe batch (9 settled, 16 honestly deferred) + 150 avail gaps + 308-query cross-shard falsification, 0 new bytes
-
-Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
-**86 images across 53 image-bearing tags** (741 tags total), unchanged.
-`status`: 1222 parsed, 2378 missing. No new published images.
-
-* Real path: `fetch-images --method probe --limit 25 --concurrency 2` opened with a healthy health-check (302) clearing the 12-245 cooldown, settled 9 listing-stub posts with genuine 404 gaps (scoped to those same-shard variant forms), then hit TRANSPORT refusals that tripped the breaker honestly as transport; 16 remaining posts deferred with NO request sent and NO attempt spent (attempts 2705->2714 = +9 only). Refusal-is-transport fix verified on the live path.
-* During replay cooldown, `probe-availability --limit 150` on the unblocked host: 0 hits, 150 gaps, 0 transient (avail now ~485 rows).
-* New experiment (scripts in ignored `data/work/xshard_experiment*.py`, raw rows in `data/work/xshard-avail*.jsonl`, NOT checkpointed): 6 listing-only-no-capture photos x 22 shards (all observed Tumblr hosts + media/data) = 132 avail queries at listing era, 0 hits; then 2 photos x 22 hosts x 4 sizes (_500/_1280/_400/_250) = 176 queries, 0 hits. Total 308/308 gaps, 0 transient. Cross-shard copies falsified for this family (scoped to these photos/forms/eras); the listing `_250` shard is the only shard and the archive holds none of these paths.
-* 64 listing-only-no-capture candidates enumerated (posts with zero post captures, only listing `_250` evidence); the 6 tested are representative, 58 remain but the 0/308 verdict says shard swaps are not the lever -- same-shard sibling exhaustion and post-capture discovery are.
-* NOT done: `crawl-state` push (new avail rows + queue since de7ce3d1 await next iteration's `python3 -m recovery.cli checkpoint`). Supervisor auto-snapshot 6af4f21d carries the tree; ignored data/cdx rows rely on the control-branch snapshot until the push.
-
-Next: same-shard sibling probes (`--retry-missing` continues variant budgets the 12-246 pass left queued) and avail sweeps of never-swept URLs; health-check before surrendering any pass to a recorded cooldown.
-
-## 12-245 result: refusal-is-transport fix + 10 probes (9 gaps, 1 transport) + 20 avail gaps, 0 new bytes
-
-Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
-**86 images across 53 image-bearing tags** (741 tags total), unchanged.
-`status`: 1222 parsed, 2378 missing. No new published images.
-
-* Code fix (this iteration): `classify_exception` maps a refused TCP connection
-  (status None) to TRANSPORT with message `connection refused (transport, ...)`,
-  not THROTTLED; only genuine 429/503 is throttled. New `is_refusal()` gives
-  refusals single-attempt no-retry policy (like throttles) while other
-  transports keep bounded retries. Breaker trips on THROTTLED or refusal only
-  (timeouts/generic transports no longer block the `auto` CDX fallback), keeps
-  the honest cause label, resets on any answered HTTP status, and notes
-  `no request was sent`. Verified offline: 11 ArchiveBlock/PlainHttp tests OK
-  plus 22 ReplayProbe/ImageRecovery/VariantPlanning OK; 1 pre-existing
-  HostInventory failure unchanged (MediaIndex persistence, unrelated).
-* Evidence correction: only 3 rows in `missing.jsonl` are genuine 429s (CDX stems
-  for posts 41218938089 x2, 41269553662); the 169 `throttled` reasons are
-  145 circuit-deferrals (no request sent) + ~21 refusals (status null). Posts
-  105506301388/105457002008 cited in feedback show refusal/null, not 429.
-* Real path (archive healthy at start, `https` CDX+replay OK): `fetch-images
-  --method probe --limit 10` -> 9x genuine 404 gaps (scoped to those URL forms),
-  1x TRANSPORT refusal; breaker tripped honestly as TRANSPORT after 4
-  consecutive no-answers and queue set global cooldown to 13:56Z. Next dry-run
-  health check correctly reports TRANSPORT refusal on both schemes.
-* While replay cooled, `probe-availability --limit 20` on the other host
-  (`archive.org`) answered 20/20: 0 hits, 20 gaps, 0 transient. Different host
-  stays usable during a `web.archive.org` refusal block.
-* Checkpoint `crawl-state`
-  `sha256:de7ce3d1de32d84f8d36856e30a22348538cf35d6bfe7cd07709648d48e244bf`
-  (`--pull` verified `restored:true`).
-
-Next: replay cooldown until 13:56Z; then `fetch-images --method probe
---retry-missing` to sweep remaining siblings (all 2378 missing have untried
-forms; 2159 are gap-settled so need `--retry-missing`), or availability sweeps
-(which use the unblocked host) for never-swept URLs. Do not re-run settled
-stem passes; `posts_with_stem_hits` is empty.
-
-## 11-243 result: 5 listings -> 11 new posts/237 forms; 151 stems + 40 avail + 2 cross-scheme probes, 0 new bytes
-
-Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
-**86 images across 53 image-bearing tags** (741 tags total), unchanged.
-`status`: 1222 parsed (+11), 2378 missing, 5463 ledger rows. No new
-published images; `posts_with_stem_hits` is empty (all 29 hit stems already
-resolved), so there were no bytes waiting to convert.
-
-* `stem-scan` 83 pending (82 answered, 0 hits; 1x 504 transient on
-  `http://66.media.../tumblr_p39o8fObJz1r3it8zo3`) then `fetch-listings --limit 5 --kinds archive` (5/5 ok):
-  **11 new post records (1211 -> 1222), 284 posts touched, 237 images added**
-  as `_250` listing variants (hosts 65/66/67); then `stem-scan` 68 new stems:
-  **68 answered, 0 hits** (the earlier 504 stem was re-asked here and answered
-  `[]`; `missing` is now 0, so nothing is pending). Listing `_250` forms on a different shard than the
-  original (e.g. 67 vs 40 for hash `22b537...`) answer `[]` while the
-  original shard holds the capture -- same-photo/different-shard listing
-  variants are aliases at best, not new bytes.
-* `probe-availability --limit 40`: **0 hits, 40 gaps** (avail index now 355+
-  rows). Availability hits (17) all overlap already-recovered stem captures.
-* Cross-scheme replay probes (the untried lead from 11-241): `https://40.media.../tumblr_ndozw9..._500.jpg`
-  and `https://33.media.../tumblr_nez9qq..._500.jpg` both answer genuine 404
-  where their `http` forms also 404'd. Replay is scheme-insensitive like CDX;
-  scheme is closed as a lead (scoped to these 2 URLs; 2 requests, no throttle).
-* Code fix (this iteration): `StemIndex.missing()` now counts an answer recorded
-  under either URL scheme as settling the question and dedups twin scheme forms
-  in one input list (`has()`/`lookup` already did since 11-242; `missing()` did
-  not, so legacy `https` rows never short-circuited their `http` twins).
-  Verified offline with a dummy index (scheme-twin, dedup, empty-safe checks OK)
-  and 27 recovery tests pass (`ReplayProbe`, `VariantPlanning`, `ImageRecovery`,
-  `AvailabilityMethod`). No behaviour change on the current corpus (`missing`
-  already 0); it prevents future duplicate CDX asks of legacy twins.
-* Late batch `fetch-listings --limit 5 --kinds tagged` (5/5 ok): **0 new posts,
-  294 touched, 237 images added, 0 new stems** (all `_250` aliases of known
-  prefixes; `missing` still 0). Tagged pages, like archive pages, only resurface
-  same-photo `_250` forms -- listing mining no longer yields new identities.
-* Checkpoint `crawl-state`
-  `sha256:592b90f385cc8ab8ed0e6b27e231c7df5a02649c7511038c046fd3c11772bed5`
-  (`--pull` verified `restored:true`).
-
-Next: listing mining (archive and tagged) now yields only same-photo `_250`
-forms of known stems -- stop spending listing batches without a new family
-(`post_other`/`other` kinds untested) or a new image-identity source (AMP,
-photoset, month pages). `posts_with_stem_hits` is empty and all 1824 stems are
-answered, so stem/CDX discovery is exhausted; the remaining lever is replay
-probes of never-probed variant forms or availability sweeps of never-swept URLs.
-Do not re-run settled stem/fetch passes without a new question.
-
-## 11-242 result: 5 listings -> 40 new posts/168 forms; 4 stem hits -> 1 new unique image + 3 aliases
-
-Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
-**86 images across 53 image-bearing tags** (741 tags total). Unique-byte count is
-**83**: 3 of the 4 republished layers reuse the same capture bytes/SHA as the
-post already held (`_250` listing alias of an archived `_500`), so only
-16881301957 added new bytes (50266 B, SHA `dbb1ef96...`, 20181225182139,
-`https://66.media..._500.jpg`, distinct from its 78-shard `d521...` rendition).
-`status`: 1211 parsed (+40), 2309 missing, 5452 ledger rows. All 4 republished
-tags verify anonymously (3x 23/23, 1x 20/20).
-
-* `fetch-listings --limit 5 --kinds archive` (5 replays, 5/5 ok): **40 new post
-  records (1171 -> 1211), 192 posts touched, 168 images added** as `_250`
-  listing variants (hosts 65/66/67). 6043 listing captures remain.
-* `stem-scan` 70+29 stems: **98 pending unresolved -> 99 answered, 4 hits**
-  (all `_250` listing stems on 66.media). CDX is scheme-canonical: `http` and
-  `https` prefixes for one photo return the identical capture, so 2 hits are
-  scheme-duplicates of already-answered `https` stems, not new photos.
-* `fetch-images --method stem --only-stem-hits` (4 replays, no extra CDX):
-  **4 posts republished 2 -> 3 images** (16881301957, 17269876288, 18244186719,
-  31914464998). Only the first is new bytes; the rest are same-SHA aliases.
-* Code fix (this iteration): `stem_prefix` now canonicalises to `http` and
-  `StemIndex.has/lookup` accept either scheme row, so future scans ask once per
-  photo instead of twice. `config.py`/`store.py` comments already describe the
-  registry `crawl-state` scheme (no obsolete Git-data comment remains).
-  Relevant suites pass (`ReplayProbe`, `VariantPlanning`, `ImageRecovery`, 22
-  tests OK); `HostInventoryEvidenceTests.test_complete_scan_confirms_gap`
-  fails identically with and without this change (pre-existing, unrelated).
-* Checkpoint `crawl-state` `sha256:b443cdfbe95eca4469ada9954636ccadeae135f1b7a772c74984944c1389249c`
-  (pointer `data/checkpoint.json`; `--pull` verified `restored:true`).
-
-Next: keep mining listings in <=5-page batches (279 archive + 3245 tagged
-remain; archive months give most posts per request), then `stem-scan` the new
-pending stems and `--only-stem-hits` to convert hits. Do not chase
-same-photo/different-shard aliases for counts; prioritise never-asked photo
-identities. Cross-scheme replay probes remain untested for `probe` method
-(`_variants` keeps scheme) but stem/CDX already covers both schemes.
-
-## 11-241 result: listing mining works (15 new posts, 69 new image forms), 0 new bytes yet
-
-Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
-**82 images across 53 image-bearing tags**, unchanged; tag 136316699428
-re-verified anonymously (20/20). `status`: 1171 parsed, 2214 missing images,
-5402 ledger rows, 741 published flags.
-
-* `fetch-listings --limit 5 --kinds archive` (5 replay requests): **5/5 fetched,
-  15 new post records (1156 -> 1171), 71 posts touched, 69 images added** as
-  `_250` listing variants on hosts 65/66/67.media (`listing:attr:div`). 55 of
-  the touched posts still have 0 recovered images -- the prize pool. 4 new
-  posts are listing-only (no permalink text: 123461272893, 125449314948,
-  68689386519, 68867064030). `_250` entries are separate byte renditions, not
-  duplicates, but same-photo/different-size layers share one provenance family.
-* `stem-scan --limit-stems 70`: the 67 brand-new listing stems **all answered,
-  0 hits** (index 1622 -> 1689 answers, still 25 hit stems). Honest negatives
-  scoped to those exact prefixes. Archive CDX healthy (no transport failures).
-* `fetch-images --method probe --retry-missing` over 10 listing-touched
-  zero-recovery posts: **0 recovered**. First posts answered genuine 404s
-  (new `archive_gap` rows with 5 answered probes each -- real verdicts, not
-  misclassified throttles); then the replay endpoint gave **real 429s** and the
-  circuit breaker deferred the last 4 posts unsent (no attempt spent, queue
-  place kept, global cooldown to 12:30:20Z). Throttle honored, not relabeled.
-* Concrete next experiments (not yet tried): **cross-scheme probes** --
-  `_variants()` keeps the URL scheme, so http 404s say nothing about the https
-  form and vice versa (permalink `https://66...` vs listing `http://66...`);
-  and continue listing mining -- 3524 archive/tagged captures remain, each
-  5-page batch yielded 15 new posts + ~67 new stems last time. Keep batches
-  small (<=5 listings, then stems, then <=10 probes) with cooldown gaps: the
-  67-CDX + 5-replay + 10-probe burst in one pass is what tripped the 429s.
-
-## 11-240 result: settled pool now yields 0; known-URL stem search is exhausted
-
-Baseline recomputed from `data/published.jsonl` (max image_count per post_id):
-**82 images across 53 image-bearing tags** (741 tags total); unchanged this pass.
-Post 136316699428 from the prompt feedback is already published AND anonymously
-verified (2 layers, both 87458 bytes, SHA-256 `f97320c1...`, manifest
-`b6abea7d...`): the lost-probe bytes were re-recovered by a later iteration,
-not still missing. Note its two layers hold identical bytes (`_500` and `_1280`
-share one capture) -- count once when measuring unique bytes.
-
-Two bounded stem passes `--method stem --retry-missing --limit 150
---concurrency 2` over settled posts: **0 recovered, ~200+202 missing,
-0 transient** each. `stems.jsonl` grew by only 1 row across 300 posts: the
-stem index now short-circuits nearly every query with a recorded empty answer,
-so re-running settled posts replays known negatives instead of sending CDX
-requests. Stop spending passes here without a new question.
-
-Offline stem census (crawler `stem_prefix` keys): 1656 distinct post stems vs
-1622 recorded answers; the 34 never-asked stems all sit on already-resolved
-images. All 25 hit stems are recovered/published. The stem-prefix search over
-known URLs is therefore exhausted.
-
-Targeted experiments (bounded, gentle -- an 8-request no-delay ad-hoc script
-caused `connection refused`; keep >=2s interval, the crawler already does):
-* Non-200 CDX scope test on 8 unresolved stems: 1 genuine any-status negative
-  (`68.media.../tumblr_mdulie0AAa1r3it8zo1` -> 0 captures), rest inconclusive
-  (self-inflicted refusals). No redirect-only captures found.
-* Cross-shard check: 6 unresolved `_1280` URLs (posts 104677118808,
-  124926471278, 124827091178, 125258061218, 125172044513, 124243597613) share
-  a hash/basename with an already-recovered `_500` capture on a sibling shard.
-  Copying those bytes across sizes would fabricate provenance (no pre-cutoff
-  `_1280` capture exists) and duplicate-count one capture -- recorded as
-  not-recoverable, not attempted.
-
-Next opportunity: new image *identities*, not new queries for old ones --
-re-mine listing/tag/month/AMP/photoset captures for image URLs absent from the
-permalink parses (only avatars found so far, correctly excluded), or find
-posts whose captures were never parsed. Per-pass re-querying of answered stems
-is spent.
-
-## 9-206 result: untouched pool yielded 0
-
-Resumed from the 7-95 checkpoint (82 images / 53 tags). One bounded stem pass
-`--method stem --retry-missing --limit 300 --concurrency 2` over the
-fewest-attempts (untouched) posts: **0 recovered, 658 missing, 0 transient**;
-`stems.jsonl` grew 1040 -> 1621 answers, so the CDX requests were really sent --
-the untouched pool is simply low-yield. `remaining_with_work: 749`,
-`posts_with_work: 1049`. Next: vary the pool (7-95 got 14 from 300 *settled*
-posts) or target `data/cdx/stems.jsonl` stems whose answer was an empty `[]`
-but whose sibling variants were never asked.
-
-Service note kept from earlier iterations: `web.archive.org` occasionally
-answers a CDX request with a `200` "Temporarily Offline" HTML page;
-`cdx_query` turns an unparseable body into `http_error` (transient), so a
-degraded CDX answering `[]` would be indistinguishable from a real negative --
-keep an eye out for it.
-
-Test suite: 112 offline tests, dummy credentials, mocked transport.
+* After any pass that adds `url_forms` (listing, xshard, merge-images,
+  refetch-captures), immediately `stem-scan --dry-run`; if `scanning > 0`, answer
+  those stems and convert hits -- that is where the bytes were this iteration.
+* Then the slower levers: `fetch-images --method probe --retry-missing` on
+  never-probed sibling forms, and `probe-availability` sweeps (uses the
+  `archive.org` host, which stays usable during a `web.archive.org` refusal).
+* Known weak spots: posts 13833997906-14996000761 (2010-2011, `27.media...`
+  style) answered 404 on every variant -- scoped to those exact URLs only.
+* `data/cdx/hostdump-cursors/68.media.tumblr.com.cursor.json` holds an
+  unfinished resume-key host walk; its dump lives in `data/work/hostdumps/`
+  (not checkpointed) so a fresh runner can resume the cursor but not re-match
+  old rows offline.
