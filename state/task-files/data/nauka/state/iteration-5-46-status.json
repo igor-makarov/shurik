@@ -1,0 +1,113 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-46",
+  "phase": "progress",
+  "at": "2026-10-08T18:26:06.312Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json monitorCompletion (token nauka-user-until-complete-1791481729758, requestedAt 2026-10-08T17:48:51.903Z) removed the time deadline and authorized completion-driven continuation (1112 regular files + 5 supplementary archives). Supersedes the expired 2026-10-08T18:00:00.000Z deadline.",
+  "acknowledgement": "Acknowledged completion-driven continuation: supervisor deadline is null; success = all 1112 regular files + 5 supplementary archives published with a truthful all-years master index. Scope all-years. Work done inside this Shurik loop; no falafel code/artifacts/history used.",
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "preserved": true
+  },
+  "now": {
+    "publishedFiles": 1018,
+    "publishedBytes": 15713338332,
+    "remainingFiles": 94,
+    "pendingFiles": 89,
+    "inProgressFiles": 5,
+    "durableGhcrCheckpointBytes": 113246208,
+    "newPublishedBeyondBaseline": 143,
+    "newPublishedBytesBeyondBaseline": 5935344683
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:3968fd2cb928605ebc5113309a05d485826a8c3a8f6091a5a23cff1c7c406480",
+    "bytes": 1499759,
+    "pulledFileSha256": "8f9ab8141828ef539df1a59e1791b43fb71723c8a78e3bd7e634a6ce0ec3093f",
+    "catalogDigest": "sha256:2edad3a735ee5ac84c9b9b255a2a9015fdab3e7bfd397db0ce77ec94151247ae",
+    "checkpointDigest": "sha256:3694dede0d9eb74151c5124a89a4c9026b15109b77c8f05ac5c1aa96da63a526",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0
+  },
+  "batchesThisIteration": [
+    {
+      "batch": 104,
+      "budgetMs": 480000,
+      "cleanupMs": 110000,
+      "elapsedMs": 443920,
+      "exitCode": 0,
+      "published": 4,
+      "publishedBytes": 212659816,
+      "remainingAfter": 94,
+      "note": "restored 4 checkpointed in_progress partials from immutable GHCR digests and published them; no re-download"
+    },
+    {
+      "batch": 105,
+      "budgetMs": 300000,
+      "cleanupMs": 90000,
+      "elapsedMs": 289409,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "durablePartialBytesAdded": 81788928,
+      "remainingAfter": 94,
+      "note": "new in_progress set nij-1968-n12/nij-1954-n11/nij-1964-n05/nij-1966-n09; durable GHCR chunk checkpoints advanced"
+    },
+    {
+      "batch": 106,
+      "budgetMs": 100000,
+      "cleanupMs": 50000,
+      "elapsedMs": 120860,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "durablePartialBytesAdded": 25065472,
+      "remainingAfter": 94,
+      "note": "short tail batch; advanced durable GHCR chunk checkpoints; master index republished and verified"
+    },
+    {
+      "batch": 107,
+      "budgetMs": 60000,
+      "cleanupMs": 40000,
+      "elapsedMs": 72022,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "durablePartialBytesAdded": 6291456,
+      "remainingAfter": 94,
+      "note": "final short tail batch; durable GHCR chunk checkpoints; master index republished and verified"
+    }
+  ],
+  "newPublishedThisIteration": 4,
+  "newDurableBytesThisIteration": 212659816,
+  "newDurablePartialBytesThisIteration": 113246208,
+  "inProgressIds": [
+    "nij-1968-n12-pdf",
+    "nij-1954-n11-pdf",
+    "nij-1964-n05-pdf",
+    "nij-1966-n09-pdf",
+    "nij-1974-n01-pdf"
+  ],
+  "discovery": {
+    "status": "complete",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5,
+    "note": "Discovery complete; not restarted."
+  },
+  "nextActions": [
+    "Restore the 4 checkpointed in_progress partials from immutable GHCR digests and finish/publish them.",
+    "Continue bounded smallest-first retrieve batches for the 90 pending regular PDFs/DJVs.",
+    "Publish the 5 supplementary archives once regular files complete.",
+    "Republish and verify the master index by immutable digest after batches."
+  ],
+  "blockers": [],
+  "masterIndexVerifiedAt": "2026-10-08T18:26:06.312Z"
+}

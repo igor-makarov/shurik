@@ -2,7 +2,7 @@
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
   "iteration": "5-46",
-  "at": "2026-10-08T18:08:13.194Z",
+  "at": "2026-10-08T18:26:06.312Z",
   "deadline": null,
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 1014,
-  "publishedBytesNow": 15500678516,
-  "remainingFilesNow": 98,
-  "masterIndexDigestNow": "sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162",
+  "publishedFilesNow": 1018,
+  "publishedBytesNow": 15713338332,
+  "remainingFilesNow": 94,
+  "masterIndexDigestNow": "sha256:3968fd2cb928605ebc5113309a05d485826a8c3a8f6091a5a23cff1c7c406480",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,10 +41,10 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 94,
-    "publishedFiles": 1014,
+    "pendingFiles": 89,
+    "publishedFiles": 1018,
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
-    "inProgressFiles": 4,
+    "inProgressFiles": 5,
     "knownGapYears": [
       1891,
       1892,
@@ -61,7 +61,8 @@
       2027,
       2028,
       2029
-    ]
+    ],
+    "remainingFiles": 94
   },
   "totals": {
     "years": 87,
@@ -84,10 +85,11 @@
     "Iteration 5-43: batches 95-97 published 8 fresh files (991->999), +409,591,368 durable origin bytes, plus +218,103,808 B durable chunk checkpoints across 9 in_progress files (batch 97 had no publish but real durable partial progress). 113 remain (104 pending + 9 in_progress ~50-90MB PDFs). Master index republished; verified by immutable pull (sha256:5690145e..., 0 problems). Final index digest after batch 97: sha256:c09a1c84... (1493156 B, status complete).",
     "Iteration 5-45: batches 100-101 published 4 fresh files (1010->1014), +210,779,483 durable origin bytes, by restoring+finishing prior in_progress files from immutable GHCR chunk checkpoints (no re-download); batch 102 added +81,788,928 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index nij-master-index @ sha256:7d292bfc3db6dd47b230abd3ca3b32e62624d5e1ca586dda71d0817b8c773702 (1498335 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years).",
     "Iteration 5-45 (final): batches 100-101 published 4 files (1010->1014), +210,779,483 durable bytes; batches 102-103 added +103,809,024 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index nij-master-index @ sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162 (1498337 B, status complete) independently verified by immutable pull (0 problems).",
-    "Iteration 5-46: continuation acknowledged; supervisor deadline now null (completion-driven, token nauka-user-until-complete-1791481729758). True current state 1014 published / 15,500,678,516 B; 98 remain (94 pending + 4 in_progress)."
+    "Iteration 5-46: continuation acknowledged; supervisor deadline now null (completion-driven, token nauka-user-until-complete-1791481729758). True current state 1014 published / 15,500,678,516 B; 98 remain (94 pending + 4 in_progress).",
+    "Iteration 5-46 (final): completion-driven continuation acknowledged (deadline null, token nauka-user-until-complete-1791481729758). Batch 104 restored+published 4 checkpointed in_progress files (+212,659,816 B); batches 105-106 advanced 5 new in_progress files to 106,954,752 B durable GHCR chunk checkpoints (no publish). 1018 published / 15,713,338,332 B; 94 remain (89 pending + 5 in_progress). Master index nij-master-index @ sha256:3eb54ce25eb890c68ea934a87f1025bbfb9205f215a7c3037696e33b1636dc11 (1499758 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years)."
   ],
-  "masterIndexVerifiedAt": "2026-10-08T17:56:52.885Z",
-  "verifiedPartialBytesNow": 103809024,
+  "masterIndexVerifiedAt": "2026-10-08T18:26:06.312Z",
+  "verifiedPartialBytesNow": 113246208,
   "continuation": {
     "authorized": true,
     "note": "Iteration 5-46 acknowledges the user-authorized completion-driven continuation (deadline null). Scope all-years. Completion target: 1112 regular files + 5 supplementary archives published with a truthful all-years master index.",
