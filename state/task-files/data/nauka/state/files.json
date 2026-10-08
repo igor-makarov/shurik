@@ -34041,18 +34041,57 @@
       "lastModified": "Tue, 20 Aug 2019 17:12:50 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "3c2616f8133aad4deec7ae30a272fee473e2b7d48157723e41a22a42b80ad458"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "a611ba3b99a17f464091e8f06a31947bb015b8783acf56676ce7a1584630c5cc"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "2e662ab66343a7ae667c1e115aac9b6d0631214288559cf0881f668515cc9fba"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "c7067ac4963659b5cb8e031f5970be63fdcba1b2dd3552227c864df4e787c6ca"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "6d10813edff66d7d8438dbb96737cee2018ccdf6c22a66321af36a5d3f996db2"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "1d6e4d2700053d959482532b4ed1caf1202ade1c75b987fa5446cb1b20a0e92f"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "4c57d9bc652300fba94c8a882d646fd959546ade4dfa26d322d2c4d470f29c9d"
+        },
+        "7": {
+          "bytes": 203626,
+          "sha256": "88aebbdbb207cc43f5f5d6f274e3e8faf746d43797dec5f85f440b2fa8dc6d4f"
+        }
+      },
+      "receivedBytes": 7543658,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 1,
-      "retries": 0,
-      "lastError": null,
-      "lastErrorAt": null,
+      "attempts": 11,
+      "retries": 2,
+      "lastError": "request failed: idle timeout after 30000ms",
+      "lastErrorAt": "2026-10-08T00:31:48.484Z",
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:ad5c5f8cac08ee5a23817a7816df7dc5f1015d56f3193f455ce69e17a6af562f",
+        "bytes": 7543658,
+        "chunks": 8,
+        "at": "2026-10-08T00:32:30.704Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.912Z"
+      "updatedAt": "2026-10-07T21:54:14.912Z",
+      "cleanupPasses": 0
     },
     "nij-1957-n07-pdf": {
       "id": "nij-1957-n07-pdf",
@@ -34122,18 +34161,57 @@
       "lastModified": "Sat, 27 Apr 2019 00:58:17 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "ff614ab56de214afe471f62dd7c24172c691232f637e6f1b5e8e2f2493e864e7"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "2bb18f9ef2607cd615834adfe2ac02cc25ae3b991e9e4dde2b0d71f99031116e"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "f4e5c55c408d83ab16fc44d119cf89b8ae7f25ebfc06d3818980ff0a4a2fa846"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "6ed0b86efb2b962dddbd949fce5a1dd0e6e0f8d094b92e5a1a350c64c3289247"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "e5a32004330abaf798db727c9328b5f4714bbace418785445b39888c983c398c"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "4a6aaf24edfe06671ff07438ae90b1d0548e6b2da33a346677727562d89dcf78"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "5247e0cb18fd3988bae9ba3b1031a607bab8428a5c81677a7774df27d44a1ca6"
+        },
+        "7": {
+          "bytes": 215861,
+          "sha256": "e7e26ea6544ef71f2d17b03537cd97af0e7faeb8b39bdce53651d60e931f986d"
+        }
+      },
+      "receivedBytes": 7555893,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 1,
-      "retries": 0,
-      "lastError": null,
-      "lastErrorAt": null,
+      "attempts": 10,
+      "retries": 1,
+      "lastError": "request failed: idle timeout after 30000ms",
+      "lastErrorAt": "2026-10-08T00:31:31.371Z",
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:c9caaedb5c689b145d754b7bf9afd31ab9daf5429e9e6f4566fa3d124e11ebdd",
+        "bytes": 7555893,
+        "chunks": 8,
+        "at": "2026-10-08T00:32:33.132Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.912Z"
+      "updatedAt": "2026-10-07T21:54:14.912Z",
+      "cleanupPasses": 0
     },
     "nij-1958-n05-djv": {
       "id": "nij-1958-n05-djv",
@@ -34395,18 +34473,64 @@
       "lastModified": "Sat, 27 Apr 2019 01:36:27 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "in_progress",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "f2fd0f23afdf52e0a3ed439ae8e2ccf2d1f99299cee81e6bdcf8dda52452482b"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "2913aedb6e8047d46289f27a53c40a5abedca88f41984dccb56c98b26feac0e4"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "8aaf2066438747d3b2c9727aa2356bf2aeb1b7790b36817af8c48dddff5d2fd4"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "2d8cbffcb1585dabeff9ed924045aa4a6a347bf6bd56316b0e8dd8cef6011399"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "3dcab3c5f39b5bffe85623146c283eebe3619e6b5768d35bc80988c30785ef5a"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "de4857d2488a26c7768cf21bf210733582e062ea05e20dd8327fc906301c5716"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "780d7929d95499e69f5a485b3c4d689ace84cc8723b1d1dcce8a88e511bde297"
+        },
+        "7": {
+          "bytes": 190942,
+          "sha256": "236ccb5a8cc92e9d35d0b8279ea7c80dbf78d76705b7e0c9af4017f65ab1ee1d"
+        }
+      },
+      "receivedBytes": 7530974,
+      "status": "published",
       "gen": 0,
-      "attempts": 1,
-      "retries": 0,
+      "attempts": 10,
+      "retries": 1,
       "lastError": null,
-      "lastErrorAt": null,
-      "ghcr": null,
+      "lastErrorAt": "2026-10-08T00:30:50.443Z",
+      "ghcr": {
+        "tag": "nij-1991-n12-djv",
+        "digest": "sha256:1c6b4e5aa2c6c7376e9f213ff049d94759781add1cb7afd1d567055bb853dad2",
+        "title": "Nauka_i_jizn',1991,N12.[djv].zip",
+        "pushedAt": "2026-10-08T00:32:17.559Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.912Z"
+      "verified": {
+        "at": "2026-10-08T00:32:18.292Z",
+        "pulledSha256": "19f9e4bdff18166d22221c18515a79aac744a4e3a27958b9120d9dd10f53ac58",
+        "ok": true,
+        "digest": "sha256:1c6b4e5aa2c6c7376e9f213ff049d94759781add1cb7afd1d567055bb853dad2"
+      },
+      "updatedAt": "2026-10-07T21:54:14.912Z",
+      "cleanupPasses": 0,
+      "sha256": "19f9e4bdff18166d22221c18515a79aac744a4e3a27958b9120d9dd10f53ac58",
+      "publishedAt": "2026-10-08T00:32:18.293Z"
     },
     "nij-1992-n04-djv": {
       "id": "nij-1992-n04-djv",
@@ -34422,18 +34546,64 @@
       "lastModified": "Sat, 27 Apr 2019 01:36:33 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "in_progress",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "1417c88fd4bb4910326f07f8eb90e0849c07223f941277ff801d4da69402eb98"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "a36b8488fde0dabe18d9d97ad6902d6ae33ad697fd2207131a63120d30a904f5"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "6c5b0db8f7c4a848654633b776d9387ea8a8ab17525974ef8412c5d217b259cd"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "b42d1898b939fc74a76c848d5f8b18cbfd27f7d38747b48737da2d77e9fe2d0a"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "8d30b34a18dc6d72eb4ab5fbf99ba922348d8d57a2f6af3a05533e4e677514ae"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "1c1a86e1e17add6dc8567d601dab5aab59c7d87172bdccfd2cdf6572bdf4a2f0"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "3085978230df23998c0e61a94705715f1bf4d7569a68aca9f96d99d33f2658ef"
+        },
+        "7": {
+          "bytes": 203825,
+          "sha256": "2d5adbdb9d29d68dce826147dc29e847d69409fe874f35dbc9163ce629b4f681"
+        }
+      },
+      "receivedBytes": 7543857,
+      "status": "published",
       "gen": 0,
-      "attempts": 1,
+      "attempts": 9,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1992-n04-djv",
+        "digest": "sha256:13a6bfc01640d66d0511b3e485fe1d98ad47da63f7a82943d7f9822a81492146",
+        "title": "Nauka_i_jizn',1992,N04.[djv].zip",
+        "pushedAt": "2026-10-08T00:32:02.430Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.912Z"
+      "verified": {
+        "at": "2026-10-08T00:32:03.135Z",
+        "pulledSha256": "6f9eb974e7a0b6fa09fe4f146add80ac2bdcd1ba0b7a0f16ae5d0ba7e7f9cd53",
+        "ok": true,
+        "digest": "sha256:13a6bfc01640d66d0511b3e485fe1d98ad47da63f7a82943d7f9822a81492146"
+      },
+      "updatedAt": "2026-10-07T21:54:14.912Z",
+      "cleanupPasses": 0,
+      "sha256": "6f9eb974e7a0b6fa09fe4f146add80ac2bdcd1ba0b7a0f16ae5d0ba7e7f9cd53",
+      "publishedAt": "2026-10-08T00:32:03.137Z"
     },
     "nij-1992-n0506-djv": {
       "id": "nij-1992-n0506-djv",
@@ -53636,11 +53806,11 @@
       "updatedAt": "2026-10-07T21:54:14.914Z"
     }
   },
-  "updatedAt": "2026-10-08T00:28:21.169Z",
+  "updatedAt": "2026-10-08T00:32:33.324Z",
   "origin": {
     "reachable": true,
     "reason": null,
-    "checkedAt": "2026-10-08T00:23:23.048Z",
+    "checkedAt": "2026-10-08T00:30:36.343Z",
     "probeUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1904,N01.%5Bpdf%5D.zip"
   }
 }

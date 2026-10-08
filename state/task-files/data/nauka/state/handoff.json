@@ -1,24 +1,23 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-18",
-  "at": "2026-10-08T00:01:00.000Z",
+  "iteration": "4-19",
+  "at": "2026-10-08T00:33:00.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 341,
-  "remaining": 771,
-  "bytesPublished": 3886241576,
+  "published": 401,
+  "remaining": 711,
+  "bytesPublished": 4329050034,
   "blocker": null,
   "status": "IN_PROGRESS",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-07T23:54:00Z",
-    "note": "Origin publ.lib.ru up; batches 23-24 sustained ~400-450 KiB/s aggregate across 32 connections. No unresolved failures."
+    "lastChecked": "2026-10-08T00:28:48Z",
+    "note": "Origin publ.lib.ru up; batches 25-27 sustained ~370-450 KiB/s across 32 connections with only idle-timeout retries. No unresolved failures."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
     "verifiedPartialBytes": 0,
-    "partialFiles": "94 in_progress entries; 0 with durable chunk bytes at handoff (batch 23's two 7 MiB partials were completed and published in batch 24)",
-    "note": "No abandoned .tmp writers remain (cleanup swept them). Cold resume continues to work via GHCR checkpoints + git partials."
+    "partialFiles": "34 in_progress entries (probed, 0 durable chunk bytes at handoff)"
   },
   "discovery": {
     "status": "complete",
@@ -27,27 +26,22 @@
     "genericUnrepresented": 0,
     "years": 87,
     "issues": 941,
-    "files": 1112,
-    "note": "All 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ_stat'i_.html and the .Online redirect (which 302s to _NiJ.html) are visited and represented. discoverySummary repaired to truthfully return 'complete' with this evidence."
+    "files": 1112
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:aa1daaa43b692b9d4a18608d6dd2042accb6a366871da268fd18d8cb10a0a96c",
-    "bytes": 1263102,
+    "digest": "sha256:a4217142932017709c2ffc3c676e6904ad05da6df5f8689ad35ec2306df2a2b3",
+    "bytes": 1283599,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:8006df22241ed8a642caa209f8824f8ae89af27dfb65b81ab1a0dd0c094a6bf3",
+    "catalogDigest": "sha256:c2888812ae6def1041b4df9a581185918b9c91eebac6211fde9211df2e4fad40",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:09feaa9db90ebf06cc74b3414958db9627061fafe6cef7e0a27f6eaef62bdb38",
+    "checkpointDigest": "sha256:00c29182c8ad126a8f64c178aceea01cb534c529b96ca0aaa2b47434079bef2c",
     "discoveryStatus": "complete",
-    "verified": "verify-master.mjs immutable-digest pull OK (341 published, 0 mismatches, status complete)",
+    "verified": "verify-master.mjs immutable-digest pull OK (399 published, 0 mismatches, status complete)",
     "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched)"
   },
-  "codeChangesThisIteration": [
-    "tools/nauka/discover.mjs: discoverySummary now returns 'complete' when every era page is visited, the archive directory is visited and genericUnrepresented==0; 'incomplete' when a page is pending/failed; 'provisional' only when completeness cannot be confirmed. Added genericUnrepresented to the summary.",
-    "tools/nauka/test/discovery.test.mjs: targeted fixture update covering the new 'complete' and 'provisional' paths."
-  ],
-  "publishedThisIteration": 64,
-  "remainingFiles": 771,
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 771 files.",
-  "notes": "Iteration 4-18: batches 23-24 published 64 files (277->341), +452,733,756 durable bytes. Discovery flipped to a truthful 'complete'. Master index refreshed and verified by immutable digest (aa1daaa4, status complete). All 30 nauka tests pass."
+  "codeChangesThisIteration": [],
+  "publishedThisIteration": 60,
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 713 files.",
+  "notes": "Iteration 4-19: batches 25-28 published 60 fresh files (341->401), +442,708,458 durable bytes. Master index refreshed (a4217142, status complete). No code changes needed; tests 30/30."
 }

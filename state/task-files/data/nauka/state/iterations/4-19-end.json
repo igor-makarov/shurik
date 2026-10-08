@@ -1,0 +1,63 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-19",
+  "phase": "end",
+  "at": "2026-10-08T00:33:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "summary": "Continued all-years retrieval: three bounded foreground batches published 58 new fresh files (341->399) with +427,733,627 durable bytes, all round-trip verified; refreshed and independently verified the all-years master index by immutable digest.",
+  "publishedBefore": 341,
+  "publishedAfter": 401,
+  "publishedThisIteration": 60,
+  "durableNewBytes": 442708458,
+  "remainingFiles": 711,
+  "publishedBytes": 4329050034,
+  "batches": [
+    "data/nauka/state/batches/2026-10-08T0016-batch25.json",
+    "data/nauka/state/batches/2026-10-08T0022-batch26.json",
+    "data/nauka/state/batches/2026-10-08T0028-batch27.json",
+    "data/nauka/state/batches/2026-10-08T0032-batch28.json"
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:a4217142932017709c2ffc3c676e6904ad05da6df5f8689ad35ec2306df2a2b3",
+    "bytes": 1283599,
+    "discoveryStatus": "complete",
+    "verification": "data/nauka/state/master-index-verification.json (ok=true, 0 problems, 399 published, 0 flag mismatches)",
+    "catalogDigest": "sha256:c2888812ae6def1041b4df9a581185918b9c91eebac6211fde9211df2e4fad40",
+    "checkpointDigest": "sha256:00c29182c8ad126a8f64c178aceea01cb534c529b96ca0aaa2b47434079bef2c"
+  },
+  "legacySubsetPreserved": {
+    "indexTag": "nij-1934-39-index",
+    "indexDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointTag": "nij-1934-39-checkpoint",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true,
+    "note": "unchanged; never relabelled as the all-years master"
+  },
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": "12/12",
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "note": "unchanged from 4-18; all archive-linked pages visited and every flat-listing file represented"
+  },
+  "codeChanges": [],
+  "tests": "node --test tools/nauka/test/*.test.mjs -> 30/30 pass (run at iteration start)",
+  "environment": {
+    "originReachable": true,
+    "ghcrReachable": true,
+    "aggregateThroughput": "~370-450 KiB/s sustained across 32 connections (<= 512 KiB/s cap)",
+    "retries": "only origin idle-timeout retries (30s) with jittered backoff; all succeeded",
+    "failures": []
+  },
+  "blockers": [],
+  "nextActions": [
+    "Continue bounded smallest-first retrieve batches for the remaining 713 files.",
+    "Refresh and re-verify the master index by immutable digest after each batch.",
+    "Update all-years-progress.json + batch records with new published counts/bytes."
+  ]
+}

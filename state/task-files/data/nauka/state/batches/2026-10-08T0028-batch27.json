@@ -1,0 +1,59 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 27,
+  "iteration": "4-19",
+  "startedAt": "2026-10-08T00:22:52.000Z",
+  "elapsedMs": 315464,
+  "budget": {
+    "budgetMs": 330000,
+    "cleanupMs": 60000,
+    "concurrency": 32,
+    "fileConcurrency": 4,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "Third (shorter) bounded batch of iteration 4-19. 15 fresh full downloads published and round-trip verified.",
+  "publishedBefore": 384,
+  "publishedAfter": 399,
+  "remainingBefore": 728,
+  "remainingAfter": 713,
+  "verifiedPartialBytesBefore": 0,
+  "verifiedPartialBytesAfter": 0,
+  "newOriginBytesDurable": 112244898,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1999-n12-djv",
+    "nij-2002-n04-djv",
+    "nij-1995-n10-djv",
+    "nij-1988-n05-djv",
+    "nij-2004-n05-djv",
+    "nij-2004-n10-djv",
+    "nij-1989-n04-djv",
+    "nij-2006-n07-djv",
+    "nij-1960-n04-djv",
+    "nij-1993-n02-djv",
+    "nij-2003-n05-djv",
+    "nij-1958-n05-djv",
+    "nij-1984-n01-djv",
+    "nij-2002-n11-djv",
+    "nij-1989-n03-djv"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:28e4cebae2a30c65a2ba4acf68fb5d4a6a180e02fe7568564b89fdab3d6bdae4",
+      "bytes": 1282898,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:376395c24bd32a2260a7cdbf31913d3e20e0a08eb7000e2a8657dc312e102d69"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:c122dd4c458ba5e72695061a16b32237c6c31ddd549789aa99dfd4a82a0aba82"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 713 files."
+}
