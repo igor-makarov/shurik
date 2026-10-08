@@ -1,0 +1,34 @@
+{
+  "kind": "shurik-nauka-iteration-start",
+  "iteration": "5-54",
+  "at": "2026-10-08T22:09:00.000Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Authoritative supervisor control.json (codex/shurik-control/nauka-20261007, token nauka-user-until-complete-1791481729758) sets deadline null = completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. Obeyed; no self-set deadline.",
+  "acknowledgement": "Iteration 5-54 acknowledges the user-authorized continuation and the current completion-driven supervisor control. Preserved the completed 1934-1939 60-file subset and every existing file id/receipt. Work is done inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "masterTag": "nij-master-index",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preserved60FileBaseline": { "files": 60, "bytes": 2311630290, "subsetIndexTag": "nij-1934-39-index", "preserved": true },
+  "continuationBaseline": {
+    "publishedRegularFiles": 1069,
+    "publishedRegularBytes": 18741920056,
+    "publishedSupplementaryFiles": 5,
+    "publishedSupplementaryBytes": 70214939,
+    "remainingRegularFiles": 43,
+    "inProgressFiles": 4,
+    "pendingFiles": 39,
+    "durableChunkCheckpointBytes": 91226112,
+    "note": "Saved state already exceeds the 875-file / 237-remaining assignment baseline; the five assignment partials (1949-n06-djv, 2010-n10-pdf, 1949-n06-pdf, 1949-n07-djv, 1971-n02-djv) are all published."
+  },
+  "inProgressIds": [
+    { "id": "nij-1905-n0106-pdf", "received": 22020096, "checkpoint": 22020096 },
+    { "id": "nij-1940-n03-pdf", "received": 20971520, "checkpoint": 20971520 },
+    { "id": "nij-1963-n10-pdf", "received": 23068672, "checkpoint": 23068672 },
+    { "id": "nij-1970-n05-pdf", "received": 25165824, "checkpoint": 25165824 }
+  ],
+  "discovery": { "status": "complete", "years": 87, "issues": 941, "totalFiles": 1112, "supplementaryFiles": 5 },
+  "nextActions": [
+    "Restore+hash-validate the 4 durable in-progress files from their immutable GHCR chunk digests, then finish them and continue smallest-first over the 39 pending regular PDFs.",
+    "Keep the master/resume indexes accurate; verify by immutable pull after batches."
+  ]
+}
