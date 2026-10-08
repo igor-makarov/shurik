@@ -1,0 +1,81 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 23,
+  "iteration": "4-18",
+  "startedAt": "2026-10-07T23:42:09.000Z",
+  "elapsedMs": 659588,
+  "budget": {
+    "budgetMs": 660000,
+    "cleanupMs": 90000,
+    "concurrency": 32,
+    "fileConcurrency": 4
+  },
+  "note": "First bounded batch of iteration 4-18 (all-years). Manifest discovery status refreshed to 'complete' before the batch. 38 files published.",
+  "publishedBefore": 277,
+  "publishedAfter": 315,
+  "remainingBefore": 835,
+  "remainingAfter": 797,
+  "verifiedPartialBytesBefore": 0,
+  "verifiedPartialBytesAfter": 14203699,
+  "newOriginBytesDurable": 266527295,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1957-n08-pdf",
+    "nij-1959-n07-djv",
+    "nij-1960-n06-djv",
+    "nij-1960-n08-djv",
+    "nij-1983-n05-djv",
+    "nij-1983-n09-djv",
+    "nij-1984-n02-djv",
+    "nij-1984-n12-djv",
+    "nij-1985-n01-djv",
+    "nij-1985-n05-djv",
+    "nij-1986-n04-djv",
+    "nij-1986-n05-djv",
+    "nij-1987-n03-djv",
+    "nij-1987-n05-djv",
+    "nij-1989-n05-djv",
+    "nij-1989-n11-djv",
+    "nij-1990-n02-djv",
+    "nij-1990-n04-djv",
+    "nij-1990-n06-djv",
+    "nij-1990-n10-djv",
+    "nij-1990-n11-djv",
+    "nij-1992-n01-djv",
+    "nij-1993-n03-djv",
+    "nij-1993-n09-djv",
+    "nij-1993-n10-djv",
+    "nij-1994-n04-djv",
+    "nij-1998-n03-djv",
+    "nij-1999-n07-djv",
+    "nij-2000-n02-djv",
+    "nij-2001-n03-djv",
+    "nij-2002-n03-djv",
+    "nij-2002-n05-djv",
+    "nij-2003-n09-djv",
+    "nij-2003-n10-djv",
+    "nij-2005-n10-djv",
+    "nij-2006-n01-djv",
+    "nij-2006-n11-djv",
+    "nij-2007-n12-djv"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:dc37acffe7852c0aa0b8902bb82fc68a6966754628f019a36b3ea40971885166",
+      "bytes": 1254248,
+      "discoveryStatus": "complete",
+      "verifiedOk": true
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:f426e39ca79dd4ee86bfb70f801156279d40bf7b0a15e2925775e57438a6c7fc"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:611ab23b5c6ea84c3b71184a4b357381547edcebe1bbcafaa9545d88cb121f0d"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 797 files."
+}

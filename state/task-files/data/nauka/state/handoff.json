@@ -1,50 +1,53 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-17",
-  "at": "2026-10-07T23:33:20.000Z",
+  "iteration": "4-18",
+  "at": "2026-10-08T00:01:00.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 277,
-  "remaining": 835,
-  "bytesPublished": 3433507820,
+  "published": 341,
+  "remaining": 771,
+  "bytesPublished": 3886241576,
   "blocker": null,
   "status": "IN_PROGRESS",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-07T22:40:00Z",
-    "note": "Origin publ.lib.ru up; per-connection ~20-25 KB/s. Batch18 sustained ~375 KB/s aggregate across 24 connections with a few 30 s idle-timeout retries that all recovered."
+    "lastChecked": "2026-10-07T23:54:00Z",
+    "note": "Origin publ.lib.ru up; batches 23-24 sustained ~400-450 KiB/s aggregate across 32 connections. No unresolved failures."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
     "verifiedPartialBytes": 0,
-    "partialFiles": "158 in_progress entries; 0 with durable chunk bytes (probe-only)",
-    "note": "Batch18 admitted real chunks (unlike batch16), so partial bytes are durable and resumable. No abandoned .tmp writers remain (cleanup swept them)."
+    "partialFiles": "94 in_progress entries; 0 with durable chunk bytes at handoff (batch 23's two 7 MiB partials were completed and published in batch 24)",
+    "note": "No abandoned .tmp writers remain (cleanup swept them). Cold resume continues to work via GHCR checkpoints + git partials."
   },
   "discovery": {
-    "status": "provisional",
+    "status": "complete",
     "eraPagesVisited": "12/12",
     "directoryVisited": true,
+    "genericUnrepresented": 0,
     "years": 87,
     "issues": 941,
     "files": 1112,
-    "note": "All 12 archive-linked era pages and the archive directory are visited and parsed (0 pending, 0 failed, 0 unrepresented generic files). Kept provisional per the discovery policy note; it is truthfully reported as 12/12."
+    "note": "All 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ_stat'i_.html and the .Online redirect (which 302s to _NiJ.html) are visited and represented. discoverySummary repaired to truthfully return 'complete' with this evidence."
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:f83a73a43851334d2ca32d9a729552a875b72ff0c99ab6f14fd4d6fc1db31572",
-    "bytes": 1237087,
+    "digest": "sha256:aa1daaa43b692b9d4a18608d6dd2042accb6a366871da268fd18d8cb10a0a96c",
+    "bytes": 1263102,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:6f0fad0c18c4f8cbadaaa2c19bd2770102b4621a003a5cb88f2aeaae5fa88d33",
+    "catalogDigest": "sha256:8006df22241ed8a642caa209f8824f8ae89af27dfb65b81ab1a0dd0c094a6bf3",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:f1186210ba16bed08393d606d4f26321fd9d13ece8880c02b78fc09d076c0968",
-    "verified": "verify-master.mjs immutable-digest pull OK (277 published, 0 mismatches)",
+    "checkpointDigest": "sha256:09feaa9db90ebf06cc74b3414958db9627061fafe6cef7e0a27f6eaef62bdb38",
+    "discoveryStatus": "complete",
+    "verified": "verify-master.mjs immutable-digest pull OK (341 published, 0 mismatches, status complete)",
     "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched)"
   },
   "codeChangesThisIteration": [
-    "tools/nauka/verify-master.mjs (new): reusable immutable-digest verifier for the published all-years master index (+ catalog + checkpoint siblings). Re-hashes pulled bytes, re-resolves the tag, checks totals/structure/published refs, and cross-checks the published set against durable local state. Small JSON only, never pulls a scan blob."
+    "tools/nauka/discover.mjs: discoverySummary now returns 'complete' when every era page is visited, the archive directory is visited and genericUnrepresented==0; 'incomplete' when a page is pending/failed; 'provisional' only when completeness cannot be confirmed. Added genericUnrepresented to the summary.",
+    "tools/nauka/test/discovery.test.mjs: targeted fixture update covering the new 'complete' and 'provisional' paths."
   ],
-  "publishedThisIteration": 67,
-  "remainingFiles": 835,
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 835 files.",
-  "notes": "Iteration 4-17: batches 21-22 published 67 files (210->277), +448,485,030 durable bytes, ~435 KiB/s origin at 32 connections. Both prior partials published. Master refreshed to 3eca4940 and verified by immutable pull."
+  "publishedThisIteration": 64,
+  "remainingFiles": 771,
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 771 files.",
+  "notes": "Iteration 4-18: batches 23-24 published 64 files (277->341), +452,733,756 durable bytes. Discovery flipped to a truthful 'complete'. Master index refreshed and verified by immutable digest (aa1daaa4, status complete). All 30 nauka tests pass."
 }

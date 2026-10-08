@@ -1,0 +1,45 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-18",
+  "phase": "end",
+  "at": "2026-10-08T00:02:30.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "summary": "Repaired discovery completeness reporting, published 64 new files across two bounded batches, refreshed and independently verified the all-years master index by immutable digest.",
+  "publishedBefore": 277,
+  "publishedAfter": 341,
+  "publishedThisIteration": 64,
+  "durableNewBytes": 452733756,
+  "remainingFiles": 771,
+  "publishedBytes": 3886241576,
+  "batches": [
+    "data/nauka/state/batches/2026-10-08T000100-batch23.json",
+    "data/nauka/state/batches/2026-10-08T000100-batch24.json"
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:aa1daaa43b692b9d4a18608d6dd2042accb6a366871da268fd18d8cb10a0a96c",
+    "bytes": 1263102,
+    "discoveryStatus": "complete",
+    "verification": "data/nauka/state/master-index-verification.json (ok=true, 0 problems, 341 published, 0 flag mismatches)",
+    "catalogDigest": "sha256:8006df22241ed8a642caa209f8824f8ae89af27dfb65b81ab1a0dd0c094a6bf3",
+    "checkpointDigest": "sha256:09feaa9db90ebf06cc74b3414958db9627061fafe6cef7e0a27f6eaef62bdb38"
+  },
+  "legacySubsetPreserved": {
+    "indexTag": "nij-1934-39-index",
+    "indexDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointTag": "nij-1934-39-checkpoint",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "match": true
+  },
+  "codeChanges": [
+    "tools/nauka/discover.mjs discoverySummary: truthful 'complete' status with full evidence; 'provisional' only when completeness cannot be confirmed.",
+    "tools/nauka/test/discovery.test.mjs: targeted fixture for the new complete/provisional paths."
+  ],
+  "tests": "node --test tools/nauka/test/*.test.mjs -> 30/30 pass",
+  "blockers": [],
+  "nextActions": [
+    "Continue bounded smallest-first retrieve batches for the remaining 771 files.",
+    "Refresh and re-verify the master index by immutable digest after each batch."
+  ]
+}

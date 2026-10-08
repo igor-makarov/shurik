@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-scope-ack",
-  "iteration": "4-17",
-  "at": "2026-10-07T23:33:20.000Z",
+  "iteration": "4-18",
+  "at": "2026-10-08T00:01:00.000Z",
   "acknowledgedScopeChange": true,
   "previousObjective": "1934-1939 only, 60 files (completed subset)",
   "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
@@ -26,21 +26,23 @@
     "eraPagesPending": 0,
     "eraPagesFailed": 0,
     "directoryVisited": true,
+    "genericUnrepresented": 0,
     "years": 87,
     "issues": 941,
     "files": 1112,
     "supplementaryFiles": 5,
-    "status": "provisional",
-    "note": "all archive-linked era pages visited and represented; master index stays provisional until explicitly re-audited against every era page",
-    "publishedFiles": 277,
-    "remainingFiles": 835
+    "status": "complete",
+    "note": "all archive-linked catalog pages visited and every flat-listing file represented; discoverySummary repaired this iteration to report 'complete' truthfully",
+    "publishedFiles": 341,
+    "remainingFiles": 771
   },
   "publishedAtAck": {
-    "publishedFiles": 277,
-    "note": "master-index-receipt + verification, iteration 4-17 (batches 21-22)"
+    "publishedFiles": 341,
+    "masterIndexDigest": "sha256:aa1daaa43b692b9d4a18608d6dd2042accb6a366871da268fd18d8cb10a0a96c",
+    "note": "master-index-receipt + verification, iteration 4-18 (batches 23-24)"
   },
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches (847 remaining).",
+    "Continue bounded smallest-first retrieve batches (771 remaining).",
     "Refresh+re-verify master index after each batch."
   ]
 }
