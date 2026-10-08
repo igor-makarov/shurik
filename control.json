@@ -14,7 +14,7 @@
     "iteration": 45,
     "claimedAt": "2026-10-08T17:26:36.682Z"
   },
-  "deadline": "2026-10-08T18:00:00.000Z",
+  "deadline": null,
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "reasoning": "high",
@@ -144,6 +144,63 @@
         "at": "2026-10-08T12:56:48.170Z"
       },
       "action": "Native ControlStore CAS deadline-only extension preserving active owner/generation/checkpoint/settings; no work-branch edits or restart"
+    },
+    {
+      "token": "nauka-user-until-complete-1791481729758",
+      "requestedAt": "2026-10-08T17:48:51.903Z",
+      "authorization": "User explicitly requested Extend deadline until it fills (monitor and stop when done) hour checks",
+      "previousDeadline": "2026-10-08T18:00:00.000Z",
+      "newDeadline": null,
+      "generation": 5,
+      "ownerAtUpdate": {
+        "runId": "37815911713",
+        "generation": 5,
+        "iteration": 45,
+        "claimedAt": "2026-10-08T17:26:36.682Z"
+      },
+      "checkpointAtUpdate": {
+        "workCommit": "955fdb0ac7e0f12946fde9421b6e88c32643e8c7",
+        "generation": 5,
+        "sequence": "5-45",
+        "runId": "37815911713",
+        "at": "2026-10-08T17:43:19.311Z"
+      },
+      "completionTarget": {
+        "regularFiles": 1112,
+        "supplementaryArchives": 5,
+        "masterIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-index",
+        "resumeIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-checkpoint"
+      },
+      "action": "Native ControlStore CAS removes time deadline for user-authorized completion-driven continuation; hourly monitor verifies full publication then cooperatively stops; preserve owner/generation/settings/all checkpoint references"
     }
-  ]
+  ],
+  "monitorCompletion": {
+    "token": "nauka-user-until-complete-1791481729758",
+    "requestedAt": "2026-10-08T17:48:51.903Z",
+    "authorization": "User explicitly requested Extend deadline until it fills (monitor and stop when done) hour checks",
+    "previousDeadline": "2026-10-08T18:00:00.000Z",
+    "newDeadline": null,
+    "generation": 5,
+    "ownerAtUpdate": {
+      "runId": "37815911713",
+      "generation": 5,
+      "iteration": 45,
+      "claimedAt": "2026-10-08T17:26:36.682Z"
+    },
+    "checkpointAtUpdate": {
+      "workCommit": "955fdb0ac7e0f12946fde9421b6e88c32643e8c7",
+      "generation": 5,
+      "sequence": "5-45",
+      "runId": "37815911713",
+      "at": "2026-10-08T17:43:19.311Z"
+    },
+    "completionTarget": {
+      "regularFiles": 1112,
+      "supplementaryArchives": 5,
+      "masterIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-index",
+      "resumeIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-checkpoint"
+    },
+    "action": "Native ControlStore CAS removes time deadline for user-authorized completion-driven continuation; hourly monitor verifies full publication then cooperatively stops; preserve owner/generation/settings/all checkpoint references",
+    "status": "watching"
+  }
 }
