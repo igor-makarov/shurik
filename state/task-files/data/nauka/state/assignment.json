@@ -2,7 +2,7 @@
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
   "iteration": "4-24",
-  "at": "2026-10-08T03:03:49.113Z",
+  "at": "2026-10-08T03:11:22.509Z",
   "deadline": "2026-10-08T07:00:00.000Z",
   "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 648,
-  "publishedBytesNow": 6542342467,
-  "remainingFilesNow": 464,
-  "masterIndexDigestNow": "sha256:9c8ea6b5f7868ed579e7ec5378179861fc324dd9212863f9ef21267b0528ad3c",
+  "publishedFilesNow": 658,
+  "publishedBytesNow": 6650110278,
+  "remainingFilesNow": 454,
+  "masterIndexDigestNow": "sha256:111fc87c3d4345bf558c9c60fa4e0bf474370ffa792c7572c97756efcf580b82",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,8 +41,8 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 464,
-    "publishedFiles": 648,
+    "pendingFiles": 454,
+    "publishedFiles": 658,
     "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented.",
     "inProgressFiles": 0
   },
@@ -57,8 +57,10 @@
     "Iteration 4-21: master-index totals now truthfully separate in-flight received bytes from GHCR-checkpointed durable partial bytes (tools/nauka/master-index.mjs); 30/30 nauka tests pass.",
     "Iteration 4-22: batches 36-38 published 39 fresh files (515->554), +352,279,058 durable bytes; master index refreshed and re-verified by immutable digest (a10e4a9e, status complete, 0 mismatches).",
     "Iteration 4-23: batches 39-41 published 45 fresh files (554->599), +440,184,416 durable bytes; master index refreshed and re-verified by immutable digest (46d683c1, status complete, 0 mismatches).",
-    "Iteration 4-24: batches 43-45 published 42 fresh files (606->648), +437775067 durable bytes; master index refreshed and re-verified by immutable digest (9c8ea6b5, status complete, 0 mismatches)."
+    "Iteration 4-24: batches 43-45 published 42 fresh files (606->648), +437775067 durable bytes; master index refreshed and re-verified by immutable digest (9c8ea6b5, status complete, 0 mismatches).",
+    "Iteration 4-24: batches 43-46 published 50 fresh files (606->656), +523934893 durable bytes; master index refreshed and re-verified by immutable digest (cee3f329, status complete, 0 mismatches).",
+    "Iteration 4-24: batches 43-47 published 52 fresh files (606->658), +545542878 durable bytes; master index refreshed and re-verified by immutable digest (111fc87c, status complete, 0 mismatches)."
   ],
-  "masterIndexVerifiedAt": "2026-10-08T03:03:32.672Z",
-  "verifiedPartialBytesNow": 6291456
+  "masterIndexVerifiedAt": "2026-10-08T03:11:21.820Z",
+  "verifiedPartialBytesNow": 31626914
 }

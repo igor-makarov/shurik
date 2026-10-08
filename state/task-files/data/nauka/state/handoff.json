@@ -1,12 +1,12 @@
 {
   "kind": "shurik-nauka-handoff",
   "iteration": "4-24",
-  "at": "2026-10-08T03:03:49.113Z",
+  "at": "2026-10-08T03:11:22.509Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 648,
-  "remaining": 464,
-  "bytesPublished": 6542342467,
+  "published": 658,
+  "remaining": 454,
+  "bytesPublished": 6650110278,
   "blocker": null,
   "status": "IN_PROGRESS",
   "origin": {
@@ -16,9 +16,9 @@
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 6291456,
+    "verifiedPartialBytes": 31626914,
     "controlBranchPrefixBytes": 14680064,
-    "partialFiles": 1
+    "partialFiles": 2
   },
   "discovery": {
     "status": "complete",
@@ -31,23 +31,23 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:9c8ea6b5f7868ed579e7ec5378179861fc324dd9212863f9ef21267b0528ad3c",
-    "bytes": 1369809,
+    "digest": "sha256:111fc87c3d4345bf558c9c60fa4e0bf474370ffa792c7572c97756efcf580b82",
+    "bytes": 1373348,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:5bee4553911cc9481c88de6b72f42532078f8c76cea411e09c3796928a46c194",
+    "catalogDigest": "sha256:6f65e20bb2fff7cec8f0b4ceb6badb55a89e798071745ec4ad7b94121dd9774f",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:0cbb8752a4431cb85353b72c31e5b4d4b2a2e28f44e707644466776a1613c472",
+    "checkpointDigest": "sha256:a31802e4f3522a32b265a9c022d6c71597f89a619e2f180542cd11420d91478e",
     "discoveryStatus": "complete",
     "verified": "verify-master.mjs immutable-digest pull OK (606 published, 0 mismatches, status complete)",
     "legacySubsetPreserved": "nij-1934-39-index (60 files, untouched)",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T03:03:32.672Z",
+    "verifiedAt": "2026-10-08T03:11:21.820Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "codeChangesThisIteration": [],
-  "publishedThisIteration": 42,
-  "newDurableBytesThisIteration": 437775067,
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 464 files.",
-  "notes": "Iteration 4-24: batches 43-45 published 42 fresh files (606->648), +437775067 durable bytes. Master index refreshed and re-verified by immutable pull (9c8ea6b5, status complete, 0 mismatches)."
+  "publishedThisIteration": 52,
+  "newDurableBytesThisIteration": 545542878,
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 454 files.",
+  "notes": "Iteration 4-24: batches 43-47 published 52 fresh files (606->658), +545542878 durable bytes. Master index refreshed and re-verified by immutable pull (111fc87c, status complete, 0 mismatches)."
 }

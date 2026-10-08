@@ -1,0 +1,85 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-24",
+  "phase": "end",
+  "at": "2026-10-08T03:11:26.726Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "summary": "Batches 43-47 continued all-years retrieval. Published 52 fresh files (606->658), +545,542,878 durable origin bytes beyond the previous checkpoint; master index refreshed and re-verified by immutable digest after each batch.",
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": "12/12",
+    "years": 87,
+    "issues": 941,
+    "files": 1112
+  },
+  "publication": {
+    "publishedFiles": 658,
+    "publishedIssues": 538,
+    "publishedBytes": 6650110278,
+    "remainingFiles": 454,
+    "knownBytesTotal": 6682785768,
+    "newPublishedBeyondBaseline": 598,
+    "newPublishedBytesBeyondBaseline": 4338479988
+  },
+  "batches": [
+    {
+      "batch": 43,
+      "publishedThisBatch": 15,
+      "durableNewBytes": 153200188,
+      "elapsedMs": 371982,
+      "masterBefore": "sha256:a0e8029d",
+      "masterAfter": "sha256:a0e8029d"
+    },
+    {
+      "batch": 44,
+      "publishedThisBatch": 13,
+      "durableNewBytes": 135752762,
+      "elapsedMs": 399333,
+      "masterAfter": "sha256:441e7fe2"
+    },
+    {
+      "batch": 45,
+      "publishedThisBatch": 14,
+      "durableNewBytes": 148822117,
+      "elapsedMs": 390681,
+      "masterAfter": "sha256:9c8ea6b5"
+    },
+    {
+      "batch": 46,
+      "publishedThisBatch": 8,
+      "durableNewBytes": 86159826,
+      "elapsedMs": 270652,
+      "masterAfter": "sha256:cee3f329"
+    },
+    {
+      "batch": 47,
+      "publishedThisBatch": 2,
+      "durableNewBytes": 21607985,
+      "elapsedMs": 122307,
+      "masterAfter": "sha256:111fc87c"
+    }
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:111fc87c3d4345bf558c9c60fa4e0bf474370ffa792c7572c97756efcf580b82",
+    "bytes": 1373348,
+    "catalogDigest": "sha256:6f65e20bb2fff7cec8f0b4ceb6badb55a89e798071745ec4ad7b94121dd9774f",
+    "checkpointDigest": "sha256:a31802e4f3522a32b265a9c022d6c71597f89a619e2f180542cd11420d91478e",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T03:11:21.820Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "preserved": true
+  },
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; 456 files remaining (~14.4 GiB estimated)."
+}
