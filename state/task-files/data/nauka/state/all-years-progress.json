@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
   "iteration": "5-49",
-  "at": "2026-10-08T19:57:00.000Z",
+  "at": "2026-10-08T20:00:54.145Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Completion-driven continuation (control.json monitorCompletion token nauka-user-until-complete-1791481729758, newDeadline null). Success = all 1112 regular files + 5 supplementary archives published with a truthful all-years master index; hourly monitor then stops. Not extended by the model.",
@@ -30,15 +30,15 @@
     "publishedBytes": 16967890857,
     "remainingFiles": 71,
     "remainingRegularFiles": 71,
-    "pendingFiles": 69,
-    "inProgressFiles": 2
+    "pendingFiles": 67,
+    "inProgressFiles": 4
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:219310a10140ad70e905011757819a2d763dab0f3455b2c635b681c97a03faa6",
-    "bytes": 1507772,
-    "catalogDigest": "sha256:bbb4d04b6c05b04fecc35ccb181f96e799ebea2dbaaf35d238291499e5e9d028",
-    "checkpointDigest": "sha256:04cce2563e8c6b00e854d3a970be5dcfe30971bc72e8dc77b4720378f38d0758",
+    "digest": "sha256:a9c1b5bba57c6d52077735ba2b713e0c420d9d434f85c66db5a5d300f5b129fc",
+    "bytes": 1507801,
+    "catalogDigest": "sha256:de4e3cf6f732cbc7856b3c0b05beb05c482ac4d8782176716b1563a1259c6933",
+    "checkpointDigest": "sha256:5a5d04f8762bf954b79d750dd9fa3ed7695f3b03216870435f83cb95fb36f891",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0,
@@ -52,7 +52,9 @@
       "nij-1992-n03-djv",
       "nij-1948-n01-pdf",
       "nij-2020-n01-pdf"
-    ]
+    ],
+    "catalogTag": "nij-master-catalog",
+    "checkpointTag": "nij-master-checkpoint"
   },
   "batchesThisIteration": [
     {
@@ -85,6 +87,16 @@
         "nij-1966-n06-pdf"
       ],
       "note": "restored 4 GHCR checkpoints and finished them"
+    },
+    {
+      "batch": 115,
+      "budgetMs": 150000,
+      "cleanupMs": 45000,
+      "elapsedMs": 176843,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "note": "short tail batch; advanced durable partials only (no publish)"
     }
   ],
   "newPublishedThisIteration": 7,
@@ -94,20 +106,34 @@
       {
         "id": "nij-1940-n02-pdf",
         "checkpoint": {
-          "digest": "sha256:75158eb75cd5f813aa06af51bb7001fdeb9ea3bd5b551f86ac7858b52ac419c4",
-          "bytes": 18874368
+          "digest": "sha256:c938686280fca18126a40295f20b6d21eb648067aa56b88a361cd58312d508c3",
+          "bytes": 25165824
         }
       },
       {
         "id": "nij-2009-n05-pdf",
         "checkpoint": {
-          "digest": "sha256:ce3a339e2bc7210fbcc92b45f57613fe956faf45d1c6edaea1f53d58f7a46db8",
+          "digest": "sha256:4b3fbee665fa33d691875d2fa3cda25ca9e819c86f470b94af6ae7ce072e8029",
+          "bytes": 16777216
+        }
+      },
+      {
+        "id": "nij-1968-n01-pdf",
+        "checkpoint": {
+          "digest": "sha256:044fde5fa79a0f53e156a1f5fd29e7c17164d710b166434100cd89ac03d19985",
+          "bytes": 6291456
+        }
+      },
+      {
+        "id": "nij-1966-n12-pdf",
+        "checkpoint": {
+          "digest": "sha256:7db44ba2d2bc4bc98b4adc0af0d617a54e2f382517c2250912360dc01e119073",
           "bytes": 6291456
         }
       }
     ],
-    "ghcrCheckpointFiles": 2,
-    "ghcrCheckpointBytes": 25165824,
+    "ghcrCheckpointFiles": 4,
+    "ghcrCheckpointBytes": 54525952,
     "note": "each in_progress file holds an immutable GHCR chunk checkpoint restorable by digest"
   },
   "supplementary": {
