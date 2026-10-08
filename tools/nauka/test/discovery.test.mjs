@@ -164,7 +164,7 @@ test('master index totals and checkpoint are truthful and consistent', () => {
     version: 1,
     files: {
       'nij-1934-n01p-djv': { status: 'published', sha256: 'aa', ghcr: { digest: 'sha256:1' }, expectedBytes: 100 },
-      'nij-1934-n01-djv': { status: 'in_progress', receivedBytes: 40, expectedBytes: 100 },
+      'nij-1934-n01-djv': { status: 'in_progress', receivedBytes: 40, expectedBytes: 100, checkpoint: { bytes: 25, digest: 'sha256:ck' } },
     },
   };
   const master = buildMasterIndex({ manifest, state });
@@ -172,7 +172,11 @@ test('master index totals and checkpoint are truthful and consistent', () => {
   assert.equal(master.totals.publishedFiles, master.files.filter((f) => f.published).length);
   assert.equal(master.totals.remainingFiles, master.totals.files - master.totals.publishedFiles);
   assert.equal(master.totals.publishedBytes, 100);
-  assert.equal(master.totals.receivedPartialBytes, 40);
+  // In-flight received bytes are reported separately from GHCR-checkpointed
+  // durable partial bytes; the two must never be conflated.
+  assert.equal(master.totals.inFlightReceivedBytes, 40);
+  assert.equal(master.totals.durablePartialBytes, 25);
+  assert.equal(master.totals.receivedPartialBytes, undefined);
   // Every issue's file ids exist in the file list.
   const fileIds = new Set(master.files.map((f) => f.id));
   for (const it of master.issues) for (const id of it.files) assert.ok(fileIds.has(id), `issue file ${id} present`);

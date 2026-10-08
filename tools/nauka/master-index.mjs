@@ -57,8 +57,20 @@ export function buildMasterIndex({ manifest, state, generatedAt, baseline = {} }
   const publishedFiles = files.filter((f) => f.published);
   const publishedBytes = publishedFiles.reduce((a, f) => a + (f.bytes || 0), 0);
   const knownBytes = files.reduce((a, f) => a + (f.bytes || 0), 0);
-  // Durable partial bytes: bytes received for files that are not yet published.
-  const receivedPartialBytes = files.filter((f) => !f.published).reduce((a, f) => a + (f.receivedBytes || 0), 0);
+  // Bytes received for files that are not yet published. These are NOT durable:
+  // they live only in the per-iteration staging area and are re-verified (and
+  // re-fetched if missing) on cold resume, so they must never be reported as
+  // durable progress.
+  const inFlightReceivedBytes = files.filter((f) => !f.published).reduce((a, f) => a + (f.receivedBytes || 0), 0);
+  // Durable partial bytes: chunks verified and pushed as GHCR checkpoint
+  // artifacts (eff.checkpoint) for files that are not yet published. Unlike
+  // in-flight received bytes, these survive a cold resume.
+  const durablePartialBytes = files
+    .filter((f) => !f.published)
+    .reduce((a, f) => {
+      const eff = state.files[f.id];
+      return a + ((eff && eff.checkpoint && eff.checkpoint.bytes) || 0);
+    }, 0);
 
   // Per-year coverage with published counts.
   const coverage = {};
@@ -163,7 +175,8 @@ export function buildMasterIndex({ manifest, state, generatedAt, baseline = {} }
       remainingFiles: files.length - publishedFiles.length,
       knownBytes,
       publishedBytes,
-      receivedPartialBytes,
+      inFlightReceivedBytes,
+      durablePartialBytes,
       supplementaryFiles: supplementary.length,
       supplementaryPublished: supplementary.filter((s) => s.published).length,
     },
@@ -214,7 +227,7 @@ export function buildCatalogMarkdown(master) {
   L.push('');
   const t = master.totals;
   L.push(`Totals: ${t.years} years, ${t.issues} issues (${t.publishedIssues} fully published), ${t.files} files (${t.publishedFiles} published, ${t.remainingFiles} remaining).`);
-  L.push(`Known bytes: ${t.knownBytes}; published bytes: ${t.publishedBytes}; durable partial bytes: ${t.receivedPartialBytes}.`);
+  L.push(`Known bytes: ${t.knownBytes}; published bytes: ${t.publishedBytes}; durable partial bytes: ${t.durablePartialBytes} (GHCR-verified chunk checkpoints); in-flight received, not yet durable: ${t.inFlightReceivedBytes}.`);
   L.push('');
   L.push(`## Discovery`);
   const d = master.discovery || {};
