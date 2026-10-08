@@ -1,0 +1,45 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 124,
+  "iteration": "5-52",
+  "startedAt": "2026-10-08T21:22:23.785Z",
+  "elapsedMs": 182524,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 210000,
+    "cleanupMs": 60000,
+    "concurrency": 24,
+    "fileConcurrency": 2,
+    "passBudgetMs": 300000,
+    "minChunkBudgetMs": 45000
+  },
+  "note": "5-52 batch C: supplementary Izbrannoe archives (dedicated path)",
+  "publishedBefore": 1061,
+  "publishedAfter": 1061,
+  "remainingBefore": 51,
+  "remainingAfter": 51,
+  "publishedBytesAfter": 18192687865,
+  "verifiedPartialBytesBefore": 16777216,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 0,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:a3afbe9dfa9ffcd71188b5ddc31411cf02f286d17c07e2390fd54904a19164c7",
+      "bytes": 1515353,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:ce816c43a486286702070d1ba20079597419b559248d976150e162478cc94adb"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:54e20ee944d1cbcc9b556155d5a2f33ad0f640d65cc16afdcce1e5ea01860676"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 51 files."
+}

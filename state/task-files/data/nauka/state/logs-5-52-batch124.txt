@@ -1,0 +1,24 @@
+2026-10-08T21:22:24.042Z oras login ok
+2026-10-08T21:22:25.467Z skipping regular transfer (NAUKA_SUPPLEMENTARY=only)
+2026-10-08T21:22:25.468Z === supplementary transfer over 5/5 Izbrannoe archives ===
+2026-10-08T21:22:25.469Z -- file nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip (null) --
+2026-10-08T21:22:25.469Z -- file nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip (null) --
+2026-10-08T21:23:47.832Z publishing nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip (11204744 bytes) as nij-1998-supplementary-pdf
+2026-10-08T21:23:50.307Z verified nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip: 06d902e484f89d22fe8201f4c6ded890fb7b2d292fa026cec94104cd099b9088
+2026-10-08T21:23:50.308Z -- file nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip (null) --
+2026-10-08T21:23:55.122Z publishing nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip (18077456 bytes) as nij-2003-supplementary-djv
+2026-10-08T21:23:57.546Z verified nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip: 4745a01481dc82e7e8e3c1af7ca9f742316a15bb8ec9470dd9801310398291e8
+2026-10-08T21:23:57.547Z -- file nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip (null) --
+2026-10-08T21:25:16.017Z publishing nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip (14453918 bytes) as nij-2000-supplementary-pdf
+2026-10-08T21:25:18.438Z verified nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip: bafa09eeb52da229de479491b2b92658b1a75f12bbfc2fb3c1a099d530674986
+2026-10-08T21:25:18.439Z -- file nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip (null) --
+2026-10-08T21:25:19.277Z publishing nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip (13458063 bytes) as nij-2001-supplementary-pdf
+2026-10-08T21:25:21.378Z verified nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip: 61034d98bed6b5559920a12d93df0f76a73ece495e45b4ae07ddb49ff478aeb8
+2026-10-08T21:25:21.455Z supp pass 1 results: [{"id":"nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip","status":"published","sha256":"06d902e484f89d22fe8201f4c6ded890fb7b2d292fa026cec94104cd099b9088","bytes":11204744,"digest":"sha256:412bd1fba87359c19a8be14b33d6e0c9520767be692c287883c2a3ef3abd9106","tag":"nij-1998-supplementary-pdf"},{"id":"nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip","status":"published","sha256":"4745a01481dc82e7e8e3c1af7ca9f742316a15bb8ec9470dd9801310398291e8","bytes":18077456,"digest":"sha256:34d13e4233648320e47971ba918597daeee75921f652d79910380a9afe7e933a","tag":"nij-2003-supplementary-djv"},{"id":"nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip","status":"published","sha256":"bafa09eeb52da229de479491b2b92658b1a75f12bbfc2fb3c1a099d530674986","bytes":14453918,"digest":"sha256:7fde72aba074dbb55a9a372d0623fd47ea0ba726e26dc156029b8ceb38c64259","tag":"nij-2000-supplementary-pdf"},{"id":"nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip","status":"in_progress","received":0},{"id":"nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip","status":"published","sha256":"61034d98bed6b5559920a12d93df0f76a73ece495e45b4ae07ddb49ff478aeb8","bytes":13458063,"digest":"sha256:820ce6003d30c08859e8ec7d843d23e2a45683a00fc1ef70b0d99eb4fe00a2aa","tag":"nij-2001-supplementary-pdf"}]
+2026-10-08T21:25:21.455Z -- file nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip (null) --
+2026-10-08T21:25:21.539Z supp pass 2 results: [{"id":"nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip","status":"in_progress","received":0}]
+2026-10-08T21:25:21.539Z supp pass 2 made no durable progress; ending supplementary transfer
+2026-10-08T21:25:24.758Z published catalog nij-master-catalog -> sha256:ce816c43a486286702070d1ba20079597419b559248d976150e162478cc94adb
+2026-10-08T21:25:26.296Z published master index nij-master-index -> sha256:a3afbe9dfa9ffcd71188b5ddc31411cf02f286d17c07e2390fd54904a19164c7 (1515353 B, status complete)
+2026-10-08T21:25:26.296Z published master checkpoint nij-master-checkpoint -> sha256:54e20ee944d1cbcc9b556155d5a2f33ad0f640d65cc16afdcce1e5ea01860676
+2026-10-08T21:25:26.296Z retrieve batch complete in 182253ms
