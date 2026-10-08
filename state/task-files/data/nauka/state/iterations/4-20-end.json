@@ -1,0 +1,53 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-20",
+  "phase": "end",
+  "at": "2026-10-08T01:01:30.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "summary": "Iteration 4-20 continued bounded smallest-first retrieval for the all-years objective. Batches 29-31 published 64 fresh files (401 -> 465), +492,449,441 durable bytes, all round-trip verified. Master index refreshed and re-verified by immutable digest.",
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112
+  },
+  "publication": {
+    "publishedBefore": 401,
+    "publishedAfter": 465,
+    "publishedBytesBefore": 4329050034,
+    "publishedBytesAfter": 4824618972,
+    "remainingAfter": 647,
+    "baselinePublishedFiles": 60,
+    "newPublishedBeyondBaseline": 405,
+    "newPublishedBytesBeyondBaseline": 2512988682,
+    "verifiedPartialBytes": 0
+  },
+  "batches": [
+    { "batch": 29, "published": 24, "durableNewBytes": 182202279, "elapsedMs": 393461, "record": "data/nauka/state/batches/2026-10-08T0045-batch29.json" },
+    { "batch": 30, "published": 20, "durableNewBytes": 154491622, "elapsedMs": 372010, "record": "data/nauka/state/batches/2026-10-08T0052-batch30.json" },
+    { "batch": 31, "published": 20, "durableNewBytes": 158875037, "elapsedMs": 389891, "record": "data/nauka/state/batches/2026-10-08T0059-batch31.json" }
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:854396b015d87c00b722cb6ae0f2b7a9f039b43de58c9ba0a32e82e036954fb8",
+    "bytes": 1305654,
+    "catalogDigest": "sha256:5096b301480654b3399b4152d5e32e31a6de2512733297c0bbca7a9f5da7e746",
+    "checkpointDigest": "sha256:5f71acef5001a4519aee1590abb20411278f6eb62cf514a4c381f570f4659c17",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T01:00:12Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "codeChanges": [],
+  "tests": "nauka tests 30/30 pass",
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 647 files."
+}

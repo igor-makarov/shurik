@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-19",
-  "at": "2026-10-08T00:33:00.000Z",
+  "iteration": "4-20",
+  "at": "2026-10-08T01:00:40.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -50,59 +50,53 @@
     "note": "complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and represented (genericUnrepresented=0)."
   },
   "publication": {
-    "publishedFiles": 401,
-    "publishedIssues": 318,
-    "publishedBytes": 4329050034,
-    "remainingFiles": 711,
-    "inProgressEntries": 34,
+    "publishedFiles": 465,
+    "publishedIssues": 377,
+    "publishedBytes": 4824618972,
+    "remainingFiles": 647,
+    "inProgressEntries": 0,
     "inProgressWithDurableChunks": 0,
     "verifiedPartialBytes": 0,
-    "knownBytesTotal": 4588225255,
+    "knownBytesTotal": 4824618972,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 341,
-    "newPublishedBytesBeyondBaseline": 2017419744
+    "newPublishedBeyondBaseline": 405,
+    "newPublishedBytesBeyondBaseline": 2512988682
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:a4217142932017709c2ffc3c676e6904ad05da6df5f8689ad35ec2306df2a2b3",
-    "bytes": 1283599,
-    "catalogDigest": "sha256:c2888812ae6def1041b4df9a581185918b9c91eebac6211fde9211df2e4fad40",
-    "checkpointDigest": "sha256:00c29182c8ad126a8f64c178aceea01cb534c529b96ca0aaa2b47434079bef2c",
+    "digest": "sha256:854396b015d87c00b722cb6ae0f2b7a9f039b43de58c9ba0a32e82e036954fb8",
+    "bytes": 1305654,
+    "catalogDigest": "sha256:5096b301480654b3399b4152d5e32e31a6de2512733297c0bbca7a9f5da7e746",
+    "checkpointDigest": "sha256:5f71acef5001a4519aee1590abb20411278f6eb62cf514a4c381f570f4659c17",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T00:32:39Z",
+    "verifiedAt": "2026-10-08T01:00:12Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "batchesThisIteration": [
     {
-      "record": "data/nauka/state/batches/2026-10-08T0016-batch25.json",
+      "record": "data/nauka/state/batches/2026-10-08T0045-batch29.json",
       "publishedThisBatch": 24,
-      "durableNewBytes": 174872574,
-      "elapsedMs": 393687
+      "durableNewBytes": 182202279,
+      "elapsedMs": 393461
     },
     {
-      "record": "data/nauka/state/batches/2026-10-08T0022-batch26.json",
-      "publishedThisBatch": 19,
-      "durableNewBytes": 140616155,
-      "elapsedMs": 381669
+      "record": "data/nauka/state/batches/2026-10-08T0052-batch30.json",
+      "publishedThisBatch": 20,
+      "durableNewBytes": 154491622,
+      "elapsedMs": 372010
     },
     {
-      "record": "data/nauka/state/batches/2026-10-08T0028-batch27.json",
-      "publishedThisBatch": 15,
-      "durableNewBytes": 112244898,
-      "elapsedMs": 315464
-    },
-    {
-      "record": "data/nauka/state/batches/2026-10-08T0032-batch28.json",
-      "publishedThisBatch": 2,
-      "durableNewBytes": 15074831,
-      "elapsedMs": 134205
+      "record": "data/nauka/state/batches/2026-10-08T0059-batch31.json",
+      "publishedThisBatch": 20,
+      "durableNewBytes": 158875037,
+      "elapsedMs": 389891
     }
   ],
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 711 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 647 files.",
     "Refresh and re-verify the master index by immutable digest after each batch."
   ]
 }
