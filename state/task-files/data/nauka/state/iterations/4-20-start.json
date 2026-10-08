@@ -1,0 +1,57 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-20",
+  "phase": "start",
+  "at": "2026-10-08T00:39:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "scopeChangeAcknowledged": true,
+  "note": "User expanded scope from the completed 1934-1939-only objective to ALL YEARS plus a canonical all-years GHCR master issue index, with retrieval continuing until the stated deadline. NAUKA_STATUS 60/60 refers ONLY to the completed 1934-1939 subset and does NOT mean the all-years assignment is complete.",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5,
+    "knownGapYears": [1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029]
+  },
+  "publication": {
+    "publishedFiles": 401,
+    "publishedBytes": 4329050034,
+    "remainingFiles": 711,
+    "baselinePublishedFiles": 60,
+    "newPublishedBeyondBaseline": 341
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:a4217142932017709c2ffc3c676e6904ad05da6df5f8689ad35ec2306df2a2b3",
+    "bytes": 1283599,
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T00:32:39Z"
+  },
+  "plan": [
+    "Continue bounded smallest-first retrieve batches (711 remaining), publishing each completed file and refreshing+re-verifying the master index.",
+    "Keep the master index truthful and complete; do not relabel the preserved 1934-1939 subset index.",
+    "Maintain durable partial/checkpoint receipts for cold resume."
+  ]
+}
