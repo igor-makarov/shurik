@@ -19,7 +19,7 @@
  "content_text": "וולטר מברייקינג בד + התלתלים של ניסים גרמה = שלמה ניצן\nתודה לעידן",
  "date_text": "Posted 5 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:32Z",
+ "fetched_at": "2026-10-08T22:47:39Z",
  "image_count": 0,
  "images": [
   {
@@ -62,18 +62,38 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
      "url": "http://78.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 4630,
+     "capture_timestamp": "20140602125542",
+     "endpoint": "replay id_",
+     "error": "bad_body",
+     "media_type": "not-an-image",
+     "message": "archived body is not an image: 4630 bytes of text/html",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_mc6rf6ueik1r3it8zo1.jpg",
    "caption": "וולטר מברייקינג בד + התלתלים של ניסים גרמה = שלמה ניצן\nתודה לעידן",
    "caption_alt": "וולטר מברייקינג בד + התלתלים של ניסים גרמה = שלמה ניצן\nתודה לעידן",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture_count": 1,
+   "error": "bad_body",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_mc6rf6ueik1r3it8zo1_500.jpg",
    "media_url": "http://78.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "note": "captures existed but replays returned non-image bodies",
    "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg",
@@ -159,14 +179,64 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2012/11"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://66.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://66.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://68.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://68.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg"
+    }
+   ],
    "base_key": "tumblr_mc6rf6ueik1r3it8zo1.jpg",
    "caption": "וולטר מברייקינג בד + התלתלים של ניסים גרמה = שלמה ניצן\nתודה לעידן",
    "caption_alt": "וולטר מברייקינג בד + התלתלים של ניסים גרמה = שלמה ניצן\nתודה לעידן",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:img",
    "media_key": "tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
    "media_url": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
     "http://66.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
@@ -267,10 +337,30 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
      "url": "http://78.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 4630,
+     "capture_timestamp": "20140602125542",
+     "endpoint": "replay id_",
+     "error": "bad_body",
+     "media_type": "not-an-image",
+     "message": "archived body is not an image: 4630 bytes of text/html",
+     "status": 404,
+     "url": "http://25.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg"
     }
    ],
    "media_url": "http://78.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
+   "reason": "bad_body"
   },
   {
    "attempts": [
@@ -305,9 +395,56 @@
    "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_1280.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_1024.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_540.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_500.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_400.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_100.jpg",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1.png",
+      "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://66.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://66.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://68.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1",
+     "url": "http://68.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg"
+    }
+   ],
    "media_url": "http://24.media.tumblr.com/tumblr_mc6rf6ueik1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/34825069573",
