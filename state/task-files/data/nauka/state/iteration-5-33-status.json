@@ -1,0 +1,50 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-33",
+  "at": "2026-10-08T11:19:16.165Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T14:45:32.395Z",
+  "acknowledgement": "Acknowledged user-authorized four-hour continuation; supervisor deadline 2026-10-08T14:45:32.395Z is authoritative.",
+  "baseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "remainingRegularFiles": 237,
+    "remainingSupplementaryArchives": 5,
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 885,
+    "publishedBytes": 10039370995,
+    "remainingFiles": 227,
+    "durablePartialBytes": 88027732
+  },
+  "batches": [
+    72,
+    73,
+    74
+  ],
+  "master": {
+    "tag": "nij-master-index",
+    "digest": "sha256:8620b4fd72002eb68d5232f647667ff1c5a910d0f680d31b92515a2d6e12d5ea",
+    "verifiedByImmutablePull": true,
+    "discoveryStatus": "complete",
+    "publishedFiles": 885,
+    "files": 1112,
+    "issues": 941,
+    "years": 87,
+    "problems": []
+  },
+  "preserved60": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d"
+  },
+  "nextActions": [
+    "Continue long bounded smallest-first retrieve batches (remaining 227 files).",
+    "Re-verify master index by immutable digest after each batch."
+  ]
+}

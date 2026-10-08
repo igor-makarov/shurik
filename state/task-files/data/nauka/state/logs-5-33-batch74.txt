@@ -1,0 +1,32 @@
+2026-10-08T11:14:09.656Z oras login ok
+2026-10-08T11:14:20.458Z === pass 1 (budget 200000ms left) ===
+2026-10-08T11:14:20.462Z -- file nij-1956-n03-pdf (Pdf-25.9M) --
+2026-10-08T11:14:20.462Z -- file nij-1965-n06-djv (Djv-25.9M) --
+2026-10-08T11:14:20.462Z -- file nij-1949-n07-pdf (Pdf-25.9M) --
+2026-10-08T11:14:20.462Z -- file nij-1956-n02-pdf (Pdf-26.1M) --
+2026-10-08T11:14:20.462Z -- file nij-1956-n09-pdf (Pdf-26.3M) --
+2026-10-08T11:14:20.463Z -- file nij-1942-n0405-pdf (Pdf-26.4M) --
+2026-10-08T11:14:27.719Z retry nij-1956-n09-pdf chunk 1 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:14:37.783Z retry nij-1956-n09-pdf chunk 6 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:14:49.467Z retry nij-1965-n06-djv chunk 12 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:15:00.600Z retry nij-1956-n02-pdf chunk 9 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:15:11.469Z retry nij-1956-n02-pdf chunk 14 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:15:22.586Z retry nij-1956-n03-pdf chunk 17 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:15:37.468Z retry nij-1949-n07-pdf chunk 21 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:15:49.469Z retry nij-1942-n0405-pdf chunk 6 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:16:01.468Z retry nij-1942-n0405-pdf chunk 2 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T11:16:09.466Z retry nij-1956-n02-pdf chunk 9 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-08T11:16:14.546Z retry nij-1956-n02-pdf chunk 14 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-08T11:17:40.458Z transfer budget elapsed; aborting in-flight requests
+2026-10-08T11:17:43.324Z checkpointed nij-1949-n07-pdf (26161748 bytes, 25 chunks) -> sha256:b58434bd0c0975dde48129b060d55685524d4b588f98acae992253e984faa145
+2026-10-08T11:17:45.903Z checkpointed nij-1956-n03-pdf (22020096 bytes, 21 chunks) -> sha256:e2a83d9e0dc0ec7c956d706dcb4b337b4ba2d2d6ef44b301e7e24295915774b8
+2026-10-08T11:17:48.122Z checkpointed nij-1965-n06-djv (15728640 bytes, 15 chunks) -> sha256:68275a9159f5e53732b06178258908fe0f5b58f5383a9a9e9b603500c49c8888
+2026-10-08T11:17:50.500Z checkpointed nij-1956-n02-pdf (14680064 bytes, 14 chunks) -> sha256:0452365d63afca305cd33511d42ca49e461888127d44176da58cb2e6313cf2d0
+2026-10-08T11:17:52.585Z checkpointed nij-1956-n09-pdf (6291456 bytes, 6 chunks) -> sha256:88c2db68d9e7a0e4fba34ffbe8d4e8488cc10932273c35b52a3aa94e014b23e6
+2026-10-08T11:17:54.445Z checkpointed nij-1942-n0405-pdf (3145728 bytes, 3 chunks) -> sha256:3962dcee5de2caf02f79c513411e06fb0fa8ce2cf133f920899423e6bee15c54
+2026-10-08T11:17:54.482Z pass 1 results: [{"id":"nij-1949-n07-pdf","status":"in_progress","received":26161748},{"id":"nij-1956-n03-pdf","status":"in_progress","received":22020096},{"id":"nij-1965-n06-djv","status":"in_progress","received":15728640},{"id":"nij-1942-n0405-pdf","status":"in_progress","received":3145728},{"id":"nij-1956-n09-pdf","status":"in_progress","received":6291456},{"id":"nij-1956-n02-pdf","status":"in_progress","received":14680064}]
+2026-10-08T11:17:54.483Z remaining files: 227
+2026-10-08T11:17:58.365Z published catalog nij-master-catalog -> sha256:368c1ffd81fd7d562efea177773f7a7004b53f192ca374ed559024ae9315f2a1
+2026-10-08T11:18:00.089Z published master index nij-master-index -> sha256:8620b4fd72002eb68d5232f647667ff1c5a910d0f680d31b92515a2d6e12d5ea (1453123 B, status complete)
+2026-10-08T11:18:00.089Z published master checkpoint nij-master-checkpoint -> sha256:b612283c5bf4095d2781195bbccb6c8f706829ecfc1b3100ae7464aa43998692
+2026-10-08T11:18:00.089Z retrieve batch complete in 230432ms
