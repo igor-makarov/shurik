@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:b4d96fd9e0ef7fa7075187bbb1a40f90dd74d311a5a3c27ad1bf76b9c257f430",
+   "observed": "sha256:8ce1a9892ecd82ad11f6088304c08312cf64e23b39265c79a73569275f55364a",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_mkxfwor2Ij1r3it8zo1_500.jpg]",
    "expected": "3d6e8f79792405602e7be5979e4bac67fb9b42f8a925c4ba3ed71ff2b6e44273",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_mkxfwor2Ij1r3it8zo1_500.jpg",
+   "observed": "tumblr_mkxfwor2Ij1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -40,47 +40,85 @@
    "passed": true
   },
   {
+   "check": "image_bytes[tumblr_mkxfwor2Ij1r3it8zo1_250.jpg]",
+   "expected": "3d6e8f79792405602e7be5979e4bac67fb9b42f8a925c4ba3ed71ff2b6e44273",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mkxfwor2Ij1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mkxfwor2Ij1r3it8zo1_250.jpg]",
+   "expected": 151398,
+   "observed": 151398,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mkxfwor2Ij1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
    "check": "post_metadata_layer_present",
    "passed": true
   },
   {
    "check": "metadata[content_text]",
-   "expected_sha256": "713d6a6e7b7609fbe1acb3cc442639efc5fb1711d9350379e8e38818a99bfb0d",
-   "observed_sha256": "713d6a6e7b7609fbe1acb3cc442639efc5fb1711d9350379e8e38818a99bfb0d",
+   "expected": "אז במקום לקרוא את “סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר” אצפה במשחקי הכס\nתודה לבאדי",
+   "observed": "אז במקום לקרוא את “סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר” אצפה במשחקי הכס\nתודה לבאדי",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected_sha256": "6c6ba6d785c04a84f8bb80381468682bcdd7bc35784d385ddf19c1f5f6cfe6e4",
-   "observed_sha256": "6c6ba6d785c04a84f8bb80381468682bcdd7bc35784d385ddf19c1f5f6cfe6e4",
+   "expected": "<p>אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס</p>\n<p>תודה לבאדי</p>",
+   "observed": "<p>אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס</p>\n<p>תודה לבאדי</p>",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected_sha256": "3075903cd141bc308cea3b303fff0c292f66ee2c62924905867ac708dbd36530",
-   "observed_sha256": "3075903cd141bc308cea3b303fff0c292f66ee2c62924905867ac708dbd36530",
+   "expected": [
+    "וונקה-מתנשא",
+    "condescending-wonka",
+    "מתקפת-סייבר"
+   ],
+   "observed": [
+    "וונקה-מתנשא",
+    "condescending-wonka",
+    "מתקפת-סייבר"
+   ],
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected_sha256": "812c6e1dceb15fb8ab16c091d2c20e81adf4bac48489b53b5058c774dd662470",
-   "observed_sha256": "812c6e1dceb15fb8ab16c091d2c20e81adf4bac48489b53b5058c774dd662470",
+   "expected": [
+    "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי"
+   ],
+   "observed": [
+    "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי"
+   ],
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected_sha256": "1d606e5d7c0d582ab9f30a4ec37f99cec14999b152bfabb1be00c0e242fa4181",
-   "observed_sha256": "1d606e5d7c0d582ab9f30a4ec37f99cec14999b152bfabb1be00c0e242fa4181",
+   "expected": "http://hazfalafel.com:80/post/47444152877",
+   "observed": "http://hazfalafel.com:80/post/47444152877",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
-   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
    "passed": true
   },
   {
    "check": "image_caption[tumblr_mkxfwor2Ij1r3it8zo1_500.jpg]",
+   "expected": "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי",
+   "observed": "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mkxfwor2Ij1r3it8zo1_250.jpg]",
    "expected": "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי",
    "observed": "אז במקום לקרוא את &#8220;סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר&#8221; אצפה במשחקי הכס\nתודה לבאדי",
    "passed": true
@@ -104,11 +142,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:38bd912a76636b641245486809901449f3a15e98bc9fdbcfb8b7a2aa9421a491",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:cb17fb7e89890cf9782bdbdc9d268072b9a80a4365e7d85b45ca6e715766dd39",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2016-09-05T07:47:14Z",
   "org.opencontainers.image.description": "אז במקום לקרוא את “סיכום מגמות החשבון השוטף של מאזן התשלומים לחודשים אוקטובר עד דצמבר” אצפה במשחקי הכס",
@@ -120,7 +158,7 @@
   "shurik.post.content_len": "113",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "47444152877",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "וונקה-מתנשא,condescending-wonka,מתקפת-סייבר"
  },
@@ -131,13 +169,17 @@
    "size": 151450
   },
   {
-   "digest": "sha256:1aeba5a52ca4ef5f8133443ccb70e1799368d2c972314fe945d53de086e8a5a4",
+   "digest": "sha256:9cce882c52216c730fdfde84e8592475082f5af2eb70d97a232ec31e42db17d3",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1009
+   "size": 151450
+  },
+  {
+   "digest": "sha256:ef93196a8dde0b8ce55a7db76708eea8e4282c4d9875ec78aa0ab3e28f9acba1",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1080
   }
  ],
- "manifest_digest": "sha256:b4d96fd9e0ef7fa7075187bbb1a40f90dd74d311a5a3c27ad1bf76b9c257f430",
- "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
+ "manifest_digest": "sha256:8ce1a9892ecd82ad11f6088304c08312cf64e23b39265c79a73569275f55364a",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "47444152877",
@@ -151,13 +193,21 @@
    "sha256": "3d6e8f79792405602e7be5979e4bac67fb9b42f8a925c4ba3ed71ff2b6e44273"
   },
   {
-   "bytes": 2899,
+   "bytes": 151398,
+   "file": "tumblr_mkxfwor2Ij1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:9cce882c52216c730fdfde84e8592475082f5af2eb70d97a232ec31e42db17d3",
+   "role": "media",
+   "sha256": "3d6e8f79792405602e7be5979e4bac67fb9b42f8a925c4ba3ed71ff2b6e44273"
+  },
+  {
+   "bytes": 3890,
    "file": "post.json",
-   "layer": "sha256:1aeba5a52ca4ef5f8133443ccb70e1799368d2c972314fe945d53de086e8a5a4",
+   "layer": "sha256:ef93196a8dde0b8ce55a7db76708eea8e4282c4d9875ec78aa0ab3e28f9acba1",
    "role": "post-metadata",
-   "sha256": "24e7c175166eeac2dfb9bea53a849f98444396dcfcdba8916faf7db8a6c2adf0"
+   "sha256": "c2b8accc4b31dcf0fe476a6866fe5bd8b5b6929096cf4b902d9467c0ed8921fa"
   }
  ],
  "tag": "47444152877",
- "verified_at": "2026-10-05T08:16:11Z"
+ "verified_at": "2026-10-08T23:07:25Z"
 }

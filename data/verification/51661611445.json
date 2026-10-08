@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:a65bbe0a91d5dd68d9de1e5dfd45e62480dc69e1c07456f17ea10eb37a8a1191",
+   "observed": "sha256:24af1756808adda7f158faf66e9fb402cd7f10fa78d0020703c68da367ca271f",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_mnkpfr0k5V1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnkoupUZKV1r3it8zo1_250.jpg]",
+   "expected": "0baa177a8294b02d316a49e6d1d9c2c78ff68bda22cb2c1e1b609363c059c88f",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnkoupUZKV1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnkoupUZKV1r3it8zo1_250.jpg]",
+   "expected": 41290,
+   "observed": 41290,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnkoupUZKV1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -116,6 +136,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mnkpfr0k5V1r3it8zo1_1280.jpg]",
+   "expected": "תודה ליצחק פישר",
+   "observed": "תודה ליצחק פישר",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20140111013725",
    "observed": "20140111013725",
@@ -134,11 +160,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:ad1da8b11fa5d53dd446ab5f16ad12e8bdc4ea42f0a3a05fb8bc6de86b6ad45c",
+ "checks_passed": 24,
+ "checks_total": 24,
+ "config_digest": "sha256:98c6e095445ce59b8d811b636b94bc80c5cdd4d93fecfc17e360edce01a7f461",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2017-11-10T08:14:59Z",
   "org.opencontainers.image.description": "תודה ליצחק פישר",
@@ -150,8 +176,8 @@
   "shurik.post.content_len": "15",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "51661611445",
-  "shurik.post.images": "2",
-  "shurik.post.missing_images": "0",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "בחור-פוטוגני-עד-כדי-גיחוך,Ridiculously-Photogenic-Guy"
  },
  "layers": [
@@ -166,12 +192,17 @@
    "size": 89483
   },
   {
-   "digest": "sha256:49dc4c1de843e45cda8052f7e3559fbb040e0fb4bf388e319aa7f7b128b5d079",
+   "digest": "sha256:940b0a6a0696003214f5aaa3e95f095051baf87c2a9610e57355796f8b75ae17",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 996
+   "size": 41205
+  },
+  {
+   "digest": "sha256:a0f2bf1acdbed4f11677fd4fc61f680a510ea78fedddeec5214034bb83e33409",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1447
   }
  ],
- "manifest_digest": "sha256:a65bbe0a91d5dd68d9de1e5dfd45e62480dc69e1c07456f17ea10eb37a8a1191",
+ "manifest_digest": "sha256:24af1756808adda7f158faf66e9fb402cd7f10fa78d0020703c68da367ca271f",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "51661611445",
@@ -193,13 +224,21 @@
    "sha256": "45fcd346e4257843fb0fa6ec7a4b8d5e8fb19c92b39b124c249e2200a3dc2c27"
   },
   {
-   "bytes": 2723,
+   "bytes": 41290,
+   "file": "tumblr_mnkoupUZKV1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:940b0a6a0696003214f5aaa3e95f095051baf87c2a9610e57355796f8b75ae17",
+   "role": "media",
+   "sha256": "0baa177a8294b02d316a49e6d1d9c2c78ff68bda22cb2c1e1b609363c059c88f"
+  },
+  {
+   "bytes": 6254,
    "file": "post.json",
-   "layer": "sha256:49dc4c1de843e45cda8052f7e3559fbb040e0fb4bf388e319aa7f7b128b5d079",
+   "layer": "sha256:a0f2bf1acdbed4f11677fd4fc61f680a510ea78fedddeec5214034bb83e33409",
    "role": "post-metadata",
-   "sha256": "99bfeef4efe0c1f0a74b251c7322eb6aaf6475b5e894d85bb8ce90bf4dd18407"
+   "sha256": "34b57643d7f5b3aba976e172a3b022742f86cd8a74b2450726e39957bb673818"
   }
  ],
  "tag": "51661611445",
- "verified_at": "2026-10-05T17:31:31Z"
+ "verified_at": "2026-10-08T23:07:26Z"
 }

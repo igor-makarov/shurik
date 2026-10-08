@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:bdfe36057e2dbdbe59f8ac2b540079c7541ba56ee2f7a466feb36f50022f7523",
+   "observed": "sha256:ee64a33aedd9442f9596aa16c407c0af94434debfcfc1acc2242ad2078ab2587",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_mnv48wKhCI1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnu1q1hyvI1r3it8zo1_250.jpg]",
+   "expected": "febfca59fbbdd2fa208d6f24c2ec07d01977419f55940047213eb425526680ee",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnu1q1hyvI1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnu1q1hyvI1r3it8zo1_250.jpg]",
+   "expected": 77987,
+   "observed": 77987,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnu1q1hyvI1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -116,6 +136,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mnv48wKhCI1r3it8zo1_1280.jpg]",
+   "expected": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
+   "observed": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20131022025618",
    "observed": "20131022025618",
@@ -134,11 +160,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:011f0e606b624ef29dc0502c33227f4af3d754cb00ba225bddf4d1b70a25a635",
+ "checks_passed": 24,
+ "checks_total": 24,
+ "config_digest": "sha256:2f0b962735517620c6249bfc49f9490e33b12faf2ed13a7601d5f6b7d5446d21",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2013-10-22T02:56:18Z",
   "org.opencontainers.image.description": "על מנת לא לשוב על טעויות עבר, בואו כולנו נשים תמונה זו כתמונת הפורפיל שלנו בפייסבוק ונראה להם שאנחנו חזקים!",
@@ -150,8 +176,8 @@
   "shurik.post.content_len": "107",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "52129982482",
-  "shurik.post.images": "2",
-  "shurik.post.missing_images": "0",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "משחקי-הכס,game-of-thrones"
  },
  "layers": [
@@ -166,12 +192,17 @@
    "size": 87437
   },
   {
-   "digest": "sha256:426c1679c3892eaa1d792ac95bb05ffc5c382fb38117a3cb2c9d284bbbcb972d",
+   "digest": "sha256:14d5ac87025cdeebef70d6163640a4ca9acf78c95ad4aad01f1153c9f3dbe9e2",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 984
+   "size": 76464
+  },
+  {
+   "digest": "sha256:c521fcc3c01ec661a1c3f6fedabdc1340a73873423e562c8e5a07c0868153bd4",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1438
   }
  ],
- "manifest_digest": "sha256:bdfe36057e2dbdbe59f8ac2b540079c7541ba56ee2f7a466feb36f50022f7523",
+ "manifest_digest": "sha256:ee64a33aedd9442f9596aa16c407c0af94434debfcfc1acc2242ad2078ab2587",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "52129982482",
@@ -193,13 +224,21 @@
    "sha256": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d"
   },
   {
-   "bytes": 3293,
+   "bytes": 77987,
+   "file": "tumblr_mnu1q1hyvI1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:14d5ac87025cdeebef70d6163640a4ca9acf78c95ad4aad01f1153c9f3dbe9e2",
+   "role": "media",
+   "sha256": "febfca59fbbdd2fa208d6f24c2ec07d01977419f55940047213eb425526680ee"
+  },
+  {
+   "bytes": 6989,
    "file": "post.json",
-   "layer": "sha256:426c1679c3892eaa1d792ac95bb05ffc5c382fb38117a3cb2c9d284bbbcb972d",
+   "layer": "sha256:c521fcc3c01ec661a1c3f6fedabdc1340a73873423e562c8e5a07c0868153bd4",
    "role": "post-metadata",
-   "sha256": "5bbbb2daa67de05eaaaec3e41ef9d736b4b0dfe1401720077ca63d21ce3166eb"
+   "sha256": "daa3891f7f03bd9d3a76bd14deecdfeb7c14b7be3ea94ce811444792666a309a"
   }
  ],
  "tag": "52129982482",
- "verified_at": "2026-10-05T17:31:32Z"
+ "verified_at": "2026-10-08T23:07:27Z"
 }
