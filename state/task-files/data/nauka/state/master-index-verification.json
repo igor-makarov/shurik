@@ -1,25 +1,25 @@
 {
   "kind": "shurik-nauka-master-index-verification",
-  "at": "2026-10-08T03:39:27.798Z",
+  "at": "2026-10-08T04:11:06.219Z",
   "tag": "nij-master-index",
-  "immutableDigest": "sha256:ba29cda4bcb967b913289114c6d0a3c8b443e0aa95695ae21d60c4383145d8aa",
-  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:ba29cda4bcb967b913289114c6d0a3c8b443e0aa95695ae21d60c4383145d8aa",
-  "pulledBytes": 1388406,
-  "pulledFileSha256": "c6c4a68e6ae01f8f5d64c9840fbb3a39c85d5a5299070eb6dd20e62497b668f0",
+  "immutableDigest": "sha256:67e98d9bce3388e9d15242fa3053708453b1be7a01518febceea9a6ce027a9d4",
+  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:67e98d9bce3388e9d15242fa3053708453b1be7a01518febceea9a6ce027a9d4",
+  "pulledBytes": 1402151,
+  "pulledFileSha256": "e3fc6a1fc177a35e156012524d41d826f154b21edd3a5c0734039bb80b956f1e",
   "pulledFileName": "nij-master-index.json",
   "tagResolveMatchesDigest": true,
   "discoveryStatus": "complete",
   "totals": {
     "years": 87,
     "issues": 941,
-    "publishedIssues": 574,
+    "publishedIssues": 604,
     "files": 1112,
-    "publishedFiles": 701,
-    "remainingFiles": 411,
-    "knownBytes": 7166441103,
-    "publishedBytes": 7131829572,
-    "inFlightReceivedBytes": 8388608,
-    "durablePartialBytes": 8388608,
+    "publishedFiles": 740,
+    "remainingFiles": 372,
+    "knownBytes": 7623361355,
+    "publishedBytes": 7598636165,
+    "inFlightReceivedBytes": 17825792,
+    "durablePartialBytes": 17825792,
     "supplementaryFiles": 5,
     "supplementaryPublished": 0
   },
@@ -61,10 +61,10 @@
       "digest": "sha256:c30967a52f43f5d304d3f66997d901a1b8b9f1f888e742611cb5ff4b9507068c"
     },
     "nij-1948-n01-pdf": {
-      "status": "pending",
+      "status": "published",
       "year": 1948,
-      "published": false,
-      "digest": null
+      "published": true,
+      "digest": "sha256:6f53f72b26510a3d16f090335c26139da2eed3cc26310b0b4045aec4f77cbb68"
     },
     "nij-2020-n01-pdf": {
       "status": "pending",
@@ -75,7 +75,7 @@
   },
   "checks": {
     "filesLength": 1112,
-    "publishedFiles": 701,
+    "publishedFiles": 740,
     "publishedFlagMismatchesVsState": 0,
     "years": 87,
     "issues": 941,
@@ -85,15 +85,15 @@
   "problems": [],
   "ok": true,
   "catalogVerified": {
-    "digest": "sha256:999ffa2ab261aaedfc1722741d4cceb0725cb17828b837fe04e571bf167e2f3d",
-    "bytes": 28353,
-    "sha256": "b6969c05739349e13c0ddab5a87268e52e584f4dc28c4901bafaf327bea72f57"
+    "digest": "sha256:bb3493716faebb6b8490b7b096b8b5ebfb297e7aced2e3c95c8a57a2bb84ce06",
+    "bytes": 28777,
+    "sha256": "d1b187b8b26128445fc8a709f430a07be321da16b88cb556d35220632b52251b"
   },
   "checkpointVerified": {
-    "digest": "sha256:8ed43bd7add22dbb70f389fa60c5947fe44c82c7f761f2be793874c0e66682c5",
-    "bytes": 315434,
-    "sha256": "1b3e22cf2feb649c7cf8da3c1fb676ed5e5cdb80209f215c372203ce44d6d17e"
+    "digest": "sha256:9fb42fcd0b04db3ba89948014d88bc79348a6e04a4739596c909068bb6e2a86f",
+    "bytes": 321638,
+    "sha256": "a0c74066f1c73b92f2354648e91edf56edb6b2d1255a2453ab6afc5be2ba386c"
   },
-  "checkpointPublished": 701,
-  "checkpointRemaining": 411
+  "checkpointPublished": 740,
+  "checkpointRemaining": 372
 }

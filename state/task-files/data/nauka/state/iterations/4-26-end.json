@@ -1,0 +1,58 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-26",
+  "phase": "end",
+  "at": "2026-10-08T04:12:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "summary": "Batches 52-55 continued all-years retrieval. Published 39 fresh files (701->740), +466,806,593 durable origin bytes beyond the previous checkpoint; master index refreshed and re-verified by immutable digest after the last batch.",
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": "12/12",
+    "years": 87,
+    "issues": 941,
+    "files": 1112
+  },
+  "publication": {
+    "publishedFiles": 740,
+    "publishedIssues": 604,
+    "publishedBytes": 7598636165,
+    "remainingFiles": 372,
+    "knownBytesTotal": 7623361355,
+    "newPublishedBeyondBaseline": 680,
+    "newPublishedBytesBeyondBaseline": 5287005875
+  },
+  "batches": [
+    { "batch": 52, "publishedThisBatch": 8, "durableNewBytes": 92512487, "elapsedMs": 255362 },
+    { "batch": 53, "publishedThisBatch": 10, "durableNewBytes": 118216196, "elapsedMs": 386180 },
+    { "batch": 54, "publishedThisBatch": 13, "durableNewBytes": 157644904, "elapsedMs": 388437 },
+    { "batch": 55, "publishedThisBatch": 8, "durableNewBytes": 98433006, "elapsedMs": 292999 }
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:67e98d9bce3388e9d15242fa3053708453b1be7a01518febceea9a6ce027a9d4",
+    "bytes": 1402151,
+    "catalogDigest": "sha256:bb3493716faebb6b8490b7b096b8b5ebfb297e7aced2e3c95c8a57a2bb84ce06",
+    "checkpointDigest": "sha256:9fb42fcd0b04db3ba89948014d88bc79348a6e04a4739596c909068bb6e2a86f",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T04:11:06.219Z",
+    "publishedFlagMismatches": 0,
+    "problems": [],
+    "catalogTag": "nij-master-catalog",
+    "checkpointTag": "nij-master-checkpoint"
+  },
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "testsAtStart": "node --test tools/nauka/test/*.test.mjs -> 30/30 pass",
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; 372 files remaining."
+}
