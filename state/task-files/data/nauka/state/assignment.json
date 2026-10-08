@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-35",
-  "at": "2026-10-08T12:22:30.379Z",
+  "iteration": "5-36",
+  "at": "2026-10-08T12:28:00.545Z",
   "deadline": "2026-10-08T14:45:32.395Z",
   "deadlineLocal": "2026-10-08 17:45 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -75,13 +75,14 @@
     "Iteration 5-35: batches 78-79 published 13 fresh files (905->918), +434,905,192 durable origin bytes; master index refreshed and verified by immutable digest (ed5b618e, status complete, 0 mismatches, 1112 files/941 issues/87 years). Resumed the 6 saved partials incl. fully-chunked nij-1904-n0508-pdf.",
     "Iteration 5-35 continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; remaining 194 files.",
     "Iteration 5-35: batches 78-80 published 13 fresh files (905->918), +434,905,192 origin bytes; durable GHCR partial bytes advanced 16,777,216 -> 123,731,968. Master index refreshed+verified by immutable pull (sha256:3b0c1555..., 1464699 B, status complete, 0 mismatches, 1112 files/941 issues/87 years).",
-    "Iteration 5-35 continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; remaining 194 regular files + 5 supplementary archives."
+    "Iteration 5-35 continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; remaining 194 regular files + 5 supplementary archives.",
+    "Iteration 5-36: continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; resume retrieval of remaining 194 regular files + 5 supplementary archives."
   ],
   "masterIndexVerifiedAt": "2026-10-08T12:22:30.379Z",
   "verifiedPartialBytesNow": 123731968,
   "continuation": {
     "authorized": true,
-    "note": "Iteration 5-35 acknowledges the user-authorized four-hour continuation (\"Run 4 hours more\"); supervisor deadline 2026-10-08T14:45:32.395Z is authoritative. Scope all-years. Continuation baseline was 875 files / 9,777,993,649 B; iterations 5-33/5-34 advanced durable publication to 905 files / 10,602,310,935 B. 207 regular files + 5 supplementary archives remain.",
+    "note": "Iteration 5-36 acknowledges the user-authorized four-hour continuation (\"Run 4 hours more\"); supervisor deadline 2026-10-08T14:45:32.395Z is authoritative. Scope all-years. Continuation baseline 875 files / 9,777,993,649 B; now 918 files / 11,037,216,127 B; 194 regular files + 5 supplementary archives remain; 123,731,968 durable partial bytes in 5 files.",
     "baselineWorkCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
@@ -90,7 +91,7 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
     "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
-    "iteration": "5-35",
-    "acknowledgedAt": "2026-10-08T11:59:56.845Z"
+    "iteration": "5-36",
+    "acknowledgedAt": "2026-10-08T12:28:00.545Z"
   }
 }
