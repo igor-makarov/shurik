@@ -1,0 +1,56 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 53,
+  "iteration": "4-26",
+  "startedAt": "2026-10-08T03:52:21.165Z",
+  "elapsedMs": 386180,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 420000,
+    "cleanupMs": 90000,
+    "concurrency": 24,
+    "fileConcurrency": 4,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "iteration 4-26 batch 53",
+  "publishedBefore": 709,
+  "publishedAfter": 719,
+  "remainingBefore": 403,
+  "remainingAfter": 393,
+  "publishedBytesAfter": 7342558255,
+  "verifiedPartialBytesBefore": 6291456,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 118216196,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1975-n04-djv",
+    "nij-1976-n08-djv",
+    "nij-1978-n03-djv",
+    "nij-1979-n12-djv",
+    "nij-1980-n04-djv",
+    "nij-1982-n04-djv",
+    "nij-2009-n03-djv",
+    "nij-2009-n11-djv",
+    "nij-2009-n11-pdf",
+    "nij-2011-n01-pdf"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:9f0e967af64d5c324c6fc3a305161089a7b146cd7d04b4085cfcfa0a070b0640",
+      "bytes": 1394768,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:4f0536e5c8e478e9a4c28db62c081a7ed53d0dad3f66ecb5c64a60a4c1941176"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:8d846851e0e47f88117e6bdf35fa6705a1d55b8cefd148e5e453e4c037106fed"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 393 files."
+}

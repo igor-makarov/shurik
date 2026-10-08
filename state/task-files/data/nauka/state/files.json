@@ -59045,25 +59045,61 @@
         "5": {
           "bytes": 1048576,
           "sha256": "7bab7a9e85e45d7a09e3de2a674ea5ab93200669f1312a2af3e601bbe3b40924"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "d33559d6c30a4708a47e1133e8ae00cb02488544f7b9a3cf6257a3636942308a"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "93d121d1e81449431e9633f8f66c607f0085bc01b4dedaa13e1f157e48cd8752"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "a3721a7971202fa13d49e41c3d579ff8bde097d071ad1df7551c91d43ba72b58"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "fe45510049c41c585ca2c51e3ce0250a7983f2d32a46c302684ec1f52723f34f"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "eaef4a1b4a2be8ffd39f91b279740fcb8d0df942f027274df5d2d0e404b7df57"
+        },
+        "11": {
+          "bytes": 98873,
+          "sha256": "b3f2e422a84202d604acd6c0dad286c632f95797ba885902ce512ff3c55deffb"
         }
       },
-      "receivedBytes": 6291456,
-      "status": "in_progress",
+      "receivedBytes": 11633209,
+      "status": "published",
       "gen": 0,
-      "attempts": 7,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-2009-n11-pdf",
+        "digest": "sha256:aba1870f361f1ca94a6f5cbd99ea77b5f599f8e7930a1eaf349fdaf47ad421ee",
+        "title": "Nauka_i_jizn',2009,N11.[pdf].zip",
+        "pushedAt": "2026-10-08T03:53:40.623Z"
+      },
       "checkpoint": {
         "digest": "sha256:96010d0c0d2b1ad4bba2846e0f3e0888b44e6cb361fce420ff6257b24035bd8b",
         "bytes": 6291456,
         "chunks": 6,
         "at": "2026-10-08T03:51:19.770Z"
       },
-      "verified": null,
+      "verified": {
+        "at": "2026-10-08T03:53:41.339Z",
+        "pulledSha256": "afaf0d0768dff08eddd83f338a77b0313f3bc0ff2b8b0f0b8840a714d6371048",
+        "ok": true,
+        "digest": "sha256:aba1870f361f1ca94a6f5cbd99ea77b5f599f8e7930a1eaf349fdaf47ad421ee"
+      },
       "updatedAt": "2026-10-07T21:54:14.914Z",
-      "cleanupPasses": 0
+      "cleanupPasses": 0,
+      "sha256": "afaf0d0768dff08eddd83f338a77b0313f3bc0ff2b8b0f0b8840a714d6371048",
+      "publishedAt": "2026-10-08T03:53:41.341Z"
     },
     "nij-1978-n03-djv": {
       "id": "nij-1978-n03-djv",
@@ -59079,18 +59115,80 @@
       "lastModified": "Sat, 27 Apr 2019 01:31:24 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "in_progress",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "e2bd2a50ecfa34e300f8aa58f7968ad9af8d4ef57b6789f59b856a0f62db3fda"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "64dc81080ac2aa91b0863691cff67e4b43c92899f31ff90cdd94783d4f98dd0e"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "20080569b00fdfb5e0252043a092d6699755bcf60269a524c02c49673c6568cf"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "afc947dd234b022f6d0032423a1e62138573cedc06101bfb950baae5bec9445f"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "c1829ac4a96a7e1ddd8d322ce4ee73ee166182ea2cd8c75be9028a46ce70a4f8"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "0863db7a7923a7865bc01a4d402be846986620a4777b626650db44f2a632cb23"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "93c58a413d382704f404bb100d022675ea32c51a450c528b9b636035bb996c5a"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "bd34cbc0affa24d0910d4b7e2f8bdbbd76c64c5fbb46788e65607890377e36f9"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "a75d85262ed5d65d22a4c829bc05fa7b7538e0ebbbc4162598a874d9b5ef0bf7"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "9476027853ec8efc4f1c975b9d014f7f49ee96fb1b3d8550fe5c911165eefcef"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "8bbd9b13fcaaba7a115d2fa4ee59c8496e114f07938da87b11c00987fa216d77"
+        },
+        "11": {
+          "bytes": 167115,
+          "sha256": "45c962cd383f0e65de6260e0673c85fb9003e3cf34af0b2afb9d0df6064442d0"
+        }
+      },
+      "receivedBytes": 11701451,
+      "status": "published",
       "gen": 0,
-      "attempts": 1,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1978-n03-djv",
+        "digest": "sha256:48178b038d048b4fe68db011d12087c0f5da9fc129423f76d279f4bffc4b4e65",
+        "title": "Nauka_i_jizn',1978,N03.[djv].zip",
+        "pushedAt": "2026-10-08T03:54:18.837Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:54:19.929Z",
+        "pulledSha256": "6e7c7e18d53937d25285385978898a334d2c3e46d48409014fbdf4e310b7bbf3",
+        "ok": true,
+        "digest": "sha256:48178b038d048b4fe68db011d12087c0f5da9fc129423f76d279f4bffc4b4e65"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "6e7c7e18d53937d25285385978898a334d2c3e46d48409014fbdf4e310b7bbf3",
+      "publishedAt": "2026-10-08T03:54:19.931Z"
     },
     "nij-1979-n12-djv": {
       "id": "nij-1979-n12-djv",
@@ -59101,23 +59199,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1979,N12.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1979, №12.",
       "labelSize": "Djv-11.2M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11788395,
+      "etag": "\"5cc3b11d-b3e06b\"",
+      "lastModified": "Sat, 27 Apr 2019 01:32:13 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "b869760f1d73baca2ae8cd99b6d80d0ec3a4d43da391553fed3c1f38b042a32f"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "06214337dd2b7e4384fee3a85d1d2b8cfdcc2b6338760f065417b39416bf993a"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "89bae7964a2ee70f817141c4f83b25276a6e00e3658b6bfe76a88f9806a8b674"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "13759b678e82275b38cc3011b26fa781b652286e660dedde8e89a6c7cf1cd888"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "6da9b422eacbd32dd12c261af71989d3858a0cadae5959078c05750af7c1296a"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "0b8143c9923d2a859b8e894949aa94f4c754402ef3e01aa060252c4d73cf3ba0"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "864f4366ee813f32efc38b5a74e824ec13ae6ce87814fdf762806c98a759a71b"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "a1e474a3fcc37301aa4a7d0ab8b2857c213abe4f7ff62ce5f4dfb9b21291672a"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "1cbe4747d7e703803dc398f49d8996b3d54cb8e7339cace67f460b22f56fdc87"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "19990fddc1253f33f2450f9bf34924d1905ea9627fefcf91c1dbf4b30516c51c"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "c666f9045b3198786428c9c261cca05a9208943c9ddf6339093a287f4faf1848"
+        },
+        "11": {
+          "bytes": 254059,
+          "sha256": "40df27288fc07ea4581661ecb2b40a8a43c5ff7145600631e7d7d438c72ab3a0"
+        }
+      },
+      "receivedBytes": 11788395,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1979-n12-djv",
+        "digest": "sha256:7611efbdc5647eeacaa6ec1676b5f2dd222281a92f904f50d2d8a98bcd0e8fba",
+        "title": "Nauka_i_jizn',1979,N12.[djv].zip",
+        "pushedAt": "2026-10-08T03:54:57.816Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:54:58.513Z",
+        "pulledSha256": "dc4f07281785907d5ce715104ca021eb0bb346d2eb4e3dd75e4241f2f0168b8a",
+        "ok": true,
+        "digest": "sha256:7611efbdc5647eeacaa6ec1676b5f2dd222281a92f904f50d2d8a98bcd0e8fba"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "dc4f07281785907d5ce715104ca021eb0bb346d2eb4e3dd75e4241f2f0168b8a",
+      "publishedAt": "2026-10-08T03:54:58.515Z"
     },
     "nij-1980-n04-djv": {
       "id": "nij-1980-n04-djv",
@@ -59128,23 +59288,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1980,N04.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1980, №04.",
       "labelSize": "Djv-11.2M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11735587,
+      "etag": "\"5cc3b127-b31223\"",
+      "lastModified": "Sat, 27 Apr 2019 01:32:23 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "5e00a98711eacf3a7f28ccda693e72f1f145a5d07b7fbca215f845d914cdeff3"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "4f8decce28465c6fa35ae8d73ae8818e1338aeb042784748e512b9dee0df5964"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "8d5503b805b00b8fecbb9258e08d30e0ccd60a8742c7929c8ee7e5f28ed5c238"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "6c81608ea80900bb4a9ebb73d2a5714784eb58e07b4680baf24edeeeed775c42"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "196ad41dc82ecb29fd2c57cd86751d0e7486f28ffcbdd34d2ac243da5d84d135"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "8b209f70090c4734266c139d3f939c821fb557b29a31c14943892c1b2f647b9f"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "eaa42466687460c4f890a51562ba1c7d68d52e09d77274eaebd8d3846aa0ca04"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "af795ba532d0a2de0bbb1a76cb905d707c07115e161cfc501e5510186241a6c1"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "0687830cf5814c5da23aeb3f3c8c5feb53768bd1948d3f2fbd24dd44d908bf36"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "d341d1fbb2a3419760812e17a47ddfb7952396e462820848aee13be9d450b2d5"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "1caaaf9ed41085c07b4e0eec7dd3395bd83c8189932d4eb1d8c76e472d356248"
+        },
+        "11": {
+          "bytes": 201251,
+          "sha256": "bbd71cde3bc244bcbf1295582ebeae17f31032bd05b78ed806d4bd73f724cce4"
+        }
+      },
+      "receivedBytes": 11735587,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1980-n04-djv",
+        "digest": "sha256:f1c26b607e52993b6bf80fcf70e92ef799aecb09e69b845695ca99b5bf9efca8",
+        "title": "Nauka_i_jizn',1980,N04.[djv].zip",
+        "pushedAt": "2026-10-08T03:55:09.630Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:55:10.323Z",
+        "pulledSha256": "ed815f5e9d9c2a1d4d1d286f712a6a4f021c07f47da46ec15424c5b52b672b20",
+        "ok": true,
+        "digest": "sha256:f1c26b607e52993b6bf80fcf70e92ef799aecb09e69b845695ca99b5bf9efca8"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "ed815f5e9d9c2a1d4d1d286f712a6a4f021c07f47da46ec15424c5b52b672b20",
+      "publishedAt": "2026-10-08T03:55:10.325Z"
     },
     "nij-1975-n04-djv": {
       "id": "nij-1975-n04-djv",
@@ -59155,23 +59377,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1975,N04.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1975, №04.",
       "labelSize": "Djv-11.3M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11812405,
+      "etag": "\"5cc3b08c-b43e35\"",
+      "lastModified": "Sat, 27 Apr 2019 01:29:48 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "b6b156b0713e12cc9b8115c3809f92694fc140140613aade999d9800bf6d5ab3"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "9b64ebb2461b98c924fede41155bb037399598da7741addc09ea5819810b5dd8"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "c1f92d4220b7db7e180030b55afbf63e5d534dbb845e2dfc38332940af706b2e"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "55da092200d99d626b61b7a2dbf02533560b68da47329fbec0a6249027bddd32"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "837c05add6cbe034838b18fca4dc1b0ab554ba17d864b6c27a35c0a5cfc7ca41"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "20d6e9a533bce0633bd1a0008530d976f389e6c1891062e6f487fbce201f2829"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "f0e74fd4d7c51865b185451b5733ce06069bb2b60057aa6ab36976bfa1496e9f"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "313bc995c99ede3fe446ec81e196d40ca8f18aa0b8bbdc5892177ab4bdd09c89"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "3bfb9400a86bd3c3095502de72300899ac6b38003b998dbad02a7eb09ed81f21"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "2275825a28d4d07a4c200086850d8557aa121131c2beda1d9dd14bfe1607c7ba"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "fb448621638953949960802a809df79c37e2b2cb2e08c757ea0f3a588e332bce"
+        },
+        "11": {
+          "bytes": 278069,
+          "sha256": "f8d410cd0be509746d2df0e65252ecc49287ae991142032ead7d82cb576b1957"
+        }
+      },
+      "receivedBytes": 11812405,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1975-n04-djv",
+        "digest": "sha256:d29c4af004f92896ac621b2dbf731f22e5c8f282a242c3619fc620cc6166781e",
+        "title": "Nauka_i_jizn',1975,N04.[djv].zip",
+        "pushedAt": "2026-10-08T03:55:45.694Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:55:46.563Z",
+        "pulledSha256": "92e6a48614f7572232523db47aa4d2a287c8bde50a87393d6d2d6b1d1013dee3",
+        "ok": true,
+        "digest": "sha256:d29c4af004f92896ac621b2dbf731f22e5c8f282a242c3619fc620cc6166781e"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "92e6a48614f7572232523db47aa4d2a287c8bde50a87393d6d2d6b1d1013dee3",
+      "publishedAt": "2026-10-08T03:55:46.566Z"
     },
     "nij-1982-n04-djv": {
       "id": "nij-1982-n04-djv",
@@ -59182,23 +59466,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1982,N04.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1982, №04.",
       "labelSize": "Djv-11.3M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11878788,
+      "etag": "\"5cc3b160-b54184\"",
+      "lastModified": "Sat, 27 Apr 2019 01:33:20 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "f722b3272510bf77fa33a1502e9854e392760f4a68734369bec54e7ff80ec70d"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "a4ac3968c069cd733c292cec4821b1cca907a6ae43e4274886f6edfd3be0b525"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "909b53747eadd5d0b81a05c43f9e205c3bba207388adf6fb0e2d0f9928421ad7"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "37859f5fb55de8e44e387b87500e8d710aee2fdaacac746a6806b32c6cc3375b"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "370ca621a8095969b724109be740e705724142f449bf95845f2585add57b1f77"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "d88040fd587e1843a53052444bc3240e4300fb8ad2bcad04839211e5dda02707"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "4dc66b89d41b77ec9f1b9456ed9d6e757f758160cdcb38b816952f91a31d6a38"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "7133ded210139b54b34c858097217ccd897bbaab0760c43a79f864dac774cb2e"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "8b6a74458c69d822b0c5c72734986317e7fd87a3f88aeb96cfc6e69523d4283b"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "46ce830181f3ee40420495699a31ee2ec2cdb4b74890b4c80a7b23ac9754a14b"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "a2b256b298573417281aa605cf18454ff7a771e2152c1561de97163410c5f459"
+        },
+        "11": {
+          "bytes": 344452,
+          "sha256": "c96786126a76728aff6efcc6e47d3494d5cd0c60224367ef0d03f8ce50274b5f"
+        }
+      },
+      "receivedBytes": 11878788,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1982-n04-djv",
+        "digest": "sha256:681bc589beeca993a6e86f5fb1f0764651c445e1ee77b5286a64beade97a9911",
+        "title": "Nauka_i_jizn',1982,N04.[djv].zip",
+        "pushedAt": "2026-10-08T03:56:33.718Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:56:34.503Z",
+        "pulledSha256": "91ec4da1213a8e0418cd3eafb52613fd967d39f51d2af91f5f86a666ee07ec88",
+        "ok": true,
+        "digest": "sha256:681bc589beeca993a6e86f5fb1f0764651c445e1ee77b5286a64beade97a9911"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "91ec4da1213a8e0418cd3eafb52613fd967d39f51d2af91f5f86a666ee07ec88",
+      "publishedAt": "2026-10-08T03:56:34.505Z"
     },
     "nij-2011-n01-pdf": {
       "id": "nij-2011-n01-pdf",
@@ -59209,23 +59555,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',2011,N01.%5Bpdf%5D.zip",
       "labelText": "«Наука и жизнь», 2011, №01.",
       "labelSize": "Pdf-11.3M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11821673,
+      "etag": "\"5cc3b462-b46269\"",
+      "lastModified": "Sat, 27 Apr 2019 01:46:10 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "7dc6ad5cdd8e2bdefc089158aacd26943d4bc71b642aec5b3c1df38b8d460a96"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "fab12b33ae31e11e282a07808d441267143d47326d8390d40050e5195827ba57"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "31f41ae83beb899f1000d881c129db372a24937ec588d544aeaf9e90d178abd4"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "c79eb5e67d959f952964a63e819b9c6bbb7336cae7a759b63799e5e9607def57"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "707f0718045a6848a27cbb922f9f9dd5f32cfbed77a8a55143678f78175b15c4"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "95a8818de6ffe2189e371a3930356e8743f689945d5f56f72edd55105a08948f"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "555988b17cbcb10cee20ea0e395df2f1de922327c2b50f5fc65d13405839077f"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "c893ce3b9660ba98602f5b4e29e2fbb84defe26895d17ba74c56bfe634e1db88"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "b7016eb0cf3be0282063c313c0c418498018abc1bf503ec879dc38ef51c98f52"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "1d662796ea0b45036c2eba2d5484b67a59f438a5d975f1d0a51e6376e63a9570"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "6a280bbcfae197a3792c330bd895805c3350ad4489dd4afd78010811d19d1dd7"
+        },
+        "11": {
+          "bytes": 287337,
+          "sha256": "536339344097e03ff2a3c4aa39c144457b56dbf522ad248d76eb78d5e375314d"
+        }
+      },
+      "receivedBytes": 11821673,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-2011-n01-pdf",
+        "digest": "sha256:6cda7e896ec189fee1a3001fdd2b6b235b2d2879f10d4c7711a38ee3bc766fa6",
+        "title": "Nauka_i_jizn',2011,N01.[pdf].zip",
+        "pushedAt": "2026-10-08T03:57:05.822Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:57:06.495Z",
+        "pulledSha256": "c3b4a50871bb50f3da2ed29b1f95ac6c82cac2e2cd52802c1a2eae4158e14ae6",
+        "ok": true,
+        "digest": "sha256:6cda7e896ec189fee1a3001fdd2b6b235b2d2879f10d4c7711a38ee3bc766fa6"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "c3b4a50871bb50f3da2ed29b1f95ac6c82cac2e2cd52802c1a2eae4158e14ae6",
+      "publishedAt": "2026-10-08T03:57:06.497Z"
     },
     "nij-1976-n08-djv": {
       "id": "nij-1976-n08-djv",
@@ -59236,23 +59644,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1976,N08.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1976, №08.",
       "labelSize": "Djv-11.4M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11948294,
+      "etag": "\"5cc3b0b5-b65106\"",
+      "lastModified": "Sat, 27 Apr 2019 01:30:29 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "30e1184ae43a6cc29d1a1b013eaebb2f984b7a6075f42064cc38adc56beed7ee"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "f9017ed0e893c210956feb78408207fea9b1de9fc83b5a9ae3c192bb27746089"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "cbab4dedd64e25b098b48d1741dc2848e934efcdf438b4a82f8bdc8f26cb8626"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "f148971a95800af28cf30fa8a56c108ce7c04a10a3d0b0138b7724b0322e0e24"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "e94650fd37aab25d89a75711997038a73837e21a32323b3dbf83942048c71e3c"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "075123ea118a8296cbfdd76b277d2657205da7fe8480eab738f6882e5fd04233"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "1c365d3ef33d912779294af1f46e1f3757ef740895636026cc14301ad332c00b"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "d4eef28c52ae6b60b633c86b313d72b614e8edda57ce02640169a0f31ddd557b"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "f5b27696cbf8dfbfb654917ce90d855a1ccb72b4391ef4393296359017dd44e4"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "c9e77832c87c2c1d2e9b76031d2b1a2e4fe1b3d28ae6831d43aa4bdc074e4ffc"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "3fa8c0a2055ee9861ce533883db938ccccf9843654cf381a02e31c6703daa513"
+        },
+        "11": {
+          "bytes": 413958,
+          "sha256": "58b70ca5e93000171a1b3ace18a6ead90ef4a6770d5f84bd37da7b64af69db12"
+        }
+      },
+      "receivedBytes": 11948294,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-1976-n08-djv",
+        "digest": "sha256:5ffa8e014efe4b1cb66d4382162ad2867ad46f31ebe251253ccc3ec07ca981b1",
+        "title": "Nauka_i_jizn',1976,N08.[djv].zip",
+        "pushedAt": "2026-10-08T03:57:16.696Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:57:17.438Z",
+        "pulledSha256": "ddf935b3843cb4603caa53817eed29e655551711f20014d8dca39c3706ce8e61",
+        "ok": true,
+        "digest": "sha256:5ffa8e014efe4b1cb66d4382162ad2867ad46f31ebe251253ccc3ec07ca981b1"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "ddf935b3843cb4603caa53817eed29e655551711f20014d8dca39c3706ce8e61",
+      "publishedAt": "2026-10-08T03:57:17.440Z"
     },
     "nij-2009-n03-djv": {
       "id": "nij-2009-n03-djv",
@@ -59263,23 +59733,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',2009,N03.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 2009, №03.",
       "labelSize": "Djv-11.4M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11964636,
+      "etag": "\"5cc3b3a9-b690dc\"",
+      "lastModified": "Sat, 27 Apr 2019 01:43:05 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "0b1dabd60297a79eea529205534e1206c0a962e1f9d64c900c69728a17e4bf71"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "8cefdf255344f8b05e8c522b1e36f9e3756dbc0888e57ae211fe16b248abe70f"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "f88220673d79746dc7956aa632a11f9310dc42c99b53d622a4611f6b61d444bc"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "86b50481fefa8f79df1884c6a9e1e6759b223b7970ada85b3d4a6014a63ebe65"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "f46a08c52105b4e29cee847862714cae9be466042622c857b8af4c4f1f6344f9"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "ae777bde01ae06a3872cb793ccb54973a5cf52b084ece7e0d6808701a512eb5d"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "a58a54c93e83ca9dc5c0c480f21b7a7a4db8fab160e51a3cac0fb5d59e4689c3"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "648a90cb4f18fb8b37d954623284a9cc15b871f3fddb1c1056bfbd93dd98973c"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "b791731b9e551027f7d94e5b2d1aa8ec244a2010cce4c760a9f78e8d43fb7967"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "7d68e0c1af2d8997d9dd3d9b08e26f591ce6b2b006d0fa8c837efddd685fa256"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "093ca5a89e6f2b673c05f844c7ff41af25b7f564c1fa6f0730625a65f54149ed"
+        },
+        "11": {
+          "bytes": 430300,
+          "sha256": "3daf99fe5dd4b97314be0625db18fc41475c7c61b0c61457165554c62070ef0c"
+        }
+      },
+      "receivedBytes": 11964636,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-2009-n03-djv",
+        "digest": "sha256:dcdcd258ad9b0abfc7b275fbf574985cae75b023e18082688e583c2c0449a060",
+        "title": "Nauka_i_jizn',2009,N03.[djv].zip",
+        "pushedAt": "2026-10-08T03:57:47.987Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:57:48.689Z",
+        "pulledSha256": "fcabb857f7b0be0bd9b16dff28ed06dfe6a396dfdb9fc5d445729c8471b4a747",
+        "ok": true,
+        "digest": "sha256:dcdcd258ad9b0abfc7b275fbf574985cae75b023e18082688e583c2c0449a060"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "fcabb857f7b0be0bd9b16dff28ed06dfe6a396dfdb9fc5d445729c8471b4a747",
+      "publishedAt": "2026-10-08T03:57:48.697Z"
     },
     "nij-2009-n11-djv": {
       "id": "nij-2009-n11-djv",
@@ -59290,23 +59822,85 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',2009,N11.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 2009, №11.",
       "labelSize": "Djv-11.4M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11931758,
+      "etag": "\"5cc3b41a-b6106e\"",
+      "lastModified": "Sat, 27 Apr 2019 01:44:58 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "cd60c0c1f6740585412b31c26320fc59ff554727809a316eb70216a3e652413f"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "e9053f882c8380346665f515ad886c40ad827098e318f6f302529e9741339665"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "7ea88b7dae52efcf1d65a048d28002076e99330571579c5ae1bced8e9383098f"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "eca97f2a9483980ce58b966345d73594b2e50130859f02bd9f5ee41b27839e24"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "69d2bdcf5b33d402a6335aa0c9a889d2b51984ffe4aaff75f60ae42bf0c5c29a"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "73be26a0c714e1d0335438a9f561e99f642e0e73362cbee2e65e425144915f3b"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "3a291331019bd9b614407cebad7a10c3f3907ca9a753a973500730c4be4b31e1"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "a97cbedceaed853d6639a59e33c7b529647457df30b02c6fee6da97835894c04"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "754e768e44cb155d06cbf92140868d4b2517a81170084d4b6d95d84a2cc685c1"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "593fb0495b2cf40f1c04171a1cd472536c7ed2ef6658f3e1432a9512366811b3"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "1e1399cdfab369a6b86951c6152cb873dda3fadeadc64dff165929aefa277417"
+        },
+        "11": {
+          "bytes": 397422,
+          "sha256": "e934c380d7ad3fb3be4a17fa57ab90447c2f87d29f1b56d59425a98406e79e76"
+        }
+      },
+      "receivedBytes": 11931758,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 13,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-2009-n11-djv",
+        "digest": "sha256:4a296d655b188f693080f25aa7a8f886fd1bcf704a89dd6d0a38139854a3ad7c",
+        "title": "Nauka_i_jizn',2009,N11.[djv].zip",
+        "pushedAt": "2026-10-08T03:58:23.737Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "verified": {
+        "at": "2026-10-08T03:58:24.420Z",
+        "pulledSha256": "c18cec80ad6f58d412ac89c2035ce90e72665f19fac0242df4328a5f8888a0d3",
+        "ok": true,
+        "digest": "sha256:4a296d655b188f693080f25aa7a8f886fd1bcf704a89dd6d0a38139854a3ad7c"
+      },
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0,
+      "sha256": "c18cec80ad6f58d412ac89c2035ce90e72665f19fac0242df4328a5f8888a0d3",
+      "publishedAt": "2026-10-08T03:58:24.422Z"
     },
     "nij-2010-n07-pdf": {
       "id": "nij-2010-n07-pdf",
@@ -59317,23 +59911,54 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',2010,N07.%5Bpdf%5D.zip",
       "labelText": "«Наука и жизнь», 2010, №07.",
       "labelSize": "Pdf-11.4M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 11977717,
+      "etag": "\"5cc3b444-b6c3f5\"",
+      "lastModified": "Sat, 27 Apr 2019 01:45:40 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "864598a349c2138bfce31b2289f3b54cb0c8284163b5a1919db9a2d6fc7608cf"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "0711ede91cc860c3f30181a8837dc3374edc90406b8f401e8d7a704c170d8732"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "a5a7272524c07851706df18032560faea6b667d9a46e57deed30307c4a294404"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "669fba8cb3b8d889256faa0d5f607a962b979941d7216c150f6d7519500f6ef0"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "d4ae3bd06932746261e94768f68d5d4c89b60c62816c18b1d26fe842aa5f28d1"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "3b90e4e6a025c9db2319dfa221d08f2f08034ae01a6f4b80a9fa2b59b0c501c0"
+        }
+      },
+      "receivedBytes": 6291456,
+      "status": "in_progress",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 7,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:3b9ba2db2d104bb8cf8cd1d611b36cf4273a88be9cc67381e7a75c9febc1d8d6",
+        "bytes": 6291456,
+        "chunks": 6,
+        "at": "2026-10-08T03:58:37.838Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0
     },
     "nij-1966-n01-djv": {
       "id": "nij-1966-n01-djv",
@@ -59344,23 +59969,54 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1966,N01.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1966, №01.",
       "labelSize": "Djv-11.5M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 12074013,
+      "etag": "\"5cc3ac18-b83c1d\"",
+      "lastModified": "Sat, 27 Apr 2019 01:10:48 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "6c02498677f2b4b9d9b7e1f66bbe489a9b0d1bba09654e93c30040efb5d45f28"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "89f8acc3104cb643d7b79ca482936f27e4ded9c6ccd7d405fecccef8ea6ad7d4"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "c9608644278441266e8dd1608d013c7e855a27d6edd9e3fc9d1a250bf4529c8c"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "33455727bebb101898de7613368b656c3ec4a759fa57faf8375844ab8e26ddb3"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "930291b78bcc0248dd2b688cb0c0492bf7bc70ce899881c6ac4f215ac946523a"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "e8a0d76c0139de08a8a78aa696a0d979b53ee90e48d73a67cfd440e28035f877"
+        }
+      },
+      "receivedBytes": 6291456,
+      "status": "in_progress",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 7,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:9ef263e695c71ec887107963699dc911e4079a2f12eea3c05858fb14f83c8d6a",
+        "bytes": 6291456,
+        "chunks": 6,
+        "at": "2026-10-08T03:58:39.943Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0
     },
     "nij-1975-n06-djv": {
       "id": "nij-1975-n06-djv",
@@ -59371,23 +60027,54 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1975,N06.%5Bdjv%5D.zip",
       "labelText": "«Наука и жизнь», 1975, №06.",
       "labelSize": "Djv-11.5M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 12034665,
+      "etag": "\"5cc3b092-b7a269\"",
+      "lastModified": "Sat, 27 Apr 2019 01:29:54 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "45ddc10479bfd2c551420f74fc89914b8711a55e94c9590e7404df3f8b3c6237"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "9e4e708a3a1b3565dcf3a42091b7ab4fce7ab99b26dd07a63dfbde4107f77373"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "7f9b69d1485662b461bdf5d95ace7eb3752295bfedc8294d51b80667f6a68fa7"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "7250b1d01e5769009c7fa9e3258516cf0f14f77a8f3e7a468bab7e5b4018f94d"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "e404250cd0eba0f149430bb721e1deb3048accc0e512f8ae01c1c78c780abc1b"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "e41c66dd5bd11699e3648757275260287320ed57123dcd3a98c16b3f93d72489"
+        }
+      },
+      "receivedBytes": 6291456,
+      "status": "in_progress",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 7,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:1093adaa72aaa5e9b27dfa1fc9b196da641de03a0fb7e55ed224c927269f249b",
+        "bytes": 6291456,
+        "chunks": 6,
+        "at": "2026-10-08T03:58:41.999Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0
     },
     "nij-1976-n04-djv": {
       "id": "nij-1976-n04-djv",
@@ -69920,11 +70607,11 @@
       "updatedAt": "2026-10-07T21:54:14.914Z"
     }
   },
-  "updatedAt": "2026-10-08T03:51:19.906Z",
+  "updatedAt": "2026-10-08T03:58:42.184Z",
   "origin": {
     "reachable": true,
     "reason": null,
-    "checkedAt": "2026-10-08T03:47:11.583Z",
+    "checkedAt": "2026-10-08T03:52:21.945Z",
     "probeUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1904,N01.%5Bpdf%5D.zip"
   }
 }
