@@ -1,0 +1,55 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-36",
+  "at": "2026-10-08T12:55:06.881Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T14:45:32.395Z",
+  "acknowledgement": "Acknowledged user-authorized four-hour continuation; supervisor deadline 2026-10-08T14:45:32.395Z is authoritative.",
+  "baseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "remainingRegularFiles": 237,
+    "remainingSupplementaryArchives": 5
+  },
+  "now": {
+    "publishedFiles": 935,
+    "publishedBytes": 11659453893,
+    "remainingFiles": 177,
+    "durablePartialBytes": 119537664,
+    "inProgressFiles": 6
+  },
+  "batches": [
+    81,
+    82
+  ],
+  "newPublishedFilesThisIteration": 17,
+  "newPublishedBytesThisIteration": 622237766,
+  "master": {
+    "discoveryStatus": "complete",
+    "publishedFiles": 935,
+    "files": 1112,
+    "issues": 941,
+    "years": 87,
+    "problems": [],
+    "verifiedByImmutablePull": true,
+    "tag": "nij-master-index",
+    "digest": "sha256:0f6fe7a6f6ffa9b75a0c624db85d56b6a7e83ece4066e39f2bdf0bfc47ff7ebf",
+    "bytes": 1470667,
+    "catalogDigest": "sha256:efc0df42918cc8183ce6020311a03a528b6e72fb0983682b6baa833393a4ec41",
+    "checkpointDigest": "sha256:a2ae6f00cc7174daa9ad677daa1e69db8c73b88cf3b500a172a79713d23fdcf0",
+    "verifiedAt": "2026-10-08T12:55:26.819Z",
+    "publishedFlagMismatches": 0
+  },
+  "preserved60": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d"
+  },
+  "nextActions": [
+    "Continue long bounded smallest-first retrieve batches (remaining 177 files + 5 supplementary archives).",
+    "Re-verify master index by immutable digest."
+  ]
+}

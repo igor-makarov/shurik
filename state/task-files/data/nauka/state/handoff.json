@@ -1,23 +1,19 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-32",
-  "at": "2026-10-08T06:59:00.000Z",
+  "iteration": "5-36",
+  "at": "2026-10-08T12:55:54.705Z",
   "scope": "all-years",
-  "deadline": "2026-10-08T07:00:00.000Z",
-  "published": 875,
-  "remaining": 237,
-  "bytesPublished": 9777993649,
-  "blocker": null,
+  "deadline": "2026-10-08T14:45:32.395Z",
   "status": "IN_PROGRESS",
+  "published": 935,
+  "remaining": 177,
+  "bytesPublished": 11659453893,
+  "durablePartialBytes": 119537664,
+  "partialFiles": 6,
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-08T06:56:23.437Z",
-    "note": "Origin publ.lib.ru up; iteration 4-32 batch 71 exit 0, zero transfer failures, 48/6, aggregate <=512 KiB/s."
-  },
-  "resumeState": {
-    "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 92274688,
-    "partialFiles": 4
+    "lastChecked": "2026-10-08T12:55:54.705Z",
+    "note": "Origin publ.lib.ru up; batches 81-82 exit 0, zero transfer failures, 48/6, aggregate <=512 KiB/s."
   },
   "discovery": {
     "status": "complete",
@@ -30,22 +26,38 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
-    "bytes": 1449580,
-    "catalogDigest": "sha256:95161ace752374acb268065fcbc9200c6f14d96e9951fa8555b0762dba60e272",
-    "checkpointDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
+    "digest": "sha256:0f6fe7a6f6ffa9b75a0c624db85d56b6a7e83ece4066e39f2bdf0bfc47ff7ebf",
+    "bytes": 1470667,
+    "catalogDigest": "sha256:efc0df42918cc8183ce6020311a03a528b6e72fb0983682b6baa833393a4ec41",
+    "checkpointDigest": "sha256:a2ae6f00cc7174daa9ad677daa1e69db8c73b88cf3b500a172a79713d23fdcf0",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T06:58:34.083Z",
+    "verifiedAt": "2026-10-08T12:55:54.705Z",
     "publishedFlagMismatches": 0,
-    "problems": [],
-    "verified": "verify-master.mjs immutable-digest pull OK (published 875, status complete)"
+    "problems": []
   },
-  "codeChangesThisIteration": [],
-  "publishedThisIteration": 0,
-  "newDurableBytesThisIteration": 24117248,
-  "nextAction": "Continue bounded retrieve batches; remaining 237 files, 4 with durable GHCR partials.",
-  "notes": "Iteration 4-32 (final short window): batch 71 ran 112975ms, published 0 fresh files (875 unchanged) but checkpointed 4 in-progress files to GHCR partials, raising verified durable partial bytes 68157440 -> 92274688 (+24117248, 88 MiB across 4 files). Master index republished + re-verified by immutable pull (sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1, 1449580 B, status complete, 0 mismatches). Discovery complete (87 years, 941 issues, 1112 files). 48/6, aggregate <=512 KiB/s. Resumption point: run `node tools/nauka/cli.mjs retrieve` (bounded, ~95s budget) then re-verify master."
+  "publishedThisIteration": [
+    "nij-1961-n11-pdf",
+    "nij-1963-n09-pdf",
+    "nij-1963-n05-pdf",
+    "nij-1950-n12-pdf",
+    "nij-1956-n06-pdf",
+    "nij-1950-n04-pdf",
+    "nij-1950-n01-pdf",
+    "nij-1970-n01-djv",
+    "nij-1963-n06-pdf",
+    "nij-1963-n08-pdf",
+    "nij-1963-n12-pdf",
+    "nij-1963-n03-pdf",
+    "nij-1949-n12-djv",
+    "nij-1949-n12-pdf",
+    "nij-1970-n01-pdf",
+    "nij-1974-n12-pdf",
+    "nij-1904-n0104-pdf"
+  ],
+  "newPublishedBytesThisIteration": 622237766,
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 177 files + 5 supplementary archives. 6 files hold durable GHCR partials (119,537,664 B).",
+  "notes": "Iteration 5-36: batches 81-82 published 17 fresh files (918->935), +622,237,766 origin bytes; remaining 177. Master index verified by immutable pull (0 mismatches). Note: 10 synthesized flat-listing entries (nij-2014-n01..n09, nij-2015-n01) have null size and are never attempted by the engine (attempts=0) - investigate as a possible catalog gap/404 to mark rather than retry."
 }
