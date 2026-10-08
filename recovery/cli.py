@@ -383,7 +383,6 @@ def dump_media_hosts(fetcher: Fetcher, hosts: Optional[list[str]] = None,
         keys |= stems_of(url)
     refs: dict[str, int] = {}
     pending: dict[str, int] = {}
-    index = StemIndex()
     for url in urls:
         host = host_of(url)
         refs[host] = refs.get(host, 0) + 1
@@ -392,9 +391,13 @@ def dump_media_hosts(fetcher: Fetcher, hosts: Optional[list[str]] = None,
             url = img.get("media_url", "")
             if not url or img.get("sha256"):
                 continue
-            stem = stem_prefix(url)
-            if stem and index.has(stem):
-                continue
+            # Weight by *unresolved images*, not by stems the stem index has
+            # not answered. Once every stem is answered (the usual state after a
+            # `stem-scan` pass) a host dump's remaining value is finding a
+            # hashed-directory or other-shard capture the per-stem prefix query
+            # cannot see, for any unresolved image on the host. The old weight
+            # was all zeros then, so `--priority pending` ordered hosts
+            # alphabetically and never favoured the ones with work.
             host = host_of(url)
             pending[host] = pending.get(host, 0) + 1
     targets = hosts or [h for h in refs if HOST_RE.match(h or "") and h not in SHARED_MEDIA_HOSTS]

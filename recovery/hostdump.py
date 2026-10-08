@@ -43,7 +43,14 @@ from .cdx import Capture, CaptureIndex, parse_cdx_json, within_cutoff
 from .media import HOST_RE, key_of
 
 CDX_ENDPOINT = "https://web.archive.org/cdx/search/cdx"
+# Raw rows are bulky and stay in the ignored working tree. The *cursor* is tiny
+# and is what makes a walk resumable, so it lives under `data/cdx/`, which the
+# `crawl-state` registry checkpoint carries. Before this split the cursor sat
+# beside the dump in `data/work/`, outside every checkpoint path, so a fresh
+# runner restarted each host walk from page 1 (and a `page=`-era "complete"
+# verdict was never replaced by a real resume-key walk).
 DUMP_DIR = os.path.join(config.DATA_DIR, "work", "hostdumps")
+CURSOR_DIR = os.path.join(config.CDX_DIR, "hostdump-cursors")
 PAGE_LIMIT = 1000
 # Filters every dumped row is scoped to. Recorded with the cursor so a later run
 # never resumes a dump that was taken with different filters as if it were the
@@ -62,7 +69,7 @@ def _now() -> str:
 def dump_paths(host: str) -> tuple[str, str]:
     host = host.strip().lower()
     return (os.path.join(DUMP_DIR, f"{host}.jsonl"),
-            os.path.join(DUMP_DIR, f"{host}.cursor.json"))
+            os.path.join(CURSOR_DIR, f"{host}.cursor.json"))
 
 
 def decode_resume_key(value: str) -> str:
@@ -104,7 +111,7 @@ def read_cursor(host: str) -> dict:
 
 def write_cursor(host: str, rec: dict) -> None:
     _, cur = dump_paths(host)
-    os.makedirs(DUMP_DIR, exist_ok=True)
+    os.makedirs(CURSOR_DIR, exist_ok=True)
     rec = dict(rec)
     rec["host"] = host.strip().lower()
     rec["scope"] = SCOPE

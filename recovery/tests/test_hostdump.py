@@ -44,8 +44,11 @@ class HostDumpTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.dir = os.path.join(self.tmp.name, "dumps")
         self._old = hostdump.DUMP_DIR
+        self._old_cursor = hostdump.CURSOR_DIR
         hostdump.DUMP_DIR = self.dir
+        hostdump.CURSOR_DIR = os.path.join(self.dir, "cursors")
         self.addCleanup(setattr, hostdump, "DUMP_DIR", self._old)
+        self.addCleanup(setattr, hostdump, "CURSOR_DIR", self._old_cursor)
 
     def test_resume_key_round_trip(self):
         raw = b"com,tumblr,media,78)/zzz/tumblr_y.jpg\t20140101"
@@ -111,7 +114,7 @@ class HostDumpTests(unittest.TestCase):
 
     def test_cursor_from_other_filters_is_not_resumed(self):
         _, cur_path = hostdump.dump_paths("40.media.tumblr.com")
-        os.makedirs(self.dir, exist_ok=True)
+        os.makedirs(os.path.dirname(cur_path), exist_ok=True)
         with open(cur_path, "w", encoding="utf-8") as fh:
             json.dump({"host": "40.media.tumblr.com",
                        "scope": {"matchType": "domain", "limit": 2000}, "rows": 9}, fh)
