@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "4-18",
-  "at": "2026-10-08T00:01:00.000Z",
+  "iteration": "4-19",
+  "at": "2026-10-08T00:22:30.000Z",
   "deadline": "2026-10-08T07:00:00.000Z",
   "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -22,10 +22,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 341,
-  "publishedBytesNow": 3886241576,
-  "remainingFilesNow": 771,
-  "masterIndexDigestNow": "sha256:aa1daaa43b692b9d4a18608d6dd2042accb6a366871da268fd18d8cb10a0a96c",
+  "publishedFilesNow": 384,
+  "publishedBytesNow": 4201730305,
+  "remainingFilesNow": 728,
+  "masterIndexDigestNow": "sha256:aecfb46b75055148a92434da587c62a0199f3a5164f7e724b3eb6f74aa882229",
   "discovery": {
     "scope": "all-years",
     "status": "complete",
@@ -149,9 +149,9 @@
       2029
     ],
     "note": "Discovery is complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ_stat'i_.html and the .Online redirect are visited and every flat-listing file is represented.",
-    "inProgressFiles": 94,
+    "inProgressFiles": 51,
     "pendingFiles": 677,
-    "publishedFiles": 341
+    "publishedFiles": 384
   },
   "totals": {
     "years": 87,
@@ -163,8 +163,9 @@
     "Era pages traversed: 1890-93, 1904-05, 1934-39, 1940-49, 1950-59, 1960-69, 1970-79, 1980-89, 1990-99, 2000-09, 2010-19, 2020-29 plus the archive directory.",
     "60 original 1934-1939 files remain published and are included in the master index unchanged.",
     "Iteration 4-18: repaired discoverySummary to truthfully report 'complete'; master index now labelled complete.",
-    "Iteration 4-18: batches 23-24 published 64 files (277->341), +452,733,756 durable bytes; master index refreshed and verified by immutable digest."
+    "Iteration 4-18: batches 23-24 published 64 files (277->341), +452,733,756 durable bytes; master index refreshed and verified by immutable digest.",
+    "Iteration 4-19: batches 25-26 published 43 fresh files (341->384), +315,488,729 durable bytes; master index refreshed and verified by immutable digest (aecfb46b, status complete)."
   ],
-  "masterIndexVerifiedAt": "2026-10-08T00:00:26.637Z",
+  "masterIndexVerifiedAt": "2026-10-08T00:22:24.051Z",
   "verifiedPartialBytesNow": 0
 }

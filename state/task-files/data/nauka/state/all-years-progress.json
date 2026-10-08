@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-18",
-  "at": "2026-10-08T00:01:00.000Z",
+  "iteration": "4-19",
+  "at": "2026-10-08T00:22:30.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -47,48 +47,50 @@
       2028,
       2029
     ],
-    "note": "status is now 'complete': all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ_stat'i_.html and the .Online redirect are visited and represented (genericUnrepresented=0). discover.mjs discoverySummary was repaired this iteration: previously it could only ever return 'incomplete' or 'provisional'."
+    "note": "complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and represented (genericUnrepresented=0)."
   },
   "publication": {
-    "publishedFiles": 341,
-    "publishedIssues": 259,
-    "publishedBytes": 3886241576,
-    "remainingFiles": 771,
-    "inProgressEntries": 94,
+    "publishedFiles": 384,
+    "publishedIssues": 301,
+    "publishedBytes": 4201730305,
+    "remainingFiles": 728,
+    "inProgressEntries": 51,
     "inProgressWithDurableChunks": 0,
     "verifiedPartialBytes": 0,
     "knownBytesTotal": 4588225255,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 281,
-    "newPublishedBytesBeyondBaseline": 1574611286
+    "newPublishedBeyondBaseline": 324,
+    "newPublishedBytesBeyondBaseline": 1890100015
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:aa1daaa43b692b9d4a18608d6dd2042accb6a366871da268fd18d8cb10a0a96c",
-    "bytes": 1263102,
-    "catalogDigest": "sha256:8006df22241ed8a642caa209f8824f8ae89af27dfb65b81ab1a0dd0c094a6bf3",
-    "checkpointDigest": "sha256:09feaa9db90ebf06cc74b3414958db9627061fafe6cef7e0a27f6eaef62bdb38",
+    "digest": "sha256:aecfb46b75055148a92434da587c62a0199f3a5164f7e724b3eb6f74aa882229",
+    "bytes": 1277782,
+    "catalogDigest": "sha256:93b53b9178c480fbc3596ac7cd5d17782a8ea21983b0b38de482d816d4986786",
+    "checkpointDigest": "sha256:e632dc1ab25dcb0b2b5408ff13c225514f3e82660b1ef546350656b6ef2d48d3",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T00:00:26.637Z",
+    "verifiedAt": "2026-10-08T00:22:24.051Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
-  "batch23": {
-    "record": "data/nauka/state/batches/2026-10-08T000100-batch23.json",
-    "publishedThisBatch": 38,
-    "durableNewBytes": 266527295,
-    "elapsedMs": 659588
-  },
-  "batch24": {
-    "record": "data/nauka/state/batches/2026-10-08T000100-batch24.json",
-    "publishedThisBatch": 26,
-    "durableNewBytes": 186206461,
-    "elapsedMs": 369098
-  },
+  "batchesThisIteration": [
+    {
+      "record": "data/nauka/state/batches/2026-10-08T0016-batch25.json",
+      "publishedThisBatch": 24,
+      "durableNewBytes": 174872574,
+      "elapsedMs": 393687
+    },
+    {
+      "record": "data/nauka/state/batches/2026-10-08T0022-batch26.json",
+      "publishedThisBatch": 19,
+      "durableNewBytes": 140616155,
+      "elapsedMs": 381669
+    }
+  ],
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 771 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 728 files.",
     "Refresh and re-verify the master index by immutable digest after each batch."
   ]
 }
