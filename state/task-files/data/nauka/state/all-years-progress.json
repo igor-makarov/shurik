@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-28",
-  "at": "2026-10-08T05:12:00.000Z",
+  "iteration": "4-29",
+  "at": "2026-10-08T05:42:20.920Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -22,17 +22,11 @@
     "eraPagesTotal": 12,
     "eraPagesPending": 0,
     "eraPagesFailed": 0,
-    "outOfScopePagesVisited": 2,
     "directoryVisited": true,
-    "genericFiles": 1112,
-    "genericUnrepresented": 0,
-    "supplementaryFiles": 5,
+    "years": 87,
+    "issues": 941,
     "totalFiles": 1112,
     "totalIssues": 941,
-    "years": 87,
-    "inProgressFiles": 5,
-    "pendingFiles": 321,
-    "publishedFiles": 791,
     "knownGapYears": [
       1891,
       1892,
@@ -50,61 +44,59 @@
       2028,
       2029
     ],
-    "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed."
+    "note": "Discovery complete; preserved from prior iterations, unchanged this iteration."
   },
   "publication": {
-    "publishedFiles": 791,
-    "publishedIssues": 650,
-    "publishedBytes": 8266891943,
-    "remainingFiles": 321,
-    "inProgressEntries": 5,
-    "inProgressWithDurableChunks": 5,
-    "verifiedPartialBytes": 35651584,
-    "controlBranchPrefixBytes": 35651584,
-    "knownBytesTotal": 8354424804,
+    "publishedFiles": 823,
+    "publishedBytes": 8756785663,
+    "remainingFiles": 289,
+    "inProgressFiles": 4,
+    "inProgressDurableBytes": 16777216,
+    "pendingFiles": 285,
+    "unavailableFiles": 0,
+    "verifiedPartialBytes": 16777216,
+    "controlBranchPrefixBytes": 16777216,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 731,
-    "newPublishedBytesBeyondBaseline": 5955261653,
-    "note": "verifiedPartialBytes = GHCR-checkpointed chunk workspace(s); controlBranchPrefixBytes = control-branch prefix capped at 8 MiB/file."
+    "newPublishedBeyondBaseline": 763,
+    "newPublishedBytesBeyondBaseline": 6445155373
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:58e10ce7d3533ab737c4ff0917fc0f4ce3bb6883c49cf2e9d1644db054020f4d",
-    "bytes": 1420080,
-    "catalogDigest": "sha256:4daa5bd46198948fd859d409658364832a11cc238a0095fa3e9290e5ac8bc419",
-    "checkpointDigest": "sha256:5a1dd1d6dee5c021e23e410ed976dc5615a67b0b468bc7caf732ce91ae177a2b",
+    "digest": "sha256:e258be5e3a72997756a44113cb4d811af721d29f4078bed53b556d984149f408",
+    "bytes": 1431289,
+    "catalogDigest": "sha256:29a541815564d7635b4b66e13e3abf4380c93c9b0ecbdc2022a001bb0817778c",
+    "checkpointDigest": "sha256:e041754ede4bb7b19b9278e0dcf2bcdbbe54ab93af7e9b3737a23ce13633239a",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T05:11:21.904Z",
+    "verifiedAt": "2026-10-08T05:40:57.428Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "batchesThisIteration": [
     {
-      "batch": 59,
-      "published": 14,
-      "durableNewBytes": 185819207,
-      "elapsedMs": 483332,
+      "batch": 61,
+      "published": 20,
+      "durableNewBytes": 298665964,
+      "elapsedMs": 738224,
       "concurrency": 48,
       "fileConcurrency": 6
     },
     {
-      "batch": 60,
-      "published": 10,
-      "durableNewBytes": 137696131,
-      "elapsedMs": 419572,
-      "concurrency": 64,
-      "fileConcurrency": 8
+      "batch": 62,
+      "published": 12,
+      "durableNewBytes": 191227756,
+      "elapsedMs": 467598,
+      "concurrency": 48,
+      "fileConcurrency": 6
     }
   ],
-  "newPublishedThisIteration": 24,
-  "newDurableBytesThisIteration": 323515338,
-  "throughputNote": "Bounded concurrency raised from 24/4 to 48/6 then 64/8 while the aggregate token bucket stayed <=512 KiB/s; measured ~368 KiB/s then ~328 KiB/s (vs ~213 KiB/s at 24/4). No origin failures; both batches exit 0.",
+  "newPublishedThisIteration": 32,
+  "throughputNote": "Batches 61-62 at 48/6 measured ~405 and ~409 KiB/s (best observed); aggregate token bucket <=512 KiB/s; both exit 0, zero transfer failures.",
   "blockers": [],
   "nextActions": [
-    "Continue bounded retrieve batches for the remaining 321 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 289 files.",
     "Refresh+re-verify master index by immutable digest after each batch."
   ]
 }

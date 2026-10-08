@@ -1,0 +1,59 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "4-29",
+  "at": "2026-10-08T05:41:30.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "acknowledgedScopeChange": true,
+  "discovery": {
+    "status": "complete",
+    "eraPages": "12/12",
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "note": "Discovery unchanged this iteration; preserved from prior iterations."
+  },
+  "publication": {
+    "publishedFiles": 823,
+    "publishedIssues": 676,
+    "remainingFiles": 289,
+    "publishedBytes": 8756785663,
+    "newBeyond60BaselineFiles": 763,
+    "newBeyond60BaselineBytes": 6445155373,
+    "verifiedPartialBytes": 16777216,
+    "durablePartialFiles": 4
+  },
+  "baseline60": {
+    "files": 60,
+    "bytes": 2311630290,
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "preserved": true,
+    "note": "old NAUKA_STATUS 60/60 is only the completed 1934-1939 subset, not the all-years objective"
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:e258be5e3a72997756a44113cb4d811af721d29f4078bed53b556d984149f408",
+    "bytes": 1431289,
+    "catalogDigest": "sha256:29a541815564d7635b4b66e13e3abf4380c93c9b0ecbdc2022a001bb0817778c",
+    "checkpointDigest": "sha256:e041754ede4bb7b19b9278e0dcf2bcdbbe54ab93af7e9b3737a23ce13633239a",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T05:40:57.428Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "batchesThisIteration": [
+    { "batch": 61, "published": 20, "bytes": 298665964, "elapsedMs": 738224, "exitCode": 0 },
+    { "batch": 62, "published": 12, "bytes": 191227756, "elapsedMs": 467598, "exitCode": 0 }
+  ],
+  "totalsThisIteration": {
+    "published": 32,
+    "bytes": 489893720,
+    "throughputNote": "~405-409 KiB/s aggregate at 48/6; below the 512 KiB/s cap; zero origin failures"
+  },
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 289 files."
+}
