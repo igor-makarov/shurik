@@ -15,6 +15,7 @@ import {
   CHECKPOINT_TAG,
   SUBSET_YEARS,
   entryTag,
+  supplementaryId,
 } from './config.mjs';
 
 function fileStatus(state, id) {
@@ -92,7 +93,7 @@ export function buildMasterIndex({ manifest, state, generatedAt, baseline = {} }
   }
 
   const supplementary = ((manifest.directory && manifest.directory.supplementary) || []).map((filename) => {
-    const id = `nij-supp-${filename.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+    const id = supplementaryId(filename);
     const eff = state.files[id] || null;
     return {
       id,

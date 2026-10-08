@@ -20,6 +20,7 @@ import {
   entryTag,
   checkpointTag,
   resolveScanUrl,
+  supplementaryId,
 } from './config.mjs';
 import { decodeIndex, manifestFromHtml, parseIndex } from './parse-index.mjs';
 import { discoverAll } from './discover.mjs';
@@ -411,7 +412,7 @@ function remainingCount(state, manifest) {
 function supplementaryEntries(manifest) {
   const supp = (manifest && manifest.directory && manifest.directory.supplementary) || [];
   return supp.map((filename) => {
-    const id = `nij-supp-${filename.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+    const id = supplementaryId(filename);
     const fm = /\.\[([^\]]+)\]/i.exec(filename);
     const format = fm ? fm[1].split(/[,\s]+/)[0].toLowerCase() : 'zip';
     const ym = /(19|20)\d{2}/.exec(filename);

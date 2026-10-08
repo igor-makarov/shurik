@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-08T21:21:34.274Z
+Updated: 2026-10-08T21:25:21.630Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
@@ -113,9 +113,9 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
 
 ## Master index
-- canonical tag: `nij-master-index` @ `sha256:68c891179ac406e4407c7dd2c6b42c7cd66cf28ca533f1a292de2b39f364a041`
-- catalog tag: `nij-master-catalog` @ `sha256:e1c00058ea58a898e0ec316e58238ab11873ea78f89e6ed64467f75b8a75f4c3`
-- checkpoint tag: `nij-master-checkpoint` @ `sha256:7bc2230260aa710738a71b9401b42b56894c726b52490c82343614d8c9750dac`
+- canonical tag: `nij-master-index` @ `sha256:5f5626e24384a67628f749b8b831d6770e945a48c8fa9b449d78dc043c76a967`
+- catalog tag: `nij-master-catalog` @ `sha256:560de925ad198651246d7e5c40bc1235ad3eac352c075b43eae74c4502d25b2e`
+- checkpoint tag: `nij-master-checkpoint` @ `sha256:9b02f50cd029d7f29fb3f0066ab3b6708e114cbcfa2c6f77ccd58b426f802666`
 - discovery status: complete; files 1112, published 1061, issues 941
 
 ## Registry
@@ -1249,14 +1249,14 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-08T21:16:37.402Z -> reachable
+- last probe: 2026-10-08T21:22:25.433Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 20261008T204845-batch119.json: pub 1049->1053, durable +246151823 B, failure: none
 - 20261008T205544-batch120.json: pub 1053->1057, durable +254964823 B, failure: none
 - 20261008T205916-batch121.json: pub 1057->1057, durable +0 B, failure: none
 - 20261008T211434-batch122.json: pub 1057->1061, durable +260132604 B, failure: none
+- 20261008T212139-batch123.json: pub 1061->1061, durable +0 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
@@ -1264,7 +1264,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
-- per-file in-flight chunk cap: 6 (fair pool sharing)
+- per-file in-flight chunk cap: 12 (fair pool sharing)
 
 ## Commands (list / pull / resume)
 ```bash

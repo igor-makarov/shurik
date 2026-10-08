@@ -193,8 +193,23 @@ export function entryId({ year, issue, format }) {
   return `nij-${year}-${norm}-${format}`;
 }
 
+// Stable id for an archive-directory supplementary "Izbrannoe" archive. The
+// id is derived from the FULL filename so the two 2001 volumes (V.13 and V.14)
+// never collapse to the same identity. Shared with master-index.mjs so the
+// published index and the retrieval engine agree on state keys.
+export function supplementaryId(filename) {
+  return `nij-supp-${String(filename)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')}`;
+}
+
 export function entryTag(entry) {
-  return entryId(entry).toLowerCase();
+  // Prefer the manifest id when present. The year+issue+format derivation
+  // collides for the multi-volume supplementary archives (e.g. the two 2001
+  // Izbrannoe volumes) and would let one push overwrite the other's tag; the
+  // id is unique per file and equals entryId() for every regular entry.
+  return (entry && entry.id ? entry.id : entryId(entry)).toLowerCase();
 }
 
 export function checkpointTag(id) {
