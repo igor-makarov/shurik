@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-51",
-  "at": "2026-10-08T20:59:00.000Z",
+  "iteration": "5-52",
+  "at": "2026-10-08T21:30:00.000Z",
   "deadline": null,
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 1057,
-  "publishedBytesNow": 17932555261,
-  "remainingFilesNow": 55,
-  "masterIndexDigestNow": "sha256:2f964308c3fba35103a70533a31ae99fe3056b58367c18d9e3e93f3706fa3ce8",
+  "publishedFilesNow": 1061,
+  "publishedBytesNow": 18192687865,
+  "remainingFilesNow": 51,
+  "masterIndexDigestNow": "sha256:af9fd6ce0e753147455a9c34373974af49954cb6050e906cd46e6117ba369cca",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,8 +41,8 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 55,
-    "publishedFiles": 1057,
+    "pendingFiles": 51,
+    "publishedFiles": 1061,
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
     "inProgressFiles": 4,
     "knownGapYears": [
@@ -108,5 +108,9 @@
     "acknowledgedAt": "2026-10-08T19:57:10.000Z"
   },
   "deadlineNote": "Supervisor control.json monitorCompletion token nauka-user-until-complete-1791481729758 sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. Obeyed; no self-set deadline.",
-  "masterIndexBytesNow": 1513406
+  "masterIndexBytesNow": 1513406,
+  "supplementaryPublishedNow": 5,
+  "supplementaryBytesNow": 70214939,
+  "supplementaryStatusNow": "complete",
+  "noteNow": "5-52: 4 regular files finished from GHCR checkpoints (+260,132,604 B); all 5 supplementary Izbrannoe archives published (+70,214,939 B) via new dedicated path; master index republished+verified (af9fd6ce, 0 problems)."
 }

@@ -119508,30 +119508,96 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn'._Izbrannoe._V.14.(2001).%5Bpdf%5D.zip",
       "labelText": "Nauka_i_jizn'._Izbrannoe._V.14.(2001).[pdf].zip",
       "labelSize": null,
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 13020758,
+      "etag": "\"5cc3b4ec-c6ae56\"",
+      "lastModified": "Sat, 27 Apr 2019 01:48:28 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "6a5645a364564d98024d1bfa5164d27c71941886c869fcd38515b9076b9a8d55"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "caba4fb73874fd0354d306886c19ae6d8a54d843a98a4239508da2766082b9b1"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "58f6774f3e3377cda997922ce5fc30299ee1cc0fe34e335b882ff59504aa23da"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "704d1e720e55a7678d1c634b5dd3744780734442b42d4424df4388db0674f794"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "9ae1b75c3f7506d5763c64f33f2e3d51f5538b19efd258ac0f210185a981dce3"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "9546b97bb0e66f872c99988a0679162789c9df0b9c66d054e4e2c72527a3d906"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "8f57d6c5c563014f18276081303970c239a4efa94913ea40c1b622877de2a055"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "f512cbda16a589a677a6c99397b548b55e28a585d67f2968b69d2013b0a3fa69"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "d7fd698df095f578a4050bf32f4151f643e1150613eab2b3202472054161cabf"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "dec7d200bd754a815e499c9fddeaf74e9ad7b3d732bbd886960fd4be0b3aabfb"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "48ed95851176a89c545105b38fdd2bebab30005885bda12a1b1fa06a831b4d91"
+        },
+        "11": {
+          "bytes": 1048576,
+          "sha256": "cfe1b9d81fc23a2ddfa969b1142ec6041b46d642903c50596c2d34598e262f1e"
+        },
+        "12": {
+          "bytes": 437846,
+          "sha256": "9333fe5e472335ecbd071134fc4d9c9ed09dfeb45a8f6c397d144c1bfad5175c"
+        }
+      },
+      "receivedBytes": 13020758,
+      "status": "published",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 14,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
-      "ghcr": null,
+      "ghcr": {
+        "tag": "nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip",
+        "digest": "sha256:f369f06a9bbcbd77b76464118cf470bfe52581b54ce365e0a7f24e5915c25a9d",
+        "title": "Nauka_i_jizn'._Izbrannoe._V.14.(2001).[pdf].zip",
+        "pushedAt": "2026-10-08T21:28:37.950Z"
+      },
       "checkpoint": null,
-      "verified": null,
-      "updatedAt": "2026-10-08T21:22:25.469Z"
+      "verified": {
+        "at": "2026-10-08T21:28:38.294Z",
+        "pulledSha256": "6df603e5c7d5fbbce3bd11faea67e006e5c662422ab80684f6b0c0538a49dd7c",
+        "ok": true,
+        "digest": "sha256:f369f06a9bbcbd77b76464118cf470bfe52581b54ce365e0a7f24e5915c25a9d"
+      },
+      "updatedAt": "2026-10-08T21:22:25.469Z",
+      "cleanupPasses": 0,
+      "sha256": "6df603e5c7d5fbbce3bd11faea67e006e5c662422ab80684f6b0c0538a49dd7c",
+      "publishedAt": "2026-10-08T21:28:38.297Z"
     }
   },
-  "updatedAt": "2026-10-08T21:25:21.600Z",
+  "updatedAt": "2026-10-08T21:28:38.570Z",
   "origin": {
     "reachable": true,
     "reason": null,
-    "checkedAt": "2026-10-08T21:22:25.433Z",
+    "checkedAt": "2026-10-08T21:27:32.278Z",
     "probeUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip"
   }
 }

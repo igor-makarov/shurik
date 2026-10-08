@@ -1,16 +1,20 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "5-50",
-  "at": "2026-10-08T20:29:42.717Z",
+  "iteration": "5-52",
+  "at": "2026-10-08T21:30:00.000Z",
   "scope": "all-years",
   "deadline": null,
   "status": "IN_PROGRESS",
-  "published": 1049,
-  "remaining": 63,
-  "bytesPublished": 17431438615,
+  "publishedRegular": 1061,
+  "publishedSupplementary": 5,
+  "publishedTotal": 1066,
+  "remainingRegular": 51,
+  "bytesPublishedRegular": 18192687865,
+  "bytesPublishedSupplementary": 70214939,
+  "bytesPublishedTotal": 18262902804,
   "origin": {
     "reachable": true,
-    "note": "publ.lib.ru reachable; batches 116-118 exit 0; no non-transient failures; nothing concatenated from a full 200."
+    "note": "publ.lib.ru reachable; batches 122-125 exit 0; measured ~370 KiB/s aggregate; nothing concatenated from a full 200."
   },
   "discovery": {
     "status": "complete",
@@ -24,49 +28,46 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:9d414d6a96b354056965165471fe095ab8db3afa398fcab44132a8250c26064b",
-    "bytes": 1510607,
-    "catalogDigest": "sha256:f52aff650a960bdcbe4543099f87808b2e811fe4b982c167551a83d5c0c706b3",
+    "digest": "sha256:af9fd6ce0e753147455a9c34373974af49954cb6050e906cd46e6117ba369cca",
+    "bytes": 1515489,
+    "catalogDigest": "sha256:d98c05ed1ef9ecf6d4fb9bba754f06a0d638a1b96dde485f03f094e211969b8d",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:6ff00738d5ee5ac54d6ce7d93af789c6b2dfb3653308cef1702dc5808c86315e",
+    "checkpointDigest": "sha256:83a31a0a6662a3b9c4e1c015b55c9186a9fd583908076934be31e710689396bc",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "note": "verification by immutable pull pending this boundary; must be done first thing next iteration",
-    "verifiedContentSha256": "sha256:0f14763f3fed98feed12cee97fe435439f6b62084b6cff683c39eb10b3315ffd",
     "verificationProblems": 0,
-    "verifiedAt": "2026-10-08T20:29:55.851Z",
+    "verifiedAt": "2026-10-08T21:28:55.266Z",
     "receipt": "data/nauka/state/master-index-verification.json"
   },
   "durablePartials": {
     "inProgress": [
-      "nij-1970-n07-djv",
-      "nij-1964-n12-pdf",
-      "nij-1970-n03-pdf",
-      "nij-1967-n07-djv"
+      "nij-1940-n0809-pdf",
+      "nij-1964-n01-pdf",
+      "nij-1964-n10-pdf",
+      "nij-1970-n05-djv"
     ],
-    "ghcrCheckpointBytes": 121634816,
+    "ghcrCheckpointBytes": 155189248,
     "note": "immutable GHCR chunk checkpoints restorable by digest"
   },
   "supplementary": {
     "count": 5,
-    "published": 0,
-    "status": "pending",
-    "ids": [
-      "nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip",
-      "nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip",
-      "nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip",
-      "nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip",
-      "nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip"
-    ],
-    "note": "archive-directory supplementary Izbrannoe archives; need a dedicated retrieval path since they are not in manifest.entries"
+    "published": 5,
+    "status": "complete",
+    "note": "All 5 Izbrannoe archives published via the new dedicated NAUKA_SUPPLEMENTARY path; tag-collision defect fixed."
   },
-  "newPublishedThisIteration": 8,
-  "newPublishedBytesThisIteration": 463547758,
-  "batchesThisIteration": [
-    116,
-    117,
-    118
+  "newPublishedThisIteration": {
+    "regularFiles": 4,
+    "regularBytes": 260132604,
+    "supplementaryFiles": 5,
+    "supplementaryBytes": 70214939
+  },
+  "batchesThisIteration": [122, 123, 124, 125],
+  "codeChanges": [
+    "tools/nauka/cli.mjs: NAUKA_SUPPLEMENTARY=1|only dedicated supplementary retrieval path.",
+    "tools/nauka/config.mjs: entryTag prefers unique manifest id; supplementaryId() shared helper.",
+    "tools/nauka/master-index.mjs: use shared supplementaryId().",
+    "tools/nauka/test/tags.test.mjs: 4 new tests (suite 34/34)."
   ],
-  "nextAction": "Restore+finish the 4 checkpointed in_progress files (nij-1970-n07-djv, nij-1964-n12-pdf, nij-1970-n03-pdf, nij-1967-n07-djv) from immutable GHCR digests (no re-download); then smallest-first the 59 pending regular files; then add+run a dedicated retrieval path for the 5 supplementary Izbrannoe archives; verify the master index by immutable pull.",
-  "notes": "Iteration 5-50: batches 116-118. Batch 116 restored+finished the 4 saved checkpointed partials (227,850,914 B). Batch 117 published 4 more (235,696,844 B). Batch 118 (short tail) opened/advanced 4 new in_progress files holding durable GHCR chunk checkpoints (121,634,816 B). Published 1041->1049 this iteration (+463,547,758 B). Master index republished by batch 118 to sha256:9d414d6a..., 1,510,607 B, status complete. 5 supplementary archives still need a dedicated retrieval path."
+  "nextAction": "Restore+finish the 4 in_progress regular files (nij-1940-n0809-pdf, nij-1964-n01-pdf, nij-1964-n10-pdf, nij-1970-n05-djv; ~104 MB remaining, checkpoints durable) from immutable GHCR digests; then smallest-first the 47 pending regular files; re-verify the master index by immutable pull.",
+  "notes": "Iteration 5-52: batches 122-125. Batch 122 restored+finished the 4 previously checkpointed partials (260,132,604 B). Batch 123 was bandwidth-limited (0 published, +111 MB durable checkpoint bytes). Batches 124-125 published all 5 supplementary Izbrannoe archives (70,214,939 B) via the new path. Published regular 1057->1061 (+260,132,604 B). Master index republished to sha256:af9fd6ce..., 1,515,489 B, status complete, verified by immutable pull with 0 problems."
 }

@@ -1,0 +1,177 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-52",
+  "phase": "progress",
+  "at": "2026-10-08T21:30:00.000Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json (codex/shurik-control/nauka-20261007, token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The earlier four-hour window (monitorContinuation newDeadline 2026-10-08T14:45:32.395Z, extended to 18:00) is superseded. I obey the supervisor control; set none of my own.",
+  "acknowledgement": "Acknowledged the user-authorized continuation and the current supervisor completion-driven control. Preserved the completed 1934-1939 subset and every existing file id/receipt. Work done inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "masterTag": "nij-master-index",
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
+    "note": "Saved four-hour-continuation boundary; preserved, not redownloaded."
+  },
+  "now": {
+    "publishedRegularFiles": 1061,
+    "publishedRegularBytes": 18192687865,
+    "publishedSupplementaryFiles": 5,
+    "publishedSupplementaryBytes": 70214939,
+    "publishedTotalFiles": 1066,
+    "publishedTotalBytes": 18262902804,
+    "remainingRegularFiles": 51,
+    "inProgressFiles": 4,
+    "pendingFiles": 47,
+    "inProgressReceivedBytes": 155189248,
+    "durableChunkCheckpointBytes": 155189248,
+    "durableGitPartialBytes": 0,
+    "knownBytes": 18192687865
+  },
+  "inProgressIds": [
+    "nij-1940-n0809-pdf",
+    "nij-1964-n01-pdf",
+    "nij-1964-n10-pdf",
+    "nij-1970-n05-djv"
+  ],
+  "batchesThisIteration": [
+    {
+      "batch": 122,
+      "budgetMs": 540000,
+      "cleanupMs": 120000,
+      "elapsedMs": 519006,
+      "exitCode": 0,
+      "published": 4,
+      "publishedBytes": 260132604,
+      "publishedThisBatch": [
+        "nij-1940-n04-pdf",
+        "nij-1967-n07-pdf",
+        "nij-1970-n07-pdf",
+        "nij-1956-n10-pdf"
+      ],
+      "note": "restored the 4 saved GHCR chunk checkpoints and finished/published them; also started 4 new files"
+    },
+    {
+      "batch": 123,
+      "budgetMs": 330000,
+      "cleanupMs": 90000,
+      "elapsedMs": 302277,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "note": "bandwidth-limited: advanced the 4 in_progress files by ~111 MB durable (GHCR checkpoints); none reached completion within the 330 s budget"
+    },
+    {
+      "batch": 124,
+      "budgetMs": 210000,
+      "cleanupMs": 60000,
+      "elapsedMs": 182524,
+      "exitCode": 0,
+      "published": 4,
+      "publishedBytes": 57284181,
+      "publishedThisBatch": [
+        "nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip",
+        "nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip",
+        "nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip",
+        "nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip"
+      ],
+      "note": "NEW dedicated supplementary path (NAUKA_SUPPLEMENTARY=only); first real retrieval of the archive-directory Izbrannoe archives"
+    },
+    {
+      "batch": 125,
+      "budgetMs": 110000,
+      "cleanupMs": 45000,
+      "elapsedMs": 72051,
+      "exitCode": 0,
+      "published": 1,
+      "publishedBytes": 13020758,
+      "publishedThisBatch": [
+        "nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip"
+      ],
+      "note": "completed supplementary 5/5 under the corrected unique tag (tag-collision fix)"
+    }
+  ],
+  "newPublishedThisIteration": {
+    "regularFiles": 4,
+    "regularBytes": 260132604,
+    "supplementaryFiles": 5,
+    "supplementaryBytes": 70214939
+  },
+  "durableProgressThisIteration": {
+    "regularPublishedBytes": 260132604,
+    "supplementaryPublishedBytes": 70214939,
+    "inProgressCheckpointBytes": 155189248,
+    "note": "Batch 123 published 0 but added ~111 MB of durable GHCR-checkpointed chunk bytes for the 4 in_progress files."
+  },
+  "codeChanges": {
+    "supplementaryRetrievalPath": "tools/nauka/cli.mjs: NAUKA_SUPPLEMENTARY=1|only retrieves the 5 archive-directory Izbrannoe archives through the same chunked engine; synthetic entries keyed by supplementaryId().",
+    "tagCollisionFix": "tools/nauka/config.mjs: entryTag() now prefers the unique manifest id; supplementaryId() shared by cli.mjs + master-index.mjs. Fixes the two-2001-volumes tag collision (V.13/V.14).",
+    "tests": "tools/nauka/test/tags.test.mjs added; full nauka suite 34/34 pass."
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:af9fd6ce0e753147455a9c34373974af49954cb6050e906cd46e6117ba369cca",
+    "bytes": 1515489,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:d98c05ed1ef9ecf6d4fb9bba754f06a0d638a1b96dde485f03f094e211969b8d",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:83a31a0a6662a3b9c4e1c015b55c9186a9fd583908076934be31e710689396bc",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T21:28:55.266Z",
+    "verificationProblems": 0,
+    "verifiedCounts": {
+      "years": 87,
+      "issues": 941,
+      "files": 1112,
+      "publishedFiles": 1061,
+      "supplementaryPublished": 5
+    },
+    "receipt": "data/nauka/state/master-index-verification.json"
+  },
+  "resumeIndex": {
+    "tag": "nij-master-checkpoint",
+    "digest": "sha256:83a31a0a6662a3b9c4e1c015b55c9186a9fd583908076934be31e710689396bc",
+    "receipt": "data/nauka/state/master-index-verification.json"
+  },
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetIndexDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "subsetCheckpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "supplementary": {
+    "count": 5,
+    "published": 5,
+    "bytes": 70214939,
+    "status": "complete",
+    "tags": [
+      "nij-1998-supplementary-pdf",
+      "nij-2003-supplementary-djv",
+      "nij-2000-supplementary-pdf",
+      "nij-2001-supplementary-pdf",
+      "nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip"
+    ],
+    "note": "V.13 keeps its original tag nij-2001-supplementary-pdf (published before the fix); V.14 uses the unique id tag. Both digests are immutable in the master index."
+  },
+  "throughputNote": "Origin reachable; aggregate <=512 KiB/s; batches exit 0; per-file GHCR round-trip verify ok; nothing concatenated from a full 200. Measured ~370 KiB/s aggregate.",
+  "nextActions": [
+    "Continue bounded smallest-first retrieve batches for the 4 in_progress files (need ~104 MB more) then the 47 pending regular files.",
+    "Keep republishing+verifying the master index by immutable digest after batches.",
+    "Respect origin cooldowns; use fileConcurrency to balance completion vs durable partial progress."
+  ],
+  "blockers": [],
+  "supplementaryTagResolve": {
+    "at": "2026-10-08T21:30:31.615Z",
+    "files": 5,
+    "problems": 0,
+    "receipt": "data/nauka/state/supplementary-tag-resolve.json",
+    "note": "all 5 supplementary tags resolve to their state-recorded immutable digests"
+  }
+}
