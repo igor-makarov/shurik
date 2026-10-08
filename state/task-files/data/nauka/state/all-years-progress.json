@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "5-42",
-  "at": "2026-10-08T16:13:30.000Z",
+  "iteration": "5-43",
+  "at": "2026-10-08T16:43:00.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T18:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -26,64 +26,50 @@
     "note": "Discovery complete; not restarted this iteration."
   },
   "publication": {
-    "publishedFiles": 985,
-    "publishedBytes": 14002944857,
-    "remainingFiles": 127,
-    "pendingFiles": 118,
-    "inProgressFiles": 9,
+    "publishedFiles": 999,
+    "publishedBytes": 14717489211,
+    "remainingFiles": 113,
+    "pendingFiles": 105,
+    "inProgressFiles": 8,
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
-    "newPublishedBeyondBaseline": 110,
-    "newPublishedBytesBeyondBaseline": 4224951208
+    "newPublishedBeyondBaseline": 124,
+    "newPublishedBytesBeyondBaseline": 4939495562
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:a4cc10c89b47eb03f2b8b91a1c6fe68dd256ab703bfad29370f0ab719f1a42e2",
-    "bytes": 1488247,
-    "catalogDigest": "sha256:7a19015d5deff477c17c736f9e8185880d2f3881a1ec5b3932e3ba5604c74037",
-    "checkpointDigest": "sha256:3ec6b4294d77f8733a026161d48953a4ea7820437533eefd54aa3a0cce6fe001",
+    "digest": "sha256:5690145e1a3aa30a3a27a7fd8fd675fe69da6244a83180bda98eab85af01ff4a",
+    "bytes": 1493138,
+    "pulledFileSha256": "19190be6c16d7e8e33e117c7b3d305a3c9db1aa5bc71f3495f815ab756134c3b",
+    "catalogDigest": "sha256:cb473fadd6c955eded7ef0f227877838321014e51201fb3405addad4a1b5f326",
+    "checkpointDigest": "sha256:d3248de81f2392969e1a2b92e6fa4909c5976a74ba58e0bdc7440b0c597c6535",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0,
     "publishedByBatch": true
   },
   "batchesThisIteration": [
-    {
-      "batch": 92,
-      "transferBudgetMs": 640000,
-      "published": 8,
-      "publishedBytes": 402654789,
-      "elapsedMs": 641524,
-      "exitCode": 0,
-      "note": "restore+finish+publish 8 prior in_progress from immutable GHCR checkpoints"
-    },
-    {
-      "batch": 93,
-      "transferBudgetMs": 460000,
-      "published": 0,
-      "publishedBytes": 0,
-      "durablePartialBytesAdded": 328182838,
-      "elapsedMs": 504684,
-      "exitCode": 0,
-      "note": "no publish; +328 MiB durable chunk checkpoints; nij-1972-n06 chunk-complete ready to publish"
-    }
+    {"batch": 95, "published": 2, "publishedBytes": 102131597, "elapsedMs": 632312, "exitCode": 0, "note": "restore+finish 2 checkpointed in_progress"},
+    {"batch": 96, "published": 6, "publishedBytes": 307459771, "elapsedMs": 506707, "exitCode": 0, "note": "finish+publish 6 near-complete in_progress"}
   ],
   "newPublishedThisIteration": 8,
-  "newDurableBytesThisIteration": 402654789,
-  "newDurablePartialBytesThisIteration": 328182838,
-  "throughputNote": "Batches 92-93 at 64/8; origin reachable, zero non-transient failures; one transient body-stream abort retried.",
+  "newDurableBytesThisIteration": 409591368,
+  "newDurablePartialBytesThisIteration": 122683392,
+  "throughputNote": "Batches 95-96 at 64/8; origin reachable, zero non-transient failures; a few transient body-stream aborts retried.",
   "blockers": [],
   "nextActions": [
-    "Publish chunk-complete nij-1972-n06-pdf from durable chunks without re-download.",
-    "Continue bounded smallest-first batches for the remaining 118 pending regular files.",
+    "Batch 97: restore the 8 checkpointed in_progress partials from immutable GHCR digests and finish/publish them.",
+    "Continue bounded smallest-first batches for the remaining 105 pending regular ~50-90MB PDFs.",
     "Publish the 5 supplementary archives when regular files complete.",
     "Republish and verify the master index by immutable digest after batches."
   ],
   "durablePartials": {
-    "ghcrCheckpointFiles": 9,
-    "ghcrCheckpointBytes": 344960054,
+    "ghcrCheckpointFiles": 8,
+    "ghcrCheckpointBytes": 122683392,
     "gitPrefixFiles": 2,
     "gitPrefixBytes": 16777216,
-    "note": "9 in_progress files have immutable GHCR chunk checkpoints (344,960,054 B); git prefixes (16,777,216 B) for nij-1972-n05-pdf + nij-1972-n10-pdf"
+    "note": "8 in_progress files hold immutable GHCR chunk checkpoints (122,683,392 B); git prefixes for nij-1972-n05-pdf + nij-1972-n10-pdf"
   }
 }
