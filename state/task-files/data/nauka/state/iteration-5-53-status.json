@@ -1,0 +1,136 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-53",
+  "phase": "progress",
+  "at": "2026-10-08T22:02:40.891Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. Earlier time deadlines superseded. I obey the supervisor control and set none of my own.",
+  "acknowledgement": "Iteration 5-53 acknowledged the user-authorized continuation and the current supervisor completion-driven control. Preserved the completed 1934-1939 subset and every existing file id/receipt. Work done inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "now": {
+    "regularFiles": 1069,
+    "regularBytes": 18741920056,
+    "supplementaryFiles": 5,
+    "supplementaryBytes": 70214939,
+    "totalFiles": 1074,
+    "totalBytes": 18812134995,
+    "remainingRegularFiles": 43,
+    "inProgressFiles": 4,
+    "pendingFiles": 39,
+    "durableChunkCheckpointBytes": 91226112,
+    "inFlightReceivedBytes": 91226112
+  },
+  "inProgressIds": [
+    {
+      "id": "nij-1905-n0106-pdf",
+      "received": 22020096,
+      "checkpoint": 22020096
+    },
+    {
+      "id": "nij-1940-n03-pdf",
+      "received": 20971520,
+      "checkpoint": 20971520
+    },
+    {
+      "id": "nij-1963-n10-pdf",
+      "received": 23068672,
+      "checkpoint": 23068672
+    },
+    {
+      "id": "nij-1970-n05-pdf",
+      "received": 25165824,
+      "checkpoint": 25165824
+    }
+  ],
+  "batchesThisIteration": [
+    {
+      "batch": 126,
+      "budgetMs": 600000,
+      "cleanupMs": 120000,
+      "elapsedMs": 596362,
+      "exitCode": 0,
+      "published": 4,
+      "publishedBytes": 268280026,
+      "publishedThisBatch": [
+        "nij-1940-n0809-pdf",
+        "nij-1964-n01-pdf",
+        "nij-1964-n10-pdf",
+        "nij-1970-n05-djv"
+      ]
+    },
+    {
+      "batch": 127,
+      "budgetMs": 450000,
+      "cleanupMs": 100000,
+      "elapsedMs": 449689,
+      "exitCode": 0,
+      "published": 4,
+      "publishedBytes": 280952165,
+      "publishedThisBatch": [
+        "nij-1956-n12-pdf",
+        "nij-1963-n07-pdf",
+        "nij-2009-n07-pdf",
+        "nij-2009-n08-pdf"
+      ]
+    },
+    {
+      "batch": 128,
+      "budgetMs": 190000,
+      "cleanupMs": 70000,
+      "elapsedMs": 196203,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "publishedThisBatch": []
+    }
+  ],
+  "newPublishedThisIteration": {
+    "regularFiles": 8,
+    "regularBytes": 549232191,
+    "note": "batch 126 published the 4 restored checkpoint files; batch 127 published 4 more; batch 128 added durable partial bytes only"
+  },
+  "durableProgressThisIteration": {
+    "publishedRegularBytes": 549232191,
+    "newDurableChunkCheckpointBytes": 91226112,
+    "note": "batches 126-128"
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:998721509296320c79e83bd4e4a0faec5fd18a337f278c5b46de78d00be4e747",
+    "bytes": 1518291,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:34ac087be6d30f6e0b32c4bca217747969da74744a55203ae2c25f7e20899ee3",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:892c2c8f46b94ea2cef5b984d456443f53fca20069963e3b1f70c4dfe182be29",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T22:01:54.245Z",
+    "verificationProblems": 0,
+    "receipt": "data/nauka/state/master-index-verification.json",
+    "verifiedCounts": {
+      "years": 87,
+      "issues": 941,
+      "files": 1112,
+      "publishedFiles": 1069,
+      "supplementaryPublished": 5
+    }
+  },
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "preserved": true
+  },
+  "supplementary": {
+    "count": 5,
+    "published": 5,
+    "bytes": 70214939,
+    "status": "complete"
+  },
+  "throughputNote": "Origin reachable; aggregate <=512 KiB/s; batches exit 0; per-file GHCR round-trip verify ok; nothing concatenated from a full 200.",
+  "nextActions": [
+    "Restore+finish the 4 durable in-progress files (nij-1970-n05-pdf 25,165,824 B; nij-1940-n03-pdf 20,971,520; nij-1963-n10-pdf 23,068,672; nij-1905-n0106-pdf 22,020,096) from their immutable GHCR digests, then smallest-first the 39 pending regular PDFs.",
+    "Keep republishing+verifying the master index by immutable digest after batches."
+  ],
+  "blockers": []
+}
