@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-48",
-  "at": "2026-10-08T19:29:10.705Z",
+  "iteration": "5-49",
+  "at": "2026-10-08T19:57:10.000Z",
   "deadline": null,
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 1034,
-  "publishedBytesNow": 16578065906,
-  "remainingFilesNow": 78,
-  "masterIndexDigestNow": "sha256:e35e43700f74f27b7960160e5e4cadf0cc160f3e445d88a6e46b8d8450dcc477",
+  "publishedFilesNow": 1041,
+  "publishedBytesNow": 16967890857,
+  "remainingFilesNow": 71,
+  "masterIndexDigestNow": "sha256:219310a10140ad70e905011757819a2d763dab0f3455b2c635b681c97a03faa6",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,10 +41,10 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 75,
-    "publishedFiles": 1034,
+    "pendingFiles": 69,
+    "publishedFiles": 1041,
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
-    "inProgressFiles": 3,
+    "inProgressFiles": 2,
     "knownGapYears": [
       1891,
       1892,
@@ -62,7 +62,7 @@
       2028,
       2029
     ],
-    "remainingFiles": 78
+    "remainingFiles": 71
   },
   "totals": {
     "years": 87,
@@ -87,10 +87,11 @@
     "Iteration 5-45 (final): batches 100-101 published 4 files (1010->1014), +210,779,483 durable bytes; batches 102-103 added +103,809,024 B durable partial chunks (no publish). 98 remain (94 pending + 4 in_progress). Master index nij-master-index @ sha256:23cdad95e1ed42022d605029fbdf25cadf118b6d76eb6ebc35dead7864937162 (1498337 B, status complete) independently verified by immutable pull (0 problems).",
     "Iteration 5-46: continuation acknowledged; supervisor deadline now null (completion-driven, token nauka-user-until-complete-1791481729758). True current state 1014 published / 15,500,678,516 B; 98 remain (94 pending + 4 in_progress).",
     "Iteration 5-46 (final): completion-driven continuation acknowledged (deadline null, token nauka-user-until-complete-1791481729758). Batch 104 restored+published 4 checkpointed in_progress files (+212,659,816 B); batches 105-106 advanced 5 new in_progress files to 106,954,752 B durable GHCR chunk checkpoints (no publish). 1018 published / 15,713,338,332 B; 94 remain (89 pending + 5 in_progress). Master index nij-master-index @ sha256:3eb54ce25eb890c68ea934a87f1025bbfb9205f215a7c3037696e33b1636dc11 (1499758 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years).",
-    "Iteration 5-48: batches 111-112 published 5 files (1030->1034), +272,550,447 B. nij-1964-n04-pdf restored+finished from its immutable GHCR checkpoint; 3 in_progress files now hold durable GHCR chunk checkpoints (122,683,392 B). Master index nij-master-index @ sha256:e35e43700f74f27b7960160e5e4cadf0cc160f3e445d88a6e46b8d8450dcc477 (1505338 B, status complete) verified by immutable pull; file sha256 ed4d577c0704cda04393b10ad9ce69a5c00e4b2b130a7137cc669b34a104d523; 0 problems; 1112 files/941 issues/87 years. 78 regular files remain (3 in_progress + 75 pending); 5 supplementary Izbrannoe archives still need a dedicated retrieval path (not in manifest.entries)."
+    "Iteration 5-48: batches 111-112 published 5 files (1030->1034), +272,550,447 B. nij-1964-n04-pdf restored+finished from its immutable GHCR checkpoint; 3 in_progress files now hold durable GHCR chunk checkpoints (122,683,392 B). Master index nij-master-index @ sha256:e35e43700f74f27b7960160e5e4cadf0cc160f3e445d88a6e46b8d8450dcc477 (1505338 B, status complete) verified by immutable pull; file sha256 ed4d577c0704cda04393b10ad9ce69a5c00e4b2b130a7137cc669b34a104d523; 0 problems; 1112 files/941 issues/87 years. 78 regular files remain (3 in_progress + 75 pending); 5 supplementary Izbrannoe archives still need a dedicated retrieval path (not in manifest.entries).",
+    "Iteration 5-49: completion-driven continuation acknowledged (deadline null). Batches 113-114 restored 7 saved GHCR chunk checkpoints (276,824,064 B) with no re-download and published 7 files (1034->1041), +389,824,951 durable origin bytes. 2 in_progress files hold durable GHCR chunk checkpoints (25,165,824 B: nij-1940-n02-pdf 18,874,368 B; nij-2009-n05-pdf 6,291,456 B). 71 remain (69 pending + 2 in_progress); 5 supplementary Izbrannoe archives still need a dedicated retrieval path. Master index nij-master-index @ sha256:219310a10140ad70e905011757819a2d763dab0f3455b2c635b681c97a03faa6 (1,507,772 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years); all 7 newly published per-file tags resolve to their recorded immutable ghcr.digest with engine round-trip verify.ok true."
   ],
-  "masterIndexVerifiedAt": "2026-10-08T19:29:10.705Z",
-  "verifiedPartialBytesNow": 122683392,
+  "masterIndexVerifiedAt": "2026-10-08T19:57:10.000Z",
+  "verifiedPartialBytesNow": 25165824,
   "continuation": {
     "authorized": true,
     "note": "Iteration 5-46 acknowledges the user-authorized completion-driven continuation (deadline null). Scope all-years. Completion target: 1112 regular files + 5 supplementary archives published with a truthful all-years master index.",
@@ -102,8 +103,8 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
     "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
-    "iteration": "5-48",
-    "acknowledgedAt": "2026-10-08T19:29:10.705Z"
+    "iteration": "5-49",
+    "acknowledgedAt": "2026-10-08T19:57:10.000Z"
   },
   "deadlineNote": "Supervisor control.json monitorCompletion (token nauka-user-until-complete-1791481729758, newDeadline null) removed the time deadline; completion-driven. Supersedes the expired 2026-10-08T18:00:00.000Z deadline. Not extended by the model."
 }

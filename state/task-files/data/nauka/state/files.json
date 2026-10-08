@@ -111560,21 +111560,45 @@
         "17": {
           "bytes": 1048576,
           "sha256": "d0b3c1e77569f79e74d6902c9cd1c0f87c0fa3a158f672b8362c953c9177fa25"
+        },
+        "18": {
+          "bytes": 1048576,
+          "sha256": "5c9894aefa925e14f381a31626d4ac3e600b820f78bf166f49f0a322a2a6183c"
+        },
+        "19": {
+          "bytes": 1048576,
+          "sha256": "f9399ccf0065e42e4c81b29632d35acca827e0da0b5e69d6b384d513baf5f7ed"
+        },
+        "20": {
+          "bytes": 1048576,
+          "sha256": "485f958189e07d65ac1b543c6df4790f86bc602d4bfd09eab8ac029f3f5780e0"
+        },
+        "21": {
+          "bytes": 1048576,
+          "sha256": "0fc87f33324a5d25a61a30037464ae86500c81c07338ec29f5f08c1a6036df59"
+        },
+        "22": {
+          "bytes": 1048576,
+          "sha256": "525cd7e9bc70471d81c30713ad249195c825530a755734e61b6e8a16302673af"
+        },
+        "23": {
+          "bytes": 1048576,
+          "sha256": "159cac7c01607d13d6733872d1a9cc836cbf2629dcfd6271dba656ee792f4c07"
         }
       },
-      "receivedBytes": 18874368,
+      "receivedBytes": 25165824,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 20,
-      "retries": 1,
-      "lastError": "request failed: idle timeout after 30000ms",
-      "lastErrorAt": "2026-10-08T19:50:31.967Z",
+      "attempts": 29,
+      "retries": 2,
+      "lastError": "aborted",
+      "lastErrorAt": "2026-10-08T20:00:10.587Z",
       "ghcr": null,
       "checkpoint": {
-        "digest": "sha256:75158eb75cd5f813aa06af51bb7001fdeb9ea3bd5b551f86ac7858b52ac419c4",
-        "bytes": 18874368,
-        "chunks": 18,
-        "at": "2026-10-08T19:54:49.323Z"
+        "digest": "sha256:c938686280fca18126a40295f20b6d21eb648067aa56b88a361cd58312d508c3",
+        "bytes": 25165824,
+        "chunks": 24,
+        "at": "2026-10-08T20:00:13.370Z"
       },
       "verified": null,
       "updatedAt": "2026-10-07T21:54:14.914Z",
@@ -111618,21 +111642,61 @@
         "5": {
           "bytes": 1048576,
           "sha256": "d772cee79a1fbf7a1799a91ef6352d2bc63094817a3735b9da60b90ccabb7bd1"
+        },
+        "6": {
+          "bytes": 1048576,
+          "sha256": "88b8f973f7355016b74fe30b22b90370546cbed0c4952f5d39e6520c9b1d5706"
+        },
+        "7": {
+          "bytes": 1048576,
+          "sha256": "9153006ed135821630360d6b5e3373c302b77611289b17ae98d4c46010fc30bc"
+        },
+        "8": {
+          "bytes": 1048576,
+          "sha256": "faae5b6bcf2b18905fa08050fd51d39cab13418c24490f3b7bc52960facead42"
+        },
+        "9": {
+          "bytes": 1048576,
+          "sha256": "a2c06520efdc62dc7889cdae0a67d1f9c27ce24e604a0c3d25cdd34b2c65e566"
+        },
+        "10": {
+          "bytes": 1048576,
+          "sha256": "2e6218100872306402b84cb2c8b267a87aa0c302c84ef5d6205f0d296ae475a7"
+        },
+        "11": {
+          "bytes": 1048576,
+          "sha256": "1e003c8140bf6291fdf0cc182d76858ccb0ad3e260be26ee6322bd7598782a22"
+        },
+        "12": {
+          "bytes": 1048576,
+          "sha256": "534f27e3f38dea3ddcbb0f630c39d6c4b61cfadc5cffddb8b1544c0221c6f2b7"
+        },
+        "13": {
+          "bytes": 1048576,
+          "sha256": "128a805bab9ddbc5411104353ddab8fcab11ade845f55784f7a8dfe4589d4df8"
+        },
+        "14": {
+          "bytes": 1048576,
+          "sha256": "35c4c85712d6ddf60007b121724a9088e1a4869ecd4bada1107407edb19e9922"
+        },
+        "15": {
+          "bytes": 1048576,
+          "sha256": "7f529f48578be775367e3750710ebd452d819ed5c0a308201d88c02ef2ce21aa"
         }
       },
-      "receivedBytes": 6291456,
+      "receivedBytes": 16777216,
       "status": "in_progress",
       "gen": 0,
-      "attempts": 8,
-      "retries": 1,
-      "lastError": "request failed: idle timeout after 30000ms",
-      "lastErrorAt": "2026-10-08T19:52:56.266Z",
+      "attempts": 20,
+      "retries": 2,
+      "lastError": "aborted",
+      "lastErrorAt": "2026-10-08T20:00:10.574Z",
       "ghcr": null,
       "checkpoint": {
-        "digest": "sha256:ce3a339e2bc7210fbcc92b45f57613fe956faf45d1c6edaea1f53d58f7a46db8",
-        "bytes": 6291456,
-        "chunks": 6,
-        "at": "2026-10-08T19:54:51.118Z"
+        "digest": "sha256:4b3fbee665fa33d691875d2fa3cda25ca9e819c86f470b94af6ae7ce072e8029",
+        "bytes": 16777216,
+        "chunks": 16,
+        "at": "2026-10-08T20:00:15.680Z"
       },
       "verified": null,
       "updatedAt": "2026-10-07T21:54:14.914Z",
@@ -111647,23 +111711,54 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1968,N01.%5Bpdf%5D.zip",
       "labelText": "«Наука и жизнь», 1968, №01.",
       "labelSize": "Pdf-54.2M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 56839032,
+      "etag": "\"5cc3ad18-3634b78\"",
+      "lastModified": "Sat, 27 Apr 2019 01:15:04 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "af9879af3c189d3b979bb3f0dee72d879df7a9919e4ae313a0a026dbb332c2e8"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "3db750fefdc1de92ca6f1ed40bf2e65e7323a7800c660ec19c2794e91eda87c3"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "24026847533e4e8ee90ce55aa6c61c78f720e7ed2dfed74d95ae7040e302d5ff"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "0f78d60881a751ccea0caab4245217810261a2694a8ace9f7c39d39295e2ea29"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "1ab0c3edac0ca5d3b391f816f9b4dd48b03d4b98ed9e878e7fff622f270c2875"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "53f0c6367b760041669ccffbe5de209061af9787ae993364c7d44a4f75129a65"
+        }
+      },
+      "receivedBytes": 6291456,
+      "status": "in_progress",
       "gen": 0,
-      "attempts": 0,
+      "attempts": 7,
       "retries": 0,
       "lastError": null,
       "lastErrorAt": null,
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:044fde5fa79a0f53e156a1f5fd29e7c17164d710b166434100cd89ac03d19985",
+        "bytes": 6291456,
+        "chunks": 6,
+        "at": "2026-10-08T20:00:17.735Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0
     },
     "nij-1966-n12-pdf": {
       "id": "nij-1966-n12-pdf",
@@ -111674,23 +111769,54 @@
       "url": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1966,N12.%5Bpdf%5D.zip",
       "labelText": "«Наука и жизнь», 1966, №12.",
       "labelSize": "Pdf-55.1M",
-      "expectedBytes": null,
-      "etag": null,
-      "lastModified": null,
+      "expectedBytes": 57809832,
+      "etag": "\"5d5c2a03-3721ba8\"",
+      "lastModified": "Tue, 20 Aug 2019 17:12:35 GMT",
       "singleRequest": false,
       "chunkSize": 1048576,
-      "chunks": {},
-      "receivedBytes": 0,
-      "status": "pending",
+      "chunks": {
+        "0": {
+          "bytes": 1048576,
+          "sha256": "01247a879dba6023d72edd2d77ff93d6edc5ad0d59fc1fc5aa6666e073032ef4"
+        },
+        "1": {
+          "bytes": 1048576,
+          "sha256": "08e9b9939e2d9ff6f3341d9607e19f34fb87d3eaa3fc271cbe6d6c93023cdc5f"
+        },
+        "2": {
+          "bytes": 1048576,
+          "sha256": "7842e59f9527320d02c2490ac541ab26cb38e2f33d66d4d0cf97e8ee3f5c85bf"
+        },
+        "3": {
+          "bytes": 1048576,
+          "sha256": "4043f788dce57355ae06446e7b7fdf7a9e01b45a7825dc07d4af093b23e8f1d3"
+        },
+        "4": {
+          "bytes": 1048576,
+          "sha256": "b54e6dd374c84c8a993ce7f4ad6eb01c4586c13d09296bfb67479d0fbc45df23"
+        },
+        "5": {
+          "bytes": 1048576,
+          "sha256": "db5d58c0900a5074454b625ea8622a233ebce73d2954bca789c7943ae209fc21"
+        }
+      },
+      "receivedBytes": 6291456,
+      "status": "in_progress",
       "gen": 0,
-      "attempts": 0,
-      "retries": 0,
-      "lastError": null,
-      "lastErrorAt": null,
+      "attempts": 9,
+      "retries": 2,
+      "lastError": "request failed: idle timeout after 30000ms",
+      "lastErrorAt": "2026-10-08T19:58:42.457Z",
       "ghcr": null,
-      "checkpoint": null,
+      "checkpoint": {
+        "digest": "sha256:7db44ba2d2bc4bc98b4adc0af0d617a54e2f382517c2250912360dc01e119073",
+        "bytes": 6291456,
+        "chunks": 6,
+        "at": "2026-10-08T20:00:19.889Z"
+      },
       "verified": null,
-      "updatedAt": "2026-10-07T21:54:14.914Z"
+      "updatedAt": "2026-10-07T21:54:14.914Z",
+      "cleanupPasses": 0
     },
     "nij-1962-n06-pdf": {
       "id": "nij-1962-n06-pdf",
@@ -113502,11 +113628,11 @@
       "updatedAt": "2026-10-07T21:54:14.914Z"
     }
   },
-  "updatedAt": "2026-10-08T19:54:51.302Z",
+  "updatedAt": "2026-10-08T20:00:19.999Z",
   "origin": {
     "reachable": true,
     "reason": null,
-    "checkedAt": "2026-10-08T19:48:07.878Z",
+    "checkedAt": "2026-10-08T19:57:40.539Z",
     "probeUrl": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip"
   }
 }
