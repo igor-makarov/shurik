@@ -216,6 +216,13 @@ def merge_images(old_images: list[dict], new_images: list[dict]) -> list[dict]:
                 merged["error"] = None
                 merged["state"] = "pending"
         by_url[url] = merged
+    # A recovered image carries no failure. This runs for every image, not only
+    # ones that passed through the merge branch above: a single-pass record
+    # (e.g. `repair`) keeps the first dict verbatim. Observed on post
+    # 29905114965: state=recovered, sha256 set, error=archive_gap.
+    for url in order:
+        if by_url[url].get("sha256"):
+            by_url[url]["error"] = None
     return [by_url[u] for u in order]
 
 

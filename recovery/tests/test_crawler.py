@@ -183,6 +183,18 @@ class MergeTests(unittest.TestCase):
         merged = merge_post({"content_html": "<p>a</p>"}, {"content_html": "<p>a</p><p>bb</p>"})
         self.assertEqual(merged["content_html"], "<p>a</p><p>bb</p>")
 
+    def test_recovered_image_drops_the_old_failure_verdict(self):
+        old = {"post_id": "1", "images": [{"media_url": "u", "state": "missing",
+                                           "error": GAP, "attempts": []}]}
+        new = {"post_id": "1", "images": [{"media_url": "u", "sha256": "abc",
+                                           "state": "recovered", "error": None,
+                                           "blob_path": "p", "media_type": "image/jpeg",
+                                           "attempts": []}]}
+        merged = merge_post(old, new)
+        img = merged["images"][0]
+        self.assertEqual(img["state"], "recovered")
+        self.assertIsNone(img["error"], "a recovered image must not keep an archive_gap error")
+
 
 class VariantPlanningTests(unittest.TestCase):
     """Size/extension siblings are real recovery leads, not decoration."""
