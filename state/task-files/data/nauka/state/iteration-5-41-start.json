@@ -1,0 +1,41 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-41",
+  "phase": "start",
+  "at": "2026-10-08T15:16:40.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T18:00:00.000Z",
+  "acknowledgement": "Acknowledged user-authorized four-hour continuation; supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem) is authoritative.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "remainingRegularFiles": 237,
+    "remainingSupplementaryArchives": 5,
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 969,
+    "publishedBytes": 13205484302,
+    "remainingFiles": 143,
+    "inProgressFiles": 6,
+    "durableGhcrCheckpointBytes": 161480704,
+    "gitPrefixPartialBytes": 67108864
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:cb9326d0260936e890fecdfde299c3dc2964a39e61ea3f1a2a227d9b0bf009c6",
+    "bytes": 1482604,
+    "catalogDigest": "sha256:1a6abcaa176b6374e1bded61df552150222abc41e3e48e64c95b5f360f3e1210",
+    "checkpointDigest": "sha256:96460e842b64d4a76541f1cb83a3605275bc043af7851874fb0ea7f46ab16653",
+    "discoveryStatus": "complete"
+  },
+  "nextActions": [
+    "Restore the 6 in_progress files from their immutable GHCR chunk checkpoint digests, finish and publish them.",
+    "Run bounded smallest-first retrieve batches for the remaining 137 pending regular files.",
+    "Publish the 5 supplementary archives when regular files complete.",
+    "Republish and verify the master index by immutable digest after batches."
+  ]
+}

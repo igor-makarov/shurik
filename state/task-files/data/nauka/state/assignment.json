@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-40",
-  "at": "2026-10-08T14:44:30.862Z",
+  "iteration": "5-41",
+  "at": "2026-10-08T15:16:40.000Z",
   "deadline": "2026-10-08T18:00:00.000Z",
   "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 965,
-  "publishedBytesNow": 13012263762,
-  "remainingFilesNow": 147,
-  "masterIndexDigestNow": "sha256:0f6fe7a6f6ffa9b75a0c624db85d56b6a7e83ece4066e39f2bdf0bfc47ff7ebf",
+  "publishedFilesNow": 969,
+  "publishedBytesNow": 13205484302,
+  "remainingFilesNow": 143,
+  "masterIndexDigestNow": "sha256:cb9326d0260936e890fecdfde299c3dc2964a39e61ea3f1a2a227d9b0bf009c6",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -78,13 +78,14 @@
     "Iteration 5-35 continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; remaining 194 regular files + 5 supplementary archives.",
     "Iteration 5-36: continuation acknowledged; supervisor deadline 2026-10-08T14:45:32.395Z authoritative; resume retrieval of remaining 194 regular files + 5 supplementary archives.",
     "Iteration 5-36: batches 81-82 published 17 fresh files (918->935), +622,237,766 origin bytes; durable partials 119,537,664 B in 6 files. Master index republished and verified by immutable pull (sha256:0f6fe7a6..., 1470667 B, status complete, 0 mismatches, 1112 files/941 issues/87 years). Remaining 177 files + 5 supplementary archives.",
-    "Iteration 5-40: continuation acknowledged; supervisor deadline 2026-10-08T18:00:00.000Z authoritative. True current state 965 published / 13,012,263,762 B; 147 regular files remain; 2 in_progress (nij-1967-n12-pdf, nij-1972-n02-pdf) with 64 MiB durable GHCR checkpoint bytes. Batch87 (interrupted iteration 5-39) published 6 files durably."
+    "Iteration 5-40: continuation acknowledged; supervisor deadline 2026-10-08T18:00:00.000Z authoritative. True current state 965 published / 13,012,263,762 B; 147 regular files remain; 2 in_progress (nij-1967-n12-pdf, nij-1972-n02-pdf) with 64 MiB durable GHCR checkpoint bytes. Batch87 (interrupted iteration 5-39) published 6 files durably.",
+    "Iteration 5-41: continuation acknowledged; supervisor deadline 2026-10-08T18:00:00.000Z authoritative. True current state 969 published / 13,205,484,302 B; 143 regular files remain (137 pending + 6 in_progress) + 5 supplementary archives; durable GHCR chunk checkpoints total 161,480,704 B across 6 files (all restorable by immutable digest); master index nij-master-index @ sha256:cb9326d0260936e890fecdfde299c3dc2964a39e61ea3f1a2a227d9b0bf009c6."
   ],
   "masterIndexVerifiedAt": "2026-10-08T12:55:26.819Z",
-  "verifiedPartialBytesNow": 67108864,
+  "verifiedPartialBytesNow": 161480704,
   "continuation": {
     "authorized": true,
-    "note": "Iteration 5-40 acknowledges the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z. Scope all-years. Continuation baseline at work 15b89ae8: 875 files / 9,777,993,649 B. Current: 965 files / 13,012,263,762 B published; 147 regular files remain (145 pending + 2 in_progress) + 5 supplementary archives; 67,108,864 durable checkpoint bytes in 2 files (nij-1967-n12-pdf, nij-1972-n02-pdf).",
+    "note": "Iteration 5-41 acknowledges the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem). Scope all-years. Continuation baseline at work 15b89ae8: 875 files / 9,777,993,649 B. Current durable state: 969 files / 13,205,484,302 B published; 143 regular files remain (137 pending + 6 in_progress) + 5 supplementary archives; durable GHCR chunk checkpoints hold 161,480,704 B across 6 in_progress files (nij-1974-n11-pdf, nij-1967-n10-pdf, nij-1971-n12-pdf, nij-1968-n05-pdf, nij-1967-n08-pdf, nij-1957-n04-pdf); git-branch prefixes hold 67,108,864 B across 2 of them.",
     "baselineWorkCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
@@ -93,8 +94,8 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
     "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
-    "iteration": "5-40",
-    "acknowledgedAt": "2026-10-08T14:44:30.862Z"
+    "iteration": "5-41",
+    "acknowledgedAt": "2026-10-08T15:16:40.000Z"
   },
   "deadlineNote": "Supervisor control.json deadline 2026-10-08T18:00:00.000Z (user-authorized 21:00 Asia/Jerusalem extension) is authoritative and replaces the expired 2026-10-08T14:45:32.395Z deadline."
 }
