@@ -1,13 +1,13 @@
 {
   "kind": "shurik-nauka-scope-ack",
-  "iteration": "5-33",
-  "at": "2026-10-08T10:57:13.534Z",
+  "iteration": "5-44",
+  "at": "2026-10-08T16:56:09.000Z",
   "acknowledgedScopeChange": true,
   "previousObjective": "1934-1939 only, 60 files (completed subset)",
   "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
   "scope": "all-years",
-  "deadline": "2026-10-08T14:45:32.395Z",
-  "deadlineLocal": "2026-10-08 17:45 Asia/Jerusalem",
+  "deadline": "2026-10-08T18:00:00.000Z",
+  "deadlineLocal": "2026-10-08 21:00 Asia/Jerusalem",
   "masterIndexTag": "nij-master-index",
   "masterCatalogTag": "nij-master-catalog",
   "masterCheckpointTag": "nij-master-checkpoint",
@@ -70,9 +70,18 @@
   ],
   "continuationAck": {
     "authorized": true,
-    "at": "2026-10-08T10:57:13.534Z",
-    "previousDeadline": "2026-10-08T07:00:00.000Z",
-    "newDeadline": "2026-10-08T14:45:32.395Z",
-    "note": "Acknowledged user-authorized four-hour continuation; scope remains all-years; 875-file/9,777,993,649-byte published baseline preserved."
+    "at": "2026-10-08T16:56:09.000Z",
+    "previousDeadline": "2026-10-08T14:45:32.395Z",
+    "newDeadline": "2026-10-08T18:00:00.000Z",
+    "note": "Iteration 5-44 acknowledges the user-authorized four-hour continuation and the authoritative supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem). Scope all-years. Continuation baseline work commit 15b89ae8, 875 files / 9,777,993,649 bytes preserved; true current durable state 999 published / 113 remaining (104 pending + 9 in_progress). Not extending the deadline."
+  },
+  "trueStateAtAck": {
+    "publishedFiles": 999,
+    "publishedBytes": 14717489211,
+    "remainingFiles": 113,
+    "pendingFiles": 104,
+    "inProgressFiles": 9,
+    "durableGhcrCheckpointBytes": 218103808,
+    "masterIndexDigest": "sha256:c09a1c84625a7a52e4f4d7052e9a74eeb171e81dcbfeabcd726529df559159da"
   }
 }
