@@ -1,0 +1,65 @@
+{
+  "kind": "shurik-nauka-iteration-start",
+  "iteration": "5-50",
+  "at": "2026-10-08T20:05:30.000Z",
+  "scope": "all-years",
+  "acknowledgement": "Acknowledged the all-years continuation. The user-authorized four-hour window (previousDeadline 2026-10-08T18:00:00Z) was itself superseded by the supervisor control.json monitorCompletion token nauka-user-until-complete-1791481729758, which sets deadline=null: completion-driven continuation until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The model obeys the supervisor deadline and sets none of its own. Work is done inside this Shurik loop; no falafel code/artifacts/history was read or reused.",
+  "supervisorControl": {
+    "controlId": "nauka-20261007",
+    "generation": 5,
+    "iteration": 50,
+    "deadline": null,
+    "deadlineMeaning": "completion-driven; hourly monitor stops when the completion target is published",
+    "completionTarget": {
+      "regularFiles": 1112,
+      "supplementaryArchives": 5,
+      "masterIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-index",
+      "resumeIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-checkpoint"
+    }
+  },
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "masterTag": "nij-master-index",
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
+    "note": "Saved continuation boundary; preserved, not redownloaded."
+  },
+  "currentStateAtStart": {
+    "publishedFiles": 1041,
+    "publishedBytes": 16967890857,
+    "remainingRegularFiles": 71,
+    "pendingFiles": 67,
+    "inProgressFiles": 4,
+    "durablePartialBytes": 54525952,
+    "masterDigest": "sha256:a9c1b5bba57c6d52077735ba2b713e0c420d9d434f85c66db5a5d300f5b129fc",
+    "masterBytes": 1507801,
+    "masterStatus": "complete",
+    "masterVerifiedByImmutablePull": true,
+    "supplementaryPending": 5
+  },
+  "preserved60FileBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetIndexDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "subsetCheckpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "inProgressIds": [
+    "nij-1940-n02-pdf",
+    "nij-2009-n05-pdf",
+    "nij-1968-n01-pdf",
+    "nij-1966-n12-pdf"
+  ],
+  "plan": [
+    "Restore the 4 in_progress files from immutable GHCR chunk checkpoints and finish/publish them.",
+    "Continue bounded smallest-first retrieve batches for remaining regular files.",
+    "Add a dedicated retrieval path for the 5 supplementary Izbrannoe archives.",
+    "Keep the all-years master index + resume index current and re-verify by immutable digest."
+  ],
+  "blockers": []
+}
