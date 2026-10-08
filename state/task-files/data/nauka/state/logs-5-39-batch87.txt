@@ -1,0 +1,44 @@
+2026-10-08T14:29:42.562Z oras login ok
+2026-10-08T14:29:55.078Z === pass 1 (budget 700000ms left) ===
+2026-10-08T14:29:55.081Z -- file nij-1905-n0712-pdf (Pdf-45.8M) --
+2026-10-08T14:29:55.082Z -- file nij-1967-n02-pdf (Pdf-45.8M) --
+2026-10-08T14:30:02.377Z retry nij-1967-n02-pdf chunk 35 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:30:12.462Z retry nij-1967-n02-pdf chunk 38 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:30:22.469Z retry nij-1967-n02-pdf chunk 42 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:30:34.158Z retry nij-1905-n0712-pdf chunk 43 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:30:45.008Z retry nij-1967-n02-pdf chunk 38 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-08T14:31:48.324Z publishing nij-1905-n0712-pdf (47991085 bytes) as nij-1905-n0712-pdf
+2026-10-08T14:31:53.453Z verified nij-1905-n0712-pdf: 7f27720443de4266234ccdc2457d7b7d97871137358e4dc5544ad0844b3024fc
+2026-10-08T14:31:53.453Z -- file nij-1968-n04-pdf (Pdf-45.9M) --
+2026-10-08T14:31:54.430Z publishing nij-1967-n02-pdf (48018505 bytes) as nij-1967-n02-pdf
+2026-10-08T14:31:58.507Z retry nij-1968-n04-pdf chunk 39 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:31:59.837Z verified nij-1967-n02-pdf: 9097fc9cd45d3e15bd294600e7837d5bc541b21b929bd7041425a927168fdf45
+2026-10-08T14:31:59.837Z -- file nij-1967-n03-pdf (Pdf-45.9M) --
+2026-10-08T14:32:09.562Z retry nij-1968-n04-pdf chunk 44 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:32:20.014Z retry nij-1967-n03-pdf chunk 37 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:32:30.507Z retry nij-1967-n03-pdf chunk 43 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:32:40.545Z retry nij-1968-n04-pdf chunk 39 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-08T14:33:48.358Z publishing nij-1967-n03-pdf (48090861 bytes) as nij-1967-n03-pdf
+2026-10-08T14:33:52.362Z publishing nij-1968-n04-pdf (48090638 bytes) as nij-1968-n04-pdf
+2026-10-08T14:33:53.331Z verified nij-1967-n03-pdf: 8d3d8ccd8eca3bc91df5a3d90a4dbc698e69d023b3bc4c429845e12c9acdf753
+2026-10-08T14:33:53.331Z -- file nij-1957-n01-pdf (Pdf-45.9M) --
+2026-10-08T14:33:57.272Z verified nij-1968-n04-pdf: 3ded2621ed3eda32b48e79d1bd8fbbc44bf314d850b260ea5ccc1c2bd69debd3
+2026-10-08T14:33:57.272Z -- file nij-1970-n08-pdf (Pdf-45.9M) --
+2026-10-08T14:34:00.399Z retry nij-1957-n01-pdf chunk 33 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:34:12.380Z retry nij-1957-n01-pdf chunk 39 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:34:22.381Z retry nij-1957-n01-pdf chunk 44 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:34:32.429Z retry nij-1970-n08-pdf chunk 38 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:34:42.380Z retry nij-1970-n08-pdf chunk 43 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:34:52.381Z retry nij-1957-n01-pdf chunk 44 #2: request failed: idle timeout after 30000ms (wait 4000ms)
+2026-10-08T14:36:04.442Z publishing nij-1970-n08-pdf (48124997 bytes) as nij-1970-n08-pdf
+2026-10-08T14:36:09.870Z verified nij-1970-n08-pdf: c21cb4d29c082ce156a9dfb9971a1d252d22d506ecb6b18c346634d1e3200a0c
+2026-10-08T14:36:09.871Z -- file nij-1972-n02-pdf (Pdf-46.0M) --
+2026-10-08T14:36:11.423Z publishing nij-1957-n01-pdf (48094189 bytes) as nij-1957-n01-pdf
+2026-10-08T14:36:14.914Z retry nij-1972-n02-pdf chunk 32 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:36:16.206Z verified nij-1957-n01-pdf: c8395beb1564b977ae8007be9a750e448eb9dcb83ee9f48f93ed5bb74e33c15d
+2026-10-08T14:36:16.206Z -- file nij-1967-n12-pdf (Pdf-46.0M) --
+2026-10-08T14:36:24.914Z retry nij-1972-n02-pdf chunk 38 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:36:34.915Z retry nij-1972-n02-pdf chunk 43 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:36:46.915Z retry nij-1967-n12-pdf chunk 33 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:36:56.916Z retry nij-1967-n12-pdf chunk 40 #1: request failed: idle timeout after 30000ms (wait 2000ms)
+2026-10-08T14:37:08.914Z retry nij-1967-n12-pdf chunk 46 #1: request failed: idle timeout after 30000ms (wait 2000ms)
