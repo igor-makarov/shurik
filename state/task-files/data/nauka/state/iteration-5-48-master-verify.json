@@ -1,0 +1,56 @@
+{
+  "kind": "shurik-nauka-iteration-5-48-verification",
+  "iteration": "5-48",
+  "at": "2026-10-08T19:29:33.321Z",
+  "scope": "all-years",
+  "deadline": null,
+  "method": "oras pull by immutable digest into an isolated staging dir, then sha256 the pulled bytes and parse JSON; counts cross-checked against saved state.",
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "artifactDigest": "sha256:e35e43700f74f27b7960160e5e4cadf0cc160f3e445d88a6e46b8d8450dcc477",
+    "file": "nij-master-index.json",
+    "bytes": 1505338,
+    "fileSha256": "ed4d577c0704cda04393b10ad9ce69a5c00e4b2b130a7137cc669b34a104d523",
+    "discoveryStatus": "complete",
+    "totals": {
+      "years": 87,
+      "issues": 941,
+      "files": 1112,
+      "publishedFiles": 1034,
+      "remainingFiles": 78,
+      "knownBytes": 16743647356,
+      "publishedBytes": 16578065906,
+      "durablePartialBytes": 122683392,
+      "supplementaryFiles": 5,
+      "supplementaryPublished": 0
+    },
+    "representativeEntriesVerified": [
+      "nij-1934-n01p-djv (published, old subset)",
+      "nij-1939-n01-djv (published, old subset)",
+      "nij-1964-n04-pdf (published, newly restored)",
+      "nij-1965-n03-pdf (published)",
+      "nij-1966-n11-pdf (published)",
+      "nij-1974-n02-pdf (published)",
+      "nij-1965-n10-pdf (published)"
+    ],
+    "problems": 0
+  },
+  "resumeIndex": {
+    "tag": "nij-master-checkpoint",
+    "artifactDigest": "sha256:c32ee98221c08d29017129bc6950bade5bf8ea6bd2f740f692c320b216cec0a0",
+    "file": "nij-master-checkpoint.json",
+    "bytes": 368430,
+    "fileSha256": "f75de27573738103a89f860fd5a69e81a07c626d83acbec4eef3fbe4952fa724",
+    "problems": 0
+  },
+  "catalog": {
+    "tag": "nij-master-catalog",
+    "artifactDigest": "sha256:1723dbfca5bbd118e59db490839deddd7c1289ce84a32c3244dc8ea1b1bced08"
+  },
+  "legacySubset": {
+    "tag": "nij-1934-39-index",
+    "artifactDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "preserved": true,
+    "note": "resolved at iteration start; correctly scoped 1934-1939 subset, not relabelled"
+  }
+}
