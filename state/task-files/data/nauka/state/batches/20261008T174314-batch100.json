@@ -1,0 +1,47 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 100,
+  "iteration": "5-45",
+  "startedAt": "2026-10-08T17:36:44.694Z",
+  "elapsedMs": 389661,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 380000,
+    "cleanupMs": 100000,
+    "concurrency": 24,
+    "fileConcurrency": 4,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "5-45 batch: restore checkpoints then smallest-first pending",
+  "publishedBefore": 1010,
+  "publishedAfter": 1011,
+  "remainingBefore": 102,
+  "remainingAfter": 101,
+  "publishedBytesAfter": 15342402556,
+  "verifiedPartialBytesBefore": 16777216,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 52503523,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [
+    "nij-1972-n07-pdf"
+  ],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:5623eef29b16b8ae6adcb9e3c195308bfa038c2be0fc08e38f0e9f938055602f",
+      "bytes": 1497272,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:4d6b60cd0ee3483dcdababdbb2be1d0f8df0f293200628fb66a97d254e1dfb3c"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:7da24fc4536adbf06f88ce4df1ba603cffb82144d23370aefa98073dbaf1de25"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 101 files."
+}
