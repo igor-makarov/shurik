@@ -2,12 +2,12 @@
   "kind": "shurik-nauka-iteration-record",
   "iteration": "4-20",
   "phase": "end",
-  "at": "2026-10-08T01:01:30.000Z",
+  "at": "2026-10-08T01:04:55.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
   "scopeChangeAcknowledged": true,
-  "summary": "Iteration 4-20 continued bounded smallest-first retrieval for the all-years objective. Batches 29-31 published 64 fresh files (401 -> 465), +492,449,441 durable bytes, all round-trip verified. Master index refreshed and re-verified by immutable digest.",
+  "summary": "Iteration 4-20 continued bounded smallest-first retrieval for the all-years objective. Batches 29-32 published 67 fresh files (401 -> 468), +519498599 durable bytes, all round-trip verified. Master index refreshed and re-verified by immutable digest.",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -20,34 +20,59 @@
   },
   "publication": {
     "publishedBefore": 401,
-    "publishedAfter": 465,
+    "publishedAfter": 468,
     "publishedBytesBefore": 4329050034,
-    "publishedBytesAfter": 4824618972,
-    "remainingAfter": 647,
+    "publishedBytesAfter": 4848548633,
+    "remainingAfter": 644,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 405,
-    "newPublishedBytesBeyondBaseline": 2512988682,
+    "newPublishedBeyondBaseline": 408,
+    "newPublishedBytesBeyondBaseline": 2536918343,
     "verifiedPartialBytes": 0
   },
   "batches": [
-    { "batch": 29, "published": 24, "durableNewBytes": 182202279, "elapsedMs": 393461, "record": "data/nauka/state/batches/2026-10-08T0045-batch29.json" },
-    { "batch": 30, "published": 20, "durableNewBytes": 154491622, "elapsedMs": 372010, "record": "data/nauka/state/batches/2026-10-08T0052-batch30.json" },
-    { "batch": 31, "published": 20, "durableNewBytes": 158875037, "elapsedMs": 389891, "record": "data/nauka/state/batches/2026-10-08T0059-batch31.json" }
+    {
+      "batch": 29,
+      "published": 24,
+      "durableNewBytes": 182202279,
+      "elapsedMs": 393461,
+      "record": "data/nauka/state/batches/2026-10-08T0045-batch29.json"
+    },
+    {
+      "batch": 30,
+      "published": 20,
+      "durableNewBytes": 154491622,
+      "elapsedMs": 372010,
+      "record": "data/nauka/state/batches/2026-10-08T0052-batch30.json"
+    },
+    {
+      "batch": 31,
+      "published": 20,
+      "durableNewBytes": 158875037,
+      "elapsedMs": 389891,
+      "record": "data/nauka/state/batches/2026-10-08T0059-batch31.json"
+    },
+    {
+      "batch": 32,
+      "published": 3,
+      "durableNewBytes": 23929661,
+      "elapsedMs": 130064,
+      "record": "data/nauka/state/batches/2026-10-08T0104-batch32.json"
+    }
   ],
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:854396b015d87c00b722cb6ae0f2b7a9f039b43de58c9ba0a32e82e036954fb8",
-    "bytes": 1305654,
-    "catalogDigest": "sha256:5096b301480654b3399b4152d5e32e31a6de2512733297c0bbca7a9f5da7e746",
-    "checkpointDigest": "sha256:5f71acef5001a4519aee1590abb20411278f6eb62cf514a4c381f570f4659c17",
+    "digest": "sha256:3f298be3c669f12f4e0c87ee3b53918be21a74a3a9d4feb5a0a55496a6d7d921",
+    "bytes": 1306752,
+    "catalogDigest": "sha256:ed53e92c0e5141f2a3aa10d9524a065b58b1c4809468974e75fe3fe931757c4f",
+    "checkpointDigest": "sha256:7b8ac74eadf36d1a3275f59f5d4100f9722cf3917b8e5b21feceb84df797f641",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T01:00:12Z",
+    "verifiedAt": "2026-10-08T01:04:51Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "codeChanges": [],
   "tests": "nauka tests 30/30 pass",
   "blockers": [],
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 647 files."
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 644 files."
 }

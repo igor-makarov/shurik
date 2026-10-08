@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
   "iteration": "4-20",
-  "at": "2026-10-08T01:00:40.000Z",
+  "at": "2026-10-08T01:04:30.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -50,27 +50,27 @@
     "note": "complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and represented (genericUnrepresented=0)."
   },
   "publication": {
-    "publishedFiles": 465,
-    "publishedIssues": 377,
-    "publishedBytes": 4824618972,
-    "remainingFiles": 647,
+    "publishedFiles": 468,
+    "publishedIssues": 379,
+    "publishedBytes": 4848548633,
+    "remainingFiles": 644,
     "inProgressEntries": 0,
     "inProgressWithDurableChunks": 0,
     "verifiedPartialBytes": 0,
-    "knownBytesTotal": 4824618972,
+    "knownBytesTotal": 4848548633,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 405,
-    "newPublishedBytesBeyondBaseline": 2512988682
+    "newPublishedBeyondBaseline": 408,
+    "newPublishedBytesBeyondBaseline": 2536918343
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:854396b015d87c00b722cb6ae0f2b7a9f039b43de58c9ba0a32e82e036954fb8",
-    "bytes": 1305654,
-    "catalogDigest": "sha256:5096b301480654b3399b4152d5e32e31a6de2512733297c0bbca7a9f5da7e746",
-    "checkpointDigest": "sha256:5f71acef5001a4519aee1590abb20411278f6eb62cf514a4c381f570f4659c17",
+    "digest": "sha256:3f298be3c669f12f4e0c87ee3b53918be21a74a3a9d4feb5a0a55496a6d7d921",
+    "bytes": 1306752,
+    "catalogDigest": "sha256:ed53e92c0e5141f2a3aa10d9524a065b58b1c4809468974e75fe3fe931757c4f",
+    "checkpointDigest": "sha256:7b8ac74eadf36d1a3275f59f5d4100f9722cf3917b8e5b21feceb84df797f641",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T01:00:12Z",
+    "verifiedAt": "2026-10-08T01:04:20Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
@@ -92,6 +92,12 @@
       "publishedThisBatch": 20,
       "durableNewBytes": 158875037,
       "elapsedMs": 389891
+    },
+    {
+      "record": "data/nauka/state/batches/2026-10-08T0104-batch32.json",
+      "publishedThisBatch": 3,
+      "durableNewBytes": 23929661,
+      "elapsedMs": 130064
     }
   ],
   "blockers": [],
