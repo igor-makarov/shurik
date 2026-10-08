@@ -823,8 +823,15 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
     # and only then discovered, inside the worker, that most of the batch was
     # already settled -- so 32 of every 40 slots were wasted and the untouched
     # posts never got a turn.
+    def _stale(image: dict) -> bool:
+        # Re-open an image whose only verdict is weak (needs_probe) *or* whose
+        # stem has a recorded capture: a hit is positive evidence of bytes, and
+        # the work loop below turns it into a download even when the exact URL
+        # was declared a gap.
+        return needs_probe(image) or image_stem_hit(image, stem_index)
+
     batch, stats = q.select(records, limit=limit_posts, retry_missing=retry_missing,
-                            stale_fn=needs_probe, final_errors=final_errors, order=order)
+                            stale_fn=_stale, final_errors=final_errors, order=order)
     cooldown = q.global_cooldown_active()
     if cooldown:
         # The recorded cooldown may outlive the outage that set it. Spend one
@@ -889,13 +896,9 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             # whose own terminal verdict (archive_gap/bad_body) excludes it from
             # `eligible_images`, and dropping it here wasted the selection.
             eff_method = method
-            stem_hit = False
-            if stem_index is not None:
-                for form in [img.get("media_url") or "", *(img.get("url_forms") or [])]:
-                    if form and stem_index.lookup(stem_prefix(form)):
-                        eff_method = "stem"
-                        stem_hit = True
-                        break
+            stem_hit = image_stem_hit(img, stem_index)
+            if stem_hit:
+                eff_method = "stem"
             entry = wanted_urls.get(img.get("media_url"))
             if entry is None:
                 if not stem_hit:
@@ -1050,6 +1053,27 @@ def needs_probe(image: dict) -> bool:
         if att.get("endpoint") in ("replay-probe", "media-index"):
             return False
     return True
+
+
+def image_stem_hit(image: dict, stem_index) -> bool:
+    """Does any URL form of `image` have a recorded stem-index capture?
+
+    A stem hit is *positive* evidence that bytes exist in the archive, so it
+    re-opens an image whose exact URL already carries a terminal
+    archive_gap/bad_body verdict. `posts_with_stem_hits()` selects such posts
+    for `--only-stem-hits`, but the batch selector (`ImageQueue.select`) then
+    filtered them back out as "no work left" whenever their own verdict was
+    terminal, so the selection never reached the download. Four posts measured
+    in 19-315 (44471188889, 104860741473, 70476601245, 69400236197) held a
+    live stem hit yet were reported `no_work_left`.
+    """
+    if stem_index is None:
+        return False
+    forms = [image.get("media_url") or "", *(image.get("url_forms") or [])]
+    for form in forms:
+        if form and stem_index.lookup(stem_prefix(form)):
+            return True
+    return False
 
 
 def _assign_file(rec: dict) -> None:

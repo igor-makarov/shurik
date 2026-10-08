@@ -1,0 +1,178 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:953a8fa77aecfa907ad69aa43835c957db5e21ff4ddef72022b7ed4e31a5a0ec",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nmj66mcM4Y1r3it8zo1_500.jpg]",
+   "expected": "0a2633d94efc9b40b6ae590ed96de48d0f792bc8f8ca3fdcedf52f82a78f27b3",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nmj66mcM4Y1r3it8zo1_500.jpg]",
+   "expected": 50648,
+   "observed": 50648,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nmj66mcM4Y1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "קרדיט: OmerLink54",
+   "observed": "קרדיט: OmerLink54",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1511;&#1512;&#1491;&#1497;&#1496;: OmerLink54</p>",
+   "observed": "<p>&#1511;&#1512;&#1491;&#1497;&#1496;: OmerLink54</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ניצה-ולחם",
+    "רועי-כפרי",
+    "ניב-מג'ר",
+    "פסח",
+    "חמץ"
+   ],
+   "observed": [
+    "ניצה-ולחם",
+    "רועי-כפרי",
+    "ניב-מג'ר",
+    "פסח",
+    "חמץ"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "קרדיט: OmerLink54"
+   ],
+   "observed": [
+    "קרדיט: OmerLink54"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/115926815733",
+   "observed": "http://hazfalafel.com/post/115926815733",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nmj66mcM4Y1r3it8zo1_500.jpg]",
+   "expected": "קרדיט: OmerLink54",
+   "observed": "קרדיט: OmerLink54",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20161003084927",
+   "observed": "20161003084927",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20161003084927id_/http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20161003084927id_/http://40.media.tumblr.com/33294127c1c2bbede36dd76e5dd1b38f/tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20161003084927",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:d35c94baf1f3513ee660950d7a6aef9f979042b979402d3410ff9e62160a3677",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2016-10-03T08:49:27Z",
+  "org.opencontainers.image.description": "קרדיט: OmerLink54",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 115926815733",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/115926815733",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "17",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "115926815733",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "ניצה-ולחם,רועי-כפרי,ניב-מג'ר,פסח,חמץ"
+ },
+ "layers": [
+  {
+   "digest": "sha256:065d2b15ba800c1c5a89e510b7c7ad3dbed0398e637ec59f202a6266dfb55692",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 50678
+  },
+  {
+   "digest": "sha256:5f208e80e59de824c836e8b2a3539eb4e3cf9a25e4ca80f73d43803064d09692",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1324
+  }
+ ],
+ "manifest_digest": "sha256:953a8fa77aecfa907ad69aa43835c957db5e21ff4ddef72022b7ed4e31a5a0ec",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "115926815733",
+ "pulled_files": [
+  {
+   "bytes": 50648,
+   "file": "tumblr_nmj66mcM4Y1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:065d2b15ba800c1c5a89e510b7c7ad3dbed0398e637ec59f202a6266dfb55692",
+   "role": "media",
+   "sha256": "0a2633d94efc9b40b6ae590ed96de48d0f792bc8f8ca3fdcedf52f82a78f27b3"
+  },
+  {
+   "bytes": 6641,
+   "file": "post.json",
+   "layer": "sha256:5f208e80e59de824c836e8b2a3539eb4e3cf9a25e4ca80f73d43803064d09692",
+   "role": "post-metadata",
+   "sha256": "6073e558734149a0a975c6d493160576eb585037d6f63856c27adb14e431dccf"
+  }
+ ],
+ "tag": "115926815733",
+ "verified_at": "2026-10-08T23:54:03Z"
+}
