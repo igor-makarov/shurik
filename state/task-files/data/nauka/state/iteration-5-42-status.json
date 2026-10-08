@@ -1,0 +1,88 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-42",
+  "phase": "progress",
+  "at": "2026-10-08T16:13:30.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T18:00:00.000Z",
+  "acknowledgement": "Acknowledged user-authorized four-hour continuation; supervisor deadline 2026-10-08T18:00:00.000Z (21:00 Asia/Jerusalem) is authoritative. Not extending.",
+  "continuationBaseline": {
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688,
+    "remainingRegularFiles": 237,
+    "remainingSupplementaryArchives": 5,
+    "masterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "resumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805"
+  },
+  "now": {
+    "publishedFiles": 985,
+    "publishedBytes": 14002944857,
+    "remainingFiles": 127,
+    "pendingFiles": 118,
+    "inProgressFiles": 9,
+    "durableGhcrCheckpointBytes": 344960054,
+    "gitPrefixPartialBytes": 16777216,
+    "knownBytesTotal": 14002944857
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:a4cc10c89b47eb03f2b8b91a1c6fe68dd256ab703bfad29370f0ab719f1a42e2",
+    "bytes": 1488247,
+    "catalogDigest": "sha256:7a19015d5deff477c17c736f9e8185880d2f3881a1ec5b3932e3ba5604c74037",
+    "checkpointDigest": "sha256:3ec6b4294d77f8733a026161d48953a4ea7820437533eefd54aa3a0cce6fe001",
+    "discoveryStatus": "complete",
+    "publishedByBatch": true
+  },
+  "batchesThisIteration": [
+    {
+      "batch": 92,
+      "budgetMs": 640000,
+      "cleanupMs": 100000,
+      "elapsedMs": 641524,
+      "exitCode": 0,
+      "published": 8,
+      "publishedBytes": 402654789,
+      "remainingAfter": 127,
+      "note": "restored+finished+publish the 8 prior in_progress from immutable GHCR chunk checkpoints (no re-download of completed chunks)."
+    },
+    {
+      "batch": 93,
+      "budgetMs": 460000,
+      "cleanupMs": 90000,
+      "elapsedMs": 504684,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "durablePartialBytesAdded": 328182838,
+      "remainingAfter": 127,
+      "note": "no publish but +328 MiB durable chunk checkpoint bytes; nij-1972-n06-pdf is now chunk-complete and will publish next batch without re-download. One transient body-stream abort retried."
+    }
+  ],
+  "inProgressIds": [
+    "nij-1972-n06-pdf",
+    "nij-1972-n05-pdf",
+    "nij-1974-n05-pdf",
+    "nij-1972-n10-pdf",
+    "nij-1974-n07-pdf",
+    "nij-1974-n09-pdf",
+    "nij-1972-n04-pdf",
+    "nij-1973-n07-pdf",
+    "nij-1967-n11-pdf"
+  ],
+  "nextActions": [
+    "Batch 94: publish the chunk-complete nij-1972-n06-pdf from durable chunks (restoreFromCheckpoints then finish) and continue smallest-first retrieval.",
+    "Continue bounded batches; restore any missing chunks from immutable GHCR checkpoint digests before transferring.",
+    "Publish the 5 supplementary archives when regular files complete.",
+    "Republish and verify the master index by immutable digest after batches."
+  ],
+  "discovery": {
+    "status": "complete",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "blockers": []
+}

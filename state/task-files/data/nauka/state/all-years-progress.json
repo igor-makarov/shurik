@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "5-41",
-  "at": "2026-10-08T15:39:40.000Z",
+  "iteration": "5-42",
+  "at": "2026-10-08T16:13:30.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T18:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -21,91 +21,69 @@
     "years": 87,
     "issues": 941,
     "totalFiles": 1112,
-    "knownGapYears": [
-      1891,
-      1892,
-      2016,
-      2017,
-      2018,
-      2019,
-      2021,
-      2022,
-      2023,
-      2024,
-      2025,
-      2026,
-      2027,
-      2028,
-      2029
-    ],
-    "note": "Discovery complete; unchanged this iteration."
+    "supplementaryFiles": 5,
+    "knownGapYears": [1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029],
+    "note": "Discovery complete; not restarted this iteration."
   },
   "publication": {
-    "publishedFiles": 977,
-    "publishedBytes": 13600290068,
-    "remainingFiles": 135,
+    "publishedFiles": 985,
+    "publishedBytes": 14002944857,
+    "remainingFiles": 127,
+    "pendingFiles": 118,
+    "inProgressFiles": 9,
     "baselinePublishedFiles": 875,
     "baselinePublishedBytes": 9777993649,
-    "newPublishedBeyondBaseline": 102,
-    "newPublishedBytesBeyondBaseline": 3822296419
+    "newPublishedBeyondBaseline": 110,
+    "newPublishedBytesBeyondBaseline": 4224951208
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:a0226e98a63f5d93bd17ed00dd2f4a5168977f7cf257d4db90270071cd3e38c1",
-    "bytes": 1485436,
-    "catalogDigest": "sha256:152c92d6c18d84dbfa999c6538747936c3b5c4f3388efce1232b5ec7067174ba",
-    "checkpointDigest": "sha256:8cfe627cfab533058133f8661fc4d99f60e85b65c43ced66baaab84584fe9c3b",
+    "digest": "sha256:a4cc10c89b47eb03f2b8b91a1c6fe68dd256ab703bfad29370f0ab719f1a42e2",
+    "bytes": 1488247,
+    "catalogDigest": "sha256:7a19015d5deff477c17c736f9e8185880d2f3881a1ec5b3932e3ba5604c74037",
+    "checkpointDigest": "sha256:3ec6b4294d77f8733a026161d48953a4ea7820437533eefd54aa3a0cce6fe001",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
-    "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T15:39:40.000Z",
-    "pulledFileSha256": "a0226e98a63f5d93bd17ed00dd2f4a5168977f7cf257d4db90270071cd3e38c1",
-    "publishedFlagMismatches": 0,
-    "problems": []
+    "publishedByBatch": true
   },
   "batchesThisIteration": [
     {
-      "batch": 90,
+      "batch": 92,
       "transferBudgetMs": 640000,
-      "published": 6,
-      "publishedBytes": 294751212,
-      "elapsedMs": 634707,
+      "published": 8,
+      "publishedBytes": 402654789,
+      "elapsedMs": 641524,
       "exitCode": 0,
-      "note": "restored+finished+publish 6 in_progress from GHCR checkpoints; remaining 143->137"
+      "note": "restore+finish+publish 8 prior in_progress from immutable GHCR checkpoints"
     },
     {
-      "batch": 91,
-      "transferBudgetMs": 700000,
-      "published": 2,
-      "publishedBytes": 100054554,
-      "elapsedMs": 655580,
+      "batch": 93,
+      "transferBudgetMs": 460000,
+      "published": 0,
+      "publishedBytes": 0,
+      "durablePartialBytesAdded": 328182838,
+      "elapsedMs": 504684,
       "exitCode": 0,
-      "note": "smallest-first fresh files; remaining 137->135"
+      "note": "no publish; +328 MiB durable chunk checkpoints; nij-1972-n06 chunk-complete ready to publish"
     }
   ],
   "newPublishedThisIteration": 8,
-  "newDurableBytesThisIteration": 394805766,
-  "throughputNote": "Batches 90-91 at 64/8; ~300-465 KiB/s effective under the 512 KiB/s cap; origin reachable, zero failures.",
+  "newDurableBytesThisIteration": 402654789,
+  "newDurablePartialBytesThisIteration": 328182838,
+  "throughputNote": "Batches 92-93 at 64/8; origin reachable, zero non-transient failures; one transient body-stream abort retried.",
   "blockers": [],
   "nextActions": [
-    "Restore the 8 in_progress files from immutable GHCR checkpoints, then continue bounded smallest-first batches for the remaining 127 pending regular files.",
+    "Publish chunk-complete nij-1972-n06-pdf from durable chunks without re-download.",
+    "Continue bounded smallest-first batches for the remaining 118 pending regular files.",
     "Publish the 5 supplementary archives when regular files complete.",
     "Republish and verify the master index by immutable digest after batches."
   ],
-  "continuation": {
-    "authorized": true,
-    "deadline": "2026-10-08T18:00:00.000Z",
-    "iteration": "5-40",
-    "acknowledgedAt": "2026-10-08T14:44:31.055Z",
-    "note": "Four-hour continuation acknowledged; 21:00 Asia/Jerusalem extension is authoritative."
-  },
-  "masterIndexVerifiedAt": "2026-10-08T13:29:53.879Z",
   "durablePartials": {
-    "ghcrCheckpointFiles": 8,
-    "ghcrCheckpointBytes": 251658240,
+    "ghcrCheckpointFiles": 9,
+    "ghcrCheckpointBytes": 344960054,
     "gitPrefixFiles": 2,
     "gitPrefixBytes": 16777216,
-    "note": "8 in_progress files have immutable GHCR chunk checkpoints (251,658,240 B); git prefixes (16,777,216 B) for nij-1971-n06-pdf + nij-1970-n11-pdf"
+    "note": "9 in_progress files have immutable GHCR chunk checkpoints (344,960,054 B); git prefixes (16,777,216 B) for nij-1972-n05-pdf + nij-1972-n10-pdf"
   }
 }
