@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-08T01:04:08.787Z
+Updated: 2026-10-08T01:05:02.601Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
@@ -113,10 +113,10 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
 
 ## Master index
-- canonical tag: `nij-master-index` @ `sha256:854396b015d87c00b722cb6ae0f2b7a9f039b43de58c9ba0a32e82e036954fb8`
-- catalog tag: `nij-master-catalog` @ `sha256:5096b301480654b3399b4152d5e32e31a6de2512733297c0bbca7a9f5da7e746`
-- checkpoint tag: `nij-master-checkpoint` @ `sha256:5f71acef5001a4519aee1590abb20411278f6eb62cf514a4c381f570f4659c17`
-- discovery status: complete; files 1112, published 465, issues 941
+- canonical tag: `nij-master-index` @ `sha256:3f298be3c669f12f4e0c87ee3b53918be21a74a3a9d4feb5a0a55496a6d7d921`
+- catalog tag: `nij-master-catalog` @ `sha256:ed53e92c0e5141f2a3aa10d9524a065b58b1c4809468974e75fe3fe931757c4f`
+- checkpoint tag: `nij-master-checkpoint` @ `sha256:7b8ac74eadf36d1a3275f59f5d4100f9722cf3917b8e5b21feceb84df797f641`
+- discovery status: complete; files 1112, published 468, issues 941
 
 ## Registry
 - Registry: ghcr.io/igor-makarov/shurik-nauka
@@ -1253,18 +1253,18 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1904,N01.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 2026-10-08T0032-batch28.json: pub 399->401, durable +15074831 B, failure: none
 - 2026-10-08T0045-batch29.json: pub 401->425, durable +182202279 B, failure: none
 - 2026-10-08T0052-batch30.json: pub 425->445, durable +154491622 B, failure: none
 - 2026-10-08T0059-batch31.json: pub 445->465, durable +158875037 B, failure: none
+- 2026-10-08T0104-batch32.json: pub 465->468, durable +23929661 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
-- concurrency: 32 connections
+- concurrency: 24 connections
 - chunk size: 1048576 B
 - request-start gap: 2000 ms
 - retries/chunk: 6; backoff 2000-120000 ms with jitter
-- per-file in-flight chunk cap: 8 (fair pool sharing)
+- per-file in-flight chunk cap: 6 (fair pool sharing)
 
 ## Commands (list / pull / resume)
 ```bash
