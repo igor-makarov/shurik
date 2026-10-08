@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-08T06:01:39.328Z
+Updated: 2026-10-08T06:07:41.936Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
@@ -13,12 +13,12 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Totals
 - discovered: 1112
-- published (GHCR, round-trip verified): 835
-- in progress: 5
-- pending: 272
+- published (GHCR, round-trip verified): 843
+- in progress: 4
+- pending: 265
 - unavailable/permanent: 0
-- remaining: 277
-- bytes published: 8961811217 / 9052464697
+- remaining: 269
+- bytes published: 9107521573 / 9181586707
 
 ## Per year
 - 1890: 1/1 published; issues N01; missing months: 2,3,4,5,6,7,8,9,10,11,12
@@ -33,24 +33,24 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1939: 11/11 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11-12; missing months: none
 - 1940: 3/12 published; issues N01,N02,N03,N04,N05-06,N07,N08-09,N10,N11-12; missing months: none
 - 1941: 7/8 published; issues N01,N02,N03,N04,N05,N06,N07-08,N11-12; missing months: 9,10
-- 1942: 11/16 published; issues N01,N02-03,N04-05,N06,N07-08,N09,N10,N11-12; missing months: none
+- 1942: 12/16 published; issues N01,N02-03,N04-05,N06,N07-08,N09,N10,N11-12; missing months: none
 - 1943: 4/7 published; issues N01-02,N03,N04-05,N06,N07-08,N09-10,N11-12; missing months: none
 - 1944: 8/8 published; issues N01-02,N03,N04-05,N06,N07-08,N09,N10,N11-12; missing months: none
 - 1945: 10/10 published; issues N01,N02-03,N04,N05-06,N07,N08-09,N10,N11-12; missing months: none
 - 1946: 16/16 published; issues N01,N02-03,N04,N05-06,N07,N08-09,N10,N11-12; missing months: none
-- 1947: 18/22 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
-- 1948: 15/24 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
+- 1947: 19/22 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
+- 1948: 16/24 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1949: 2/24 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1950: 9/21 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1951: 14/14 published; issues N01,N05,N06,N07,N08,N09,N10; missing months: 2,3,4,11,12
 - 1952: 16/16 published; issues N01,N02,N03,N04,N05,N06,N10,N12; missing months: 7,8,9,11
 - 1953: 24/24 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1954: 6/15 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
-- 1955: 15/23 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
+- 1955: 18/23 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1956: 0/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1957: 11/19 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1958: 12/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
-- 1959: 9/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
+- 1959: 10/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1960: 12/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1961: 8/14 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1962: 0/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
@@ -62,7 +62,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1968: 4/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1969: 3/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1970: 1/16 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
-- 1971: 5/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
+- 1971: 6/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1972: 4/15 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1973: 5/12 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
 - 1974: 1/14 published; issues N01,N02,N03,N04,N05,N06,N07,N08,N09,N10,N11,N12; missing months: none
@@ -113,10 +113,10 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
 
 ## Master index
-- canonical tag: `nij-master-index` @ `sha256:b5dab8026358ef14694a6c89337dce1aeebd9f2a713a5a9d154df938bc4d4071`
-- catalog tag: `nij-master-catalog` @ `sha256:21d7cbb56a200a9c47939bd9aeb4c849cbb3bbd72882433288c678c95b4b6779`
-- checkpoint tag: `nij-master-checkpoint` @ `sha256:5116cf84d4225b600af1ede3c28e7779a5e95b107fc5d8cf8064ad1f1ce92433`
-- discovery status: complete; files 1112, published 824, issues 941
+- canonical tag: `nij-master-index` @ `sha256:c3afd0e8c4e9174d632522fbe3bd038081ee6206aea668e4c85daff955fe6823`
+- catalog tag: `nij-master-catalog` @ `sha256:a53dce1052fea3451106e8dea6ad0a7b5e7522122de73a3f55620799777bef2e`
+- checkpoint tag: `nij-master-checkpoint` @ `sha256:05099920e807209f93798657cb1425e26ce89f2758f40684ac1acb33f0ae98e0`
+- discovery status: complete; files 1112, published 835, issues 941
 
 ## Registry
 - Registry: ghcr.io/igor-makarov/shurik-nauka
@@ -228,6 +228,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - `nij-1941-n1112-pdf` @ `sha256:53ce165d7591a2604bc9e157fa57067c47a92db6762baffc265b9e0f2752c947` — Nauka_i_jizn',1941,N11-12.[pdf].zip (12239256 B, sha256 a01be381e4ebf5dc…)
 - `nij-1942-n01-djv` @ `sha256:29c22f7ec5c8a7266b59543a5d04140eb802cd20d0927b1d144fbb6c8dc5ef25` — Nauka_i_jizn',1942,N01.[djv].zip (9300605 B, sha256 868c7747f56e70fb…)
 - `nij-1942-n01-pdf` @ `sha256:fe1fae9e2b49813550787c8836bb0b63ec9581c1dea18a6105b58bd875c9d73f` — Nauka_i_jizn',1942,N01.[pdf].zip (6184100 B, sha256 fc5fc0bbbfaf707e…)
+- `nij-1942-n0203-djv` @ `sha256:38c9003a3708d1ff9c9c28e5eae39c519540249c9b8f9c8696c17e8eb83dd7d0` — Nauka_i_jizn',1942,N02-03.[djv].zip (18330840 B, sha256 a7380b223ccbc457…)
 - `nij-1942-n0405-djv` @ `sha256:ed38bf45fb7fe0cc512baa72b6ff1f1f717dfacf00f37b7e061f224e4192812c` — Nauka_i_jizn',1942,N04-05.[djv].zip (5796418 B, sha256 1038de35d43d2849…)
 - `nij-1942-n06-djv` @ `sha256:6309c5db5a97285b34726f1cd796d16e2ad92b071c2e3384b6274d1a8ea83dea` — Nauka_i_jizn',1942,N06.[djv].zip (3656356 B, sha256 8e9db0d8d85ed8b6…)
 - `nij-1942-n06-pdf` @ `sha256:475a3157110484aaaccb87ac898b865802771e970482d2c9e6bcefa8c22e6394` — Nauka_i_jizn',1942,N06.[pdf].zip (11040591 B, sha256 571cfc4561929c3c…)
@@ -289,6 +290,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - `nij-1947-n09-djv` @ `sha256:f0251b9edd7dfc51287e9d46e186bb38a9f95de43e3bfdc3157f70188c3be3dc` — Nauka_i_jizn',1947,N09.[djv].zip (6182947 B, sha256 0104d0b56c1de1bb…)
 - `nij-1947-n09-pdf` @ `sha256:28f98d92b83db9ef1ac26e3247ec173cfc54d26b0cd878596c56163ffb0b587d` — Nauka_i_jizn',1947,N09.[pdf].zip (2752228 B, sha256 f080e5f6695a8cbe…)
 - `nij-1947-n10-djv` @ `sha256:f9cf40660704d77a3fc9673b89df31bbd98c809ad309b3dfd79eec398bc58892` — Nauka_i_jizn',1947,N10.[djv].zip (13119182 B, sha256 d0692b945a1e8c7e…)
+- `nij-1947-n10-pdf` @ `sha256:3098d428e68ad0175d86147d9bb7b4634f8653ea2b2b5870c27480e74bd4c263` — Nauka_i_jizn',1947,N10.[pdf].zip (18343052 B, sha256 e500c48cc37fc0bf…)
 - `nij-1947-n11-djv` @ `sha256:d2e946e7ac12147cef63632be7c6bd569005184e41f2fe8f61455ff8c96460e8` — Nauka_i_jizn',1947,N11.[djv].zip (6651923 B, sha256 e983d491ee889010…)
 - `nij-1947-n11-pdf` @ `sha256:2a840b0e35e2bccb8a3ad6e2b3d955cb91079c85de63c27e7ad8f06904a510e5` — Nauka_i_jizn',1947,N11.[pdf].zip (7106718 B, sha256 6e7ee82819d47b6d…)
 - `nij-1947-n12-djv` @ `sha256:ff019a5965cc58e5e777ab2fd24797d17051e2bd91e418f362ca9471f3f9b9eb` — Nauka_i_jizn',1947,N12.[djv].zip (9141700 B, sha256 0d4e61c222441915…)
@@ -301,6 +303,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - `nij-1948-n03-pdf` @ `sha256:bee376670b17e3f243eb566826764ecb2f5f40ed66b90708892183e2a9a4c879` — Nauka_i_jizn',1948,N03.[pdf].zip (8610787 B, sha256 52a9b3b2b34e3ad8…)
 - `nij-1948-n04-djv` @ `sha256:3d25beb8cba839d5b204e17b11680e4aad4513f3459aa6aedc192c5e7078d449` — Nauka_i_jizn',1948,N04.[djv].zip (14910194 B, sha256 d2aefa73a5d63103…)
 - `nij-1948-n04-pdf` @ `sha256:15bb44cbadf0552455c4fd9dac6f852ffab81da5c0bf98db527336d9bd53738c` — Nauka_i_jizn',1948,N04.[pdf].zip (16049088 B, sha256 3b37010d963c3f01…)
+- `nij-1948-n05-djv` @ `sha256:17655145df5fae6b5fc2cef0690371db9b003b54eb2549a45a7a0ba541239987` — Nauka_i_jizn',1948,N05.[djv].zip (18216133 B, sha256 ecc78ccacf7bc7c6…)
 - `nij-1948-n06-djv` @ `sha256:4d04b813f46562e4ff00fcde2c6ea3512cabfcc2e33f7cdb4211e658666002fd` — Nauka_i_jizn',1948,N06.[djv].zip (17108598 B, sha256 c9854d508eb93a3f…)
 - `nij-1948-n07-djv` @ `sha256:8ac675b6184a74a9537dee2ee74bea2c0e41d43481ab47ae51fc6490871a5b47` — Nauka_i_jizn',1948,N07.[djv].zip (7584456 B, sha256 32aa3cc6fef38741…)
 - `nij-1948-n08-djv` @ `sha256:4462fc7186ce31cbc67c001b4225f7d3a34dbbf5963a1292b26207532baa593e` — Nauka_i_jizn',1948,N08.[djv].zip (7558482 B, sha256 8c9cd6618907ad41…)
@@ -379,13 +382,16 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - `nij-1954-n06-pdf` @ `sha256:cd66169322c388aa7e1395d257c81787edf63d8b215c1fa3905447667c6d947f` — Nauka_i_jizn',1954,N06.[pdf].zip (13353281 B, sha256 e86973c408855d62…)
 - `nij-1954-n12-djv` @ `sha256:58405de4d31e36bd1f0b1a94f300776b7f824b5139619d4f20dc071872e7f3ad` — Nauka_i_jizn',1954,N12.[djv].zip (5823052 B, sha256 bad9fa27c063a561…)
 - `nij-1954-n12-pdf` @ `sha256:676ba02e4858a68e84ff6613a81ca211708fd48da7c564c1b893021df9be7859` — Nauka_i_jizn',1954,N12.[pdf].zip (11024591 B, sha256 9ec4b05714812b51…)
+- `nij-1955-n01-djv` @ `sha256:062e48249213a9417a894c364393032717d9b5353e609913d91510a03e33864f` — Nauka_i_jizn',1955,N01.[djv].zip (18111127 B, sha256 9528cdfb80d1a60d…)
 - `nij-1955-n02-djv` @ `sha256:d8dc6de9ed2fa1c877ea2ecaa875ffa61cfa0ec97ca086dc315d8dc5b9721a26` — Nauka_i_jizn',1955,N02.[djv].zip (7162278 B, sha256 a3e1fa824e67f9cd…)
+- `nij-1955-n02-pdf` @ `sha256:bc70189249db0240a0829ab0a977a2f324ffea648abc2d7d5d90eb1be621befd` — Nauka_i_jizn',1955,N02.[pdf].zip (18106715 B, sha256 fbce0b08b3a97694…)
 - `nij-1955-n03-djv` @ `sha256:5fe465ae10a7bb70732b7988182b7318d6ffd684172a0d29f835e617a004ad12` — Nauka_i_jizn',1955,N03.[djv].zip (8915048 B, sha256 23e68bb65299916c…)
 - `nij-1955-n03-pdf` @ `sha256:8b9af0d32581bb1e2540be2b1d64f2406024d123e6a128e20d10cba34b0d24c0` — Nauka_i_jizn',1955,N03.[pdf].zip (16877070 B, sha256 056c07d4627f8949…)
 - `nij-1955-n04-djv` @ `sha256:dde83fab4f2cc23b9de42a5c2fc16b9daa439064262959a6f7d61c5aaa0b5121` — Nauka_i_jizn',1955,N04.[djv].zip (8568029 B, sha256 f63a016f866e790f…)
 - `nij-1955-n04-pdf` @ `sha256:ec0878cd7b06732ba3842af8d9015a1d33ed93462f4802dcc3fb38d9df08469d` — Nauka_i_jizn',1955,N04.[pdf].zip (13450711 B, sha256 8fde8113966d7a59…)
 - `nij-1955-n05-djv` @ `sha256:07da40dacbeb7594dee7db510384179e781f070a20e9d4fe335cf57c907438ad` — Nauka_i_jizn',1955,N05.[djv].zip (9878893 B, sha256 b66f76e8f476d2ef…)
 - `nij-1955-n06-djv` @ `sha256:bb90d7b632fd00dde04d15f2d7e2725fc9e3601281ec3e40ebb630496cba5bdb` — Nauka_i_jizn',1955,N06.[djv].zip (9329175 B, sha256 14bf647ea7c45fb2…)
+- `nij-1955-n06-pdf` @ `sha256:7d95dac7748c5cbde2697012976100af992100d6e08eec55eb137a9ff3ff0e10` — Nauka_i_jizn',1955,N06.[pdf].zip (18382984 B, sha256 2c92231fa761d1c9…)
 - `nij-1955-n07-djv` @ `sha256:8a3b72e47a3389ab0bd51c0ff8a5ed683b50022bdcc814e28e85fb9c1e9249dd` — Nauka_i_jizn',1955,N07.[djv].zip (8584667 B, sha256 1bc1795f4248cba4…)
 - `nij-1955-n07-pdf` @ `sha256:85f48d8a0b324c2f41dc43d910066ae28d050dd01c5d567607f736d60af355a2` — Nauka_i_jizn',1955,N07.[pdf].zip (15724011 B, sha256 9ffc1be4d07414d7…)
 - `nij-1955-n09-djv` @ `sha256:ee08c578d7078cf636852ab6a3ab14911c0c3831c54e8e63ffb5133df70e9092` — Nauka_i_jizn',1955,N09.[djv].zip (8852650 B, sha256 c33bc3719c0f8384…)
@@ -425,6 +431,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - `nij-1959-n07-djv` @ `sha256:a2939490eb190573f7acd005a1d12c43d4bb7a46ba84519651a996d54805c7c0` — Nauka_i_jizn',1959,N07.[djv].zip (6967164 B, sha256 f33bae29c74acb0b…)
 - `nij-1959-n08-djv` @ `sha256:8a2986a97ade5b1e7cd19c97d6cad5a838d4dce1c934022b25f1a899fb358045` — Nauka_i_jizn',1959,N08.[djv].zip (17902967 B, sha256 fea21fecb08a4e0d…)
 - `nij-1959-n10-djv` @ `sha256:b903ac2567da6c99a2cf6e0b79990b87f36a3f62c719a0e2bad1f868f529717f` — Nauka_i_jizn',1959,N10.[djv].zip (15783304 B, sha256 1132622d77a0f948…)
+- `nij-1959-n11-djv` @ `sha256:4429ecee67cc8c5c50fb6a8c7d5a783642a965aa3ab39eb937a557d92c8aabca` — Nauka_i_jizn',1959,N11.[djv].zip (17934906 B, sha256 a9ead9dc98af569e…)
 - `nij-1959-n12-djv` @ `sha256:ebcea7f05fef4ee2ddef2118e89b50006617db0d1d80c0914b2079b9dad51810` — Nauka_i_jizn',1959,N12.[djv].zip (15459811 B, sha256 731e38819fc4b746…)
 - `nij-1960-n01-djv` @ `sha256:96b4a7586e30003dfcbf61ea99c2d765a9bb48bdce4f2ffe4cc625255d932744` — Nauka_i_jizn',1960,N01.[djv].zip (16931854 B, sha256 b9a42e20f44c9486…)
 - `nij-1960-n02-djv` @ `sha256:af638b07c7291255283241a40b49e17334bfd5052b318a4fcbe049eae1d47e9c` — Nauka_i_jizn',1960,N02.[djv].zip (12775253 B, sha256 ebb77510764b1352…)
@@ -466,6 +473,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - `nij-1971-n04-djv` @ `sha256:c125381206135c5b667fd4e950978661b5745bd7222c653c637e80f8907e7a31` — Nauka_i_jizn',1971,N04.[djv].zip (12303687 B, sha256 8e5d8d81f8463aeb…)
 - `nij-1971-n05-djv` @ `sha256:3b3678328fbe72ec7b992b2290c3a3fbb08461b06df25ab1c32e0d4e64aed44b` — Nauka_i_jizn',1971,N05.[djv].zip (13779618 B, sha256 09dd76d0392e7063…)
 - `nij-1971-n10-djv` @ `sha256:896fc3fe4e2668751a558af10d5e9d30a339d643ee0a07c76cd55732bbb8a9e9` — Nauka_i_jizn',1971,N10.[djv].zip (8348440 B, sha256 fd3a751727376341…)
+- `nij-1971-n11-djv` @ `sha256:0b6da2189cbe7c87fb4612c6cec2df3b4ce897bb50983ed622810f4c18e828c4` — Nauka_i_jizn',1971,N11.[djv].zip (18284599 B, sha256 51c221a991936922…)
 - `nij-1972-n01-djv` @ `sha256:c622e8a28f413a5bbd77bea078ed81bc2bf82556723021d239b822ac2b1ccb5c` — Nauka_i_jizn',1972,N01.[djv].zip (9974455 B, sha256 efcef10cfe1f4a30…)
 - `nij-1972-n02-djv` @ `sha256:862b3560673ea3030476e75f083859c56eb23312a5b0e22354d2f28e7b365ffb` — Nauka_i_jizn',1972,N02.[djv].zip (6130885 B, sha256 0885153d2933fc65…)
 - `nij-1972-n08-djv` @ `sha256:39b8c372b87dbc778267dc3b11f18adfd8f24a01181316e38cdc3289a255d83f` — Nauka_i_jizn',1972,N08.[djv].zip (10182434 B, sha256 23b3faccd4908b67…)
@@ -981,8 +989,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1940-n0809-pdf: pending 0/? B (no error)
 - nij-1940-n10-pdf: pending 0/? B (no error)
 - nij-1940-n1112-pdf: pending 0/? B (no error)
-- nij-1941-n06-pdf: pending 0/? B (no error)
-- nij-1942-n0203-djv: pending 0/? B (no error)
+- nij-1941-n06-pdf: in_progress 8388608/18700315 B (no error)
 - nij-1942-n0203-pdf: pending 0/? B (no error)
 - nij-1942-n0405-pdf: pending 0/? B (no error)
 - nij-1942-n0708-pdf: pending 0/? B (no error)
@@ -993,8 +1000,6 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1947-n01-djv: pending 0/? B (no error)
 - nij-1947-n01-pdf: pending 0/? B (no error)
 - nij-1947-n06-pdf: pending 0/? B (no error)
-- nij-1947-n10-pdf: pending 0/? B (no error)
-- nij-1948-n05-djv: in_progress 8388608/18216133 B (no error)
 - nij-1948-n05-pdf: pending 0/? B (no error)
 - nij-1948-n06-pdf: pending 0/? B (no error)
 - nij-1948-n07-pdf: pending 0/? B (no error)
@@ -1046,11 +1051,8 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1954-n09-pdf: pending 0/? B (no error)
 - nij-1954-n10-pdf: pending 0/? B (no error)
 - nij-1954-n11-pdf: pending 0/? B (no error)
-- nij-1955-n01-djv: in_progress 16777216/18111127 B (no error)
 - nij-1955-n01-pdf: pending 0/? B (no error)
-- nij-1955-n02-pdf: in_progress 8388608/18106715 B (no error)
-- nij-1955-n05-pdf: pending 0/? B (no error)
-- nij-1955-n06-pdf: pending 0/? B (no error)
+- nij-1955-n05-pdf: in_progress 0/18668928 B (no error)
 - nij-1955-n08-pdf: pending 0/? B (no error)
 - nij-1955-n10-pdf: pending 0/? B (no error)
 - nij-1955-n12-pdf: pending 0/? B (no error)
@@ -1076,7 +1078,6 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1957-n12-pdf: pending 0/? B (no error)
 - nij-1959-n05-djv: pending 0/? B (no error)
 - nij-1959-n09-djv: pending 0/? B (no error)
-- nij-1959-n11-djv: in_progress 16777216/17934906 B (no error)
 - nij-1961-n07-pdf: pending 0/? B (no error)
 - nij-1961-n08-pdf: pending 0/? B (no error)
 - nij-1961-n09-pdf: pending 0/? B (no error)
@@ -1188,7 +1189,6 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1971-n07-pdf: pending 0/? B (no error)
 - nij-1971-n08-pdf: pending 0/? B (no error)
 - nij-1971-n09-pdf: pending 0/? B (no error)
-- nij-1971-n11-djv: in_progress 0/18284599 B (no error)
 - nij-1971-n12-pdf: pending 0/? B (no error)
 - nij-1972-n01-pdf: pending 0/? B (no error)
 - nij-1972-n02-pdf: pending 0/? B (no error)
@@ -1205,7 +1205,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1973-n05-pdf: pending 0/? B (no error)
 - nij-1973-n07-pdf: pending 0/? B (no error)
 - nij-1973-n09-pdf: pending 0/? B (no error)
-- nij-1973-n10-djv: pending 0/? B (no error)
+- nij-1973-n10-djv: in_progress 16777216/18358994 B (no error)
 - nij-1973-n11-pdf: pending 0/? B (no error)
 - nij-1973-n12-pdf: pending 0/? B (no error)
 - nij-1974-n01-pdf: pending 0/? B (no error)
@@ -1222,7 +1222,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1974-n11-pdf: pending 0/? B (no error)
 - nij-1974-n12-pdf: pending 0/? B (no error)
 - nij-1977-n05-djv: pending 0/? B (no error)
-- nij-2008-n10-djv: pending 0/? B (no error)
+- nij-2008-n10-djv: in_progress 16777216/18336897 B (no error)
 - nij-2008-n12-pdf: pending 0/? B (no error)
 - nij-2009-n03-pdf: pending 0/? B (no error)
 - nij-2009-n04-pdf: pending 0/? B (no error)
@@ -1249,14 +1249,14 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-08T05:53:46.866Z -> reachable
+- last probe: 2026-10-08T06:02:06.332Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1904,N01-04.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 20261008T051057-batch60.json: pub 781->791, durable +137696131 B, failure: none
 - 20261008T053204-batch61.json: pub 791->811, durable +298665964 B, failure: none
 - 20261008T054021-batch62.json: pub 811->823, durable +191227756 B, failure: none
 - 20261008T054528-batch63.json: pub 823->824, durable +16602439 B, failure: none
+- 20261008T060143-batch64.json: pub 824->835, durable +188423115 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s
