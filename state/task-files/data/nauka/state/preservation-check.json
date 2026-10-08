@@ -1,14 +1,13 @@
 {
   "kind": "shurik-nauka-preservation-check",
-  "iteration": "4-23",
-  "at": "2026-10-08T02:38:00.000Z",
+  "iteration": "4-24",
+  "at": "2026-10-08T03:03:55.872Z",
   "checks": [
     {
       "tag": "nij-1934-39-index",
       "resolvedDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
       "expectedDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
-      "ok": true,
-      "note": "preserved completed 1934-1939 subset index, never relabelled"
+      "ok": true
     },
     {
       "tag": "nij-1934-39-checkpoint",
@@ -18,10 +17,9 @@
     },
     {
       "tag": "nij-master-index",
-      "resolvedDigest": "sha256:6eaf4bbad1371a4a4e04d01ec883eedb9bce0401289c2a5993eaaecda3f00267",
-      "expectedDigest": "sha256:6eaf4bbad1371a4a4e04d01ec883eedb9bce0401289c2a5993eaaecda3f00267",
-      "ok": true,
-      "note": "current all-years master index (provisional-until-discovery-complete is now complete; catalog fully enumerated)"
+      "resolvedDigest": "sha256:9c8ea6b5f7868ed579e7ec5378179861fc324dd9212863f9ef21267b0528ad3c",
+      "expectedDigest": "sha256:9c8ea6b5f7868ed579e7ec5378179861fc324dd9212863f9ef21267b0528ad3c",
+      "ok": true
     }
   ],
   "allOk": true

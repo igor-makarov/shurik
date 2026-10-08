@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-23",
-  "at": "2026-10-08T02:37:30.000Z",
+  "iteration": "4-24",
+  "at": "2026-10-08T03:03:49.113Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -30,9 +30,9 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "inProgressFiles": 3,
-    "pendingFiles": 503,
-    "publishedFiles": 606,
+    "inProgressFiles": 0,
+    "pendingFiles": 464,
+    "publishedFiles": 648,
     "note": "Discovery stays complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented. No new catalog pages were listed since iteration 4-20.",
     "genericTotal": 1112,
     "knownGapYears": [
@@ -54,29 +54,29 @@
     ]
   },
   "publication": {
-    "publishedFiles": 606,
-    "publishedIssues": 491,
-    "publishedBytes": 6104567400,
-    "remainingFiles": 506,
-    "inProgressEntries": 3,
-    "inProgressWithDurableChunks": 2,
-    "verifiedPartialBytes": 15728640,
+    "publishedFiles": 648,
+    "publishedIssues": 530,
+    "publishedBytes": 6542342467,
+    "remainingFiles": 464,
+    "inProgressEntries": 0,
+    "inProgressWithDurableChunks": 1,
+    "verifiedPartialBytes": 6291456,
     "controlBranchPrefixBytes": 14680064,
-    "knownBytesTotal": 6135040837,
+    "knownBytesTotal": 6553019771,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 546,
-    "newPublishedBytesBeyondBaseline": 3792937110,
+    "newPublishedBeyondBaseline": 588,
+    "newPublishedBytesBeyondBaseline": 4230712177,
     "note": "verifiedPartialBytes = GHCR-checkpointed chunk workspaces (9+6 MiB); controlBranchPrefixBytes = control-branch prefixes capped at 8 MiB/file (8+6 MiB); a third in-progress file has no durable chunks yet."
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:6eaf4bbad1371a4a4e04d01ec883eedb9bce0401289c2a5993eaaecda3f00267",
-    "bytes": 1355097,
-    "catalogDigest": "sha256:d976a06283f4963be8cf4f362371083e433cc33eaa1904f0c6c6467afad078bc",
-    "checkpointDigest": "sha256:4828b0d7dc40fe86ad38dad968f5fc68fd5c933b7d3c7f65c38c432067617c0d",
+    "digest": "sha256:9c8ea6b5f7868ed579e7ec5378179861fc324dd9212863f9ef21267b0528ad3c",
+    "bytes": 1369809,
+    "catalogDigest": "sha256:5bee4553911cc9481c88de6b72f42532078f8c76cea411e09c3796928a46c194",
+    "checkpointDigest": "sha256:0cbb8752a4431cb85353b72c31e5b4d4b2a2e28f44e707644466776a1613c472",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T02:37:15.618Z",
+    "verifiedAt": "2026-10-08T03:03:32.672Z",
     "publishedFlagMismatches": 0,
     "problems": [],
     "catalogTag": "nij-master-catalog",
@@ -84,36 +84,29 @@
   },
   "batchesThisIteration": [
     {
-      "batch": 39,
-      "publishedThisBatch": 14,
-      "durableNewBytes": 133221693,
-      "elapsedMs": 388826
-    },
-    {
-      "batch": 40,
+      "batch": 43,
       "publishedThisBatch": 15,
-      "durableNewBytes": 146772364,
-      "elapsedMs": 369233
+      "durableNewBytes": 153200188,
+      "elapsedMs": 371982
     },
     {
-      "batch": 41,
-      "publishedThisBatch": 16,
-      "durableNewBytes": 160190359,
-      "elapsedMs": 381989
+      "batch": 44,
+      "publishedThisBatch": 13,
+      "durableNewBytes": 135752762,
+      "elapsedMs": 399333
     },
     {
-      "batch": 42,
-      "publishedThisBatch": 7,
-      "durableNewBytes": 70921093,
-      "elapsedMs": 193093
+      "batch": 45,
+      "publishedThisBatch": 14,
+      "durableNewBytes": 148822117,
+      "elapsedMs": 390681
     }
   ],
-  "newPublishedThisIteration": 52,
-  "newDurableBytesThisIteration": 511105509,
+  "newPublishedThisIteration": 42,
+  "newDurableBytesThisIteration": 437775067,
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 513 files.",
-    "Refresh and re-verify the master index by immutable digest after each batch.",
-    "Update all-years-progress.json + batch records with new published counts/bytes."
+    "Continue bounded smallest-first retrieve batches for the remaining 464 files.",
+    "Refresh and re-verify the master index by immutable digest after each batch."
   ]
 }
