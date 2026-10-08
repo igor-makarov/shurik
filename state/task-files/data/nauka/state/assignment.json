@@ -1,10 +1,10 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-53",
-  "at": "2026-10-08T22:02:40.891Z",
+  "iteration": "5-55",
+  "at": "2026-10-08T22:43:30.000Z",
   "deadline": null,
-  "deadlineLocal": "completion-driven (no time deadline)",
+  "deadlineLocal": "completion-driven (supervisor control.json deadline=null is authoritative; earlier time deadlines superseded)",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
   "masterIndexTag": "nij-master-index",
   "masterCatalogTag": "nij-master-catalog",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 1069,
-  "publishedBytesNow": 18741920056,
-  "remainingFilesNow": 43,
-  "masterIndexDigestNow": "sha256:998721509296320c79e83bd4e4a0faec5fd18a337f278c5b46de78d00be4e747",
+  "publishedFilesNow": 1073,
+  "publishedBytesNow": 19044687685,
+  "remainingFilesNow": 39,
+  "masterIndexDigestNow": "sha256:ce5c9d5029dc8495141e9d6d3a166aadb15659fc69beb1a64d5ea035ddf6b880",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -111,5 +111,17 @@
   "supplementaryBytesNow": 70214939,
   "supplementaryStatusNow": "complete",
   "noteNow": "Iteration 5-53 progress: 1069/1112 regular + 5/5 supplementary published; 43 remaining (4 in_progress with durable GHCR chunk checkpoints 91,226,112 B; 39 pending). Master index verified by immutable pull (0 problems).",
-  "acknowledgement": "Iteration 5-53 acknowledges the user-authorized continuation and the current supervisor completion-driven control. Scope all-years. Preserved the completed 1934-1939 subset and every existing file id/receipt; no falafel code/artifacts/history read or reused; work done inside this Shurik loop."
+  "acknowledgement": "Iteration 5-53 acknowledges the user-authorized continuation and the current supervisor completion-driven control. Scope all-years. Preserved the completed 1934-1939 subset and every existing file id/receipt; no falafel code/artifacts/history read or reused; work done inside this Shurik loop.",
+  "continuationAck": {
+    "acknowledged": true,
+    "iteration": "5-55",
+    "at": "2026-10-08T22:43:30.000Z",
+    "supervisorControl": "codex/shurik-control/nauka-20261007 control.json deadline=null (verified by git show); completion-driven until all 1112 regular files + 5 supplementary archives published with a truthful all-years master index.",
+    "baseline": "875-file boundary superseded by later durable progress; current saved baseline is 1073 published regular + 5 supplementary, 39 regular remaining.",
+    "note": "Iteration 5-55 acknowledges the user-authorized continuation. Preserved 60-file 1934-1939 subset and every file id/receipt; no redownload of the 60. Work done inside this Shurik loop; no falafel code/artifacts/history read or reused."
+  },
+  "nextActions": [
+    "Restore+finish the 4 durable in-progress files (nij-1964-n02/n03, nij-1970-n04, nij-2009-n09) from their immutable GHCR chunk digests, then smallest-first the 35 pending regular PDFs.",
+    "Refresh+re-verify the master index (nij-master-index) by immutable digest after each batch."
+  ]
 }
