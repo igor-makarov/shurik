@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-31",
-  "at": "2026-10-08T06:51:30.000Z",
+  "iteration": "4-32",
+  "at": "2026-10-08T06:59:00.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -37,42 +37,36 @@
     "publishedBytes": 9777993649,
     "remainingFiles": 237,
     "inProgressFiles": 4,
-    "verifiedPartialBytes": 68157440,
+    "verifiedPartialBytes": 92274688,
     "baselinePublishedFiles": 60,
     "newPublishedBeyondBaseline": 815,
     "newPublishedBytesBeyondBaseline": 7466363359
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:94503d91093369eed78e988cee4e879fca3c06b1eed2e71cc49fc2eb9cb2464f",
-    "bytes": 1449579,
-    "catalogDigest": "sha256:5cf56326f5610f4664439c514585ee4726853b1c3d3809451c47e8b13facd058",
-    "checkpointDigest": "sha256:ed3249ff52dc1dc33ceeb75db18dbfb91bb1fe384dfde5f1061e31abf9ff0aae",
+    "digest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "bytes": 1449580,
+    "catalogDigest": "sha256:95161ace752374acb268065fcbc9200c6f14d96e9951fa8555b0762dba60e272",
+    "checkpointDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T06:50:38.960Z",
+    "verifiedAt": "2026-10-08T06:58:34.083Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
   "batchesThisIteration": [
-    { "batch": 68, "published": 10, "durableNewBytes": 203818450, "elapsedMs": 480351, "exitCode": 0 },
-    { "batch": 69, "published": 9, "durableNewBytes": 198336720, "elapsedMs": 469714, "exitCode": 0 },
-    { "batch": 70, "published": 5, "durableNewBytes": 118552756, "elapsedMs": 322728, "exitCode": 0 }
+    { "batch": 71, "published": 0, "durableNewPartialBytes": 24117248, "elapsedMs": 112975, "exitCode": 0 }
   ],
-  "newPublishedThisIteration": 24,
-  "newDurableBytesThisIteration": 520707926,
-  "throughputNote": "Batches 68-70 at 48/6; aggregate token bucket <=512 KiB/s; all exit 0, zero transfer failures.",
+  "newPublishedThisIteration": 0,
+  "newDurableBytesThisIteration": 24117248,
+  "throughputNote": "Batch 71 at 48/6; aggregate token bucket <=512 KiB/s; exit 0, zero transfer failures.",
   "blockers": [],
   "nextActions": [
     "Continue bounded smallest-first retrieve batches for the remaining 237 files.",
+    "Resume the 4 files with durable GHCR partials first (nij-1949-n06-djv, nij-2010-n10-pdf, nij-1949-n06-pdf, nij-1949-n07-djv).",
     "Refresh+re-verify master index by immutable digest after each batch."
   ],
-  "totalsThisIteration": {
-    "published": 24,
-    "bytes": 520707926,
-    "throughputNote": "48/6; aggregate <=512 KiB/s; zero origin failures"
-  },
   "nextAction": "Continue bounded smallest-first retrieve batches; remaining 237 files."
 }

@@ -1,0 +1,33 @@
+{
+  "kind": "shurik-nauka-batch",
+  "iteration": "4-32",
+  "batch": 71,
+  "at": "2026-10-08T06:58:12.757Z",
+  "command": "node tools/nauka/cli.mjs retrieve (NAUKA_RETRIEVE_MS=95000 NAUKA_CLEANUP_MS=22000)",
+  "exitCode": 0,
+  "elapsedMs": 112975,
+  "publishedBefore": 875,
+  "publishedAfter": 875,
+  "publishedThisBatch": 0,
+  "remainingFiles": 237,
+  "durableNewPartialBytes": 24117248,
+  "verifiedPartialBytesAfter": 92274688,
+  "partialFilesCheckpointed": [
+    { "id": "nij-1949-n06-djv", "bytes": 23068672, "chunks": 22, "sha256": "147ae23d2661413eb7e31d36ef2da227838f49bf98d4a0989af10ce45dd53726" },
+    { "id": "nij-2010-n10-pdf", "bytes": 23068672, "chunks": 22, "sha256": "2a111c16d05fe72dc2e4929ca5324c13afb2490391a801f7dc2b4737aa2f024b" },
+    { "id": "nij-1949-n06-pdf", "bytes": 23068672, "chunks": 22, "sha256": "b7c79708660bcd12dd47107fa773384423fcddc7a456787b9643470301a9773a" },
+    { "id": "nij-1949-n07-djv", "bytes": 14680064, "chunks": 14, "sha256": "5682b2d54daf5258bc2eaf2b2e114716358504548af56723b0b78b06726442cf" }
+  ],
+  "masterIndexAfter": {
+    "tag": "nij-master-index",
+    "digest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "bytes": 1449580,
+    "catalogDigest": "sha256:95161ace752374acb268065fcbc9200c6f14d96e9951fa8555b0762dba60e272",
+    "checkpointDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T06:58:34.083Z",
+    "publishedFlagMismatches": 0
+  },
+  "originFailures": 0,
+  "notes": "Transfer budget elapsed cleanly; drain checkpointed 4 partials to GHCR and republished master index. No fresh file completed within the short window."
+}

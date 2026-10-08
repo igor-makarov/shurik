@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "4-31",
-  "at": "2026-10-08T06:51:30.000Z",
+  "iteration": "4-32",
+  "at": "2026-10-08T06:59:00.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "published": 875,
@@ -11,12 +11,12 @@
   "status": "IN_PROGRESS",
   "origin": {
     "reachable": true,
-    "lastChecked": "2026-10-08T06:26:30.000Z",
-    "note": "Origin publ.lib.ru up; iteration 4-31 batches 68-70 exit 0, zero transfer failures, 48/6, aggregate <=512 KiB/s."
+    "lastChecked": "2026-10-08T06:56:23.437Z",
+    "note": "Origin publ.lib.ru up; iteration 4-32 batch 71 exit 0, zero transfer failures, 48/6, aggregate <=512 KiB/s."
   },
   "resumeState": {
     "location": "data/nauka/state + data/nauka/partials (control branch) and GHCR checkpoint digests in files.json",
-    "verifiedPartialBytes": 68157440,
+    "verifiedPartialBytes": 92274688,
     "partialFiles": 4
   },
   "discovery": {
@@ -30,22 +30,22 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:94503d91093369eed78e988cee4e879fca3c06b1eed2e71cc49fc2eb9cb2464f",
-    "bytes": 1449579,
-    "catalogDigest": "sha256:5cf56326f5610f4664439c514585ee4726853b1c3d3809451c47e8b13facd058",
-    "checkpointDigest": "sha256:ed3249ff52dc1dc33ceeb75db18dbfb91bb1fe384dfde5f1061e31abf9ff0aae",
+    "digest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "bytes": 1449580,
+    "catalogDigest": "sha256:95161ace752374acb268065fcbc9200c6f14d96e9951fa8555b0762dba60e272",
+    "checkpointDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
     "checkpointTag": "nij-master-checkpoint",
     "catalogTag": "nij-master-catalog",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T06:50:38.960Z",
+    "verifiedAt": "2026-10-08T06:58:34.083Z",
     "publishedFlagMismatches": 0,
     "problems": [],
     "verified": "verify-master.mjs immutable-digest pull OK (published 875, status complete)"
   },
   "codeChangesThisIteration": [],
-  "publishedThisIteration": 24,
-  "newDurableBytesThisIteration": 520707926,
-  "nextAction": "Continue bounded retrieve batches; remaining 237 files.",
-  "notes": "Iteration 4-31: batches 68-70 published 24 fresh files (851->875), +520707926 durable bytes. Master index refreshed + re-verified by immutable pull (sha256:94503d91093369eed78e988cee4e879fca3c06b1eed2e71cc49fc2eb9cb2464f, status complete, 0 mismatches). Discovery complete (87 years, 941 issues, 1112 files). 48/6, aggregate <=512 KiB/s."
+  "publishedThisIteration": 0,
+  "newDurableBytesThisIteration": 24117248,
+  "nextAction": "Continue bounded retrieve batches; remaining 237 files, 4 with durable GHCR partials.",
+  "notes": "Iteration 4-32 (final short window): batch 71 ran 112975ms, published 0 fresh files (875 unchanged) but checkpointed 4 in-progress files to GHCR partials, raising verified durable partial bytes 68157440 -> 92274688 (+24117248, 88 MiB across 4 files). Master index republished + re-verified by immutable pull (sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1, 1449580 B, status complete, 0 mismatches). Discovery complete (87 years, 941 issues, 1112 files). 48/6, aggregate <=512 KiB/s. Resumption point: run `node tools/nauka/cli.mjs retrieve` (bounded, ~95s budget) then re-verify master."
 }

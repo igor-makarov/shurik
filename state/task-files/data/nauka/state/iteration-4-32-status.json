@@ -1,0 +1,60 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "4-32",
+  "at": "2026-10-08T06:59:00.000Z",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "acknowledgedScopeChange": true,
+  "discovery": {
+    "status": "complete",
+    "eraPages": "12/12",
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "note": "Discovery unchanged this iteration; preserved from prior iterations."
+  },
+  "publication": {
+    "publishedFiles": 875,
+    "publishedIssues": 718,
+    "remainingFiles": 237,
+    "publishedBytes": 9777993649,
+    "newBeyond60BaselineFiles": 815,
+    "newBeyond60BaselineBytes": 7466363359,
+    "verifiedPartialBytes": 92274688,
+    "durablePartialFiles": 4
+  },
+  "baseline60": {
+    "files": 60,
+    "bytes": 2311630290,
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "preserved": true,
+    "note": "old NAUKA_STATUS 60/60 is only the completed 1934-1939 subset, not the all-years objective"
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "bytes": 1449580,
+    "catalogDigest": "sha256:95161ace752374acb268065fcbc9200c6f14d96e9951fa8555b0762dba60e272",
+    "checkpointDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T06:58:34.083Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "batchesThisIteration": [
+    { "batch": 71, "published": 0, "durableNewPartialBytes": 24117248, "durableNewBytes": 24117248, "elapsedMs": 112975, "exitCode": 0 }
+  ],
+  "totalsThisIteration": {
+    "published": 0,
+    "bytes": 24117248,
+    "throughputNote": "48/6; aggregate <=512 KiB/s; zero origin failures; 4 files checkpointed to GHCR partials (88 MiB total)."
+  },
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 237 files. 4 files hold durable GHCR partials.",
+  "newPublishedThisIteration": 0,
+  "newDurableBytesThisIteration": 24117248
+}
