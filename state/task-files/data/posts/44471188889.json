@@ -19,8 +19,8 @@
  "content_text": "לא יודע מה איתך אריק, אבל חברה שלי יפה תמיד…",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T19:34:31Z",
- "image_count": 1,
+ "fetched_at": "2026-10-08T23:55:25Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -70,13 +70,42 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1",
      "url": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 413122,
+     "capture_timestamp": "20140111015713",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "949faae2e6a4d35288e63c6ab1f99e5c357776cc0d5c679b70a1c15e01888b95",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_mcz5smqkfg1r3it8zo1.jpg",
+   "blob_path": "data/blobs/94/949faae2e6a4d35288e63c6ab1f99e5c357776cc0d5c679b70a1c15e01888b95",
+   "bytes": 413122,
    "caption": "לא יודע מה איתך אריק, אבל חברה שלי יפה תמיד…",
    "caption_alt": "לא יודע מה איתך אריק, אבל חברה שלי יפה תמיד…",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "B5UH7AM7KOPUWMDVMX2ADWSZTWWNUR5G",
+    "original": "http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111015713id_/http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
+    "timestamp": "20140111015713"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
    "found_in": "img",
    "host_inventory": {
     "host": "78.media.tumblr.com",
@@ -87,9 +116,12 @@
    },
    "link_text": "",
    "media_key": "tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20140111015713 of http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg (413122 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "949faae2e6a4d35288e63c6ab1f99e5c357776cc0d5c679b70a1c15e01888b95",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
     "http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
@@ -250,63 +282,12 @@
    "url": "http://hazfalafel.com/post/44471188889"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_1280.jpg",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_1024.jpg",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_540.jpg",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_400.jpg",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_250.jpg",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_100.jpg",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1.png",
-      "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "media-index",
-     "host": "78.media.tumblr.com",
-     "media_url": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
-     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
-     "rows": 101723
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1",
-     "url": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1",
-     "url": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://78.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/44471188889",
  "page_bytes": 67271,
  "page_sha256": "2092d8072234e3ebfddd11745cf5e3b48896681ee04be4f55c503a8c5e1e2bab",
- "partial": true,
+ "partial": false,
  "post_id": "44471188889",
  "posted_on": "Posted on Sunday the 3rd of March 2013 at 8:32 PM",
  "published": {
@@ -324,7 +305,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171116045153id_/http://hazfalafel.com/post/44471188889",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "scumbag-steve",
   "סטיב-החלאה",

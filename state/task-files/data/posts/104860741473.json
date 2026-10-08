@@ -19,8 +19,8 @@
  "content_text": "מעוניינים לברך את כחלון ומפלגת “כולנו” ואת ציפי ובוז’י ומפלגת… ציפוז’י?\nתודה לג’ון ברנר",
  "date_text": "Posted 2 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T16:22:02Z",
- "image_count": 2,
+ "fetched_at": "2026-10-08T23:55:21Z",
+ "image_count": 3,
  "images": [
   {
    "attempts": [
@@ -222,30 +222,12 @@
    ],
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1024.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_540.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_400.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_100.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.png",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
-     "variants": [
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_400.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_100.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.png",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.gif"
-     ]
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -296,18 +278,66 @@
      "requested_timestamp": "20191231235959",
      "status": 404,
      "url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1",
+     "url": "http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 44475,
+     "capture_timestamp": "20141222024812",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72",
+     "status": 200,
+     "url": "http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1024.jpg",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_540.jpg",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.png",
+      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.gif"
+     ]
     }
    ],
    "base_key": "tumblr_ngdt8o2sRv1r3it8zo1.jpg",
+   "blob_path": "data/blobs/89/89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72",
+   "bytes": 44475,
    "caption": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
    "caption_alt": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "AX47CZAC2F3L4PZL55XPYYTFJTRLEQ5M",
+    "original": "http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20141222024812id_/http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
+    "timestamp": "20141222024812"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20141222024812 of http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg (44475 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72",
+   "state": "recovered",
    "url_forms": [
     "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
@@ -379,105 +409,22 @@
    "url": "http://hazfalafel.com/post/104860741473"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1024.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_540.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_400.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_100.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.png",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
-     "variants": [
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_400.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_100.jpg",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.png",
-      "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1.gif"
-     ]
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_1024.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_540.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://66.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
-   "reason": "archive_gap"
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/104860741473",
  "page_bytes": 67388,
  "page_sha256": "705bea44ba8f1771887ff6e259cf454863d59b9159593ffd253c6263c4e34818",
- "partial": true,
+ "partial": false,
  "post_id": "104860741473",
  "posted_on": "Posted on Wednesday the 10th of December 2014 at 9:38 PM",
  "published": {
   "action": "updated",
-  "at": "2026-10-05T06:39:19Z",
-  "image_count": 2,
-  "manifest_digest": "sha256:543d825c5b108cd61e9518cc61c3bda1edb50aa9341f4fdd0682ec014c3d0738",
+  "at": "2026-10-08T23:55:31Z",
+  "image_count": 3,
+  "manifest_digest": "sha256:9db9a2e135e2fa077f1f179bea6df53eb81428788dc94712d3f571c152f3d263",
   "missing_count": 0,
   "quality": [
-   2,
+   3,
    87,
    1
   ]
@@ -485,7 +432,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20150216055445id_/http://hazfalafel.com/post/104860741473",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "אני-צריך-לקנות-סירה",
   "I-SHOULD-BUY-A-BOAT",

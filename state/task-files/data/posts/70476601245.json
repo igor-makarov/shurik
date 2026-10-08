@@ -19,8 +19,8 @@
  "content_text": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
  "date_text": "Posted 3 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T16:22:29Z",
- "image_count": 2,
+ "fetched_at": "2026-10-08T23:55:22Z",
+ "image_count": 3,
  "images": [
   {
    "alt_sources": [
@@ -195,30 +195,12 @@
    ],
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1024.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_540.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_400.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_100.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.png",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
-     "variants": [
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_400.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_100.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.png",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.gif"
-     ]
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -263,18 +245,66 @@
     {
      "endpoint": "circuit-breaker",
      "note": "circuit breaker opened before probing http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg; no request was sent for it"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1",
+     "url": "http://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 54577,
+     "capture_timestamp": "20170107150905",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
+     "status": 200,
+     "url": "https://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1024.jpg",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_540.jpg",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_400.jpg",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_100.jpg",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.png",
+      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.gif"
+     ]
     }
    ],
    "base_key": "tumblr_mxzzxkHAlr1r3it8zo1.jpg",
+   "blob_path": "data/blobs/25/25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
+   "bytes": 54577,
    "caption": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
    "caption_alt": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "FRJ2H6MBPRUCT2FMC7L3I6L3V2Q5SZR4",
+    "original": "https://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20170107150905id_/https://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
+    "timestamp": "20170107150905"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 4 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20170107150905 of https://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg (54577 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for 4 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
+   "state": "recovered",
    "url_forms": [
     "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
@@ -336,99 +366,22 @@
    "url": "http://hazfalafel.com/post/70476601245"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1024.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_540.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_400.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_100.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.png",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
-     "variants": [
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_400.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_100.jpg",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.png",
-      "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1.gif"
-     ]
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_1024.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "transport",
-     "location": "",
-     "message": "connection refused (transport, no HTTP answer): HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /...dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_540.jp",
-     "requested_timestamp": "20191231235959",
-     "status": null,
-     "url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_540.jpg"
-    },
-    {
-     "endpoint": "circuit-breaker",
-     "note": "circuit breaker opened before probing http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_500.jpg; no request was sent for it"
-    }
-   ],
-   "media_url": "http://65.media.tumblr.com/f703dfd26d8246c3e3c302ea0cd97314/tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
-   "reason": "archive_gap"
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/70476601245",
  "page_bytes": 72160,
  "page_sha256": "26d725a51e5eb35b9fd68e3efaf61b71af686f40954db57d1f521143d3433dfa",
- "partial": true,
+ "partial": false,
  "post_id": "70476601245",
  "posted_on": "Posted on Thursday the 19th of December 2013 at 11:35 AM",
  "published": {
   "action": "updated",
-  "at": "2026-10-05T17:14:03Z",
-  "image_count": 2,
-  "manifest_digest": "sha256:26914263ff4e42fb65145492e28927a6f651d05376160fe32420cb2d7c50e156",
+  "at": "2026-10-08T23:55:37Z",
+  "image_count": 3,
+  "manifest_digest": "sha256:6b5673dd50bfb09b02547329fc03e86656fcc4645bde24afa6190a9db7fd56f8",
   "missing_count": 0,
   "quality": [
-   2,
+   3,
    136,
    1
   ]
@@ -436,7 +389,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20170511101747id_/http://hazfalafel.com/post/70476601245",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "מלחמת-הכוכבים",
   "ירושלים",
