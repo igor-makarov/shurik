@@ -1,0 +1,75 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-27",
+  "phase": "end",
+  "at": "2026-10-08T04:42:30.000Z",
+  "summary": "Batches 56-58 continued all-years retrieval. Published 27 fresh files (740->767), +344,740,440 durable origin bytes beyond the previous checkpoint; master index refreshed and re-verified by immutable digest after the last batch.",
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": "12/12",
+    "years": 87,
+    "issues": 941,
+    "files": 1112
+  },
+  "publication": {
+    "publishedFiles": 767,
+    "publishedIssues": 627,
+    "publishedBytes": 7943376605,
+    "remainingFiles": 345,
+    "knownBytesTotal": 7982744348,
+    "newPublishedBeyondBaseline": 707,
+    "newPublishedBytesBeyondBaseline": 5631746315
+  },
+  "batches": [
+    {
+      "batch": 56,
+      "publishedThisBatch": 10,
+      "durableNewBytes": 125365295,
+      "elapsedMs": 393225
+    },
+    {
+      "batch": 57,
+      "publishedThisBatch": 11,
+      "durableNewBytes": 141095337,
+      "elapsedMs": 405924
+    },
+    {
+      "batch": 58,
+      "publishedThisBatch": 6,
+      "durableNewBytes": 78279808,
+      "elapsedMs": 359632
+    }
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:129c933265ec8ffb231a3ebf682607e925ca8b0de4c23ee8d058dcbfbd7c0261",
+    "bytes": 1411624,
+    "catalogDigest": "sha256:d4f31664e57b853850d39f70b25cadc28a836db68674d761d3ce36cf9257eb1e",
+    "checkpointDigest": "sha256:b5f0590a457a7c0e2bfad284504c583033d0289fc875619738528021a4889035",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T04:41:12.819Z",
+    "publishedFlagMismatches": 0,
+    "problems": [],
+    "catalogTag": "nij-master-catalog",
+    "checkpointTag": "nij-master-checkpoint"
+  },
+  "testsAtStart": "node --test tools/nauka/test/*.test.mjs -> 30/30 pass (unchanged; no code edits)",
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; 345 files remaining.",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  }
+}

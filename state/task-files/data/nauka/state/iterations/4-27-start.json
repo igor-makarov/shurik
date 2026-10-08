@@ -1,0 +1,55 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-27",
+  "phase": "start",
+  "at": "2026-10-08T04:16:00.000Z",
+  "scopeChangeAcknowledged": true,
+  "note": "Scope is ALL YEARS of Nauka i Zhizn plus the canonical all-years GHCR master issue index, retrieval continuing until the supervisor absolute deadline. NAUKA_STATUS 60/60 is ONLY the completed 1934-1939 subset and does NOT mean the all-years assignment is complete. No hard-coded 60-file stop and no year restriction. Discovery remains complete (87 years, 941 issues, 1112 files); this iteration continues bounded retrieval and keeps the master index refreshed/verified.",
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "directoryVisited": true,
+    "genericUnrepresented": 0,
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "supplementaryFiles": 5
+  },
+  "publicationAtStart": {
+    "publishedFiles": 740,
+    "publishedBytes": 7598636165,
+    "remainingFiles": 372,
+    "verifiedPartialBytes": 16777216
+  },
+  "masterIndexAtStart": {
+    "digest": "sha256:67e98d9bce3388e9d15242fa3053708453b1be7a01518febceea9a6ce027a9d4",
+    "bytes": 1402151,
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T04:11:06.219Z"
+  },
+  "testsAtStart": "node --test tools/nauka/test/*.test.mjs -> 30/30 pass (unchanged; no code edits planned)",
+  "plan": [
+    "Continue bounded smallest-first retrieve batches (foreground, throttled <=512 KiB/s).",
+    "CLI republishes nij-master-index / nij-master-catalog / nij-master-checkpoint each batch; re-verify by immutable digest.",
+    "Record per-batch records and refresh all-years-progress/handoff/assignment/end record."
+  ],
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "masterIndexTag": "nij-master-index",
+  "masterCatalogTag": "nij-master-catalog",
+  "masterCheckpointTag": "nij-master-checkpoint",
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  }
+}

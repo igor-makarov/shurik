@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "4-26",
-  "at": "2026-10-08T04:12:00.000Z",
+  "iteration": "4-27",
+  "at": "2026-10-08T04:42:00.000Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "masterTag": "nij-master-index",
@@ -30,9 +30,9 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "inProgressFiles": 4,
-    "pendingFiles": 368,
-    "publishedFiles": 740,
+    "inProgressFiles": 3,
+    "pendingFiles": 345,
+    "publishedFiles": 767,
     "note": "Discovery stays complete: all 12 archive-linked era pages plus the nav page, archive directory, _NiJ.html, _NiJ.stat'i_.html and the .Online redirect are visited and every flat-listing file is represented. No new catalog pages were listed since iteration 4-20.",
     "knownGapYears": [
       1891,
@@ -53,29 +53,29 @@
     ]
   },
   "publication": {
-    "publishedFiles": 740,
-    "publishedIssues": 604,
-    "publishedBytes": 7598636165,
-    "remainingFiles": 372,
-    "inProgressEntries": 4,
+    "publishedFiles": 767,
+    "publishedIssues": 627,
+    "publishedBytes": 7943376605,
+    "remainingFiles": 345,
+    "inProgressEntries": 3,
     "inProgressWithDurableChunks": 3,
-    "verifiedPartialBytes": 17825792,
-    "controlBranchPrefixBytes": 17825792,
-    "knownBytesTotal": 7623361355,
+    "verifiedPartialBytes": 16777216,
+    "controlBranchPrefixBytes": 16777216,
+    "knownBytesTotal": 7982744348,
     "baselinePublishedFiles": 60,
-    "newPublishedBeyondBaseline": 680,
-    "newPublishedBytesBeyondBaseline": 5287005875,
+    "newPublishedBeyondBaseline": 707,
+    "newPublishedBytesBeyondBaseline": 5631746315,
     "note": "verifiedPartialBytes = GHCR-checkpointed chunk workspace(s); controlBranchPrefixBytes = control-branch prefix capped at 8 MiB/file; other in-progress files have no durable chunks yet."
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:67e98d9bce3388e9d15242fa3053708453b1be7a01518febceea9a6ce027a9d4",
-    "bytes": 1402151,
-    "catalogDigest": "sha256:bb3493716faebb6b8490b7b096b8b5ebfb297e7aced2e3c95c8a57a2bb84ce06",
-    "checkpointDigest": "sha256:9fb42fcd0b04db3ba89948014d88bc79348a6e04a4739596c909068bb6e2a86f",
+    "digest": "sha256:129c933265ec8ffb231a3ebf682607e925ca8b0de4c23ee8d058dcbfbd7c0261",
+    "bytes": 1411624,
+    "catalogDigest": "sha256:d4f31664e57b853850d39f70b25cadc28a836db68674d761d3ce36cf9257eb1e",
+    "checkpointDigest": "sha256:b5f0590a457a7c0e2bfad284504c583033d0289fc875619738528021a4889035",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T04:11:06.219Z",
+    "verifiedAt": "2026-10-08T04:41:12.819Z",
     "publishedFlagMismatches": 0,
     "problems": [],
     "catalogTag": "nij-master-catalog",
@@ -83,35 +83,29 @@
   },
   "batchesThisIteration": [
     {
-      "batch": 52,
-      "published": 8,
-      "durableNewBytes": 92512487,
-      "elapsedMs": 255362
-    },
-    {
-      "batch": 53,
+      "batch": 56,
       "published": 10,
-      "durableNewBytes": 118216196,
-      "elapsedMs": 386180
+      "durableNewBytes": 125365295,
+      "elapsedMs": 393225
     },
     {
-      "batch": 54,
-      "published": 13,
-      "durableNewBytes": 157644904,
-      "elapsedMs": 388437
+      "batch": 57,
+      "published": 11,
+      "durableNewBytes": 141095337,
+      "elapsedMs": 405924
     },
     {
-      "batch": 55,
-      "published": 8,
-      "durableNewBytes": 98433006,
-      "elapsedMs": 292999
+      "batch": 58,
+      "published": 6,
+      "durableNewBytes": 78279808,
+      "elapsedMs": 359632
     }
   ],
-  "newPublishedThisIteration": 39,
-  "newDurableBytesThisIteration": 466806593,
+  "newPublishedThisIteration": 27,
+  "newDurableBytesThisIteration": 344740440,
   "blockers": [],
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches for the remaining 372 files.",
+    "Continue bounded smallest-first retrieve batches for the remaining 345 files.",
     "Refresh and re-verify the master index by immutable digest after each batch."
   ]
 }
