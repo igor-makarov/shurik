@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-08T21:14:29.466Z
+Updated: 2026-10-08T21:21:34.274Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
@@ -113,10 +113,10 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - 1891, 1892, 2016, 2017, 2018, 2019, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029
 
 ## Master index
-- canonical tag: `nij-master-index` @ `sha256:02afe5862d43abd492cdc9bf4ba8ac778869b95fc4e8866e38c919556e3fccc2`
-- catalog tag: `nij-master-catalog` @ `sha256:34a51f2f1157ffce7d4db8f7c3aeeeda94f5c560debfce9edfdb3ccce8227c0c`
-- checkpoint tag: `nij-master-checkpoint` @ `sha256:7f6de9a89f68320804ea5e61569a87661be2da6e6fd116869537dfef5fd8e667`
-- discovery status: complete; files 1112, published 1057, issues 941
+- canonical tag: `nij-master-index` @ `sha256:68c891179ac406e4407c7dd2c6b42c7cd66cf28ca533f1a292de2b39f364a041`
+- catalog tag: `nij-master-catalog` @ `sha256:e1c00058ea58a898e0ec316e58238ab11873ea78f89e6ed64467f75b8a75f4c3`
+- checkpoint tag: `nij-master-checkpoint` @ `sha256:7bc2230260aa710738a71b9401b42b56894c726b52490c82343614d8c9750dac`
+- discovery status: complete; files 1112, published 1061, issues 941
 
 ## Registry
 - Registry: ghcr.io/igor-makarov/shurik-nauka
@@ -1196,7 +1196,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1905-n0106-pdf: pending 0/? B (no error)
 - nij-1940-n03-pdf: pending 0/? B (no error)
 - nij-1940-n0506-pdf: pending 0/? B (no error)
-- nij-1940-n0809-pdf: in_progress 6291456/68599716 B (no error)
+- nij-1940-n0809-pdf: in_progress 35651584/68599716 B (no error)
 - nij-1940-n1112-pdf: pending 0/? B (no error)
 - nij-1947-n06-pdf: pending 0/? B (no error)
 - nij-1956-n12-pdf: pending 0/? B (no error)
@@ -1210,14 +1210,14 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1962-n12-pdf: pending 0/? B (no error)
 - nij-1963-n07-pdf: pending 0/? B (no error)
 - nij-1963-n10-pdf: pending 0/? B (no error)
-- nij-1964-n01-pdf: in_progress 18874368/65069062 B (no error)
+- nij-1964-n01-pdf: in_progress 44040192/65069062 B (no error)
 - nij-1964-n02-pdf: pending 0/? B (no error)
 - nij-1964-n03-pdf: pending 0/? B (no error)
 - nij-1964-n06-pdf: pending 0/? B (no error)
 - nij-1964-n07-pdf: pending 0/? B (no error)
 - nij-1964-n08-pdf: pending 0/? B (no error)
 - nij-1964-n09-pdf: pending 0/? B (no error)
-- nij-1964-n10-pdf: in_progress 6291456/67653885 B (no error)
+- nij-1964-n10-pdf: in_progress 37748736/67653885 B (no error)
 - nij-1964-n11-pdf: pending 0/? B (no error)
 - nij-1968-n06-pdf: pending 0/? B (no error)
 - nij-1969-n02-pdf: pending 0/? B (no error)
@@ -1227,7 +1227,7 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - nij-1969-n10-pdf: pending 0/? B (no error)
 - nij-1969-n11-pdf: pending 0/? B (no error)
 - nij-1970-n04-pdf: pending 0/? B (no error)
-- nij-1970-n05-djv: in_progress 12582912/66957363 B (no error)
+- nij-1970-n05-djv: in_progress 37748736/66957363 B (no error)
 - nij-1970-n05-pdf: pending 0/? B (no error)
 - nij-2008-n12-pdf: pending 0/? B (no error)
 - nij-2009-n03-pdf: pending 0/? B (no error)
@@ -1249,14 +1249,14 @@ Scope: all-years (supersedes the completed 1934-1939-only objective)
 - (none)
 
 ## Origin reachability
-- last probe: 2026-10-08T21:06:00.410Z -> reachable
+- last probe: 2026-10-08T21:16:37.402Z -> reachable
 - probe url: https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/Nauka_i_jizn',1905,N01-06.%5Bpdf%5D.zip
 
 ## Recent batch records
-- 20261008T202917-batch118.json: pub 1049->1049, durable +0 B, failure: none
 - 20261008T204845-batch119.json: pub 1049->1053, durable +246151823 B, failure: none
 - 20261008T205544-batch120.json: pub 1053->1057, durable +254964823 B, failure: none
 - 20261008T205916-batch121.json: pub 1057->1057, durable +0 B, failure: none
+- 20261008T211434-batch122.json: pub 1057->1061, durable +260132604 B, failure: none
 
 ## Throttle and retry settings
 - aggregate bandwidth cap: 524288 B/s

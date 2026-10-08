@@ -13,11 +13,13 @@ import {
   MASTER_INDEX_TAG,
   MASTER_CHECKPOINT_TAG,
   MASTER_CATALOG_TAG,
+  ARCHIVE_DIR_URL,
   ARTIFACT_TYPE,
   SOURCE_REPO,
   SUBSET_YEARS,
   entryTag,
   checkpointTag,
+  resolveScanUrl,
 } from './config.mjs';
 import { decodeIndex, manifestFromHtml, parseIndex } from './parse-index.mjs';
 import { discoverAll } from './discover.mjs';
@@ -291,9 +293,16 @@ async function cmdRetrieve(args) {
   }, budgetMs + cleanupMs);
   drainTimer.unref?.();
 
+  // Optional supplementary Izbrannoe archives (archive-directory, not in
+  // manifest.entries). NAUKA_SUPPLEMENTARY=1 -> regular then supplementary;
+  // NAUKA_SUPPLEMENTARY=only -> supplementary only.
+  const suppMode = process.env.NAUKA_SUPPLEMENTARY || '';
+
   try {
     if (!originOk) {
       log('transfer skipped: origin unreachable (see state.origin)');
+    } else if (suppMode === 'only') {
+      log('skipping regular transfer (NAUKA_SUPPLEMENTARY=only)');
     } else {
       for (let p = 0; p < maxPasses; p++) {
         if (Date.now() >= transferDeadline || controller.signal.aborted) break;
@@ -314,6 +323,37 @@ async function cmdRetrieve(args) {
           log(`pass ${p + 1} made no durable progress (started=${startedThisPass}, published=${publishedThisPass}); ending batch`);
           break;
         }
+      }
+    }
+
+    if (originOk && (suppMode === '1' || suppMode === 'only')) {
+      const suppEntries = supplementaryEntries(manifest);
+      const pendingSupp = suppEntries.filter((e) => {
+        const eff = state.files[e.id];
+        return !eff || eff.status !== 'published';
+      });
+      if (pendingSupp.length > 0) {
+        const prevManifest = ctx.manifest;
+        ctx.manifest = { ...manifest, entries: suppEntries };
+        try {
+          log(`=== supplementary transfer over ${pendingSupp.length}/${suppEntries.length} Izbrannoe archives ===`);
+          for (let p = 0; p < maxPasses; p++) {
+            if (Date.now() >= transferDeadline || controller.signal.aborted) break;
+            ctx.deadline = transferDeadline;
+            const results = await runPass(ctx);
+            log(`supp pass ${p + 1} results: ${JSON.stringify(results)}`);
+            const publishedThisPass = results.filter((r) => r.status === 'published').length;
+            const startedThisPass = ctx.chunksStarted || 0;
+            if (startedThisPass === 0 && publishedThisPass === 0) {
+              log(`supp pass ${p + 1} made no durable progress; ending supplementary transfer`);
+              break;
+            }
+          }
+        } finally {
+          ctx.manifest = prevManifest;
+        }
+      } else {
+        log('all supplementary Izbrannoe archives already published');
       }
     }
   } finally {
@@ -361,6 +401,36 @@ function remainingCount(state, manifest) {
     if (!eff || eff.status !== 'published') n++;
   }
   return n;
+}
+
+// Synthetic manifest entries for the archive-directory supplementary
+// "Izbrannoe" archives. These are NOT part of manifest.entries (so they never
+// inflate the regular-file totals) but are retrieved/published through the same
+// chunked engine. The id formula matches master-index.mjs exactly so the
+// master index reads the resulting state.files[id] entry.
+function supplementaryEntries(manifest) {
+  const supp = (manifest && manifest.directory && manifest.directory.supplementary) || [];
+  return supp.map((filename) => {
+    const id = `nij-supp-${filename.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+    const fm = /\.\[([^\]]+)\]/i.exec(filename);
+    const format = fm ? fm[1].split(/[,\s]+/)[0].toLowerCase() : 'zip';
+    const ym = /(19|20)\d{2}/.exec(filename);
+    return {
+      id,
+      year: ym ? Number(ym[0]) : null,
+      issue: 'supplementary',
+      format,
+      filename,
+      href: filename,
+      url: resolveScanUrl(filename),
+      labelText: filename,
+      labelSize: null,
+      sourcePage: 'archive-directory',
+      sourceUrl: ARCHIVE_DIR_URL,
+      discoveredVia: 'directory-supplementary',
+      synthesized: true,
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
