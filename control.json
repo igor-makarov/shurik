@@ -9,7 +9,7 @@
   "generation": 5,
   "next": 37,
   "owner": null,
-  "deadline": "2026-10-08T14:45:32.395Z",
+  "deadline": "2026-10-08T18:00:00.000Z",
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "reasoning": "high",
@@ -121,5 +121,24 @@
     "baselineRemainingSupplementaryArchives": 5,
     "baselineRecordedModelCostUSD": 1.6876873860000023,
     "action": "Task-only continuation prompt at expired unowned boundary; native resume for four hours from actual resume time, preserving settings and all checkpoint references"
-  }
+  },
+  "monitorDeadlineExtensions": [
+    {
+      "token": "nauka-user-2100-extension-1791464288254",
+      "requestedAt": "2026-10-08T12:58:09.300Z",
+      "authorization": "User explicitly requested push it, make it work until 21:00; Asia/Jerusalem on 2026-10-08",
+      "previousDeadline": "2026-10-08T14:45:32.395Z",
+      "newDeadline": "2026-10-08T18:00:00.000Z",
+      "generation": 5,
+      "ownerAtUpdate": null,
+      "checkpointAtUpdate": {
+        "workCommit": "082a6e85e6adb6dd9a37da3f0a1e4e60a1c4ca75",
+        "generation": 5,
+        "sequence": "5-36",
+        "runId": "37776511599",
+        "at": "2026-10-08T12:56:48.170Z"
+      },
+      "action": "Native ControlStore CAS deadline-only extension preserving active owner/generation/checkpoint/settings; no work-branch edits or restart"
+    }
+  ]
 }
