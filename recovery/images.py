@@ -766,16 +766,33 @@ def resolve_image(
             return record
         attempt["media_type"] = mime or "not-an-image"
         if resp.body and not mime and resp.error not in (TIMEOUT, THROTTLED, TRANSPORT):
-            # The archive answered with a body, and that body is not an image:
-            # its "this page has not been archived" HTML, a toolbar page, or an
-            # error page. Confirmed unusable bytes -- not a transient failure.
-            saw_non_image_body = True
-            attempt["error"] = BAD_BODY
-            attempt["message"] = (
-                "archived body is not an image: "
-                f"{len(resp.body)} bytes of "
-                f"{resp.headers.get('content-type', 'unknown')}"
-            )
+            if resp.status and resp.status != 200:
+                # A non-200 replay (404/410/5xx) of a capture the CDX listed with
+                # statuscode 200 is a contradiction: the archive said it holds
+                # the file, then did not serve it. Measured 2026-10: a stem-index
+                # hit for post 115102168873 listed a 200 capture at 20151115174914
+                # and the crawler's replay answered 404 HTML, yet the exact same
+                # replay URL returned the 51 KB JPEG minutes later. Treat it as a
+                # transient HTTP error so the image stays eligible, not as a
+                # confirmed unusable body that permanently suppresses recovery.
+                attempt["error"] = HTTP_ERROR
+                attempt["message"] = (
+                    f"replay answered HTTP {resp.status} with a non-image body "
+                    f"({len(resp.body)} bytes of "
+                    f"{resp.headers.get('content-type', 'unknown')}); contradictory with the "
+                    f"listed 200 capture -- transient, retry later"
+                )
+            else:
+                # The archive answered 200 with a body that is not an image:
+                # its "this page has not been archived" HTML, a toolbar page, or
+                # an error page. Confirmed unusable bytes -- not a transient failure.
+                saw_non_image_body = True
+                attempt["error"] = BAD_BODY
+                attempt["message"] = (
+                    "archived body is not an image: "
+                    f"{len(resp.body)} bytes of "
+                    f"{resp.headers.get('content-type', 'unknown')}"
+                )
         record["attempts"].append(attempt)
 
     # Only *failed* attempts classify the outcome. A successful probe/CDX query

@@ -894,25 +894,33 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 continue
             considered.append(entry)
             skip = set(entry.get("tried") or [])
-            # An image with no untried URL form left has nothing to ask; it is
-            # counted as missing but must not hold up the rest of the post.
-            untried = q.untried_variants(img.get("media_url"), skip)
-            if not untried and img.get("error") in final_errors and not needs_probe(img) \
-                    and not retry_missing:
-                merged.append(img)
-                missing += 1
-                continue
             # A stem index hit is a capture the archive already told us about,
             # so it is worth downloading whatever method the pass is running.
             # Every URL form counts: a hit recorded for a form on another shard
             # (post 29905114965) is bytes behind that form, and the linked
             # shard's own stem can be a recorded miss.
             eff_method = method
+            stem_hit = False
             if stem_index is not None:
                 for form in [img.get("media_url") or "", *(img.get("url_forms") or [])]:
                     if form and stem_index.lookup(stem_prefix(form)):
                         eff_method = "stem"
+                        stem_hit = True
                         break
+            # An image with no untried URL form left has nothing to ask; it is
+            # counted as missing but must not hold up the rest of the post.
+            # A recorded stem-index hit is the exception: the archive already
+            # told us bytes exist behind a stem, so the terminal verdict on the
+            # exact URL must not suppress the download. Four posts (115102168873,
+            # 115926815733, 31650451836, 34825069573) were selected by
+            # `--only-stem-hits` yet skipped here because their error was a
+            # terminal archive_gap/bad_body and no variant was untried.
+            untried = q.untried_variants(img.get("media_url"), skip)
+            if not stem_hit and not untried and img.get("error") in final_errors \
+                    and not needs_probe(img) and not retry_missing:
+                merged.append(img)
+                missing += 1
+                continue
             resolved = resolve_image(fetcher, img, media_index=media_index,
                                      key_known_at=rec.get("fetched_at", ""),
                                      method=eff_method, variant_budget=variant_budget,
