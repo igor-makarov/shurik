@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
   "iteration": "5-55",
-  "at": "2026-10-08T23:06:00.000Z",
+  "at": "2026-10-08T23:08:20.000Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (verified via git show) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. Earlier time deadlines superseded; I obey the supervisor control and set none of my own.",
@@ -30,17 +30,17 @@
     "remainingRegularFiles": 31,
     "pendingFiles": 27,
     "inProgressFiles": 4,
-    "durablePartialBytes": 65011712,
-    "durableCheckpointBytes": 65011712
+    "durablePartialBytes": 84934656,
+    "durableCheckpointBytes": 84934656
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:b14f32bbd025fc0609e79e38727600e06cd2ea9e1bba9c4662092222f71c6a0e",
+    "digest": "sha256:e58c4ac52779fb92bfa0139a061f24d400c52e6a5c637992c97ad56cbaa0a0b8",
     "bytes": 1522495,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:b750c17dbdd8dca6ce8c7b4156e2374f76ad4c6402d771fd0e5d10b5c83fcb63",
+    "catalogDigest": "sha256:3fd39c6e7499098be4e9027332b81a9d318c7bc28aa26cc865ea66df71a6a295",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:f5086edebc28c86823c067e5023c34ccb18ea05ea653985471155c58ebf479cb",
+    "checkpointDigest": "sha256:05d71c0efce103f5476c397c93355737426171fce595541deb7da0872a72d5b2",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0,
@@ -56,7 +56,8 @@
   "batchesThisIteration": [
     132,
     133,
-    134
+    134,
+    135
   ],
   "newPublishedThisIteration": {
     "regularFiles": 8,
@@ -65,31 +66,31 @@
   "durablePartials": {
     "inProgress": [
       {
+        "id": "nij-1968-n06-pdf",
+        "received": 25165824,
+        "checkpointBytes": 25165824,
+        "checkpointDigest": "sha256:075811191a970075baa01003620d9e0991bbb6515358332472a0953e7ba8fe84"
+      },
+      {
         "id": "nij-1962-n01-pdf",
-        "received": 20971520,
-        "checkpointBytes": 20971520,
-        "checkpointDigest": "sha256:8fec4bbb1b7bce8364a1e067003a4a1d3ff3ce1ee4c3245cca0cc39003451b55"
+        "received": 22020096,
+        "checkpointBytes": 22020096,
+        "checkpointDigest": "sha256:fbd5cee7c2e8ed06d5606bc14308c4e3166599659c71986ec2cee05920c3cbf2"
       },
       {
         "id": "nij-1962-n02-pdf",
-        "received": 12582912,
-        "checkpointBytes": 12582912,
-        "checkpointDigest": "sha256:c2e984d71d7f8688542dd44f18a22889083acfbaf59afac926478771f032d310"
-      },
-      {
-        "id": "nij-1968-n06-pdf",
         "received": 18874368,
         "checkpointBytes": 18874368,
-        "checkpointDigest": "sha256:cb5e42679b831e58f470773af80febf6bb8f27ac3a234791ab4b3025fe1c26e1"
+        "checkpointDigest": "sha256:6de93866f98a811b3b2445d6bdbc44c0c96b3222e5442e13cea8328424018e6a"
       },
       {
         "id": "nij-2009-n03-pdf",
-        "received": 12582912,
-        "checkpointBytes": 12582912,
-        "checkpointDigest": "sha256:b935028dbf11c949abc40b08a6befef54ff61baa8db26d9ed10da15f38b6a03e"
+        "received": 18874368,
+        "checkpointBytes": 18874368,
+        "checkpointDigest": "sha256:0951eb14599d9e1ca6b8d4ad8e73a36670d65f3a018f42e0e96e364cfdb76b5c"
       }
     ],
-    "ghcrCheckpointBytes": 65011712,
+    "ghcrCheckpointBytes": 84934656,
     "note": "each in_progress file holds an immutable GHCR chunk checkpoint restorable by digest"
   },
   "supplementary": {
@@ -100,7 +101,7 @@
   "throughputNote": "Origin reachable; aggregate <=512 KiB/s; batches exit 0; per-file GHCR round-trip verify ok.",
   "blockers": [],
   "nextActions": [
-    "Restore+finish the 4 durable in-progress files (nij-1962-n01 20,971,520 B; nij-1968-n06 18,874,368; nij-2009-n03 12,582,912; nij-1962-n02 12,582,912) from their immutable GHCR digests, then smallest-first the 27 pending regular PDFs.",
+    "Restore+finish the 4 durable in-progress files (nij-1968-n06-pdf 25165824 B; nij-1962-n01-pdf 22020096 B; nij-1962-n02-pdf 18874368 B; nij-2009-n03-pdf 18874368 B) from their immutable GHCR digests, then smallest-first the 27 pending regular PDFs.",
     "Keep republishing+verifying the master index by immutable digest after batches."
   ]
 }
