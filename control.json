@@ -5,11 +5,11 @@
   "branch": "codex/shurik/nauka-20261007",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "deadline",
-  "generation": 4,
+  "status": "running",
+  "generation": 5,
   "next": 33,
   "owner": null,
-  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadline": "2026-10-08T14:45:32.395Z",
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "reasoning": "high",
@@ -25,7 +25,7 @@
     "at": "2026-10-08T07:00:06.610Z"
   },
   "pr": "https://github.com/igor-makarov/shurik/pull/6",
-  "lastRunId": "37740012638",
+  "lastRunId": null,
   "stoppedAt": "2026-10-07T16:13:39.531Z",
   "monitorSteering": {
     "token": "nauka-hourly-watch-1791378103656",
@@ -94,5 +94,32 @@
     "baselinePublishedBytes": 2311630290,
     "baselineRecordedModelCostUSD": 0.7705028100000001,
     "action": "Task-only scope prompt change at expired unowned boundary; native user-authorized resume; preserve all existing checkpoint references and settings"
+  },
+  "monitorContinuation": {
+    "token": "nauka-user-four-hour-continuation-1791456330311",
+    "resumedAt": "2026-10-08T10:45:32.395Z",
+    "resumedGeneration": 5,
+    "authorization": "User explicitly requested Run 4 hours more after the all-years deadline",
+    "previousDeadline": "2026-10-08T07:00:00.000Z",
+    "previousCheckpoint": {
+      "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+      "generation": 4,
+      "sequence": "4-32",
+      "runId": "37740012638",
+      "at": "2026-10-08T07:00:06.610Z"
+    },
+    "promptCommit": "72f96972778818a9718d0ae2d8f7ebef3d4eb47d",
+    "newDeadline": "2026-10-08T14:45:32.395Z",
+    "scope": "all-years",
+    "masterIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-index",
+    "baselineMasterDigest": "sha256:a0f883cee51a0f58e6d13ec5a9dc0aec0e2a219bc94fe948351896580c3654f1",
+    "baselineResumeDigest": "sha256:9249d0520178fc8710ec9626af90d2076bca1d5a968eeea405b47951052db805",
+    "baselinePublishedFiles": 875,
+    "baselinePublishedBytes": 9777993649,
+    "baselineDurablePartialBytes": 92274688,
+    "baselineRemainingRegularFiles": 237,
+    "baselineRemainingSupplementaryArchives": 5,
+    "baselineRecordedModelCostUSD": 1.6876873860000023,
+    "action": "Task-only continuation prompt at expired unowned boundary; native resume for four hours from actual resume time, preserving settings and all checkpoint references"
   }
 }
