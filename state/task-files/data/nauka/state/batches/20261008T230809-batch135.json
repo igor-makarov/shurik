@@ -1,0 +1,45 @@
+{
+  "kind": "shurik-nauka-batch-record",
+  "batch": 135,
+  "iteration": "5-55",
+  "startedAt": "2026-10-08T23:06:22.932Z",
+  "elapsedMs": 107017,
+  "exitCode": 0,
+  "budget": {
+    "budgetMs": 90000,
+    "cleanupMs": 30000,
+    "concurrency": 24,
+    "fileConcurrency": 4,
+    "passBudgetMs": 600000,
+    "minChunkBudgetMs": 90000
+  },
+  "note": "short tail: advance the 4 new durable partials and checkpoint",
+  "publishedBefore": 1081,
+  "publishedAfter": 1081,
+  "remainingBefore": 31,
+  "remainingAfter": 31,
+  "publishedBytesAfter": 19696837873,
+  "verifiedPartialBytesBefore": 16777216,
+  "verifiedPartialBytesAfter": 16777216,
+  "newOriginBytesDurable": 0,
+  "discardedTransferBytes": null,
+  "failures": [],
+  "publishedThisBatch": [],
+  "checkpointReceipts": [
+    {
+      "tag": "nij-master-index",
+      "digest": "sha256:e58c4ac52779fb92bfa0139a061f24d400c52e6a5c637992c97ad56cbaa0a0b8",
+      "bytes": 1522495,
+      "discoveryStatus": "complete"
+    },
+    {
+      "tag": "nij-master-catalog",
+      "digest": "sha256:3fd39c6e7499098be4e9027332b81a9d318c7bc28aa26cc865ea66df71a6a295"
+    },
+    {
+      "tag": "nij-master-checkpoint",
+      "digest": "sha256:05d71c0efce103f5476c397c93355737426171fce595541deb7da0872a72d5b2"
+    }
+  ],
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 31 files."
+}
