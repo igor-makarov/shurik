@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-iteration-status",
   "iteration": "4-30",
-  "at": "2026-10-08T06:08:20.000Z",
+  "at": "2026-10-08T06:16:54.369Z",
   "scope": "all-years",
   "deadline": "2026-10-08T07:00:00.000Z",
   "acknowledgedScopeChange": true,
@@ -17,13 +17,13 @@
     "note": "Discovery unchanged this iteration; preserved from prior iterations."
   },
   "publication": {
-    "publishedFiles": 848,
-    "publishedIssues": 697,
-    "remainingFiles": 264,
-    "publishedBytes": 9200204047,
-    "newBeyond60BaselineFiles": 788,
-    "newBeyond60BaselineBytes": 6888573757,
-    "verifiedPartialBytes": 33554432,
+    "publishedFiles": 851,
+    "publishedIssues": 698,
+    "remainingFiles": 261,
+    "publishedBytes": 9257285723,
+    "newBeyond60BaselineFiles": 791,
+    "newBeyond60BaselineBytes": 6945655433,
+    "verifiedPartialBytes": 54525952,
     "durablePartialFiles": 4
   },
   "baseline60": {
@@ -35,13 +35,13 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:62bccd3b8f1cb875dd35ecd773634b93f2f036a76ffc92e72f779fa844778a18",
-    "bytes": 1440069,
-    "catalogDigest": "sha256:7a2a1086e99e96206d72bd1f81c046102a99c906af5fd76eee4947afe5d0f015",
-    "checkpointDigest": "sha256:a9aa4c3a06ee924a538b97b84776c0601c52dedf526a135faf6f3303a01f8b01",
+    "digest": "sha256:fc88443125f7495e5d23d0b8a5c215e22d2ea54b39a0adf0deea3668d812838b",
+    "bytes": 1441138,
+    "catalogDigest": "sha256:6a70b153c56e5e7996ac73352e9c73cbadd3ee522741565e7b0dc378f420da6d",
+    "checkpointDigest": "sha256:78503b289afc9751797cf99cb6bbe35d0df1f375b423b7615c036b5c9877706a",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
-    "verifiedAt": "2026-10-08T06:12:15.799Z",
+    "verifiedAt": "2026-10-08T06:16:54.369Z",
     "publishedFlagMismatches": 0,
     "problems": []
   },
@@ -49,15 +49,17 @@
     {
       "batch": 64,
       "published": 11,
-      "bytes": 188423115,
+      "durableNewBytes": 188423115,
       "elapsedMs": 479626,
+      "bytes": 188423115,
       "exitCode": 0
     },
     {
       "batch": 65,
       "published": 8,
-      "bytes": 145710356,
+      "durableNewBytes": 145710356,
       "elapsedMs": 341740,
+      "bytes": 145710356,
       "exitCode": 0
     },
     {
@@ -67,15 +69,23 @@
       "elapsedMs": 226627,
       "bytes": 92682474,
       "exitCode": 0
+    },
+    {
+      "batch": 67,
+      "published": 3,
+      "durableNewBytes": 57081676,
+      "elapsedMs": 213219,
+      "bytes": 57081676,
+      "exitCode": 0
     }
   ],
   "totalsThisIteration": {
-    "published": 24,
-    "bytes": 426815945,
+    "published": 27,
+    "bytes": 483897621,
     "throughputNote": "48/6; aggregate <=512 KiB/s; zero origin failures"
   },
   "blockers": [],
-  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 264 files.",
+  "nextAction": "Continue bounded smallest-first retrieve batches; remaining 261 files.",
   "newPublishedThisIteration": 24,
   "newDurableBytesThisIteration": 426815945
 }

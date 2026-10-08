@@ -1,0 +1,86 @@
+{
+  "kind": "shurik-nauka-iteration-record",
+  "iteration": "4-30",
+  "phase": "end",
+  "at": "2026-10-08T06:16:54.369Z",
+  "summary": "Batches 64-67 continued all-years retrieval. Published 27 fresh files (824->851), +483897621 durable origin bytes; master index refreshed and re-verified by immutable digest after the last batch.",
+  "scope": "all-years",
+  "deadline": "2026-10-08T07:00:00.000Z",
+  "deadlineLocal": "2026-10-08 10:00 Asia/Jerusalem",
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": "12/12",
+    "years": 87,
+    "issues": 941,
+    "files": 1112
+  },
+  "publication": {
+    "publishedFiles": 851,
+    "publishedIssues": 698,
+    "publishedBytes": 9257285723,
+    "remainingFiles": 261,
+    "verifiedPartialBytes": 54525952,
+    "newPublishedBeyondBaseline": 791,
+    "newPublishedBytesBeyondBaseline": 6945655433
+  },
+  "batches": [
+    {
+      "batch": 64,
+      "published": 11,
+      "durableNewBytes": 188423115,
+      "elapsedMs": 479626,
+      "bytes": 188423115,
+      "exitCode": 0
+    },
+    {
+      "batch": 65,
+      "published": 8,
+      "durableNewBytes": 145710356,
+      "elapsedMs": 341740,
+      "bytes": 145710356,
+      "exitCode": 0
+    },
+    {
+      "batch": 66,
+      "published": 5,
+      "durableNewBytes": 92682474,
+      "elapsedMs": 226627,
+      "bytes": 92682474,
+      "exitCode": 0
+    },
+    {
+      "batch": 67,
+      "published": 3,
+      "durableNewBytes": 57081676,
+      "elapsedMs": 213219,
+      "bytes": 57081676,
+      "exitCode": 0
+    }
+  ],
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:fc88443125f7495e5d23d0b8a5c215e22d2ea54b39a0adf0deea3668d812838b",
+    "bytes": 1441138,
+    "catalogDigest": "sha256:6a70b153c56e5e7996ac73352e9c73cbadd3ee522741565e7b0dc378f420da6d",
+    "checkpointDigest": "sha256:78503b289afc9751797cf99cb6bbe35d0df1f375b423b7615c036b5c9877706a",
+    "catalogTag": "nij-master-catalog",
+    "checkpointTag": "nij-master-checkpoint",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verifiedAt": "2026-10-08T06:16:54.369Z",
+    "publishedFlagMismatches": 0,
+    "problems": []
+  },
+  "preservedBaseline": {
+    "files": 60,
+    "bytes": 2311630290,
+    "subsetIndexTag": "nij-1934-39-index",
+    "subsetCheckpointTag": "nij-1934-39-checkpoint",
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "preserved": true
+  },
+  "codeChanges": "none (no code edits this iteration)",
+  "blockers": [],
+  "nextAction": "Continue bounded smallest-first retrieve batches; 261 files remaining."
+}
