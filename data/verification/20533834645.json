@@ -1,0 +1,209 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:a33b386272f96f5318e160635bbd6e2acc3b4fb09ae8471953dde786e33bf831",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m20o1467zw1r3it8zo1_500.jpg]",
+   "expected": "88cba8b80a7ccfda14a03591e24facc31750a0adfcc137421e7f42b7b40f48e1",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m20o1467zw1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m20o1467zw1r3it8zo1_500.jpg]",
+   "expected": 130417,
+   "observed": 130417,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m20o1467zw1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m20o1467zw1r3it8zo1_250.jpg]",
+   "expected": "88cba8b80a7ccfda14a03591e24facc31750a0adfcc137421e7f42b7b40f48e1",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m20o1467zw1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m20o1467zw1r3it8zo1_250.jpg]",
+   "expected": 130417,
+   "observed": 130417,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m20o1467zw1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
+   "observed": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>יותר מעניין מאלבומי אילת של ההיא מהעבודה</p>\n<p>תודה לנבות</p>",
+   "observed": "<p>יותר מעניין מאלבומי אילת של ההיא מהעבודה</p>\n<p>תודה לנבות</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "בחור-פוטוגני-עד-כדי-גיחוך"
+   ],
+   "observed": [
+    "בחור-פוטוגני-עד-כדי-גיחוך"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות"
+   ],
+   "observed": [
+    "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/20533834645",
+   "observed": "http://hazfalafel.com:80/post/20533834645",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m20o1467zw1r3it8zo1_500.jpg]",
+   "expected": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
+   "observed": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m20o1467zw1r3it8zo1_250.jpg]",
+   "expected": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
+   "observed": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20140111014158",
+   "observed": "20140111014158",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20140111014158id_/http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20140111014158id_/http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20140111014158",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:bb3c892ada5b12726e514c5bfd23ee738cebf2a88f63074ba4777fdede587ed7",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T12:52:36Z",
+  "org.opencontainers.image.description": "יותר מעניין מאלבומי אילת של ההיא מהעבודה",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 20533834645",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/20533834645",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "51",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "20533834645",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "בחור-פוטוגני-עד-כדי-גיחוך"
+ },
+ "layers": [
+  {
+   "digest": "sha256:8e170897cb6155a3c2e6d4b3e8a4ddcb555860d2aaf912e5181fb3400fd563b5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 130526
+  },
+  {
+   "digest": "sha256:2b706aa02d1a7ce5653f7fa6498ec34f38c8633f0bffb7f3b33100e2302c1712",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 130526
+  },
+  {
+   "digest": "sha256:f1a96b7618b42989d97135cce24994115dae0229bda28862c8b0b40cbbbf1ed2",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 893
+  }
+ ],
+ "manifest_digest": "sha256:a33b386272f96f5318e160635bbd6e2acc3b4fb09ae8471953dde786e33bf831",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "20533834645",
+ "pulled_files": [
+  {
+   "bytes": 130417,
+   "file": "tumblr_m20o1467zw1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:8e170897cb6155a3c2e6d4b3e8a4ddcb555860d2aaf912e5181fb3400fd563b5",
+   "role": "media",
+   "sha256": "88cba8b80a7ccfda14a03591e24facc31750a0adfcc137421e7f42b7b40f48e1"
+  },
+  {
+   "bytes": 130417,
+   "file": "tumblr_m20o1467zw1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:2b706aa02d1a7ce5653f7fa6498ec34f38c8633f0bffb7f3b33100e2302c1712",
+   "role": "media",
+   "sha256": "88cba8b80a7ccfda14a03591e24facc31750a0adfcc137421e7f42b7b40f48e1"
+  },
+  {
+   "bytes": 2730,
+   "file": "post.json",
+   "layer": "sha256:f1a96b7618b42989d97135cce24994115dae0229bda28862c8b0b40cbbbf1ed2",
+   "role": "post-metadata",
+   "sha256": "251079087927408e0442d0cf66fd39826012a044de18806e7a5660e3d71505cb"
+  }
+ ],
+ "tag": "20533834645",
+ "verified_at": "2026-10-09T21:40:26Z"
+}

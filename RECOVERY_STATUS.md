@@ -28,47 +28,42 @@ git archive 0924dd45a67e16a107c97c46b8c6282895cf6835 data/posts data/cdx | tar -
 
 | Metric | Value |
 | --- | ---: |
-| Published images (per-tag max; includes same-byte aliases) | **331** |
-| Positive posts (image_count > 0) | 192 |
-| Distinct recovered SHA-256 among post image entries | **206** |
-| Recovered image entries (incl. size aliases) | 330 |
-| Posts parsed / recovered | 1691 / 191 |
+| Published images (per-tag max; includes same-byte aliases) | **343** |
+| Positive posts (image_count > 0) | 194 |
+| Distinct recovered SHA-256 among post image entries | **207** |
+| Distinct hashes with a passing anonymous byte receipt | **207** |
+| Posts parsed | 1701 |
 
 Crawl-state pointer: `data/checkpoint.json`, tag `crawl-state`
 (see that file for the current manifest digest). Refresh the pointer with
 `python3 -m recovery.cli checkpoint` after new bulk state.
 
-## 21-335 result: +2 unique verified hashes via listing -> new-stem pipeline
+## 23-346 result: verification backlog closed (183 -> 207 hashes)
 
-The pipeline that still yields bytes: **fetch-listings (tagged snapshots) ->
-new URL forms -> stem-scan -> stem hits -> fetch-images --only-stem-hits ->
-publish -> anonymous verify.**
-
-* Fetched the remaining ~120 never-done `/tagged/*` snapshots (one per URL) plus
-  60 extra tagged snapshots (`--all-captures`). 0 new posts, but ~33 new stems.
-* `stem-scan` found 2 hits: `31.media.tumblr.com/.../tumblr_mha05fsSdy...`
-  (20140111020130) and `24.media.tumblr.com/tumblr_lznlsneKf7...`
-  (20140111015910).
-* Recovered + published + anonymously verified:
-  * post `41595764733` sha256 `ae4d2cc2...` (1 image)
-  * post `17894899534` sha256 `b891a3ba...` (1 image; first replay got a
-    transient `connection refused`, a direct curl + targeted retry succeeded)
-  * posts `60159692969` (2 images, 19/19) and `85809261273` (1 image, 17/17)
-    now have passing anonymous receipts (the old receipt was stale).
-* Also closed 3 pending publications: `18502938203` (4 imgs), `20110924434`
-  (3), `20533834645` (identical, skipped).
+`verify-artifact` pulled the 24 tags that still lacked a passing anonymous
+image-byte receipt; all 24 passed (16/16 .. 21/21 checks, anonymous pulls).
+Every one of the 207 distinct recovered hashes now has a saved anonymous
+byte check. This is retrievability evidence for already-recovered bytes, not
+new bytes.
 
 ## Durable negative evidence (do not repeat)
 
-* All unresolved-image stems are answered; 0 unanswered index questions. The
-  previously productive "unasked stem pool" is exhausted.
-* Alternate-shard **old-style** forms (no md5dir) and the no-shard
-  `media.tumblr.com/<md5dir>/tumblr_<key>` form: 0 hits on ~18 sampled keys.
-* `/tagged/*` listing surface is now exhausted (one capture per URL done);
-  extra snapshots taper to ~1 new stem per 60 fetches.
-* CDX for a gap stem returns 0 rows even without the `statuscode:200` filter,
-  so redirect captures are not hiding bytes.
-* `hazfalafel.com/api/read/json` and `/sitemap` are not archived.
+* All unresolved-image stems are answered (0 unanswered questions for missing
+  images). Re-asked, with the current CDX server, **54 randomly sampled missing
+  stems returned 0 captures**, so the recorded gap answers are trustworthy, not
+  stale.
+* The 658 stems whose only recorded answer came from the removed *batched*
+  CDX path were suspect. 39 re-asked individually -> 0 captures; the batch
+  answers were correct.
+* Cross-shard copies on the 7 shards whose bulk `filter=original:.*r3it8zo.*`
+  scan 504s (`24/25/27/30/64/66/media.media.tumblr.com`): 54 per-key
+  swapped-host queries -> 0 captures. The md5dir is shard-independent, so this
+  is the right probe; the 504 is a real server-side index-size limit.
+* `hazfalafel.com/api/read/json`, `/sitemap` not archived; RSS feed fully mined
+  (59/59 captures, 0 new forms/images); `/page/N`, `/mobile`, `/archive/*`
+  listing families fully fetched.
+* Listing evidence is already merged: only 16 listing images are not in a post
+  record (all under an empty `post_id`, no permalink anchor).
 
 ## Known correctness item (not yet repaired)
 
@@ -82,11 +77,16 @@ publish -> anonymous verify.**
 errors `KeyError: 'host_inventory'` (fixture missing `resume_key_walk=True`,
 reverted per instruction). 79/80 pass.
 
-## Next work
+## Next work (only surfaces with any remaining yield)
 
-* Continue the listing -> stem pipeline on the remaining listing captures
-  (`--all-captures` over `archive`/`page`/`mobile` snapshots) in bounded units;
-  ~1 new verified image per ~60-120 listing requests.
+* **Tagged second snapshots**: 398 distinct `/tagged/<tag>` URLs are already
+  done once; their remaining captures are the only unmined listing surface.
+  Run `fetch-listings --kinds tagged --all-captures --limit N`, then
+  `stem-scan`, then `fetch-images --only-stem-hits` on any hit. Measured
+  ~1 new stem per ~60 fetches; low but the only known new-form source.
 * When a stem hit's replay gets a transport failure, retry the exact capture
   directly (curl proved the bytes exist) before re-discovering it.
+* `dump-hosts` on a small media shard has never produced a real page + cursor;
+  the synthetic round-trip test does not prove the real path. If exercised,
+  verify row identity/count and the opaque cursor survive a fresh runner.
 * Prefer this pipeline over re-audits; checkpoint `crawl-state` after each batch.

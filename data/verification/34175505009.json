@@ -1,0 +1,176 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:5bea139f54714f2e5e95584e0b3a7f883622d89279b52a6bcb988fcca50a4d5e",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mcbbb8QtwA1r3it8zo1_500.jpg]",
+   "expected": "3b1ed90b54f0e6662d6fc6ce1d0758fe49f7039f4bf3bae15458bdf219c5c6d7",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mcbbb8QtwA1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mcbbb8QtwA1r3it8zo1_500.jpg]",
+   "expected": 45463,
+   "observed": 45463,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mcbbb8QtwA1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "זה ליד הפקולטה למדעי הדשא?",
+   "observed": "זה ליד הפקולטה למדעי הדשא?",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1494;&#1492; &#1500;&#1497;&#1491; &#1492;&#1508;&#1511;&#1493;&#1500;&#1496;&#1492; &#1500;&#1502;&#1491;&#1506;&#1497; &#1492;&#1491;&#1513;&#1488;?</p>",
+   "observed": "<p>&#1494;&#1492; &#1500;&#1497;&#1491; &#1492;&#1508;&#1511;&#1493;&#1500;&#1496;&#1492; &#1500;&#1502;&#1491;&#1506;&#1497; &#1492;&#1491;&#1513;&#1488;?</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "Immature-High-Schoolers",
+    "תחילת-שנת-הלימודים",
+    "תיכוניסטים-ילדותיים",
+    "Back-To-School"
+   ],
+   "observed": [
+    "Immature-High-Schoolers",
+    "תחילת-שנת-הלימודים",
+    "תיכוניסטים-ילדותיים",
+    "Back-To-School"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "זה ליד הפקולטה למדעי הדשא?"
+   ],
+   "observed": [
+    "זה ליד הפקולטה למדעי הדשא?"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/34175505009",
+   "observed": "http://hazfalafel.com/post/34175505009",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mcbbb8QtwA1r3it8zo1_500.jpg]",
+   "expected": "זה ליד הפקולטה למדעי הדשא?",
+   "observed": "זה ליד הפקולטה למדעי הדשא?",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150111131027",
+   "observed": "20150111131027",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150111131027id_/http://36.media.tumblr.com/tumblr_mcbbb8QtwA1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150111131027id_/http://36.media.tumblr.com/tumblr_mcbbb8QtwA1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150111131027",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:926913e7ec05f59cd7a82252beb9b0521eca73d39c34479a75ba12cf4dee8127",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-04T23:11:01Z",
+  "org.opencontainers.image.description": "זה ליד הפקולטה למדעי הדשא?",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 34175505009",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/34175505009",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "26",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "34175505009",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "Immature-High-Schoolers,תחילת-שנת-הלימודים,תיכוניסטים-ילדותיים,Back-To-School"
+ },
+ "layers": [
+  {
+   "digest": "sha256:bfe5a21e67a7e6732c62967b3aef642faf2539e36e971d227a0cf9831ce68625",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 45121
+  },
+  {
+   "digest": "sha256:ef1689c64784dea6ddb36dcf036b92ae798ff8289553328bf42a6fdf18ac879b",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1587
+  }
+ ],
+ "manifest_digest": "sha256:5bea139f54714f2e5e95584e0b3a7f883622d89279b52a6bcb988fcca50a4d5e",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "34175505009",
+ "pulled_files": [
+  {
+   "bytes": 45463,
+   "file": "tumblr_mcbbb8QtwA1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:bfe5a21e67a7e6732c62967b3aef642faf2539e36e971d227a0cf9831ce68625",
+   "role": "media",
+   "sha256": "3b1ed90b54f0e6662d6fc6ce1d0758fe49f7039f4bf3bae15458bdf219c5c6d7"
+  },
+  {
+   "bytes": 7848,
+   "file": "post.json",
+   "layer": "sha256:ef1689c64784dea6ddb36dcf036b92ae798ff8289553328bf42a6fdf18ac879b",
+   "role": "post-metadata",
+   "sha256": "47f7d827884fb2a92a3652869ea6855c75fc4a708e07e9a497fda2008db4f476"
+  }
+ ],
+ "tag": "34175505009",
+ "verified_at": "2026-10-09T21:40:31Z"
+}

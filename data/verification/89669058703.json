@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:0749bac0abde56605ae9f985be9101851145d7804e1612f7a93f72df44fd362b",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_n7mt4onaqk1r3it8zo1_500.jpg]",
+   "expected": "2080b40ad6e3b66669a5b8655488f190d19e6993e219f8bbc9de3fb1d4451fc1",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_n7mt4onaqk1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_n7mt4onaqk1r3it8zo1_500.jpg]",
+   "expected": 114588,
+   "observed": 114588,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_n7mt4onaqk1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "גם כשקרה האסון בצ'רנוביל אז התקשורת שתקה!\nיש בידינו גם וידאו של השריפות",
+   "observed": "גם כשקרה האסון בצ'רנוביל אז התקשורת שתקה!\nיש בידינו גם וידאו של השריפות",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<708 chars>",
+   "observed": "<708 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חיפה",
+    "בתי-זיקוק",
+    "Blade-Runner"
+   ],
+   "observed": [
+    "חיפה",
+    "בתי-זיקוק",
+    "Blade-Runner"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "גם כשקרה האסון בצ'רנוביל אז התקשורת שתקה!\nיש בידינו גם וידאו של השריפות"
+   ],
+   "observed": [
+    "גם כשקרה האסון בצ'רנוביל אז התקשורת שתקה!\nיש בידינו גם וידאו של השריפות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/89669058703",
+   "observed": "http://hazfalafel.com/post/89669058703",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_n7mt4onaqk1r3it8zo1_500.jpg]",
+   "expected": "גם כשקרה האסון בצ'רנוביל אז התקשורת שתקה!\nיש בידינו גם וידאו של השריפות",
+   "observed": "גם כשקרה האסון בצ'רנוביל אז התקשורת שתקה!\nיש בידינו גם וידאו של השריפות",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20140828182604",
+   "observed": "20140828182604",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20140828182604id_/http://37.media.tumblr.com/ea6482088025b2e1b9cc7817acce4a1c/tumblr_n7mt4onaqk1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20140828182604id_/http://37.media.tumblr.com/ea6482088025b2e1b9cc7817acce4a1c/tumblr_n7mt4onaqk1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20140828182604",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:f06b3061d32ad375c8ce7e49d2a3abe7378073f7312f49768245b5a9f382f7bf",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-06T15:57:29Z",
+  "org.opencontainers.image.description": "גם כשקרה האסון בצ'רנוביל אז התקשורת שתקה!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 89669058703",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/89669058703",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "71",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "89669058703",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "חיפה,בתי-זיקוק,Blade-Runner"
+ },
+ "layers": [
+  {
+   "digest": "sha256:0a11e23f1eea20dca0b7f82f64ffdfde36f3e6ce3949f389a7016e264217d428",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 111327
+  },
+  {
+   "digest": "sha256:615fdbb57ef98ea0b00126f401dce46bbbf0bc167fdbd3f31d7f5dbbf6ad2739",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1716
+  }
+ ],
+ "manifest_digest": "sha256:0749bac0abde56605ae9f985be9101851145d7804e1612f7a93f72df44fd362b",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "89669058703",
+ "pulled_files": [
+  {
+   "bytes": 114588,
+   "file": "tumblr_n7mt4onaqk1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0a11e23f1eea20dca0b7f82f64ffdfde36f3e6ce3949f389a7016e264217d428",
+   "role": "media",
+   "sha256": "2080b40ad6e3b66669a5b8655488f190d19e6993e219f8bbc9de3fb1d4451fc1"
+  },
+  {
+   "bytes": 7767,
+   "file": "post.json",
+   "layer": "sha256:615fdbb57ef98ea0b00126f401dce46bbbf0bc167fdbd3f31d7f5dbbf6ad2739",
+   "role": "post-metadata",
+   "sha256": "cb29169b17bbcd0f1a359d68944aadabe508631ac9fd9ce63baaa76f2e0baab6"
+  }
+ ],
+ "tag": "89669058703",
+ "verified_at": "2026-10-09T21:40:43Z"
+}
