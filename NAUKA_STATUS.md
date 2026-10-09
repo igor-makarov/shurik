@@ -1,6 +1,6 @@
 # NAUKA_STATUS — Nauka i Zhizn all-years scan retrieval
 
-Updated: 2026-10-09T01:27:51.854Z
+Updated: 2026-10-09T01:42:33.708Z
 Scope: all-years (supersedes the completed 1934-1939-only objective)
 
 ## Index evidence
