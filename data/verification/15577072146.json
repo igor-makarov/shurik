@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:8d53b6e87c5e3724502dd2276f606aff052f0e9e3cc9382cabef2ea22c444933",
+   "observed": "sha256:185bf4e49dafee080d45caf82a58ea88bf947297301cc73944f179b3477bbd32",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_lxjrdmqKSK1r3it8zo1_500.jpg]",
    "expected": "e1e36d49c4735724dfc095494639eb606560a5082f40620c4f25a0f288f93025",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_lxjrdmqKSK1r3it8zo1_500.jpg",
+   "observed": "tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_lxjrdmqKSK1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxjrdmqKSK1r3it8zo1_250.jpg]",
+   "expected": "e1e36d49c4735724dfc095494639eb606560a5082f40620c4f25a0f288f93025",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxjrdmqKSK1r3it8zo1_250.jpg]",
+   "expected": 39726,
+   "observed": 39726,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxjrdmqKSK1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -94,6 +114,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_lxjrdmqKSK1r3it8zo1_250.jpg]",
+   "expected": "אינדינגב\nתודה לדניאל זאוטנר",
+   "observed": "אינדינגב\nתודה לדניאל זאוטנר",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20130930175155",
    "observed": "20130930175155",
@@ -112,11 +138,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:ef714189b32b480f54d6688c261018fb40c3bec018580a4268e5ca9437f8b96b",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:35affe944e72c0bc04e284e9b47e2d39a190aa2782b8f93160e29f30bad1dec8",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2013-09-30T17:51:55Z",
   "org.opencontainers.image.description": "אינדינגב",
@@ -128,7 +154,7 @@
   "shurik.post.content_len": "27",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "15577072146",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "היפסטר-קיטי"
  },
@@ -139,12 +165,17 @@
    "size": 38613
   },
   {
-   "digest": "sha256:86ea7145332a05c9049e5309a4df1c5b837e99c3641a3b0a932558afaae71149",
+   "digest": "sha256:0b31f1834cd433105691fde6d4f0ecd4c0ff3a70f9495dfbe94e20f5d10eefd2",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 807
+   "size": 38613
+  },
+  {
+   "digest": "sha256:28d7c9d0f0cb3cf9e4baf046923fbeac0787f64056afc34ec76ece84ebb92ba5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 839
   }
  ],
- "manifest_digest": "sha256:8d53b6e87c5e3724502dd2276f606aff052f0e9e3cc9382cabef2ea22c444933",
+ "manifest_digest": "sha256:185bf4e49dafee080d45caf82a58ea88bf947297301cc73944f179b3477bbd32",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "15577072146",
@@ -158,13 +189,21 @@
    "sha256": "e1e36d49c4735724dfc095494639eb606560a5082f40620c4f25a0f288f93025"
   },
   {
-   "bytes": 1645,
+   "bytes": 39726,
+   "file": "tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0b31f1834cd433105691fde6d4f0ecd4c0ff3a70f9495dfbe94e20f5d10eefd2",
+   "role": "media",
+   "sha256": "e1e36d49c4735724dfc095494639eb606560a5082f40620c4f25a0f288f93025"
+  },
+  {
+   "bytes": 2370,
    "file": "post.json",
-   "layer": "sha256:86ea7145332a05c9049e5309a4df1c5b837e99c3641a3b0a932558afaae71149",
+   "layer": "sha256:28d7c9d0f0cb3cf9e4baf046923fbeac0787f64056afc34ec76ece84ebb92ba5",
    "role": "post-metadata",
-   "sha256": "6404fe25936142ea48ad3e3102409b3b51ccfa5c9302b3fab538733678987b6a"
+   "sha256": "364f16dfa7c2f65b41c7e6e8b592e72c953fc05a14425ee7d9e63e86b96f7344"
   }
  ],
  "tag": "15577072146",
- "verified_at": "2026-10-06T02:03:17Z"
+ "verified_at": "2026-10-09T10:39:47Z"
 }
