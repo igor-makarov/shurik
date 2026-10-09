@@ -14,6 +14,7 @@ from recovery.images import (image_capture_candidates, image_capture_candidates_
                              inherit_image_captions, resolve_image, sniff_image, stem_prefix)
 from recovery.media import MediaIndex
 from recovery.stemindex import StemIndex
+from recovery.listing import parse_listing_page
 from recovery.parsing import (html_to_text, inner_html, is_excluded_image, parse_image_variants,
                               parse_post_page)
 from recovery.store import merge_post
@@ -1528,3 +1529,50 @@ class ListingFreshUrlPriorityTests(unittest.TestCase):
         self.assertTrue(f.requests, "the pass must send a request")
         self.assertIn("tagged/fresh", f.requests[0],
                       "an un-fetched listing URL must be spent before a repeat snapshot")
+
+
+class ForeignAnchorAttributionTests(unittest.TestCase):
+    """A reblog-source link must not become a hazfalafel post record."""
+
+    HTML = (
+        '<html><body>'
+        '<article class="post" id="post_photo_15022783677">'
+        '<a href="/post/15022783677">permalink</a>'
+        '<a href="http://godzy.tumblr.com/post/15257317890">source</a>'
+        '<img src="http://31.media.tumblr.com/tumblr_abc123_500.jpg">'
+        '</article></body></html>'
+    )
+
+    def test_foreign_post_link_is_source_evidence_not_a_post_id(self):
+        parsed = parse_listing_page(self.HTML, "http://hazfalafel.com:80/archive", "20120426030951")
+        self.assertEqual(parsed["post_ids"], ["15022783677"],
+                         "only the container blog's permalink names the post")
+        post = parsed["posts"][0]
+        self.assertEqual(post["post_id"], "15022783677")
+        self.assertIn("http://godzy.tumblr.com/post/15257317890", post["reblog_sources"])
+        self.assertEqual([i["media_key"] for i in post["images"]],
+                         ["tumblr_abc123_500.jpg"])
+
+    def test_same_host_link_with_port_is_still_the_container(self):
+        html_doc = ('<a href="http://hazfalafel.com/post/999">x</a>'
+                    '<img src="http://31.media.tumblr.com/tumblr_zzz_500.jpg">')
+        parsed = parse_listing_page(html_doc, "http://hazfalafel.com:80/tagged/x", "20140101000000")
+        self.assertEqual(parsed["post_ids"], ["999"])
+
+
+class CaptionVerificationTests(unittest.TestCase):
+    """The anonymous caption check compares text, not archive whitespace."""
+
+    def test_caption_whitespace_variants_compare_equal(self):
+        from recovery.verify import _norm_caption
+
+        nbsp = "\u05de\u05e7\u05d5\u05e8:\u00a0reddit/AGracefulWalrus"
+        plain = "\u05de\u05e7\u05d5\u05e8: reddit/AGracefulWalrus"
+        self.assertEqual(_norm_caption(nbsp), _norm_caption(plain))
+        self.assertEqual(_norm_caption("\n\n\u05dc\u05db\u05ea\u05d1 \u05ea\u05e9\u05d0\u05e8"),
+                         _norm_caption("\u05dc\u05db\u05ea\u05d1 \u05ea\u05e9\u05d0\u05e8"))
+
+    def test_genuinely_different_captions_still_differ(self):
+        from recovery.verify import _norm_caption
+
+        self.assertNotEqual(_norm_caption("one caption"), _norm_caption("another caption"))
