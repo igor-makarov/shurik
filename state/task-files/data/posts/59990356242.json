@@ -19,13 +19,19 @@
  "content_text": "השר אורי אריאל: “בטהרן פותחים עכשיו שמפניה”\nתודה למיכאל",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-08T23:21:10Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T11:52:37Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
     "http://hazfalafel.com/archive"
    ],
+   "archive_capture": {
+    "archive_digest": "BAG7QI4MFH4IJMNC27VSXBSWKV5QWZWF",
+    "original": "http://24.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111020407id_/http://24.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_500.jpg",
+    "timestamp": "20140111020407"
+   },
    "attempts": [
     {
      "endpoint": "variant-plan",
@@ -267,18 +273,50 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1",
      "url": "http://78.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1",
+     "url": "http://25.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 53062,
+     "capture_timestamp": "20140111013245",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "9d1c8b22129abcfb4c4ec16d57fa1dd2965801a9e3c716333e2b120fe7ee21a4",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg"
     }
    ],
    "base_key": "tumblr_msft6pM0Iq1r3it8zo1.jpg",
+   "blob_path": "data/blobs/9d/9d1c8b22129abcfb4c4ec16d57fa1dd2965801a9e3c716333e2b120fe7ee21a4",
+   "bytes": 53062,
    "caption": "השר אורי אריאל: “בטהרן פותחים עכשיו שמפניה”\nתודה למיכאל",
    "caption_alt": "השר אורי אריאל: “בטהרן פותחים עכשיו שמפניה”\nתודה למיכאל",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "Z2IEYSY4BUFLYS5QBY3GL2XC755Z35EH",
+    "original": "http://25.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
+    "replay_url": "https://web.archive.org/web/20140111013245id_/http://25.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
+    "timestamp": "20140111013245"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20140111013245 of http://25.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg (53062 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "9d1c8b22129abcfb4c4ec16d57fa1dd2965801a9e3c716333e2b120fe7ee21a4",
+   "state": "recovered",
    "url_forms": [
     "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
@@ -341,7 +379,7 @@
    "url": "http://hazfalafel.com/post/59990356242"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -382,58 +420,6 @@
    ],
    "media_url": "http://78.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_1280.jpg",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_1024.jpg",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_540.jpg",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_500.jpg",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_400.jpg",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_100.jpg",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1.png",
-      "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1",
-     "url": "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://68.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1",
-     "url": "http://68.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://78.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1",
-     "url": "http://78.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg"
-    }
-   ],
-   "media_url": "http://65.media.tumblr.com/68a20763b69f40a008125b9dfd2a5a77/tumblr_msft6pM0Iq1r3it8zo1_250.jpg",
-   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/59990356242",
@@ -456,6 +442,10 @@
  },
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171025064103id_/http://hazfalafel.com/post/59990356242",
+ "restored_from_registry": {
+  "at": "2026-10-09T11:52:32Z",
+  "manifest_digest": "sha256:2b39879227bfb61bc7f4d6173eb8c044b53b5126247030509606f3fd99e6543c"
+ },
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [

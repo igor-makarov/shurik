@@ -19,8 +19,8 @@
  "content_text": "וול פלייד, שלומית. וול,פלייד.",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-08T23:21:09Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T11:52:43Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -277,18 +277,50 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1",
      "url": "http://78.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1",
+     "url": "http://24.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 47174,
+     "capture_timestamp": "20140111014518",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "343231b2d20a3e812426156658e3b1dfbb8651ac8e40e355c1d1514d51f56a13",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg"
     }
    ],
    "base_key": "tumblr_mtbt9uNLXt1r3it8zo1.jpg",
+   "blob_path": "data/blobs/34/343231b2d20a3e812426156658e3b1dfbb8651ac8e40e355c1d1514d51f56a13",
+   "bytes": 47174,
    "caption": "וול פלייד, שלומית. וול,פלייד.",
    "caption_alt": "וול פלייד, שלומית. וול,פלייד.",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "VO5CGBJMH3HBBJ2SL56DKMIZP5MKNEDJ",
+    "original": "http://24.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
+    "replay_url": "https://web.archive.org/web/20140111014518id_/http://24.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
+    "timestamp": "20140111014518"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20140111014518 of http://24.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg (47174 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "343231b2d20a3e812426156658e3b1dfbb8651ac8e40e355c1d1514d51f56a13",
+   "state": "recovered",
    "url_forms": [
     "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
@@ -351,7 +383,7 @@
    "url": "http://hazfalafel.com/post/61589680118"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -391,58 +423,6 @@
     }
    ],
    "media_url": "http://78.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_540.jpg",
-   "reason": "archive_gap"
-  },
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_1280.jpg",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_1024.jpg",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_540.jpg",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_500.jpg",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_400.jpg",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_100.jpg",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1.png",
-      "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1",
-     "url": "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://68.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1",
-     "url": "http://68.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://78.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1",
-     "url": "http://78.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg"
-    }
-   ],
-   "media_url": "http://66.media.tumblr.com/a62bc275fd88c2eb5efd7c829e68f623/tumblr_mtbt9uNLXt1r3it8zo1_250.jpg",
    "reason": "archive_gap"
   }
  ],

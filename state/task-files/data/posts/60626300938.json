@@ -19,8 +19,8 @@
  "content_text": "GOOOOOOOOD MORNING ISRAEL!!!!",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T09:46:31Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T11:52:00Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -189,14 +189,65 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2013/9"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1.png",
+      "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://31.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1",
+     "url": "http://31.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 21313,
+     "capture_timestamp": "20140111013635",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "ed8fafd3a2470ad17320b40279ae3716c90fbc4e057fe79adc4e98d4c0055d3e",
+     "status": 200,
+     "url": "http://31.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg"
+    }
+   ],
    "base_key": "tumblr_mssrenvEGG1r3it8zo1.jpg",
+   "blob_path": "data/blobs/ed/ed8fafd3a2470ad17320b40279ae3716c90fbc4e057fe79adc4e98d4c0055d3e",
+   "bytes": 21313,
    "caption": "GOOOOOOOOD MORNING ISRAEL!!!!",
    "caption_alt": "GOOOOOOOOD MORNING ISRAEL!!!!",
+   "capture": {
+    "archive_digest": "SGIKCKMWU6TEZ7YU5RWP37DP7HE65XML",
+    "original": "http://31.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
+    "replay_url": "https://web.archive.org/web/20140111013635id_/http://31.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
+    "timestamp": "20140111013635"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mssrenvEGG1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mssrenvEGG1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20140111013635 of http://31.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg (21313 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "ed8fafd3a2470ad17320b40279ae3716c90fbc4e057fe79adc4e98d4c0055d3e",
+   "state": "recovered",
    "url_forms": [
     "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
@@ -259,7 +310,7 @@
    "url": "http://hazfalafel.com/post/60626300938"
   }
  ],
- "missing_image_count": 3,
+ "missing_image_count": 2,
  "missing_images": [
   {
    "attempts": [
@@ -340,11 +391,6 @@
    ],
    "media_url": "http://78.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://67.media.tumblr.com/c91be4d56ac86712ee2aebf2ce6259ce/tumblr_mssrenvEGG1r3it8zo1_250.jpg",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/60626300938",

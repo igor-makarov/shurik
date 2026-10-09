@@ -19,8 +19,8 @@
  "content_text": "לא? חבל…\nתודה לאתר הכי מוצלח שנתקלנו בו השבוע.\nhttp://www.kvartakfu.com/",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T09:46:23Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T11:51:51Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -179,14 +179,65 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2013/8"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1.png",
+      "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://31.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1",
+     "url": "http://31.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 18618,
+     "capture_timestamp": "20140111014711",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "4242e8216c19bcd75b50e9c30b142f852068354452fea0abd68ef3f30d879873",
+     "status": 200,
+     "url": "http://31.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg"
+    }
+   ],
    "base_key": "tumblr_mserfavw6D1r3it8zo1.jpg",
+   "blob_path": "data/blobs/42/4242e8216c19bcd75b50e9c30b142f852068354452fea0abd68ef3f30d879873",
+   "bytes": 18618,
    "caption": "לא? חבל…\nתודה לאתר הכי מוצלח שנתקלנו בו השבוע.\nhttp://www.kvartakfu.com/",
    "caption_alt": "לא? חבל…\nתודה לאתר הכי מוצלח שנתקלנו בו השבוע.\nhttp://www.kvartakfu.com/",
+   "capture": {
+    "archive_digest": "VB2PLIOMGC3AVBXTNWJOGKNMGBQLR3NI",
+    "original": "http://31.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
+    "replay_url": "https://web.archive.org/web/20140111014711id_/http://31.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
+    "timestamp": "20140111014711"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mserfavw6D1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mserfavw6D1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20140111014711 of http://31.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg (18618 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "4242e8216c19bcd75b50e9c30b142f852068354452fea0abd68ef3f30d879873",
+   "state": "recovered",
    "url_forms": [
     "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
@@ -249,7 +300,7 @@
    "url": "http://hazfalafel.com/post/59886292652"
   }
  ],
- "missing_image_count": 3,
+ "missing_image_count": 2,
  "missing_images": [
   {
    "attempts": [
@@ -330,11 +381,6 @@
    ],
    "media_url": "http://78.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://67.media.tumblr.com/712c4f21f33a198c3a6b2c2afe3aa58e/tumblr_mserfavw6D1r3it8zo1_250.jpg",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/59886292652",
