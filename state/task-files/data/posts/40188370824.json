@@ -17,18 +17,39 @@
  "content_text": "",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-09T10:17:54Z",
+ "fetched_at": "2026-10-09T22:24:13Z",
  "image_count": 0,
  "images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/mULtY.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/mULtY.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/mULtY.jpg"
+    }
+   ],
    "base_key": null,
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "i.imgur.com/multy.jpg",
    "media_url": "http://i.imgur.com/mULtY.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://i.imgur.com/mULtY.jpg"
    ],
@@ -37,7 +58,7 @@
    ]
   }
  ],
- "images_done": false,
+ "images_done": true,
  "listing_evidence": 2,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -69,9 +90,27 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/mULtY.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/mULtY.jpg"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/mULtY.jpg"
+    }
+   ],
    "media_url": "http://i.imgur.com/mULtY.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/40188370824",
