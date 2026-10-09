@@ -33,8 +33,8 @@
  "content_text": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
  "date_text": "Posted 6 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-07T03:45:42Z",
- "image_count": 3,
+ "fetched_at": "2026-10-09T04:32:05Z",
+ "image_count": 4,
  "images": [
   {
    "alt_sources": [
@@ -281,20 +281,53 @@
     {
      "endpoint": "circuit-breaker",
      "note": "circuit breaker opened before probing http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_1280.jpg; no request was sent for it"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1",
+     "url": "https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 53417,
+     "capture_timestamp": "20181018115719",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_m02q2w0hz21r3it8zo1.jpg",
+   "blob_path": "data/blobs/7e/7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+   "bytes": 53417,
    "caption": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
    "caption_alt": "קיבלתי את הרכב חזרה מהמוסך…\nתודה לנבות",
-   "capture_count": 0,
-   "error": "transport",
+   "capture": {
+    "archive_digest": "GJA4VBVBW46JCWF4577YMSNU2LEKT53H",
+    "original": "https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181018115719id_/https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
+    "timestamp": "20181018115719"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_m02q2w0hz21r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_m02q2w0hz21r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
-   "note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (transport); 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20181018115719 of https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg (53417 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "inconclusive: the archive did not answer for this URL or its size/extension siblings (transport); 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). No conclusion about whether a capture exists",
+   "sha256": "7e85a10cc7e7f9c9124911d46bd68c0b9ab0e6ed7a0a9aabe89cb7b3e6547ec0",
+   "state": "recovered",
    "url_forms": [
-    "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg"
+    "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
+    "https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg"
    ],
    "variants": [
     "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
@@ -306,7 +339,12 @@
     "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_100.jpg",
     "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.png",
     "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.gif"
-   ]
+   ],
+   "xshard_capture": {
+    "source": "xshard-host-scan",
+    "timestamp": "20181018115719",
+    "url": "https://78.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg"
+   }
   },
   {
    "alt_sources": [
@@ -412,7 +450,7 @@
    "via": "shard-variant"
   }
  ],
- "images_done": false,
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -447,59 +485,12 @@
    "url": "http://hazfalafel.com/post/18502938203/amp"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_1280.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_1024.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_540.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_500.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_400.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_100.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.png",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
-     "variants": [
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_400.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_100.jpg",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.png",
-      "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1.gif"
-     ]
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "transport",
-     "location": "",
-     "message": "connection refused (transport, no HTTP answer): HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /...lr_m02q2w0hz21r3it8zo1_250.jpg (Caused by NewConnectionError('",
-     "requested_timestamp": "20191231235959",
-     "status": null,
-     "url": "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg"
-    },
-    {
-     "endpoint": "circuit-breaker",
-     "note": "circuit breaker opened before probing http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_1280.jpg; no request was sent for it"
-    }
-   ],
-   "media_url": "http://67.media.tumblr.com/tumblr_m02q2w0hz21r3it8zo1_250.jpg",
-   "reason": "transport"
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com:80/post/18502938203",
  "page_bytes": 62983,
  "page_sha256": "23d4fcaa35d89a35689fdb6da867ade3221e0b2a531ad25ea5cb91f085e8805f",
- "partial": true,
+ "partial": false,
  "post_id": "18502938203",
  "posted_on": "Posted on Wednesday the 29th of February 2012 at 8:59 PM",
  "published": {
@@ -519,7 +510,7 @@
  ],
  "replay_url": "https://web.archive.org/web/20131215143349id_/http://hazfalafel.com:80/post/18502938203",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "צרות-של-אשכנזים"
  ]

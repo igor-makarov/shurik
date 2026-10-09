@@ -33,8 +33,8 @@
  "content_text": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
  "date_text": "Posted 6 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T05:31:46Z",
- "image_count": 2,
+ "fetched_at": "2026-10-09T04:32:52Z",
+ "image_count": 3,
  "images": [
   {
    "attempts": [
@@ -228,17 +228,129 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2012/5"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "replay-probe"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 3,
+     "note": "3 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "capture_timestamp": "20181018115722",
+     "endpoint": "replay-probe",
+     "error": "ok",
+     "location": "https://web.archive.org/web/20181018115722im_/https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg",
+     "message": "",
+     "requested_timestamp": "20191231235959",
+     "status": 302,
+     "url": "https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 50202,
+     "capture_timestamp": "20181018115722",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "c6ee514ad3e8907e0e8b8ef94c937874164dbdc039d4754b9eac6058366cc4fb",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.png",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.png",
+      "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.gif"
+     ]
+    }
+   ],
    "base_key": "tumblr_m42ulpxwiU1r3it8zo1.jpg",
+   "blob_path": "data/blobs/c6/c6ee514ad3e8907e0e8b8ef94c937874164dbdc039d4754b9eac6058366cc4fb",
+   "bytes": 50202,
    "caption": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
    "caption_alt": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
+   "capture": {
+    "archive_digest": "",
+    "original": "https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181018115722id_/https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg",
+    "timestamp": "20181018115722"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20181018115722 of https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg (50202 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "c6ee514ad3e8907e0e8b8ef94c937874164dbdc039d4754b9eac6058366cc4fb",
+   "state": "recovered",
    "url_forms": [
     "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
-    "http://68.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg"
+    "http://68.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+    "https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg"
    ],
    "variants": [
     "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
@@ -259,7 +371,12 @@
     "http://68.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_100.jpg",
     "http://68.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.png",
     "http://68.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1.gif"
-   ]
+   ],
+   "xshard_capture": {
+    "source": "xshard-host-scan",
+    "timestamp": "20181018115722",
+    "url": "https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg"
+   }
   }
  ],
  "images_done": true,
@@ -297,18 +414,12 @@
    "url": "http://hazfalafel.com/post/23113407036/amp"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "http://67.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com:80/post/23113407036",
  "page_bytes": 63635,
  "page_sha256": "e7d614d9cd6b21cbd585fb1e73bcd679bce59e73644192f8ab25d382abe5f4aa",
- "partial": true,
+ "partial": false,
  "post_id": "23113407036",
  "posted_on": "Posted on Tuesday the 15th of May 2012 at 9:41 PM",
  "published": {
@@ -328,7 +439,7 @@
  ],
  "replay_url": "https://web.archive.org/web/20131215143358id_/http://hazfalafel.com:80/post/23113407036",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "צרות-של-אשכנזים"
  ]
