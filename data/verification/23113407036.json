@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:348c42aa18d6b20e195200d65f68547b24d4e4c6847ff52545faa06dfedffb16",
+   "observed": "sha256:c0860c44aaffd5cd47a963183cb15bffa2bd27a322a8dfdaeee15bc2e9db049d",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_m42ulpxwiU1r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m42ulpxwiU1r3it8zo1_250.jpg]",
+   "expected": "c6ee514ad3e8907e0e8b8ef94c937874164dbdc039d4754b9eac6058366cc4fb",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m42ulpxwiU1r3it8zo1_250.jpg]",
+   "expected": 50202,
+   "observed": 50202,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m42ulpxwiU1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -114,6 +134,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_m42ulpxwiU1r3it8zo1_640.jpg]",
+   "expected": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
+   "observed": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m42ulpxwiU1r3it8zo1_250.jpg]",
+   "expected": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
+   "observed": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20181225182113",
    "observed": "20181225182113",
@@ -132,11 +164,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:4291299fc5b78f093c4a958d5eca941f28c5b5bafa12c49c54ca90881eaa04e6",
+ "checks_passed": 25,
+ "checks_total": 25,
+ "config_digest": "sha256:71a0b55b3f16175ed55a5aef3dd354608cd7b7abc24062c7eec9694143dd8271",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:09Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: אל תתקשרו אליי בצהריים, אני מרותק לשידור החי ממוסקבה.",
@@ -148,7 +180,7 @@
   "shurik.post.content_len": "70",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "23113407036",
-  "shurik.post.images": "2",
+  "shurik.post.images": "3",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "צרות-של-אשכנזים"
  },
@@ -164,12 +196,17 @@
    "size": 51596
   },
   {
-   "digest": "sha256:0f43b40959344fd7a1cca1e9d2ba752d19e7862c7cbf742319b6ad687c6578d1",
+   "digest": "sha256:f265834d4ff9742fd5f58307fbc8d12f29c430af3a1facfd6fd8545722cc65f7",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1025
+   "size": 50332
+  },
+  {
+   "digest": "sha256:1bd14f0d8ed198b232324d738d341202e3c8c9f6b315213888b004d6ac6b8c6f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1120
   }
  ],
- "manifest_digest": "sha256:348c42aa18d6b20e195200d65f68547b24d4e4c6847ff52545faa06dfedffb16",
+ "manifest_digest": "sha256:c0860c44aaffd5cd47a963183cb15bffa2bd27a322a8dfdaeee15bc2e9db049d",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "23113407036",
@@ -191,13 +228,21 @@
    "sha256": "c7fe98a82a3f7ca503b4f8ce4c4cc71ab0b6ee85bb0e8f92b27ae36406433c31"
   },
   {
-   "bytes": 3286,
+   "bytes": 50202,
+   "file": "tumblr_m42ulpxwiU1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:f265834d4ff9742fd5f58307fbc8d12f29c430af3a1facfd6fd8545722cc65f7",
+   "role": "media",
+   "sha256": "c6ee514ad3e8907e0e8b8ef94c937874164dbdc039d4754b9eac6058366cc4fb"
+  },
+  {
+   "bytes": 4181,
    "file": "post.json",
-   "layer": "sha256:0f43b40959344fd7a1cca1e9d2ba752d19e7862c7cbf742319b6ad687c6578d1",
+   "layer": "sha256:1bd14f0d8ed198b232324d738d341202e3c8c9f6b315213888b004d6ac6b8c6f",
    "role": "post-metadata",
-   "sha256": "edbb1ed438f99793a9a245d07e59bebd0bcc17a62f3370c6ef87f463d763a7b4"
+   "sha256": "2e37bdd464c7523ba78c81b8a31ff00846bc8e7fc4800cc551d3115d904db324"
   }
  ],
  "tag": "23113407036",
- "verified_at": "2026-10-06T05:39:11Z"
+ "verified_at": "2026-10-09T08:08:33Z"
 }
