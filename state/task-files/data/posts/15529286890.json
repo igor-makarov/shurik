@@ -104,6 +104,28 @@
     "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.png",
     "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lxi1p9J19n1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+   "media_url": "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_1280.jpg",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_1024.jpg",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_540.jpg",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_400.jpg",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_100.jpg",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.png",
+    "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -131,12 +153,18 @@
    "url": "http://hazfalafel.com:80/post/15529286890"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/15529286890",
  "page_bytes": 50681,
  "page_sha256": "f25d365218d26bd19629dd3b28504724876482a2038b0dcd9be9253259a48f8e",
- "partial": false,
+ "partial": true,
  "post_id": "15529286890",
  "published": {
   "action": "pushed",
@@ -157,7 +185,7 @@
   "manifest_digest": "sha256:ed61069fe36f63b1cfde749964771902ed40c549f71bf4bf9dac37575fdc1144"
  },
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "סטיב-החלאה",
   "זאב-אלקין"

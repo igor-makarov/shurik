@@ -158,6 +158,28 @@
     "http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1.png",
     "http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lxjrdmqKSK1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+   "media_url": "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_1280.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_1024.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_540.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_400.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_100.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1.png",
+    "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -189,12 +211,18 @@
    "url": "http://hazfalafel.com:80/post/15577072146"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/15577072146",
  "page_bytes": 49522,
  "page_sha256": "47e423c24bed8f8e19f31d451c8ae92e0cb8e73de3cc8db6370c7f3a6a38c3c2",
- "partial": false,
+ "partial": true,
  "post_id": "15577072146",
  "published": {
   "action": "updated",
@@ -211,7 +239,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20120114064453id_/http://hazfalafel.com:80/post/15577072146",
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "היפסטר-קיטי"
  ]

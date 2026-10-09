@@ -92,6 +92,28 @@
     "http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1.png",
     "http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lxjw9goTvh1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "listing:attr:div",
+   "media_key": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "media_url": "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_1280.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_1024.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_540.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_400.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_100.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1.png",
+    "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -123,12 +145,18 @@
    "url": "http://hazfalafel.com:80/post/15582230324"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/15582230324",
  "page_bytes": 50373,
  "page_sha256": "af544af54a8b972b5a50c879b6802c1938ce336236d3acc99c9976187b5f4d3a",
- "partial": false,
+ "partial": true,
  "post_id": "15582230324",
  "published": {
   "action": "pushed",
@@ -149,7 +177,7 @@
   "manifest_digest": "sha256:05cf4de0bc8a6441bcdfbefd51f4fa3acc027fa143db713e6d179d713b35c16a"
  },
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "חוק-גודווין",
   "כלבה-בבקשה",
