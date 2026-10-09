@@ -1,0 +1,36 @@
+2026-10-09T00:35:17.199Z oras login ok
+2026-10-09T00:35:18.504Z === pass 1 (budget 480000ms left) ===
+2026-10-09T00:35:18.506Z -- file nij-1964-n11-pdf (Pdf-86.6M) --
+2026-10-09T00:35:18.506Z -- file nij-1969-n11-pdf (Pdf-86.9M) --
+2026-10-09T00:35:18.506Z -- file nij-1969-n09-pdf (Pdf-87.3M) --
+2026-10-09T00:35:18.506Z -- file nij-1962-n05-pdf (Pdf-89.7M) --
+2026-10-09T00:35:18.506Z -- file nij-2008-n12-pdf (Pdf-96.7M) --
+2026-10-09T00:35:18.506Z -- file nij-1940-n0506-pdf (Pdf- 103M) --
+2026-10-09T00:40:13.903Z publishing nij-1964-n11-pdf (90814305 bytes) as nij-1964-n11-pdf
+2026-10-09T00:40:18.130Z verified nij-1964-n11-pdf: e22fd90cf5ff9e9a2c4aa182761e0d4c262ba778c85956974bc04d18bc2a74ea
+2026-10-09T00:40:18.130Z -- file nij-1940-n1112-pdf (Pdf- 138M) --
+2026-10-09T00:41:27.324Z publishing nij-1969-n11-pdf (91157043 bytes) as nij-1969-n11-pdf
+2026-10-09T00:41:31.474Z verified nij-1969-n11-pdf: a44eb24632f3ea6848122d1afc395d9bdae13812567d9e177b02fbc749d2ef9d
+2026-10-09T00:41:31.474Z -- file nij-1947-n06-pdf (Pdf- 928k) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n01-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n02-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n03-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n04-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n05-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n06-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n07-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n08-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2014-n09-pdf (null) --
+2026-10-09T00:42:21.008Z -- file nij-2015-n01-pdf (null) --
+2026-10-09T00:43:16.349Z checkpointed nij-1969-n09-pdf (91226112 bytes, 87 chunks) -> sha256:51d13d624b3e26685f0a8f2c73cff94aa92db61b670ef18936e4a08989e4c290
+2026-10-09T00:43:18.504Z transfer budget elapsed; aborting in-flight requests
+2026-10-09T00:43:19.509Z checkpointed nij-1962-n05-pdf (41943040 bytes, 40 chunks) -> sha256:f80110544ba3718d801c1902fb4d89803f6c84703bb8a33ea7040f50f706668c
+2026-10-09T00:43:22.494Z checkpointed nij-2008-n12-pdf (40894464 bytes, 39 chunks) -> sha256:32217c38c270187239a361d35b04c21ab5c4f03988d6d5480c8fec3cf78670ef
+2026-10-09T00:43:25.353Z checkpointed nij-1940-n0506-pdf (34603008 bytes, 33 chunks) -> sha256:7ce8d51dadd3e661492db487ffed15451744b49de92f1bc2ef924d44b7847cae
+2026-10-09T00:43:27.588Z checkpointed nij-1940-n1112-pdf (8388608 bytes, 8 chunks) -> sha256:4d07387a39886628aaaed9b55eea6df77f0d95d20305c319386d45af5880d0cc
+2026-10-09T00:43:27.629Z pass 1 results: [{"id":"nij-1964-n11-pdf","status":"published","sha256":"e22fd90cf5ff9e9a2c4aa182761e0d4c262ba778c85956974bc04d18bc2a74ea","bytes":90814305,"digest":"sha256:493fd9d36ec4dbac8d6142de3fb35951462e63b0c076e4c33bbbe6ca816258b7","tag":"nij-1964-n11-pdf"},{"id":"nij-1969-n11-pdf","status":"published","sha256":"a44eb24632f3ea6848122d1afc395d9bdae13812567d9e177b02fbc749d2ef9d","bytes":91157043,"digest":"sha256:f31aabedd1e698971b52cc4a5e671e41171fce2f31bb17e26408ca2614b2145e","tag":"nij-1969-n11-pdf"},{"id":"nij-1947-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n01-pdf","status":"in_progress","received":0},{"id":"nij-2014-n02-pdf","status":"in_progress","received":0},{"id":"nij-2014-n03-pdf","status":"in_progress","received":0},{"id":"nij-2014-n04-pdf","status":"in_progress","received":0},{"id":"nij-2014-n05-pdf","status":"in_progress","received":0},{"id":"nij-2014-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n07-pdf","status":"in_progress","received":0},{"id":"nij-2014-n08-pdf","status":"in_progress","received":0},{"id":"nij-2014-n09-pdf","status":"in_progress","received":0},{"id":"nij-2015-n01-pdf","status":"in_progress","received":0},{"id":"nij-1940-n1112-pdf","status":"in_progress","received":8388608},{"id":"nij-1969-n09-pdf","status":"in_progress","received":91226112},{"id":"nij-1962-n05-pdf","status":"in_progress","received":41943040},{"id":"nij-2008-n12-pdf","status":"in_progress","received":40894464},{"id":"nij-1940-n0506-pdf","status":"in_progress","received":34603008}]
+2026-10-09T00:43:27.629Z remaining files: 16
+2026-10-09T00:43:31.374Z published catalog nij-master-catalog -> sha256:cf0f60fd26263a696cdb20ba6ca4bf6ecb70029e576a9ad1f1645c31d729ddb1
+2026-10-09T00:43:33.241Z published master index nij-master-index -> sha256:8c2b1a97f2bf5a21afb2c3d5cb45df8ec70859f469e977aa278fc97ef64a3579 (1527773 B, status complete)
+2026-10-09T00:43:33.242Z published master checkpoint nij-master-checkpoint -> sha256:cdfdc86f8ca126220199d1a93fbc4258da0272d7398b6a2584c1ae1c546b418e
+2026-10-09T00:43:33.242Z retrieve batch complete in 496043ms
