@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "5-59",
-  "at": "2026-10-09T01:16:09Z",
+  "iteration": "5-60",
+  "at": "2026-10-09T01:29:00Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The user-authorized four-hour continuation is acknowledged; earlier time deadlines superseded. I obey the supervisor control and set none of my own.",
@@ -12,6 +12,8 @@
     "files": 60,
     "bytes": 2311630290,
     "subsetIndexTag": "nij-1934-39-index",
+    "subsetIndexDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "subsetCheckpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
     "preserved": true
   },
   "discovery": {
@@ -39,12 +41,12 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700",
-    "bytes": 1533293,
+    "digest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+    "bytes": 1534769,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:f158b6b4a00ca9d9875be244ec818d39fd28b85b32dd83a63234e844eb5032f3",
+    "catalogDigest": "sha256:7d5fe51d5eeba575c0eb32e081e45732226fad6ddf97a4138b9934a6cf514359",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:6fbcd92b841981309df17a0cb32ac29659827c5d770d789697899a8d0063ce3c",
+    "checkpointDigest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0,
@@ -57,32 +59,29 @@
       "supplementaryPublished": 5
     }
   },
-  "batchesThisIteration": [
-    144,
-    145,
-    146
-  ],
+  "batchesThisIteration": [],
   "newPublishedThisIteration": {
-    "regularFiles": 14,
-    "regularBytes": 552390590
+    "regularFiles": 0,
+    "regularBytes": 0
   },
   "durablePartials": {
     "inProgress": [],
     "ghcrCheckpointBytes": 0,
-    "note": "No unfinished partials remain; all in-progress files were restored from immutable GHCR chunk checkpoints and published."
+    "note": "No unfinished partials remain."
   },
   "supplementary": {
     "count": 5,
     "published": 5,
-    "status": "complete"
+    "status": "complete",
+    "note": "All 5 supplementary tags resolved on GHCR and match their recorded digests."
   },
-  "throughputNote": "Origin reachable; aggregate <=512 KiB/s; batches 144-146 exit 0; per-file GHCR round-trip verify ok; nothing concatenated from a full 200.",
+  "throughputNote": "No origin transfer needed this iteration (all files already published). Origin was reachable; conservative request discipline unchanged.",
   "blockers": [],
   "nextActions": [
     "Objective complete: 1112/1112 regular files + 5/5 supplementary archives published; all-years master index verified by immutable digest.",
     "Keep the master index current only if new archive-listed material appears."
   ],
   "notes": [
-    "Iteration 5-59: acknowledged the user-authorized four-hour continuation and the authoritative supervisor control deadline=null (completion-driven). Batches 144-146 restored the 6 saved GHCR chunk checkpoints (195,035,136 B) without re-download and finished the remaining regular files: batch 144 published 13 files (+407,332,275 B), batch 145 advanced nij-1940-n1112-pdf to 142,606,336 B durable checkpoint, batch 146 published the final file nij-1940-n1112-pdf (+145,058,315 B). Published regular 1098->1112; remaining 0. Master index nij-master-index @ sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700 (1,533,293 B, status complete) independently verified by immutable pull (0 problems, 1112 files / 941 issues / 87 years / 1112 published / 5 supplementary)."
+    "Iteration 5-60: completion-driven continuation acknowledged (deadline null). Independently verified GHCR ground truth: all 1112 published regular ids exist as tags (12 sampled digests match), all 5 supplementary tags resolve and match, master index pulls cleanly by immutable digest (0 problems). Found and fixed a truthfulness gap: master-index supplementary[] entries lacked tag/ghcrRef; republished nij-master-index @ sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c (1,534,769 B) and re-verified by immutable pull. Full nauka test suite 37/37 pass. Legacy 1934-1939 subset index/checkpoint preserved unchanged."
   ]
 }

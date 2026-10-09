@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "5-59",
-  "at": "2026-10-09T01:16:09Z",
+  "iteration": "5-60",
+  "at": "2026-10-09T01:29:00Z",
   "scope": "all-years",
   "deadline": null,
   "status": "COMPLETE",
@@ -12,7 +12,7 @@
   "bytesPublishedTotal": 21744526126,
   "origin": {
     "reachable": true,
-    "note": "publ.lib.ru reachable; batches 144-146 exit 0; aggregate <=512 KiB/s; nothing concatenated from a full 200."
+    "note": "publ.lib.ru reachable; no origin transfer performed this iteration (all files already published); aggregate <=512 KiB/s preserved."
   },
   "discovery": {
     "status": "complete",
@@ -26,12 +26,12 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700",
-    "bytes": 1533293,
+    "digest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+    "bytes": 1534769,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:f158b6b4a00ca9d9875be244ec818d39fd28b85b32dd83a63234e844eb5032f3",
+    "catalogDigest": "sha256:7d5fe51d5eeba575c0eb32e081e45732226fad6ddf97a4138b9934a6cf514359",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:6fbcd92b841981309df17a0cb32ac29659827c5d770d789697899a8d0063ce3c",
+    "checkpointDigest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0,
@@ -53,17 +53,15 @@
   "supplementary": {
     "count": 5,
     "published": 5,
-    "status": "complete"
+    "status": "complete",
+    "note": "All 5 tags resolve on GHCR and match the master-index digests (4 legacy tags + 1 supplementaryId tag)."
   },
   "newPublishedThisIteration": {
-    "regularFiles": 14,
-    "regularBytes": 552390590
+    "regularFiles": 0,
+    "regularBytes": 0
   },
-  "batchesThisIteration": [
-    144,
-    145,
-    146
-  ],
+  "batchesThisIteration": [],
+  "defectFixed": "master-index supplementary[] entries lacked tag/ghcrRef; fixed in tools/nauka/master-index.mjs, verifier hardened, regression tests added (37/37 pass), index republished and re-verified.",
   "nextAction": "Objective complete. No further retrieval required; keep the master index current only if new archive-listed material appears.",
-  "notes": "Iteration 5-59: completion-driven continuation acknowledged (deadline null, token nauka-user-until-complete-1791481729758). Batches 144-146 restored 6 saved GHCR chunk checkpoints and published the last 14 regular files (1098->1112, remaining 0), +552,390,590 B. Master index nij-master-index @ sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700 (1,533,293 B, status complete) verified by immutable pull: 0 problems, 1112 files / 941 issues / 87 years / 1112 published / 5 supplementary."
+  "notes": "Iteration 5-60: completion-driven continuation acknowledged (deadline null, token nauka-user-until-complete-1791481729758). Independently verified against GHCR that all 1112 regular files + 5 supplementary archives are published and the master index is truthful; found and fixed a supplementary-reference gap and republished nij-master-index @ sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c (1,534,769 B, status complete), verified by immutable pull: 0 problems, 1112 files / 941 issues / 87 years / 1112 published / 5 supplementary."
 }
