@@ -4,7 +4,7 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "running",
+  "status": "stopped",
   "generation": 20,
   "next": 334,
   "owner": {
@@ -19,7 +19,7 @@
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
-  "lastDispatchAt": "2026-10-09T13:38:37.051Z",
+  "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
   "lastRunId": "37934220758",
   "stateStorage": "control",
@@ -118,27 +118,61 @@
   },
   "monitorGuidancePause": {
     "experimentId": "falafel-throughput-20261009",
-    "cause": "First flat hourly window: no new durable image hashes/publications/verification; 256 saved scoped CDX negatives and 31 published prior-new hashes still lack anonymous receipts. Add targeted recovery-stage guidance.",
-    "nonce": "falafel-throughput-check2-2026-10-09T10:05:09Z",
+    "cause": "First flat progress check: repeated startup/RSS audits, alternate-capture discoveries left in temporary probes, failed probe API call, and unchanged pending verification. Target durable continuation and real recovery path.",
+    "nonce": "falafel-throughput-check6-2026-10-09T14:03:07Z",
     "originalGeneration": 20,
     "originalDeadline": "2026-10-10T07:59:06.000Z",
     "originalCheckpoint": {
-      "workCommit": "a8a550e6044e3bf2b1fd21335c91877727f0612c",
+      "workCommit": "6de07c620ca3d910dd7c3afb85304863b302bdce",
       "generation": 20,
-      "sequence": "20-327",
-      "runId": "37913549121",
-      "at": "2026-10-09T10:03:39.187Z"
+      "sequence": "20-334",
+      "runId": "37938306893",
+      "at": "2026-10-09T14:03:01.849Z"
     },
-    "stoppedAt": "2026-10-09T10:05:09Z",
-    "completedAt": "2026-10-09T10:08:27Z",
-    "outcome": "resumed_without_prompt_change",
-    "assessment": {
-      "supersedesControl": "b3beeba473ebe08c670246dbce25699f03cc341f",
-      "finalWorkCommit": "a8a550e6044e3bf2b1fd21335c91877727f0612c",
-      "publicationImages": 258,
-      "postsWithImages": 180,
-      "newHashesSincePreviousCheck": 2,
-      "reason": "A newer checkpoint saved two genuinely new published image payloads before the pause; recovery is productive, so no guidance change or taper stop is warranted."
+    "stoppedAt": "2026-10-09T14:04:18Z",
+    "evidence": {
+      "sourceControl": "b28475ec4808205c5fed119c645e25e747b58688",
+      "workCommit": "6de07c620ca3d910dd7c3afb85304863b302bdce",
+      "images": 325,
+      "positivePosts": 190,
+      "uniqueHashes": 204,
+      "byteVerifiedUniqueHashes": 171,
+      "pendingExperimentNewHashes": 2,
+      "priorVerificationBacklog": 24,
+      "nativeEntries": [
+        34349,
+        34646,
+        34650
+      ],
+      "previousCheck": "80943bdbf382677e2bf38074aaed75ed0e5e558f"
     }
-  }
+  },
+  "monitorGuidancePauseHistory": [
+    {
+      "experimentId": "falafel-throughput-20261009",
+      "cause": "First flat hourly window: no new durable image hashes/publications/verification; 256 saved scoped CDX negatives and 31 published prior-new hashes still lack anonymous receipts. Add targeted recovery-stage guidance.",
+      "nonce": "falafel-throughput-check2-2026-10-09T10:05:09Z",
+      "originalGeneration": 20,
+      "originalDeadline": "2026-10-10T07:59:06.000Z",
+      "originalCheckpoint": {
+        "workCommit": "a8a550e6044e3bf2b1fd21335c91877727f0612c",
+        "generation": 20,
+        "sequence": "20-327",
+        "runId": "37913549121",
+        "at": "2026-10-09T10:03:39.187Z"
+      },
+      "stoppedAt": "2026-10-09T10:05:09Z",
+      "completedAt": "2026-10-09T10:08:27Z",
+      "outcome": "resumed_without_prompt_change",
+      "assessment": {
+        "supersedesControl": "b3beeba473ebe08c670246dbce25699f03cc341f",
+        "finalWorkCommit": "a8a550e6044e3bf2b1fd21335c91877727f0612c",
+        "publicationImages": 258,
+        "postsWithImages": 180,
+        "newHashesSincePreviousCheck": 2,
+        "reason": "A newer checkpoint saved two genuinely new published image payloads before the pause; recovery is productive, so no guidance change or taper stop is warranted."
+      }
+    }
+  ],
+  "stoppedAt": "2026-10-09T14:04:18Z"
 }
