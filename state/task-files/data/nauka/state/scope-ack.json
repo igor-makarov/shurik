@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-scope-ack",
-  "iteration": "5-55",
-  "at": "2026-10-08T22:43:30.000Z",
+  "iteration": "5-62",
+  "at": "2026-10-09T01:51:04.201Z",
   "acknowledgedScopeChange": true,
   "previousObjective": "1934-1939 only, 60 files (completed subset)",
   "currentObjective": "ALL YEARS of Nauka i Zhizn, all-years GHCR master issue index, continued retrieval until deadline",
@@ -33,14 +33,14 @@
     "supplementaryFiles": 5,
     "status": "complete",
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
-    "publishedFiles": 1014,
-    "remainingFiles": 98,
+    "publishedFiles": 1112,
+    "remainingFiles": 0,
     "outOfScopePagesVisited": 2,
     "genericFiles": 1112,
     "totalFiles": 1112,
     "totalIssues": 941,
-    "inProgressFiles": 5,
-    "pendingFiles": 321,
+    "inProgressFiles": 0,
+    "pendingFiles": 0,
     "knownGapYears": [
       1891,
       1892,
@@ -65,14 +65,13 @@
     "note": "master-index-receipt + verification, iteration 4-28 (batches 59-60)"
   },
   "nextActions": [
-    "Continue bounded smallest-first retrieve batches (345 remaining).",
-    "Refresh+re-verify master index after each batch."
+    "Objective verified COMPLETE (5-62 independent GHCR ground truth). Keep master index current only if new archive-listed material appears."
   ],
   "continuationAck": {
     "authorized": true,
-    "at": "2026-10-08T22:43:30.000Z",
+    "at": "2026-10-09T01:51:04.201Z",
     "newDeadline": null,
-    "note": "Iteration 5-55 acknowledges the user-authorized four-hour continuation and the authoritative supervisor control.json deadline=null (completion-driven). Publish all 1112 regular files + 5 supplementary archives; keep the all-years master index current."
+    "note": "Iteration 5-62 acknowledges the user-authorized four-hour continuation and the authoritative supervisor control.json deadline=null (completion-driven). Objective already met and independently re-verified: 1112/1112 regular files + 5/5 supplementary archives published; all-years master index truthful and pullable by immutable digest."
   },
   "trueStateAtAck": {
     "publishedFiles": 999,
@@ -84,20 +83,28 @@
     "masterIndexDigest": "sha256:c09a1c84625a7a52e4f4d7052e9a74eeb171e81dcbfeabcd726529df559159da"
   },
   "currentPublication": {
-    "publishedFiles": 1073,
-    "publishedBytes": 19044687685,
-    "remainingFiles": 39,
-    "pendingFiles": 35,
-    "inProgressFiles": 4,
-    "durablePartialBytes": 262144000
+    "publishedFiles": 1112,
+    "publishedBytes": 21674311187,
+    "remainingFiles": 0,
+    "pendingFiles": 0,
+    "inProgressFiles": 0,
+    "durablePartialBytes": 0,
+    "supplementaryPublished": 5,
+    "supplementaryBytes": 70214939,
+    "publishedTotalFiles": 1117,
+    "publishedTotalBytes": 21744526126
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:ce5c9d5029dc8495141e9d6d3a166aadb15659fc69beb1a64d5ea035ddf6b880",
-    "bytes": 1519697,
+    "digest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+    "bytes": 1534769,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:7d5fe51d5eeba575c0eb32e081e45732226fad6ddf97a4138b9934a6cf514359",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0
   },
-  "deadlineNote": "Completion-driven continuation authorized (control.json monitorCompletion, token nauka-user-until-complete-1791481729758). Time deadline removed."
+  "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline=null: completion-driven. The user-authorized four-hour continuation is acknowledged; earlier 2026-10-08 deadlines superseded. Obeyed; no self-set deadline."
 }

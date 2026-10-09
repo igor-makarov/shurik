@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-completion",
-  "iteration": "5-61",
-  "at": "2026-10-09T01:42:05.249Z",
+  "iteration": "5-62",
+  "at": "2026-10-09T01:51:04.244Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven. The user-authorized four-hour continuation is acknowledged; earlier 2026-10-08T07:00:00Z / 14:45:32Z / 18:00:00Z deadlines are superseded. Obeyed; no self-set deadline.",
@@ -110,7 +110,19 @@
     "Objective complete: all 1112 regular files + 5 supplementary archives published and the all-years master index verified by immutable digest.",
     "No further retrieval required. Keep the master index current only if new archive-listed material appears."
   ],
-  "notes": [
-    "Iteration 5-61: objective re-verified against GHCR ground truth; no defect found this iteration (the iteration-5-60 supplementary ghcrRef fix is live and verified). 0 problems."
-  ]
+  "notes": "Iteration 5-61: objective re-verified against GHCR ground truth; no defect found this iteration (the iteration-5-60 supplementary ghcrRef fix is live and verified). 0 problems. Iteration 5-62: independent live GHCR ground truth PASS (master index by immutable digest 0 problems; 1112/1112 published tags present; 23 era-spread resolves 0 mismatch; 5/5 supplementary; catalog+checkpoint siblings match; legacy subset preserved). Receipt data/nauka/state/gt-check-5-62.json.",
+  "newPublishedThisIteration": {
+    "regularFiles": 0,
+    "regularBytes": 0
+  },
+  "batchesThisIteration": [],
+  "nextAction": "Objective complete and independently re-verified this iteration. No further retrieval required; keep the master index current only if new archive-listed material appears.",
+  "ghcrGroundTruth": {
+    "receipt": "data/nauka/state/gt-check-5-62.json",
+    "result": "PASS",
+    "publishedTags": 1112,
+    "missing": 0,
+    "eraSpreadOk": 23,
+    "masterIndexDigest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c"
+  }
 }
