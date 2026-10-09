@@ -19,8 +19,8 @@
  "content_text": "מקצות עזה באנו,\nהבאנו אבנים.",
  "date_text": "Posted 1 year ago",
  "failure_count": 0,
- "fetched_at": "2026-10-08T22:20:50Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T01:47:49Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -191,12 +191,65 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_1280.jpg",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_1024.jpg",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_540.jpg",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_500.jpg",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_400.jpg",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_100.jpg",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1.png",
+      "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1",
+     "url": "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 20689,
+     "capture_timestamp": "20180721120428",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "46beda882b7c3aa74fdb430afe524328120e96ab9c2abc3453ddc5a81ec46dd4",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_p8pu1hjF6G1r3it8zo1.jpg",
-   "caption_alt": "",
+   "blob_path": "data/blobs/46/46beda882b7c3aa74fdb430afe524328120e96ab9c2abc3453ddc5a81ec46dd4",
+   "bytes": 20689,
+   "caption": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "caption_alt": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "capture": {
+    "archive_digest": "KB2VV473UZDJWKOKUJUPW5VLKOBD2JGC",
+    "original": "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20180721120428id_/https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_500.jpg",
+    "timestamp": "20180721120428"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20180721120428 of https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_500.jpg (20689 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "46beda882b7c3aa74fdb430afe524328120e96ab9c2abc3453ddc5a81ec46dd4",
+   "state": "recovered",
    "url_forms": [
     "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_250.jpg"
    ],
@@ -238,7 +291,7 @@
    "url": "https://hazfalafel.com/post/173890539078"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -272,11 +325,6 @@
    ],
    "media_url": "https://66.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_640.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
-   "reason": null
   }
  ],
  "original_url": "https://hazfalafel.com/post/173890539078",
@@ -286,13 +334,13 @@
  "post_id": "173890539078",
  "posted_on": "Posted on Monday the 14th of May 2018 at 2:17 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-08T22:21:17Z",
-  "image_count": 1,
-  "manifest_digest": "sha256:bbb6a72197e181f158efd4ef0bb6f5c61ecce32689c5dfa0a3dea78d41323790",
+  "action": "updated",
+  "at": "2026-10-09T01:48:18Z",
+  "image_count": 2,
+  "manifest_digest": "sha256:7e675684d38c5117a9df7182889fabb16e6a6b5840fa8ac303cc44f886c85674",
   "missing_count": 1,
   "quality": [
-   1,
+   2,
    28,
    1
   ]

@@ -26,8 +26,8 @@
  "content_text": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
  "date_text": "Posted 1 year ago",
  "failure_count": 0,
- "fetched_at": "2026-10-08T22:20:48Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T01:47:47Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -196,12 +196,65 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_1280.jpg",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_1024.jpg",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_540.jpg",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_500.jpg",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_400.jpg",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_100.jpg",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1.png",
+      "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1",
+     "url": "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 20983,
+     "capture_timestamp": "20180721120433",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "0e9c78043543ae195a8823f75f8335090a7c6189dee7c9a5803d532a2d2c5dcb",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_p8nu2aUDRz1r3it8zo1.jpg",
-   "caption_alt": "",
+   "blob_path": "data/blobs/0e/0e9c78043543ae195a8823f75f8335090a7c6189dee7c9a5803d532a2d2c5dcb",
+   "bytes": 20983,
+   "caption": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "caption_alt": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "capture": {
+    "archive_digest": "TL2577JJLRB4NVYZTFJA4MUHK4BWRDRB",
+    "original": "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20180721120433id_/https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_500.jpg",
+    "timestamp": "20180721120433"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20180721120433 of https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_500.jpg (20983 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "0e9c78043543ae195a8823f75f8335090a7c6189dee7c9a5803d532a2d2c5dcb",
+   "state": "recovered",
    "url_forms": [
     "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_250.jpg"
    ],
@@ -253,7 +306,7 @@
    "url": "https://hazfalafel.com/post/173855310168/amp"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -286,11 +339,6 @@
    ],
    "media_url": "https://66.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
-   "reason": null
   }
  ],
  "original_url": "https://hazfalafel.com/post/173855310168",
@@ -300,13 +348,13 @@
  "post_id": "173855310168",
  "posted_on": "Posted on Sunday the 13th of May 2018 at 12:22 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-08T22:21:12Z",
-  "image_count": 1,
-  "manifest_digest": "sha256:6a8a28afc6a4d8c1423ec2619dcd45ff473ed1b0710e3adaeb5603f73c0fad74",
+  "action": "updated",
+  "at": "2026-10-09T01:48:14Z",
+  "image_count": 2,
+  "manifest_digest": "sha256:297afc9ffc2659df9fe7ee936e899bcfb50b443484574a894f6a3979850a2d13",
   "missing_count": 1,
   "quality": [
-   1,
+   2,
    69,
    1
   ]

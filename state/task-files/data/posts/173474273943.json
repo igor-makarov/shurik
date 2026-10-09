@@ -26,8 +26,8 @@
  "content_text": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
  "date_text": "Posted 1 year ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T09:56:24Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T01:47:29Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -69,19 +69,51 @@
      "status": "cached",
      "stem": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1",
      "url": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1",
+     "url": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png"
+    },
+    {
+     "bytes": 78139,
+     "capture_timestamp": "20180721120438",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/png",
+     "message": "",
+     "sha256": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png"
     }
    ],
    "base_key": "tumblr_p81dz2syCJ1r3it8zo1.png",
+   "blob_path": "data/blobs/f1/f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+   "bytes": 78139,
    "caption": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
    "caption_alt": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "LMUF3E3X7EQGZCEH5T4FA6KFTOFEF2I3",
+    "original": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
+    "replay_url": "https://web.archive.org/web/20180721120438id_/https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
+    "timestamp": "20180721120438"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_p81dz2syCJ1r3it8zo1_500.png",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_p81dz2syCJ1r3it8zo1_500.png",
+   "media_type": "image/png",
    "media_url": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20180721120438 of https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png (78139 bytes, image/png); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+   "state": "recovered",
    "url_forms": [
     "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
     "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png"
@@ -163,12 +195,65 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_250.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_250.png",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_1280.png",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_1024.png",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_540.png",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_400.png",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_100.png",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1.gif",
+      "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1",
+     "url": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_250.png"
+    },
+    {
+     "bytes": 78139,
+     "capture_timestamp": "20180721120438",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/png",
+     "message": "",
+     "sha256": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png"
+    }
+   ],
    "base_key": "tumblr_p81dz2syCJ1r3it8zo1.png",
-   "caption_alt": "",
+   "blob_path": "data/blobs/f1/f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+   "bytes": 78139,
+   "caption": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "caption_alt": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "capture": {
+    "archive_digest": "LMUF3E3X7EQGZCEH5T4FA6KFTOFEF2I3",
+    "original": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
+    "replay_url": "https://web.archive.org/web/20180721120438id_/https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
+    "timestamp": "20180721120438"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_p81dz2syCJ1r3it8zo1_250.png",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_p81dz2syCJ1r3it8zo1_250.png",
+   "media_type": "image/png",
    "media_url": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_250.png",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20180721120438 of https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png (78139 bytes, image/png); every URL form tried earlier is kept in `attempts`",
+   "sha256": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+   "state": "recovered",
    "url_forms": [
     "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_250.png"
    ],
@@ -224,50 +309,8 @@
    "url": "https://hazfalafel.com/post/173474273943/amp"
   }
  ],
- "missing_image_count": 3,
+ "missing_image_count": 1,
  "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_1280.png",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_1024.png",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_540.png",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_400.png",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_250.png",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_100.png",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1.gif",
-      "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1.jpg"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1",
-     "url": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1",
-     "url": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png"
-    }
-   ],
-   "media_url": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
-   "reason": "archive_gap"
-  },
   {
    "attempts": [
     {
@@ -299,11 +342,6 @@
    ],
    "media_url": "https://66.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_1280.png",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_250.png",
-   "reason": null
   }
  ],
  "original_url": "https://hazfalafel.com/post/173474273943",
@@ -312,6 +350,18 @@
  "partial": true,
  "post_id": "173474273943",
  "posted_on": "Posted on Tuesday the 1st of May 2018 at 9:28 AM",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-09T01:47:44Z",
+  "image_count": 2,
+  "manifest_digest": "sha256:55a216745ea8209e3030c81cec080a863a088c7c321323825cf51e6157d22842",
+  "missing_count": 1,
+  "quality": [
+   2,
+   52,
+   1
+  ]
+ },
  "refetched_captures": [
   "20190824074057"
  ],
