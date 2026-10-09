@@ -1,10 +1,11 @@
 {
  "canonical_urls": [
   "http://hazfalafel.com/post/103373099073",
-  "http://hazfalafel.com:80/post/103373099073"
+  "http://hazfalafel.com:80/post/103373099073",
+  "http://hazfalafel.com:80/post/103373099073?route=%2Fpost%2F%3Aid"
  ],
  "captions": [],
- "capture_timestamp": "20151106163554",
+ "capture_timestamp": "20160817100504",
  "captures": [
   {
    "error": null,
@@ -23,14 +24,20 @@
    "kind": "perm",
    "original": "http://hazfalafel.com/post/103373099073",
    "timestamp": "20171111091857"
+  },
+  {
+   "error": null,
+   "kind": "other",
+   "original": "http://hazfalafel.com:80/post/103373099073?route=%2Fpost%2F%3Aid",
+   "timestamp": "20151107180057"
   }
  ],
  "content_html": "<p>&#1495;&#1497;&#1497; &#1490;&#1468;&#1463;&#1489;&#1456;&#1512;&#1456;&#1514;&#1464;&#1503;</p>",
  "content_source": "div.copy",
  "content_text": "חיי גַּבְרְתָן",
- "date_text": "Posted 11 months ago",
+ "date_text": "Posted 1 year ago",
  "failure_count": 0,
- "fetched_at": "2026-10-09T10:18:14Z",
+ "fetched_at": "2026-10-09T18:45:28Z",
  "image_count": 0,
  "images": [
   {
@@ -120,6 +127,36 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/103373099073"
+  },
+  {
+   "bytes": 67298,
+   "capture_timestamp": "20160817100504",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/103373099073"
+  },
+  {
+   "bytes": 65240,
+   "capture_timestamp": "20171111091857",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/103373099073"
+  },
+  {
+   "bytes": 64305,
+   "capture_timestamp": "20151107180057",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "other",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/103373099073?route=%2Fpost%2F%3Aid"
   }
  ],
  "missing_image_count": 1,
@@ -169,9 +206,9 @@
    "reason": "archive_gap"
   }
  ],
- "original_url": "http://hazfalafel.com:80/post/103373099073",
+ "original_url": "http://hazfalafel.com/post/103373099073",
  "page_bytes": 64130,
- "page_sha256": "7f53cdb2aabd31db23999da3e6f59ace52e647072241c59815bc1b74da0ccab8",
+ "page_sha256": "f6656931f823a359a6809d2564cd3be0a8b3de2a55962f15150f70a613c93ad1",
  "partial": true,
  "post_id": "103373099073",
  "posted_on": "Posted on Sunday the 23rd of November 2014 at 5:33 PM",
@@ -191,7 +228,7 @@
   "20151107180057",
   "20160817100504"
  ],
- "replay_url": "https://web.archive.org/web/20151106163554id_/http://hazfalafel.com:80/post/103373099073",
+ "replay_url": "https://web.archive.org/web/20160817100504id_/http://hazfalafel.com/post/103373099073",
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [
