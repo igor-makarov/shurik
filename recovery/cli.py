@@ -1275,6 +1275,33 @@ LISTING_EVIDENCE_FILE = os.path.join(config.CDX_DIR, "listing-posts.jsonl")
 # with its `<timestamp>|<url>` key exists. A separate manifest would be one more
 # thing to drift out of sync with the data.
 LISTING_KIND_ORDER = ("archive", "tagged", "post_other", "other")
+# A listing capture whose replay answered with one of these is settled: the
+# archive authoritatively said it has no usable pre-cutoff body for it. Every
+# other error (transport/timeout/throttle/5xx) is the *absence* of an answer,
+# so the capture must stay in the todo list instead of being recorded done.
+TERMINAL_LISTING_ERRORS = ("archive_gap", "bad_body", "capture_after_cutoff")
+
+
+def _listing_done_keys(records: Iterable[dict]) -> set:
+    """Capture keys already fetched, excluding transient (unanswered) failures.
+
+    Resumability lives in the evidence file: a capture is done when a row with
+    its `<timestamp>|<url>` key exists. That rule is wrong for a *failed*
+    fetch: appending the summary row (which carries the same `capture_key`)
+    marked a transport/throttle/timeout capture done forever, so a whole
+    listing page the archive never served was silently dropped from every
+    later pass. Only a successful fetch or a terminal archive verdict settles
+    a capture here.
+    """
+    out: set = set()
+    for rec in records or ():
+        key = rec.get("capture_key")
+        if not key:
+            continue
+        err = rec.get("error")
+        if not err or err in TERMINAL_LISTING_ERRORS:
+            out.add(key)
+    return out
 
 
 def fetch_listings(fetcher: Fetcher, limit: int = 20, kinds: tuple[str, ...] = ("archive", "tagged"),
@@ -1292,7 +1319,7 @@ def fetch_listings(fetcher: Fetcher, limit: int = 20, kinds: tuple[str, ...] = (
     ensure_dirs()
     store = PostStore()
     evidence = JsonlStore(LISTING_EVIDENCE_FILE, key_fields=("capture_key",))
-    done = {r.get("capture_key") for r in evidence.records()}
+    done = _listing_done_keys(evidence.records())
     index = CaptureIndex(capture_file("listing.jsonl"))
     caps = list(index.all())
     # Archive months first: one page enumerates a whole month of posts, so they
