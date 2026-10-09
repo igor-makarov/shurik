@@ -202,8 +202,63 @@ def _kind(cap: Capture) -> str:
     return "perm"
 
 
+def _replayed(record: dict) -> dict[str, list[dict]]:
+    """Map capture timestamp -> the real replay attempts recorded for it.
+
+    The stored `captures` list is an *inventory* (every capture the CDX knows,
+    up to 20), not a record of what this crawl actually fetched. Only `methods`
+    holds genuine replay attempts, so it is the correct source for deciding
+    whether a capture is still pending.
+    """
+    out: dict[str, list[dict]] = {}
+    for a in record.get("methods") or []:
+        if not isinstance(a, dict):
+            continue
+        ts = a.get("capture_timestamp")
+        if ts:
+            out.setdefault(ts, []).append(a)
+    return out
+
+
+def _capture_pending(cap: Capture, replayed: dict[str, list[dict]]) -> bool:
+    """True when this capture still deserves a replay request.
+
+    A definitive answer (200/404/after-cutoff) settles the capture. A transient
+    answer (timeout/throttle/transport) stays pending, but only for a bounded
+    number of attempts so a permanently broken capture cannot be retried
+    forever.
+    """
+    atts = replayed.get(cap.timestamp)
+    if not atts:
+        return True
+    if atts[-1].get("error") not in TRANSIENT_ERRORS:
+        return False
+    return len(atts) < MAX_FAILURES
+
+
+def _merge_methods(old: Optional[list], new: Optional[list]) -> list[dict]:
+    """Union replay attempts, keeping the latest attempt per (capture, endpoint).
+
+    `methods` is replaced wholesale on every store.put, so a pass that only
+    replays the still-pending captures would erase the earlier attempts and
+    make the crawl re-replay captures it already fetched. Merging keeps the
+    cumulative replay set stable across fresh runners.
+    """
+    order: list[tuple] = []
+    by_key: dict[tuple, dict] = {}
+    for a in list(old or []) + list(new or []):
+        if not isinstance(a, dict):
+            continue
+        key = (a.get("capture_timestamp"), a.get("endpoint"))
+        if key not in by_key:
+            order.append(key)
+        by_key[key] = a
+    return [by_key[k] for k in order]
+
+
 def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]] = None,
-                concurrency: int = config.DEFAULT_CONCURRENCY, kind_order: tuple[str, ...] = ("perm", "amp", "photoset"),
+                concurrency: int = config.DEFAULT_CONCURRENCY,
+                kind_order: tuple[str, ...] = ("perm", "amp", "photoset", "other"),
                 max_per_post: int = 2) -> dict:
     """Download and parse archived post pages. Resumable via data/posts/*.json."""
     ensure_dirs()
@@ -216,12 +271,14 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
         if wanted and pid not in wanted:
             continue
         existing = store.get(pid)
-        # Captures are stored flat ({timestamp, original, kind, error}), so read
-        # `timestamp` directly. Reading a nested `capture.timestamp` always
-        # yielded {None} and made every post look unparsed: the crawl then
-        # re-fetched the same posts forever instead of advancing.
-        have = {c.get("timestamp") for c in existing.get("captures", []) if c.get("timestamp")}
-        pending = [c for c in grouped[pid] if c.timestamp not in have]
+        # A capture counts as *done* only when it was actually replayed. The
+        # stored `captures` list is an inventory (up to 20 per post), not the
+        # set this crawl fetched, so treating it as the "have" set marked
+        # captures as done after replaying at most a handful -- permanently
+        # skipping the alternate snapshots that expose extra photoset members
+        # and unseen CDN URL forms. Derive the pending set from `methods`.
+        replayed = _replayed(existing)
+        pending = [c for c in grouped[pid] if _capture_pending(c, replayed)]
         if existing.get("content_text") and not pending:
             continue
         # A post whose every known capture has already been replayed is done,
@@ -243,8 +300,17 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
     def work(pid: str) -> dict:
         attempts: list[dict] = []
         records: list[dict] = []
+        prior = store.get(pid) or {}
+        replayed = _replayed(prior)
         caps = [c for c in grouped[pid] if _kind(c) in kind_order]
-        for cap in caps[: max_per_post * len(kind_order)]:
+        # Replay only the captures that still lack a definitive attempt, primary
+        # page first. Replaying the alternate snapshots is what surfaces photoset
+        # members and CDN URL forms the earliest capture never carried; the old
+        # code replayed a fixed first-N slice (mostly already-fetched) and then
+        # marked up to 20 captures done, so those snapshots were never read.
+        pending = [c for c in caps if _capture_pending(c, replayed)]
+        pending.sort(key=lambda c: (0 if _kind(c) == "perm" else 1, c.timestamp))
+        for cap in pending[: max_per_post * len(kind_order)]:
             resp = fetcher.replay(cap.timestamp, cap.original, mode="id_")
             attempt = {"url": cap.original, "endpoint": "replay id_", "kind": _kind(cap),
                        "capture_timestamp": cap.timestamp, "status": resp.status,
@@ -259,31 +325,37 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
             rec["captures"] = [{"timestamp": cap.timestamp, "original": cap.original,
                                 "replay_url": resp.url, "kind": _kind(cap), "error": resp.error}]
             records.append(rec)
-            if rec.get("content_text") and len(records) >= 1 and _kind(cap) == "perm":
-                break
         best = max(records, key=lambda r: (1 if r.get("content_text") else 0,
                                            len(r.get("content_text") or ""),
                                            len(r.get("images") or []))) if records else None
         extra_caps = [{"timestamp": c.timestamp, "original": c.original, "kind": _kind(c),
                        "error": None} for c in caps[:20]]
+        merged_methods = _merge_methods(prior.get("methods"), attempts)
         if best:
             merged = dict(best)
             merged["post_id"] = pid
             merged["canonical_urls"] = sorted({c.original for c in caps})
             merged["captures"] = extra_caps
             merged["fetched_at"] = _now()
-            merged["methods"] = attempts
+            merged["methods"] = merged_methods
             merged["state"] = "fetched"
             store.put(pid, merged)
             return {"post_id": pid, "ok": True, "images": len(merged.get("images", [])),
                     "capture": merged.get("capture_timestamp"), "attempts": attempts}
+        if prior.get("content_text"):
+            # The alternate snapshots carried no new page content, but their
+            # attempts must be recorded so they are not replayed again. Keep the
+            # already-parsed post (merge_post keeps the longer content).
+            store.put(pid, {"post_id": pid, "methods": merged_methods,
+                            "captures": extra_caps, "fetched_at": _now()})
+            return {"post_id": pid, "ok": True, "note": "no new content from alternate captures",
+                    "attempts": attempts}
         # no usable page: confirm a gap with the availability API before recording
         avail = _availability(fetcher, caps[0].original if caps else f"http://hazfalafel.com/post/{pid}")
         # Persist the failure in the post store too. A failure that lives only
         # in the ledger leaves the post with no stored captures, so the next
         # run sees every capture as pending and re-fetches it forever.
         err_by_ts = {a.get("capture_timestamp"): a.get("error") for a in attempts}
-        prior = store.get(pid) or {}
         failed = {
             "post_id": pid,
             "state": "failed",
@@ -301,7 +373,7 @@ def fetch_posts(fetcher: Fetcher, limit: int = 10, post_ids: Optional[list[str]]
             "images": [],
             "image_count": 0,
             "missing_image_count": 0,
-            "methods": attempts,
+            "methods": merged_methods,
             "fetched_at": _now(),
             "partial": False,
         }

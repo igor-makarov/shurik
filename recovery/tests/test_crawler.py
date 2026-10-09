@@ -755,7 +755,8 @@ class PostFailureBookkeepingTests(unittest.TestCase):
             "post_id": "13397484447", "state": "failed", "failure_count": 1,
             "captures": [{"timestamp": "20120426030759",
                           "original": "http://hazfalafel.com:80/post/13397484447"}],
-            "methods": [{"endpoint": "replay id_", "error": TIMEOUT}]})
+            "methods": [{"endpoint": "replay id_", "capture_timestamp": "20120426030759",
+                         "error": TIMEOUT}]})
         routes = {"/web/20120426030759id_": Response(url="", status=200,
                                                      body=POST_HTML.encode(), error=OK)}
         out = self.cli.fetch_posts(FakeArchive(routes), limit=5, concurrency=1)
@@ -771,7 +772,8 @@ class PostFailureBookkeepingTests(unittest.TestCase):
             "failure_count": self.cli.MAX_FAILURES,
             "captures": [{"timestamp": "20120426030759",
                           "original": "http://hazfalafel.com:80/post/13397484447"}],
-            "methods": [{"endpoint": "replay id_", "error": GAP}]})
+            "methods": [{"endpoint": "replay id_", "capture_timestamp": "20120426030759",
+                         "error": GAP}]})
         out = self.cli.fetch_posts(FakeArchive({}), limit=5, concurrency=1)
         self.assertEqual(out["processed"], 0, "permanent gap, budget spent: move on")
 
