@@ -5,16 +5,81 @@
  "content_html": "",
  "content_text": "",
  "failure_count": 0,
+ "fetched_at": "2026-10-09T00:29:34Z",
  "image_count": 0,
  "images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1280.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1024.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_540.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_500.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_400.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_100.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.gif",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.jpg"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_400.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_100.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.gif",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "connection refused (transport, no HTTP answer): HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /... establish a new connection: [Errno 111] Connection refused'))",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "connection refused (transport, no HTTP answer): HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /... establish a new connection: [Errno 111] Connection refused'))",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1024.png"
+    },
+    {
+     "endpoint": "circuit-breaker",
+     "note": "circuit breaker opened before probing http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_540.png; no request was sent for it"
+    }
+   ],
    "base_key": "tumblr_meeo1fSRV11r3it8zo1_r3.png",
    "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_meeo1fSRV11r3it8zo1_r3_250.png",
    "media_url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png",
-   "state": "unresolved",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 3 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png"
    ],
@@ -31,6 +96,7 @@
    ]
   }
  ],
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -46,9 +112,70 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1280.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1024.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_540.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_500.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_400.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_100.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.gif",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.jpg"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_400.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_100.png",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.gif",
+      "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3.jpg"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "connection refused (transport, no HTTP answer): HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /... establish a new connection: [Errno 111] Connection refused'))",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1280.png"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "transport",
+     "location": "",
+     "message": "connection refused (transport, no HTTP answer): HTTPConnectionPool(host='web.archive.org', port=80): Max retries exceeded with url: /... establish a new connection: [Errno 111] Connection refused'))",
+     "requested_timestamp": "20191231235959",
+     "status": null,
+     "url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_1024.png"
+    },
+    {
+     "endpoint": "circuit-breaker",
+     "note": "circuit breaker opened before probing http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_540.png; no request was sent for it"
+    }
+   ],
    "media_url": "http://78.media.tumblr.com/tumblr_meeo1fSRV11r3it8zo1_r3_250.png",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/37028065503",
