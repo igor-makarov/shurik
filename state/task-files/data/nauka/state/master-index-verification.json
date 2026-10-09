@@ -1,11 +1,11 @@
 {
   "kind": "shurik-nauka-master-index-verification",
-  "at": "2026-10-09T01:15:19.977Z",
+  "at": "2026-10-09T01:28:12.466Z",
   "tag": "nij-master-index",
-  "immutableDigest": "sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700",
-  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700",
-  "pulledBytes": 1533293,
-  "pulledFileSha256": "db59706856c533e79270354d01aba948a5d9c6dbfffc8b8718233b909111e83e",
+  "immutableDigest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+  "pulledVia": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+  "pulledBytes": 1534769,
+  "pulledFileSha256": "d9568f3e1f4d8a6cd6eba4302352cb20c5379cbd8a314c06bcea1b48be096e96",
   "pulledFileName": "nij-master-index.json",
   "tagResolveMatchesDigest": true,
   "discoveryStatus": "complete",
@@ -73,6 +73,33 @@
       "digest": "sha256:f6ff667b3dee50b77c8046727abb867910f0aedc61075898216b644e06dcfbbb"
     }
   },
+  "supplementaryResolved": [
+    {
+      "id": "nij-supp-nauka-i-jizn-izbrannoe-sb-2003-07-djv-doc-txt-zip",
+      "tag": "nij-2003-supplementary-djv",
+      "digest": "sha256:34d13e4233648320e47971ba918597daeee75921f652d79910380a9afe7e933a"
+    },
+    {
+      "id": "nij-supp-nauka-i-jizn-izbrannoe-v-03-1998-pdf-zip",
+      "tag": "nij-1998-supplementary-pdf",
+      "digest": "sha256:412bd1fba87359c19a8be14b33d6e0c9520767be692c287883c2a3ef3abd9106"
+    },
+    {
+      "id": "nij-supp-nauka-i-jizn-izbrannoe-v-10-2000-pdf-zip",
+      "tag": "nij-2000-supplementary-pdf",
+      "digest": "sha256:7fde72aba074dbb55a9a372d0623fd47ea0ba726e26dc156029b8ceb38c64259"
+    },
+    {
+      "id": "nij-supp-nauka-i-jizn-izbrannoe-v-13-2001-pdf-zip",
+      "tag": "nij-2001-supplementary-pdf",
+      "digest": "sha256:820ce6003d30c08859e8ec7d843d23e2a45683a00fc1ef70b0d99eb4fe00a2aa"
+    },
+    {
+      "id": "nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip",
+      "tag": "nij-supp-nauka-i-jizn-izbrannoe-v-14-2001-pdf-zip",
+      "digest": "sha256:f369f06a9bbcbd77b76464118cf470bfe52581b54ce365e0a7f24e5915c25a9d"
+    }
+  ],
   "checks": {
     "filesLength": 1112,
     "publishedFiles": 1112,
@@ -85,14 +112,14 @@
   "problems": [],
   "ok": true,
   "catalogVerified": {
-    "digest": "sha256:f158b6b4a00ca9d9875be244ec818d39fd28b85b32dd83a63234e844eb5032f3",
+    "digest": "sha256:7d5fe51d5eeba575c0eb32e081e45732226fad6ddf97a4138b9934a6cf514359",
     "bytes": 32842,
-    "sha256": "dbeaf35cf7b12eee9953bd11c6824dd736a977f7e04f2c943dfe6de88e7752f8"
+    "sha256": "0543f338831c00f0116f03272eeaa1e4bba895304fbdc1685221644f0eb41073"
   },
   "checkpointVerified": {
-    "digest": "sha256:6fbcd92b841981309df17a0cb32ac29659827c5d770d789697899a8d0063ce3c",
+    "digest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576",
     "bytes": 380770,
-    "sha256": "ac7bd60fa1c4166ca52b3d4ac873406f0805e6e4dd431eb07449794bb9fd0337"
+    "sha256": "e97f1fd8841bdbf58423a3d99dbce56f785f170a2e75fa4b372162d1dbfba8da"
   },
   "checkpointPublished": 1112,
   "checkpointRemaining": 0
