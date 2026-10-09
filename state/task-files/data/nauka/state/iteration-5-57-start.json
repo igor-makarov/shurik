@@ -1,0 +1,43 @@
+{
+  "kind": "shurik-nauka-iteration-start",
+  "iteration": "5-57",
+  "at": "2026-10-09T00:11:30.000Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (read from the control checkout, generation 5, next 57, seconds 1800) sets deadline=null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The user-authorized four-hour continuation is acknowledged; earlier time deadlines superseded. I obey the supervisor control and set no deadline of my own.",
+  "acknowledgement": "Iteration 5-57 acknowledges the user-authorized four-hour continuation and the current completion-driven supervisor deadline (null). Scope all-years. Preserved the completed 1934-1939 60-file subset (2,311,630,290 B), every existing file id, publication reference, original filename and valid resume state; no redownload of the 60. Work performed inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "continuationBaselineNote": "The 875-file boundary (work 15b89ae8...) named in the assignment is superseded by later durable progress; the saved baseline for this iteration is 1085 published regular + 5/5 supplementary, 27 regular remaining (5 in_progress + 22 pending).",
+  "baseline": {
+    "publishedRegularFiles": 1085,
+    "publishedRegularBytes": 20044491081,
+    "supplementaryFiles": 5,
+    "supplementaryBytes": 70214939,
+    "supplementaryStatus": "complete",
+    "remainingRegularFiles": 27,
+    "inProgressFiles": 5,
+    "pendingFiles": 22,
+    "durableChunkCheckpointBytes": 198180864
+  },
+  "discovery": {
+    "status": "complete",
+    "eraPagesVisited": 12,
+    "eraPagesTotal": 12,
+    "years": 87,
+    "issues": 941,
+    "totalFiles": 1112,
+    "supplementaryFiles": 5,
+    "note": "Inventory discovery complete; not restarted."
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:b330eda2e53d32d91c7c099628a2cd8d295a5c694239799b4615eab9df6210ee",
+    "bytes": 1523911,
+    "discoveryStatus": "complete"
+  },
+  "preserved60FileBaseline": {"files": 60, "bytes": 2311630290, "subsetIndexTag": "nij-1934-39-index", "preserved": true},
+  "nextActions": [
+    "Restore+finish the 5 durable in-progress files (nij-1962-n04, nij-1962-n12, nij-1964-n07, nij-1964-n08, nij-1969-n10) from their immutable GHCR digests, then smallest-first the 22 pending regular PDFs in bounded foreground batches.",
+    "Keep republishing+verifying the master index by immutable digest after batches."
+  ],
+  "blockers": []
+}

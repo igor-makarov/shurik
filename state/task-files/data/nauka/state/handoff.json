@@ -1,18 +1,18 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "5-56",
-  "at": "2026-10-08T23:42:20.000Z",
+  "iteration": "5-57",
+  "at": "2026-10-09T00:12:00.000Z",
   "scope": "all-years",
   "deadline": null,
   "status": "IN_PROGRESS",
-  "publishedRegular": 1085,
-  "publishedTotal": 1090,
-  "remainingRegular": 27,
-  "bytesPublishedRegular": 20044491081,
-  "bytesPublishedTotal": 20114706020,
+  "publishedRegular": 1091,
+  "publishedTotal": 1096,
+  "remainingRegular": 21,
+  "bytesPublishedRegular": 20578389788,
+  "bytesPublishedTotal": 20648604727,
   "origin": {
     "reachable": true,
-    "note": "publ.lib.ru reachable; batches 136-138 exit 0; aggregate <=512 KiB/s; nothing concatenated from a full 200."
+    "note": "publ.lib.ru reachable; batches 139-140 exit 0; aggregate <=512 KiB/s; nothing concatenated from a full 200."
   },
   "discovery": {
     "status": "complete",
@@ -26,33 +26,33 @@
   },
   "masterIndex": {
     "tag": "nij-master-index",
-    "digest": "sha256:b330eda2e53d32d91c7c099628a2cd8d295a5c694239799b4615eab9df6210ee",
-    "bytes": 1523911,
+    "digest": "sha256:13505882197173fc95a305001b89059a27264e5a5776ca3ffc0f1794ed2aa15a",
+    "bytes": 1526013,
     "catalogTag": "nij-master-catalog",
-    "catalogDigest": "sha256:e3ab0568944483fa5cf6d89209779a31309e9c46417f0dc21da1f7447fec89a3",
+    "catalogDigest": "sha256:fa9e8b28d64e84ac0ed9f494ea486d04c470aca71f80bb853d99e7ca72dec470",
     "checkpointTag": "nij-master-checkpoint",
-    "checkpointDigest": "sha256:94a971447c47d4e7aa397855ee8a5ddedf255968a3e691d9a470cdb96ae715ef",
+    "checkpointDigest": "sha256:da69bfc923fb82858943ced90ed24bac0195558852cb06e12d9e86e87cf07bdc",
     "discoveryStatus": "complete",
     "verifiedByImmutablePull": true,
     "verificationProblems": 0,
     "receipt": "data/nauka/state/master-index-verification.json",
-    "verifiedCounts": {"years": 87, "issues": 941, "files": 1112, "publishedFiles": 1085, "supplementaryPublished": 5}
+    "verifiedCounts": {"years": 87, "issues": 941, "files": 1112, "publishedFiles": 1091, "supplementaryPublished": 5}
   },
   "durablePartials": {
     "inProgress": [
-      {"id": "nij-1962-n04-pdf", "received": 50331648, "checkpointBytes": 50331648, "checkpointDigest": "sha256:a1f1957fb2ea4a72171c7ad60f9ab61c14dfb449ead2820b53f5257242af8779"},
-      {"id": "nij-1962-n12-pdf", "received": 50331648, "checkpointBytes": 50331648, "checkpointDigest": "sha256:44f89de6db76f51d7e2efa448a07835bd0e4019e4a370797fce98e34abaf23ea"},
-      {"id": "nij-1964-n07-pdf", "received": 50331648, "checkpointBytes": 50331648, "checkpointDigest": "sha256:5cea62a0c436d808d0ce00f20b6b8bbe451094640923a788fe9c06bfe28270a4"},
-      {"id": "nij-1964-n08-pdf", "received": 37748736, "checkpointBytes": 37748736, "checkpointDigest": "sha256:0d9acb7481c2370d58f3e580f6b9e1cc1d20603df82a7eb3f4687cdff2718a9a"},
-      {"id": "nij-1969-n10-pdf", "received": 9437184, "checkpointBytes": 9437184, "checkpointDigest": "sha256:87cc3341463312dc00ad5d6a65e07b24466f43e2c275fae405555fcbd3be386b"}
+      {"id": "nij-1964-n06-pdf", "received": 57671680, "expected": 89610585, "checkpointBytes": 57671680, "checkpointDigest": "sha256:ee264ee1b805d0aacbddcf7dc765d4ae81b00427b26dd6f445514af1aed713a3"},
+      {"id": "nij-1964-n11-pdf", "received": 25165824, "expected": 90814305, "checkpointBytes": 25165824, "checkpointDigest": "sha256:ff2b94b1c2635a85ef5fdb2bfd9afaa7aafbfa881f72608f8422710eed130fe9"},
+      {"id": "nij-1969-n07-pdf", "received": 54525952, "expected": 89683009, "checkpointBytes": 54525952, "checkpointDigest": "sha256:7f1da1e9ac52df0168e9a56dec9dde5eae44ef04277bcf39f8199ba4ca40eff1"},
+      {"id": "nij-1969-n08-pdf", "received": 50331648, "expected": 89724761, "checkpointBytes": 50331648, "checkpointDigest": "sha256:2abc4f08882dc8b7b7e6cb7d61834a396918328a3679dfbca351b24f457a277b"},
+      {"id": "nij-1969-n11-pdf", "received": 7340032, "expected": 91157043, "checkpointBytes": 7340032, "checkpointDigest": "sha256:f4ff16e82071d4b45468d647a214eb86bf9027b15dfe8ca3f1bcf26270a9c771"}
     ],
-    "ghcrCheckpointBytes": 198180864,
+    "ghcrCheckpointBytes": 195035136,
     "gitPartialBytes": 16777216,
     "note": "each in_progress file holds an immutable GHCR chunk checkpoint restorable by digest"
   },
   "supplementary": {"count": 5, "published": 5, "status": "complete"},
-  "newPublishedThisIteration": {"regularFiles": 4, "regularBytes": 347653208},
-  "batchesThisIteration": [136, 137, 138],
-  "nextAction": "Restore+finish the 5 durable in-progress files (nij-1962-n04/n12, nij-1964-n07/n08, nij-1969-n10) from their immutable GHCR chunk digests, then smallest-first the 22 pending regular PDFs.",
-  "notes": "Iteration 5-56: batches 136-138 restored+hash-validated saved GHCR chunk checkpoints and published 4 regular files (347,653,208 B): nij-2009-n03, nij-1968-n06, nij-1962-n02, nij-1962-n01. Published regular 1081->1085. 27 regular files remain (5 in-progress + 22 pending); supplementary 5/5 complete; durable GHCR chunk bytes 198,180,864. Master index nij-master-index @ sha256:b330eda2e53d32d91c7c099628a2cd8d295a5c694239799b4615eab9df6210ee (1,523,911 B, status complete)."
+  "newPublishedThisIteration": {"regularFiles": 6, "regularBytes": 533898707},
+  "batchesThisIteration": [139, 140],
+  "nextAction": "Restore+finish the 5 durable in-progress files (nij-1964-n06, nij-1964-n11, nij-1969-n07, nij-1969-n08, nij-1969-n11) from their immutable GHCR chunk digests, then smallest-first the 16 pending regular PDFs (nij-1947-n06 first).",
+  "notes": "Iteration 5-57: batches 139-140 restored+hash-validated saved GHCR chunk checkpoints and published 6 regular files (533,898,707 B): nij-1964-n07, nij-1962-n04, nij-1962-n12, nij-1964-n08, nij-1969-n10, nij-1964-n09. Published regular 1085->1091. 21 regular files remain (5 in-progress + 16 pending); supplementary 5/5 complete; durable GHCR chunk bytes 195,035,136. Master index nij-master-index @ sha256:13505882197173fc95a305001b89059a27264e5a5776ca3ffc0f1794ed2aa15a (1,526,013 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years/1091 published)."
 }
