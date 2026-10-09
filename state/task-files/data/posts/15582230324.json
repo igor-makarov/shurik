@@ -19,8 +19,8 @@
  "content_text": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
  "date_text": "Posted 4 days ago",
  "failure_count": 0,
- "fetched_at": "2026-10-05T04:44:45Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T11:05:16Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -110,13 +110,65 @@
    "alt_sources": [
     "http://hazfalafel.com:80/archive"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1",
+     "url": "http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 94352,
+     "capture_timestamp": "20130930175155",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657",
+     "status": 200,
+     "url": "http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lxjw9goTvh1r3it8zo1.jpg",
-   "caption_alt": "",
+   "blob_path": "data/blobs/60/60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657",
+   "bytes": 94352,
+   "caption": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "caption_alt": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "capture": {
+    "archive_digest": "EY2C6O4X6PQONX44WKH5PMAAN6CH2ZOQ",
+    "original": "http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20130930175155id_/http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
+    "timestamp": "20130930175155"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20130930175155 of http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg (94352 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
     "http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg"
@@ -172,18 +224,12 @@
    "url": "http://hazfalafel.com:80/post/15582230324"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "http://78.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com:80/post/15582230324",
  "page_bytes": 50373,
  "page_sha256": "af544af54a8b972b5a50c879b6802c1938ce336236d3acc99c9976187b5f4d3a",
- "partial": true,
+ "partial": false,
  "post_id": "15582230324",
  "published": {
   "action": "pushed",
@@ -204,7 +250,7 @@
   "manifest_digest": "sha256:05cf4de0bc8a6441bcdfbefd51f4fa3acc027fa143db713e6d179d713b35c16a"
  },
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "חוק-גודווין",
   "כלבה-בבקשה",

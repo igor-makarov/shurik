@@ -26,8 +26,8 @@
  "content_text": "מזל טוב, שמעון פרס!",
  "date_text": "Posted 5 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:32Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T11:05:52Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -126,14 +126,65 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2012/8"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_250.png",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_250.png",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_1280.png",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_1024.png",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_540.png",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_500.png",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_400.png",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_100.png",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1.gif",
+      "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1.jpg"
+     ]
+    },
+    {
+     "captures": 2,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_250.png"
+    },
+    {
+     "bytes": 24821,
+     "capture_timestamp": "20120816174729",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/png",
+     "message": "",
+     "sha256": "2e0c31a2b08229d4bd876e9ef4b5a709267615147034d4d071bd084717357c01",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_100.png"
+    }
+   ],
    "base_key": "tumblr_m8utwk1HNI1r3it8zo1.png",
+   "blob_path": "data/blobs/2e/2e0c31a2b08229d4bd876e9ef4b5a709267615147034d4d071bd084717357c01",
+   "bytes": 24821,
    "caption": "מזל טוב, שמעון פרס!",
    "caption_alt": "מזל טוב, שמעון פרס!",
+   "capture": {
+    "archive_digest": "6IFRWO6EBTAEJEA7SES3OOYVR3C3GF3W",
+    "original": "http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_100.png",
+    "replay_url": "https://web.archive.org/web/20120816174729id_/http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_100.png",
+    "timestamp": "20120816174729"
+   },
+   "capture_count": 2,
+   "error": null,
+   "file": "tumblr_m8utwk1HNI1r3it8zo1_250.png",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_m8utwk1HNI1r3it8zo1_250.png",
+   "media_type": "image/png",
    "media_url": "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_250.png",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20120816174729 of http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_100.png (24821 bytes, image/png); every URL form tried earlier is kept in `attempts`",
+   "sha256": "2e0c31a2b08229d4bd876e9ef4b5a709267615147034d4d071bd084717357c01",
+   "state": "recovered",
    "url_forms": [
     "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_250.png",
     "http://68.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_250.png",
@@ -205,7 +256,7 @@
    "url": "http://hazfalafel.com/post/29554287799/amp"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -256,11 +307,6 @@
    ],
    "media_url": "http://78.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_500.png",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://65.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_250.png",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/29554287799",

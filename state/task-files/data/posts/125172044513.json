@@ -25,8 +25,8 @@
  "content_text": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!\nתבנית",
  "date_text": "Posted 3 weeks ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T04:14:50Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T11:06:06Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -236,14 +236,65 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2015/7"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_250.jpg",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_1280.jpg",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_1024.jpg",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_540.jpg",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1.png",
+      "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1",
+     "url": "http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 49441,
+     "capture_timestamp": "20150803171445",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2",
+     "status": 200,
+     "url": "http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_ns5hstueEl1r3it8zo1.jpg",
+   "blob_path": "data/blobs/cd/cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2",
+   "bytes": 49441,
    "caption": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית",
    "caption_alt": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית",
+   "capture": {
+    "archive_digest": "LAP6RBZXOB3MBZSMVLWIMTM4W6QZ5RR3",
+    "original": "http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20150803171445id_/http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+    "timestamp": "20150803171445"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_ns5hstueEl1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_ns5hstueEl1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20150803171445 of http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg (49441 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2",
+   "state": "recovered",
    "url_forms": [
     "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_250.jpg",
@@ -315,7 +366,7 @@
    "url": "http://hazfalafel.com/post/125172044513"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -372,11 +423,6 @@
    ],
    "media_url": "http://41.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://66.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_250.jpg",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/125172044513",

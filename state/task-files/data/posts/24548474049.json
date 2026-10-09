@@ -19,8 +19,8 @@
  "content_text": "אני אתן להם גם מספרים סידוריים",
  "date_text": "Posted 5 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:32Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T11:05:47Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -129,14 +129,65 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2012/6"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_1280.jpg",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_1024.jpg",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_540.jpg",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_500.jpg",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1.png",
+      "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://24.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1",
+     "url": "http://24.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 28923,
+     "capture_timestamp": "20140111020345",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "556e0748ee6f6d086a5e099adf8b6d968505072b21c4d17931cc357663d07b2b",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_m56i4uvlsD1r3it8zo1.jpg",
+   "blob_path": "data/blobs/55/556e0748ee6f6d086a5e099adf8b6d968505072b21c4d17931cc357663d07b2b",
+   "bytes": 28923,
    "caption": "אני אתן להם גם מספרים סידוריים",
    "caption_alt": "אני אתן להם גם מספרים סידוריים",
+   "capture": {
+    "archive_digest": "MUY7ZN43SNBSZHLPRU2FVYPPEQJ6AQYZ",
+    "original": "http://24.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111020345id_/http://24.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_500.jpg",
+    "timestamp": "20140111020345"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20140111020345 of http://24.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_500.jpg (28923 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "556e0748ee6f6d086a5e099adf8b6d968505072b21c4d17931cc357663d07b2b",
+   "state": "recovered",
    "url_forms": [
     "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
@@ -208,7 +259,7 @@
    "url": "http://hazfalafel.com/post/24548474049"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -259,11 +310,6 @@
    ],
    "media_url": "http://78.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_500.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://66.media.tumblr.com/tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/24548474049",

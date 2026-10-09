@@ -31,8 +31,8 @@
  "content_text": "לכתב תשאר צלקת בגב ולנו בלב.\nתודה לניצן חודורוב",
  "date_text": "Posted 2 weeks ago",
  "failure_count": 0,
- "fetched_at": "2026-10-05T17:21:49Z",
- "image_count": 2,
+ "fetched_at": "2026-10-09T11:05:21Z",
+ "image_count": 3,
  "images": [
   {
    "alt_sources": [
@@ -265,14 +265,65 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2016/1"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_1024.jpg",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_540.jpg",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_500.jpg",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1.png",
+      "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1",
+     "url": "http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 35298,
+     "capture_timestamp": "20160126053236",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0",
+     "status": 200,
+     "url": "http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_o0mt0ypO7P1r3it8zo1.jpg",
+   "blob_path": "data/blobs/69/699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0",
+   "bytes": 35298,
    "caption": "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
    "caption_alt": "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
+   "capture": {
+    "archive_digest": "WETY4GPPHNI3VHIIHIYBUKDR3VBHAVT3",
+    "original": "http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20160126053236id_/http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_500.jpg",
+    "timestamp": "20160126053236"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20160126053236 of http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_500.jpg (35298 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0",
+   "state": "recovered",
    "url_forms": [
     "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
@@ -334,18 +385,12 @@
    "url": "http://hazfalafel.com/post/136874478633"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "http://66.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/136874478633",
  "page_bytes": 80897,
  "page_sha256": "fcd3cf45d9a6c9fa87dd20819d4a25f0b9f85d04803cb0a5be7d5820b31b44d5",
- "partial": true,
+ "partial": false,
  "post_id": "136874478633",
  "posted_on": "Posted on Friday the 8th of January 2016 at 1:24 PM",
  "published": {
@@ -363,7 +408,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160122174542id_/http://hazfalafel.com/post/136874478633",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "טל-מוסרי",
   "ערוץ-1"
