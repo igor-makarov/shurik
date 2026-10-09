@@ -777,6 +777,41 @@ class PostFailureBookkeepingTests(unittest.TestCase):
         out = self.cli.fetch_posts(FakeArchive({}), limit=5, concurrency=1)
         self.assertEqual(out["processed"], 0, "permanent gap, budget spent: move on")
 
+    def test_inventoried_but_unreplayed_alternate_capture_is_replayed(self):
+        """Regression: the inventory `captures` list is not the fetched set.
+
+        Real evidence (post 135838336193, 2026-10): `fetch_posts` recorded up to
+        20 captures as done after replaying at most a handful, so 721 status-200
+        alternate snapshots across 470 posts were never read. Those snapshots
+        carry photoset members and CDN URL forms the earliest capture omitted.
+        A capture with no real replay attempt must stay pending; one that was
+        replayed must not be fetched again.
+        """
+        from recovery.store import PostStore
+        CaptureIndex(self.cli.POST_CAPTURE_FILE).add(parse_cdx_json(
+            [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
+             ["com,hazfalafel)/post/13397484447", "20130101000000",
+              "http://hazfalafel.com/post/13397484447", "text/html", "200", "B", "1"]],
+            source_query="hazfalafel.com/post/*"))
+        store = PostStore(config.POST_DIR)
+        store.put("13397484447", {
+            "post_id": "13397484447", "state": "partial", "content_text": "already parsed",
+            "captures": [
+                {"timestamp": "20120426030759",
+                 "original": "http://hazfalafel.com:80/post/13397484447"},
+                {"timestamp": "20130101000000",
+                 "original": "http://hazfalafel.com/post/13397484447"}],
+            "methods": [{"endpoint": "replay id_", "capture_timestamp": "20120426030759",
+                         "error": OK}]})
+        f = FakeArchive({"/web/20130101000000id_": html(POST_HTML)})
+        out = self.cli.fetch_posts(f, limit=5, concurrency=1)
+        self.assertEqual(out["processed"], 1)
+        rec = store.get("13397484447")
+        replayed = {a.get("capture_timestamp") for a in rec["methods"]}
+        self.assertIn("20130101000000", replayed, "the alternate capture must be replayed")
+        self.assertNotIn("/web/20120426030759id_", " ".join(f.requests),
+                         "an already-replayed capture must not be fetched again")
+
 
 class ReplayProbeTests(unittest.TestCase):
     """The replay-probe path: one bounded request decides image existence.
