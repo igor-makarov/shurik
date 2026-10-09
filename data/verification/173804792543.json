@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:63e49d535e1e170ee65b3d1268c941c2eb508e6c0d9ed115bd6e61f5f506b571",
+   "observed": "sha256:74d8ffc98cacd72c46c05acb87e706d1d7cdb1cf8fa62fab077ed3429ded172b",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_p8kw3wSY7R1r3it8zo1_500.jpg]",
    "expected": "a203ef02c26383bb35c323ec99284a6367e7c4f1cfb5a34dc018b97dcf436da9",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_p8kw3wSY7R1r3it8zo1_500.jpg",
+   "observed": "tumblr_p8kw3wSY7R1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_p8kw3wSY7R1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8kw3wSY7R1r3it8zo1_250.jpg]",
+   "expected": "a203ef02c26383bb35c323ec99284a6367e7c4f1cfb5a34dc018b97dcf436da9",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8kw3wSY7R1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8kw3wSY7R1r3it8zo1_250.jpg]",
+   "expected": 89375,
+   "observed": 89375,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8kw3wSY7R1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -94,6 +114,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_p8kw3wSY7R1r3it8zo1_250.jpg]",
+   "expected": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
+   "observed": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20180721120435",
    "observed": "20180721120435",
@@ -112,11 +138,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:18bfaa47d5fdbf790464b9611f80099d00eeb05d1b42456bf35c7135832392e0",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:0951f12e0217febeb23be82e760e0a75f9c5041c2d6ff7269364eb8cf28f5eb4",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2019-08-24T09:36:54Z",
   "org.opencontainers.image.description": "https://www.ynet.co.il/articles/0,7340,L-5257567,00.html",
@@ -128,7 +154,7 @@
   "shurik.post.content_len": "56",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "173804792543",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "1",
   "shurik.post.tags": "ובכן-יונית"
  },
@@ -139,12 +165,17 @@
    "size": 88650
   },
   {
-   "digest": "sha256:2fc5721376891df8076b5cee1576eae380914519e81b64fac2c4a36b2487e2e5",
+   "digest": "sha256:274aa7dacf61e48a69e902fecaa6cf86105e242b3c0236680e7a814e3215d3e0",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1330
+   "size": 88649
+  },
+  {
+   "digest": "sha256:afe0e91a745ae5a0cf36498fd2275b11abf1568a251763601f11edeae00a0684",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1359
   }
  ],
- "manifest_digest": "sha256:63e49d535e1e170ee65b3d1268c941c2eb508e6c0d9ed115bd6e61f5f506b571",
+ "manifest_digest": "sha256:74d8ffc98cacd72c46c05acb87e706d1d7cdb1cf8fa62fab077ed3429ded172b",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "173804792543",
@@ -158,13 +189,21 @@
    "sha256": "a203ef02c26383bb35c323ec99284a6367e7c4f1cfb5a34dc018b97dcf436da9"
   },
   {
-   "bytes": 4120,
+   "bytes": 89375,
+   "file": "tumblr_p8kw3wSY7R1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:274aa7dacf61e48a69e902fecaa6cf86105e242b3c0236680e7a814e3215d3e0",
+   "role": "media",
+   "sha256": "a203ef02c26383bb35c323ec99284a6367e7c4f1cfb5a34dc018b97dcf436da9"
+  },
+  {
+   "bytes": 4951,
    "file": "post.json",
-   "layer": "sha256:2fc5721376891df8076b5cee1576eae380914519e81b64fac2c4a36b2487e2e5",
+   "layer": "sha256:afe0e91a745ae5a0cf36498fd2275b11abf1568a251763601f11edeae00a0684",
    "role": "post-metadata",
-   "sha256": "5b74e7e92ee6ee282359345b35ad2a3979accce5c57b2a96dd71867920089f03"
+   "sha256": "706b4ac7cfc600e3baa0684fe571290d8ed71ac65525bb8121c64b98fc1c36ce"
   }
  ],
  "tag": "173804792543",
- "verified_at": "2026-10-08T22:21:56Z"
+ "verified_at": "2026-10-09T01:48:35Z"
 }

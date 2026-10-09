@@ -29,11 +29,34 @@ git archive 0924dd45a67e16a107c97c46b8c6282895cf6835 data/posts data/cdx | tar -
 
 | Metric | Value |
 | --- | ---: |
-| Published images (per-tag max; includes same-byte aliases) | **217** across 157 image-bearing tags |
-| Distinct recovered SHA-256 among post image entries | 166 (of 218 entries) |
-| Posts parsed / recovered | 1611 / 157 |
-| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 5316 stems (137 with captures) |
-| Pending stem questions | 1 (one 429 in the 19-315 pass; re-ask next pass) |
+| Published images (per-tag max; includes same-byte aliases) | **241** across 804 tags |
+| Distinct recovered SHA-256 among post image entries | 179 |
+| Posts parsed / recovered | 1611 / 165 |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 5756 stems (143 with captures) |
+| Pending stem questions | 0 after the 19-318 pass |
+| Listing captures done / total | 455 / 6311 (5915 pending; ~4240 distinct URLs) |
+
+## 19-318 result: listing pages -> new stems -> +15 published images (226/799 -> 241/804)
+
+The lever was **listing discovery**, not replay probing. Only 396 of 6311 captured
+listing pages had ever been fetched, and the high-value `/page/`, `/mobile`,
+`/rss` families were *not* in `fetch-listings`'s default `kinds`. One bounded
+pass (`fetch-listings --kinds other,archive --limit 90`) fetched 59 pages, added
+1369 image refs / 595 forms across 1565 posts and revealed **384 new image
+stems**. `stem-scan --limit-stems 384` answered all 384 with ~6 new captures;
+`fetch-images --method stem --only-stem-hits` turned the 10 hit posts into
+**+15 published images** (10 tags, 2 images each). All 10 tags passed anonymous
+`verify-artifact` (21/21 checks each, images + Hebrew captions + provenance).
+
+Lesson: after any listing pass, `stem-scan --dry-run` is the next command; the
+new stems it reports are the lead pool. The `tagged` family (3225 captures still
+pending) is the next big discovery reservoir -- fetch it in bounded passes and
+re-scan stems each time.
+
+Checkpoint `crawl-state` pushed this iteration; cold restore verified
+(manifest `sha256:777e314169583b6854194960c66fff794c9db18462105514ee62e69a828a0a18`
+restored 1611 posts + cdx into a temp dir). `data/work/hostdumps` was still empty
+locally, so the checkpoint does not yet carry the large host inventories.
 
 ## 19-315 result: selection-side stem-hit repair -> +16 published images (201/147 -> 217/157)
 

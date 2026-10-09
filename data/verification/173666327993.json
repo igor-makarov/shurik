@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:6acab3a39e6f18e1a066fedce42ba14b72b1018c5359fa07b900fd5c6b564219",
+   "observed": "sha256:cd2304220c97e4b77b07e64e5de305dd7371ebb67b55e5593996081b5da172d5",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
    "expected": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "observed": "tumblr_p8cqd17fLe1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
+   "expected": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8cqd17fLe1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
+   "expected": 76505,
+   "observed": 76505,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -102,6 +122,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
+   "expected": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "observed": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20180721120425",
    "observed": "20180721120425",
@@ -120,11 +146,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:d0c8277374539d9d9d83235d864cc80c40ea7ae381e08a0df25f0bdd6e22bc92",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:3c2eac4d0c2c98ca4d48ef37969495171e24d714d97fa679baf4b5b8c405604a",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2019-07-28T17:39:50Z",
   "org.opencontainers.image.description": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
@@ -136,7 +162,7 @@
   "shurik.post.content_len": "51",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "173666327993",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "1",
   "shurik.post.tags": "אוסטין-פאוורס,שגב-משה,שרה-נתניהו,ביבי-נתניהו,ביבי"
  },
@@ -147,12 +173,17 @@
    "size": 76154
   },
   {
-   "digest": "sha256:49f600681eb437183234a9440f29140b703a74cc0b89c59574a9634fb92632c6",
+   "digest": "sha256:39b52b889c7ee6eb17fb215924a4f990cba31ce6d2f8e4bd29145b313ca9499d",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1236
+   "size": 76154
+  },
+  {
+   "digest": "sha256:9cb2147cb4687abeb29e17d4a35a232d532c1de44b9725eb6eac19b220e1b938",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1266
   }
  ],
- "manifest_digest": "sha256:6acab3a39e6f18e1a066fedce42ba14b72b1018c5359fa07b900fd5c6b564219",
+ "manifest_digest": "sha256:cd2304220c97e4b77b07e64e5de305dd7371ebb67b55e5593996081b5da172d5",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "173666327993",
@@ -166,13 +197,21 @@
    "sha256": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531"
   },
   {
-   "bytes": 3899,
+   "bytes": 76505,
+   "file": "tumblr_p8cqd17fLe1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:39b52b889c7ee6eb17fb215924a4f990cba31ce6d2f8e4bd29145b313ca9499d",
+   "role": "media",
+   "sha256": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531"
+  },
+  {
+   "bytes": 4748,
    "file": "post.json",
-   "layer": "sha256:49f600681eb437183234a9440f29140b703a74cc0b89c59574a9634fb92632c6",
+   "layer": "sha256:9cb2147cb4687abeb29e17d4a35a232d532c1de44b9725eb6eac19b220e1b938",
    "role": "post-metadata",
-   "sha256": "8875354938448a8c9ecfcce0c2c4fc57e5db6d77b96b09a9277327beb820807a"
+   "sha256": "7a5ad2642e652075f02638f667958daee84c944e3d132e7c705b1ccde80ed400"
   }
  ],
  "tag": "173666327993",
- "verified_at": "2026-10-08T22:21:56Z"
+ "verified_at": "2026-10-09T01:48:35Z"
 }
