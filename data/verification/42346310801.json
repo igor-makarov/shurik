@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:1dde8d67b1062c1523e57f1da279587add188f15fff1893179d809bb38010b42",
+   "observed": "sha256:64656de1ba154f3e79557cb1a4b319c3ca3bee12d771ee517d693709da349c9d",
    "passed": true
   },
   {
@@ -14,9 +14,29 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mhqsx9NWYi1r3it8zo1_500.jpg]",
+   "expected": "ae307ca64677cd7ca923b987cbbd51b9dddc814dd61a58fa363ee90d070b6885",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mhqsx9NWYi1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mhqsx9NWYi1r3it8zo1_500.jpg]",
+   "expected": 126921,
+   "observed": 126921,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mhqsx9NWYi1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
    "passed": true
   },
   {
@@ -92,6 +112,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mhqsx9NWYi1r3it8zo1_500.jpg]",
+   "expected": "ממשיכים עם תחרות הגולש שהכי דומה לכפיל הידוען שלו.\n**\nשלחו לנו או שתגיבו לפוסט בפייסבוק עם תמונה שלכם ותמונה של הכפיל שלכם, מבין הטובים ניתן לכם לבחור מי הדומה ביותר.\n**\nכאלו שכבר בקשו להשתתף אך לא שלחו תמונות, אנא, אל תהיות ברווז מאותגר...",
+   "observed": "ממשיכים עם תחרות הגולש שהכי דומה לכפיל הידוען שלו.\n**\nשלחו לנו או שתגיבו לפוסט בפייסבוק עם תמונה שלכם ותמונה של הכפיל שלכם, מבין הטובים ניתן לכם לבחור מי הדומה ביותר.\n**\nכאלו שכבר בקשו להשתתף אך לא שלחו תמונות, אנא, אל תהיות ברווז מאותגר...",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mhqsx9NWYi1r3it8zo1_250.jpg]",
+   "expected": "ממשיכים עם תחרות הגולש שהכי דומה לכפיל הידוען שלו.\n**\nשלחו לנו או שתגיבו לפוסט בפייסבוק עם תמונה שלכם ותמונה של הכפיל שלכם, מבין הטובים ניתן לכם לבחור מי הדומה ביותר.\n**\nכאלו שכבר בקשו להשתתף אך לא שלחו תמונות, אנא, אל תהיות ברווז מאותגר...",
+   "observed": "ממשיכים עם תחרות הגולש שהכי דומה לכפיל הידוען שלו.\n**\nשלחו לנו או שתגיבו לפוסט בפייסבוק עם תמונה שלכם ותמונה של הכפיל שלכם, מבין הטובים ניתן לכם לבחור מי הדומה ביותר.\n**\nכאלו שכבר בקשו להשתתף אך לא שלחו תמונות, אנא, אל תהיות ברווז מאותגר...",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20140111012726",
    "observed": "20140111012726",
@@ -110,11 +142,11 @@
    "passed": true
   }
  ],
- "checks_passed": 16,
- "checks_total": 16,
- "config_digest": "sha256:ff9a9eed9134e34efc72b991383ac69f68323c4505cb85d1ff7613dc00e54fd3",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:604002e0b69bbefb9d2dccf64d9bce202757aef4314fa801b71e6cbd3309edc0",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2016-09-05T07:46:01Z",
   "org.opencontainers.image.description": "ממשיכים עם תחרות הגולש שהכי דומה לכפיל הידוען שלו.",
@@ -126,27 +158,40 @@
   "shurik.post.content_len": "312",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "42346310801",
-  "shurik.post.images": "1",
-  "shurik.post.missing_images": "2",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "שבוע-דופלגנגר,Doppelganger-Week,condescending-wonka,וונקה-מתנשא,פייסבוק"
  },
  "layers": [
+  {
+   "digest": "sha256:70163986a56f4d9d6e77200420e29934da35c2c26c1505f8cd3b6f4b21dc86d9",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 126977
+  },
   {
    "digest": "sha256:7a020314021db082499d3d004c94607ae8a7d7219e12c24e8c22a6d42c4d13d6",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
    "size": 126978
   },
   {
-   "digest": "sha256:0f51fcabe9b3641ca53ad7d6158e968a556fb4e2065bad398caa0db322f67f68",
+   "digest": "sha256:ea17943f4feda43be432495fbc1a72720c1032219c709b2414cd8a322a9a2b41",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 2165
+   "size": 2080
   }
  ],
- "manifest_digest": "sha256:1dde8d67b1062c1523e57f1da279587add188f15fff1893179d809bb38010b42",
+ "manifest_digest": "sha256:64656de1ba154f3e79557cb1a4b319c3ca3bee12d771ee517d693709da349c9d",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "42346310801",
  "pulled_files": [
+  {
+   "bytes": 126921,
+   "file": "tumblr_mhqsx9NWYi1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:70163986a56f4d9d6e77200420e29934da35c2c26c1505f8cd3b6f4b21dc86d9",
+   "role": "media",
+   "sha256": "ae307ca64677cd7ca923b987cbbd51b9dddc814dd61a58fa363ee90d070b6885"
+  },
   {
    "bytes": 126921,
    "file": "tumblr_mhqsx9NWYi1r3it8zo1_250.jpg",
@@ -156,13 +201,13 @@
    "sha256": "ae307ca64677cd7ca923b987cbbd51b9dddc814dd61a58fa363ee90d070b6885"
   },
   {
-   "bytes": 9154,
+   "bytes": 8552,
    "file": "post.json",
-   "layer": "sha256:0f51fcabe9b3641ca53ad7d6158e968a556fb4e2065bad398caa0db322f67f68",
+   "layer": "sha256:ea17943f4feda43be432495fbc1a72720c1032219c709b2414cd8a322a9a2b41",
    "role": "post-metadata",
-   "sha256": "f91dfc45ea3ef914c49031a5b4b7b336582b15b943417b131324b9b0b0b40413"
+   "sha256": "ba8932231c8176ed53da032ee15bd29c36b734ed2b1736fc01116d92e0cec6ec"
   }
  ],
  "tag": "42346310801",
- "verified_at": "2026-10-06T19:34:42Z"
+ "verified_at": "2026-10-09T08:15:26Z"
 }

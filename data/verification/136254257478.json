@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:f3014f2e38d4b8db3e1e78f4b2caad5b7dcad946309b9f4a38dfaa76edb16ba7",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o069jaqoUt1r3it8zo1_500.jpg]",
+   "expected": "a8e8f7dc1156ee263abadd4dedce4beabcefecd02792082be90b3b6771aa9bef",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o069jaqoUt1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o069jaqoUt1r3it8zo1_500.jpg]",
+   "expected": 81793,
+   "observed": 81793,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o069jaqoUt1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "ח\"כ אורן חזן: “שוקל להתמודד מול נתניהו על ראשות הליכוד”",
+   "observed": "ח\"כ אורן חזן: “שוקל להתמודד מול נתניהו על ראשות הליכוד”",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<534 chars>",
+   "observed": "<534 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אורן-חזן",
+    "ביבי",
+    "reaction-guys"
+   ],
+   "observed": [
+    "אורן-חזן",
+    "ביבי",
+    "reaction-guys"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "ח\"כ אורן חזן: “שוקל להתמודד מול נתניהו על ראשות הליכוד”"
+   ],
+   "observed": [
+    "ח\"כ אורן חזן: “שוקל להתמודד מול נתניהו על ראשות הליכוד”"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/136254257478",
+   "observed": "http://hazfalafel.com/post/136254257478",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_o069jaqoUt1r3it8zo1_500.jpg]",
+   "expected": "ח\"כ אורן חזן: “שוקל להתמודד מול נתניהו על ראשות הליכוד”",
+   "observed": "ח\"כ אורן חזן: “שוקל להתמודד מול נתניהו על ראשות הליכוד”",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20160124183450",
+   "observed": "20160124183450",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20160124183450id_/http://36.media.tumblr.com/aa8f11b08e42ad4b581ecf5704cb19f9/tumblr_o069jaqoUt1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20160124183450id_/http://36.media.tumblr.com/aa8f11b08e42ad4b581ecf5704cb19f9/tumblr_o069jaqoUt1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20160124183450",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:95580c3e03df48b6f2783c082b89f3ae2403318d0df204285dd3acbd4fbc6325",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-03-22T16:11:44Z",
+  "org.opencontainers.image.description": "ח\"כ אורן חזן: “שוקל להתמודד מול נתניהו על ראשות הליכוד”",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 136254257478",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/136254257478",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "55",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "136254257478",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "אורן-חזן,ביבי,reaction-guys"
+ },
+ "layers": [
+  {
+   "digest": "sha256:00162ac3ca56b53ed2fbd18286a6dc27cc831912c7b881701002bc71d074b86e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 81593
+  },
+  {
+   "digest": "sha256:20b5d1c1be45ee213e5c1f2deb81f1db057655215e58459d8fd9f7dc78404255",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1750
+  }
+ ],
+ "manifest_digest": "sha256:f3014f2e38d4b8db3e1e78f4b2caad5b7dcad946309b9f4a38dfaa76edb16ba7",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "136254257478",
+ "pulled_files": [
+  {
+   "bytes": 81793,
+   "file": "tumblr_o069jaqoUt1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:00162ac3ca56b53ed2fbd18286a6dc27cc831912c7b881701002bc71d074b86e",
+   "role": "media",
+   "sha256": "a8e8f7dc1156ee263abadd4dedce4beabcefecd02792082be90b3b6771aa9bef"
+  },
+  {
+   "bytes": 8584,
+   "file": "post.json",
+   "layer": "sha256:20b5d1c1be45ee213e5c1f2deb81f1db057655215e58459d8fd9f7dc78404255",
+   "role": "post-metadata",
+   "sha256": "ce25ff4a9c3de49a973c94307abfe50a4ff4a7bc0ca34bee39b3e01c67220468"
+  }
+ ],
+ "tag": "136254257478",
+ "verified_at": "2026-10-09T08:15:23Z"
+}

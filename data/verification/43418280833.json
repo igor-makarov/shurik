@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:f2c13c01fda3a3c1f4b2f334f3168d59d398b1e82f9a17362deaff0fa0c64b9a",
+   "observed": "sha256:1b65ffdef47355e5c17653efe64eb69230131ef60ed49db98006d06a92a621a2",
    "passed": true
   },
   {
@@ -14,9 +14,29 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mifkcoCgaO1r3it8zo1_500.jpg]",
+   "expected": "83e6b8e1a70cdce9a0a13e2199e20fd5b9c7e052751aad7cbb51873f4ab2fa18",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mifkcoCgaO1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mifkcoCgaO1r3it8zo1_500.jpg]",
+   "expected": 146757,
+   "observed": 146757,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mifkcoCgaO1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
    "passed": true
   },
   {
@@ -92,6 +112,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mifkcoCgaO1r3it8zo1_500.jpg]",
+   "expected": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
+   "observed": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mifkcoCgaO1r3it8zo1_250.jpg]",
+   "expected": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
+   "observed": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20140111015138",
    "observed": "20140111015138",
@@ -110,11 +142,11 @@
    "passed": true
   }
  ],
- "checks_passed": 16,
- "checks_total": 16,
- "config_digest": "sha256:54a15a6412317f4ae5431a751fd451f5c53411e546924fbf90f5246d31e5ce9f",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:83e53ee66b817c0daf265fdd8fc697b64bf0f6a720c773939339a8c9eb2e3803",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2017-11-16T05:12:42Z",
   "org.opencontainers.image.description": "מכל מאכלי החגים, אוזן המן זוכה בתואר מאכל החג שהכי דומה לרגב אדמה",
@@ -126,27 +158,40 @@
   "shurik.post.content_len": "65",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "43418280833",
-  "shurik.post.images": "1",
-  "shurik.post.missing_images": "2",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "פורים,סטיב-החלאה,scumbag-steve"
  },
  "layers": [
+  {
+   "digest": "sha256:d2fe543237f888d8362067a7e98fed681d3420522dddb409e948926f6760ee10",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 146896
+  },
   {
    "digest": "sha256:18d5b8ef99896fc0850abc7c9e6b3fd10682182da179e26958464c344af4bf68",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
    "size": 146897
   },
   {
-   "digest": "sha256:7945d936c9c490d42b551b222372580092871a43a2241196df6dd25ac6870723",
+   "digest": "sha256:496c3ab743ade982a5f0f059f87bef4a3fe1242ecbb6fd55c6a141eaa5f9b020",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1340
+   "size": 1304
   }
  ],
- "manifest_digest": "sha256:f2c13c01fda3a3c1f4b2f334f3168d59d398b1e82f9a17362deaff0fa0c64b9a",
+ "manifest_digest": "sha256:1b65ffdef47355e5c17653efe64eb69230131ef60ed49db98006d06a92a621a2",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "43418280833",
  "pulled_files": [
+  {
+   "bytes": 146757,
+   "file": "tumblr_mifkcoCgaO1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:d2fe543237f888d8362067a7e98fed681d3420522dddb409e948926f6760ee10",
+   "role": "media",
+   "sha256": "83e6b8e1a70cdce9a0a13e2199e20fd5b9c7e052751aad7cbb51873f4ab2fa18"
+  },
   {
    "bytes": 146757,
    "file": "tumblr_mifkcoCgaO1r3it8zo1_250.jpg",
@@ -156,13 +201,13 @@
    "sha256": "83e6b8e1a70cdce9a0a13e2199e20fd5b9c7e052751aad7cbb51873f4ab2fa18"
   },
   {
-   "bytes": 6243,
+   "bytes": 5019,
    "file": "post.json",
-   "layer": "sha256:7945d936c9c490d42b551b222372580092871a43a2241196df6dd25ac6870723",
+   "layer": "sha256:496c3ab743ade982a5f0f059f87bef4a3fe1242ecbb6fd55c6a141eaa5f9b020",
    "role": "post-metadata",
-   "sha256": "179ec1215168f79cd5a8d39bfb136d6510bdc452a42578e5fbb8e59992d9fd44"
+   "sha256": "fc6516b6e9450c52ee0857eb0a0eba191821ba68523bf3579c250c1cb7d32a35"
   }
  ],
  "tag": "43418280833",
- "verified_at": "2026-10-06T19:34:42Z"
+ "verified_at": "2026-10-09T08:15:25Z"
 }

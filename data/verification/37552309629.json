@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:4fd0a2d7112bffdec5a7d97ea57465e38a1220d8b3413816766c0c2c050b1706",
+   "observed": "sha256:cb938d02e8259a45f980f38bba1c551dac8fedea33c94c4993f62b38d1ecdce1",
    "passed": true
   },
   {
@@ -14,9 +14,29 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meq1t6VlAZ1r3it8zo1_500.jpg]",
+   "expected": "47e32ba0b8a9b3b599b5637317348e90caf35fa5aff226b62e930a55c5a7f0e7",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meq1t6VlAZ1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meq1t6VlAZ1r3it8zo1_500.jpg]",
+   "expected": 183072,
+   "observed": 183072,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meq1t6VlAZ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
    "passed": true
   },
   {
@@ -106,11 +126,11 @@
    "passed": true
   }
  ],
- "checks_passed": 16,
- "checks_total": 16,
- "config_digest": "sha256:063ce0fc45a904ebf490b0d548a9f481869f49691dcfaa16e3a3a4647962b81a",
+ "checks_passed": 19,
+ "checks_total": 19,
+ "config_digest": "sha256:60334ba8989f6648593c76c70de787d8a5ef9fa1fb8054a3c3422b351cae621c",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2017-11-17T17:13:18Z",
   "org.opencontainers.image.description": "Posted 2 days ago",
@@ -122,27 +142,40 @@
   "shurik.post.content_len": "203",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "37552309629",
-  "shurik.post.images": "1",
-  "shurik.post.missing_images": "1",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
   "shurik.post.tags": "scumbag-steve,חנוכה,חלאה"
  },
  "layers": [
+  {
+   "digest": "sha256:1c883261fe40553e2d0a1d9c57303bc196b18b8f147997b867b66027fde48544",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 158946
+  },
   {
    "digest": "sha256:efda75093537d2820ac5c57a8abb6dadba07c08b890a497fd82236e6132b2fa8",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
    "size": 158946
   },
   {
-   "digest": "sha256:56673a67bd10d4c92f2e579b929d6b5638c4e798958e2e5268785ccb5241afda",
+   "digest": "sha256:78bd5148b53908d7192f613f4045dd818cd9fd8ff955f2f2e6fb9050641c5ed3",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 2855
+   "size": 2444
   }
  ],
- "manifest_digest": "sha256:4fd0a2d7112bffdec5a7d97ea57465e38a1220d8b3413816766c0c2c050b1706",
+ "manifest_digest": "sha256:cb938d02e8259a45f980f38bba1c551dac8fedea33c94c4993f62b38d1ecdce1",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "37552309629",
  "pulled_files": [
+  {
+   "bytes": 183072,
+   "file": "tumblr_meq1t6VlAZ1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:1c883261fe40553e2d0a1d9c57303bc196b18b8f147997b867b66027fde48544",
+   "role": "media",
+   "sha256": "47e32ba0b8a9b3b599b5637317348e90caf35fa5aff226b62e930a55c5a7f0e7"
+  },
   {
    "bytes": 183072,
    "file": "tumblr_meq1t6VlAZ1r3it8zo1_250.jpg",
@@ -152,13 +185,13 @@
    "sha256": "47e32ba0b8a9b3b599b5637317348e90caf35fa5aff226b62e930a55c5a7f0e7"
   },
   {
-   "bytes": 18248,
+   "bytes": 14774,
    "file": "post.json",
-   "layer": "sha256:56673a67bd10d4c92f2e579b929d6b5638c4e798958e2e5268785ccb5241afda",
+   "layer": "sha256:78bd5148b53908d7192f613f4045dd818cd9fd8ff955f2f2e6fb9050641c5ed3",
    "role": "post-metadata",
-   "sha256": "f7e2814fd53ffc1b517ccaa594a72db47d20dcdc3b8d3ae418a57669be0e8dff"
+   "sha256": "6b21526dbfe411b4712e515f1936aaed7e5f53ef4540e13f2f12720912343f28"
   }
  ],
  "tag": "37552309629",
- "verified_at": "2026-10-08T23:53:58Z"
+ "verified_at": "2026-10-09T08:15:28Z"
 }

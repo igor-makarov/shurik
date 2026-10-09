@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:bb892464a3bab031b3a829ac2ad7053e82f67120c120e503d68aa1a55aae669a",
+   "observed": "sha256:2282f791beb843907aa9a21274b0477eb82f8d3a8e8c63191bbbbe9fe2cc7a19",
    "passed": true
   },
   {
@@ -14,9 +14,29 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": "3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": 52531,
+   "observed": 52531,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
    "passed": true
   },
   {
@@ -114,29 +134,41 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: מימונה.",
+   "observed": "צרות של אשכנזים: מימונה.",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m2h66vwVbT1r3it8zo1_640.jpg]",
+   "expected": "צרות של אשכנזים: מימונה.",
+   "observed": "צרות של אשכנזים: מימונה.",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
-   "expected": "20181225182117",
-   "observed": "20181225182117",
+   "expected": "20181018115716",
+   "observed": "20181018115716",
    "passed": true
   },
   {
    "check": "provenance[replay_url]",
-   "expected": "https://web.archive.org/web/20181225182117id_/https://66.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
-   "observed": "https://web.archive.org/web/20181225182117id_/https://66.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "expected": "https://web.archive.org/web/20181018115716id_/https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181018115716id_/https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
    "passed": true
   },
   {
    "check": "capture_within_cutoff",
    "expected": "<= 20191231235959",
-   "observed": "20181225182117",
+   "observed": "20181018115716",
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:2ff127d56d37a8d33733b54127b67369e2bebb454facecccc33ec4703e6e3b4f",
+ "checks_passed": 25,
+ "checks_total": 25,
+ "config_digest": "sha256:36b0cc3ab3d8906944141b427c84ac4a6e94200c74de0d257a3b46dab5cffecf",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:12Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: מימונה.",
@@ -148,11 +180,16 @@
   "shurik.post.content_len": "24",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "21084952305",
-  "shurik.post.images": "2",
-  "shurik.post.missing_images": "2",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "צרות-של-אשכנזים"
  },
  "layers": [
+  {
+   "digest": "sha256:000348fa2f18291d9b1f2552fc066087837756aef11dd706c7d2a2bf4b210f9a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 52675
+  },
   {
    "digest": "sha256:c411594d8ede5c63c0a0d58db643afe8f691bfed924654dc516f8fc65dfe3838",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
@@ -164,16 +201,24 @@
    "size": 54144
   },
   {
-   "digest": "sha256:3f7da75a92e99e0da7f61de564e4a09f2e251aef75b7f6c75af7143d0c6245e6",
+   "digest": "sha256:0b13c8648b81d8e569fdac14ff096072ed97fc3106731e87c9fc2bdfb82955a5",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1438
+   "size": 1432
   }
  ],
- "manifest_digest": "sha256:bb892464a3bab031b3a829ac2ad7053e82f67120c120e503d68aa1a55aae669a",
+ "manifest_digest": "sha256:2282f791beb843907aa9a21274b0477eb82f8d3a8e8c63191bbbbe9fe2cc7a19",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "21084952305",
  "pulled_files": [
+  {
+   "bytes": 52531,
+   "file": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:000348fa2f18291d9b1f2552fc066087837756aef11dd706c7d2a2bf4b210f9a",
+   "role": "media",
+   "sha256": "3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8"
+  },
   {
    "bytes": 54033,
    "file": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
@@ -191,13 +236,13 @@
    "sha256": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d"
   },
   {
-   "bytes": 9376,
+   "bytes": 6641,
    "file": "post.json",
-   "layer": "sha256:3f7da75a92e99e0da7f61de564e4a09f2e251aef75b7f6c75af7143d0c6245e6",
+   "layer": "sha256:0b13c8648b81d8e569fdac14ff096072ed97fc3106731e87c9fc2bdfb82955a5",
    "role": "post-metadata",
-   "sha256": "4c27e9244f00c2676616af75cef1d591465ffec06a913e946c2a78334cb57502"
+   "sha256": "54a8634be0ccb93f0e96539dc8fea6c3b13ac0ad1448caee8594fbbb7539b7d2"
   }
  ],
  "tag": "21084952305",
- "verified_at": "2026-10-07T06:03:32Z"
+ "verified_at": "2026-10-09T08:15:26Z"
 }
