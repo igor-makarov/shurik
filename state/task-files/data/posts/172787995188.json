@@ -53,8 +53,8 @@
  "content_text": "Posted 3 days ago\n9 notes\nתגיות: #Record scratch Freeze frame\n#חריקת תקליט הקפאת פריים\nadichan reblogged this from icanhazfalafel\njustafictionlover reblogged this from wtf-is-happpening\njustafictionlover liked this\ntiny-fallen-star reblogged this from icanhazfalafel\nwayward-exulansis liked this\ngurshalom liked this\nmusic-complete-me liked this\nwtf-is-happpening reblogged this from icanhazfalafel\nwtf-is-happpening liked this\nicanhazfalafel posted this",
  "date_text": "Posted 3 days ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T01:50:49Z",
- "image_count": 2,
+ "fetched_at": "2026-10-09T03:11:37Z",
+ "image_count": 3,
  "images": [
   {
    "alt_sources": [
@@ -222,12 +222,64 @@
    ]
   },
   {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_250.jpg",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_1280.jpg",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_1024.jpg",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_540.jpg",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_500.jpg",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_400.jpg",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_100.jpg",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1.png",
+      "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1",
+     "url": "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_250.jpg"
+    },
+    {
+     "bytes": 62458,
+     "capture_timestamp": "20180413220031",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "ad2993c113bf38b9072a27618a423ccd3b2e70a438cfb72de54d47dbff2a330e",
+     "status": 200,
+     "url": "http://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_p6ypbhivos1r3it8zo1.jpg",
+   "blob_path": "data/blobs/ad/ad2993c113bf38b9072a27618a423ccd3b2e70a438cfb72de54d47dbff2a330e",
+   "bytes": 62458,
    "caption_alt": "",
+   "capture": {
+    "archive_digest": "HX7OAUXEJCCEU24MDWSSTW3JDIJJJLFR",
+    "original": "http://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20180413220031id_/http://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_500.jpg",
+    "timestamp": "20180413220031"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_p6ypbhivos1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_p6ypbhivos1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20180413220031 of http://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_500.jpg (62458 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "ad2993c113bf38b9072a27618a423ccd3b2e70a438cfb72de54d47dbff2a330e",
+   "state": "recovered",
    "url_forms": [
     "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_250.jpg"
    ],
@@ -273,28 +325,22 @@
    "url": "http://hazfalafel.com/post/172787995188"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "https://78.media.tumblr.com/e3d901c8c81f3af87ba06c261b9fafce/tumblr_p6ypbhivos1r3it8zo1_250.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/172787995188",
  "page_bytes": 71630,
  "page_sha256": "17e7e5189789fb21c90bf7165ee909a7d33e731fb7642774faea971d9319e804",
- "partial": true,
+ "partial": false,
  "post_id": "172787995188",
  "posted_on": "Posted on Tuesday the 10th of April 2018 at 12:06 PM",
  "published": {
-  "action": "pushed",
-  "at": "2026-10-06T01:50:54Z",
-  "image_count": 2,
-  "manifest_digest": "sha256:f512ee568b5c2abef7a1f94cd8c77ded5ab990f537574a007858bd9c0a13c59f",
+  "action": "updated",
+  "at": "2026-10-09T03:11:42Z",
+  "image_count": 3,
+  "manifest_digest": "sha256:207324640f46b91e9eb6e0a24c106e666c47ef83cea1d2a32eb498f89bcdf846",
   "missing_count": 0,
   "quality": [
-   2,
+   3,
    454,
    0
   ]
@@ -302,7 +348,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20180413214633id_/http://hazfalafel.com/post/172787995188",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "Record-scratch-Freeze-frame",
   "חריקת-תקליט-הקפאת-פריים"
