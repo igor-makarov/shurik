@@ -10,8 +10,8 @@ Git keeps **code, tests and compact records only**: `data/image-queue.json`,
 `data/missing.jsonl`, `data/gaps.jsonl`, `data/published.jsonl`,
 `data/verification/*.json`, `data/checkpoint.json`.
 
-Bulk crawl state (`data/posts/`, `data/cdx/`, the retry queues) is gitignored
-and travels in the same package under the `crawl-state` tag.
+Bulk crawl state (`data/posts/`, `data/cdx/`, retry queues) is gitignored and
+travels in the same package under the `crawl-state` tag.
 
 ```sh
 python3 -m recovery.cli checkpoint          # push crawl-state, write pointer
@@ -29,80 +29,66 @@ git archive 0924dd45a67e16a107c97c46b8c6282895cf6835 data/posts data/cdx | tar -
 
 | Metric | Value |
 | --- | ---: |
-| Published images (per-tag max; includes same-byte aliases) | **256** across 806 tags |
-| Distinct recovered SHA-256 among post image entries | 189 |
-| Positive posts (image_count > 0) | 178 |
-| Posts parsed / recovered | 1637 / 178 |
-| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 6094 (153 with captures) |
-| Pending stem questions | 0 after the 20-324 passes |
-| Listing captures done / total | 1576 / 6311 (4735 pending) |
+| Published images (per-tag max; includes same-byte aliases) | **272** |
+| Positive posts (image_count > 0) | 185 |
+| Distinct recovered SHA-256 among post image entries | 196 |
+| Posts parsed / recovered | 1690 / 180 |
+| Stem CDX answers recorded (`data/cdx/stems.jsonl`) | 6975 (162 with captures) |
+| Pending stem questions | 0 |
+| Unresolved media base keys (posts/ images) | ~1998 |
+| Listing captures done / total | 2480 / 6311 |
 
-## 20-324 result: closed the 23113407036 lead; +11 published images (245/173 -> 256/178), +6 hashes
+Crawl-state checkpoint pointer: `data/checkpoint.json`, tag `crawl-state`,
+manifest `sha256:ba7f02f4b097ca710923757431d72f7b00b8ab4684202f144ac49698c68914c1`,
+layer bytes 4,979,431 (2026-10-09T11:06Z).
 
-* **Post 23113407036 was already fully published.** The anonymous tag carries
-  3 image layers (153228 bytes, including the 50202-byte `c6ee514...` JPEG from
-  capture 20181018115722) and `verify-artifact` passes 25/25. Only the Git
-  ledger was stale (max `image_count` 2); refreshed to 3. Treat this as
-  completed work, not a new lead.
-* **Listing discovery is still the lever.** Two bounded `fetch-listings` passes
-  (40 + 60 pages, kinds archive/tagged/other) added ~415 new URL forms, which
-  regenerated 59 unanswered stems. `stem-scan` answered all of them (6 + 1
-  hits, ~9% hit rate) and `fetch-images --method stem --only-stem-hits`
-  recovered 10 images across 9 tags. All 9 new/updated tags passed anonymous
-  `verify-artifact` (17-25 checks each).
-* **Code repairs (`recovery/cli.py`, regression tests in `BlobFallbackTests`):**
-  * Per-image publication now runs *inside* the work loop
-    (`_publish_recovered(pid, fetcher)` under `_PUBLISH_LOCK`) instead of only
-    after the whole post's `pool.map` result is consumed, so a slow sibling
-    image or an earlier worker can no longer hold recovered bytes only in the
-    ephemeral blob cache until preemption.
-  * `ensure_blob` backfills `blob_path` on its cached path: a record restored
-    from the registry can carry `sha256` without `blob_path`, and the artifact
-    builder reads `img["blob_path"]` directly.
-  * New `_restore_missing_blobs`: absent old blobs are first pulled anonymously
-    from the already-published artifact (verified by sha256) before any Wayback
-    refetch, so a changed old-capture digest no longer blocks publishing the
-    freshly recovered sibling bytes. A different digest is never accepted.
+## 20-329 result: +13 published (259/180 -> 272/185), 12 tags anonymously verified
 
-## Known baseline failure (disclosed, not fixed)
+* Answered **all 400 pending stems** (host-priority order by measured hit rate).
+  9 new stem hits; `fetch-images --method stem --only-stem-hits` recovered 13
+  images across 12 tags; every tag passed anonymous `verify-artifact` (17-25
+  checks each). Committed and checkpointed.
+* Then `fetch-listings --limit 60` (archive,tagged,other) added 239 url_forms,
+  **4 new posts**, but only **30 new stems -> 0 hits**: listing discovery is
+  tapering. Do not spend a pass on broad listings without a new angle.
+
+## Falsified / negative evidence from 20-329 (keep)
+
+* **Alternate-shard modern forms are not archived.** For 8 unresolved media
+  keys seen on one shard only, querying the other 19 shards' modern forms
+  (`<shard>.media.tumblr.com/<md5dir>/tumblr_<key>`) gave **0 hits / 152 CDX
+  requests** (`/tmp` probe, not committed). The stem-prefix miss is a real,
+  shard-wide gap, not a missing-URL-form artifact. Do not re-run this sweep.
+* Host dump / xshard old-style scan already covers the remaining shards; the
+  504 hosts (24,25,27,30,64,66,media) are too large to enumerate server-side.
+* Availability sweep: 915 `gap`, 17 `hit`; all 17 hits already recovered.
+
+## Known correctness item (not yet repaired)
+
+* `data/cdx/listing-posts.jsonl` has **33 `post_other` records whose `post_id`
+  is a foreign blog's post id** (e.g. `unicornpoopish`, `godzy`, `yitzhakofeir`)
+  while `listing_url` is a hazfalafel `/post/<id>`; 18 carry images. They
+  created phantom `listing_only` records (e.g. 19000835176) but **no wrong
+  bytes were published** (none of those ids have published image entries).
+  Repair must attribute reblog media to the *container* hazfalafel post
+  (`listing_url` id) and keep the source evidence; do not discard genuine
+  reblog media.
+
+## Known baseline test failure (disclosed, not fixed)
 
 `recovery.tests.test_crawler.HostInventoryEvidenceTests.test_complete_scan_confirms_gap_without_any_cdx_query`
-errors with `KeyError: 'host_inventory'` because its fixture no longer sets
-`resume_key_walk=True` (reverted per maintainer instruction). `MediaIndex.host_complete`
-deliberately requires a resume-key walk, so the fixture's `complete: True`
-alone is inconclusive. This is the only failure: 79/80 pass. Run tests with
-`python -m unittest recovery.tests.test_crawler` (the embedded `unittest.main()`
-only runs the classes defined above it).
+errors `KeyError: 'host_inventory'` because the fixture is missing
+`resume_key_walk=True` (reverted per instruction). 79/80 pass; run with
+`python -m unittest recovery.tests.test_crawler`.
 
 ## Next work
 
-* Keep the pipeline moving in bounded units: `fetch-listings --limit N` (kinds
-  `archive,tagged,other`) -> `stem-scan --dry-run` -> answer pending stems ->
-  `fetch-images --method stem --only-stem-hits`. New stems appear only after a
-  pass that adds `url_forms`, so re-run `stem-scan --dry-run` every time.
-* `tagged` is the largest pending family; later snapshots of one listing URL
-  can name posts an earlier one did not (`--all-captures` once one-per-url is
-  exhausted).
-* `fetch-images --method probe --retry-missing` opens the settled sibling-form
-  pool; `probe-availability` sweeps are the cheaper alternative.
-
-## Negative evidence worth keeping
-
-* **CDX host wildcards are silently empty** (`url=*.media.tumblr.com/<stem>`),
-  false negatives even for a known capture. Do not use.
-* **CDX regex filters over the whole `media.tumblr.com` domain 504.** Per-shard
-  local matching (hostdump) is the only variant; cross-shard copies are already
-  falsified (0/308 for listing-only photos).
-* **No pre-2012 captures of the blog itself.** `hazfalafel.tumblr.com` has zero
-  captures; `icanhazfalafel.tumblr.com` has only 32 captures through the cutoff
-  and its root's 8 photo URLs are all known stems. Subdomain mining is closed.
-* **Multi-`url=` CDX batching is unsupported**: only the first `url=` is
-  answered. `stem_scan` sends one request per stem deliberately.
-* Host inventory is conclusive only after a complete *resume-key* walk taken
-  after the key was known; the legacy `page=N` cursor is not evidence.
-* Transport refusals/timeouts are not `archive_gap` and not proof of
-  throttling; only a genuine 429/503 is throttled. HTTP status 000 = no answer.
-* `data/cdx/hostdump-cursors/68.media.tumblr.com.cursor.json` holds an
-  unfinished resume-key host walk; its rows live in `data/work/hostdumps/`
-  (now carried by the checkpoint) and can be re-matched offline with
-  `reindex-media`.
+* Listing discovery is near-saturated; prefer **new** angles: parse every
+  capture of a post page (2473 captures for 1186 posts) for shard forms the
+  chosen capture lacked, and re-run `merge-images`/`repair` offline to surface
+  images the parser missed.
+* If a post page capture (pre-cutoff) exists at a **different timestamp** than
+  the parsed one, re-parse it: Tumblr serves the then-current shard, so a 2017
+  capture of a 2015 post can reveal a shard form whose CDX prefix answers.
+* Keep the pipeline moving in bounded foreground units and checkpoint after
+  each batch. Publish promptly; verify new tags only.
