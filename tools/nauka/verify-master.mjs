@@ -104,6 +104,25 @@ async function main() {
     for (const id of it.files || []) if (!idSet.has(id)) problems.push(`issue ${it.key || it.issue}: unknown file id ${id}`);
   }
 
+  // Supplementary archives are published originals too: each must expose an
+  // immutable digest + sha256 + pullable ghcrRef (some use legacy tags).
+  const supplementaryResolved = [];
+  for (const s of master.supplementary || []) {
+    if (!s.published) continue;
+    if (!s.digest || !String(s.digest).startsWith('sha256:')) problems.push(`supplementary ${s.id}: published without digest`);
+    if (!s.sha256) problems.push(`supplementary ${s.id}: published without sha256`);
+    if (!s.ghcrRef) problems.push(`supplementary ${s.id}: published without ghcrRef`);
+    if (s.tag && s.digest) {
+      try {
+        const got = await ghcr.resolve(s.tag);
+        supplementaryResolved.push({ id: s.id, tag: s.tag, digest: got });
+        if (got !== s.digest) problems.push(`supplementary ${s.id}: tag ${s.tag} resolves to ${got} != index digest ${s.digest}`);
+      } catch (err) {
+        problems.push(`supplementary ${s.id}: tag ${s.tag} did not resolve (${err.message})`);
+      }
+    }
+  }
+
   // 4. Representative entries across the eras (old subset + new years + pending).
   const pick = (id) => files.find((f) => f.id === id) || null;
   const reps = {};
@@ -152,6 +171,7 @@ async function main() {
     discoveryStatus: master.discovery ? master.discovery.status : null,
     totals: t,
     representative: reps,
+    supplementaryResolved,
     checks: {
       filesLength: files.length,
       publishedFiles: pubFiles.length,

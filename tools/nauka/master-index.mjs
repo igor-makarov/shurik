@@ -49,7 +49,10 @@ export function buildMasterIndex({ manifest, state, generatedAt, baseline = {} }
       receivedBytes: eff.receivedBytes != null ? eff.receivedBytes : null,
       sha256: eff.sha256 || null,
       digest: eff.ghcr ? eff.ghcr.digest : null,
-      ghcrRef: eff.ghcr && eff.ghcr.digest ? `${REGISTRY}:${entryTag(e)}@${eff.ghcr.digest}` : null,
+      // Prefer the tag actually used at push time (recorded in state); it equals
+      // the derived entry tag for every regular file but is authoritative.
+      tag: eff.ghcr && eff.ghcr.tag ? eff.ghcr.tag : entryTag(e),
+      ghcrRef: eff.ghcr && eff.ghcr.digest ? `${REGISTRY}:${eff.ghcr.tag || entryTag(e)}@${eff.ghcr.digest}` : null,
       publishedAt: eff.publishedAt || null,
       verified: eff.verified ? { ok: eff.verified.ok, at: eff.verified.at } : null,
     };
@@ -105,6 +108,12 @@ export function buildMasterIndex({ manifest, state, generatedAt, baseline = {} }
       bytes: eff && eff.expectedBytes != null ? eff.expectedBytes : null,
       sha256: eff && eff.sha256 ? eff.sha256 : null,
       digest: eff && eff.ghcr ? eff.ghcr.digest : null,
+      // Supplementary archives may have been pushed under a legacy tag that is
+      // NOT the supplementaryId (e.g. nij-1998-supplementary-pdf). Record the
+      // tag actually used so the immutable reference is pullable.
+      tag: eff && eff.ghcr && eff.ghcr.tag ? eff.ghcr.tag : id,
+      ghcrRef: eff && eff.ghcr && eff.ghcr.digest ? `${REGISTRY}:${eff.ghcr.tag || id}@${eff.ghcr.digest}` : null,
+      verified: eff && eff.verified ? { ok: eff.verified.ok, at: eff.verified.at } : null,
     };
   });
 
