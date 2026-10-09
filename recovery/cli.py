@@ -1622,6 +1622,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     p.add_argument("--no-apply", action="store_true",
                    help="record the found URLs without folding them into posts")
     p.add_argument("--dry-run", action="store_true", help="report the plan without any request")
+    p = sub.add_parser("rss-scan",
+                       help="mine the archived blog RSS feed for post media URL forms")
+    p.add_argument("--limit", type=int, default=0, help="max feed captures this pass (0 = all)")
+    p.add_argument("--dry-run", action="store_true", help="report the plan without any request")
     p = sub.add_parser("fetch-images", help="resolve post images from the archive")
     p.add_argument("--limit", type=int, default=0,
                    help="max posts per pass (0 = 5, or every id given with --ids)")
@@ -1745,6 +1749,10 @@ def main(argv: Optional[list[str]] = None) -> int:
         else:
             out = xshard_scan(fetcher, hosts=hosts, limit=args.limit,
                               rescan=args.rescan, apply=not args.no_apply)
+    elif args.cmd == "rss-scan":
+        from .rss import rss_scan
+
+        out = rss_scan(fetcher, limit=args.limit, dry_run=args.dry_run)
     elif args.cmd == "fetch-images":
         queue = ImageQueue(cooldown_minutes=args.cooldown_minutes or 45,
                            max_attempts=args.max_attempts or 12)
