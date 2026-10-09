@@ -1414,3 +1414,66 @@ class ListingRetryTests(unittest.TestCase):
         from recovery.cli import _listing_done_keys
         k = self._key()
         self.assertIn(k, _listing_done_keys([{"capture_key": k, "error": "archive_gap"}]))
+
+
+class ListingFreshUrlPriorityTests(unittest.TestCase):
+    """A bounded pass spends its requests on never-fetched URLs first.
+
+    A second snapshot of an already-mined tag page mostly repeats posts already
+    seen; an un-fetched listing URL is the only place new image forms can
+    appear. The old timestamp-ascending sort did the opposite (oldest snapshots
+    of known URLs first), so this pins the fresh-first order.
+    """
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        from recovery import cli
+        self.cli = cli
+        self._saved = {k: getattr(config, k) for k in
+                       ("DATA_DIR", "CDX_DIR", "POST_DIR", "MISSING_JSONL", "BLOB_DIR",
+                        "GAPS_JSONL", "IMAGE_QUEUE_JSON")}
+        self._saved_evidence = cli.LISTING_EVIDENCE_FILE
+        config.DATA_DIR = self._tmp.name
+        config.CDX_DIR = os.path.join(self._tmp.name, "cdx")
+        config.POST_DIR = os.path.join(self._tmp.name, "posts")
+        config.MISSING_JSONL = os.path.join(self._tmp.name, "missing.jsonl")
+        config.BLOB_DIR = os.path.join(self._tmp.name, "blobs")
+        config.GAPS_JSONL = os.path.join(self._tmp.name, "gaps.jsonl")
+        config.IMAGE_QUEUE_JSON = os.path.join(self._tmp.name, "queue.json")
+        os.makedirs(config.CDX_DIR, exist_ok=True)
+        self.cli.LISTING_EVIDENCE_FILE = os.path.join(config.CDX_DIR, "listing-posts.jsonl")
+        self.addCleanup(self._restore)
+
+    def _restore(self):
+        for k, v in self._saved.items():
+            setattr(config, k, v)
+        self.cli.LISTING_EVIDENCE_FILE = self._saved_evidence
+
+    def test_never_fetched_url_is_selected_before_a_repeat_snapshot(self):
+        fresh = "http://hazfalafel.com/tagged/fresh"
+        repeat = "http://hazfalafel.com/tagged/repeat"
+        rows = [
+            {"timestamp": "20140101000000", "original": fresh, "statuscode": "200",
+             "mimetype": "text/html", "digest": "a", "length": "1"},
+            {"timestamp": "20160101000000", "original": fresh, "statuscode": "200",
+             "mimetype": "text/html", "digest": "a", "length": "1"},
+            {"timestamp": "20120101000000", "original": repeat, "statuscode": "200",
+             "mimetype": "text/html", "digest": "a", "length": "1"},
+            {"timestamp": "20170101000000", "original": repeat, "statuscode": "200",
+             "mimetype": "text/html", "digest": "a", "length": "1"},
+        ]
+        with open(os.path.join(config.CDX_DIR, "listing.jsonl"), "w", encoding="utf-8") as fh:
+            for r in rows:
+                fh.write(json.dumps(r) + "\n")
+        # `repeat`'s latest snapshot is already fetched, so only its 2012 capture
+        # is a candidate; without fresh-first ordering that old snapshot is chosen.
+        with open(self.cli.LISTING_EVIDENCE_FILE, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps({"capture_key": "20170101000000|hazfalafel.com/tagged/repeat",
+                                 "error": None, "posts": 1}) + "\n")
+        listing_html = html('<div class="post"><a href="http://hazfalafel.com/post/1">x</a></div>')
+        f = FakeArchive({"id_/": listing_html})
+        self.cli.fetch_listings(f, limit=1, kinds=("tagged",), concurrency=1)
+        self.assertTrue(f.requests, "the pass must send a request")
+        self.assertIn("tagged/fresh", f.requests[0],
+                      "an un-fetched listing URL must be spent before a repeat snapshot")
