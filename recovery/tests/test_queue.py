@@ -420,5 +420,82 @@ class CircuitBreakerDeferralTests(unittest.TestCase):
         self.assertEqual([pid for pid, _ in batch], ["1000", "1001"], batch)
 
 
+class StemHitSelectionTests(unittest.TestCase):
+    """A recorded stem hit must survive the batch selector.
+
+    19-315: `--only-stem-hits` selected posts holding a live stem hit, but
+    `ImageQueue.select` filtered them back out as `no_work_left` because the
+    image's own exact URL carried a terminal archive_gap/bad_body verdict. The
+    selection never reached the download, so bytes the index already knew about
+    were stranded. The fix re-opens a stem-hit image through `stale_fn`.
+    """
+
+    LINK = "http://25.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
+    OTHER = "http://31.media.tumblr.com/tumblr_mcz5smqkfg1r3it8zo1_500.jpg"
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        root = self._tmp.name
+        self._saved = {k: getattr(config, k) for k in
+                       ("DATA_DIR", "POST_DIR", "CDX_DIR", "CAPTURE_DIR", "BLOB_DIR",
+                        "MISSING_JSONL")}
+        config.DATA_DIR = root
+        config.POST_DIR = os.path.join(root, "posts")
+        config.CDX_DIR = os.path.join(root, "cdx")
+        config.CAPTURE_DIR = os.path.join(root, "captures")
+        config.BLOB_DIR = os.path.join(root, "blobs")
+        config.MISSING_JSONL = os.path.join(root, "missing.jsonl")
+        self.addCleanup(self._restore)
+
+    def _restore(self):
+        for k, v in self._saved.items():
+            setattr(config, k, v)
+
+    def test_stem_hit_reopens_terminal_image_in_selection(self):
+        from recovery.cdx import Capture
+        from recovery.cli import fetch_images
+        from recovery.images import stem_prefix
+        from recovery.stemindex import StemIndex
+        from recovery.store import PostStore
+
+        PostStore().put("444", {
+            "post_id": "444", "content_text": "x",
+            "images": [{"media_url": self.LINK, "media_key": os.path.basename(self.LINK),
+                        "state": "missing", "error": GAP,
+                        "attempts": [probe_attempt(self.LINK, GAP)],
+                        "url_forms": [self.LINK, self.OTHER], "caption": ""}]})
+        idx = StemIndex(os.path.join(config.CDX_DIR, "stems.jsonl"))
+        idx.record(stem_prefix(self.OTHER), [Capture(
+            timestamp="20140111015713", original=self.OTHER, statuscode="200",
+            mimetype="image/jpeg", urlkey="k", digest="ABC", length="100",
+            redirect="None", source_query="stem-scan")])
+        out = fetch_images(
+            FakeArchive({}, sleep=lambda _s: None), limit_posts=5, post_ids=["444"],
+            queue=ImageQueue(os.path.join(config.DATA_DIR, "image-queue.json")),
+            dry_run=True, publish_on_recovery=False, use_media_index=False, stem_index=idx)
+        self.assertEqual(out["selected"], 1, out)
+        self.assertEqual(out["no_work_left"], 0, out)
+        self.assertEqual(out["batch"], ["444"], out)
+
+    def test_terminal_image_without_a_stem_hit_is_still_settled(self):
+        from recovery.cli import fetch_images
+        from recovery.stemindex import StemIndex
+        from recovery.store import PostStore
+
+        PostStore().put("445", {
+            "post_id": "445", "content_text": "x",
+            "images": [{"media_url": self.LINK, "media_key": os.path.basename(self.LINK),
+                        "state": "missing", "error": GAP,
+                        "attempts": [probe_attempt(self.LINK, GAP)], "caption": ""}]})
+        idx = StemIndex(os.path.join(config.CDX_DIR, "stems.jsonl"))
+        out = fetch_images(
+            FakeArchive({}, sleep=lambda _s: None), limit_posts=5, post_ids=["445"],
+            queue=ImageQueue(os.path.join(config.DATA_DIR, "image-queue.json")),
+            dry_run=True, publish_on_recovery=False, use_media_index=False, stem_index=idx)
+        self.assertEqual(out["selected"], 0, out)
+        self.assertEqual(out["no_work_left"], 1, out)
+
+
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
