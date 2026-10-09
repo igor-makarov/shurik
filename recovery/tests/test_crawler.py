@@ -1576,3 +1576,37 @@ class CaptionVerificationTests(unittest.TestCase):
         from recovery.verify import _norm_caption
 
         self.assertNotEqual(_norm_caption("one caption"), _norm_caption("another caption"))
+
+
+class ReblogSuffixVariantTests(unittest.TestCase):
+    """`_rN` reblog images must also offer their canonical plain sibling."""
+
+    URL = "http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2_r1_500.jpg"
+
+    def test_plain_sibling_is_generated_as_a_variant(self):
+        variants = parse_image_variants(self.URL)
+        self.assertIn("http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2_500.jpg",
+                      variants)
+        self.assertIn("http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2_1280.jpg",
+                      variants)
+
+    def test_plain_forms_helper_scopes_to_the_rN_family(self):
+        from recovery.parsing import rsuffix_plain_forms
+
+        forms = rsuffix_plain_forms(self.URL)
+        self.assertTrue(forms)
+        self.assertTrue(all("_r1_" not in f for f in forms))
+        self.assertIn("http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2_500.jpg",
+                      forms)
+        # A URL without an `_rN` suffix has no plain-sibling family.
+        self.assertEqual(rsuffix_plain_forms(
+            "http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2_500.jpg"), [])
+
+    def test_plain_sibling_stem_is_a_different_cdx_prefix(self):
+        from recovery.images import stem_prefix
+
+        linked = stem_prefix(self.URL)
+        plain = stem_prefix("http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2_500.jpg")
+        self.assertEqual(linked, "http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2_r1")
+        self.assertEqual(plain, "http://78.media.tumblr.com/ab12/tumblr_nfaznqud6S1r3it8zo2")
+        self.assertNotEqual(linked, plain)

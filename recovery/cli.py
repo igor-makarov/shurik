@@ -25,7 +25,8 @@ from .listing import (listing_kind, merge_listing_evidence, parse_listing_page)
 from .media import (HOST_RE, MEDIA_CAPTURE_FILE, SHARED_MEDIA_HOSTS, MediaIndex, host_of,
                     hosts_for, scan_host, stems_of)
 from . import hostdump
-from .parsing import extract_images, parse_post_page, post_id_from_url
+from .parsing import (extract_images, parse_post_page, post_id_from_url,
+                      rsuffix_plain_forms)
 from .publish import Registry, publish_post
 from .queue import ImageQueue
 from .restore import restore_post, restore_posts
@@ -738,6 +739,11 @@ def stem_scan(fetcher: Fetcher, limit_stems: int = 0, concurrency: int = 3,
             # (~100 measured unanswered stems), which suppressed real work.
             forms = [img.get("media_url") or ""]
             forms += [f for f in (img.get("url_forms") or []) if f]
+            # A reblog image links `tumblr_<key>_r1_500.jpg`; the canonical
+            # `tumblr_<key>_500.jpg` is a different CDX prefix that no stored
+            # form names, so ask it too (measured: none of 175 `_rN` images had
+            # their plain prefix asked before).
+            forms += [f for f in rsuffix_plain_forms(img.get("media_url") or "")]
             for url in forms:
                 stem = stem_prefix(url)
                 if not stem:
@@ -854,6 +860,7 @@ def posts_with_stem_hits() -> list[str]:
     def _stems_of(img: dict) -> set[str]:
         forms = [img.get("media_url") or ""]
         forms += [f for f in (img.get("url_forms") or []) if f]
+        forms += rsuffix_plain_forms(img.get("media_url") or "")
         return {stem_prefix(f) for f in forms if f}
 
     for rec in store.all():
@@ -1165,7 +1172,8 @@ def image_stem_hit(image: dict, stem_index) -> bool:
     """
     if stem_index is None:
         return False
-    forms = [image.get("media_url") or "", *(image.get("url_forms") or [])]
+    forms = [image.get("media_url") or "", *(image.get("url_forms") or []),
+             *rsuffix_plain_forms(image.get("media_url") or "")]
     for form in forms:
         if form and stem_index.lookup(stem_prefix(form)):
             return True

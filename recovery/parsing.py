@@ -206,6 +206,36 @@ VARIANT_RE = re.compile(
     r"(?P<ext>jpg|jpeg|png|gif|webp)$", re.I)
 
 
+RSIZE_RE = re.compile(r"^(?P<pre>.+)_r\d+$")
+
+
+def rsuffix_plain_forms(url: str) -> list[str]:
+    """The canonical (`_rN`-stripped) siblings of a reblog image URL.
+
+    `tumblr_<key>_r1_500.jpg` and `tumblr_<key>_500.jpg` are the same photo
+    under two CDX prefixes; the post usually links only the `_rN` one, so the
+    plain prefix is never asked. These are candidate URLs (all sizes and the
+    alternate extensions), not invented content: the resolver still has to
+    find a pre-cutoff capture before any bytes are used.
+    """
+    path = urlparse(url).path
+    m = VARIANT_RE.match(path.rsplit("/", 1)[-1])
+    if not m:
+        return []
+    rs = RSIZE_RE.match(m.group("stem"))
+    if not rs:
+        return []
+    ext = m.group("ext")
+    head = url.split("#", 1)[0].split("?", 1)[0]
+    base = head[: head.rfind("/") + 1]
+    pre = rs.group("pre")
+    # Only the sized siblings: the bare `tumblr_<key>.png` form has no size
+    # token, so its stem prefix would be the whole URL and would add a bogus
+    # exact-URL question instead of one family prefix.
+    return [f"{base}{pre}_{size}.{ext}"
+            for size in ("1280", "1024", "540", "500", "400", "250", "100")]
+
+
 def parse_image_variants(url: str) -> list[str]:
     """Candidate archived variants for one Tumblr media file (larger first).
 
@@ -213,6 +243,13 @@ def parse_image_variants(url: str) -> list[str]:
     the page linked `_500`), so every size and extension sibling is a real
     recovery lead. The match runs on the URL path *basename*: matching the
     whole path silently found nothing because paths start with `/`.
+
+    A `_r<N>` suffix (`tumblr_<key>_r1_500.jpg`) is the reblog re-encode of the
+    same photo: the canonical `tumblr_<key>_500.jpg` is a *different* URL and a
+    different CDX prefix, so the size siblings alone never reach it. Measured
+    2026-10: 162 of 163 `_rN` media keys had no plain sibling in the corpus and
+    none of their plain stems had ever been asked. The plain forms are added
+    here so `stem-scan` asks the right prefix and the resolver probes them.
     """
     out = [url]
     path = urlparse(url).path
@@ -224,10 +261,13 @@ def parse_image_variants(url: str) -> list[str]:
     # line up with the URL string once a scheme and host are in front of it.
     head = url.split("#", 1)[0].split("?", 1)[0]
     base = head[: head.rfind("/") + 1]
-    for size in ("1280", "1024", "540", "500", "400", "250", "100"):
-        cand = f"{base}{stem}_{size}.{ext}"
-        if cand not in out:
-            out.append(cand)
+    rs = RSIZE_RE.match(stem)
+    stems = [stem] + ([rs.group("pre")] if rs else [])
+    for s in stems:
+        for size in ("1280", "1024", "540", "500", "400", "250", "100"):
+            cand = f"{base}{s}_{size}.{ext}"
+            if cand not in out:
+                out.append(cand)
     for alt_ext in ("png", "gif", "jpg"):
         if alt_ext == ext.lower():
             continue
