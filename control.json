@@ -5,7 +5,7 @@
   "branch": "codex/shurik/nauka-20261007",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "running",
+  "status": "stopped",
   "generation": 5,
   "next": 64,
   "owner": {
@@ -31,7 +31,7 @@
   },
   "pr": "https://github.com/igor-makarov/shurik/pull/6",
   "lastRunId": "37871775165",
-  "stoppedAt": "2026-10-07T16:13:39.531Z",
+  "stoppedAt": "2026-10-09T02:07:43.418Z",
   "monitorSteering": {
     "token": "nauka-hourly-watch-1791378103656",
     "pausedAt": "2026-10-07T13:01:43.656Z",
@@ -201,6 +201,39 @@
       "resumeIndex": "ghcr.io/igor-makarov/shurik-nauka:nij-master-checkpoint"
     },
     "action": "Native ControlStore CAS removes time deadline for user-authorized completion-driven continuation; hourly monitor verifies full publication then cooperatively stops; preserve owner/generation/settings/all checkpoint references",
-    "status": "watching"
+    "status": "completed",
+    "completedAt": "2026-10-09T02:07:43.418Z",
+    "stopToken": "nauka-verified-completion-stop-1791511660936",
+    "finalEvidence": {
+      "controlHead": "38b14f1ccefae5421558cdcc75cc938504261bbc",
+      "workCommit": "775c946d406928d171cdba56352023182b0b80f1",
+      "master": {
+        "tag": "ghcr.io/igor-makarov/shurik-nauka:nij-master-index",
+        "digest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+        "ref": "ghcr.io/igor-makarov/shurik-nauka@sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c"
+      },
+      "checkpoint": {
+        "tag": "ghcr.io/igor-makarov/shurik-nauka:nij-master-checkpoint",
+        "digest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576",
+        "ref": "ghcr.io/igor-makarov/shurik-nauka@sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576"
+      },
+      "regularFiles": 1112,
+      "supplementaryFiles": 5,
+      "newRegularBeyond875": 237,
+      "publishedBytes": 21744526126,
+      "regularBytes": 21674311187,
+      "supplementaryBytes": 70214939,
+      "years": 87,
+      "issues": 941,
+      "remaining": 0,
+      "completeButUnpublished": 0,
+      "durablePartialBytes": 0,
+      "baselineVerifiedPreserved": 875,
+      "newRegularManifestsVerified": 237,
+      "supplementaryManifestsVerified": 5,
+      "savedWorkerFullPullHashReceiptsVerified": 242,
+      "largeBlobsDownloadedByMonitor": false
+    },
+    "stopAction": "User-authorized native CAS cooperative durable stop after independently verified complete publication; preserve owner/state/checkpoint for final persistence; no run cancellation or work edits"
   }
 }
