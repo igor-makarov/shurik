@@ -1,0 +1,86 @@
+{
+  "kind": "shurik-nauka-ghcr-ground-truth",
+  "iteration": "5-61",
+  "at": "2026-10-09T01:41:48.098Z",
+  "method": "independent of repository text: oras repo tags (single call) + immutable-digest pulls + per-tag resolve",
+  "registry": "ghcr.io/igor-makarov/shurik-nauka",
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+    "bytes": 1534769,
+    "sha256": "d9568f3e1f4d8a6cd6eba4302352cb20c5379cbd8a314c06bcea1b48be096e96",
+    "pulledOk": true,
+    "problems": 0
+  },
+  "ghcrTags": {
+    "total": 1483,
+    "expected": 1122,
+    "expectedMissing": [],
+    "extraOrphanCheckpoint": [
+      "checkpoint-fx-probe"
+    ],
+    "extraTestTags": [
+      "probe-smoke",
+      "speedtest",
+      "dirtest",
+      "dirtest2"
+    ],
+    "note": "357 checkpoint-* tags are stale resume artifacts for already-published files; 4 test tags + 1 fixture checkpoint are non-task artifacts. None are referenced by the master index."
+  },
+  "publishedFilesSampled": {
+    "count": 10,
+    "mismatches": 0,
+    "ids": [
+      "nij-1890-n01-djv",
+      "nij-1937-n01-pdf",
+      "nij-1945-n10-pdf",
+      "nij-1953-n06-pdf",
+      "nij-1967-n07-djv",
+      "nij-1983-n04-djv",
+      "nij-2000-n01-djv",
+      "nij-2008-n03-djv",
+      "nij-2010-n08-djv",
+      "nij-2020-n03-pdf"
+    ]
+  },
+  "supplementary": {
+    "published": 5,
+    "resolved": 5,
+    "mismatches": 0
+  },
+  "legacySubset": {
+    "indexTag": "nij-1934-39-index",
+    "indexDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointTag": "nij-1934-39-checkpoint",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "matchesPreserved": true,
+    "files": 60
+  },
+  "catalog": {
+    "digest": "sha256:7d5fe51d5eeba575c0eb32e081e45732226fad6ddf97a4138b9934a6cf514359",
+    "bytes": 32842,
+    "sha256": "0543f338831c00f0116f03272eeaa1e4bba895304fbdc1685221644f0eb41073"
+  },
+  "checkpoint": {
+    "digest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576",
+    "bytes": 380770,
+    "published": 1112,
+    "remaining": 0
+  },
+  "discovery": {
+    "status": "complete",
+    "years": 87,
+    "issues": 941,
+    "files": 1112,
+    "eraPagesOk": 12,
+    "eraPagesFailed": 0,
+    "supplementary": 5
+  },
+  "result": "PASS",
+  "perYearAndSupplementaryResolve": {
+    "resolved": 92,
+    "mismatches": 0,
+    "coverage": "one representative published tag per year (87) + all 5 supplementary tags",
+    "receipt": "data/nauka/state/gt-resolve-5-61.json"
+  }
+}

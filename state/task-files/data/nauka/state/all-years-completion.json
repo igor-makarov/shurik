@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-completion",
-  "iteration": "5-60",
-  "at": "2026-10-09T01:29:00Z",
+  "iteration": "5-61",
+  "at": "2026-10-09T01:42:05.249Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven. The user-authorized four-hour continuation is acknowledged; earlier 2026-10-08T07:00:00Z / 14:45:32Z / 18:00:00Z deadlines are superseded. Obeyed; no self-set deadline.",
@@ -83,10 +83,14 @@
     "note": "Preserved as-is; correctly scoped to the completed 1934-1939 subset and never relabelled as the all-years master. Both tags re-resolved this iteration and match."
   },
   "independentVerificationThisIteration": {
-    "masterIndexPull": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:825d91e2... -> 1,534,769 B, sha256 d9568f3e1f4d8a6cd6eba4302352cb20c5379cbd8a314c06bcea1b48be096e96; tag resolve matches digest; totals files=1112 publishedFiles=1112 remainingFiles=0 years=87 issues=941 publishedIssues=941 supplementary 5/5; representative entries 1893/1934/1939/1948/1953/1972/1992/2020 all published; 0 problems.",
-    "supplementaryGroundTruth": "All 5 supplementary tags resolved on GHCR and each equals its master-index digest; 4 use legacy tags (nij-1998/2000/2001-supplementary-pdf, nij-2003-supplementary-djv) and 1 uses its supplementaryId.",
-    "regularGroundTruth": "All 1112 published regular ids exist as GHCR tags; 12 random + 5 representative tags resolve to their recorded immutable digests.",
-    "catalogAndCheckpoint": "catalog @ sha256:7d5fe51d... (32,842 B) and checkpoint @ sha256:98b94364... (380,770 B) verified by immutable pull; checkpoint published 1112, remaining 0."
+    "masterIndexPull": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:825d91e2... -> 1,534,769 B, sha256 d9568f3e1f4d8a6cd6eba4302352cb20c5379cbd8a314c06bcea1b48be096e96; tag resolve matches digest; 0 problems; totals files=1112 publishedFiles=1112 remainingFiles=0 years=87 issues=941 publishedIssues=941 supplementary 5/5.",
+    "tagSetEquality": "oras repo tags (single call) returns 1483 tags; every one of the 1122 expected tags (1112 file + 5 supplementary + 5 meta incl. legacy subset) is present; 0 missing. Extras are 357 stale checkpoint-* resume tags for already-published files, 4 test tags (probe-smoke/speedtest/dirtest/dirtest2) and 1 fixture checkpoint (checkpoint-fx-probe); none referenced by the master index.",
+    "digestSampling": "10 era-spanning published tags (1890..2020) resolved via oras and all equal their recorded immutable ghcr.digest (0 mismatches).",
+    "supplementaryGroundTruth": "All 5 supplementary tags resolve and equal their master-index digest (4 legacy tags + 1 supplementaryId tag).",
+    "catalogAndCheckpoint": "catalog @ sha256:7d5fe51d... (32,842 B, sha256 0543f338...) and checkpoint @ sha256:98b94364... (380,770 B, published 1112, remaining 0) verified by immutable pull.",
+    "legacySubset": "nij-1934-39-index @ sha256:e0a10a71... (60 files, years 1934-1939) and nij-1934-39-checkpoint @ sha256:ea7e4bc0... resolve unchanged.",
+    "receipt": "data/nauka/state/gt-check-5-61.json + data/nauka/state/gt-resolve-5-61.json",
+    "perYearResolve": "92 tags resolved (one representative published file per each of the 87 years + all 5 supplementary archives); all 92 equal their recorded immutable ghcr.digest; 0 mismatches. Receipt: data/nauka/state/gt-resolve-5-61.json."
   },
   "defectFoundAndFixed": {
     "id": "master-index-supplementary-missing-ghcr-ref",
@@ -105,5 +109,8 @@
   "nextActions": [
     "Objective complete: all 1112 regular files + 5 supplementary archives published and the all-years master index verified by immutable digest.",
     "No further retrieval required. Keep the master index current only if new archive-listed material appears."
+  ],
+  "notes": [
+    "Iteration 5-61: objective re-verified against GHCR ground truth; no defect found this iteration (the iteration-5-60 supplementary ghcrRef fix is live and verified). 0 problems."
   ]
 }

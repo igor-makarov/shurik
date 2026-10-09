@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-all-years-progress",
-  "iteration": "5-60",
-  "at": "2026-10-09T01:29:00Z",
+  "iteration": "5-61",
+  "at": "2026-10-09T01:42:05.249Z",
   "scope": "all-years",
   "deadline": null,
   "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The user-authorized four-hour continuation is acknowledged; earlier time deadlines superseded. I obey the supervisor control and set none of my own.",
@@ -82,6 +82,7 @@
     "Keep the master index current only if new archive-listed material appears."
   ],
   "notes": [
-    "Iteration 5-60: completion-driven continuation acknowledged (deadline null). Independently verified GHCR ground truth: all 1112 published regular ids exist as tags (12 sampled digests match), all 5 supplementary tags resolve and match, master index pulls cleanly by immutable digest (0 problems). Found and fixed a truthfulness gap: master-index supplementary[] entries lacked tag/ghcrRef; republished nij-master-index @ sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c (1,534,769 B) and re-verified by immutable pull. Full nauka test suite 37/37 pass. Legacy 1934-1939 subset index/checkpoint preserved unchanged."
+    "Iteration 5-60: completion-driven continuation acknowledged (deadline null). Independently verified GHCR ground truth: all 1112 published regular ids exist as tags (12 sampled digests match), all 5 supplementary tags resolve and match, master index pulls cleanly by immutable digest (0 problems). Found and fixed a truthfulness gap: master-index supplementary[] entries lacked tag/ghcrRef; republished nij-master-index @ sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c (1,534,769 B) and re-verified by immutable pull. Full nauka test suite 37/37 pass. Legacy 1934-1939 subset index/checkpoint preserved unchanged.",
+    "Iteration 5-61: completion-driven continuation acknowledged. Re-verified GHCR ground truth independently: all 1122 expected tags present (0 missing), 10 sampled published tags match recorded digests, master index/catalog/checkpoint pull cleanly by immutable digest, legacy subset unchanged. 1112/1112 regular + 5/5 supplementary published; 0 remaining; 0 durable partials. No new archive-listed material."
   ]
 }

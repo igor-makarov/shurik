@@ -1,7 +1,7 @@
 {
   "kind": "shurik-nauka-handoff",
-  "iteration": "5-60",
-  "at": "2026-10-09T01:29:00Z",
+  "iteration": "5-61",
+  "at": "2026-10-09T01:42:05.249Z",
   "scope": "all-years",
   "deadline": null,
   "status": "COMPLETE",
@@ -63,5 +63,15 @@
   "batchesThisIteration": [],
   "defectFixed": "master-index supplementary[] entries lacked tag/ghcrRef; fixed in tools/nauka/master-index.mjs, verifier hardened, regression tests added (37/37 pass), index republished and re-verified.",
   "nextAction": "Objective complete. No further retrieval required; keep the master index current only if new archive-listed material appears.",
-  "notes": "Iteration 5-60: completion-driven continuation acknowledged (deadline null, token nauka-user-until-complete-1791481729758). Independently verified against GHCR that all 1112 regular files + 5 supplementary archives are published and the master index is truthful; found and fixed a supplementary-reference gap and republished nij-master-index @ sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c (1,534,769 B, status complete), verified by immutable pull: 0 problems, 1112 files / 941 issues / 87 years / 1112 published / 5 supplementary."
+  "notes": "Iteration 5-61: completion-driven continuation acknowledged (deadline null). Fresh independent GHCR verification: all 1122 expected tags present, 10 sampled digests match, master index/catalog/checkpoint pull cleanly by immutable digest (0 problems, 1112 files/941 issues/87 years/1112 published/5 supplementary), legacy 1934-1939 subset preserved unchanged. Objective COMPLETE.",
+  "ghcrGroundTruth": {
+    "tags": 1483,
+    "expected": 1122,
+    "missing": 0,
+    "sampledResolved": 102,
+    "sampledMismatches": 0,
+    "masterIndexDigest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+    "receipt": "data/nauka/state/gt-check-5-61.json, data/nauka/state/gt-resolve-5-61.json",
+    "result": "PASS"
+  }
 }

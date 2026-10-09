@@ -1,0 +1,67 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-61",
+  "phase": "complete",
+  "at": "2026-10-09T01:42:14.072Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (generation 5, next 61, seconds 1800) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The user-authorized four-hour continuation is acknowledged; earlier 2026-10-08T07:00:00Z / 14:45:32Z / 18:00:00Z deadlines are superseded. Obeyed; no self-set deadline.",
+  "acknowledgement": "Iteration 5-61 acknowledges the user-authorized four-hour continuation and the current completion-driven supervisor control (control.json deadline=null, token nauka-user-until-complete-1791481729758). Scope all-years. Preserved the completed 1934-1939 60-file subset (index @ sha256:e0a10a71..., checkpoint @ sha256:ea7e4bc0...), all existing file ids, publication references, original filenames and valid resume state. Work done inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful all-years master issue index on GHCR, and retrieve every discovered original scan and supplementary archive.",
+  "status": "COMPLETE",
+  "now": {
+    "regularFiles": 1112,
+    "regularBytes": 21674311187,
+    "publishedRegularFiles": 1112,
+    "remainingRegularFiles": 0,
+    "supplementaryFiles": 5,
+    "supplementaryPublished": 5,
+    "supplementaryBytes": 70214939,
+    "totalPublishedFiles": 1117,
+    "totalPublishedBytes": 21744526126,
+    "durableChunkCheckpointBytes": 0,
+    "gitPartialBytes": 0
+  },
+  "supersededOpeningBaseline": {
+    "note": "The assignment prompt 875-file / 237-remaining boundary (work 15b89ae8..., 9,777,993,649 B) is the superseded generation-5 opening boundary, NOT the current state. The loop has since published all remaining regular files.",
+    "workCommit": "15b89ae8ecc6c86aeb2570dfcb354b1baba3b154",
+    "publishedFiles": 875,
+    "publishedBytes": 9777993649,
+    "durablePartialBytes": 92274688
+  },
+  "independentVerificationThisIteration": {
+    "masterIndexPullByImmutableDigest": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:825d91e2... -> 1,534,769 B, sha256 d9568f3e1f4d8a6cd6eba4302352cb20c5379cbd8a314c06bcea1b48be096e96; tag resolve matches digest; 0 problems; totals files=1112 publishedFiles=1112 remainingFiles=0 years=87 issues=941 publishedIssues=941 supplementary 5/5.",
+    "ghcrTagSet": "oras repo tags (single call) -> 1483 tags; all 1122 expected tags (1112 file tags + 5 supplementary + 5 meta incl. legacy subset) present; 0 missing.",
+    "digestSampling": "10 era-spanning published tags + one representative published tag per each of the 87 years + all 5 supplementary tags (92 resolves) all equal their recorded immutable ghcr.digest; 0 mismatches.",
+    "catalogAndCheckpoint": "catalog @ sha256:7d5fe51d... (32,842 B) and checkpoint @ sha256:98b94364... (380,770 B, published 1112, remaining 0) verified by immutable pull.",
+    "discovery": "All 12 era pages ok (0 failed); 87 years, 941 issues, 1112 files, 5 supplementary; every one of the 1117 directory files maps to an entry or supplementary (0 unrepresented); known gaps are archive-listed absences.",
+    "legacySubset": "nij-1934-39-index @ sha256:e0a10a71... (60 files, 1934-1939) and nij-1934-39-checkpoint @ sha256:ea7e4bc0... preserved unchanged.",
+    "receipt": "data/nauka/state/gt-check-5-61.json, data/nauka/state/gt-resolve-5-61.json"
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+    "bytes": 1534769,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:7d5fe51d5eeba575c0eb32e081e45732226fad6ddf97a4138b9934a6cf514359",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0,
+    "pulledFileSha256": "d9568f3e1f4d8a6cd6eba4302352cb20c5379cbd8a314c06bcea1b48be096e96",
+    "tagResolveMatchesDigest": true,
+    "checkpointPublished": 1112,
+    "checkpointRemaining": 0,
+    "receipt": "data/nauka/state/master-index-receipt.json",
+    "verification": "data/nauka/state/master-index-verification.json"
+  },
+  "batchesThisIteration": [],
+  "newPublishedThisIteration": {
+    "regularFiles": 0,
+    "regularBytes": 0,
+    "note": "No retrieval needed: all originals already published; this iteration independently re-verified completeness and truthfulness against GHCR ground truth."
+  },
+  "blockers": [],
+  "nextAction": "Objective complete and independently re-verified. No further retrieval required; keep the master index current only if new archive-listed material appears."
+}
