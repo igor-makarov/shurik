@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:2f9282cd01cc6de34e641a9c19a2ad2026c29c6d6317e9c9f559abf137d77633",
+   "observed": "sha256:1fd043f9efb89197b03a10870af703e785b1373c93c1d33f26a4143ca0737429",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 4,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 4,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_mnq7s6i8nh1r3it8zo1_500.jpg]",
    "expected": "584b13bc15b4ed8e3f3222155f8f325fa65e4e82ccac1d5cd8100d5cb377fb82",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_mnq7s6i8nh1r3it8zo1_1280.jpg",
+   "observed": "tumblr_mnq7s6i8nh1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -43,7 +43,7 @@
    "check": "image_bytes[tumblr_mnq7s6i8nh1r3it8zo1_1280.jpg]",
    "expected": "584b13bc15b4ed8e3f3222155f8f325fa65e4e82ccac1d5cd8100d5cb377fb82",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_mnq7s6i8nh1r3it8zo1_1280.jpg",
+   "observed": "tumblr_mnq7s6i8nh1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -54,6 +54,46 @@
   },
   {
    "check": "image_magic[tumblr_mnq7s6i8nh1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnq66dJiL01r3it8zo1_250.jpg]",
+   "expected": "0d61b7640136166dbef314cab73c0b5c1b85ef4ff5248ab29a582c6073f06868",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnq66dJiL01r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnq66dJiL01r3it8zo1_250.jpg]",
+   "expected": 42796,
+   "observed": 42796,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnq66dJiL01r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnq7s6i8nh1r3it8zo1_500.jpg]",
+   "expected": "584b13bc15b4ed8e3f3222155f8f325fa65e4e82ccac1d5cd8100d5cb377fb82",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnq7s6i8nh1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnq7s6i8nh1r3it8zo1_500.jpg]",
+   "expected": 75585,
+   "observed": 75585,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnq7s6i8nh1r3it8zo1_500.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -71,8 +111,8 @@
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>כריסטין והארגנטינאים צודקים, עוף זה לא בשר</p>",
-   "observed": "<p>כריסטין והארגנטינאים צודקים, עוף זה לא בשר</p>",
+   "expected": "<259 chars>",
+   "observed": "<259 chars>",
    "passed": true
   },
   {
@@ -126,6 +166,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mnq7s6i8nh1r3it8zo1_1280.jpg]",
+   "expected": "כריסטין והארגנטינאים צודקים, עוף זה לא בשר",
+   "observed": "כריסטין והארגנטינאים צודקים, עוף זה לא בשר",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mnq7s6i8nh1r3it8zo1_500.jpg]",
+   "expected": "כריסטין והארגנטינאים צודקים, עוף זה לא בשר",
+   "observed": "כריסטין והארגנטינאים צודקים, עוף זה לא בשר",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20131022040838",
    "observed": "20131022040838",
@@ -144,11 +196,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:30b887106d80a506ab76ff56d2b05e205ba6e2e1ba58afde91119bfd881e5076",
+ "checks_passed": 28,
+ "checks_total": 28,
+ "config_digest": "sha256:07b29f2aa5709792a1a72419724ff3dc14e06342522b03d68b6f1c21ce9255cc",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 4,
  "labels": {
   "org.opencontainers.image.created": "2017-10-25T06:24:46Z",
   "org.opencontainers.image.description": "כריסטין והארגנטינאים צודקים, עוף זה לא בשר",
@@ -160,8 +212,8 @@
   "shurik.post.content_len": "42",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "51904564408",
-  "shurik.post.images": "2",
-  "shurik.post.missing_images": "0",
+  "shurik.post.images": "4",
+  "shurik.post.missing_images": "2",
   "shurik.post.tags": "dwight-schrute,עובדות-שרוט,דוויט-שרוט,כריסטין-פרידמן,הדוגמניות-2,עוף-זה-ציפור,הילד-שריגש-את-ישראל"
  },
  "layers": [
@@ -176,12 +228,22 @@
    "size": 75708
   },
   {
-   "digest": "sha256:4d78e3564728ea5520b2065b8c56fa34fb67f3892b2a1c1d79066e8ead07a889",
+   "digest": "sha256:1f62c7cd0a7b08a9f4899ba7bf42d3683dc6733a12bd9f39fa85a7ec3885910d",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 984
+   "size": 42930
+  },
+  {
+   "digest": "sha256:7a18c6c5301a3cdac881949a1f222a8d3904456742660ae7eeead701a0ee7f42",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 75707
+  },
+  {
+   "digest": "sha256:f3f97690a77af02ca943b28d2f671ff37c4d1bd07a37cfba5117b46a97409c90",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1626
   }
  ],
- "manifest_digest": "sha256:2f9282cd01cc6de34e641a9c19a2ad2026c29c6d6317e9c9f559abf137d77633",
+ "manifest_digest": "sha256:1fd043f9efb89197b03a10870af703e785b1373c93c1d33f26a4143ca0737429",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "51904564408",
@@ -203,13 +265,29 @@
    "sha256": "584b13bc15b4ed8e3f3222155f8f325fa65e4e82ccac1d5cd8100d5cb377fb82"
   },
   {
-   "bytes": 2933,
+   "bytes": 42796,
+   "file": "tumblr_mnq66dJiL01r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:1f62c7cd0a7b08a9f4899ba7bf42d3683dc6733a12bd9f39fa85a7ec3885910d",
+   "role": "media",
+   "sha256": "0d61b7640136166dbef314cab73c0b5c1b85ef4ff5248ab29a582c6073f06868"
+  },
+  {
+   "bytes": 75585,
+   "file": "tumblr_mnq7s6i8nh1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:7a18c6c5301a3cdac881949a1f222a8d3904456742660ae7eeead701a0ee7f42",
+   "role": "media",
+   "sha256": "584b13bc15b4ed8e3f3222155f8f325fa65e4e82ccac1d5cd8100d5cb377fb82"
+  },
+  {
+   "bytes": 8335,
    "file": "post.json",
-   "layer": "sha256:4d78e3564728ea5520b2065b8c56fa34fb67f3892b2a1c1d79066e8ead07a889",
+   "layer": "sha256:f3f97690a77af02ca943b28d2f671ff37c4d1bd07a37cfba5117b46a97409c90",
    "role": "post-metadata",
-   "sha256": "87205cd414fd55b1cc56fec6cb7f72a6e88a1ac8eca561c4a313e2338ed840f4"
+   "sha256": "7d5d3774d652f3664a08f4e349f72d07ef0a26eee722feb08e28042d3c1367ed"
   }
  ],
  "tag": "51904564408",
- "verified_at": "2026-10-05T17:31:31Z"
+ "verified_at": "2026-10-09T15:58:38Z"
 }

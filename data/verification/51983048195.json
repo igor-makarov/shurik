@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:2cb538657528efd2492d24cce85500298d6b54029a3033abea8db2158bc0546f",
+   "observed": "sha256:1b7e69ba3f15a74ccd672bad7190a7021e832a2d4d838ec4805e9a2b3e19c4c2",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 4,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 4,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
    "expected": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_meu2oirfXY1r3it8zo1_1280.jpg",
+   "observed": "tumblr_meu2oirfXY1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -43,7 +43,7 @@
    "check": "image_bytes[tumblr_meu2oirfXY1r3it8zo1_1280.jpg]",
    "expected": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_meu2oirfXY1r3it8zo1_1280.jpg",
+   "observed": "tumblr_meu2oirfXY1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -54,6 +54,46 @@
   },
   {
    "check": "image_magic[tumblr_meu2oirfXY1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meu2oirfXY1r3it8zo1_250.jpg]",
+   "expected": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meu2oirfXY1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meu2oirfXY1r3it8zo1_250.jpg]",
+   "expected": 33227,
+   "observed": 33227,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meu2oirfXY1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
+   "expected": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meu2oirfXY1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
+   "expected": 33227,
+   "observed": 33227,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -71,8 +111,8 @@
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>טוב שלא שאלה מי זה רמי לוי</p>",
-   "observed": "<p>טוב שלא שאלה מי זה רמי לוי</p>",
+   "expected": "<p>&#1496;&#1493;&#1489; &#1513;&#1500;&#1488; &#1513;&#1488;&#1500;&#1492; &#1502;&#1497; &#1494;&#1492; &#1512;&#1502;&#1497; &#1500;&#1493;&#1497;</p>",
+   "observed": "<p>&#1496;&#1493;&#1489; &#1513;&#1500;&#1488; &#1513;&#1488;&#1500;&#1492; &#1502;&#1497; &#1494;&#1492; &#1512;&#1502;&#1497; &#1500;&#1493;&#1497;</p>",
    "passed": true
   },
   {
@@ -122,6 +162,24 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_meu2oirfXY1r3it8zo1_1280.jpg]",
+   "expected": "טוב שלא שאלה מי זה רמי לוי",
+   "observed": "טוב שלא שאלה מי זה רמי לוי",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_meu2oirfXY1r3it8zo1_250.jpg]",
+   "expected": "טוב שלא שאלה מי זה רמי לוי",
+   "observed": "טוב שלא שאלה מי זה רמי לוי",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_meu2oirfXY1r3it8zo1_500.jpg]",
+   "expected": "טוב שלא שאלה מי זה רמי לוי",
+   "observed": "טוב שלא שאלה מי זה רמי לוי",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20131022005347",
    "observed": "20131022005347",
@@ -140,11 +198,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:225511af22c330baf0d7c6e234cadd1fe2b156261bf180000ef16522216afbc2",
+ "checks_passed": 29,
+ "checks_total": 29,
+ "config_digest": "sha256:01c6267c89455f59b024f33f8d371fc8fbaff62d4733e9206569f2a3af5c1514",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 4,
  "labels": {
   "org.opencontainers.image.created": "2017-11-10T20:58:18Z",
   "org.opencontainers.image.description": "טוב שלא שאלה מי זה רמי לוי",
@@ -156,8 +214,8 @@
   "shurik.post.content_len": "26",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "51983048195",
-  "shurik.post.images": "2",
-  "shurik.post.missing_images": "0",
+  "shurik.post.images": "4",
+  "shurik.post.missing_images": "2",
   "shurik.post.tags": "חברה-תלותית-מדי,overly-attached-girlfriend,פייסבוק,תנובה,טנא-נגה"
  },
  "layers": [
@@ -172,12 +230,22 @@
    "size": 33288
   },
   {
-   "digest": "sha256:bbe73e23d8e4088a4202629c93ec481f2e9193979a9ac8d16e5087a4155732ce",
+   "digest": "sha256:e28cd76bd73a70dbb6aa2de175c83501091f3284a00802d3ce91703b8d1e9565",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 925
+   "size": 33287
+  },
+  {
+   "digest": "sha256:3eb1775b35f72c2dcdf2eb68ab462b5e668a800af1dbc245b3e779d6433ad5ec",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 33287
+  },
+  {
+   "digest": "sha256:9e256a0fa60099f8b3f65c6c4fdf7ea9ad4aeafd6ea870a5260132e67c3d9437",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1641
   }
  ],
- "manifest_digest": "sha256:2cb538657528efd2492d24cce85500298d6b54029a3033abea8db2158bc0546f",
+ "manifest_digest": "sha256:1b7e69ba3f15a74ccd672bad7190a7021e832a2d4d838ec4805e9a2b3e19c4c2",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "51983048195",
@@ -199,13 +267,29 @@
    "sha256": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91"
   },
   {
-   "bytes": 2727,
+   "bytes": 33227,
+   "file": "tumblr_meu2oirfXY1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:e28cd76bd73a70dbb6aa2de175c83501091f3284a00802d3ce91703b8d1e9565",
+   "role": "media",
+   "sha256": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91"
+  },
+  {
+   "bytes": 33227,
+   "file": "tumblr_meu2oirfXY1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:3eb1775b35f72c2dcdf2eb68ab462b5e668a800af1dbc245b3e779d6433ad5ec",
+   "role": "media",
+   "sha256": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91"
+  },
+  {
+   "bytes": 8927,
    "file": "post.json",
-   "layer": "sha256:bbe73e23d8e4088a4202629c93ec481f2e9193979a9ac8d16e5087a4155732ce",
+   "layer": "sha256:9e256a0fa60099f8b3f65c6c4fdf7ea9ad4aeafd6ea870a5260132e67c3d9437",
    "role": "post-metadata",
-   "sha256": "f56cf247076281d0156c0d0781c6de9da200c8db636f270542e3dbdd46d6052c"
+   "sha256": "80e6840a4556053b61c18707454a555c1c24fe12091feda8325c82d24d613815"
   }
  ],
  "tag": "51983048195",
- "verified_at": "2026-10-05T17:31:31Z"
+ "verified_at": "2026-10-09T15:58:40Z"
 }
