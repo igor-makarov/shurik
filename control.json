@@ -4,7 +4,7 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "running",
+  "status": "stopped",
   "generation": 22,
   "next": 345,
   "owner": {
@@ -19,7 +19,7 @@
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
-  "lastDispatchAt": "2026-10-09T20:53:56.398Z",
+  "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
   "lastRunId": "37986071579",
   "stateStorage": "control",
@@ -120,40 +120,35 @@
   },
   "monitorGuidancePause": {
     "experimentId": "falafel-throughput-20261009",
-    "cause": "New concrete partial-CDX persistence failure:21-339 wrote5000 raw rows/3807036 bytes and resume cursor;21-340 retained cursor but data/work was absent. Partial cursors bypass dump-survival validation. Add diagnosis/cold-restore guidance only.",
-    "nonce": "falafel-throughput-check10-2026-10-09T18:11:27Z",
-    "originalGeneration": 21,
+    "cause": "First flat hourly window after five backlog verifications: duplicate completed external capture rediscovery and stale temporary HTTP body after000; target durable unfinished work and19 remaining verification hashes.",
+    "nonce": "falafel-throughput-check13-2026-10-09T21:00:01Z",
+    "originalGeneration": 22,
     "originalDeadline": "2026-10-10T07:59:06.000Z",
     "originalCheckpoint": {
-      "workCommit": "cf2944c4d2503e958a3863a80b5059524b3701aa",
-      "generation": 21,
-      "sequence": "21-340",
-      "runId": "37967234214",
-      "at": "2026-10-09T18:09:56.957Z"
+      "workCommit": "139b1db7c7b3418f9f3515053826880debaa9ca6",
+      "generation": 22,
+      "sequence": "22-345",
+      "runId": "37990035577",
+      "at": "2026-10-09T20:59:15.987Z"
     },
-    "stoppedAt": "2026-10-09T18:11:27Z",
+    "stoppedAt": "2026-10-09T21:00:01Z",
     "evidence": {
-      "controlHead": "2674e99516f15c7c031c2eb937ecc863a64907ce",
-      "workCommit": "cf2944c4d2503e958a3863a80b5059524b3701aa",
+      "controlHead": "9498f7ff74443bd42ff9467600bb431e255e33c3",
+      "workCommit": "139b1db7c7b3418f9f3515053826880debaa9ca6",
       "nativeEntries": [
-        36839,
-        36843,
-        37153,
-        37155,
-        37157,
-        37159
+        38440,
+        38444,
+        38779,
+        38735
       ],
-      "rawRows": 5000,
-      "rawDumpBytes": 3807036,
-      "newImageHashesThisCheck": 1,
-      "lastKnownPublicationImages": 343,
-      "lastKnownUniqueHashes": 207,
-      "previousCheckControl": "5eb9c67d206fc638cbd9a0284d6997e69d16e940"
-    },
-    "completedAt": "2026-10-09T18:15:34Z",
-    "outcome": "resumed_with_prompt_change",
-    "newGeneration": 22,
-    "promptCommit": "fbb04f71a7aabf1cbac0a84f764545f1bd81e235"
+      "publicationImages": 343,
+      "positivePosts": 194,
+      "uniqueHashes": 207,
+      "byteVerifiedHashes": 183,
+      "priorVerificationBacklog": 19,
+      "experimentEstimatedUSD": 1.556566674,
+      "firstFlatWindow": true
+    }
   },
   "monitorGuidancePauseHistory": [
     {
@@ -215,6 +210,43 @@
       "outcome": "resumed_with_prompt_change",
       "newGeneration": 21,
       "promptCommit": "9dedc61008a10de44d5ff58ac118fc961f93cf36"
+    },
+    {
+      "experimentId": "falafel-throughput-20261009",
+      "cause": "New concrete partial-CDX persistence failure:21-339 wrote5000 raw rows/3807036 bytes and resume cursor;21-340 retained cursor but data/work was absent. Partial cursors bypass dump-survival validation. Add diagnosis/cold-restore guidance only.",
+      "nonce": "falafel-throughput-check10-2026-10-09T18:11:27Z",
+      "originalGeneration": 21,
+      "originalDeadline": "2026-10-10T07:59:06.000Z",
+      "originalCheckpoint": {
+        "workCommit": "cf2944c4d2503e958a3863a80b5059524b3701aa",
+        "generation": 21,
+        "sequence": "21-340",
+        "runId": "37967234214",
+        "at": "2026-10-09T18:09:56.957Z"
+      },
+      "stoppedAt": "2026-10-09T18:11:27Z",
+      "evidence": {
+        "controlHead": "2674e99516f15c7c031c2eb937ecc863a64907ce",
+        "workCommit": "cf2944c4d2503e958a3863a80b5059524b3701aa",
+        "nativeEntries": [
+          36839,
+          36843,
+          37153,
+          37155,
+          37157,
+          37159
+        ],
+        "rawRows": 5000,
+        "rawDumpBytes": 3807036,
+        "newImageHashesThisCheck": 1,
+        "lastKnownPublicationImages": 343,
+        "lastKnownUniqueHashes": 207,
+        "previousCheckControl": "5eb9c67d206fc638cbd9a0284d6997e69d16e940"
+      },
+      "completedAt": "2026-10-09T18:15:34Z",
+      "outcome": "resumed_with_prompt_change",
+      "newGeneration": 22,
+      "promptCommit": "fbb04f71a7aabf1cbac0a84f764545f1bd81e235"
     }
   ],
   "monitorGuidanceAdjustment": {
@@ -301,5 +333,6 @@
       "reasoning": "high",
       "deadline": "2026-10-10T07:59:06.000Z"
     }
-  ]
+  ],
+  "stoppedAt": "2026-10-09T21:00:01Z"
 }
