@@ -21,17 +21,24 @@ walks the *whole* host in urlkey order.
 
 Storage
 -------
-Every row is appended to `data/work/hostdumps/<host>.jsonl` (gitignored bulk
-state) and the cursor lives in `data/cdx/hostdump-cursors/<host>.cursor.json`,
-so a fresh runner or a killed process resumes instead of restarting. Only rows
-whose media key a recovered post actually references are written to the
-committed `data/cdx/media.jsonl` index; the rest stay in the dump for offline
-matching. Both the dump directory and the cursor directory are listed in
-`recovery/state_checkpoint.py`'s `STATE_DIRS`, so both travel in the
-`crawl-state` registry checkpoint and the inventory survives a fresh runner. A
+Every row is appended to `data/cdx/hostdumps/<host>.jsonl` and the cursor lives
+beside it in `data/cdx/hostdump-cursors/<host>.cursor.json`, so a fresh runner
+or a killed process resumes instead of restarting. Only rows whose media key a
+recovered post actually references are written to the committed
+`data/cdx/media.jsonl` index; the rest stay in the dump for offline matching.
+
+Both paths live under `data/cdx/`, which the supervisor snapshots on its
+paired control branch at every cooperative checkpoint and which
+`recovery/state_checkpoint.py` also carries in the `crawl-state` registry
+tag. Keeping the rows and their cursor in the *same* carried directory is the
+fix for a measured cold-restore loss: the rows used to live under
+`data/work/hostdumps`, outside every path the supervisor carried, so a fresh
+runner restored the cursor but not the rows it counted (21-339 -> 21-340). A
 `complete` verdict is only reused when the rows it was based on are actually
-present (`_dump_survives`), so a lost dump degrades to "re-walk", never to a
-false confirmed gap.
+present (`_dump_survives`), and a *partial* cursor is only resumed when its
+rows are present and end at the recorded urlkey
+(`_partial_resume_is_verifiable`), so a lost dump degrades to "re-walk", never
+to a false confirmed gap or a silent prefix skip.
 """
 from __future__ import annotations
 
@@ -48,14 +55,18 @@ from .cdx import Capture, CaptureIndex, parse_cdx_json, within_cutoff
 from .media import HOST_RE, key_of
 
 CDX_ENDPOINT = "https://web.archive.org/cdx/search/cdx"
-# Raw rows are bulky and stay in the ignored working tree. The *cursor* is tiny
-# and is what makes a walk resumable, so it lives under `data/cdx/`, which the
-# `crawl-state` registry checkpoint carries. Before this split the cursor sat
-# beside the dump in `data/work/`, outside every checkpoint path, so a fresh
-# runner restarted each host walk from page 1 (and a `page=`-era "complete"
-# verdict was never replaced by a real resume-key walk).
-DUMP_DIR = os.path.join(config.DATA_DIR, "work", "hostdumps")
+# Raw rows are bulky but must be as durable as their cursor: a partial walk's
+# opaque resume key is meaningless without the prefix of rows it was minted
+# after. Both therefore live under `data/cdx/`, the directory the supervisor
+# snapshots on its control branch and that the `crawl-state` registry tag also
+# carries. They previously lived under `data/work/hostdumps`, outside every
+# carried path, so a fresh runner kept the cursor and lost the rows.
+DUMP_DIR = os.path.join(config.CDX_DIR, "hostdumps")
 CURSOR_DIR = os.path.join(config.CDX_DIR, "hostdump-cursors")
+# Legacy location, read-only: dumps written before the move above. Kept so a
+# cursor whose rows sit there is still recognised as *having* rows (rather than
+# silently restarting) until the next walk rewrites them under DUMP_DIR.
+LEGACY_DUMP_DIR = os.path.join(config.DATA_DIR, "work", "hostdumps")
 # The dump rows travel in the `crawl-state` registry checkpoint (see
 # recovery/state_checkpoint.py STATE_DIRS) so a fresh runner can re-index new
 # keys without re-walking the host. The cursor alone is not enough: a
@@ -78,7 +89,7 @@ def _now() -> str:
 
 def dump_paths(host: str) -> tuple[str, str]:
     host = host.strip().lower()
-    return (os.path.join(DUMP_DIR, f"{host}.jsonl"),
+    return (_resolve_dump_path(host),
             os.path.join(CURSOR_DIR, f"{host}.cursor.json"))
 
 
@@ -114,6 +125,23 @@ def _dump_line_count(path: str) -> int:
             if line.strip():
                 n += 1
     return n
+
+
+def _resolve_dump_path(host: str) -> str:
+    """Dump file for `host`, preferring the carried path.
+
+    A pre-move dump under `data/work/hostdumps` is still accepted when the new
+    location has no file, so a walk interrupted before the move can finish
+    instead of being treated as having lost its rows.
+    """
+    host = host.strip().lower()
+    path = os.path.join(DUMP_DIR, f"{host}.jsonl")
+    if os.path.exists(path):
+        return path
+    legacy = os.path.join(LEGACY_DUMP_DIR, f"{host}.jsonl")
+    if os.path.exists(legacy):
+        return legacy
+    return path
 
 
 def _dump_survives(path: str, written: int) -> bool:
@@ -264,12 +292,13 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
     host = (host or "").strip().lower()
     if not HOST_RE.match(host):
         return {"host": host, "skipped": "not a tumblr media host"}
-    dump_path, _ = dump_paths(host)
+    dump_path = os.path.join(DUMP_DIR, f"{host}.jsonl")
     os.makedirs(DUMP_DIR, exist_ok=True)
     cur = read_cursor(host)
     restart_reason = ""
+    existing_dump = _resolve_dump_path(host)
     if cur.get("complete"):
-        if _dump_survives(dump_path, _cursor_written(cur)):
+        if _dump_survives(existing_dump, _cursor_written(cur)):
             _publish(index, host, cur)
             return {"host": host, "complete": True, "rows": cur.get("rows", 0),
                     "pages": cur.get("pages", 0), "skipped": "already complete",
@@ -278,7 +307,7 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
         # checked. Re-walk instead of publishing an unverifiable verdict.
         cur = {}
         restart_reason = "complete verdict without its rows"
-    elif cur and not _partial_resume_is_verifiable(dump_path, cur):
+    elif cur and not _partial_resume_is_verifiable(existing_dump, cur):
         # A partial cursor whose earlier rows are gone (the usual fresh-runner
         # state: the cursor rides in `data/cdx`, which the supervisor carries,
         # while the raw rows live in `data/work`). Resuming from its opaque key
@@ -287,11 +316,22 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
         # from page 1 instead of silently advancing an unverifiable cursor.
         cur = {}
         restart_reason = "partial cursor without its rows"
-    if restart_reason and os.path.exists(dump_path):
+    if restart_reason:
         # The new walk's rows must be a clean prefix of that walk; drop leftover
-        # rows from the abandoned walk so a later resume cannot mix the two.
+        # rows (at either location) from the abandoned walk so a later resume
+        # cannot mix the two.
+        for stale in {dump_path, existing_dump}:
+            if os.path.exists(stale):
+                try:
+                    os.remove(stale)
+                except OSError:
+                    pass
+    if existing_dump != dump_path and os.path.exists(existing_dump):
+        # A verifiable pre-move dump: migrate it to the carried path so the
+        # resumed walk keeps one contiguous row file the checkpoint restores.
         try:
-            os.remove(dump_path)
+            if not os.path.exists(dump_path):
+                os.replace(existing_dump, dump_path)
         except OSError:
             pass
     resume_key = cur.get("resume_key", "")
@@ -373,7 +413,7 @@ def dump_hosts() -> list[str]:
 
 
 def read_dump(host: str) -> Iterable[Capture]:
-    path, _ = dump_paths(host)
+    path = _resolve_dump_path(host)
     if not os.path.exists(path):
         return
     with open(path, encoding="utf-8") as fh:

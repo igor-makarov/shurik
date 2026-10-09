@@ -111,9 +111,10 @@ class CheckpointRoundTripTests(unittest.TestCase):
 
     def test_hostdump_pages_and_cursor_round_trip_together(self):
         # A partial host walk is only resumable when its rows and cursor travel
-        # together; the checkpoint must carry both (data/work/hostdumps is the
-        # raw rows, data/cdx/hostdump-cursors is the key).
-        dump = os.path.join(self.root, "data/work/hostdumps/24.media.tumblr.com.jsonl")
+        # together; the checkpoint must carry both. Both now live under
+        # data/cdx (the carried directory), so a fresh runner restores the rows
+        # the cursor counts instead of keeping the key and losing its prefix.
+        dump = os.path.join(self.root, "data/cdx/hostdumps/24.media.tumblr.com.jsonl")
         cursor = os.path.join(self.root, "data/cdx/hostdump-cursors/24.media.tumblr.com.cursor.json")
         os.makedirs(os.path.dirname(dump), exist_ok=True)
         os.makedirs(os.path.dirname(cursor), exist_ok=True)
@@ -132,8 +133,64 @@ class CheckpointRoundTripTests(unittest.TestCase):
                     "annotations": {"shurik.checkpoint.schema": "1"}}
         out = state_checkpoint.restore_state(target, puller=_FakePuller(manifest, payload))
         self.assertTrue(out["restored"], out)
-        self.assertTrue(os.path.exists(os.path.join(target, "data/work/hostdumps/24.media.tumblr.com.jsonl")))
+        self.assertTrue(os.path.exists(os.path.join(target, "data/cdx/hostdumps/24.media.tumblr.com.jsonl")))
         self.assertTrue(os.path.exists(os.path.join(target, "data/cdx/hostdump-cursors/24.media.tumblr.com.cursor.json")))
+
+    def test_default_hostdump_dirs_are_inside_a_carried_state_dir(self):
+        # The measured cold-restore loss (21-339 -> 21-340): the cursor was
+        # carried but its raw rows were not. Guard the invariant directly --
+        # both the dump dir and the cursor dir must sit under a STATE_DIRS path,
+        # so no future move can separate rows from their cursor again.
+        from recovery import hostdump
+
+        def carried(rel: str) -> bool:
+            rel = os.path.relpath(rel)
+            return any(rel == d or rel.startswith(d + os.sep) for d in state_checkpoint.STATE_DIRS)
+
+        self.assertTrue(carried(hostdump.DUMP_DIR), hostdump.DUMP_DIR)
+        self.assertTrue(carried(hostdump.CURSOR_DIR), hostdump.CURSOR_DIR)
+        # They must also share the carried directory, not merely each be carried.
+        self.assertTrue(hostdump.DUMP_DIR.startswith(hostdump.CURSOR_DIR.rsplit(os.sep, 1)[0]))
+
+    def test_carried_partial_hostdump_is_verifiable_after_cold_restore(self):
+        # End to end: write a partial dump + cursor under the real (relative)
+        # default paths, snapshot, restore into a clean root, then confirm the
+        # restored rows satisfy the partial-resume identity/count check.
+        from recovery import hostdump
+
+        old_dump, old_cursor = hostdump.DUMP_DIR, hostdump.CURSOR_DIR
+        try:
+            hostdump.DUMP_DIR = os.path.join(self.root, "data/cdx/hostdumps")
+            hostdump.CURSOR_DIR = os.path.join(self.root, "data/cdx/hostdump-cursors")
+            dump_path, cursor_path = hostdump.dump_paths("24.media.tumblr.com")
+            os.makedirs(os.path.dirname(dump_path), exist_ok=True)
+            with open(dump_path, "w", encoding="utf-8") as fh:
+                fh.write('{"urlkey": "com,tumblr,media,24)/a/tumblr_x.jpg"}\n')
+                fh.write('{"urlkey": "com,tumblr,media,24)/b/tumblr_y.jpg"}\n')
+            hostdump.write_cursor("24.media.tumblr.com", {
+                "resume_key": "rk", "rows": 2, "written": 2, "pages": 1,
+                "last_urlkey": "com,tumblr,media,24)/b/tumblr_y.jpg", "complete": False})
+
+            payload = state_checkpoint.tar_gz_tree(state_checkpoint._collect(self.root))
+            target = os.path.join(self.root, "restored")
+            os.makedirs(target)
+            manifest = {"schemaVersion": 2, "mediaType": oci.MANIFEST_MEDIA_TYPE,
+                        "config": {"digest": "sha256:" + "b" * 64, "size": 1,
+                                   "mediaType": oci.CONFIG_MEDIA_TYPE},
+                        "layers": [{"digest": "sha256:" + "a" * 64,
+                                    "mediaType": oci.LAYER_MEDIA_TYPE, "size": len(payload)}],
+                        "annotations": {"shurik.checkpoint.schema": "1"}}
+            out = state_checkpoint.restore_state(target, puller=_FakePuller(manifest, payload))
+            self.assertTrue(out["restored"], out)
+            hostdump.DUMP_DIR = os.path.join(target, "data/cdx/hostdumps")
+            hostdump.CURSOR_DIR = os.path.join(target, "data/cdx/hostdump-cursors")
+            restored_dump, _ = hostdump.dump_paths("24.media.tumblr.com")
+            cur = hostdump.read_cursor("24.media.tumblr.com")
+            self.assertEqual(hostdump._dump_line_count(restored_dump), 2)
+            self.assertTrue(hostdump._partial_resume_is_verifiable(restored_dump, cur))
+        finally:
+            hostdump.DUMP_DIR, hostdump.CURSOR_DIR = old_dump, old_cursor
+
 
     def test_extraction_refuses_paths_outside_the_root(self):
         payload = state_checkpoint.tar_gz_tree([("../escape.json", b"{}")])

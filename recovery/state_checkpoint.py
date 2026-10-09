@@ -46,10 +46,13 @@ STATE_FILES = (
     "data/missing.jsonl",
     "data/gaps.jsonl",
 )
-# `data/work/hostdumps` holds the resume-key host inventories. They are large
+# `data/cdx/hostdumps` holds the resume-key host inventories. They are large
 # but bulk crawl state, not Git content, and a `complete` host verdict is only
-# usable when its rows can be restored (see recovery/hostdump.py). Carrying
-# them here is what makes the hostdump's durability claim true across runners.
+# usable when its rows can be restored (see recovery/hostdump.py). They live
+# under `data/cdx` -- the same carried directory as their cursors -- so the rows
+# and the cursor they belong to always snapshot together. `data/work/hostdumps`
+# is the pre-move legacy location; it is still carried when present so an
+# in-flight old dump is not stranded.
 STATE_DIRS = ("data/posts", "data/cdx", "data/work/hostdumps")
 
 
