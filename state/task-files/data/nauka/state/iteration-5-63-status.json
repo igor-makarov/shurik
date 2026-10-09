@@ -1,0 +1,41 @@
+{
+ "kind": "shurik-nauka-iteration-status",
+ "iteration": "5-63",
+ "at": "2026-10-09T02:02:47.000Z",
+ "scope": "all-years",
+ "deadline": null,
+ "deadlineNote": "supervisor control.json deadline=null (completion-driven); four-hour continuation acknowledged; no self-set deadline.",
+ "masterTag": "nij-master-index",
+ "masterDigest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+ "masterCatalogTag": "nij-master-catalog",
+ "masterCheckpointTag": "nij-master-checkpoint",
+ "publishedRegularFiles": 1112,
+ "publishedRegularBytes": 21674311187,
+ "remainingRegularFiles": 0,
+ "supplementaryPublished": 5,
+ "supplementaryBytes": 70214939,
+ "durablePartialBytes": 0,
+ "publishedTotalFiles": 1117,
+ "publishedTotalBytes": 21744526126,
+ "discoveryStatus": "complete",
+ "years": 87,
+ "issues": 941,
+ "files": 1112,
+ "groundTruth": {
+  "receipt": "data/nauka/state/gt-check-5-63.json",
+  "result": "PASS",
+  "method": "GHCR registry HTTP API + immutable-digest pull + tag diff + manifest/blob samples",
+  "nijTags": 1122,
+  "expectedPublishedTags": 1117,
+  "missing": 0,
+  "extra": 0,
+  "manifestSampleProblems": 0,
+  "blobSampleProblems": 0
+ },
+ "legacySubsetPreserved": {
+  "files": 60,
+  "bytes": 2311630290,
+  "unchanged": true
+ },
+ "result": "COMPLETE"
+}

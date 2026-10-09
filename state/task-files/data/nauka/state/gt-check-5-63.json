@@ -1,0 +1,61 @@
+{
+  "kind": "shurik-nauka-ghcr-ground-truth",
+  "iteration": "5-63",
+  "at": "2026-10-09T02:05:00.000Z",
+  "method": "independent of repository text: GHCR registry HTTP API (Bearer token) -> paginated tags/list -> bidirectional tag diff vs master index -> immutable-digest manifest fetch -> per-tag manifest digest + layer-size check -> blob content sha256 for a small sample",
+  "registry": "ghcr.io/igor-makarov/shurik-nauka",
+  "tags": {
+    "totalRegistryTags": 1483,
+    "nijTags": 1122,
+    "expectedPublishedTags": 1117,
+    "expectedPublishedRegular": 1112,
+    "expectedPublishedSupplementary": 5,
+    "expectedTagsMissingFromGhcr": 0,
+    "ghcrNijTagsNotInIndex": 0,
+    "note": "1122 nij tags = 1112 regular + 5 supplementary + 3 master (index/catalog/checkpoint) + 2 legacy subset (index/checkpoint). Bidirectional diff is exact."
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "manifestDigest": "sha256:825d91e2b8ff4fefd6d69502f451f553d5cfef106626c4289c684cc8d2aed19c",
+    "manifestSha256Matches": true,
+    "layerBytes": 1534769,
+    "layerSha256": "d9568f3e1f4d8a6cd6eba4302352cb20c5379cbd8a314c06bcea1b48be096e96",
+    "payloadSha256Matches": true,
+    "scope": "all-years",
+    "generatedAt": "2026-10-09T01:27:46.412Z",
+    "files": 1112,
+    "issues": 941,
+    "years": 87,
+    "publishedFiles": 1112,
+    "remainingFiles": 0,
+    "supplementaryFiles": 5,
+    "supplementaryPublished": 5
+  },
+  "siblings": {
+    "master-catalog": {"digest": "sha256:7d5fe51d5eeba575c0eb32e081e45732226fad6ddf97a4138b9934a6cf514359", "manifestSha256Matches": true},
+    "master-checkpoint": {"digest": "sha256:98b94364c45f649936a596156fe7bd8b0190f76e36c74211fb8045e7b9e9f576", "manifestSha256Matches": true},
+    "legacy-subset-index": {"tag": "nij-1934-39-index", "digest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d", "manifestSha256Matches": true},
+    "legacy-subset-checkpoint": {"tag": "nij-1934-39-checkpoint", "digest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d", "manifestSha256Matches": true}
+  },
+  "representativeManifestChecks": {
+    "sampleSize": 28,
+    "problems": 0,
+    "coverage": "one representative published file per era page (12), the five previously-partial files named in the continuation prompt, one published file per legacy 1934-1939 year (6), and all 5 supplementary archives",
+    "fivePreviouslyPartialFiles": [
+      "nij-1949-n06-djv", "nij-2010-n10-pdf", "nij-1949-n06-pdf", "nij-1949-n07-djv", "nij-1971-n02-djv"
+    ],
+    "note": "all five resolve to a manifest whose digest and layer size equal the master-index recorded values"
+  },
+  "blobContentChecks": {
+    "sampleSize": 6,
+    "problems": 0,
+    "totalBytes": 32220544,
+    "ids": ["nij-1947-n06-pdf", "nij-1946-n0203-pdf", "nij-1893-n01-djv", "nij-1893-n03-djv", "nij-1893-n14-djv", "nij-1949-n06-djv"],
+    "note": "pulled layer bytes; sha256 and byte length equal the master-index recorded sha256/bytes"
+  },
+  "durablePartials": {"inProgress": [], "ghcrCheckpointBytes": 0, "gitPartialBytes": 0, "note": "no unfinished partials remain; partial-index.json is empty"},
+  "discovery": {"status": "complete", "eraPagesVisited": 12, "eraPagesTotal": 12, "eraPagesFailed": 0, "years": 87, "issues": 941, "files": 1112, "supplementary": 5},
+  "legacySubsetPreserved": {"files": 60, "bytes": 2311630290, "unchanged": true},
+  "result": "PASS",
+  "conclusion": "Objective complete: 1112/1112 regular files and 5/5 supplementary archives published; all-years master index (plus catalog and resume checkpoint) verified by immutable digest; legacy 1934-1939 subset preserved. The continuation prompt's baseline (875 published / 237 remaining) is a stale boundary superseded by later completed work; live GHCR confirms 0 remaining."
+}
