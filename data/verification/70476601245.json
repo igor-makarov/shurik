@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:26914263ff4e42fb65145492e28927a6f651d05376160fe32420cb2d7c50e156",
+   "observed": "sha256:6b5673dd50bfb09b02547329fc03e86656fcc4645bde24afa6190a9db7fd56f8",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 3,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 3,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_mxzzxkHAlr1r3it8zo1_500.jpg]",
    "expected": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
+   "observed": "tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -43,7 +43,7 @@
    "check": "image_bytes[tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg]",
    "expected": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg",
+   "observed": "tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -54,6 +54,26 @@
   },
   {
    "check": "image_magic[tumblr_mxzzxkHAlr1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxzzxkHAlr1r3it8zo1_250.jpg]",
+   "expected": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxzzxkHAlr1r3it8zo1_250.jpg]",
+   "expected": 54577,
+   "observed": 54577,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxzzxkHAlr1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -124,6 +144,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mxzzxkHAlr1r3it8zo1_250.jpg]",
+   "expected": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "observed": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20170107150905",
    "observed": "20170107150905",
@@ -142,11 +168,11 @@
    "passed": true
   }
  ],
- "checks_passed": 21,
- "checks_total": 21,
- "config_digest": "sha256:689fcf145d923756eed643e0e8a7685385176fb6f10744a3623891404989f51a",
+ "checks_passed": 25,
+ "checks_total": 25,
+ "config_digest": "sha256:a930a5f23381e1b4029f975bb9b8cf1063ebfb4722fa4a670be57e58617eb317",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2017-05-11T10:17:47Z",
   "org.opencontainers.image.description": "כעת כשהשלג מפשיר, המורדים מבקשים את עזרת הציבור בחיפושים אחר החייל הנעדר לוק סקייווקר. נצפה לאחרונה מסתובב באיזור ירושלים רכוב על טונטון",
@@ -158,7 +184,7 @@
   "shurik.post.content_len": "136",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "70476601245",
-  "shurik.post.images": "2",
+  "shurik.post.images": "3",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "מלחמת-הכוכבים,ירושלים,חורף"
  },
@@ -174,12 +200,17 @@
    "size": 54534
   },
   {
-   "digest": "sha256:76649bb38a592d23e5d4bef7fd613d3867457252f3779e1f51058b5de68142f4",
+   "digest": "sha256:0566098287ba61dd784f3617b9cd2735aebf9296c116bd79d0c7ad698ca0be77",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1196
+   "size": 54533
+  },
+  {
+   "digest": "sha256:a7e0b179148a860c1a1ca4c1ae9927d3ef20a8fe1b07fd76250d41678ffa792d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1216
   }
  ],
- "manifest_digest": "sha256:26914263ff4e42fb65145492e28927a6f651d05376160fe32420cb2d7c50e156",
+ "manifest_digest": "sha256:6b5673dd50bfb09b02547329fc03e86656fcc4645bde24afa6190a9db7fd56f8",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "70476601245",
@@ -201,13 +232,21 @@
    "sha256": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf"
   },
   {
-   "bytes": 3924,
+   "bytes": 54577,
+   "file": "tumblr_mxzzxkHAlr1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0566098287ba61dd784f3617b9cd2735aebf9296c116bd79d0c7ad698ca0be77",
+   "role": "media",
+   "sha256": "25d7e94e9db0289f30b7dba77d01a3a4077b493280b32fb5c165f09e434afecf"
+  },
+  {
+   "bytes": 5196,
    "file": "post.json",
-   "layer": "sha256:76649bb38a592d23e5d4bef7fd613d3867457252f3779e1f51058b5de68142f4",
+   "layer": "sha256:a7e0b179148a860c1a1ca4c1ae9927d3ef20a8fe1b07fd76250d41678ffa792d",
    "role": "post-metadata",
-   "sha256": "e1106c103117387ec06caf5aa0d0686fe0416ddec828d8e8b7e467338c99bda4"
+   "sha256": "c94942f03acde3ab013adceeef2e3a8d0dc813a944f449c300319be96f828bc6"
   }
  ],
  "tag": "70476601245",
- "verified_at": "2026-10-08T22:22:00Z"
+ "verified_at": "2026-10-08T23:58:56Z"
 }

@@ -554,6 +554,7 @@ class HostInventoryEvidenceTests(unittest.TestCase):
               "image/jpeg", "200", "ABC", "100"]] * rows, source_query="host:78"))
         index.mark_host("78.media.tumblr.com", {"host": "78.media.tumblr.com", "rows": 2642,
                                                 "pages": 1, "complete": True,
+                                                "resume_key_walk": True,
                                                 "scanned_at": scanned_at, "keys_at_scan": 10})
         return MediaIndex(path)
 

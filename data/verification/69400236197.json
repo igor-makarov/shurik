@@ -1,0 +1,154 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:9abd749c0457e13b27022c9048e1f037373c282026709b18e4e36c7c5fef13d8",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_inline_mxi5punYQJ1r0lm3p.jpg]",
+   "expected": "15059d3e2747486aa4e19ede86de46d02cc9485179ce3531a16265a5d8d256f1",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_inline_mxi5punYQJ1r0lm3p.jpg]",
+   "expected": 41437,
+   "observed": 41437,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_inline_mxi5punYQJ1r0lm3p.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "",
+   "observed": "",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "",
+   "observed": "",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/69400236197",
+   "observed": "http://hazfalafel.com/post/69400236197",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131222034106",
+   "observed": "20131222034106",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131222034106id_/http://media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
+   "observed": "https://web.archive.org/web/20131222034106id_/http://media.tumblr.com/a88965220268d751a87ca066a83a7254/tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131222034106",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:333b18cc1316b65858ecb16fc2d75c331ba9569d8c8523af79d76fcdb7c40617",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2013-12-22T03:41:06Z",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 69400236197",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/69400236197",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "0",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "69400236197",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0"
+ },
+ "layers": [
+  {
+   "digest": "sha256:ae889e8891e35ccaa8f44c6182821ab2dc739f75de79b98ad17623e239263257",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 40229
+  },
+  {
+   "digest": "sha256:63241b1c358b43714b551e30a035fdd658ea9df0b58b3540ad1d9abe7f43749c",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 660
+  }
+ ],
+ "manifest_digest": "sha256:9abd749c0457e13b27022c9048e1f037373c282026709b18e4e36c7c5fef13d8",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "69400236197",
+ "pulled_files": [
+  {
+   "bytes": 41437,
+   "file": "tumblr_inline_mxi5punYQJ1r0lm3p.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:ae889e8891e35ccaa8f44c6182821ab2dc739f75de79b98ad17623e239263257",
+   "role": "media",
+   "sha256": "15059d3e2747486aa4e19ede86de46d02cc9485179ce3531a16265a5d8d256f1"
+  },
+  {
+   "bytes": 1265,
+   "file": "post.json",
+   "layer": "sha256:63241b1c358b43714b551e30a035fdd658ea9df0b58b3540ad1d9abe7f43749c",
+   "role": "post-metadata",
+   "sha256": "4cdb5391f2cea5114661d561e331c78f7ead44c9a9e9d2681572a3615f91a565"
+  }
+ ],
+ "tag": "69400236197",
+ "verified_at": "2026-10-08T23:58:54Z"
+}
