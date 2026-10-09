@@ -1,0 +1,147 @@
+{
+  "kind": "shurik-nauka-all-years-completion",
+  "iteration": "5-59",
+  "at": "2026-10-09T01:16:09Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven. The user-authorized four-hour continuation is acknowledged; earlier 2026-10-08T07:00:00Z / 14:45:32Z / 18:00:00Z deadlines are superseded. Obeyed; no self-set deadline.",
+  "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful all-years master issue index on GHCR, and retrieve every discovered original scan and supplementary archive.",
+  "status": "COMPLETE",
+  "discoveryEntryPoint": "https://publ.lib.ru/ARCHIVES/N/%27%27Nauka_i_jizn%27%27%27_(jurnal)/_NiJ_1934-39_.html",
+  "discovery": {
+    "status": "complete",
+    "eraPagesTotal": 12,
+    "eraPagesVisited": 12,
+    "eraPagesPending": 0,
+    "eraPagesFailed": 0,
+    "outOfScopePagesVisited": 2,
+    "directoryVisited": true,
+    "years": 87,
+    "issues": 941,
+    "totalFiles": 1112,
+    "supplementaryFiles": 5,
+    "genericUnrepresented": 0,
+    "knownGapYears": [
+      1891,
+      1892,
+      2016,
+      2017,
+      2018,
+      2019,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026,
+      2027,
+      2028,
+      2029
+    ],
+    "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html visited; every flat-listing file represented. Known gaps are archive-listed absences, not discovery failures."
+  },
+  "totals": {
+    "years": 87,
+    "issues": 941,
+    "publishedIssues": 941,
+    "regularFiles": 1112,
+    "publishedRegularFiles": 1112,
+    "remainingRegularFiles": 0,
+    "supplementaryFiles": 5,
+    "supplementaryPublished": 5,
+    "publishedTotalFiles": 1117,
+    "knownBytes": 21674311187,
+    "publishedRegularBytes": 21674311187,
+    "supplementaryBytes": 70214939,
+    "publishedTotalBytes": 21744526126
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700",
+    "bytes": 1533293,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:f158b6b4a00ca9d9875be244ec818d39fd28b85b32dd83a63234e844eb5032f3",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:6fbcd92b841981309df17a0cb32ac29659827c5d770d789697899a8d0063ce3c",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0,
+    "tagResolveMatchesDigest": true,
+    "receipt": "data/nauka/state/master-index-receipt.json",
+    "verification": "data/nauka/state/master-index-verification.json",
+    "checkpointPublished": 1112,
+    "checkpointRemaining": 0
+  },
+  "preservedLegacySubset": {
+    "indexTag": "nij-1934-39-index",
+    "checkpointTag": "nij-1934-39-checkpoint",
+    "files": 60,
+    "bytes": 2311630290,
+    "collectionDigest": "sha256:e0a10a710784b433339b63e53ed068f1057aacba9144949821c20284a709a84d",
+    "checkpointDigest": "sha256:ea7e4bc0ff8b43b11ff06fa3ff1d68ff4522fc23c3a84910d4fe2ae1f361039d",
+    "note": "Preserved as-is; correctly scoped to the completed 1934-1939 subset and never relabelled as the all-years master."
+  },
+  "finalIterationBatches": [
+    {
+      "batch": 144,
+      "elapsedMs": 698941,
+      "exitCode": 0,
+      "publishedBefore": 1098,
+      "publishedAfter": 1111,
+      "newOriginBytesDurable": 407332275,
+      "publishedThisBatch": [
+        "nij-2014-n01-pdf",
+        "nij-2014-n02-pdf",
+        "nij-2014-n03-pdf",
+        "nij-2014-n04-pdf",
+        "nij-2014-n05-pdf",
+        "nij-2014-n06-pdf",
+        "nij-2014-n07-pdf",
+        "nij-2014-n08-pdf",
+        "nij-2014-n09-pdf",
+        "nij-2015-n01-pdf",
+        "nij-1962-n05-pdf",
+        "nij-2008-n12-pdf",
+        "nij-1940-n0506-pdf"
+      ]
+    },
+    {
+      "batch": 145,
+      "elapsedMs": 255086,
+      "exitCode": 0,
+      "publishedBefore": 1111,
+      "publishedAfter": 1111,
+      "newOriginBytesDurable": 0,
+      "note": "Advanced nij-1940-n1112-pdf to 142,606,336 B durable GHCR checkpoint (no publish)."
+    },
+    {
+      "batch": 146,
+      "elapsedMs": 53858,
+      "exitCode": 0,
+      "publishedBefore": 1111,
+      "publishedAfter": 1112,
+      "newOriginBytesDurable": 145058315,
+      "publishedThisBatch": [
+        "nij-1940-n1112-pdf"
+      ]
+    }
+  ],
+  "newPublishedThisIteration": {
+    "regularFiles": 14,
+    "regularBytes": 552390590
+  },
+  "verification": {
+    "perFileRoundTrip": "engine.publishFile pushes assembled original bytes, pulls the pushed tag back, re-hashes, and only then sets status=published; every one of the 1112 published entries carries sha256 + ghcr.digest (0 missing).",
+    "masterIndexPull": "oras pull ghcr.io/igor-makarov/shurik-nauka@sha256:79be25d3... -> 1,533,293 B, sha256 db59706856c533e79270354d01aba948a5d9c6dbfffc8b8718233b909111e83e, tag resolve matches digest; totals files=1112 publishedFiles=1112 remainingFiles=0 years=87 issues=941 publishedIssues=941 supplementary 5/5; representative entries across 1893/1934/1939/1948/1953/1972/1992/2020 all published; 0 problems.",
+    "supplementary": "All 5 Izbrannoe supplementary archives published with sha256 + immutable ghcr.digest."
+  },
+  "origin": {
+    "reachable": true,
+    "note": "publ.lib.ru reachable throughout; aggregate origin <=512 KiB/s; bounded foreground batches; no unthrottled fan-out."
+  },
+  "blockers": [],
+  "nextActions": [
+    "Objective complete: all 1112 regular files + 5 supplementary archives published and the all-years master index verified by immutable digest.",
+    "No further retrieval required. Keep the master index current only if new archive-listed material appears."
+  ]
+}

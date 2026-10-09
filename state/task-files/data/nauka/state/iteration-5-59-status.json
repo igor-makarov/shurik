@@ -1,0 +1,91 @@
+{
+  "kind": "shurik-nauka-iteration-status",
+  "iteration": "5-59",
+  "phase": "complete",
+  "at": "2026-10-09T01:16:09Z",
+  "scope": "all-years",
+  "deadline": null,
+  "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (generation 5, next 59, seconds 1800) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The user-authorized four-hour continuation is acknowledged; earlier 2026-10-08T07:00:00Z / 14:45:32Z / 18:00:00Z deadlines superseded. Obeyed; no self-set deadline.",
+  "acknowledgement": "Iteration 5-59 acknowledges the user-authorized four-hour continuation and the current completion-driven supervisor control (control.json deadline=null, token nauka-user-until-complete-1791481729758). Preserved the completed 1934-1939 60-file subset, all existing file ids, publication references, original filenames and valid resume state. Work done inside this Shurik loop; no falafel code/artifacts/history read or reused.",
+  "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful all-years master issue index on GHCR, and retrieve every discovered original scan and supplementary archive.",
+  "status": "COMPLETE",
+  "now": {
+    "regularFiles": 1112,
+    "regularBytes": 21674311187,
+    "publishedRegularFiles": 1112,
+    "remainingRegularFiles": 0,
+    "inProgressFiles": 0,
+    "pendingFiles": 0,
+    "supplementaryFiles": 5,
+    "supplementaryPublished": 5,
+    "supplementaryBytes": 70214939,
+    "totalPublishedFiles": 1117,
+    "totalPublishedBytes": 21744526126,
+    "durableChunkCheckpointBytes": 0,
+    "gitPartialBytes": 0
+  },
+  "batchesThisIteration": [
+    {
+      "batch": 144,
+      "budgetMs": 720000,
+      "cleanupMs": 120000,
+      "elapsedMs": 698941,
+      "exitCode": 0,
+      "published": 13,
+      "publishedBytes": 407332275,
+      "publishedThisBatch": ["nij-2014-n01-pdf", "nij-2014-n02-pdf", "nij-2014-n03-pdf", "nij-2014-n04-pdf", "nij-2014-n05-pdf", "nij-2014-n06-pdf", "nij-2014-n07-pdf", "nij-2014-n08-pdf", "nij-2014-n09-pdf", "nij-2015-n01-pdf", "nij-1962-n05-pdf", "nij-2008-n12-pdf", "nij-1940-n0506-pdf"],
+      "note": "restored the 6 saved GHCR chunk checkpoints (195,035,136 B) without re-download and published 13 files"
+    },
+    {
+      "batch": 145,
+      "budgetMs": 300000,
+      "cleanupMs": 120000,
+      "elapsedMs": 255086,
+      "exitCode": 0,
+      "published": 0,
+      "publishedBytes": 0,
+      "note": "advanced nij-1940-n1112-pdf to 142,606,336 B durable GHCR checkpoint"
+    },
+    {
+      "batch": 146,
+      "budgetMs": 180000,
+      "cleanupMs": 120000,
+      "elapsedMs": 53858,
+      "exitCode": 0,
+      "published": 1,
+      "publishedBytes": 145058315,
+      "publishedThisBatch": ["nij-1940-n1112-pdf"],
+      "note": "published the final remaining regular file"
+    }
+  ],
+  "newPublishedThisIteration": {
+    "regularFiles": 14,
+    "regularBytes": 552390590
+  },
+  "masterIndex": {
+    "tag": "nij-master-index",
+    "digest": "sha256:79be25d3dfcf8373201272a8f313cbc70a74a0d8b945c607ea6b73c44e1ba700",
+    "bytes": 1533293,
+    "catalogTag": "nij-master-catalog",
+    "catalogDigest": "sha256:f158b6b4a00ca9d9875be244ec818d39fd28b85b32dd83a63234e844eb5032f3",
+    "checkpointTag": "nij-master-checkpoint",
+    "checkpointDigest": "sha256:6fbcd92b841981309df17a0cb32ac29659827c5d770d789697899a8d0063ce3c",
+    "discoveryStatus": "complete",
+    "verifiedByImmutablePull": true,
+    "verificationProblems": 0,
+    "pulledFileSha256": "db59706856c533e79270354d01aba948a5d9c6dbfffc8b8718233b909111e83e",
+    "tagResolveMatchesDigest": true,
+    "checkpointPublished": 1112,
+    "checkpointRemaining": 0,
+    "receipt": "data/nauka/state/master-index-receipt.json",
+    "verification": "data/nauka/state/master-index-verification.json"
+  },
+  "verification": {
+    "perFileRoundTrip": "Every one of the 1112 published entries carries sha256 + immutable ghcr.digest (0 missing); status=published is only set after engine.publishFile pushes, pulls back and re-hashes the assembled original bytes.",
+    "masterIndexPull": "0 problems; totals files=1112 publishedFiles=1112 remainingFiles=0 years=87 issues=941 publishedIssues=941 supplementary 5/5; representative entries 1893/1934/1939/1948/1953/1972/1992/2020 all published.",
+    "supplementary": "5/5 Izbrannoe archives published with sha256 + immutable ghcr.digest.",
+    "preservedLegacySubset": "nij-1934-39-index / nij-1934-39-checkpoint preserved as-is (60 files, 2,311,630,290 B)."
+  },
+  "blockers": [],
+  "nextAction": "Objective complete. No further retrieval required; keep the master index current only if new archive-listed material appears."
+}
