@@ -2,19 +2,22 @@
   "done": {
     "host:24.media.tumblr.com": {
       "complete": false,
+      "cursor": "resumeKey",
       "host": "24.media.tumblr.com",
       "kept": 0,
-      "keys_at_scan": 2397,
-      "new": 0,
-      "page_size": 2000,
-      "pages": 41,
-      "response": {
-        "error": "ok",
-        "message": "",
-        "status": 200
+      "pages": 20,
+      "resume_key_walk": true,
+      "rows": 20000,
+      "scanned_at": "2026-10-09T18:57:38Z",
+      "scope": {
+        "collapse": "urlkey",
+        "filter": "statuscode:200",
+        "limit": 1000,
+        "matchType": "domain",
+        "to": "20191231235959"
       },
-      "rows": 80000,
-      "scanned_at": "2026-10-05T02:14:42+00:00"
+      "stop_reason": "page budget",
+      "written": 20000
     },
     "host:25.media.tumblr.com": {
       "complete": false,
