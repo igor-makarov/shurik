@@ -23,18 +23,40 @@
  "content_text": "",
  "date_text": "Posted 7 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-09T10:18:22Z",
+ "fetched_at": "2026-10-09T22:18:28Z",
  "image_count": 0,
  "images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif"
+    }
+   ],
    "base_key": null,
+   "caption": "image",
    "caption_alt": "image",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "img",
    "link_text": "",
    "media_key": "i.giphy.com/l0owiihh2g7o46ack.gif",
    "media_url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif",
-   "state": "unresolved",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif"
    ],
@@ -43,7 +65,7 @@
    ]
   }
  ],
- "images_done": false,
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -81,9 +103,27 @@
  "missing_image_count": 1,
  "missing_images": [
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif"
+    }
+   ],
    "media_url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/135393696088",

@@ -19,7 +19,7 @@
  "content_text": "צולם בבית החולים קפלן.\nגרסת גיף: http://i.imgur.com/mJKQZZO.gif\nתודה לאיתמר",
  "date_text": "Posted 2 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T10:01:20Z",
+ "fetched_at": "2026-10-09T22:20:32Z",
  "image_count": 0,
  "images": [
   {
@@ -189,14 +189,99 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2015/8"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://68.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://78.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://40.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1.png",
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1.gif"
+     ]
+    }
+   ],
    "base_key": "tumblr_ntla3jlkjn1r3it8zo1.jpg",
    "caption": "צולם בבית החולים קפלן.\nגרסת גיף: http://i.imgur.com/mJKQZZO.gif\nתודה לאיתמר",
    "caption_alt": "צולם בבית החולים קפלן.\nגרסת גיף: http://i.imgur.com/mJKQZZO.gif\nתודה לאיתמר",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_ntla3jlkjn1r3it8zo1_250.jpg",
    "media_url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 7 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg",
@@ -241,6 +326,43 @@
     "http://40.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1.png",
     "http://40.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1.gif"
    ]
+  },
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/mJKQZZO.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/mJKQZZO.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/mJKQZZO.gif"
+    }
+   ],
+   "base_key": null,
+   "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "photo-link",
+   "link_text": "http://i.imgur.com/mJKQZZO.gif",
+   "media_key": "i.imgur.com/mjkqzzo.gif",
+   "media_url": "http://i.imgur.com/mJKQZZO.gif",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "http://i.imgur.com/mJKQZZO.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/mJKQZZO.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -272,7 +394,7 @@
    "url": "http://hazfalafel.com/post/127476805118"
   }
  ],
- "missing_image_count": 3,
+ "missing_image_count": 4,
  "missing_images": [
   {
    "attempts": [
@@ -365,9 +487,114 @@
    "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://68.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://78.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://40.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_400.jpg",
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_100.jpg",
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1.png",
+      "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1.gif"
+     ]
+    }
+   ],
    "media_url": "http://66.media.tumblr.com/e6e86b260c28cbb763f9e8d50925ebd5/tumblr_ntla3jlkjn1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
+  },
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/mJKQZZO.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/mJKQZZO.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/mJKQZZO.gif"
+    }
+   ],
+   "media_url": "http://i.imgur.com/mJKQZZO.gif",
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/127476805118",

@@ -24,7 +24,7 @@
  "content_text": "תחושות המצביעים בבוקר שאחרי הבחירות\nגיף למי שמעדיף",
  "date_text": "Posted 2 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:38Z",
+ "fetched_at": "2026-10-09T22:20:36Z",
  "image_count": 0,
  "images": [
   {
@@ -94,6 +94,43 @@
     "http://78.media.tumblr.com/tumblr_nled5w8EqS1r3it8z_frame1.jpg",
     "http://media.tumblr.com/tumblr_nled5w8EqS1r3it8z_frame1.jpg"
    ]
+  },
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/q78OIKv.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/q78OIKv.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/q78OIKv.gif"
+    }
+   ],
+   "base_key": null,
+   "caption_alt": "",
+   "capture_count": 0,
+   "error": "archive_gap",
+   "found_in": "photo-link",
+   "link_text": "גיף למי שמעדיף",
+   "media_key": "i.imgur.com/q78oikv.gif",
+   "media_url": "http://i.imgur.com/q78OIKv.gif",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
+   "url_forms": [
+    "http://i.imgur.com/q78OIKv.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/q78OIKv.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -131,7 +168,7 @@
    "url": "http://hazfalafel.com/post/113944607443/amp"
   }
  ],
- "missing_image_count": 1,
+ "missing_image_count": 2,
  "missing_images": [
   {
    "attempts": [
@@ -173,6 +210,29 @@
     }
    ],
    "media_url": "http://78.media.tumblr.com/tumblr_nled5w8EqS1r3it8z_frame1.jpg",
+   "reason": "archive_gap"
+  },
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/q78OIKv.gif",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/q78OIKv.gif"
+     ]
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/q78OIKv.gif"
+    }
+   ],
+   "media_url": "http://i.imgur.com/q78OIKv.gif",
    "reason": "archive_gap"
   }
  ],

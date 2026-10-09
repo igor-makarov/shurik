@@ -55,8 +55,8 @@
  "content_text": "עוד רעיונות? שלחו לנו!\nתבנית: http://i.imgur.com/rQWc0EI.jpg",
  "date_text": "Posted 2 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-09T12:28:02Z",
- "image_count": 7,
+ "fetched_at": "2026-10-09T22:16:06Z",
+ "image_count": 8,
  "images": [
   {
    "archive_capture": {
@@ -680,6 +680,12 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2014/12"
    ],
+   "archive_capture": {
+    "archive_digest": "QG4KX2XQSTXYCERLJ6LZDS3WKWBRSHWK",
+    "original": "http://40.media.tumblr.com/ebf1e6a81c86cae8055a79a7c8d027d8/tumblr_ng1vkjYFIB1r3it8zo6_500.jpg",
+    "replay_url": "https://web.archive.org/web/20150123171752id_/http://40.media.tumblr.com/ebf1e6a81c86cae8055a79a7c8d027d8/tumblr_ng1vkjYFIB1r3it8zo6_500.jpg",
+    "timestamp": "20150123171752"
+   },
    "attempts": [
     {
      "earlier_endpoints": [
@@ -849,14 +855,63 @@
    }
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/rQWc0EI.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/rQWc0EI.jpg"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/rQWc0EI.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 27656,
+     "capture_timestamp": "20150214040505",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e",
+     "status": 200,
+     "url": "http://i.imgur.com/rQWc0EI.jpg"
+    }
+   ],
    "base_key": null,
+   "blob_path": "data/blobs/5e/5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e",
+   "bytes": 27656,
+   "caption": "יאיר לפיד מנותק",
    "caption_alt": "יאיר לפיד מנותק",
+   "capture": {
+    "archive_digest": "HSYLGHQEE2FLN4P7FPWUGJMRLEAKJ6H3",
+    "original": "http://i.imgur.com/rQWc0EI.jpg",
+    "replay_url": "https://web.archive.org/web/20150214040505id_/http://i.imgur.com/rQWc0EI.jpg",
+    "timestamp": "20150214040505"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e.jpg",
    "found_in": "photo-link",
    "link_text": "http://i.imgur.com/rQWc0EI.jpg",
    "media_key": "i.imgur.com/rqwc0ei.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://i.imgur.com/rQWc0EI.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20150214040505 of http://i.imgur.com/rQWc0EI.jpg (27656 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e",
+   "state": "recovered",
    "url_forms": [
     "http://i.imgur.com/rQWc0EI.jpg"
    ],
@@ -865,7 +920,7 @@
    ]
   }
  ],
- "images_done": false,
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -950,18 +1005,12 @@
    "url": "http://hazfalafel.com/post/104317036098"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "http://i.imgur.com/rQWc0EI.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/104317036098",
  "page_bytes": 68294,
  "page_sha256": "b3afa67572951421def160ffc3546637f37cb99bd824c939fd8da2282efc1569",
- "partial": true,
+ "partial": false,
  "post_id": "104317036098",
  "posted_on": "Posted on Thursday the 4th of December 2014 at 10:57 AM",
  "published": {
@@ -990,7 +1039,7 @@
   "manifest_digest": "sha256:8ab108f07cea8481bd9df3aea850ec5bd6e69e070663cea2f17a54f87e5de02d"
  },
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "יאיר-לפיד",
   "יאיר-לפיד-מנותק",

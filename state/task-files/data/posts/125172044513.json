@@ -25,13 +25,19 @@
  "content_text": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!\nתבנית",
  "date_text": "Posted 3 weeks ago",
  "failure_count": 0,
- "fetched_at": "2026-10-09T11:06:06Z",
- "image_count": 2,
+ "fetched_at": "2026-10-09T22:20:50Z",
+ "image_count": 3,
  "images": [
   {
    "alt_sources": [
     "http://hazfalafel.com/tagged/%D7%AA%D7%9E%D7%A8+%D7%96%D7%A0%D7%93%D7%91%D7%A8%D7%92"
    ],
+   "archive_capture": {
+    "archive_digest": "LAP6RBZXOB3MBZSMVLWIMTM4W6QZ5RR3",
+    "original": "http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20150803171445id_/http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+    "timestamp": "20150803171445"
+   },
    "attempts": [
     {
      "endpoint": "variant-plan",
@@ -236,6 +242,12 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2015/7"
    ],
+   "archive_capture": {
+    "archive_digest": "LAP6RBZXOB3MBZSMVLWIMTM4W6QZ5RR3",
+    "original": "http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20150803171445id_/http://40.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+    "timestamp": "20150803171445"
+   },
    "attempts": [
     {
      "endpoint": "variant-plan",
@@ -341,14 +353,62 @@
    ]
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/l1kknYd.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/l1kknYd.jpg"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/l1kknYd.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 41256,
+     "capture_timestamp": "20150816214414",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "768aec1643ca9950c27cd8ef05dc657a9193bc26178412cdbebf4bbe812665f8",
+     "status": 200,
+     "url": "http://i.imgur.com/l1kknYd.jpg"
+    }
+   ],
    "base_key": null,
+   "blob_path": "data/blobs/76/768aec1643ca9950c27cd8ef05dc657a9193bc26178412cdbebf4bbe812665f8",
+   "bytes": 41256,
    "caption_alt": "",
+   "capture": {
+    "archive_digest": "UG3RBT3EQVUP7YUSJWY6N7DMXVJNORVA",
+    "original": "http://i.imgur.com/l1kknYd.jpg",
+    "replay_url": "https://web.archive.org/web/20150816214414id_/http://i.imgur.com/l1kknYd.jpg",
+    "timestamp": "20150816214414"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "768aec1643ca9950c27cd8ef05dc657a9193bc26178412cdbebf4bbe812665f8.jpg",
    "found_in": "photo-link",
    "link_text": "תבנית",
    "media_key": "i.imgur.com/l1kknyd.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://i.imgur.com/l1kknYd.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20150816214414 of http://i.imgur.com/l1kknYd.jpg (41256 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "768aec1643ca9950c27cd8ef05dc657a9193bc26178412cdbebf4bbe812665f8",
+   "state": "recovered",
    "url_forms": [
     "http://i.imgur.com/l1kknYd.jpg"
    ],
@@ -357,7 +417,7 @@
    ]
   }
  ],
- "images_done": false,
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -382,7 +442,7 @@
    "url": "http://hazfalafel.com/post/125172044513"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -439,11 +499,6 @@
    ],
    "media_url": "http://41.media.tumblr.com/383b9be5cfe5ed35997aacd376db43ac/tumblr_ns5hstueEl1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://i.imgur.com/l1kknYd.jpg",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/125172044513",
@@ -466,6 +521,10 @@
  },
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20150818174550id_/http://hazfalafel.com/post/125172044513",
+ "restored_from_registry": {
+  "at": "2026-10-09T22:20:44Z",
+  "manifest_digest": "sha256:fa2776185dd8d6ae20c19ebd732d2af9e507b8f10c8fecda96bd7bcab78cfb0b"
+ },
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [

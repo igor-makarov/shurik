@@ -19,14 +19,87 @@
  "content_text": "צולם במעונות של הטכניון\nנכתב על ידי רון דנון וצולם על ידי אברהם דניאל הוניגסבלום\nמקור\nהתמונה באיכות גבוהה",
  "date_text": "Posted 8 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T10:05:05Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T22:23:31Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
     "http://hazfalafel.com:80/tagged/%D7%91%D7%A2%D7%95%D7%9C%D7%9D-%D7%94%D7%90%D7%9E%D7%99%D7%AA%D7%99"
    ],
    "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx-stem-batch"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_400.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
+     ]
+    },
     {
      "endpoint": "variant-plan",
      "media_url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg",
@@ -42,26 +115,6 @@
       "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
       "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
      ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1",
-     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1",
-     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_m6j8ylT9Wt1r3it8zo1.jpg",
@@ -73,13 +126,13 @@
    "link_text": "",
    "media_key": "tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg",
    "media_url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 6 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "rss_form": {
     "capture": "20120715051147",
     "form": "http://24.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg",
     "url": "http://hazfalafel.com:80/rss"
    },
-   "state": "pending",
+   "state": "missing",
    "url_forms": [
     "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg",
     "http://24.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
@@ -133,6 +186,62 @@
      "status": "cached",
      "stem": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1",
      "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "9 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_400.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
+     ]
     }
    ],
    "base_key": "tumblr_m6j8ylT9Wt1r3it8zo1.jpg",
@@ -144,7 +253,7 @@
    "link_text": "",
    "media_key": "tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg",
    "media_url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
     "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg"
@@ -166,14 +275,100 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2012/8?before_time=1343806020"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://68.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_400.jpg",
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_100.jpg",
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
+     ]
+    },
+    {
+     "earlier_endpoints": [
+      "cdx",
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; see data/missing.jsonl for the per-key history"
+    }
+   ],
    "base_key": "tumblr_m6j8ylT9Wt1r3it8zo1.jpg",
    "caption": "צולם במעונות של הטכניון\nנכתב על ידי רון דנון וצולם על ידי אברהם דניאל הוניגסבלום\nמקור\nהתמונה באיכות גבוהה",
    "caption_alt": "צולם במעונות של הטכניון\nנכתב על ידי רון דנון וצולם על ידי אברהם דניאל הוניגסבלום\nמקור\nהתמונה באיכות גבוהה",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
    "media_url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: CDX answered with zero captures at or before the cutoff for 7 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
     "http://78.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
@@ -218,9 +413,74 @@
     "http://25.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
     "http://25.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
    ]
+  },
+  {
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://i.imgur.com/8yrzN.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://i.imgur.com/8yrzN.jpg"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "http://i.imgur.com/8yrzN.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "note": "exact URL has 1 capture(s); size/extension siblings not queried",
+     "variants": []
+    },
+    {
+     "bytes": 93608,
+     "capture_timestamp": "20130606000438",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13",
+     "status": 200,
+     "url": "http://i.imgur.com/8yRzN.jpg"
+    }
+   ],
+   "base_key": null,
+   "blob_path": "data/blobs/8b/8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13",
+   "bytes": 93608,
+   "caption": "התמונה באיכות גבוהה",
+   "caption_alt": "התמונה באיכות גבוהה",
+   "capture": {
+    "archive_digest": "2PX2T4JMOZ5EUZX7IAV33QZBIXQLVYRN",
+    "original": "http://i.imgur.com/8yRzN.jpg",
+    "replay_url": "https://web.archive.org/web/20130606000438id_/http://i.imgur.com/8yRzN.jpg",
+    "timestamp": "20130606000438"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13.jpg",
+   "found_in": "photo-link",
+   "link_text": "התמונה באיכות גבוהה",
+   "media_key": "i.imgur.com/8yrzn.jpg",
+   "media_type": "image/jpeg",
+   "media_url": "http://i.imgur.com/8yrzN.jpg",
+   "note": "recovered from pre-cutoff capture 20130606000438 of http://i.imgur.com/8yRzN.jpg (93608 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13",
+   "state": "recovered",
+   "url_forms": [
+    "http://i.imgur.com/8yrzN.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/8yrzN.jpg"
+   ]
   }
  ],
- "images_done": false,
+ "images_done": true,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -250,6 +510,79 @@
   {
    "attempts": [
     {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx-stem-batch"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://24.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_400.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
+     ]
+    },
+    {
      "endpoint": "variant-plan",
      "media_url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg",
      "note": "every size/extension variant considered before declaring a gap",
@@ -264,26 +597,6 @@
       "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
       "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
      ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1",
-     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1",
-     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
     }
    ],
    "media_url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg",
@@ -317,15 +630,154 @@
      "status": "cached",
      "stem": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1",
      "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "exact URL from the post",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "9 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_400.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_100.jpg",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
+      "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
+     ]
     }
    ],
    "media_url": "https://64.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_640.jpg",
    "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://68.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "alternate CDN URL form of the linked image",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1280.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_1024.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_540.jpg"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx",
+     "error": "ok",
+     "message": "",
+     "note": "size/extension sibling of the linked image",
+     "status": 200,
+     "url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 siblings exist; only the first 4 were queried this pass",
+     "variants": [
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_400.jpg",
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_100.jpg",
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.png",
+      "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1.gif"
+     ]
+    },
+    {
+     "earlier_endpoints": [
+      "cdx",
+      "variant-plan"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; see data/missing.jsonl for the per-key history"
+    }
+   ],
    "media_url": "http://65.media.tumblr.com/tumblr_m6j8ylT9Wt1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/26342049272",
