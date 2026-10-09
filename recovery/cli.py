@@ -1393,6 +1393,11 @@ def fetch_listings(fetcher: Fetcher, limit: int = 20, kinds: tuple[str, ...] = (
     candidates = [c for c in caps
                   if listing_kind(c.original) in kinds
                   and f"{c.timestamp}|{normalize_url(c.original)}" not in done]
+    # A URL that has *never* been fetched carries new surface; a second snapshot
+    # of an already-mined URL mostly repeats posts already seen. Sort fresh URLs
+    # first so a bounded pass spends its requests on discovery instead of
+    # re-reading the oldest snapshots of known tag pages.
+    done_urls = {key.split("|", 1)[1] for key in done if "|" in key}
     if one_per_url:
         by_url: dict[str, Capture] = {}
         for c in candidates:
@@ -1403,6 +1408,7 @@ def fetch_listings(fetcher: Fetcher, limit: int = 20, kinds: tuple[str, ...] = (
         todo = sorted(by_url.values(),
                       key=lambda c: (LISTING_KIND_ORDER.index(listing_kind(c.original))
                                      if listing_kind(c.original) in LISTING_KIND_ORDER else 9,
+                                     0 if normalize_url(c.original) not in done_urls else 1,
                                      c.timestamp, c.original))
     else:
         todo = candidates
