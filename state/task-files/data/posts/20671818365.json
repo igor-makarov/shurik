@@ -3,18 +3,27 @@
   "http://hazfalafel.com:80/post/20671818365"
  ],
  "captions": [],
+ "capture_timestamp": "20120524060950",
  "captures": [
   {
    "error": "archive_gap",
    "kind": "perm",
    "original": "http://hazfalafel.com:80/post/20671818365",
    "timestamp": "20120524060950"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/20671818365",
+   "timestamp": "20120524060950"
   }
  ],
- "content_html": "",
- "content_text": "",
+ "content_html": "<p>סבתא פולניה</p>\n<p>תודה לאסף שגיא</p>",
+ "content_source": "div.copy",
+ "content_text": "סבתא פולניה\nתודה לאסף שגיא",
+ "date_text": "Posted 1 month ago",
  "failure_count": 2,
- "fetched_at": "2026-10-07T05:45:14Z",
+ "fetched_at": "2026-10-09T10:17:38Z",
  "image_count": 0,
  "images": [
   {
@@ -132,6 +141,50 @@
     "http://68.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1.png",
     "http://68.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_m20xgldQIe1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_m20xgldQIe1r3it8zo1_250.jpg",
+   "media_url": "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_250.jpg",
+   "url_forms": [
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_250.jpg",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_1280.jpg",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_1024.jpg",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_540.jpg",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_500.jpg",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_400.jpg",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_100.jpg",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1.png",
+    "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1.gif"
+   ]
+  },
+  {
+   "base_key": "tumblr_m20xgldQIe1r3it8zo2.jpg",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_m20xgldQIe1r3it8zo2_250.jpg",
+   "media_url": "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_250.jpg",
+   "url_forms": [
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_250.jpg"
+   ],
+   "variants": [
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_250.jpg",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_1280.jpg",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_1024.jpg",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_540.jpg",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_500.jpg",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_400.jpg",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_100.jpg",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2.png",
+    "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -149,17 +202,17 @@
  ],
  "methods": [
   {
-   "bytes": 4607,
+   "bytes": 55351,
    "capture_timestamp": "20120524060950",
    "endpoint": "replay id_",
-   "error": "archive_gap",
+   "error": "ok",
    "kind": "perm",
-   "message": "HTTP 404",
-   "status": 404,
+   "message": "",
+   "status": 200,
    "url": "http://hazfalafel.com:80/post/20671818365"
   }
  ],
- "missing_image_count": 1,
+ "missing_image_count": 3,
  "missing_images": [
   {
    "attempts": [
@@ -242,14 +295,29 @@
    ],
    "media_url": "http://65.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_250.jpg",
    "reason": "archive_gap"
+  },
+  {
+   "attempts": [],
+   "media_url": "http://25.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo1_250.jpg",
+   "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://24.media.tumblr.com/tumblr_m20xgldQIe1r3it8zo2_250.jpg",
+   "reason": null
   }
  ],
- "original_url": "http://hazfalafel.com/post/20671818365",
+ "original_url": "http://hazfalafel.com:80/post/20671818365",
+ "page_bytes": 55351,
+ "page_sha256": "278afd6630f50f5d9928fd2227fc8bd960aaad7846133318bdac4c6c12cddc95",
  "partial": true,
  "post_id": "20671818365",
  "reason": "archive_gap",
  "refetched_captures": [],
+ "replay_url": "https://web.archive.org/web/20120524060950id_/http://hazfalafel.com:80/post/20671818365",
  "snapshot_retries": 1,
  "state": "partial",
- "tags": []
+ "tags": [
+  "סבתא-פולניה"
+ ]
 }

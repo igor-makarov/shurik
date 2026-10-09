@@ -2,19 +2,30 @@
  "canonical_urls": [
   "http://hazfalafel.com:80/post/13397484447"
  ],
- "captions": [],
+ "captions": [
+  "לרגל עסקת הטיעון\nלא בטוח אם יש לה קשרים לעולם התחתון או שבאמת מעניין אותה מה שגיב טיירי היה אומר"
+ ],
+ "capture_timestamp": "20120426030759",
  "captures": [
   {
    "error": "archive_gap",
    "kind": "perm",
    "original": "http://hazfalafel.com:80/post/13397484447",
    "timestamp": "20120426030759"
+  },
+  {
+   "error": null,
+   "kind": "perm",
+   "original": "http://hazfalafel.com:80/post/13397484447",
+   "timestamp": "20120426030759"
   }
  ],
- "content_html": "",
- "content_text": "",
+ "content_html": "<p>לרגל עסקת הטיעון</p>\n<p>לא בטוח אם יש לה קשרים לעולם התחתון או שבאמת מעניין אותה מה שגיב טיירי היה אומר</p>",
+ "content_source": "div.copy",
+ "content_text": "לרגל עסקת הטיעון\nלא בטוח אם יש לה קשרים לעולם התחתון או שבאמת מעניין אותה מה שגיב טיירי היה אומר",
+ "date_text": "Posted 5 months ago",
  "failure_count": 2,
- "fetched_at": "2026-10-07T05:44:34Z",
+ "fetched_at": "2026-10-09T10:17:06Z",
  "image_count": 0,
  "images": [
   {
@@ -157,6 +168,28 @@
     "http://26.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1.png",
     "http://26.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lvbkjaU3XG1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+   "media_url": "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+   "url_forms": [
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_1280.jpg",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_1024.jpg",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_540.jpg",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_500.jpg",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_400.jpg",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_100.jpg",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1.png",
+    "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -174,17 +207,17 @@
  ],
  "methods": [
   {
-   "bytes": 4607,
+   "bytes": 52070,
    "capture_timestamp": "20120426030759",
    "endpoint": "replay id_",
-   "error": "archive_gap",
+   "error": "ok",
    "kind": "perm",
-   "message": "HTTP 404",
-   "status": 404,
+   "message": "",
+   "status": 200,
    "url": "http://hazfalafel.com:80/post/13397484447"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 3,
  "missing_images": [
   {
    "attempts": [
@@ -272,14 +305,25 @@
    "attempts": [],
    "media_url": "http://26.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_400.jpg",
    "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://25.media.tumblr.com/tumblr_lvbkjaU3XG1r3it8zo1_250.jpg",
+   "reason": null
   }
  ],
- "original_url": "http://hazfalafel.com/post/13397484447",
+ "original_url": "http://hazfalafel.com:80/post/13397484447",
+ "page_bytes": 52070,
+ "page_sha256": "f3e4ee75739e7f634e45fe2148cebd8524daf04a46713855b42528cb58943667",
  "partial": true,
  "post_id": "13397484447",
  "reason": "archive_gap",
  "refetched_captures": [],
+ "replay_url": "https://web.archive.org/web/20120426030759id_/http://hazfalafel.com:80/post/13397484447",
  "snapshot_retries": 1,
  "state": "partial",
- "tags": []
+ "tags": [
+  "מרגול",
+  "לא-בטוח"
+ ]
 }
