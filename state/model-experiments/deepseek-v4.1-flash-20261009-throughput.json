@@ -1,0 +1,154 @@
+{
+  "version": 1,
+  "experimentId": "falafel-throughput-20261009",
+  "experiment": "24-hour Falafel: task-owned self-healing and useful throughput, hourly steering, stop on taper",
+  "generation": 20,
+  "startedAt": "2026-10-09T07:59:06.000Z",
+  "deadline": "2026-10-10T07:59:06.000Z",
+  "deadlineTimezone": "Asia/Jerusalem",
+  "provider": "opencode-go",
+  "model": "deepseek-v4.1-flash",
+  "reasoning": "high",
+  "baseline": {
+    "workCommit": "dd47a755782b7989996e00b8ced50e4d449df374",
+    "publicationLedgerSource": "04138631ad0d03a9cc2ba26f8a358a34280b8dda",
+    "controlCommit": "292b787a499566c3efa3f40fa0e20c6aa3bc1b0a",
+    "publicationImages": 245,
+    "postsWithImages": 173,
+    "savedDistinctImageHashes": 183,
+    "usageSource": "state/iterations/19-323.json",
+    "modelUsage": {
+      "input": 8400807,
+      "output": 1367172,
+      "cacheRead": 157586176,
+      "cacheWrite": 0,
+      "totalTokens": 167354155,
+      "cost": {
+        "input": 1.2601210499999973,
+        "output": 0.820303200000001,
+        "cacheRead": 0.4727585280000004,
+        "cacheWrite": 0,
+        "total": 2.5531827780000063
+      },
+      "reasoning": 878317
+    },
+    "usage": {
+      "models": {
+        "opencode-go/space-bunny-free": {
+          "input": 5125097,
+          "output": 1517617,
+          "cacheRead": 100705076,
+          "cacheWrite": 0,
+          "reasoning": 793737,
+          "totalTokens": 107347790,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/longcat-2.5-preview-free": {
+          "input": 566610,
+          "output": 71420,
+          "cacheRead": 3707008,
+          "cacheWrite": 0,
+          "reasoning": 28500,
+          "totalTokens": 4345038,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0,
+            "total": 0
+          }
+        },
+        "opencode-go/muse-spark-1.3-contributor": {
+          "input": 2253896,
+          "output": 163509,
+          "cacheRead": 24165373,
+          "cacheWrite": 0,
+          "totalTokens": 26582778,
+          "cost": {
+            "input": 0.2253895999999998,
+            "output": 0.032701799999999996,
+            "cacheRead": 0.04833074599999995,
+            "cacheWrite": 0,
+            "total": 0.30642214599999995
+          },
+          "reasoning": 67573
+        },
+        "opencode-go/deepseek-v4.1-flash": {
+          "input": 8400807,
+          "output": 1367172,
+          "cacheRead": 157586176,
+          "cacheWrite": 0,
+          "totalTokens": 167354155,
+          "cost": {
+            "input": 1.2601210499999973,
+            "output": 0.820303200000001,
+            "cacheRead": 0.4727585280000004,
+            "cacheWrite": 0,
+            "total": 2.5531827780000063
+          },
+          "reasoning": 878317
+        },
+        "opencode-go/glm-5.3": {
+          "input": 406589,
+          "output": 49422,
+          "cacheRead": 8528159,
+          "cacheWrite": 0,
+          "reasoning": 0,
+          "totalTokens": 8984170,
+          "cost": {
+            "input": 0.5692246,
+            "output": 0.21745680000000012,
+            "cacheRead": 2.2173213400000003,
+            "cacheWrite": 0,
+            "total": 3.00400274
+          }
+        }
+      },
+      "tools": {}
+    }
+  },
+  "adapterPricingPerMillionTokens": {
+    "input": 0.15,
+    "output": 0.6,
+    "cacheRead": 0.003,
+    "cacheWrite": 0
+  },
+  "pendingAtRestart": {
+    "postId": "23113407036",
+    "sha256": "c6ee514ad3e8907e0e8b8ef94c937874164dbdc039d4754b9eac6058366cc4fb",
+    "bytes": 50202,
+    "capture": "20181018115722",
+    "url": "https://78.media.tumblr.com/tumblr_m42ulpxwiU1r3it8zo1_500.jpg",
+    "baselineHasMetadataButUnpublishedLocalBlobMissing": true
+  },
+  "guidance": {
+    "workCommit": "dd47a755782b7989996e00b8ced50e4d449df374",
+    "parentEdits": "PROMPT.md only; discarded all draft parent code edits",
+    "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
+    "runtime": "b233d55b002c16cae7bcbeaf79cb2c0769869f3c",
+    "clockPolicy": "final_checkpoint_interval_only",
+    "focus": [
+      "pending image bytes and prompt publication",
+      "reuse verified registry bytes",
+      "cold restore of hostdump cursors and pages",
+      "targeted verification",
+      "provenance and stale learning",
+      "measured throughput, coordinated safe backoff"
+    ]
+  },
+  "costNote": "Subtract cumulative DeepSeek baseline, never sum iterations; reasoning included in output. Adapter estimate, not invoice or extra subscription charge.",
+  "supervision": {
+    "hourly": true,
+    "guidanceAdjustmentsAuthorized": true,
+    "parentTaskCodeEdits": false,
+    "stopOnTaper": true,
+    "taperPolicy": "At the first unproductive hourly window diagnose/steer. Stop after two consecutive hourly windows without new durable unique image payloads or published/verified unique-image progress unless a concrete repair or known pending publication/verification backlog is measurably advancing. Candidates, audits and repetitive reports alone are insufficient. Stop sustained positive-yield taper after an evidence-based adjustment fails. Respect user steering and fixed deadline.",
+    "emergencyBrakeAuthorized": true
+  }
+}

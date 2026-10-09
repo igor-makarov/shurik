@@ -4,11 +4,11 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "deadline",
-  "generation": 19,
+  "status": "running",
+  "generation": 20,
   "next": 324,
   "owner": null,
-  "deadline": "2026-10-09T05:00:00.000Z",
+  "deadline": "2026-10-10T07:59:06.000Z",
   "seconds": 1800,
   "model": "deepseek-v4.1-flash",
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
@@ -16,15 +16,15 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37884405840",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
-    "workCommit": "04138631ad0d03a9cc2ba26f8a358a34280b8dda",
+    "workCommit": "dd47a755782b7989996e00b8ced50e4d449df374",
     "generation": 19,
     "sequence": "19-323",
     "runId": "37884405840",
-    "at": "2026-10-09T05:00:06.050Z"
+    "at": "2026-10-09T07:59:06.000Z"
   },
   "migration": {
     "at": "2026-10-05T08:47:18.219Z",
@@ -68,13 +68,13 @@
     "initialModelHealthCheck": "required"
   },
   "restart": {
-    "at": "2026-10-08T18:22:43Z",
-    "previousGeneration": 18,
-    "generation": 19,
-    "reason": "User requested resume/API/Nauka guidance and DeepSeek Flash/high until 08:00 Israel with hourly adaptive monitoring",
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261008-resume.json",
-    "previousLastRunId": "37586719095",
-    "modelChanged": true
+    "at": "2026-10-09T07:59:06.000Z",
+    "previousGeneration": 19,
+    "generation": 20,
+    "previousLastRunId": "37884405840",
+    "reason": "User requested 24 hours, hourly steering and taper stop; corrections are guidance-only, Shurik owns code repairs",
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261009-throughput.json",
+    "modelChanged": false
   },
   "guidanceChange": {
     "at": "2026-10-06T15:30:46.000Z",
@@ -87,29 +87,28 @@
     "checks": "hourly",
     "userAuthorizedEmergencyBrake": true,
     "guidanceAdjustmentsAuthorized": true,
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261008-resume.json",
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261009-throughput.json",
     "deadlineTimezone": "Asia/Jerusalem",
     "notifyOn": "every_check_with_progress_cost_and_guidance_changes",
-    "initialModelHealthCheck": "required",
-    "respectInterveningUserSteering": true
+    "initialModelHealthCheck": "access_established_no_routine_probe",
+    "respectInterveningUserSteering": true,
+    "stopOnTaper": true,
+    "parentTaskCodeEdits": false
   },
   "recoveryGuidanceChange": {
-    "at": "2026-10-08T18:20:03Z",
-    "workCommit": "361d21d83a54bc47d54ef5b4ca8898b4e4850377",
-    "fromWorkCommit": "375bc96f953e8137e4c44a6e9c42a898e92cdc90",
-    "naukaSource": "b6f21781a59925619541a6a16453f6b4ee68b114",
-    "focus": [
-      "durable resume",
-      "Wayback API choice",
-      "Nauka validator/chunk/drain lessons",
-      "proactive diagnosis"
+    "at": "2026-10-09T07:59:06.000Z",
+    "workCommit": "dd47a755782b7989996e00b8ced50e4d449df374",
+    "fromWorkCommit": "04138631ad0d03a9cc2ba26f8a358a34280b8dda",
+    "parentEdits": [
+      "PROMPT.md"
     ],
-    "clockPolicy": "final_checkpoint_interval_only"
+    "clockPolicy": "final_checkpoint_interval_only",
+    "taperPolicy": "At the first unproductive hourly window diagnose/steer. Stop after two consecutive hourly windows without new durable unique image payloads or published/verified unique-image progress unless a concrete repair or known pending publication/verification backlog is measurably advancing. Candidates, audits and repetitive reports alone are insufficient. Stop sustained positive-yield taper after an evidence-based adjustment fails. Respect user steering and fixed deadline."
   },
   "activeExperiment": {
-    "id": "falafel-resume-20261008",
-    "generation": 19,
-    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261008-resume.json",
-    "deadline": "2026-10-09T05:00:00.000Z"
+    "id": "falafel-throughput-20261009",
+    "generation": 20,
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261009-throughput.json",
+    "deadline": "2026-10-10T07:59:06.000Z"
   }
 }
