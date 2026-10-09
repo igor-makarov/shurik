@@ -46,7 +46,11 @@ STATE_FILES = (
     "data/missing.jsonl",
     "data/gaps.jsonl",
 )
-STATE_DIRS = ("data/posts", "data/cdx")
+# `data/work/hostdumps` holds the resume-key host inventories. They are large
+# but bulk crawl state, not Git content, and a `complete` host verdict is only
+# usable when its rows can be restored (see recovery/hostdump.py). Carrying
+# them here is what makes the hostdump's durability claim true across runners.
+STATE_DIRS = ("data/posts", "data/cdx", "data/work/hostdumps")
 
 
 def _now() -> str:

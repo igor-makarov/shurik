@@ -22,11 +22,16 @@ walks the *whole* host in urlkey order.
 Storage
 -------
 Every row is appended to `data/work/hostdumps/<host>.jsonl` (gitignored bulk
-state) and the cursor lives beside it in `<host>.cursor.json`, so a fresh runner
-or a killed process resumes instead of restarting. Only rows whose media key a
-recovered post actually references are written to the committed
-`data/cdx/media.jsonl` index; the rest stay in the dump for offline matching.
-Both travel in the `crawl-state` checkpoint, so the inventory survives.
+state) and the cursor lives in `data/cdx/hostdump-cursors/<host>.cursor.json`,
+so a fresh runner or a killed process resumes instead of restarting. Only rows
+whose media key a recovered post actually references are written to the
+committed `data/cdx/media.jsonl` index; the rest stay in the dump for offline
+matching. Both the dump directory and the cursor directory are listed in
+`recovery/state_checkpoint.py`'s `STATE_DIRS`, so both travel in the
+`crawl-state` registry checkpoint and the inventory survives a fresh runner. A
+`complete` verdict is only reused when the rows it was based on are actually
+present (`_dump_survives`), so a lost dump degrades to "re-walk", never to a
+false confirmed gap.
 """
 from __future__ import annotations
 
@@ -51,6 +56,11 @@ CDX_ENDPOINT = "https://web.archive.org/cdx/search/cdx"
 # verdict was never replaced by a real resume-key walk).
 DUMP_DIR = os.path.join(config.DATA_DIR, "work", "hostdumps")
 CURSOR_DIR = os.path.join(config.CDX_DIR, "hostdump-cursors")
+# The dump rows travel in the `crawl-state` registry checkpoint (see
+# recovery/state_checkpoint.py STATE_DIRS) so a fresh runner can re-index new
+# keys without re-walking the host. The cursor alone is not enough: a
+# `complete` verdict is only trustworthy when the rows it was based on are
+# actually present (see `_dump_survives`).
 PAGE_LIMIT = 1000
 # Filters every dumped row is scoped to. Recorded with the cursor so a later run
 # never resumes a dump that was taken with different filters as if it were the
@@ -92,6 +102,33 @@ def decode_resume_key(value: str) -> str:
         except Exception:
             continue
     return value
+
+
+def _dump_line_count(path: str) -> int:
+    """Non-empty lines in a dump file, or -1 when the file is absent."""
+    if not os.path.exists(path):
+        return -1
+    n = 0
+    with open(path, encoding="utf-8") as fh:
+        for line in fh:
+            if line.strip():
+                n += 1
+    return n
+
+
+def _dump_survives(path: str, written: int) -> bool:
+    """Can a `complete` resume-key verdict be re-verified on this runner?
+
+    The cursor records how many rows the walk wrote (`written`). If the dump
+    file is missing or shorter than that, the rows the verdict rests on are
+    gone -- treating it as complete would let `host_complete` declare every key
+    of the host a *confirmed* gap from an inventory that no longer exists. A
+    zero-row inventory legitimately has no dump and is still complete.
+    """
+    written = int(written or 0)
+    if written <= 0:
+        return True
+    return _dump_line_count(path) >= written
 
 
 def read_cursor(host: str) -> dict:
@@ -176,13 +213,18 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
     os.makedirs(DUMP_DIR, exist_ok=True)
     cur = read_cursor(host)
     if cur.get("complete"):
-        _publish(index, host, cur)
-        return {"host": host, "complete": True, "rows": cur.get("rows", 0),
-                "pages": cur.get("pages", 0), "skipped": "already complete",
-                "scanned_at": cur.get("scanned_at", "")}
+        if _dump_survives(dump_path, cur.get("written", cur.get("rows", 0))):
+            _publish(index, host, cur)
+            return {"host": host, "complete": True, "rows": cur.get("rows", 0),
+                    "pages": cur.get("pages", 0), "skipped": "already complete",
+                    "scanned_at": cur.get("scanned_at", "")}
+        # The rows are not on this runner, so the "complete" claim cannot be
+        # checked. Re-walk instead of publishing an unverifiable verdict.
+        cur = {}
     resume_key = cur.get("resume_key", "")
     rows = int(cur.get("rows", 0))
     pages = int(cur.get("pages", 0))
+    written = int(cur.get("written", 0))
     kept = 0
     stop_reason = ""
     for _ in range(max_pages):
@@ -203,6 +245,7 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
             for cap in caps:
                 if cap.statuscode in ("200", "") and within_cutoff(cap.timestamp):
                     fh.write(json.dumps(cap.to_row(), ensure_ascii=False) + "\n")
+                    written += 1
         rows += len(caps)
         pages += 1
         if keys is not None and index is not None:
@@ -216,18 +259,19 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
             break
         resume_key = next_key
         write_cursor(host, {"resume_key": resume_key, "rows": rows, "pages": pages,
-                            "complete": False})
+                            "written": written, "complete": False})
     else:
         cur_complete = False
         stop_reason = "page budget"
     write_cursor(host, {"resume_key": resume_key, "rows": rows, "pages": pages,
-                        "complete": cur_complete, "stop_reason": stop_reason,
-                        "scanned_at": _now()})
+                        "written": written, "complete": cur_complete,
+                        "stop_reason": stop_reason, "scanned_at": _now()})
     # Publish the walk's verdict where the image resolver reads it, and label it
     # with the cursor that produced it so a legacy `page=` entry can never be
     # mistaken for proof that a host was fully seen.
-    _publish(index, host, {"rows": rows, "pages": pages, "kept": kept,
-                           "complete": cur_complete, "stop_reason": stop_reason})
+    _publish(index, host, {"rows": rows, "pages": pages, "written": written,
+                           "kept": kept, "complete": cur_complete,
+                           "stop_reason": stop_reason})
     return {"host": host, "rows": rows, "pages": pages, "kept": kept,
             "complete": cur_complete, "stop_reason": stop_reason,
             "scanned_at": _now()}

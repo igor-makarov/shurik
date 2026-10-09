@@ -1300,3 +1300,36 @@ class RecoveryNoteTests(unittest.TestCase):
         self.assertIn("20130930175155", rec["note"])
         self.assertEqual(rec["prior_note"], record["note"],
                          "the superseded verdict is kept, not deleted")
+
+
+class ListingRetryTests(unittest.TestCase):
+    """A listing capture the archive never answered must stay retryable."""
+
+    def _key(self):
+        return "20180301000000|hazfalafel.com/tagged/food"
+
+    def test_transient_failure_is_not_marked_done(self):
+        from recovery.cli import _listing_done_keys
+        k = self._key()
+        rows = [{"capture_key": k, "error": "transport", "attempts": []}]
+        self.assertNotIn(k, _listing_done_keys(rows),
+                         "a refused/timed-out listing fetch is not a negative answer")
+
+    def test_throttle_and_timeout_stay_pending(self):
+        from recovery.cli import _listing_done_keys
+        for err in ("throttled", "timeout", "http_error", "no_body"):
+            rows = [{"capture_key": f"x|{err}", "error": err}]
+            self.assertEqual(_listing_done_keys(rows), set(),
+                             f"{err} must not settle the capture")
+
+    def test_successful_fetch_is_done(self):
+        from recovery.cli import _listing_done_keys
+        k = self._key()
+        rows = [{"capture_key": k, "post_id": "1", "images": []},
+                {"capture_key": k, "error": None, "posts": 1}]
+        self.assertIn(k, _listing_done_keys(rows))
+
+    def test_terminal_archive_gap_is_done(self):
+        from recovery.cli import _listing_done_keys
+        k = self._key()
+        self.assertIn(k, _listing_done_keys([{"capture_key": k, "error": "archive_gap"}]))
