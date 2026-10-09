@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:3b3f6a2be3a8f8741844cc74211b94ede96f0c6f7f6126306002858a8cee45a4",
+   "observed": "sha256:fa2776185dd8d6ae20c19ebd732d2af9e507b8f10c8fecda96bd7bcab78cfb0b",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_ns5hstueEl1r3it8zo1_500.jpg]",
    "expected": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_ns5hstueEl1r3it8zo1_500.jpg",
+   "observed": "tumblr_ns5hstueEl1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_ns5hstueEl1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ns5hstueEl1r3it8zo1_250.jpg]",
+   "expected": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ns5hstueEl1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ns5hstueEl1r3it8zo1_250.jpg]",
+   "expected": 49441,
+   "observed": 49441,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ns5hstueEl1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -104,6 +124,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_ns5hstueEl1r3it8zo1_250.jpg]",
+   "expected": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית",
+   "observed": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!תבנית",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20150803171445",
    "observed": "20150803171445",
@@ -122,11 +148,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:4aaee1b8236f98a547117172723923bf8e1cfe61c45c461524702179387af4a0",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:671be22a85b48439e5e45b6fc803411531f61872802988a879dead7759615db7",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2016-08-17T10:01:02Z",
   "org.opencontainers.image.description": "צריכים לוחמת לקידום הלגליזציה? למה לא זנדברג?!",
@@ -138,7 +164,7 @@
   "shurik.post.content_len": "52",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "125172044513",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "1",
   "shurik.post.tags": "כלב-מפגר,retard-dog,סמים,לגליזציה,תמר-זנדברג,יעקב-ליצמן"
  },
@@ -149,12 +175,17 @@
    "size": 45103
   },
   {
-   "digest": "sha256:00387efe30d886443aa8b36cd7c606a54604e997ed67ab6d67df0fa6bda10e87",
+   "digest": "sha256:e8cd600b6b15e6b83d33e3597ceebddc9a88c62336864ba4e5c8614e86232a4b",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1472
+   "size": 45103
+  },
+  {
+   "digest": "sha256:7011adeb77742c9b7b28ecd34bc550c05c4c2c0394479f3d3ba836882dd0b171",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1574
   }
  ],
- "manifest_digest": "sha256:3b3f6a2be3a8f8741844cc74211b94ede96f0c6f7f6126306002858a8cee45a4",
+ "manifest_digest": "sha256:fa2776185dd8d6ae20c19ebd732d2af9e507b8f10c8fecda96bd7bcab78cfb0b",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "125172044513",
@@ -168,13 +199,21 @@
    "sha256": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2"
   },
   {
-   "bytes": 5669,
+   "bytes": 49441,
+   "file": "tumblr_ns5hstueEl1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:e8cd600b6b15e6b83d33e3597ceebddc9a88c62336864ba4e5c8614e86232a4b",
+   "role": "media",
+   "sha256": "cd5b86186f4942315f61df6e45007b9a59194a4d416f8638ba22d5ca6b49f5d2"
+  },
+  {
+   "bytes": 6651,
    "file": "post.json",
-   "layer": "sha256:00387efe30d886443aa8b36cd7c606a54604e997ed67ab6d67df0fa6bda10e87",
+   "layer": "sha256:7011adeb77742c9b7b28ecd34bc550c05c4c2c0394479f3d3ba836882dd0b171",
    "role": "post-metadata",
-   "sha256": "5af64b874feee1c169a46004d1d14344369be21cb59ea876ee3f1775af01ef02"
+   "sha256": "bf4e7d2d7eb1439b78c06315376b1d50b11ed5ac9ba2550ec98f619079c6c4fc"
   }
  ],
  "tag": "125172044513",
- "verified_at": "2026-10-05T09:45:52Z"
+ "verified_at": "2026-10-09T11:06:27Z"
 }

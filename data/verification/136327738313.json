@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:6cff3f9b3166fa27cd53fd7bb92f5e95418ea65cafac92156a5300c7955803d9",
+   "observed": "sha256:6307b48b2ad1a8b322c6fef0f367d979d619b99856617bb2e1b063785ee8f86b",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_o088wrYVnd1r3it8zo1_500.jpg]",
    "expected": "6b413fa0458f35231695d9c76b22bad3181d5dc029c349d77d72768201aed874",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_o088wrYVnd1r3it8zo1_500.jpg",
+   "observed": "tumblr_o088wrYVnd1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_o088wrYVnd1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o088wrYVnd1r3it8zo1_250.jpg]",
+   "expected": "6b413fa0458f35231695d9c76b22bad3181d5dc029c349d77d72768201aed874",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o088wrYVnd1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o088wrYVnd1r3it8zo1_250.jpg]",
+   "expected": 96427,
+   "observed": 96427,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o088wrYVnd1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -98,6 +118,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_o088wrYVnd1r3it8zo1_250.jpg]",
+   "expected": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת",
+   "observed": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20160125053914",
    "observed": "20160125053914",
@@ -116,11 +142,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:50dbfd32ef4dec7033483e5ba87ec9482aba06669c3f952dd28c278b91e924ed",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:2a26cedef3d9b84a599701b707c432e14fae5e2a5184ae9e66b356c8afc046cb",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2017-06-29T21:08:38Z",
   "org.opencontainers.image.description": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!",
@@ -132,8 +158,8 @@
   "shurik.post.content_len": "72",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "136327738313",
-  "shurik.post.images": "1",
-  "shurik.post.missing_images": "2",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
   "shurik.post.tags": "חלאס-צחי,שנה-אזרחית-חדשה,סילבסטר"
  },
  "layers": [
@@ -143,12 +169,17 @@
    "size": 96339
   },
   {
-   "digest": "sha256:767b634483bf9d81a6c91face1e5db39c36fadba5bd587886fc06175fcea20af",
+   "digest": "sha256:aaddf606a86e613ab1c47a1a3095d468dec703fade12dcf0d7a0408fff36900e",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1725
+   "size": 96339
+  },
+  {
+   "digest": "sha256:876ddee8f540182a106b5927ff3e8ee6651cfc38aeebdbb550dfdec47646b0be",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1697
   }
  ],
- "manifest_digest": "sha256:6cff3f9b3166fa27cd53fd7bb92f5e95418ea65cafac92156a5300c7955803d9",
+ "manifest_digest": "sha256:6307b48b2ad1a8b322c6fef0f367d979d619b99856617bb2e1b063785ee8f86b",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "136327738313",
@@ -162,13 +193,21 @@
    "sha256": "6b413fa0458f35231695d9c76b22bad3181d5dc029c349d77d72768201aed874"
   },
   {
-   "bytes": 7840,
+   "bytes": 96427,
+   "file": "tumblr_o088wrYVnd1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:aaddf606a86e613ab1c47a1a3095d468dec703fade12dcf0d7a0408fff36900e",
+   "role": "media",
+   "sha256": "6b413fa0458f35231695d9c76b22bad3181d5dc029c349d77d72768201aed874"
+  },
+  {
+   "bytes": 6009,
    "file": "post.json",
-   "layer": "sha256:767b634483bf9d81a6c91face1e5db39c36fadba5bd587886fc06175fcea20af",
+   "layer": "sha256:876ddee8f540182a106b5927ff3e8ee6651cfc38aeebdbb550dfdec47646b0be",
    "role": "post-metadata",
-   "sha256": "12c6fe0b7617ecbb59d0da660680b29a62eca88363dae5b01686611a0c389d72"
+   "sha256": "c3b47f82dc8ca3e32ae953f7d8b84aae9eb30de000ae4df8ee6deed61c8213da"
   }
  ],
  "tag": "136327738313",
- "verified_at": "2026-10-09T08:20:31Z"
+ "verified_at": "2026-10-09T11:06:27Z"
 }

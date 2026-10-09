@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:05cf4de0bc8a6441bcdfbefd51f4fa3acc027fa143db713e6d179d713b35c16a",
+   "observed": "sha256:80057a1ecdc9920adc0363632dcd7dd6f2c16bfda67e10f08c408746817136c3",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_lxjw9goTvh1r3it8zo1_500.jpg]",
    "expected": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
+   "observed": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_lxjw9goTvh1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
+   "expected": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
+   "expected": 94352,
+   "observed": 94352,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -98,29 +118,17 @@
    "passed": true
   },
   {
-   "check": "provenance[capture_timestamp]",
-   "expected": "20130930175155",
-   "observed": "20130930175155",
-   "passed": true
-  },
-  {
-   "check": "provenance[replay_url]",
-   "expected": "https://web.archive.org/web/20130930175155id_/http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
-   "observed": "https://web.archive.org/web/20130930175155id_/http://26.media.tumblr.com/tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
-   "passed": true
-  },
-  {
-   "check": "capture_within_cutoff",
-   "expected": "<= 20191231235959",
-   "observed": "20130930175155",
+   "check": "image_caption[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
+   "expected": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "observed": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:14461c80787ccd7fcd5806abbeb93da2139fd9d255b1936304b4bb1424514316",
+ "checks_passed": 18,
+ "checks_total": 18,
+ "config_digest": "sha256:9da947333957f31378236033ed95134086a49f764aadea50a83a42a10ab97f5c",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2013-09-30T17:51:55Z",
   "org.opencontainers.image.description": "הממשלה בעד חוק שאוסר לקרוא נאצי.",
@@ -132,7 +140,7 @@
   "shurik.post.content_len": "58",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "15582230324",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "חוק-גודווין,כלבה-בבקשה,חרדים"
  },
@@ -143,12 +151,17 @@
    "size": 94238
   },
   {
-   "digest": "sha256:6ade4a3b4f9e947c8ea0f9b540ff143d24a938b2b699b1a76f7fd38481e24d87",
+   "digest": "sha256:81e1d816ec6bff2e2f3143fb11f0087c04279bf2a1b2acc1e7fa80339c9cb169",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 816
+   "size": 94238
+  },
+  {
+   "digest": "sha256:d24dab3f4b349c5f393d65f0bc83ebe1d683152525d4506e98aa43e5395baf58",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 887
   }
  ],
- "manifest_digest": "sha256:05cf4de0bc8a6441bcdfbefd51f4fa3acc027fa143db713e6d179d713b35c16a",
+ "manifest_digest": "sha256:80057a1ecdc9920adc0363632dcd7dd6f2c16bfda67e10f08c408746817136c3",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "15582230324",
@@ -162,13 +175,21 @@
    "sha256": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657"
   },
   {
-   "bytes": 1853,
+   "bytes": 94352,
+   "file": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:81e1d816ec6bff2e2f3143fb11f0087c04279bf2a1b2acc1e7fa80339c9cb169",
+   "role": "media",
+   "sha256": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657"
+  },
+  {
+   "bytes": 2357,
    "file": "post.json",
-   "layer": "sha256:6ade4a3b4f9e947c8ea0f9b540ff143d24a938b2b699b1a76f7fd38481e24d87",
+   "layer": "sha256:d24dab3f4b349c5f393d65f0bc83ebe1d683152525d4506e98aa43e5395baf58",
    "role": "post-metadata",
-   "sha256": "4389df115c66d544dd0cdacb2552f68c2f36898cff204ee41c912cd22f60090a"
+   "sha256": "83a0cca293859af20c8dbeb5406e82c9513b7a048fed031832d565a8df702e2f"
   }
  ],
  "tag": "15582230324",
- "verified_at": "2026-10-05T12:37:13Z"
+ "verified_at": "2026-10-09T11:06:23Z"
 }
