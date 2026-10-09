@@ -19,8 +19,8 @@
  "content_text": "אינדינגב\nתודה לדניאל זאוטנר",
  "date_text": "Posted 4 days ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T01:57:21Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T10:28:09Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -173,13 +173,65 @@
    ]
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1",
+     "url": "http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 39726,
+     "capture_timestamp": "20130930175155",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "e1e36d49c4735724dfc095494639eb606560a5082f40620c4f25a0f288f93025",
+     "status": 200,
+     "url": "http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lxjrdmqKSK1r3it8zo1.jpg",
-   "caption_alt": "",
+   "blob_path": "data/blobs/e1/e1e36d49c4735724dfc095494639eb606560a5082f40620c4f25a0f288f93025",
+   "bytes": 39726,
+   "caption": "אינדינגב\nתודה לדניאל זאוטנר",
+   "caption_alt": "אינדינגב\nתודה לדניאל זאוטנר",
+   "capture": {
+    "archive_digest": "4AZPO5H53DDU63LZQLHGZ4AXTWPEDAPW",
+    "original": "http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20130930175155id_/http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg",
+    "timestamp": "20130930175155"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20130930175155 of http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg (39726 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "e1e36d49c4735724dfc095494639eb606560a5082f40620c4f25a0f288f93025",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
     "http://28.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_500.jpg"
@@ -231,18 +283,12 @@
    "url": "http://hazfalafel.com:80/post/15577072146"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "http://78.media.tumblr.com/tumblr_lxjrdmqKSK1r3it8zo1_250.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com:80/post/15577072146",
  "page_bytes": 49522,
  "page_sha256": "47e423c24bed8f8e19f31d451c8ae92e0cb8e73de3cc8db6370c7f3a6a38c3c2",
- "partial": true,
+ "partial": false,
  "post_id": "15577072146",
  "published": {
   "action": "updated",
@@ -259,7 +305,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20120114064453id_/http://hazfalafel.com:80/post/15577072146",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "היפסטר-קיטי"
  ]
