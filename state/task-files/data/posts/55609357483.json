@@ -25,13 +25,19 @@
  "content_text": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-09T15:11:47Z",
- "image_count": 3,
+ "fetched_at": "2026-10-09T16:13:08Z",
+ "image_count": 4,
  "images": [
   {
    "alt_sources": [
     "http://hazfalafel.com:80/rss"
    ],
+   "archive_capture": {
+    "archive_digest": "Z7BUMPXMAD3GSVMOV73IFG3YNB4O32T7",
+    "original": "http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111015130id_/http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+    "timestamp": "20140111015130"
+   },
    "attempts": [
     {
      "endpoint": "variant-plan",
@@ -151,6 +157,85 @@
   {
    "attempts": [
     {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx-stem"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1",
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_400.jpg"
+    },
+    {
      "endpoint": "variant-plan",
      "media_url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
      "note": "every size/extension variant considered before declaring a gap",
@@ -165,26 +250,6 @@
       "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
       "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
      ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1",
-     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1",
-     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
     }
    ],
    "base_key": "tumblr_mq1ehv8EDK1r3it8zo1.jpg",
@@ -196,7 +261,7 @@
    "link_text": "",
    "media_key": "tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
    "media_url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
     "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
@@ -217,6 +282,12 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2013/11?before_time=1383508022"
    ],
+   "archive_capture": {
+    "archive_digest": "Z7BUMPXMAD3GSVMOV73IFG3YNB4O32T7",
+    "original": "http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111015130id_/http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+    "timestamp": "20140111015130"
+   },
    "attempts": [
     {
      "endpoint": "variant-plan",
@@ -334,6 +405,12 @@
    ]
   },
   {
+   "archive_capture": {
+    "archive_digest": "L2ICKXTGI5JMQTH4BRR55OZ4EMVP443D",
+    "original": "http://25.media.tumblr.com/25228a1502795b4d4afe7c0bd6ffc231/tumblr_mpoh6ao6M81r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111020135id_/http://25.media.tumblr.com/25228a1502795b4d4afe7c0bd6ffc231/tumblr_mpoh6ao6M81r3it8zo1_500.jpg",
+    "timestamp": "20140111020135"
+   },
    "attempts": [
     {
      "endpoint": "variant-plan",
@@ -414,13 +491,66 @@
     "http://hazfalafel.com/tagged/%D7%95%D7%96%D7%94-%D7%A0%D7%A2%D7%9C%D7%9D",
     "https://hazfalafel.com/tagged/and-it%27s-gone"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1",
+     "url": "http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 95457,
+     "capture_timestamp": "20140111015130",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_mq1ehv8EDK1r3it8zo1.jpg",
+   "blob_path": "data/blobs/a7/a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f",
+   "bytes": 95457,
+   "caption": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
    "caption_alt": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
+   "capture": {
+    "archive_digest": "Z7BUMPXMAD3GSVMOV73IFG3YNB4O32T7",
+    "original": "http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111015130id_/http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+    "timestamp": "20140111015130"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+   "note": "recovered from pre-cutoff capture 20140111015130 of http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg (95457 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
     "http://25.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
@@ -477,13 +607,95 @@
    ]
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_400.jpg"
+    }
+   ],
    "base_key": "tumblr_mq1ehv8EDK1r3it8zo1.jpg",
-   "caption_alt": "",
+   "caption": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
+   "caption_alt": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "og:image",
    "link_text": "",
    "media_key": "tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
    "media_url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
    ],
@@ -535,10 +747,89 @@
    "url": "http://hazfalafel.com/post/55609357483"
   }
  ],
- "missing_image_count": 3,
+ "missing_image_count": 2,
  "missing_images": [
   {
    "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log",
+      "cdx-stem"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "captures": 0,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "message": "",
+     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
+     "status": "cached",
+     "stem": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1",
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
+      "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_400.jpg"
+    },
     {
      "endpoint": "variant-plan",
      "media_url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
@@ -554,40 +845,92 @@
       "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
       "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
      ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1",
-     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1",
-     "url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
     }
    ],
    "media_url": "http://67.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
   },
   {
-   "attempts": [],
-   "media_url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
-   "reason": null
-  },
-  {
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.png",
+      "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_400.jpg"
+    }
+   ],
    "media_url": "http://78.media.tumblr.com/e82f8ba2587ea67d687e64d46ad08df3/tumblr_mq1ehv8EDK1r3it8zo1_1280.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/55609357483",
@@ -610,6 +953,10 @@
  },
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171110182659id_/http://hazfalafel.com/post/55609357483",
+ "restored_from_registry": {
+  "at": "2026-10-09T16:12:06Z",
+  "manifest_digest": "sha256:d248fb94d8b74e9249d4b2ed53fcd317487c3241847ae4a06fe5152996bdd710"
+ },
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [
