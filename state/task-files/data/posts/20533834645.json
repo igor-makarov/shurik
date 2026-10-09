@@ -26,8 +26,8 @@
  "content_text": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
  "date_text": "Posted 2 weeks ago",
  "failure_count": 0,
- "fetched_at": "2026-10-07T04:17:13Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T13:03:39Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -223,13 +223,42 @@
      "status": 200,
      "stem": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1",
      "url": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1",
+     "url": "http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 130417,
+     "capture_timestamp": "20140111014158",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "88cba8b80a7ccfda14a03591e24facc31750a0adfcc137421e7f42b7b40f48e1",
+     "status": 200,
+     "url": "http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_m20o1467zw1r3it8zo1.jpg",
+   "blob_path": "data/blobs/88/88cba8b80a7ccfda14a03591e24facc31750a0adfcc137421e7f42b7b40f48e1",
+   "bytes": 130417,
    "caption": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
    "caption_alt": "יותר מעניין מאלבומי אילת של ההיא מהעבודה\nתודה לנבות",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "OFKTTSDX4VOZ6OAOSMO5XPQLMIGLNNIL",
+    "original": "http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111014158id_/http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg",
+    "timestamp": "20140111014158"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_m20o1467zw1r3it8zo1_250.jpg",
    "found_in": "og:image",
    "host_inventory": {
     "host": "27.media.tumblr.com",
@@ -240,9 +269,12 @@
    },
    "link_text": "",
    "media_key": "tumblr_m20o1467zw1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20140111014158 of http://31.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg (130417 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "88cba8b80a7ccfda14a03591e24facc31750a0adfcc137421e7f42b7b40f48e1",
+   "state": "recovered",
    "url_forms": [
     "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg",
     "http://66.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg",
@@ -285,7 +317,7 @@
    }
   }
  ],
- "images_done": true,
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 1,
  "listing_images_added": 0,
@@ -310,53 +342,12 @@
    "url": "http://hazfalafel.com:80/post/20533834645"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_1280.jpg",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_1024.jpg",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_540.jpg",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_500.jpg",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_400.jpg",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_100.jpg",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1.png",
-      "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "media-index",
-     "host": "27.media.tumblr.com",
-     "media_url": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg",
-     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
-     "rows": 9863
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1",
-     "url": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg"
-    }
-   ],
-   "media_url": "http://27.media.tumblr.com/tumblr_m20o1467zw1r3it8zo1_250.jpg",
-   "reason": "archive_gap"
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com:80/post/20533834645",
  "page_bytes": 51614,
  "page_sha256": "9fd484fe00e271e0f3c5cd608a07db13561fdb93d0bb6792b1f8c2932f2b5298",
- "partial": true,
+ "partial": false,
  "post_id": "20533834645",
  "published": {
   "action": "updated",
@@ -373,7 +364,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20120424093149id_/http://hazfalafel.com:80/post/20533834645",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "בחור-פוטוגני-עד-כדי-גיחוך"
  ]
