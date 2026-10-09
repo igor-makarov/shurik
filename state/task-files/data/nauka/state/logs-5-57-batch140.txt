@@ -1,0 +1,44 @@
+2026-10-09T00:01:43.621Z oras login ok
+2026-10-09T00:01:44.546Z === pass 1 (budget 540000ms left) ===
+2026-10-09T00:01:44.549Z -- file nij-1969-n10-pdf (Pdf-85.3M) --
+2026-10-09T00:01:44.550Z -- file nij-1964-n08-pdf (Pdf-85.3M) --
+2026-10-09T00:01:44.550Z -- file nij-1964-n09-pdf (Pdf-85.4M) --
+2026-10-09T00:01:44.550Z -- file nij-1964-n06-pdf (Pdf-85.5M) --
+2026-10-09T00:01:44.550Z -- file nij-1969-n07-pdf (Pdf-85.5M) --
+2026-10-09T00:01:44.550Z -- file nij-1969-n08-pdf (Pdf-85.6M) --
+2026-10-09T00:03:52.797Z publishing nij-1964-n08-pdf (89484604 bytes) as nij-1964-n08-pdf
+2026-10-09T00:03:58.306Z verified nij-1964-n08-pdf: 1474371d6ce11484ea6748345c1ec22f5f3d19ac50afcb79b3b4b76e4223af6c
+2026-10-09T00:03:58.306Z -- file nij-1964-n11-pdf (Pdf-86.6M) --
+2026-10-09T00:08:19.958Z publishing nij-1969-n10-pdf (89423699 bytes) as nij-1969-n10-pdf
+2026-10-09T00:08:25.372Z verified nij-1969-n10-pdf: bc563411a3b08e0a8a0898c9bb16860f493bbd6cc51d3b7991a6c6eb2dd712da
+2026-10-09T00:08:25.372Z -- file nij-1969-n11-pdf (Pdf-86.9M) --
+2026-10-09T00:09:43.993Z publishing nij-1964-n09-pdf (89542396 bytes) as nij-1964-n09-pdf
+2026-10-09T00:09:49.468Z verified nij-1964-n09-pdf: a4c6536c658911978eb794b53b2a7a8193fe5e0c7596e846e0e46e4f9bb20157
+2026-10-09T00:09:49.469Z -- file nij-1969-n09-pdf (Pdf-87.3M) --
+2026-10-09T00:09:49.469Z -- file nij-1962-n05-pdf (Pdf-89.7M) --
+2026-10-09T00:09:49.469Z -- file nij-2008-n12-pdf (Pdf-96.7M) --
+2026-10-09T00:09:49.469Z -- file nij-1940-n0506-pdf (Pdf- 103M) --
+2026-10-09T00:09:49.469Z -- file nij-1940-n1112-pdf (Pdf- 138M) --
+2026-10-09T00:09:49.469Z -- file nij-1947-n06-pdf (Pdf- 928k) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n01-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n02-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n03-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n04-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n05-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n06-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n07-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n08-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2014-n09-pdf (null) --
+2026-10-09T00:09:49.469Z -- file nij-2015-n01-pdf (null) --
+2026-10-09T00:10:44.546Z transfer budget elapsed; aborting in-flight requests
+2026-10-09T00:10:48.471Z checkpointed nij-1964-n06-pdf (57671680 bytes, 55 chunks) -> sha256:ee264ee1b805d0aacbddcf7dc765d4ae81b00427b26dd6f445514af1aed713a3
+2026-10-09T00:10:52.268Z checkpointed nij-1969-n07-pdf (54525952 bytes, 52 chunks) -> sha256:7f1da1e9ac52df0168e9a56dec9dde5eae44ef04277bcf39f8199ba4ca40eff1
+2026-10-09T00:10:55.866Z checkpointed nij-1969-n08-pdf (50331648 bytes, 48 chunks) -> sha256:2abc4f08882dc8b7b7e6cb7d61834a396918328a3679dfbca351b24f457a277b
+2026-10-09T00:10:58.726Z checkpointed nij-1964-n11-pdf (25165824 bytes, 24 chunks) -> sha256:ff2b94b1c2635a85ef5fdb2bfd9afaa7aafbfa881f72608f8422710eed130fe9
+2026-10-09T00:11:01.091Z checkpointed nij-1969-n11-pdf (7340032 bytes, 7 chunks) -> sha256:f4ff16e82071d4b45468d647a214eb86bf9027b15dfe8ca3f1bcf26270a9c771
+2026-10-09T00:11:01.159Z pass 1 results: [{"id":"nij-1964-n08-pdf","status":"published","sha256":"1474371d6ce11484ea6748345c1ec22f5f3d19ac50afcb79b3b4b76e4223af6c","bytes":89484604,"digest":"sha256:047caa89bcd3546da92509f2771b84b639cb410ed3a06f40449d063349e0a107","tag":"nij-1964-n08-pdf"},{"id":"nij-1969-n10-pdf","status":"published","sha256":"bc563411a3b08e0a8a0898c9bb16860f493bbd6cc51d3b7991a6c6eb2dd712da","bytes":89423699,"digest":"sha256:ec67eb223f5f106b50d1e59fda3296ad75752987566181c1ee5449e2ddebfbc2","tag":"nij-1969-n10-pdf"},{"id":"nij-1964-n09-pdf","status":"published","sha256":"a4c6536c658911978eb794b53b2a7a8193fe5e0c7596e846e0e46e4f9bb20157","bytes":89542396,"digest":"sha256:05854550084d5e656a0294255149d2abcae51594fad9e78b9d9a8086f01f57e9","tag":"nij-1964-n09-pdf"},{"id":"nij-1969-n09-pdf","status":"in_progress","received":0},{"id":"nij-1962-n05-pdf","status":"in_progress","received":0},{"id":"nij-2008-n12-pdf","status":"in_progress","received":0},{"id":"nij-1940-n0506-pdf","status":"in_progress","received":0},{"id":"nij-1940-n1112-pdf","status":"in_progress","received":0},{"id":"nij-1947-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n01-pdf","status":"in_progress","received":0},{"id":"nij-2014-n02-pdf","status":"in_progress","received":0},{"id":"nij-2014-n03-pdf","status":"in_progress","received":0},{"id":"nij-2014-n04-pdf","status":"in_progress","received":0},{"id":"nij-2014-n05-pdf","status":"in_progress","received":0},{"id":"nij-2014-n06-pdf","status":"in_progress","received":0},{"id":"nij-2014-n07-pdf","status":"in_progress","received":0},{"id":"nij-2014-n08-pdf","status":"in_progress","received":0},{"id":"nij-2014-n09-pdf","status":"in_progress","received":0},{"id":"nij-2015-n01-pdf","status":"in_progress","received":0},{"id":"nij-1969-n08-pdf","status":"in_progress","received":50331648},{"id":"nij-1964-n06-pdf","status":"in_progress","received":57671680},{"id":"nij-1969-n07-pdf","status":"in_progress","received":54525952},{"id":"nij-1969-n11-pdf","status":"in_progress","received":7340032},{"id":"nij-1964-n11-pdf","status":"in_progress","received":25165824}]
+2026-10-09T00:11:01.160Z remaining files: 21
+2026-10-09T00:11:05.231Z published catalog nij-master-catalog -> sha256:fa9e8b28d64e84ac0ed9f494ea486d04c470aca71f80bb853d99e7ca72dec470
+2026-10-09T00:11:07.139Z published master index nij-master-index -> sha256:13505882197173fc95a305001b89059a27264e5a5776ca3ffc0f1794ed2aa15a (1526013 B, status complete)
+2026-10-09T00:11:07.139Z published master checkpoint nij-master-checkpoint -> sha256:da69bfc923fb82858943ced90ed24bac0195558852cb06e12d9e86e87cf07bdc
+2026-10-09T00:11:07.139Z retrieve batch complete in 563518ms
