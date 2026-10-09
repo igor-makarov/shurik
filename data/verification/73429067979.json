@@ -1,0 +1,166 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:9206008cfc0ec04e2d3b73586ac1866fae3fe48ff14d400cfc6ced75495eba06",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mzgic21M3S1r3it8zo1_500.jpg]",
+   "expected": "e5c3157009be0beaf8b673975660af34c32c0ff0531a0228b622ca62771be7f4",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mzgic21M3S1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mzgic21M3S1r3it8zo1_500.jpg]",
+   "expected": 85467,
+   "observed": 85467,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mzgic21M3S1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אומרים שתספורת בצים גורמת לזין שנקבל להראות גדול יותר\nציםimmature high schoolersתיכוניסטים ילדותייםחדשות",
+   "observed": "אומרים שתספורת בצים גורמת לזין שנקבל להראות גדול יותר\nציםimmature high schoolersתיכוניסטים ילדותייםחדשות",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<999 chars>",
+   "observed": "<999 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צים",
+    "immature high schoolers",
+    "תיכוניסטים ילדותיים",
+    "חדשות"
+   ],
+   "observed": [
+    "צים",
+    "immature high schoolers",
+    "תיכוניסטים ילדותיים",
+    "חדשות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/73429067979/amp",
+   "observed": "http://hazfalafel.com/post/73429067979/amp",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150111131020",
+   "observed": "20150111131020",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150111131020id_/http://40.media.tumblr.com/78f6fc2df5296465b595a3fd633f4244/tumblr_mzgic21M3S1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150111131020id_/http://40.media.tumblr.com/78f6fc2df5296465b595a3fd633f4244/tumblr_mzgic21M3S1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150111131020",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:9e1a31bc4537fd2bc5a8cafe0d80da0e1e94dc4e85a7557162081ce986ce1675",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-04T22:26:42Z",
+  "org.opencontainers.image.description": "אומרים שתספורת בצים גורמת לזין שנקבל להראות גדול יותר",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 73429067979",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/73429067979/amp",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "104",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "73429067979",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "צים,immature high schoolers,תיכוניסטים ילדותיים,חדשות"
+ },
+ "layers": [
+  {
+   "digest": "sha256:b97da42f7b665871aa974d0073c7f445d5082d9af93eec78ef1f1e195f79ba68",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 82852
+  },
+  {
+   "digest": "sha256:e9df17f72952c04e3a2e51a8a507ffe849eb7b39c77c0ed8b8a8861add9ad1fa",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1671
+  }
+ ],
+ "manifest_digest": "sha256:9206008cfc0ec04e2d3b73586ac1866fae3fe48ff14d400cfc6ced75495eba06",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "73429067979",
+ "pulled_files": [
+  {
+   "bytes": 85467,
+   "file": "tumblr_mzgic21M3S1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b97da42f7b665871aa974d0073c7f445d5082d9af93eec78ef1f1e195f79ba68",
+   "role": "media",
+   "sha256": "e5c3157009be0beaf8b673975660af34c32c0ff0531a0228b622ca62771be7f4"
+  },
+  {
+   "bytes": 8452,
+   "file": "post.json",
+   "layer": "sha256:e9df17f72952c04e3a2e51a8a507ffe849eb7b39c77c0ed8b8a8861add9ad1fa",
+   "role": "post-metadata",
+   "sha256": "5b380fdc0ec875358fa45e6fed490d8b111d5c9530a1e18373795871f838f6f4"
+  }
+ ],
+ "tag": "73429067979",
+ "verified_at": "2026-10-09T23:43:20Z"
+}
