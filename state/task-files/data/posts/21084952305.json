@@ -39,38 +39,18 @@
  "content_text": "צרות של אשכנזים: מימונה.",
  "date_text": "Posted 4 weeks ago",
  "failure_count": 0,
- "fetched_at": "2026-10-07T06:02:29Z",
- "image_count": 2,
+ "fetched_at": "2026-10-09T08:14:15Z",
+ "image_count": 3,
  "images": [
   {
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1280.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1024.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_540.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_400.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_250.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_100.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.png",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
-     "variants": [
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_540.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_400.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_250.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_100.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.png",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.gif"
-     ]
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -121,19 +101,67 @@
      "status": "cached",
      "stem": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1",
      "url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1",
+     "url": "https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 52531,
+     "capture_timestamp": "20181018115716",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8",
+     "status": 200,
+     "url": "https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1280.jpg",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1024.jpg",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_540.jpg",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_400.jpg",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_250.jpg",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_100.jpg",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.png",
+      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.gif"
+     ]
     }
    ],
    "base_key": "tumblr_m2h66vwVbT1r3it8zo1.jpg",
+   "blob_path": "data/blobs/3e/3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8",
+   "bytes": 52531,
    "caption": "צרות של אשכנזים: מימונה.",
    "caption_alt": "צרות של אשכנזים: מימונה.",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "O4UN5JN7LDZUFUJFV7ERNSTQN7A6VWRS",
+    "original": "https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20181018115716id_/https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+    "timestamp": "20181018115716"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "pending",
+   "note": "recovered from pre-cutoff capture 20181018115716 of https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg (52531 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8",
+   "state": "recovered",
    "url_forms": [
     "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
     "https://78.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg"
@@ -471,92 +499,8 @@
    "url": "http://hazfalafel.com/post/21084952305/amp"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1280.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1024.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_540.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_400.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_250.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_100.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.png",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 2; the rest stay queued for a later run",
-     "variants": [
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_540.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_400.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_250.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_100.jpg",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.png",
-      "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1.gif"
-     ]
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "throttled",
-     "location": "",
-     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
-     "requested_timestamp": "20191231235959",
-     "status": null,
-     "url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "throttled",
-     "location": "",
-     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
-     "requested_timestamp": "20191231235959",
-     "status": null,
-     "url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1280.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "throttled",
-     "location": "",
-     "message": "circuit breaker open for 120s after 3 consecutive throttled answers (trip 1); no request was sent",
-     "requested_timestamp": "20191231235959",
-     "status": null,
-     "url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_1024.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1",
-     "url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1",
-     "url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://25.media.tumblr.com/tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
-  },
   {
    "attempts": [
     {
@@ -639,12 +583,12 @@
  "post_id": "21084952305",
  "published": {
   "action": "updated",
-  "at": "2026-10-07T06:02:45Z",
-  "image_count": 2,
-  "manifest_digest": "sha256:bb892464a3bab031b3a829ac2ad7053e82f67120c120e503d68aa1a55aae669a",
-  "missing_count": 2,
+  "at": "2026-10-09T08:15:03Z",
+  "image_count": 3,
+  "manifest_digest": "sha256:2282f791beb843907aa9a21274b0477eb82f8d3a8e8c63191bbbbe9fe2cc7a19",
+  "missing_count": 1,
   "quality": [
-   2,
+   3,
    24,
    1
   ]
