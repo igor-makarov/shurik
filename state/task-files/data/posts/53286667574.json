@@ -19,8 +19,8 @@
  "content_text": "אגדת השמש והירח - ריטה ואתניקס",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T09:45:37Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T23:09:44Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -60,13 +60,42 @@
      "status": 200,
      "stem": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1",
      "url": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1",
+     "url": "http://25.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 122856,
+     "capture_timestamp": "20140111015038",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "d6b2f54a3303b52043d47476076a7ae8e4ad579dad919a3cdde9006a9f98e1de",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_mok053a8bM1r3it8zo1.jpg",
+   "blob_path": "data/blobs/d6/d6b2f54a3303b52043d47476076a7ae8e4ad579dad919a3cdde9006a9f98e1de",
+   "bytes": 122856,
    "caption": "אגדת השמש והירח - ריטה ואתניקס",
    "caption_alt": "אגדת השמש והירח - ריטה ואתניקס",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "HMX4GZGAXCKA6VKMUX3USM7RWLJV5BBF",
+    "original": "http://25.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111015038id_/http://25.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
+    "timestamp": "20140111015038"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mok053a8bM1r3it8zo1_500.jpg",
    "found_in": "img",
    "host_inventory": {
     "host": "78.media.tumblr.com",
@@ -77,9 +106,12 @@
    },
    "link_text": "",
    "media_key": "tumblr_mok053a8bM1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20140111015038 of http://25.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg (122856 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for 1 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "d6b2f54a3303b52043d47476076a7ae8e4ad579dad919a3cdde9006a9f98e1de",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
     "https://66.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
@@ -266,7 +298,7 @@
    ]
   }
  ],
- "images_done": true,
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -291,48 +323,8 @@
    "url": "http://hazfalafel.com/post/53286667574"
   }
  ],
- "missing_image_count": 4,
+ "missing_image_count": 3,
  "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_1280.jpg",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_1024.jpg",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_540.jpg",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_400.jpg",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_250.jpg",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_100.jpg",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1.png",
-      "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "media-index",
-     "host": "78.media.tumblr.com",
-     "media_url": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
-     "note": "host fully inventoried after this key was known; no pre-cutoff capture of the host references this media key",
-     "rows": 101723
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1",
-     "url": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://78.media.tumblr.com/513fd54516afd0e206a97ccdc7592448/tumblr_mok053a8bM1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
-  },
   {
    "attempts": [
     {
