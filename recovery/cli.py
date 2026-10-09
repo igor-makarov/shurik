@@ -1189,6 +1189,10 @@ def ensure_blob(fetcher: Fetcher, img: dict) -> tuple[bool, str]:
     """
     path = img.get("blob_path") or blob_path(img.get("sha256") or "")
     if img.get("sha256") and os.path.exists(path):
+        # Backfill the path: a record restored from the registry (or merged from
+        # the store) can carry a sha256 without `blob_path`, and the artifact
+        # builder reads `img["blob_path"]` directly.
+        img["blob_path"] = path
         return True, "cached"
     cap = img.get("capture") or {}
     if not cap.get("timestamp") or not cap.get("original"):
