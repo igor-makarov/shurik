@@ -1,0 +1,199 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:46120e0acd62bcd5bd01eac753e76aaef3aba97576c934c2b9c24ee9ced47561",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_msfwcn1NmV1r3it8zo1_1280.jpg]",
+   "expected": "c0c609df6ca2b1609cd8a382415416e8c6285bbb6047203cfd8164c5ab7593c2",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_msfwcn1NmV1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_msfwcn1NmV1r3it8zo1_1280.jpg]",
+   "expected": 25400,
+   "observed": 25400,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_msfwcn1NmV1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_msfwcn1NmV1r3it8zo1_250.jpg]",
+   "expected": "c0c609df6ca2b1609cd8a382415416e8c6285bbb6047203cfd8164c5ab7593c2",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_msfwcn1NmV1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_msfwcn1NmV1r3it8zo1_250.jpg]",
+   "expected": 25400,
+   "observed": 25400,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_msfwcn1NmV1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf",
+   "observed": "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<254 chars>",
+   "observed": "<254 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ג'ודי-שלום-ניר-מוזס",
+    "פוטובומינג",
+    "photobombing",
+    "סוריה",
+    "תקיפה-בסוריה"
+   ],
+   "observed": [
+    "ג'ודי-שלום-ניר-מוזס",
+    "פוטובומינג",
+    "photobombing",
+    "סוריה",
+    "תקיפה-בסוריה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf"
+   ],
+   "observed": [
+    "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/59968917455",
+   "observed": "http://hazfalafel.com:80/post/59968917455",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_msfwcn1NmV1r3it8zo1_1280.jpg]",
+   "expected": "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf",
+   "observed": "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_msfwcn1NmV1r3it8zo1_250.jpg]",
+   "expected": "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf",
+   "observed": "Photobomb level: Expert!\nתודה ל-Noam Yan Shuf",
+   "passed": true
+  }
+ ],
+ "checks_passed": 18,
+ "checks_total": 18,
+ "config_digest": "sha256:0d4a921f00ab9ed13fa402bfc6b6af943d56f1bd775ecf33b64cf425c3b966f8",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-07T00:37:30Z",
+  "org.opencontainers.image.description": "Photobomb level: Expert!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 59968917455",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/59968917455",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "45",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "59968917455",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "ג'ודי-שלום-ניר-מוזס,פוטובומינג,photobombing,סוריה,תקיפה-בסוריה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:9e17175ede6c37c775d2fc9f8e1a2e2e7e2998a7bae0325830ea4e720bce2f89",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 24641
+  },
+  {
+   "digest": "sha256:4ae59ad8ae21ccb8d59312febc46a80873ceeaee339680fc739f1aee9d8bc3fd",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 24640
+  },
+  {
+   "digest": "sha256:f8dbd9f5d2b7e263d3294709e499ad2712de528dde0598b76717ad40ed839b1e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1394
+  }
+ ],
+ "manifest_digest": "sha256:46120e0acd62bcd5bd01eac753e76aaef3aba97576c934c2b9c24ee9ced47561",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "59968917455",
+ "pulled_files": [
+  {
+   "bytes": 25400,
+   "file": "tumblr_msfwcn1NmV1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:9e17175ede6c37c775d2fc9f8e1a2e2e7e2998a7bae0325830ea4e720bce2f89",
+   "role": "media",
+   "sha256": "c0c609df6ca2b1609cd8a382415416e8c6285bbb6047203cfd8164c5ab7593c2"
+  },
+  {
+   "bytes": 25400,
+   "file": "tumblr_msfwcn1NmV1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:4ae59ad8ae21ccb8d59312febc46a80873ceeaee339680fc739f1aee9d8bc3fd",
+   "role": "media",
+   "sha256": "c0c609df6ca2b1609cd8a382415416e8c6285bbb6047203cfd8164c5ab7593c2"
+  },
+  {
+   "bytes": 5575,
+   "file": "post.json",
+   "layer": "sha256:f8dbd9f5d2b7e263d3294709e499ad2712de528dde0598b76717ad40ed839b1e",
+   "role": "post-metadata",
+   "sha256": "77d101b490d4cf5777c3cf9245c25313389d7b609eab2f7cef33593b16ac0a10"
+  }
+ ],
+ "tag": "59968917455",
+ "verified_at": "2026-10-09T12:20:07Z"
+}

@@ -99,6 +99,31 @@ class QueueSelectionTests(unittest.TestCase):
         self.assertEqual([pid for pid, _ in again], ["501"])
         self.assertEqual(stats["cooling_down"], 1)
 
+    def test_targeted_pass_reaches_a_post_inside_its_own_cooldown(self):
+        """A named post with fresh evidence must not be hidden by its cooldown.
+
+        Measured 2026-10-09: post 59949431231 recorded a transient `http_error`
+        (the replay 404'd a capture the CDX listed with statuscode 200) and got
+        a 45-minute per-post cooldown. The very same replay returned the 36 KB
+        JPEG minutes later, yet `fetch-images --ids 59949431231 --retry-missing`
+        selected nothing, because the per-post cooldown is applied before the
+        explicit target. An unattended sweep must still honour the cooldown;
+        only the caller-named pass bypasses it.
+        """
+        records = [post("500", [image()])]
+        q = self.queue(cooldown_minutes=30)
+        batch, _ = q.select(records, limit=1)
+        q.note_attempt("500", dict(batch)["500"],
+                       {"outcome": "transient", "transient": 1})
+        q.save()
+        fresh = ImageQueue(self.path)
+        self.assertTrue(fresh.cooling_down("500"))
+        sweep, stats = fresh.select(records, limit=5)
+        self.assertEqual(sweep, [])
+        self.assertEqual(stats["cooling_down"], 1)
+        targeted, _ = fresh.select(records, limit=5, ignore_cooldown=True)
+        self.assertEqual([pid for pid, _ in targeted], ["500"])
+
     def test_a_failed_item_does_not_stop_the_rest_of_the_batch(self):
         records = [post("600", [image(error=TIMEOUT)]), post("601", [image()]),
                    post("602", [image(error=THROTTLED)])]

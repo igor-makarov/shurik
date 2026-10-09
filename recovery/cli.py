@@ -831,7 +831,8 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
         return needs_probe(image) or image_stem_hit(image, stem_index)
 
     batch, stats = q.select(records, limit=limit_posts, retry_missing=retry_missing,
-                            stale_fn=_stale, final_errors=final_errors, order=order)
+                            stale_fn=_stale, final_errors=final_errors, order=order,
+                            ignore_cooldown=bool(post_ids))
     cooldown = q.global_cooldown_active()
     if cooldown:
         # The recorded cooldown may outlive the outage that set it. Spend one

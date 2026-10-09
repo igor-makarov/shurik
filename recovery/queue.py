@@ -191,11 +191,18 @@ class ImageQueue:
 
     def select(self, records: Iterable[dict], *, limit: int, retry_missing: bool = False,
                stale_fn: Optional[Callable[[dict], bool]] = None,
-               final_errors: Iterable[str] = (), order: str = "closest") -> tuple[list[dict], dict]:
+               final_errors: Iterable[str] = (), order: str = "closest",
+               ignore_cooldown: bool = False) -> tuple[list[dict], dict]:
         """Pick the next batch of posts that really have work left.
 
         Eligibility comes first, the limit is applied to what survives it, and
         the ordering rotates by attempt count so no post can be starved.
+
+        `ignore_cooldown` is for an explicitly targeted pass (`--ids`): the
+        caller has already named the posts and carries fresh evidence (a
+        recorded capture, a repaired transport), so a per-post cooldown earned
+        by an earlier transient outcome must not make the one requested post
+        unreachable. The cooldown still governs unattended sweeps.
         """
         now = time.time()
         stats = {"records": 0, "posts_with_work": 0, "cooling_down": 0,
@@ -206,7 +213,7 @@ class ImageQueue:
             pid = str(rec.get("post_id") or "")
             if not pid or not rec.get("images"):
                 continue
-            if self.cooling_down(pid, now):
+            if not ignore_cooldown and self.cooling_down(pid, now):
                 stats["cooling_down"] += 1
                 continue
             images, row = self.eligible_images(rec, retry_missing=retry_missing,
