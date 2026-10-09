@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:6cff3f9b3166fa27cd53fd7bb92f5e95418ea65cafac92156a5300c7955803d9",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o088wrYVnd1r3it8zo1_500.jpg]",
+   "expected": "6b413fa0458f35231695d9c76b22bad3181d5dc029c349d77d72768201aed874",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o088wrYVnd1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o088wrYVnd1r3it8zo1_500.jpg]",
+   "expected": 96427,
+   "observed": 96427,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o088wrYVnd1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת",
+   "observed": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<796 chars>",
+   "observed": "<796 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חלאס-צחי",
+    "שנה-אזרחית-חדשה",
+    "סילבסטר"
+   ],
+   "observed": [
+    "חלאס-צחי",
+    "שנה-אזרחית-חדשה",
+    "סילבסטר"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת"
+   ],
+   "observed": [
+    "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/136327738313",
+   "observed": "http://hazfalafel.com/post/136327738313",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_o088wrYVnd1r3it8zo1_500.jpg]",
+   "expected": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת",
+   "observed": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!\nתודה לצ'ובה\nתמונה: רוזי ניב צלמת",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20160125053914",
+   "observed": "20160125053914",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20160125053914id_/http://40.media.tumblr.com/4cfc38de1f4e06e817c5ecf7799b7e6e/tumblr_o088wrYVnd1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20160125053914id_/http://40.media.tumblr.com/4cfc38de1f4e06e817c5ecf7799b7e6e/tumblr_o088wrYVnd1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20160125053914",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:50dbfd32ef4dec7033483e5ba87ec9482aba06669c3f952dd28c278b91e924ed",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-06-29T21:08:38Z",
+  "org.opencontainers.image.description": "מה? סילבסטר סטלון אנשטישמי? … חלסא צחי!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 136327738313",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/136327738313",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "72",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "136327738313",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "חלאס-צחי,שנה-אזרחית-חדשה,סילבסטר"
+ },
+ "layers": [
+  {
+   "digest": "sha256:d3e9a2fafe89e5fdbaa2e7f177643d0376c39051094716e9d771a3fa61cb614d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 96339
+  },
+  {
+   "digest": "sha256:767b634483bf9d81a6c91face1e5db39c36fadba5bd587886fc06175fcea20af",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1725
+  }
+ ],
+ "manifest_digest": "sha256:6cff3f9b3166fa27cd53fd7bb92f5e95418ea65cafac92156a5300c7955803d9",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "136327738313",
+ "pulled_files": [
+  {
+   "bytes": 96427,
+   "file": "tumblr_o088wrYVnd1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:d3e9a2fafe89e5fdbaa2e7f177643d0376c39051094716e9d771a3fa61cb614d",
+   "role": "media",
+   "sha256": "6b413fa0458f35231695d9c76b22bad3181d5dc029c349d77d72768201aed874"
+  },
+  {
+   "bytes": 7840,
+   "file": "post.json",
+   "layer": "sha256:767b634483bf9d81a6c91face1e5db39c36fadba5bd587886fc06175fcea20af",
+   "role": "post-metadata",
+   "sha256": "12c6fe0b7617ecbb59d0da660680b29a62eca88363dae5b01686611a0c389d72"
+  }
+ ],
+ "tag": "136327738313",
+ "verified_at": "2026-10-09T08:20:31Z"
+}

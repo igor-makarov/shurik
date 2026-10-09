@@ -28,7 +28,7 @@ from . import hostdump
 from .parsing import extract_images, parse_post_page, post_id_from_url
 from .publish import Registry, publish_post
 from .queue import ImageQueue
-from .restore import restore_posts
+from .restore import restore_post, restore_posts
 from .store import JsonlStore, PostStore, ensure_dirs, ledger_entry
 
 POST_CAPTURE_FILE = os.path.join(config.CDX_DIR, "posts.jsonl")
@@ -881,6 +881,7 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
         transient = 0
         merged: list[dict] = []
         considered: list[dict] = []
+        prompt_publishes: list[dict] = []
         deferred = False
         for img in images:
             # Never drop an already recovered image on a rerun.
@@ -954,8 +955,11 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                     entry["host_inventory"] = resolved["host_inventory"]
                 ledger.append([entry])          # durable immediately, per image
             merged.append(resolved)
-            # Publish the post as soon as one image lands: the bytes are only in
-            # the local blob cache during this process.
+            # Persist and publish the post as soon as one image lands: the bytes
+            # exist only in the local blob cache during this process. Waiting for
+            # the whole post (its `pool.map` result) means a slow sibling image,
+            # or an earlier worker, can hold the recovered bytes locally until
+            # preemption, losing them.
             if resolved["state"] == "recovered":
                 updated = dict(rec)
                 inherit_image_captions(merged)
@@ -963,6 +967,9 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
                 updated["images_done"] = False
                 updated["fetched_at"] = _now()
                 store.put(pid, updated)
+                if publish_on_recovery:
+                    with _PUBLISH_LOCK:
+                        prompt_publishes.append(_publish_recovered(pid, fetcher))
         updated = dict(rec)
         inherit_image_captions(merged)
         updated["images"] = merged
@@ -971,7 +978,8 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
         store.put(pid, updated)
         return {"post_id": pid, "recovered": recovered, "missing": missing,
                 "transient": transient, "considered": len(considered),
-                "deferred": deferred}
+                "deferred": deferred,
+                "prompt_publish": prompt_publishes[-1] if prompt_publishes else None}
 
     if dry_run:
         q.save()
@@ -1002,9 +1010,17 @@ def fetch_images(fetcher: Fetcher, limit_posts: int = 5, concurrency: int = conf
             # inside this process. Publishing here, while they are present, is
             # what turns "recovered" into "publicly retrievable"; waiting for a
             # later `publish` run re-downloads from the archive and fails whenever
-            # the archive is refusing connections.
+            # the archive is refusing connections. The per-image branch above
+            # already pushed the bytes promptly; only re-publish when it did not
+            # succeed, so the final merged post is durable without a redundant
+            # registry round-trip per post.
             if publish_on_recovery and res["recovered"]:
-                res["publish"] = _publish_recovered(res["post_id"])
+                prompt = res.get("prompt_publish") or {}
+                if prompt.get("action") in ("pushed", "updated", "skipped"):
+                    res["publish"] = prompt
+                else:
+                    with _PUBLISH_LOCK:
+                        res["publish"] = _publish_recovered(res["post_id"], fetcher)
     breaker_note = getattr(fetcher, "breaker_note", lambda: "")()
     if counts["transient"] and not counts["recovered"]:
         q.note_global_failure(f"{counts['transient']} transient image failures in this pass")
@@ -1026,14 +1042,21 @@ _EXT_BY_TYPE = {"image/jpeg": ".jpg", "image/png": ".png", "image/gif": ".gif",
                 "image/webp": ".webp", "image/bmp": ".bmp"}
 
 
-def _publish_recovered(post_id: str) -> dict:
+# One coordinated registry/HTTP budget: publishing from several image workers
+# must not race the shared blob store or the archive rate limiter.
+_PUBLISH_LOCK = threading.Lock()
+
+
+def _publish_recovered(post_id: str, fetcher: Optional[Fetcher] = None) -> dict:
     """Push one post's artifact right after its image bytes landed.
 
     Returns a small record of what happened; a registry failure is reported, never
-    raised, so it can never discard the recovery itself.
+    raised, so it can never discard the recovery itself. `fetcher` is the pass's
+    shared transport when publishing from inside the work loop, so the registry
+    blob fallback stays on the same coordinated request budget.
     """
     try:
-        out = publish(limit=1, post_ids=[str(post_id)])
+        out = publish(limit=1, post_ids=[str(post_id)], fetcher=fetcher)
         rows = out.get("results") or []
         return rows[0] if rows else {"tag": post_id, "action": "nothing-to-do"}
     except Exception as exc:  # pragma: no cover - defensive
@@ -1185,6 +1208,39 @@ def ensure_blob(fetcher: Fetcher, img: dict) -> tuple[bool, str]:
     return True, "refetched"
 
 
+def _restore_missing_blobs(post: dict) -> dict:
+    """Fill absent local blobs from the already-published artifact.
+
+    `data/blobs/` is an ephemeral cache. A post can carry an old image whose
+    bytes are gone from this runner while the registry artifact still holds
+    them; refetching every absent blob from Wayback meant a publication stalled
+    behind a transport failure or a changed old-capture digest, and the freshly
+    recovered sibling bytes sat only in local cache. Pull the published layers
+    anonymously, verify each sha256, and store only matching bytes; a mismatch
+    is ignored so the capture-refetch path still runs.
+    """
+    needed = []
+    for img in post.get("images", []):
+        sha = img.get("sha256")
+        if not sha:
+            continue
+        if not os.path.exists(img.get("blob_path") or blob_path(sha)):
+            needed.append(sha)
+    out = {"needed": len(needed), "restored": 0, "restored_bytes": 0, "errors": []}
+    if not needed:
+        return out
+    try:
+        res = restore_post(str(post.get("post_id")), with_images=True)
+    except Exception as exc:  # pragma: no cover - defensive
+        out["errors"].append(f"{type(exc).__name__}: {exc}")
+        return out
+    out["restored"] = sum(1 for sha in needed if os.path.exists(blob_path(sha)))
+    out["restored_bytes"] = res.get("blob_bytes", 0)
+    if res.get("error"):
+        out["errors"].append(res["error"])
+    return out
+
+
 def post_quality(post: dict) -> tuple[int, int, int]:
     """How much of a post an artifact would carry: (images, text, captions).
 
@@ -1227,7 +1283,10 @@ def publish(limit: int = 10, force: bool = False, registry: Optional[Registry] =
                 continue
         post = dict(rec)
         post["missing_images"] = rec.get("missing_images", [])
-        # Ephemeral blob cache: re-fetch recorded captures before building.
+        # Ephemeral blob cache: fill absent old blobs from the already-published
+        # artifact (verified by sha256) before falling back to a Wayback refetch.
+        restored = _restore_missing_blobs(post)
+        # Remaining absent bytes: re-fetch the recorded capture before building.
         for img in post.get("images", []):
             if not img.get("sha256"):
                 continue

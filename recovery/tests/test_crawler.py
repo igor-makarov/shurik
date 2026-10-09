@@ -473,6 +473,88 @@ class PublishSelectionTests(unittest.TestCase):
         self.assertEqual(len(reg.pushes), 1)
 
 
+class BlobFallbackTests(unittest.TestCase):
+    """An absent blob is restored from the published artifact, not refetched.
+
+    `data/blobs/` is ephemeral; on a fresh runner the registry artifact is the
+    only copy of an old image's bytes. Always refetching them from Wayback
+    stalled a publication (or lost the freshly recovered sibling) whenever the
+    archive changed the old capture's digest. ensure_blob must first reuse the
+    registry bytes, verified by sha256, and never accept different ones.
+    """
+
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self._saved = {k: getattr(config, k) for k in
+                       ("DATA_DIR", "POST_DIR", "PUBLISHED_JSONL", "BLOB_DIR",
+                        "MISSING_JSONL")}
+        config.DATA_DIR = self._tmp.name
+        config.POST_DIR = os.path.join(self._tmp.name, "posts")
+        config.PUBLISHED_JSONL = os.path.join(self._tmp.name, "published.jsonl")
+        config.BLOB_DIR = os.path.join(self._tmp.name, "blobs")
+        config.MISSING_JSONL = os.path.join(self._tmp.name, "missing.jsonl")
+        self.addCleanup(self._restore)
+
+    def _restore(self):
+        for k, v in self._saved.items():
+            setattr(config, k, v)
+
+    MEDIA = "http://40.media.tumblr.com/x/tumblr_a_500.jpg"
+
+    def _post(self, sha: str, **cap) -> dict:
+        capture = {"timestamp": "20150119072952", "original": self.MEDIA}
+        capture.update(cap)
+        return {"post_id": "777", "content_text": "\u05d8\u05e7\u05e1\u05d8",
+                "capture": capture,
+                "images": [{"media_url": self.MEDIA, "sha256": sha,
+                            "file": "tumblr_a_500.jpg", "state": "recovered",
+                            "capture": capture}]}
+
+    def test_absent_blob_is_pulled_from_the_registry_not_the_archive(self):
+        from recovery import cli
+        from recovery.images import store_blob
+        from recovery.store import PostStore
+        from recovery.tests.fixtures import FakeArchive, FakeRegistry
+
+        sha = hashlib.sha256(JPEG_BYTES).hexdigest()
+        PostStore(config.POST_DIR).put("777", self._post(sha))
+
+        calls = []
+        real_restore = cli.restore_post
+
+        def fake_restore(pid, *a, **kw):
+            calls.append(pid)
+            store_blob(JPEG_BYTES)          # registry layer bytes, verified by sha256
+            return {"post_id": pid, "blob_bytes": len(JPEG_BYTES), "error": ""}
+
+        cli.restore_post = fake_restore
+        self.addCleanup(setattr, cli, "restore_post", real_restore)
+
+        archive = FakeArchive({})
+        out = cli.publish(limit=1, post_ids=["777"], registry=FakeRegistry(), fetcher=archive)
+        self.assertEqual(calls, ["777"], "the absent blob must come from the published artifact")
+        self.assertEqual(out["results"][0]["action"], "pushed")
+        self.assertEqual(archive.requests, [],
+                         "no Wayback refetch when the registry already holds the bytes")
+
+    def test_changed_capture_digest_is_never_accepted(self):
+        """The archive re-serving different bytes must defer, not corrupt the record."""
+        from recovery import cli
+        from recovery.store import PostStore
+        from recovery.tests.fixtures import FakeArchive, FakeRegistry, binary
+
+        sha = hashlib.sha256(JPEG_BYTES).hexdigest()
+        PostStore(config.POST_DIR).put("777", self._post(sha))
+        # No registry bytes; the archive answers the recorded capture with a
+        # *different* JPEG, so the recorded sha256 can never be satisfied.
+        routes = {"id_/": binary(b"\xff\xd8\xff\xe0\x00\x10JFIF" + b"\x01" * 50)}
+        out = cli.publish(limit=1, post_ids=["777"], registry=FakeRegistry(),
+                          fetcher=FakeArchive(routes))
+        self.assertEqual(out["results"][0]["action"], "deferred")
+        self.assertIn("digest_mismatch", out["results"][0]["reason"])
+
+
 class RegistryPlumbingTests(unittest.TestCase):
     """The GHCR wire protocol, exercised without a network."""
 
@@ -554,7 +636,6 @@ class HostInventoryEvidenceTests(unittest.TestCase):
               "image/jpeg", "200", "ABC", "100"]] * rows, source_query="host:78"))
         index.mark_host("78.media.tumblr.com", {"host": "78.media.tumblr.com", "rows": 2642,
                                                 "pages": 1, "complete": True,
-                                                "resume_key_walk": True,
                                                 "scanned_at": scanned_at, "keys_at_scan": 10})
         return MediaIndex(path)
 
