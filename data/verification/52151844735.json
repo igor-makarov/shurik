@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:8b525b0fb57dc8c371a62def7b7e65cd8cf8b78e2a4fcada2b04084b9225c913",
+   "observed": "sha256:fe4235f475393fede4fbee13648ba96d1e46bd07dd0c2ed14f2a9d6f0f720ed7",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[prUsdqz.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnv48wKhCI1r3it8zo1_250.jpg]",
+   "expected": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnv48wKhCI1r3it8zo1_250.jpg]",
+   "expected": 87678,
+   "observed": 87678,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnv48wKhCI1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -116,13 +136,13 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:e584c8abe40a1819656e67208dd7bed9fc1a705e61afdbe491fb319922f4258b",
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:b7e71b56f36db487b07060baa5c4712827f10e1ecb98d99e16ec3265c5feb6ef",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
-  "org.opencontainers.image.created": "2013-09-24T03:40:19Z",
+  "org.opencontainers.image.created": "2014-01-11T01:33:58Z",
   "org.opencontainers.image.description": "אינני מבין, כיצד הם מצאו אותי?!",
   "org.opencontainers.image.licenses": "UNKNOWN",
   "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
@@ -132,7 +152,7 @@
   "shurik.post.content_len": "73",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "52151844735",
-  "shurik.post.images": "1",
+  "shurik.post.images": "2",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "בחזרה-לעתיד,back-to-the-future,הלובים,ברי-סחרוף,פסטיבל-ישראל"
  },
@@ -143,12 +163,17 @@
    "size": 30700
   },
   {
-   "digest": "sha256:8b9d971ca825e942b88fb16e36e47a3f882b3fb0306ac7ebe8815afffa4440f7",
+   "digest": "sha256:4430072682efba3881e99ba49a26805e3c6c5f562dea0166eb78d1dcb1bc91cf",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 981
+   "size": 87436
+  },
+  {
+   "digest": "sha256:c041d88cb79089c6bd1038eaaff829cfb6acf0dc59c2c1fede6f224ebafb624f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1193
   }
  ],
- "manifest_digest": "sha256:8b525b0fb57dc8c371a62def7b7e65cd8cf8b78e2a4fcada2b04084b9225c913",
+ "manifest_digest": "sha256:fe4235f475393fede4fbee13648ba96d1e46bd07dd0c2ed14f2a9d6f0f720ed7",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "52151844735",
@@ -162,13 +187,21 @@
    "sha256": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6"
   },
   {
-   "bytes": 1880,
+   "bytes": 87678,
+   "file": "tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:4430072682efba3881e99ba49a26805e3c6c5f562dea0166eb78d1dcb1bc91cf",
+   "role": "media",
+   "sha256": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d"
+  },
+  {
+   "bytes": 2652,
    "file": "post.json",
-   "layer": "sha256:8b9d971ca825e942b88fb16e36e47a3f882b3fb0306ac7ebe8815afffa4440f7",
+   "layer": "sha256:c041d88cb79089c6bd1038eaaff829cfb6acf0dc59c2c1fede6f224ebafb624f",
    "role": "post-metadata",
-   "sha256": "60ce448c1c9a9afe6f9c66026609a70bf6ad8a2acb6c13547a6c9d10d0a785cc"
+   "sha256": "347bb9ba7672203b8513352df908fc47917f6e8c01d7dad64876706569ce855f"
   }
  ],
  "tag": "52151844735",
- "verified_at": "2026-10-06T20:29:52Z"
+ "verified_at": "2026-10-09T00:12:07Z"
 }
