@@ -76,6 +76,22 @@ class ParsingTests(unittest.TestCase):
         for bad in ("avatar", "impixu", "fb_share", "default_avatar"):
             self.assertNotIn(bad, " ".join(urls))
 
+    def test_external_post_image_is_recovered_but_share_art_is_not(self):
+        # The posts embed imgur memes directly in the body. They are real post
+        # images, not tumblr media, and the extractor used to drop every one of
+        # them. A share button / avatar from any host stays excluded, and an
+        # imgur *page* link (no image extension) is not an image.
+        html = ("<div class='post'><div class='copy'>"
+                "<img src='http://i.imgur.com/8yrzN.jpg' alt='meme'/>"
+                "<img src='http://www.narendramodi.in/images/fb_share_button.jpg'/>"
+                "<img src='http://33.media.tumblr.com/avatar_x_16.png'/>"
+                "<a href='http://i.imgur.com/NotAnImage'>page</a>"
+                "</div></div>")
+        rec = parse_post_page(html, "http://hazfalafel.com/post/26342049272", "20130606000438")
+        urls = [i["media_url"] for i in rec["images"]]
+        self.assertEqual(urls, ["http://i.imgur.com/8yrzN.jpg"], urls)
+        self.assertEqual(rec["images"][0]["media_key"], "i.imgur.com/8yrzn.jpg")
+
     def test_caption_comes_from_alt_without_invention(self):
         # Archived HTML stores Hebrew in logical order; recovery must reproduce
         # the captured characters exactly and never reorder or "correct" them.

@@ -168,6 +168,48 @@ def is_tumblr_media(url: str) -> bool:
     return bool(re.search(config.MEDIA_HOST_RE, host_of(url)))
 
 
+# External image hosts that carry *post content* on this blog. The posts embed
+# imgur/giphy memes (and a couple of other image hosts) directly in the body.
+# Those are not tumblr media, so the old extractor dropped every one of them
+# before it could be queued: measured 2026-10, 50 real post images across ~48
+# posts were invisible to recovery. The list is deliberately explicit rather
+# than "any external host" so theme art, share buttons and tracking images
+# from arbitrary hosts stay excluded. Extend it only from observed post HTML.
+EXTERNAL_IMAGE_HOSTS = (
+    "i.imgur.com", "i.giphy.com", "i.cubeupload.com", "memegenerator.net",
+)
+EXTERNAL_IMAGE_EXT_RE = re.compile(r"\.(?:jpg|jpeg|png|gif|webp)$", re.I)
+
+
+def is_recoverable_image(url: str) -> bool:
+    """A post image worth recovering: tumblr media, or a known external host.
+
+    An external URL must look like an image file (its path ends in an image
+    extension); a link to an imgur *page* is not an image and must not become
+    an image record. `is_excluded_image` still filters avatars, share buttons
+    and tracking pixels before this is consulted.
+    """
+    if is_tumblr_media(url):
+        return True
+    host = host_of(url)
+    if not any(host == h or host.endswith("." + h) for h in EXTERNAL_IMAGE_HOSTS):
+        return False
+    return bool(EXTERNAL_IMAGE_EXT_RE.search(urlparse(url).path))
+
+
+def external_key(url: str) -> Optional[str]:
+    """Identity of a non-tumblr post image (host + path, case-folded).
+
+    imgur IDs are case-sensitive in the archive index but the post HTML and the
+    captured URL can disagree on case (`8yrzN.jpg` vs `8yRzN.jpg`), so the key
+    folds case the same way CDX's urlkey does.
+    """
+    p = urlparse(url)
+    if not p.netloc or not p.path:
+        return None
+    return f"{p.netloc}{p.path}".lower()
+
+
 def media_key(url: str) -> Optional[str]:
     """tumblr_<name> plus size/extension: the identity of one Tumblr media file."""
     path = urlparse(url).path
@@ -386,9 +428,9 @@ def extract_images(html: str) -> list[dict]:
         url = entry.get("url", "")
         if entry.get("excluded_reason"):
             return
-        if not is_tumblr_media(url):
+        if not is_recoverable_image(url):
             return
-        key = media_key(url)
+        key = media_key(url) or external_key(url)
         if not key:
             return
         record = by_key.get(key)
@@ -416,7 +458,7 @@ def extract_images(html: str) -> list[dict]:
     for entry in col.images:
         add(entry, entry.get("via", "img"))
     for entry in col.links:
-        if entry.get("url") and is_tumblr_media(entry["url"]):
+        if entry.get("url") and is_recoverable_image(entry["url"]):
             add(entry, "photo-link")
     for url in og:
         add({"url": url, "alt": "", "title": "", "excluded_reason": None, "via": "og:image"}, "og:image")
