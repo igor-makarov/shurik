@@ -5,8 +5,8 @@
  "content_html": "",
  "content_text": "",
  "failure_count": 0,
- "fetched_at": "2026-10-09T01:08:16Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T14:39:00Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -95,7 +95,8 @@
     }
    ],
    "base_key": "tumblr_mha05fsSdy1r3it8zo1.jpg",
-   "caption_alt": "",
+   "caption": "אמש הונף השלט הזה על ידי אוהדי בית\"ר, אמש נערך גם יום הזיכרון הבינלאומי לשואה",
+   "caption_alt": "אמש הונף השלט הזה על ידי אוהדי בית\"ר, אמש נערך גם יום הזיכרון הבינלאומי לשואה",
    "capture_count": 0,
    "error": "capture_after_cutoff",
    "found_in": "listing:img",
@@ -152,13 +153,65 @@
    "alt_sources": [
     "http://hazfalafel.com/tagged/%D7%90%D7%A1%D7%95%D7%A8-%D7%9C%D7%94%D7%A9%D7%95%D7%95%D7%AA"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_1280.jpg",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_1024.jpg",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_540.jpg",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_400.jpg",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_250.jpg",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_100.jpg",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1.png",
+      "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://31.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1",
+     "url": "http://31.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 199274,
+     "capture_timestamp": "20140111020130",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "ae4d2cc298b79dd785145e9a46e7002afafe9ddae81a9c1c1234b4f9695b6b2d",
+     "status": 200,
+     "url": "http://31.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_mha05fsSdy1r3it8zo1.jpg",
+   "blob_path": "data/blobs/ae/ae4d2cc298b79dd785145e9a46e7002afafe9ddae81a9c1c1234b4f9695b6b2d",
+   "bytes": 199274,
+   "caption": "אמש הונף השלט הזה על ידי אוהדי בית\"ר, אמש נערך גם יום הזיכרון הבינלאומי לשואה",
    "caption_alt": "אמש הונף השלט הזה על ידי אוהדי בית\"ר, אמש נערך גם יום הזיכרון הבינלאומי לשואה",
+   "capture": {
+    "archive_digest": "YEBPA6E2UVWUDBPGXCCXJ3STWDDUV4FL",
+    "original": "http://31.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111020130id_/http://31.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
+    "timestamp": "20140111020130"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mha05fsSdy1r3it8zo1_500.jpg",
    "found_in": "listing:img",
    "media_key": "tumblr_mha05fsSdy1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20140111020130 of http://31.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg (199274 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "ae4d2cc298b79dd785145e9a46e7002afafe9ddae81a9c1c1234b4f9695b6b2d",
+   "state": "recovered",
    "url_forms": [
     "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
     "http://67.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
@@ -218,7 +271,7 @@
  "listing_urls": [
   "http://hazfalafel.com/post/41595764733"
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -305,16 +358,23 @@
    ],
    "media_url": "http://24.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_250.jpg",
    "reason": "capture_after_cutoff"
-  },
-  {
-   "attempts": [],
-   "media_url": "http://68.media.tumblr.com/41980efca8278bd37aaa84df405f6a80/tumblr_mha05fsSdy1r3it8zo1_500.jpg",
-   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com/post/41595764733",
  "partial": true,
  "post_id": "41595764733",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-09T14:39:00Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:e4e8ff3e2d628fe10a0936c62c3b4d57f5c37b55f9733ae9b0aafa1e1615a988",
+  "missing_count": 1,
+  "quality": [
+   1,
+   0,
+   0
+  ]
+ },
  "refetched_captures": [],
  "snapshot_retries": 0,
  "state": "partial",
