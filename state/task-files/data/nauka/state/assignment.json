@@ -2,7 +2,7 @@
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
   "iteration": "5-58",
-  "at": "2026-10-09T00:25:41Z",
+  "at": "2026-10-09T00:47:53Z",
   "deadline": null,
   "deadlineLocal": "completion-driven (supervisor control.json deadline=null is authoritative; earlier time deadlines superseded)",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -23,10 +23,10 @@
   "baselineWorkCommit": "af65e939ed127760c1df8c7b4bdca754a3a2a78c",
   "preservedPublishedFiles": 60,
   "preservedPublishedBytes": 2311630290,
-  "publishedFilesNow": 1091,
-  "publishedBytesNow": 20578389788,
-  "remainingFilesNow": 21,
-  "masterIndexDigestNow": "sha256:13505882197173fc95a305001b89059a27264e5a5776ca3ffc0f1794ed2aa15a",
+  "publishedFilesNow": 1098,
+  "publishedBytesNow": 21121920597,
+  "remainingFilesNow": 14,
+  "masterIndexDigestNow": "sha256:266b1c21b325a9dbe8c17489390229bade16717f529f2e81232b3234b46da6b8",
   "discovery": {
     "status": "complete",
     "eraPagesVisited": 12,
@@ -41,10 +41,10 @@
     "totalFiles": 1112,
     "totalIssues": 941,
     "years": 87,
-    "pendingFiles": 16,
-    "publishedFiles": 1091,
+    "pendingFiles": 8,
+    "publishedFiles": 1098,
     "note": "Discovery complete: all 12 archive-linked era pages plus nav/directory/_NiJ.html/_NiJ.stat'i_.html/.Online visited; every flat-listing file represented. No new catalog pages listed.",
-    "inProgressFiles": 5,
+    "inProgressFiles": 6,
     "knownGapYears": [
       1891,
       1892,
@@ -62,7 +62,7 @@
       2028,
       2029
     ],
-    "remainingFiles": 21
+    "remainingFiles": 14
   },
   "totals": {
     "years": 87,
@@ -93,7 +93,8 @@
     "Iteration 5-53: completion-driven continuation acknowledged (deadline null). Start state 1061 published regular + 5/5 supplementary; 51 remaining (4 in_progress: nij-1964-n01-pdf 44,040,192 B, nij-1970-n05-djv 37,748,736 B, nij-1964-n10-pdf 37,748,736 B, nij-1940-n0809-pdf 35,651,584 B durable GHCR checkpoints = 155,189,248 B total; 47 pending).",
     "Iteration 5-53: batches 126-128. Batch 126 restored the 4 saved GHCR chunk checkpoints (155,189,248 B: nij-1964-n01-pdf 44,040,192; nij-1970-n05-djv 37,748,736; nij-1964-n10-pdf 37,748,736; nij-1940-n0809-pdf 35,651,584) and published them (268,280,026 B). Batch 127 restored the resulting 4 checkpoints (141,557,760 B: nij-1963-n07-pdf 40,894,464; nij-1956-n12-pdf 36,700,160; nij-2009-n07-pdf 32,505,856; nij-2009-n08-pdf 31,457,280) and published them (280,952,165 B). Batch 128 added 75,497,984 B durable checkpoint bytes across 4 new in-progress files. Published regular 1061->1069 (+549,232,191 B). Master index nij-master-index @ sha256:998721509296320c79e83bd4e4a0faec5fd18a337f278c5b46de78d00be4e747 (1,518,291 B, status complete, 1069 published) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years); nij-master-checkpoint @ sha256:892c2c8f46b94ea2cef5b984d456443f53fca20069963e3b1f70c4dfe182be29.",
     "Iteration 5-56: batches 136-138 restored+hash-validated 4 saved GHCR chunk checkpoints and published 4 regular files (nij-2009-n03, nij-1968-n06, nij-1962-n02, nij-1962-n01; +347,653,208 B); published regular 1081->1085; 27 remain (5 in_progress + 22 pending); durable GHCR chunk bytes 198,180,864. Master index nij-master-index @ sha256:b330eda2e53d32d91c7c099628a2cd8d295a5c694239799b4615eab9df6210ee (1,523,911 B, status complete) verified by immutable pull (0 problems).",
-    "Iteration 5-57: batches 139-140 restored+hash-validated saved GHCR chunk checkpoints and published 6 regular files (nij-1964-n07, nij-1962-n04, nij-1962-n12, nij-1964-n08, nij-1969-n10, nij-1964-n09; +533,898,707 B); published regular 1085->1091; 21 remain (5 in_progress + 16 pending); durable GHCR chunk bytes 195,035,136 (nij-1964-n06 57,671,680; nij-1964-n11 25,165,824; nij-1969-n07 54,525,952; nij-1969-n08 50,331,648; nij-1969-n11 7,340,032). Master index nij-master-index @ sha256:13505882197173fc95a305001b89059a27264e5a5776ca3ffc0f1794ed2aa15a (1,526,013 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years/1091 published)."
+    "Iteration 5-57: batches 139-140 restored+hash-validated saved GHCR chunk checkpoints and published 6 regular files (nij-1964-n07, nij-1962-n04, nij-1962-n12, nij-1964-n08, nij-1969-n10, nij-1964-n09; +533,898,707 B); published regular 1085->1091; 21 remain (5 in_progress + 16 pending); durable GHCR chunk bytes 195,035,136 (nij-1964-n06 57,671,680; nij-1964-n11 25,165,824; nij-1969-n07 54,525,952; nij-1969-n08 50,331,648; nij-1969-n11 7,340,032). Master index nij-master-index @ sha256:13505882197173fc95a305001b89059a27264e5a5776ca3ffc0f1794ed2aa15a (1,526,013 B, status complete) independently verified by immutable pull (0 problems, 1112 files/941 issues/87 years/1091 published).",
+    "Iteration 5-58: batches 141-143 restored+hash-validated saved GHCR chunk checkpoints and published 7 regular files (nij-1964-n06, nij-1969-n07, nij-1969-n08, nij-1964-n11, nij-1969-n11, nij-1947-n06, nij-1969-n09; +543,530,809 B); published regular 1091->1098; 14 remain (6 in_progress + 8 pending); durable GHCR chunk bytes 195035136. Master index nij-master-index @ sha256:266b1c21b325a9dbe8c17489390229bade16717f529f2e81232b3234b46da6b8 (1,528,476 B, status complete)."
   ],
   "masterIndexVerifiedAt": "2026-10-09T00:11:29.349Z",
   "verifiedPartialBytesNow": 195035136,
@@ -108,7 +109,7 @@
     "note": "Saved four-hour-continuation boundary; preserved, not redownloaded."
   },
   "deadlineNote": "Supervisor control.json @ codex/shurik-control/nauka-20261007 (token nauka-user-until-complete-1791481729758) sets deadline null: completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. The earlier four-hour window and the 2026-10-08T07:00:00Z deadline are superseded. I obey the supervisor control and set no deadline of my own.",
-  "masterIndexBytesNow": 1526013,
+  "masterIndexBytesNow": 1528476,
   "supplementaryPublishedNow": 5,
   "supplementaryBytesNow": 70214939,
   "supplementaryStatusNow": "complete",
@@ -124,7 +125,7 @@
     "note": "Iteration 5-58 acknowledges continuation; preserved 60-file 1934-1939 subset and every file id/receipt; no redownload; no falafel code/artifacts/history read or reused; work done inside this Shurik loop."
   },
   "nextActions": [
-    "Restore+finish the 5 durable in-progress files (nij-1964-n06, nij-1964-n11, nij-1969-n07, nij-1969-n08, nij-1969-n11) from their immutable GHCR chunk digests, then smallest-first the 16 pending regular PDFs (nij-1947-n06 first).",
+    "Restore+finish the 6 durable in-progress files from their immutable GHCR chunk digests, then smallest-first the 8 pending regular PDFs (nij-2014-n03..n09, nij-2015-n01).",
     "Refresh+re-verify the master index (nij-master-index) by immutable digest after each batch."
   ]
 }
