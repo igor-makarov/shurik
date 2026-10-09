@@ -120,8 +120,32 @@ class HostDumpTests(unittest.TestCase):
                        "scope": {"matchType": "domain", "limit": 2000}, "rows": 9}, fh)
         self.assertEqual(hostdump.read_cursor("40.media.tumblr.com"), {})
 
-    def test_complete_host_is_not_requeried(self):
-        hostdump.write_cursor("40.media.tumblr.com", {"complete": True, "rows": 10, "pages": 1})
+    def test_empty_complete_host_is_not_requeried(self):
+        # A genuinely empty inventory has no rows to lose; it is still complete.
+        hostdump.write_cursor("40.media.tumblr.com", {"complete": True, "rows": 0,
+                                                      "written": 0, "pages": 1})
+        fetcher = _FakeFetcher([_page([ROW])])
+        res = hostdump.scan_host(fetcher, "40.media.tumblr.com")
+        self.assertTrue(res["skipped"])
+        self.assertEqual(fetcher.queries, [])
+
+    def test_complete_verdict_without_its_rows_is_rewalked(self):
+        # The rows the verdict rests on are gone: the claim cannot be checked,
+        # so it must not be used as evidence about the host.
+        hostdump.write_cursor("40.media.tumblr.com", {"complete": True, "rows": 10,
+                                                      "written": 10, "pages": 1})
+        fetcher = _FakeFetcher([_page([ROW])])
+        res = hostdump.scan_host(fetcher, "40.media.tumblr.com")
+        self.assertFalse(res.get("skipped"))
+        self.assertTrue(fetcher.queries, "the host must be re-walked when its dump is gone")
+
+    def test_complete_verdict_with_its_rows_is_trusted(self):
+        hostdump.write_cursor("40.media.tumblr.com", {"complete": True, "rows": 1,
+                                                      "written": 1, "pages": 1})
+        dump_path, _ = hostdump.dump_paths("40.media.tumblr.com")
+        os.makedirs(os.path.dirname(dump_path), exist_ok=True)
+        with open(dump_path, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps(ROW) + "\n")
         fetcher = _FakeFetcher([_page([ROW])])
         res = hostdump.scan_host(fetcher, "40.media.tumblr.com")
         self.assertTrue(res["skipped"])
