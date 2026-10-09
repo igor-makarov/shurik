@@ -26,8 +26,8 @@
  "content_text": "למה אתה מעדיף לישון במילואים ולא איתי?",
  "date_text": "Posted 4 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:32Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T23:16:32Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -69,19 +69,51 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1",
      "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://25.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1",
+     "url": "http://25.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 30041,
+     "capture_timestamp": "20140111013747",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "102d58931591e01092b8c83fdc58911a8bcf03f721ebbc9fbbcd142bb078c8c5",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_mdulkqUGqd1r3it8zo1.jpg",
+   "blob_path": "data/blobs/10/102d58931591e01092b8c83fdc58911a8bcf03f721ebbc9fbbcd142bb078c8c5",
+   "bytes": 30041,
    "caption": "למה אתה מעדיף לישון במילואים ולא איתי?",
    "caption_alt": "למה אתה מעדיף לישון במילואים ולא איתי?",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "ADQZTRTFJXCZQN3BCFEYC7ZOUOSCB2K7",
+    "original": "http://25.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111013747id_/http://25.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
+    "timestamp": "20140111013747"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
    "found_in": "img",
    "link_text": "",
    "media_key": "tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20140111013747 of http://25.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg (30041 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "102d58931591e01092b8c83fdc58911a8bcf03f721ebbc9fbbcd142bb078c8c5",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
     "https://66.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
@@ -144,6 +176,66 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1",
      "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_400.jpg"
     }
    ],
    "base_key": "tumblr_mdulkqUGqd1r3it8zo1.jpg",
@@ -155,7 +247,7 @@
    "link_text": "",
    "media_key": "tumblr_mdulkqUGqd1r3it8zo1_1280.jpg",
    "media_url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for no URL query completed. This is evidence about those queries only, not about every possible capture of this image",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
    "state": "missing",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg"
@@ -176,14 +268,106 @@
    "alt_sources": [
     "http://hazfalafel.com/archive/2012/11"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.png",
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_mdulkqUGqd1r3it8zo1.jpg",
    "caption": "למה אתה מעדיף לישון במילואים ולא איתי?",
    "caption_alt": "למה אתה מעדיף לישון במילואים ולא איתי?",
+   "capture_count": 0,
+   "error": "archive_gap",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
    "media_url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 7 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "state": "missing",
    "url_forms": [
     "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
@@ -255,50 +439,8 @@
    "url": "http://hazfalafel.com/post/36280544468/amp"
   }
  ],
- "missing_image_count": 3,
+ "missing_image_count": 2,
  "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1024.jpg",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_540.jpg",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_400.jpg",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_100.jpg",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.png",
-      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem",
-     "error": "ok",
-     "message": "",
-     "note": "single prefix query covering every size/extension variant",
-     "status": 200,
-     "stem": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1",
-     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
-    },
-    {
-     "captures": 0,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "message": "",
-     "note": "answered from the batched stem index (same prefix, filters and cutoff as a single-stem query)",
-     "status": "cached",
-     "stem": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1",
-     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg",
-   "reason": "archive_gap"
-  },
   {
    "attempts": [
     {
@@ -326,15 +468,164 @@
      "status": "cached",
      "stem": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1",
      "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_400.jpg"
     }
    ],
    "media_url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg",
    "reason": "archive_gap"
   },
   {
-   "attempts": [],
+   "attempts": [
+    {
+     "earlier_endpoints": [
+      "attempt-log"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 1,
+     "note": "1 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
+    },
+    {
+     "endpoint": "variant-budget",
+     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
+     "variants": [
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.png",
+      "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1.gif"
+     ]
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://68.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://78.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1280.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_1024.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_540.jpg"
+    },
+    {
+     "capture_timestamp": null,
+     "endpoint": "replay-probe",
+     "error": "archive_gap",
+     "location": "",
+     "message": "HTTP 404",
+     "requested_timestamp": "20191231235959",
+     "status": 404,
+     "url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_500.jpg"
+    }
+   ],
    "media_url": "http://67.media.tumblr.com/tumblr_mdulkqUGqd1r3it8zo1_250.jpg",
-   "reason": null
+   "reason": "archive_gap"
   }
  ],
  "original_url": "http://hazfalafel.com/post/36280544468",
