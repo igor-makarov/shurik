@@ -25,8 +25,8 @@
  "content_text": "בוקר ראשון שמח לנוסעים ברכבת ישראל",
  "date_text": "Posted 2 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T16:21:36Z",
- "image_count": 2,
+ "fetched_at": "2026-10-09T12:27:47Z",
+ "image_count": 3,
  "images": [
   {
    "alt_sources": [
@@ -242,30 +242,13 @@
    ],
    "attempts": [
     {
-     "endpoint": "variant-plan",
-     "media_url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1280.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1024.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_540.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_400.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_100.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.png",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
-     "variants": [
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_400.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_100.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.png",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.gif"
-     ]
+     "earlier_endpoints": [
+      "attempt-log",
+      "variant-budget"
+     ],
+     "endpoint": "attempt-log",
+     "n_earlier_attempts": 2,
+     "note": "2 earlier attempt(s) folded into this summary; the full per-key history is in data/missing.jsonl"
     },
     {
      "capture_timestamp": null,
@@ -316,23 +299,72 @@
      "requested_timestamp": "20191231235959",
      "status": 404,
      "url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg"
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1",
+     "url": "http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 50862,
+     "capture_timestamp": "20141222031056",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "7c4deeda001af12be19dcd8c693a93da57cdf0a4652d1386a0cf2729cb58e4da",
+     "status": 200,
+     "url": "http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg"
+    },
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1280.jpg",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1024.jpg",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_540.jpg",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_400.jpg",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_100.jpg",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.png",
+      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.gif"
+     ]
     }
    ],
    "base_key": "tumblr_ng788d8DpY1r3it8zo1.jpg",
+   "blob_path": "data/blobs/7c/7c4deeda001af12be19dcd8c693a93da57cdf0a4652d1386a0cf2729cb58e4da",
+   "bytes": 50862,
    "caption": "בוקר ראשון שמח לנוסעים ברכבת ישראל",
    "caption_alt": "בוקר ראשון שמח לנוסעים ברכבת ישראל",
-   "capture_count": 0,
-   "error": "archive_gap",
+   "capture": {
+    "archive_digest": "BHVF7RNMVD6Y3467PAUR2TD2VZIZ5MI5",
+    "original": "http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20141222031056id_/http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg",
+    "timestamp": "20141222031056"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_ng788d8DpY1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_ng788d8DpY1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
-   "note": "archive_gap: the archive answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20141222031056 of http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg (50862 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "archive_gap: the archive answered with zero captures at or before the cutoff for 5 URL form(s) asked (exact URL plus every size/extension sibling that was queried). This is evidence about those queries only, not about every possible capture of this image",
+   "sha256": "7c4deeda001af12be19dcd8c693a93da57cdf0a4652d1386a0cf2729cb58e4da",
+   "state": "recovered",
    "url_forms": [
     "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
     "http://68.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
     "http://78.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
-    "http://40.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg"
+    "http://40.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
+    "http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg"
    ],
    "variants": [
     "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
@@ -371,7 +403,12 @@
     "http://40.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_100.jpg",
     "http://40.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.png",
     "http://40.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.gif"
-   ]
+   ],
+   "xshard_capture": {
+    "source": "xshard-host-scan",
+    "timestamp": "20141222031056",
+    "url": "http://41.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg"
+   }
   }
  ],
  "images_done": true,
@@ -409,95 +446,12 @@
    "url": "http://hazfalafel.com/post/104557598813"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1280.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1024.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_540.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_400.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_100.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.png",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.gif"
-     ]
-    },
-    {
-     "endpoint": "variant-budget",
-     "note": "8 untried siblings exist; this pass probed the first 4; the rest stay queued for a later run",
-     "variants": [
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_400.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_100.jpg",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.png",
-      "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1.gif"
-     ]
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1280.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_1024.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_540.jpg"
-    },
-    {
-     "capture_timestamp": null,
-     "endpoint": "replay-probe",
-     "error": "archive_gap",
-     "location": "",
-     "message": "HTTP 404",
-     "requested_timestamp": "20191231235959",
-     "status": 404,
-     "url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://67.media.tumblr.com/ab636088852192f4ddfab414d98119b0/tumblr_ng788d8DpY1r3it8zo1_250.jpg",
-   "reason": "archive_gap"
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com/post/104557598813",
  "page_bytes": 68368,
  "page_sha256": "01bad7a0473d521fdcfbb6008b54c10f7928ed43c0b02b6cf6bf29b5b7fbb6a9",
- "partial": true,
+ "partial": false,
  "post_id": "104557598813",
  "posted_on": "Posted on Sunday the 7th of December 2014 at 8:19 AM",
  "published": {
@@ -517,7 +471,7 @@
  ],
  "replay_url": "https://web.archive.org/web/20150216034859id_/http://hazfalafel.com/post/104557598813",
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "רכבת-ישראל",
   "you-dense-motherfucker",

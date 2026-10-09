@@ -31,8 +31,8 @@
  "content_text": "לחקור ישראלים שאוספים מידע על חיילי צה”ל…\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX",
  "date_text": "Posted 5 days ago",
  "failure_count": 0,
- "fetched_at": "2026-10-05T04:44:43Z",
- "image_count": 1,
+ "fetched_at": "2026-10-09T12:26:27Z",
+ "image_count": 2,
  "images": [
   {
    "alt_sources": [
@@ -132,16 +132,69 @@
    "alt_sources": [
     "http://hazfalafel.com:80/archive"
    ],
-   "attempts": [],
+   "attempts": [
+    {
+     "endpoint": "variant-plan",
+     "media_url": "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+     "note": "every size/extension variant considered before declaring a gap",
+     "variants": [
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_1280.jpg",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_1024.jpg",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_540.jpg",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_400.jpg",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_100.jpg",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.png",
+      "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.gif"
+     ]
+    },
+    {
+     "captures": 1,
+     "endpoint": "cdx-stem-batch",
+     "error": "ok",
+     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
+     "status": "cached",
+     "stem": "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1",
+     "url": "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 77804,
+     "capture_timestamp": "20130930175155",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "d06fda444a1c9dba30e1892488073bf921ff9d9e0e479d2753f3e7219fcb3dd3",
+     "status": 200,
+     "url": "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg"
+    }
+   ],
    "base_key": "tumblr_lxi1p9J19n1r3it8zo1.jpg",
-   "caption_alt": "",
+   "blob_path": "data/blobs/d0/d06fda444a1c9dba30e1892488073bf921ff9d9e0e479d2753f3e7219fcb3dd3",
+   "bytes": 77804,
+   "caption": "לחקור ישראלים שאוספים מידע על חיילי צה&#8221;ל&#8230;\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX",
+   "caption_alt": "לחקור ישראלים שאוספים מידע על חיילי צה&#8221;ל&#8230;\nנתרם על ידי דין לנגסם\nhttp://www.facebook.com/DeanLangsam\nמבוסס על רעיון של דנית גוטפריד\nhttp://on.fb.me/AlGgaX",
+   "capture": {
+    "archive_digest": "GUPV64QWEJZVADU2JLP3NXV6QVOOR7LA",
+    "original": "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20130930175155id_/http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg",
+    "timestamp": "20130930175155"
+   },
+   "capture_count": 1,
+   "error": null,
+   "file": "tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
    "found_in": "listing:attr:div",
    "media_key": "tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
-   "state": "unresolved",
+   "note": "recovered from pre-cutoff capture 20130930175155 of http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg (77804 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "sha256": "d06fda444a1c9dba30e1892488073bf921ff9d9e0e479d2753f3e7219fcb3dd3",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
-    "http://24.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg"
+    "http://24.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
+    "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg"
    ],
    "variants": [
     "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
@@ -162,7 +215,12 @@
     "http://24.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_100.jpg",
     "http://24.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.png",
     "http://24.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1.gif"
-   ]
+   ],
+   "xshard_capture": {
+    "source": "xshard-host-scan",
+    "timestamp": "20130930175155",
+    "url": "http://26.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_500.jpg"
+   }
   }
  ],
  "images_done": true,
@@ -190,18 +248,12 @@
    "url": "http://hazfalafel.com:80/post/15529286890"
   }
  ],
- "missing_image_count": 1,
- "missing_images": [
-  {
-   "attempts": [],
-   "media_url": "http://78.media.tumblr.com/tumblr_lxi1p9J19n1r3it8zo1_250.jpg",
-   "reason": null
-  }
- ],
+ "missing_image_count": 0,
+ "missing_images": [],
  "original_url": "http://hazfalafel.com:80/post/15529286890",
  "page_bytes": 50681,
  "page_sha256": "f25d365218d26bd19629dd3b28504724876482a2038b0dcd9be9253259a48f8e",
- "partial": true,
+ "partial": false,
  "post_id": "15529286890",
  "published": {
   "action": "pushed",
@@ -222,7 +274,7 @@
   "manifest_digest": "sha256:ed61069fe36f63b1cfde749964771902ed40c549f71bf4bf9dac37575fdc1144"
  },
  "snapshot_retries": 0,
- "state": "partial",
+ "state": "recovered",
  "tags": [
   "סטיב-החלאה",
   "זאב-אלקין"
