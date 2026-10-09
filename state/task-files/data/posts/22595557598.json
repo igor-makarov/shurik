@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:42:16Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "ביבי שירבט את דמותו של הרצל",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/sjt0o.jpg",
+   "media_url": "http://i.imgur.com/sJt0O.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/sJt0O.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/sJt0O.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,12 +62,18 @@
    "url": "http://hazfalafel.com:80/post/22595557598"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/sJt0O.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/22595557598",
  "page_bytes": 50787,
  "page_sha256": "e68ee8fe854e565f0496ab16f8a4d47f3c64898111d43312fea81f4ec008b6e2",
- "partial": false,
+ "partial": true,
  "post_id": "22595557598",
  "published": {
   "action": "pushed",
@@ -66,7 +90,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20120511061533id_/http://hazfalafel.com:80/post/22595557598",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "ביבי"
  ]

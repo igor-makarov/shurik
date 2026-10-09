@@ -26,7 +26,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:41:07Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/lzvbn.gif",
+   "media_url": "http://i.imgur.com/LZvbn.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/LZvbn.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/LZvbn.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -61,12 +79,18 @@
    "url": "http://hazfalafel.com/post/18312624560/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/LZvbn.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/18312624560",
  "page_bytes": 62930,
  "page_sha256": "19d847955c32ed77eee3d311c1b63472e4110a9032bb81860fe6fe597c60ba14",
- "partial": false,
+ "partial": true,
  "post_id": "18312624560",
  "posted_on": "Posted on Sunday the 26th of February 2012 at 3:38 PM",
  "published": {
@@ -86,7 +110,7 @@
  ],
  "replay_url": "https://web.archive.org/web/20171111043812id_/http://hazfalafel.com/post/18312624560",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "יצחק-שמיר-החלטי",
   "הגרעין-האיראני"

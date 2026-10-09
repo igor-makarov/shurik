@@ -25,7 +25,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-09T10:18:22Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "image",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.giphy.com/l0owiihh2g7o46ack.gif",
+   "media_url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif"
+   ],
+   "variants": [
+    "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -60,18 +78,24 @@
    "url": "http://hazfalafel.com/post/135393696088"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.giphy.com/l0OWiiHh2G7O46aCk.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/135393696088",
  "page_bytes": 70862,
  "page_sha256": "62c0aeeb0df1739194ed22a36353c922aa2bf896e0d0fd97617e079e11fc9fef",
- "partial": false,
+ "partial": true,
  "post_id": "135393696088",
  "posted_on": "Posted on Thursday the 17th of December 2015 at 8:59 PM",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160730142222id_/http://hazfalafel.com/post/135393696088",
  "snapshot_retries": 0,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "מלחמת-הכוכבים",
   "אורן-חזן",

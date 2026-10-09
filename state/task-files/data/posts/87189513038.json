@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:47:30Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/kt7lbaj.jpg",
+   "media_url": "http://i.imgur.com/kt7LbaJ.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/kt7LbaJ.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/kt7LbaJ.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,18 +62,24 @@
    "url": "http://hazfalafel.com/post/87189513038"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/kt7LbaJ.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/87189513038",
  "page_bytes": 63883,
  "page_sha256": "4dfbb6ac64ddc0b220edb8f5c3726ca8ba07355aeca5748c4b5978e7930bc6b5",
- "partial": false,
+ "partial": true,
  "post_id": "87189513038",
  "posted_on": "Posted on Thursday the 29th of May 2014 at 1:16 PM",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171111081302id_/http://hazfalafel.com/post/87189513038",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "אורטל-בן-דיין",
   "האח-הגדול",

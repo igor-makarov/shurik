@@ -56,7 +56,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-09T10:17:40Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/fgh4y.gif",
+   "media_url": "http://i.imgur.com/fGh4Y.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/fGh4Y.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/fGh4Y.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -131,17 +149,23 @@
    "url": "http://hazfalafel.com/post/19243177077"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/fGh4Y.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/19243177077",
  "page_bytes": 53612,
  "page_sha256": "92bd7075669e509eda68ee64687d669ef5e8d21b2cebaf00b7121e5a60699985",
- "partial": false,
+ "partial": true,
  "post_id": "19243177077",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20120317051939id_/http://hazfalafel.com:80/post/19243177077",
  "snapshot_retries": 0,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "אמנון-דנקנר-מקליד"
  ]

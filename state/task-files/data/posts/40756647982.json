@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-09T10:17:56Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/fysro.jpg",
+   "media_url": "http://i.imgur.com/FYSRO.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/FYSRO.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/FYSRO.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,18 +62,24 @@
    "url": "http://hazfalafel.com/post/40756647982"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/FYSRO.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/40756647982",
  "page_bytes": 64246,
  "page_sha256": "07b17a81a731571c4342c0d74d0bea97e630b7299390ba578a74ab6550187e01",
- "partial": false,
+ "partial": true,
  "post_id": "40756647982",
  "posted_on": "Posted on Thursday the 17th of January 2013 at 1:43 PM",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171111133736id_/http://hazfalafel.com/post/40756647982",
  "snapshot_retries": 0,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "פרינגלס",
   "pringels"

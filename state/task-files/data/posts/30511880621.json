@@ -38,7 +38,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:43:28Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/jjrpt.jpg",
+   "media_url": "http://i.imgur.com/jjRpT.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/jjRpT.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/jjRpT.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -63,12 +81,18 @@
    "url": "http://hazfalafel.com:80/post/30511880621"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/jjRpT.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/30511880621",
  "page_bytes": 52770,
  "page_sha256": "f7de4b92b13b1839cab717e4194649f472b1490b48d3851f9be70d5c92543048",
- "partial": false,
+ "partial": true,
  "post_id": "30511880621",
  "published": {
   "action": "pushed",
@@ -85,7 +109,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20120901192557id_/http://hazfalafel.com:80/post/30511880621",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "איניגו-מונטויה",
   "Inigo-Montoya",

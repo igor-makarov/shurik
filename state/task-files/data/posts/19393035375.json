@@ -25,7 +25,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:41:27Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "amp-img",
+   "link_text": "",
+   "media_key": "i.imgur.com/vhgiy.gif",
+   "media_url": "http://i.imgur.com/VhgIY.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/VhgIY.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/VhgIY.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -60,12 +78,18 @@
    "url": "http://hazfalafel.com/post/19393035375/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/VhgIY.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/19393035375/amp",
  "page_bytes": 40059,
  "page_sha256": "a1b4c1a1ac293210d67c010734493045f3d5d40686903e7f8e803419b5baf333",
- "partial": false,
+ "partial": true,
  "post_id": "19393035375",
  "published": {
   "action": "pushed",
@@ -82,7 +106,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171206183125id_/http://hazfalafel.com/post/19393035375/amp",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "בראבא לא",
   "יוסי גורביץ"

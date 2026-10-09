@@ -25,7 +25,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-09T10:17:46Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/9usqy.gif",
+   "media_url": "http://i.imgur.com/9uSQy.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/9uSQy.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/9uSQy.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -60,18 +78,24 @@
    "url": "http://hazfalafel.com/post/20709558393"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/9uSQy.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/20709558393",
  "page_bytes": 65500,
  "page_sha256": "750c511dc0fa4324eda3d4fe06c2d05186419d92512d1fab2a5ce49022ab14b7",
- "partial": false,
+ "partial": true,
  "post_id": "20709558393",
  "posted_on": "Posted on Sunday the 8th of April 2012 at 3:21 PM",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160731071732id_/http://hazfalafel.com/post/20709558393",
  "snapshot_retries": 0,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "אמנון-דנקנר-מקליד",
   "יהודה-בלו",

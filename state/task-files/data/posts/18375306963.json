@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:41:09Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/y9d9k.gif",
+   "media_url": "http://i.imgur.com/y9d9k.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/y9d9k.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/y9d9k.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,12 +62,18 @@
    "url": "http://hazfalafel.com/post/18375306963"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/y9d9k.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/18375306963",
  "page_bytes": 61991,
  "page_sha256": "acf7874899a3e8e14bb04b44c8cf97b830660fd4ba52c57aceebf9678739ce51",
- "partial": false,
+ "partial": true,
  "post_id": "18375306963",
  "posted_on": "Posted on Monday the 27th of February 2012 at 1:02 PM",
  "published": {
@@ -67,6 +91,6 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171111042136id_/http://hazfalafel.com/post/18375306963",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": []
 }

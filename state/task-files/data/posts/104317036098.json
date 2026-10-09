@@ -847,9 +847,25 @@
     "timestamp": "20150123171752",
     "url": "http://40.media.tumblr.com/ebf1e6a81c86cae8055a79a7c8d027d8/tumblr_ng1vkjYFIB1r3it8zo6_500.jpg"
    }
+  },
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "יאיר לפיד מנותק",
+   "found_in": "photo-link",
+   "link_text": "http://i.imgur.com/rQWc0EI.jpg",
+   "media_key": "i.imgur.com/rqwc0ei.jpg",
+   "media_url": "http://i.imgur.com/rQWc0EI.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/rQWc0EI.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/rQWc0EI.jpg"
+   ]
   }
  ],
- "images_done": true,
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 1,
@@ -934,12 +950,18 @@
    "url": "http://hazfalafel.com/post/104317036098"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/rQWc0EI.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/104317036098",
  "page_bytes": 68294,
  "page_sha256": "b3afa67572951421def160ffc3546637f37cb99bd824c939fd8da2282efc1569",
- "partial": false,
+ "partial": true,
  "post_id": "104317036098",
  "posted_on": "Posted on Thursday the 4th of December 2014 at 10:57 AM",
  "published": {
@@ -968,7 +990,7 @@
   "manifest_digest": "sha256:8ab108f07cea8481bd9df3aea850ec5bd6e69e070663cea2f17a54f87e5de02d"
  },
  "snapshot_retries": 0,
- "state": "recovered",
+ "state": "partial",
  "tags": [
   "יאיר-לפיד",
   "יאיר-לפיד-מנותק",

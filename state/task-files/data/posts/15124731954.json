@@ -25,7 +25,41 @@
  "failure_count": 0,
  "fetched_at": "2026-10-09T10:17:11Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "memegenerator.net/cache/instances/400x/12/12456/12755363.jpg",
+   "media_url": "http://memegenerator.net/cache/instances/400x/12/12456/12755363.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://memegenerator.net/cache/instances/400x/12/12456/12755363.jpg"
+   ],
+   "variants": [
+    "http://memegenerator.net/cache/instances/400x/12/12456/12755363.jpg"
+   ]
+  },
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "memegenerator.net/cache/instances/400x/12/12456/12755420.jpg",
+   "media_url": "http://memegenerator.net/cache/instances/400x/12/12456/12755420.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://memegenerator.net/cache/instances/400x/12/12456/12755420.jpg"
+   ],
+   "variants": [
+    "http://memegenerator.net/cache/instances/400x/12/12456/12755420.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -60,17 +94,28 @@
    "url": "http://hazfalafel.com:80/post/15124731954"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 2,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://memegenerator.net/cache/instances/400x/12/12456/12755363.jpg",
+   "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://memegenerator.net/cache/instances/400x/12/12456/12755420.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/15124731954",
  "page_bytes": 49424,
  "page_sha256": "6b038f3cb1197ffdbd8bf1fab89e21d901052dd7386cc9a6f58f18e21fdcc47c",
- "partial": false,
+ "partial": true,
  "post_id": "15124731954",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20120118005754id_/http://hazfalafel.com:80/post/15124731954",
  "snapshot_retries": 0,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "עאלק-היפסטר",
   "צחי"

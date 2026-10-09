@@ -32,7 +32,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:47:35Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/fxfnd0n.jpg",
+   "media_url": "http://i.imgur.com/FxFND0n.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/FxFND0n.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/FxFND0n.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -67,12 +85,18 @@
    "url": "http://hazfalafel.com/post/90364097593/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/FxFND0n.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/90364097593",
  "page_bytes": 77278,
  "page_sha256": "7129ae7264488d23cb5d59f86d627dbba70626591448ec03283fd4f51165e932",
- "partial": false,
+ "partial": true,
  "post_id": "90364097593",
  "posted_on": "Posted on Monday the 30th of June 2014 at 7:42 PM",
  "refetched_captures": [
@@ -80,7 +104,7 @@
  ],
  "replay_url": "https://web.archive.org/web/20160817035825id_/http://hazfalafel.com/post/90364097593",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "המתים-המהלכים",
   "ריק-וקארל",

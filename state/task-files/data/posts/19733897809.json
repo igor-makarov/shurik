@@ -25,7 +25,25 @@
  "failure_count": 2,
  "fetched_at": "2026-10-09T10:17:29Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/uk8gk.gif",
+   "media_url": "http://i.imgur.com/uK8gK.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/uK8gK.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/uK8gK.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -50,19 +68,25 @@
    "url": "http://hazfalafel.com/post/19733897809"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/uK8gK.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/19733897809",
  "page_bytes": 62920,
  "page_sha256": "58a0437964da966dc19a75e071e71abf73ba9984ed139fe7f82782434d1c7667",
- "partial": false,
+ "partial": true,
  "post_id": "19733897809",
  "posted_on": "Posted on Thursday the 22nd of March 2012 at 5:50 PM",
  "reason": "snapshot_exists",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171110163801id_/http://hazfalafel.com/post/19733897809",
  "snapshot_retries": 1,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "יצחק-שמיר-החלטי"
  ]

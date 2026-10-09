@@ -25,7 +25,25 @@
  "failure_count": 2,
  "fetched_at": "2026-10-09T10:17:17Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/fgpsc.gif",
+   "media_url": "http://i.imgur.com/fgPSc.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/fgPSc.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/fgPSc.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -50,19 +68,25 @@
    "url": "http://hazfalafel.com/post/19354963658"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/fgPSc.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/19354963658",
  "page_bytes": 61589,
  "page_sha256": "9afdaa5c8d357f65fe252964c687d2650d088e1bae8b0bdf169be920c59d1761",
- "partial": false,
+ "partial": true,
  "post_id": "19354963658",
  "posted_on": "Posted on Thursday the 15th of March 2012 at 9:41 PM",
  "reason": "snapshot_exists",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171110164939id_/http://hazfalafel.com/post/19354963658",
  "snapshot_retries": 1,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "בראבא-לא"
  ]

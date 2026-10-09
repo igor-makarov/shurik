@@ -25,7 +25,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:46:33Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "image",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/ohyfrsz.jpg",
+   "media_url": "http://i.imgur.com/OhYFRsZ.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/OhYFRsZ.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/OhYFRsZ.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -50,18 +68,24 @@
    "url": "http://hazfalafel.com/post/68767563629"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/OhYFRsZ.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/68767563629",
  "page_bytes": 66087,
  "page_sha256": "4b0c8786e0df66de717b994422c4744cc778515c3f15b6ffa650b05839025e9a",
- "partial": false,
+ "partial": true,
  "post_id": "68767563629",
  "posted_on": "Posted on Monday the 2nd of December 2013 at 11:13 AM",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160817054949id_/http://hazfalafel.com/post/68767563629",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "מירי-רגב",
   "אמנון-אברמוביץ'"

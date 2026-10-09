@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:46:21Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.cubeupload.com/ntgh7u.gif",
+   "media_url": "http://i.cubeupload.com/NtGh7u.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.cubeupload.com/NtGh7u.gif"
+   ],
+   "variants": [
+    "http://i.cubeupload.com/NtGh7u.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,12 +62,18 @@
    "url": "http://hazfalafel.com:80/post/65919793727"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.cubeupload.com/NtGh7u.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com:80/post/65919793727",
  "page_bytes": 66012,
  "page_sha256": "00688dfbbcf3f4dfa62c1e83edcba068a65af110ae99113f5511241e8482941d",
- "partial": false,
+ "partial": true,
  "post_id": "65919793727",
  "posted_on": "Posted on Sunday the 3rd of November 2013 at 9:47 PM",
  "published": {
@@ -67,7 +91,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20131106124231id_/http://hazfalafel.com:80/post/65919793727",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "animated-gif",
   "gta",

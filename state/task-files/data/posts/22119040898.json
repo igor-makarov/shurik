@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:42:06Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/ucczn.gif",
+   "media_url": "http://i.imgur.com/ucczN.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/ucczN.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/ucczN.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,12 +62,18 @@
    "url": "http://hazfalafel.com/post/22119040898"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/ucczN.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/22119040898",
  "page_bytes": 65676,
  "page_sha256": "1e5e70ea1acc4e9472bdfb17fe93e75595a72e2b993350e78ca093795609b4ce",
- "partial": false,
+ "partial": true,
  "post_id": "22119040898",
  "posted_on": "Posted on Monday the 30th of April 2012 at 3:25 PM",
  "published": {
@@ -67,7 +91,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160909210204id_/http://hazfalafel.com/post/22119040898",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "יאיר-לפיד",
   "היפיפוטם"

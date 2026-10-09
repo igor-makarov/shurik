@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:42:32Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/6kdsj.gif",
+   "media_url": "http://i.imgur.com/6KdSj.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/6KdSj.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/6KdSj.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,12 +62,18 @@
    "url": "http://hazfalafel.com/post/24620338672"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/6KdSj.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/24620338672",
  "page_bytes": 65827,
  "page_sha256": "ee94df3eb9a9d116b09417c4bc26875595bbf3008517c92cf251e049c3eadf0d",
- "partial": false,
+ "partial": true,
  "post_id": "24620338672",
  "posted_on": "Posted on Thursday the 7th of June 2012 at 9:10 PM",
  "published": {
@@ -67,7 +91,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171110123349id_/http://hazfalafel.com/post/24620338672",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "גולן-טלקום",
   "אורנג'",

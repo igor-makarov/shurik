@@ -25,7 +25,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:44:37Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "כפיים",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/l2zxj.jpg",
+   "media_url": "http://i.imgur.com/L2zxJ.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/L2zxJ.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/L2zxJ.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -50,12 +68,18 @@
    "url": "http://hazfalafel.com/post/38318316369"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/L2zxJ.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/38318316369",
  "page_bytes": 68076,
  "page_sha256": "82b6ad1d286976164609cf0428cb5cd2f9ad5320cf1d570227fdb51672d0368d",
- "partial": false,
+ "partial": true,
  "post_id": "38318316369",
  "posted_on": "Posted on Wednesday the 19th of December 2012 at 9:10 PM",
  "published": {
@@ -73,7 +97,7 @@
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160817100815id_/http://hazfalafel.com/post/38318316369",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "בחירות",
   "בחירות-2013",

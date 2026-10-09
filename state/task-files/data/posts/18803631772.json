@@ -26,7 +26,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:41:16Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/c7ziq.gif",
+   "media_url": "http://i.imgur.com/c7ZiQ.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/c7ZiQ.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/c7ZiQ.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -61,12 +79,18 @@
    "url": "http://hazfalafel.com/post/18803631772/amp"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/c7ZiQ.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/18803631772",
  "page_bytes": 62618,
  "page_sha256": "eba8fd4a85a7fcd1e7ebccb23802683ccdc9c899eaa79e7684ed07d7b4cf142c",
- "partial": false,
+ "partial": true,
  "post_id": "18803631772",
  "posted_on": "Posted on Monday the 5th of March 2012 at 10:41 PM",
  "published": {
@@ -86,7 +110,7 @@
  ],
  "replay_url": "https://web.archive.org/web/20171110152250id_/http://hazfalafel.com/post/18803631772",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "יצחק-שמיר-החלטי",
   "רכבת-ישראל"

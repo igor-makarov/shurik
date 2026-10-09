@@ -19,7 +19,25 @@
  "failure_count": 0,
  "fetched_at": "2026-10-04T23:46:41Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/eaofayv.jpg",
+   "media_url": "http://i.imgur.com/EAoFaYv.jpg",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/EAoFaYv.jpg"
+   ],
+   "variants": [
+    "http://i.imgur.com/EAoFaYv.jpg"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -44,18 +62,24 @@
    "url": "http://hazfalafel.com/post/70204273528"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/EAoFaYv.jpg",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/70204273528",
  "page_bytes": 69666,
  "page_sha256": "cc1b5afaf823acdb45bb1ed838acedd6d6d42a51934f5a677d329f777afc9321",
- "partial": false,
+ "partial": true,
  "post_id": "70204273528",
  "posted_on": "Posted on Monday the 16th of December 2013 at 7:58 PM",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160817044413id_/http://hazfalafel.com/post/70204273528",
  "snapshot_retries": 0,
- "state": "fetched",
+ "state": "partial",
  "tags": [
   "המתים-המהלכים",
   "ריק-וקארל",

@@ -60,6 +60,7 @@
    "blob_path": "data/blobs/1e/1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
    "bytes": 31319,
    "caption": "image",
+   "caption_alt": "image",
    "capture": {
     "archive_digest": "TGBB2NT3XOGMGR2WHU7LLYW5LX2NL47A",
     "original": "http://i.imgur.com/prUsdqz.png",
@@ -75,7 +76,13 @@
    "media_url": "http://i.imgur.com/prUsdqz.png",
    "note": "recovered from pre-cutoff capture 20130924034019 of http://i.imgur.com/prUsdqz.png (31319 bytes, image/png); every URL form tried earlier is kept in `attempts`",
    "sha256": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
-   "state": "recovered"
+   "state": "recovered",
+   "url_forms": [
+    "http://i.imgur.com/prUsdqz.png"
+   ],
+   "variants": [
+    "http://i.imgur.com/prUsdqz.png"
+   ]
   },
   {
    "attempts": [
@@ -152,7 +159,7 @@
    ]
   }
  ],
- "images_done": true,
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,

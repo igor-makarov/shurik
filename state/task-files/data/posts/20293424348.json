@@ -25,7 +25,25 @@
  "failure_count": 2,
  "fetched_at": "2026-10-09T10:17:34Z",
  "image_count": 0,
- "images": [],
+ "images": [
+  {
+   "attempts": [],
+   "base_key": null,
+   "caption_alt": "",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "i.imgur.com/dnbqa.gif",
+   "media_url": "http://i.imgur.com/dNBQa.gif",
+   "state": "unresolved",
+   "url_forms": [
+    "http://i.imgur.com/dNBQa.gif"
+   ],
+   "variants": [
+    "http://i.imgur.com/dNBQa.gif"
+   ]
+  }
+ ],
+ "images_done": false,
  "listing_evidence": 1,
  "listing_forms_merged": 0,
  "listing_images_added": 0,
@@ -50,19 +68,25 @@
    "url": "http://hazfalafel.com/post/20293424348"
   }
  ],
- "missing_image_count": 0,
- "missing_images": [],
+ "missing_image_count": 1,
+ "missing_images": [
+  {
+   "attempts": [],
+   "media_url": "http://i.imgur.com/dNBQa.gif",
+   "reason": null
+  }
+ ],
  "original_url": "http://hazfalafel.com/post/20293424348",
  "page_bytes": 66383,
  "page_sha256": "731cbaccb68c7fcbbd408de0658896a6be1a61816098e93101ea3b8c8c04a5fb",
- "partial": false,
+ "partial": true,
  "post_id": "20293424348",
  "posted_on": "Posted on Sunday the 1st of April 2012 at 7:59 PM",
  "reason": "snapshot_exists",
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20160731060543id_/http://hazfalafel.com/post/20293424348",
  "snapshot_retries": 1,
- "state": "listing_only",
+ "state": "partial",
  "tags": [
   "אמנון-דנקנר-מקליד"
  ]
