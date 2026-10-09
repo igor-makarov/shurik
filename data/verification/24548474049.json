@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:655b86629155d4df476aad9981592a138d0a86b3470c976b08b9395d671f401e",
+   "observed": "sha256:c11e465be387cb4a8250a453c2cfba44a2b669d9909f5b149c00939ca2641e94",
    "passed": true
   },
   {
@@ -14,9 +14,29 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m56i4uvlsD1r3it8zo1_500.jpg]",
+   "expected": "556e0748ee6f6d086a5e099adf8b6d968505072b21c4d17931cc357663d07b2b",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m56i4uvlsD1r3it8zo1_500.jpg]",
+   "expected": 28923,
+   "observed": 28923,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m56i4uvlsD1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
    "passed": true
   },
   {
@@ -90,6 +110,12 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_m56i4uvlsD1r3it8zo1_500.jpg]",
+   "expected": "אני אתן להם גם מספרים סידוריים",
+   "observed": "אני אתן להם גם מספרים סידוריים",
+   "passed": true
+  },
+  {
    "check": "image_caption[tumblr_m56i4uvlsD1r3it8zo1_250.jpg]",
    "expected": "אני אתן להם גם מספרים סידוריים",
    "observed": "אני אתן להם גם מספרים סידוריים",
@@ -114,11 +140,11 @@
    "passed": true
   }
  ],
- "checks_passed": 17,
- "checks_total": 17,
- "config_digest": "sha256:4552f1398acb3d9d094c72a1d86dfc8e9dca34ec8ecba7ec8491e294a72fab21",
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:4a4955b0bb355242e4b6c089864df207028320c0f775f457429b48896bd4dd64",
  "failed_checks": [],
- "images_verified": 1,
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2017-11-10T11:54:58Z",
   "org.opencontainers.image.description": "אני אתן להם גם מספרים סידוריים",
@@ -130,27 +156,40 @@
   "shurik.post.content_len": "30",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "24548474049",
-  "shurik.post.images": "1",
-  "shurik.post.missing_images": "1",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
   "shurik.post.tags": "אסור-להשוות,פייסבוק"
  },
  "layers": [
+  {
+   "digest": "sha256:385ea033c08eddebf3080d640d89647104cc6e3ba3cea2357d6b29abd142632a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 27353
+  },
   {
    "digest": "sha256:a6f83aff7791c4067980651a52e2b2174d306c6e5c5701c0f19be697008deb96",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
    "size": 27353
   },
   {
-   "digest": "sha256:650357b2ca605b62c8761cb7bf921cdf9bd82d6159ac178a4394ebadf94cda02",
+   "digest": "sha256:23eb79c83fd6d1450d181bd79ab34337f97aacbdaddfe3b3e9af58b31a87c287",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1279
+   "size": 913
   }
  ],
- "manifest_digest": "sha256:655b86629155d4df476aad9981592a138d0a86b3470c976b08b9395d671f401e",
+ "manifest_digest": "sha256:c11e465be387cb4a8250a453c2cfba44a2b669d9909f5b149c00939ca2641e94",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "24548474049",
  "pulled_files": [
+  {
+   "bytes": 28923,
+   "file": "tumblr_m56i4uvlsD1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:385ea033c08eddebf3080d640d89647104cc6e3ba3cea2357d6b29abd142632a",
+   "role": "media",
+   "sha256": "556e0748ee6f6d086a5e099adf8b6d968505072b21c4d17931cc357663d07b2b"
+  },
   {
    "bytes": 28923,
    "file": "tumblr_m56i4uvlsD1r3it8zo1_250.jpg",
@@ -160,13 +199,13 @@
    "sha256": "556e0748ee6f6d086a5e099adf8b6d968505072b21c4d17931cc357663d07b2b"
   },
   {
-   "bytes": 3870,
+   "bytes": 2535,
    "file": "post.json",
-   "layer": "sha256:650357b2ca605b62c8761cb7bf921cdf9bd82d6159ac178a4394ebadf94cda02",
+   "layer": "sha256:23eb79c83fd6d1450d181bd79ab34337f97aacbdaddfe3b3e9af58b31a87c287",
    "role": "post-metadata",
-   "sha256": "eb660b8bd1792ff74939777192299d64056fa8bf04d6c9ed4a91b2ec6fa7754f"
+   "sha256": "e4a26c5bb62b2b83f12033f2fc4dacb27c9a10dd4e15b47147481bcb79f49569"
   }
  ],
  "tag": "24548474049",
- "verified_at": "2026-10-09T11:06:26Z"
+ "verified_at": "2026-10-09T14:39:24Z"
 }
