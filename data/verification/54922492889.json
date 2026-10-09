@@ -1,0 +1,176 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:f955c224b83ebd42856a6037f95993f06ead97f1bd8a71f5c2341c8f66030688",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mpmm28UFe61r3it8zo1_500.jpg]",
+   "expected": "212e4743432668627cd1edbe9c061480380023a1f70700bb29f0f0dd0ebbd641",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mpmm28UFe61r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mpmm28UFe61r3it8zo1_500.jpg]",
+   "expected": 52244,
+   "observed": 52244,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mpmm28UFe61r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "כשצפיתי לראשונה ביניר האחמ\"ש\nhttp://youtu.be/EJwsLjtuVGg",
+   "observed": "כשצפיתי לראשונה ביניר האחמ\"ש\nhttp://youtu.be/EJwsLjtuVGg",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><span>כשצפיתי לראשונה ביניר האחמ\"ש </span></p>\n<p><u><a href=\"http://youtu.be/EJwsLjtuVGg\" target=\"_blank\">http://youtu.be/EJwsLjtuVGg</a></u></p>",
+   "observed": "<p><span>כשצפיתי לראשונה ביניר האחמ\"ש </span></p>\n<p><u><a href=\"http://youtu.be/EJwsLjtuVGg\" target=\"_blank\">http://youtu.be/EJwsLjtuVGg</a></u></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "יניר-האחמש",
+    "עובדות-שרוט",
+    "dwight-schrute",
+    "shcrute-facts"
+   ],
+   "observed": [
+    "יניר-האחמש",
+    "עובדות-שרוט",
+    "dwight-schrute",
+    "shcrute-facts"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "כשצפיתי לראשונה ביניר האחמ\"ש \nhttp://youtu.be/EJwsLjtuVGg"
+   ],
+   "observed": [
+    "כשצפיתי לראשונה ביניר האחמ\"ש \nhttp://youtu.be/EJwsLjtuVGg"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/54922492889",
+   "observed": "http://hazfalafel.com:80/post/54922492889",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mpmm28UFe61r3it8zo1_500.jpg]",
+   "expected": "כשצפיתי לראשונה ביניר האחמ\"ש \nhttp://youtu.be/EJwsLjtuVGg",
+   "observed": "כשצפיתי לראשונה ביניר האחמ\"ש \nhttp://youtu.be/EJwsLjtuVGg",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20140111021409",
+   "observed": "20140111021409",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20140111021409id_/http://31.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20140111021409id_/http://31.media.tumblr.com/74bdb66636453070e7271914e0084b2b/tumblr_mpmm28UFe61r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20140111021409",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:5508d566fd02ba393e473f6d8fd6843471ae46e80942ea3e68b8ffc421ffee6e",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-10-25T04:20:40Z",
+  "org.opencontainers.image.description": "כשצפיתי לראשונה ביניר האחמ\"ש",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 54922492889",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/54922492889",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "56",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "54922492889",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "3",
+  "shurik.post.tags": "יניר-האחמש,עובדות-שרוט,dwight-schrute,shcrute-facts"
+ },
+ "layers": [
+  {
+   "digest": "sha256:badc65cd1e513973df82634670e4812ec68503a15273f826b1ddfb5cbc50a34d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 51924
+  },
+  {
+   "digest": "sha256:00d3a43a78c4f66f9e162c52e1c1ef5663795a951165a73110703680ec3b61cd",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1451
+  }
+ ],
+ "manifest_digest": "sha256:f955c224b83ebd42856a6037f95993f06ead97f1bd8a71f5c2341c8f66030688",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "54922492889",
+ "pulled_files": [
+  {
+   "bytes": 52244,
+   "file": "tumblr_mpmm28UFe61r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:badc65cd1e513973df82634670e4812ec68503a15273f826b1ddfb5cbc50a34d",
+   "role": "media",
+   "sha256": "212e4743432668627cd1edbe9c061480380023a1f70700bb29f0f0dd0ebbd641"
+  },
+  {
+   "bytes": 8093,
+   "file": "post.json",
+   "layer": "sha256:00d3a43a78c4f66f9e162c52e1c1ef5663795a951165a73110703680ec3b61cd",
+   "role": "post-metadata",
+   "sha256": "13ed12e60e75b050c2425b199d78e062136c17741d4511ecdcac09d65a886c23"
+  }
+ ],
+ "tag": "54922492889",
+ "verified_at": "2026-10-09T19:39:23Z"
+}

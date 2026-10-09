@@ -1,0 +1,186 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:24ff11c98c608a9c149fb0ac08c33fd3c4fa2a6fc25c975536b1121c3d21768c",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxt3upMRiL1r3it8zo1_500.jpg]",
+   "expected": "b03955ede5fc5d5f3e1bd1b45037cc5eae812a2c350bc0002c892aa68c225b33",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxt3upMRiL1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxt3upMRiL1r3it8zo1_500.jpg]",
+   "expected": 133566,
+   "observed": 133566,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxt3upMRiL1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אקנולג’ קומרד",
+   "observed": "אקנולג’ קומרד",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1488;&#1511;&#1504;&#1493;&#1500;&#1490;&rsquo; &#1511;&#1493;&#1502;&#1512;&#1491;</p>",
+   "observed": "<p>&#1488;&#1511;&#1504;&#1493;&#1500;&#1490;&rsquo; &#1511;&#1493;&#1502;&#1512;&#1491;</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "snow",
+    "storm",
+    "winter",
+    "jerusalem",
+    "israel",
+    "redalert",
+    "command-and-conquer",
+    "חורף",
+    "ירושלים"
+   ],
+   "observed": [
+    "snow",
+    "storm",
+    "winter",
+    "jerusalem",
+    "israel",
+    "redalert",
+    "command-and-conquer",
+    "חורף",
+    "ירושלים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "אקנולג’ קומרד"
+   ],
+   "observed": [
+    "אקנולג’ קומרד"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/69987459424",
+   "observed": "http://hazfalafel.com/post/69987459424",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mxt3upMRiL1r3it8zo1_500.jpg]",
+   "expected": "אקנולג’ קומרד",
+   "observed": "אקנולג’ קומרד",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131222061440",
+   "observed": "20131222061440",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131222061440id_/http://24.media.tumblr.com/d27bb3f11a7ddaf8af53884b7d4efd7f/tumblr_mxt3upMRiL1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131222061440id_/http://24.media.tumblr.com/d27bb3f11a7ddaf8af53884b7d4efd7f/tumblr_mxt3upMRiL1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131222061440",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:bd40ba5e01f68316b1826bcbd50b493e0ca6ac3fd45b859ba4c053a074e8546e",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T15:22:28Z",
+  "org.opencontainers.image.description": "אקנולג’ קומרד",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 69987459424",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/69987459424",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "13",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "69987459424",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "snow,storm,winter,jerusalem,israel,redalert,command-and-conquer,חורף,ירושלים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:5199cd9e1ec3bfc58b99ed6e655900e117c69113f26db072224c975a06826f26",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 113963
+  },
+  {
+   "digest": "sha256:72403db6d47f3fa7777c23a7baf682fc9bbc932d270ce120e7930c34965d6a65",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1373
+  }
+ ],
+ "manifest_digest": "sha256:24ff11c98c608a9c149fb0ac08c33fd3c4fa2a6fc25c975536b1121c3d21768c",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "69987459424",
+ "pulled_files": [
+  {
+   "bytes": 133566,
+   "file": "tumblr_mxt3upMRiL1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:5199cd9e1ec3bfc58b99ed6e655900e117c69113f26db072224c975a06826f26",
+   "role": "media",
+   "sha256": "b03955ede5fc5d5f3e1bd1b45037cc5eae812a2c350bc0002c892aa68c225b33"
+  },
+  {
+   "bytes": 6735,
+   "file": "post.json",
+   "layer": "sha256:72403db6d47f3fa7777c23a7baf682fc9bbc932d270ce120e7930c34965d6a65",
+   "role": "post-metadata",
+   "sha256": "b8eaeff6ad961a3a2db08faab20f64f6e13c93c765dd6a8c0862b94f2b32d9d8"
+  }
+ ],
+ "tag": "69987459424",
+ "verified_at": "2026-10-09T19:39:24Z"
+}
