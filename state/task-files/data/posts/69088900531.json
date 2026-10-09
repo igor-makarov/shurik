@@ -23,8 +23,8 @@
  "content_source": "div.post-content",
  "content_text": "קצת באיחור\nמלחמת הכוכביםאייל גולןstar wars",
  "failure_count": 0,
- "fetched_at": "2026-10-08T23:20:55Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T00:11:14Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -191,18 +191,41 @@
      "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
      "status": 404,
      "url": "http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 98003,
+     "capture_timestamp": "20131222054429",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "882a313abeb3574db479ee7e667cd458f2fdb48965aefdb5d06c434142b64b58",
+     "status": 200,
+     "url": "http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_mxcillvQK81r3it8zo1.jpg",
+   "blob_path": "data/blobs/88/882a313abeb3574db479ee7e667cd458f2fdb48965aefdb5d06c434142b64b58",
+   "bytes": 98003,
    "caption_alt": "",
+   "capture": {
+    "archive_digest": "J7NFLF3VSE5LCEYYHKERMC7YCKPSRX4E",
+    "original": "http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20131222054429id_/http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
+    "timestamp": "20131222054429"
+   },
    "capture_count": 1,
-   "error": "http_error",
+   "error": null,
+   "file": "tumblr_mxcillvQK81r3it8zo1_500.jpg",
    "found_in": "amp-img",
    "link_text": "",
    "media_key": "tumblr_mxcillvQK81r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
-   "note": "captures existed but no replay produced a valid image body",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20131222054429 of http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg (98003 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "captures existed but no replay produced a valid image body",
+   "sha256": "882a313abeb3574db479ee7e667cd458f2fdb48965aefdb5d06c434142b64b58",
+   "state": "recovered",
    "url_forms": [
     "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
     "http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg"
@@ -264,7 +287,7 @@
    "url": "http://hazfalafel.com/post/69088900531/amp"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -347,47 +370,6 @@
    ],
    "media_url": "http://67.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_250.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_1280.jpg",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_1024.jpg",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_540.jpg",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_400.jpg",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_250.jpg",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_100.jpg",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1.png",
-      "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 1,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
-     "status": "cached",
-     "stem": "http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1",
-     "url": "http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg"
-    },
-    {
-     "bytes": 4729,
-     "capture_timestamp": "20131222054429",
-     "endpoint": "replay id_",
-     "error": "http_error",
-     "media_type": "not-an-image",
-     "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
-     "status": 404,
-     "url": "http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://78.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
-   "reason": "http_error"
   }
  ],
  "original_url": "http://hazfalafel.com/post/69088900531/amp",
@@ -395,6 +377,18 @@
  "page_sha256": "cedc715713c14574f3386b7d73d535882ea35144fbdff04e0989b40c008834db",
  "partial": true,
  "post_id": "69088900531",
+ "published": {
+  "action": "updated",
+  "at": "2026-10-09T00:11:29Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:731c144afc74f295d49327a0f844690c0b8852ac71e607986c3f4e4eb31a14ee",
+  "missing_count": 1,
+  "quality": [
+   1,
+   42,
+   0
+  ]
+ },
  "refetched_captures": [],
  "replay_url": "https://web.archive.org/web/20171206220748id_/http://hazfalafel.com/post/69088900531/amp",
  "snapshot_retries": 0,

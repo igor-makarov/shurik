@@ -5,8 +5,8 @@
  "content_html": "",
  "content_text": "",
  "failure_count": 0,
- "fetched_at": "2026-10-08T23:20:47Z",
- "image_count": 0,
+ "fetched_at": "2026-10-09T00:11:15Z",
+ "image_count": 1,
  "images": [
   {
    "alt_sources": [
@@ -141,18 +141,41 @@
      "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
      "status": 404,
      "url": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg"
+    },
+    {
+     "bytes": 101186,
+     "capture_timestamp": "20140111013305",
+     "endpoint": "replay id_",
+     "error": "ok",
+     "media_type": "image/jpeg",
+     "message": "",
+     "sha256": "9c793bc0838460c34d41c9b9a78343ed7624156a567e14a1ea30f3ccd8f44d39",
+     "status": 200,
+     "url": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg"
     }
    ],
    "base_key": "tumblr_msce5875Ik1r3it8zo1.jpg",
+   "blob_path": "data/blobs/9c/9c793bc0838460c34d41c9b9a78343ed7624156a567e14a1ea30f3ccd8f44d39",
+   "bytes": 101186,
    "caption": "סוריה תתקוף את ישראל?! WHAT YEAR IS IT\nBad Luck אלי זעירא",
    "caption_alt": "סוריה תתקוף את ישראל?! WHAT YEAR IS IT\nBad Luck אלי זעירא",
+   "capture": {
+    "archive_digest": "JCLB4WCQHKVTB7NUQSKHRYIA2O6FVQHD",
+    "original": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg",
+    "replay_url": "https://web.archive.org/web/20140111013305id_/http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg",
+    "timestamp": "20140111013305"
+   },
    "capture_count": 1,
-   "error": "http_error",
+   "error": null,
+   "file": "tumblr_msce5875Ik1r3it8zo1_500.jpg",
    "found_in": "listing:img",
    "media_key": "tumblr_msce5875Ik1r3it8zo1_500.jpg",
+   "media_type": "image/jpeg",
    "media_url": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg",
-   "note": "captures existed but no replay produced a valid image body",
-   "state": "missing",
+   "note": "recovered from pre-cutoff capture 20140111013305 of http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg (101186 bytes, image/jpeg); every URL form tried earlier is kept in `attempts`",
+   "prior_note": "captures existed but no replay produced a valid image body",
+   "sha256": "9c793bc0838460c34d41c9b9a78343ed7624156a567e14a1ea30f3ccd8f44d39",
+   "state": "recovered",
    "url_forms": [
     "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg"
    ],
@@ -182,7 +205,7 @@
  "listing_urls": [
   "http://hazfalafel.com/post/59766150804"
  ],
- "missing_image_count": 2,
+ "missing_image_count": 1,
  "missing_images": [
   {
    "attempts": [
@@ -235,52 +258,23 @@
    ],
    "media_url": "http://66.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_250.jpg",
    "reason": "archive_gap"
-  },
-  {
-   "attempts": [
-    {
-     "endpoint": "variant-plan",
-     "media_url": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg",
-     "note": "every size/extension variant considered before declaring a gap",
-     "variants": [
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_1280.jpg",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_1024.jpg",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_540.jpg",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_400.jpg",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_250.jpg",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_100.jpg",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1.png",
-      "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1.gif"
-     ]
-    },
-    {
-     "captures": 1,
-     "endpoint": "cdx-stem-batch",
-     "error": "ok",
-     "note": "recorded stem-index hit for this URL or an alternate CDN form; used before the host-inventory early return",
-     "status": "cached",
-     "stem": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1",
-     "url": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg"
-    },
-    {
-     "bytes": 4729,
-     "capture_timestamp": "20140111013305",
-     "endpoint": "replay id_",
-     "error": "http_error",
-     "media_type": "not-an-image",
-     "message": "replay answered HTTP 404 with a non-image body (4729 bytes of text/html); contradictory with the listed 200 capture -- transient, retry later",
-     "status": 404,
-     "url": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg"
-    }
-   ],
-   "media_url": "http://31.media.tumblr.com/a013c0457fd4105c6fac6b890ec712a5/tumblr_msce5875Ik1r3it8zo1_500.jpg",
-   "reason": "http_error"
   }
  ],
  "original_url": "http://hazfalafel.com/post/59766150804",
  "partial": true,
  "post_id": "59766150804",
+ "published": {
+  "action": "pushed",
+  "at": "2026-10-09T00:11:23Z",
+  "image_count": 1,
+  "manifest_digest": "sha256:6caa55a7a7b80531450a729dc3f4af3c1619ff087fa2b53549917423e8219649",
+  "missing_count": 1,
+  "quality": [
+   1,
+   0,
+   0
+  ]
+ },
  "refetched_captures": [],
  "snapshot_retries": 0,
  "state": "partial",
