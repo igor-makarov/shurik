@@ -247,6 +247,20 @@ class VariantPlanningTests(unittest.TestCase):
                 self.assertTrue(v.startswith("http"), f"{v} lost its host/dir prefix")
                 self.assertIn(url.rsplit("/", 1)[0], v)
 
+    def test_frame_suffix_is_not_part_of_the_cdx_prefix(self):
+        # Old multi-frame GIF URLs carry a `_frame<N>` selector; the archive may
+        # hold the sibling `_frame1.gif` / `_500.jpg` instead. The prefix must be
+        # the name *before* the selector, or those siblings are never enumerated.
+        self.assertEqual(
+            stem_prefix("http://media.tumblr.com/tumblr_nfi0isw7dU1r3it8z_frame1.jpg"),
+            "http://media.tumblr.com/tumblr_nfi0isw7dU1r3it8z")
+        self.assertEqual(
+            stem_prefix("http://78.media.tumblr.com/tumblr_njp6fyI40D1r3it8z_frame2.jpg"),
+            "http://78.media.tumblr.com/tumblr_njp6fyI40D1r3it8z")
+        # A name that is only the selector must not collapse to an empty prefix.
+        self.assertEqual(stem_prefix("http://media.tumblr.com/frame1.jpg"),
+                         "http://media.tumblr.com/frame1.jpg")
+
     def test_exact_url_is_queried_before_siblings(self):
         rows = [["urlkey", "timestamp", "original", "mimetype", "statuscode", "digest", "length"],
                 ["k", "20150119072952", ImageRecoveryTests.IMAGE_URL, "image/jpeg", "200", "ABC", "100"]]

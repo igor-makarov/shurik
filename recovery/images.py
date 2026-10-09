@@ -32,6 +32,11 @@ MAX_ATTEMPTS_PER_IMAGE = 8
 SIZE_TOKEN = re.compile(r"_(?:r|p|s|o|h|t|m|l|xl|q|v)?[0-9a-z]*[0-9][0-9a-z]*$")
 # Suffixes that are part of the identity, never a size token.
 NOT_SIZE_TOKEN = re.compile(r"^(?:r[0-9]+|p[0-9]+|s[0-9]+|o[0-9]+|[0-9]{2,4})$")
+# Old multi-frame GIF URLs carry a `_frame<N>` selector (`tumblr_xxx1r3it8z_frame1.jpg`).
+# It is not part of the file identity: the whole family lives under the name
+# *before* the selector, so that prefix is the one CDX query that can find a
+# capture of the sibling `_frame1.gif` / `_500.jpg` the post never linked.
+FRAME_TOKEN = re.compile(r"^frame[0-9]+$")
 
 
 def stem_prefix(media_url: str) -> str:
@@ -58,10 +63,13 @@ def stem_prefix(media_url: str) -> str:
     if not dot:
         base = name
     token = base.rpartition("_")[2]
-    if "_" not in base or not token or not NOT_SIZE_TOKEN.match(token) or len(token) > 4:
+    prefix_base = base[:len(base) - len(token) - 1]
+    size_like = bool(NOT_SIZE_TOKEN.match(token)) and len(token) <= 4
+    frame_like = bool(FRAME_TOKEN.match(token)) and "_" in prefix_base
+    if "_" not in base or not token or not (size_like or frame_like):
         # No recognisable size token: the exact URL is its own prefix.
         return f"http://{parts.netloc}{parts.path}"
-    return f"http://{parts.netloc}{directory}/{base[:len(base) - len(token) - 1]}"
+    return f"http://{parts.netloc}{directory}/{prefix_base}"
 
 
 def inherit_image_captions(images: list[dict]) -> int:
