@@ -4,7 +4,7 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "stopped",
+  "status": "running",
   "generation": 20,
   "next": 328,
   "owner": null,
@@ -16,7 +16,7 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37913549121",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
@@ -111,7 +111,6 @@
     "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261009-throughput.json",
     "deadline": "2026-10-10T07:59:06.000Z"
   },
-  "stoppedAt": "2026-10-09T10:05:09Z",
   "monitorGuidancePause": {
     "experimentId": "falafel-throughput-20261009",
     "cause": "First flat hourly window: no new durable image hashes/publications/verification; 256 saved scoped CDX negatives and 31 published prior-new hashes still lack anonymous receipts. Add targeted recovery-stage guidance.",
@@ -125,6 +124,16 @@
       "runId": "37913549121",
       "at": "2026-10-09T10:03:39.187Z"
     },
-    "stoppedAt": "2026-10-09T10:05:09Z"
+    "stoppedAt": "2026-10-09T10:05:09Z",
+    "completedAt": "2026-10-09T10:08:27Z",
+    "outcome": "resumed_without_prompt_change",
+    "assessment": {
+      "supersedesControl": "b3beeba473ebe08c670246dbce25699f03cc341f",
+      "finalWorkCommit": "a8a550e6044e3bf2b1fd21335c91877727f0612c",
+      "publicationImages": 258,
+      "postsWithImages": 180,
+      "newHashesSincePreviousCheck": 2,
+      "reason": "A newer checkpoint saved two genuinely new published image payloads before the pause; recovery is productive, so no guidance change or taper stop is warranted."
+    }
   }
 }
