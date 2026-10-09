@@ -1,8 +1,8 @@
 {
   "kind": "shurik-nauka-assignment",
   "scope": "all-years",
-  "iteration": "5-57",
-  "at": "2026-10-09T00:12:00.000Z",
+  "iteration": "5-58",
+  "at": "2026-10-09T00:25:41Z",
   "deadline": null,
   "deadlineLocal": "completion-driven (supervisor control.json deadline=null is authoritative; earlier time deadlines superseded)",
   "objective": "Discover ALL years of Nauka i Zhizn, publish a truthful master issue index on GHCR, and retrieve newly discovered scans until the deadline.",
@@ -116,11 +116,12 @@
   "acknowledgement": "Iteration 5-53 acknowledges the user-authorized continuation and the current supervisor completion-driven control. Scope all-years. Preserved the completed 1934-1939 subset and every existing file id/receipt; no falafel code/artifacts/history read or reused; work done inside this Shurik loop.",
   "continuationAck": {
     "acknowledged": true,
-    "iteration": "5-57",
-    "at": "2026-10-09T00:12:00.000Z",
-    "supervisorControl": "codex/shurik-control/nauka-20261007 control.json deadline=null (verified by git show, generation 5, next 56); completion-driven until all 1112 regular files + 5 supplementary archives published with a truthful all-years master index.",
-    "baseline": "875-file boundary superseded by later durable progress; current saved baseline is 1081 published regular + 5/5 supplementary, 31 regular remaining (4 in_progress + 27 pending).",
-    "note": "Iteration 5-56 acknowledges the user-authorized four-hour continuation. Preserved 60-file 1934-1939 subset and every file id/receipt; no redownload of the 60. Work done inside this Shurik loop; no falafel code/artifacts/history read or reused."
+    "iteration": "5-58",
+    "at": "2026-10-09T00:25:41Z",
+    "supervisorControl": "codex/shurik-control/nauka-20261007 control.json: generation 5, next 58, deadline=null (token nauka-user-until-complete-1791481729758). Completion-driven until all 1112 regular files + 5 supplementary archives are published with a truthful all-years master index. Obeyed; no self-set deadline.",
+    "userContinuation": "User-authorized four-hour continuation acknowledged; earlier 2026-10-08T07:00:00Z and 14:45:32Z deadlines superseded by supervisor control deadline=null.",
+    "baseline": "Stale 875-file generation-5 opening boundary superseded by durable progress; current saved baseline 1091 published regular + 5/5 supplementary, 21 regular remaining (5 checkpointed in_progress + 1 in_progress + 15 pending).",
+    "note": "Iteration 5-58 acknowledges continuation; preserved 60-file 1934-1939 subset and every file id/receipt; no redownload; no falafel code/artifacts/history read or reused; work done inside this Shurik loop."
   },
   "nextActions": [
     "Restore+finish the 5 durable in-progress files (nij-1964-n06, nij-1964-n11, nij-1969-n07, nij-1969-n08, nij-1969-n11) from their immutable GHCR chunk digests, then smallest-first the 16 pending regular PDFs (nij-1947-n06 first).",
