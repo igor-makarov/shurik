@@ -151,6 +151,50 @@ class HostDumpTests(unittest.TestCase):
         self.assertTrue(res["skipped"])
         self.assertEqual(fetcher.queries, [])
 
+    def test_partial_cursor_without_its_rows_restarts_from_page_one(self):
+        # The fresh-runner state: the cursor rode in data/cdx (supervisor-carried)
+        # while its raw rows lived in data/work and are gone. Resuming from the
+        # opaque key would skip the missing prefix; the walk must restart.
+        hostdump.write_cursor("40.media.tumblr.com", {
+            "resume_key": "stale-key", "rows": 5000, "pages": 5, "written": 5000,
+            "last_urlkey": "com,tumblr,media,40)/zzz/tumblr_z.jpg", "complete": False})
+        fetcher = _FakeFetcher([_page([ROW], b"")])
+        res = hostdump.scan_host(fetcher, "40.media.tumblr.com", max_pages=2)
+        self.assertNotIn("resumeKey=", fetcher.queries[0],
+                         "an unverifiable partial cursor must not be resumed from")
+        self.assertEqual(res["rows"], 1, "the restarted walk counts only rows it saw")
+        dump_path, _ = hostdump.dump_paths("40.media.tumblr.com")
+        self.assertEqual(hostdump._dump_line_count(dump_path), 1)
+
+    def test_partial_cursor_with_matching_rows_resumes(self):
+        dump_path, _ = hostdump.dump_paths("40.media.tumblr.com")
+        os.makedirs(os.path.dirname(dump_path), exist_ok=True)
+        cap = hostdump.parse_page(_page([ROW]))[0][0]
+        with open(dump_path, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps(cap.to_row(), ensure_ascii=False) + "\n")
+        hostdump.write_cursor("40.media.tumblr.com", {
+            "resume_key": "page-two", "rows": 1, "pages": 1, "written": 1,
+            "last_urlkey": cap.urlkey, "complete": False})
+        fetcher = _FakeFetcher([_page([ROW], b"page-two")])
+        res = hostdump.scan_host(fetcher, "40.media.tumblr.com", max_pages=3)
+        self.assertIn("resumeKey=", fetcher.queries[0], "verifiable rows may resume")
+        self.assertTrue(res["complete"])
+
+    def test_partial_cursor_with_wrong_tail_identity_restarts(self):
+        # The count matches but the last urlkey is not the row the key was minted
+        # after: the rows are not the ones the cursor counted, so do not resume.
+        dump_path, _ = hostdump.dump_paths("40.media.tumblr.com")
+        os.makedirs(os.path.dirname(dump_path), exist_ok=True)
+        cap = hostdump.parse_page(_page([ROW]))[0][0]
+        with open(dump_path, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps(cap.to_row(), ensure_ascii=False) + "\n")
+        hostdump.write_cursor("40.media.tumblr.com", {
+            "resume_key": "page-two", "rows": 1, "pages": 1, "written": 1,
+            "last_urlkey": "com,tumblr,media,40)/other/tumblr_other.jpg", "complete": False})
+        fetcher = _FakeFetcher([_page([ROW], b"")])
+        hostdump.scan_host(fetcher, "40.media.tumblr.com", max_pages=2)
+        self.assertNotIn("resumeKey=", fetcher.queries[0])
+
     def test_query_carries_the_cutoff_and_collapse(self):
         q = hostdump.build_query("40.media.tumblr.com", "rk")
         self.assertIn(config.CUTOFF, q)

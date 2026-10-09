@@ -200,8 +200,8 @@ def push_state(root: str = ".", registry: Optional[Registry] = None) -> dict:
         "pushed_at": _now(),
         "blobs": {"config": config_blob.digest, "layer": layers[0].digest},
         "layer_bytes": layers[0].size,
-        "contains": ["data/posts", "data/cdx", "data/image-queue.json",
-                     "data/missing.jsonl", "data/gaps.jsonl"],
+        "contains": ["data/posts", "data/cdx", "data/work/hostdumps",
+                     "data/image-queue.json", "data/missing.jsonl", "data/gaps.jsonl"],
     }
     os.makedirs(os.path.dirname(POINTER_PATH) or ".", exist_ok=True)
     with open(POINTER_PATH, "w", encoding="utf-8") as fh:

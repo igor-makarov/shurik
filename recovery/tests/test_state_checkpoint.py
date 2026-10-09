@@ -109,6 +109,32 @@ class CheckpointRoundTripTests(unittest.TestCase):
             self.assertEqual(fh.read(), b'{"url": "http://hazfalafel.com/post/1"}\n')
         self.assertFalse(os.path.exists(os.path.join(self.root, "PROMPT.md")))
 
+    def test_hostdump_pages_and_cursor_round_trip_together(self):
+        # A partial host walk is only resumable when its rows and cursor travel
+        # together; the checkpoint must carry both (data/work/hostdumps is the
+        # raw rows, data/cdx/hostdump-cursors is the key).
+        dump = os.path.join(self.root, "data/work/hostdumps/24.media.tumblr.com.jsonl")
+        cursor = os.path.join(self.root, "data/cdx/hostdump-cursors/24.media.tumblr.com.cursor.json")
+        os.makedirs(os.path.dirname(dump), exist_ok=True)
+        os.makedirs(os.path.dirname(cursor), exist_ok=True)
+        with open(dump, "wb") as fh:
+            fh.write(b'{"urlkey": "k1"}\n{"urlkey": "k2"}\n')
+        with open(cursor, "wb") as fh:
+            fh.write(b'{"rows": 2, "written": 2, "last_urlkey": "k2", "resume_key": "rk"}')
+        payload = state_checkpoint.tar_gz_tree(state_checkpoint._collect(self.root))
+        target = os.path.join(self.root, "out2")
+        os.makedirs(target)
+        manifest = {"schemaVersion": 2, "mediaType": oci.MANIFEST_MEDIA_TYPE,
+                    "config": {"digest": "sha256:" + "b" * 64, "size": 1,
+                               "mediaType": oci.CONFIG_MEDIA_TYPE},
+                    "layers": [{"digest": "sha256:" + "a" * 64,
+                                "mediaType": oci.LAYER_MEDIA_TYPE, "size": len(payload)}],
+                    "annotations": {"shurik.checkpoint.schema": "1"}}
+        out = state_checkpoint.restore_state(target, puller=_FakePuller(manifest, payload))
+        self.assertTrue(out["restored"], out)
+        self.assertTrue(os.path.exists(os.path.join(target, "data/work/hostdumps/24.media.tumblr.com.jsonl")))
+        self.assertTrue(os.path.exists(os.path.join(target, "data/cdx/hostdump-cursors/24.media.tumblr.com.cursor.json")))
+
     def test_extraction_refuses_paths_outside_the_root(self):
         payload = state_checkpoint.tar_gz_tree([("../escape.json", b"{}")])
         written = state_checkpoint._extract(payload, self.root)

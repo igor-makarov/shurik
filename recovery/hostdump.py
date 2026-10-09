@@ -131,6 +131,61 @@ def _dump_survives(path: str, written: int) -> bool:
     return _dump_line_count(path) >= written
 
 
+def _cursor_written(cur: dict) -> int:
+    """Rows a cursor claims to have written.
+
+    Older cursors recorded only `rows`; fall back to it so a missing `written`
+    field is never mistaken for "no rows to check" (which would silently accept
+    an unverifiable partial cursor).
+    """
+    return int(cur.get("written", cur.get("rows", 0)) or 0)
+
+
+def _dump_tail_key(path: str) -> str:
+    """urlkey of the last non-empty row, or '' when absent/unreadable.
+
+    The resume key is minted *after* the last row of the page, so the dump's
+    final urlkey is an identity check on the rows a partial cursor rests on --
+    not just a count.
+    """
+    if not os.path.exists(path):
+        return ""
+    last = ""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    last = json.loads(line).get("urlkey", "") or ""
+                except Exception:
+                    last = ""
+    except OSError:
+        return ""
+    return last
+
+
+def _partial_resume_is_verifiable(path: str, cur: dict) -> bool:
+    """Can a *partial* walk resume from its stored key on this runner?
+
+    The key is an opaque cursor into the host ordering; resuming without the
+    rows already written would skip their prefix and later let the walk declare
+    `complete` from an inventory with a hole. Require the dump to still hold at
+    least the rows the cursor counted, and -- when the cursor recorded one --
+    the same final urlkey, the row the key was minted after.
+    """
+    written = _cursor_written(cur)
+    if written <= 0:
+        return True
+    if _dump_line_count(path) < written:
+        return False
+    want = cur.get("last_urlkey") or ""
+    if want and _dump_tail_key(path) != want:
+        return False
+    return True
+
+
 def read_cursor(host: str) -> dict:
     _, cur = dump_paths(host)
     if not os.path.exists(cur):
@@ -212,8 +267,9 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
     dump_path, _ = dump_paths(host)
     os.makedirs(DUMP_DIR, exist_ok=True)
     cur = read_cursor(host)
+    restart_reason = ""
     if cur.get("complete"):
-        if _dump_survives(dump_path, cur.get("written", cur.get("rows", 0))):
+        if _dump_survives(dump_path, _cursor_written(cur)):
             _publish(index, host, cur)
             return {"host": host, "complete": True, "rows": cur.get("rows", 0),
                     "pages": cur.get("pages", 0), "skipped": "already complete",
@@ -221,10 +277,28 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
         # The rows are not on this runner, so the "complete" claim cannot be
         # checked. Re-walk instead of publishing an unverifiable verdict.
         cur = {}
+        restart_reason = "complete verdict without its rows"
+    elif cur and not _partial_resume_is_verifiable(dump_path, cur):
+        # A partial cursor whose earlier rows are gone (the usual fresh-runner
+        # state: the cursor rides in `data/cdx`, which the supervisor carries,
+        # while the raw rows live in `data/work`). Resuming from its opaque key
+        # would skip the missing prefix and later let `host_complete` declare a
+        # hole-free inventory from a walk that never saw those rows. Re-walk
+        # from page 1 instead of silently advancing an unverifiable cursor.
+        cur = {}
+        restart_reason = "partial cursor without its rows"
+    if restart_reason and os.path.exists(dump_path):
+        # The new walk's rows must be a clean prefix of that walk; drop leftover
+        # rows from the abandoned walk so a later resume cannot mix the two.
+        try:
+            os.remove(dump_path)
+        except OSError:
+            pass
     resume_key = cur.get("resume_key", "")
     rows = int(cur.get("rows", 0))
     pages = int(cur.get("pages", 0))
     written = int(cur.get("written", 0))
+    last_urlkey = cur.get("last_urlkey", "")
     kept = 0
     stop_reason = ""
     for _ in range(max_pages):
@@ -246,6 +320,7 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
                 if cap.statuscode in ("200", "") and within_cutoff(cap.timestamp):
                     fh.write(json.dumps(cap.to_row(), ensure_ascii=False) + "\n")
                     written += 1
+                    last_urlkey = cap.urlkey or last_urlkey
         rows += len(caps)
         pages += 1
         if keys is not None and index is not None:
@@ -259,12 +334,14 @@ def scan_host(fetcher, host: str, *, keys: Optional[set[str]] = None,
             break
         resume_key = next_key
         write_cursor(host, {"resume_key": resume_key, "rows": rows, "pages": pages,
-                            "written": written, "complete": False})
+                            "written": written, "last_urlkey": last_urlkey,
+                            "complete": False})
     else:
         cur_complete = False
         stop_reason = "page budget"
     write_cursor(host, {"resume_key": resume_key, "rows": rows, "pages": pages,
-                        "written": written, "complete": cur_complete,
+                        "written": written, "last_urlkey": last_urlkey,
+                        "complete": cur_complete, "restart_reason": restart_reason,
                         "stop_reason": stop_reason, "scanned_at": _now()})
     # Publish the walk's verdict where the image resolver reads it, and label it
     # with the cursor that produced it so a legacy `page=` entry can never be
