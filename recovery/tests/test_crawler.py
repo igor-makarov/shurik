@@ -92,6 +92,16 @@ class ParsingTests(unittest.TestCase):
         self.assertEqual(urls, ["http://i.imgur.com/8yrzN.jpg"], urls)
         self.assertEqual(rec["images"][0]["media_key"], "i.imgur.com/8yrzn.jpg")
 
+    def test_redirector_link_to_an_external_image_is_unwrapped(self):
+        # Photo posts sometimes link the image through t.umblr.com/redirect
+        # instead of embedding it; the real imgur URL lives in the `z` query
+        # parameter and is the URL the archive actually holds.
+        html = ("<div class='post'><div class='copy'><a href='http://t.umblr.com/redirect?z="
+                "http%3A%2F%2Fi.imgur.com%2F8yrzN.jpg&amp;t=abc'>photo</a></div></div>")
+        rec = parse_post_page(html, "http://hazfalafel.com/post/26342049272", "20130606000438")
+        urls = [i["media_url"] for i in rec["images"]]
+        self.assertEqual(urls, ["http://i.imgur.com/8yrzN.jpg"], urls)
+
     def test_caption_comes_from_alt_without_invention(self):
         # Archived HTML stores Hebrew in logical order; recovery must reproduce
         # the captured characters exactly and never reorder or "correct" them.

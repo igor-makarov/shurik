@@ -1216,12 +1216,19 @@ def merge_reparsed_images(post_ids: Optional[list[str]] = None) -> dict:
         if not html:
             continue
         existing = {img.get("media_key") for img in rec.get("images") or []}
+        # Dedup on the media URL as well as the key. An image recovered by an
+        # earlier pass can carry a different key convention for the same URL
+        # (external post images were keyed by basename, the parser now keys
+        # them by host+path), which made every `merge-images` run re-report
+        # the same already-present images as "added" forever.
+        existing_urls = {img.get("media_url") for img in rec.get("images") or []}
         new_images: list[dict] = []
         for img in extract_images(html):
             key = img.get("media_key")
-            if not key or key in existing:
+            if not key or key in existing or img.get("media_url") in existing_urls:
                 continue
             existing.add(key)
+            existing_urls.add(img.get("media_url"))
             new_images.append({
                 "media_url": img["media_url"],
                 "media_key": key,

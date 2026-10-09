@@ -11,7 +11,7 @@ import html as htmllib
 import re
 from html.parser import HTMLParser
 from typing import Iterable, Optional
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 from . import config
 
@@ -195,6 +195,27 @@ def is_recoverable_image(url: str) -> bool:
     if not any(host == h or host.endswith("." + h) for h in EXTERNAL_IMAGE_HOSTS):
         return False
     return bool(EXTERNAL_IMAGE_EXT_RE.search(urlparse(url).path))
+
+
+def unwrap_redirect(url: str) -> str:
+    """Resolve a Tumblr `t.umblr.com/redirect?z=<url>` wrapper to its target.
+
+    Photo posts sometimes link the image through the blog's redirector instead
+    of embedding it, so the real imgur URL is only visible inside the `z`
+    parameter. Unwrapping it here is what lets those post images be recovered
+    at all; the wrapper URL itself is never an image.
+    """
+    try:
+        p = urlparse(url if "//" in url else "http://" + url)
+    except Exception:
+        return url
+    if (p.hostname or "").lower() not in ("t.umblr.com", "t.tumblr.com"):
+        return url
+    if not p.path.startswith("/redirect"):
+        return url
+    target = parse_qs(p.query).get("z", [""])[0]
+    target = unquote(target or "").strip()
+    return target if target.lower().startswith(("http://", "https://")) else url
 
 
 def external_key(url: str) -> Optional[str]:
@@ -425,7 +446,7 @@ def extract_images(html: str) -> list[dict]:
     by_key: dict[str, dict] = {}
 
     def add(entry: dict, source: str) -> None:
-        url = entry.get("url", "")
+        url = unwrap_redirect(entry.get("url", ""))
         if entry.get("excluded_reason"):
             return
         if not is_recoverable_image(url):
@@ -458,7 +479,9 @@ def extract_images(html: str) -> list[dict]:
     for entry in col.images:
         add(entry, entry.get("via", "img"))
     for entry in col.links:
-        if entry.get("url") and is_recoverable_image(entry["url"]):
+        # The URL may be a t.umblr.com/redirect wrapper whose target is the
+        # image, so let `add` unwrap and decide rather than filtering here.
+        if entry.get("url"):
             add(entry, "photo-link")
     for url in og:
         add({"url": url, "alt": "", "title": "", "excluded_reason": None, "via": "og:image"}, "og:image")
