@@ -5,7 +5,7 @@
  "captions": [
   "למה אתם לא לסגור דלת בעדינות"
  ],
- "capture_timestamp": "20121129040640",
+ "capture_timestamp": "20120426030754",
  "captures": [
   {
    "error": null,
@@ -23,9 +23,9 @@
  "content_html": "<p>למה אתם לא לסגור דלת בעדינות</p>",
  "content_source": "div.copy",
  "content_text": "למה אתם לא לסגור דלת בעדינות",
- "date_text": "Posted 1 year ago",
+ "date_text": "Posted 5 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T10:04:42Z",
+ "fetched_at": "2026-10-09T17:28:27Z",
  "image_count": 0,
  "images": [
   {
@@ -301,6 +301,28 @@
     "http://68.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
     "http://68.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lv9rkd6wmw1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+   "media_url": "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+   "url_forms": [
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1280.jpg",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_1024.jpg",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_540.jpg",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_500.jpg",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_400.jpg",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_100.jpg",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.png",
+    "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -318,13 +340,13 @@
  ],
  "methods": [
   {
-   "bytes": 0,
+   "bytes": 51833,
    "capture_timestamp": "20120426030754",
    "endpoint": "replay id_",
-   "error": "transport",
+   "error": "ok",
    "kind": "perm",
-   "message": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20120426030754id_/http://hazfalafel.com:80/post/13345960679 (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7faf648b98b0>: Failed to establish a new connection: [Errno 111] Conne",
-   "status": null,
+   "message": "",
+   "status": 200,
    "url": "http://hazfalafel.com:80/post/13345960679"
   },
   {
@@ -338,7 +360,7 @@
    "url": "http://hazfalafel.com:80/post/13345960679"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 3,
  "missing_images": [
   {
    "attempts": [
@@ -549,11 +571,16 @@
    ],
    "media_url": "http://25.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
    "reason": "archive_gap"
+  },
+  {
+   "attempts": [],
+   "media_url": "http://27.media.tumblr.com/tumblr_lv9rkd6wmw1r3it8zo1_250.jpg",
+   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/13345960679",
  "page_bytes": 53364,
- "page_sha256": "ec0002033b07f1f6abb0f24c98b5f036aa9efad75da4f2bfcde80ecff7bccbcb",
+ "page_sha256": "f6e6f3f111908568e6d71023f0c9169d8d98d278cf5bed3aa89ccc0c6e5b9261",
  "partial": true,
  "post_id": "13345960679",
  "posted_on": "Posted on Saturday the 26th of November 2011 at 3:17 PM",
@@ -570,7 +597,7 @@
   ]
  },
  "refetched_captures": [],
- "replay_url": "https://web.archive.org/web/20121129040640id_/http://hazfalafel.com:80/post/13345960679",
+ "replay_url": "https://web.archive.org/web/20120426030754id_/http://hazfalafel.com:80/post/13345960679",
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [
