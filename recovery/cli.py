@@ -1233,6 +1233,32 @@ def merge_reparsed_images(post_ids: Optional[list[str]] = None) -> dict:
     return out
 
 
+def _foreign_listing_only(record: dict) -> bool:
+    """A listing_only record whose only evidence is another blog's permalink.
+
+    Older listing passes adopted every `/post/<id>` anchor as the container
+    post, so a reblog *source* link (`otherblog.tumblr.com/post/<id>`) was
+    synthesized into a hazfalafel post record with an invented original_url.
+    These records carry no images or text of this blog; relabel them instead of
+    deleting the source evidence.
+    """
+    if (record.get("state") or "") != "listing_only":
+        return False
+    if any(i.get("sha256") for i in record.get("images") or []):
+        return False
+    if record.get("content_text"):
+        return False
+    urls = record.get("listing_urls") or []
+    if not urls:
+        return False
+
+    def host_of(url: str) -> str:
+        from urllib.parse import urlsplit
+        return urlsplit(url).netloc.lower().split(":", 1)[0]
+
+    return all(host_of(u) not in ("hazfalafel.com", "www.hazfalafel.com") for u in urls)
+
+
 def repair_posts() -> dict:
     """Re-derive bookkeeping fields in every stored post record (no network).
 
@@ -1242,13 +1268,20 @@ def repair_posts() -> dict:
     """
     store = PostStore()
     fixed = []
+    relabeled = []
     for pid in store.ids():
         before = store.get(pid)
         inherit_image_captions(before.get("images") or [])
+        if _foreign_listing_only(before):
+            before["state"] = "foreign_listing_only"
+            before["attribution_note"] = (
+                "listing evidence is another blog's permalink (reblog source); "
+                "not a hazfalafel post")
+            relabeled.append(pid)
         after = store.put(pid, before)
         if before != after:
             fixed.append(pid)
-    return {"posts": len(store.ids()), "repaired": fixed}
+    return {"posts": len(store.ids()), "repaired": fixed, "foreign_relabeled": relabeled}
 
 
 # --------------------------------------------------------------------- publish

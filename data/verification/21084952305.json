@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:2282f791beb843907aa9a21274b0477eb82f8d3a8e8c63191bbbbe9fe2cc7a19",
+   "observed": "sha256:3bb84882c680fce1b018b21717f230e42e3fa733303e8769703f246ea71e0816",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 3,
+   "expected": 5,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 3,
+   "observed": 5,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
    "expected": "3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_1280.jpg",
    "passed": true
   },
   {
@@ -43,7 +43,7 @@
    "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
    "expected": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_m2h66vwVbT1r3it8zo1_640.jpg",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -63,7 +63,7 @@
    "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_640.jpg]",
    "expected": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_m2h66vwVbT1r3it8zo1_640.jpg",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -74,6 +74,46 @@
   },
   {
    "check": "image_magic[tumblr_m2h66vwVbT1r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": 54033,
+   "observed": 54033,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m2h66vwVbT1r3it8zo1_1280.jpg]",
+   "expected": "3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m2h66vwVbT1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m2h66vwVbT1r3it8zo1_1280.jpg]",
+   "expected": 52531,
+   "observed": 52531,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m2h66vwVbT1r3it8zo1_1280.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -91,17 +131,21 @@
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<p>צרות של אשכנזים: מימונה.</p>",
-   "observed": "<p>צרות של אשכנזים: מימונה.</p>",
+   "expected": "<p>&#1510;&#1512;&#1493;&#1514; &#1513;&#1500; &#1488;&#1513;&#1499;&#1504;&#1494;&#1497;&#1501;: &#1502;&#1497;&#1502;&#1493;&#1504;&#1492;.</p>",
+   "observed": "<p>&#1510;&#1512;&#1493;&#1514; &#1513;&#1500; &#1488;&#1513;&#1499;&#1504;&#1494;&#1497;&#1501;: &#1502;&#1497;&#1502;&#1493;&#1504;&#1492;.</p>",
    "passed": true
   },
   {
    "check": "metadata[tags]",
    "expected": [
-    "צרות-של-אשכנזים"
+    "צרות-של-אשכנזים",
+    "מימונה",
+    "אוה-אילוז"
    ],
    "observed": [
-    "צרות-של-אשכנזים"
+    "צרות-של-אשכנזים",
+    "מימונה",
+    "אוה-אילוז"
    ],
    "passed": true
   },
@@ -117,8 +161,8 @@
   },
   {
    "check": "metadata[original_url]",
-   "expected": "http://hazfalafel.com:80/post/21084952305",
-   "observed": "http://hazfalafel.com:80/post/21084952305",
+   "expected": "http://hazfalafel.com/post/21084952305",
+   "observed": "http://hazfalafel.com/post/21084952305",
    "passed": true
   },
   {
@@ -146,6 +190,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_m2h66vwVbT1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: מימונה.",
+   "observed": "צרות של אשכנזים: מימונה.",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m2h66vwVbT1r3it8zo1_1280.jpg]",
+   "expected": "צרות של אשכנזים: מימונה.",
+   "observed": "צרות של אשכנזים: מימונה.",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20181018115716",
    "observed": "20181018115716",
@@ -164,25 +220,25 @@
    "passed": true
   }
  ],
- "checks_passed": 25,
- "checks_total": 25,
- "config_digest": "sha256:36b0cc3ab3d8906944141b427c84ac4a6e94200c74de0d257a3b46dab5cffecf",
+ "checks_passed": 33,
+ "checks_total": 33,
+ "config_digest": "sha256:25e5b91d90e6e7d9c30727cf8fce979fa08c7af0d70aa069fa8e8d1d99d5127c",
  "failed_checks": [],
- "images_verified": 3,
+ "images_verified": 5,
  "labels": {
   "org.opencontainers.image.created": "2018-12-25T18:22:12Z",
   "org.opencontainers.image.description": "צרות של אשכנזים: מימונה.",
   "org.opencontainers.image.licenses": "UNKNOWN",
   "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
   "org.opencontainers.image.title": "hazfalafel post 21084952305",
-  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/21084952305",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/21084952305",
   "org.opencontainers.image.vendor": "Hazfalafel (archived)",
   "shurik.post.content_len": "24",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "21084952305",
-  "shurik.post.images": "3",
+  "shurik.post.images": "5",
   "shurik.post.missing_images": "1",
-  "shurik.post.tags": "צרות-של-אשכנזים"
+  "shurik.post.tags": "צרות-של-אשכנזים,מימונה,אוה-אילוז"
  },
  "layers": [
   {
@@ -201,12 +257,22 @@
    "size": 54144
   },
   {
-   "digest": "sha256:0b13c8648b81d8e569fdac14ff096072ed97fc3106731e87c9fc2bdfb82955a5",
+   "digest": "sha256:448425641a84d6adb9267d6b47914361329e252a6a48c43c667afbe6b9a29197",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1432
+   "size": 54144
+  },
+  {
+   "digest": "sha256:379f739862162cddffd8747f7e5007ebbf2db36e555c5558a9ff32ed55ffcec7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 52675
+  },
+  {
+   "digest": "sha256:60c07cb12ed8241a6f1554e3c424f32705c814123d6cbcb1a1dac09c8dfe6144",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1560
   }
  ],
- "manifest_digest": "sha256:2282f791beb843907aa9a21274b0477eb82f8d3a8e8c63191bbbbe9fe2cc7a19",
+ "manifest_digest": "sha256:3bb84882c680fce1b018b21717f230e42e3fa733303e8769703f246ea71e0816",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "21084952305",
@@ -236,13 +302,29 @@
    "sha256": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d"
   },
   {
-   "bytes": 6641,
+   "bytes": 54033,
+   "file": "tumblr_m2h66vwVbT1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:448425641a84d6adb9267d6b47914361329e252a6a48c43c667afbe6b9a29197",
+   "role": "media",
+   "sha256": "0b05397acdde42a81698db7b334c06b69e83f7035ef60a92192fe37f3b04e63d"
+  },
+  {
+   "bytes": 52531,
+   "file": "tumblr_m2h66vwVbT1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:379f739862162cddffd8747f7e5007ebbf2db36e555c5558a9ff32ed55ffcec7",
+   "role": "media",
+   "sha256": "3ed13eb9ba7f1b613f7e8684db608d066d0ae1199d161ab32c2fb08229a3d4a8"
+  },
+  {
+   "bytes": 8265,
    "file": "post.json",
-   "layer": "sha256:0b13c8648b81d8e569fdac14ff096072ed97fc3106731e87c9fc2bdfb82955a5",
+   "layer": "sha256:60c07cb12ed8241a6f1554e3c424f32705c814123d6cbcb1a1dac09c8dfe6144",
    "role": "post-metadata",
-   "sha256": "54a8634be0ccb93f0e96539dc8fea6c3b13ac0ad1448caee8594fbbb7539b7d2"
+   "sha256": "a94aa72e8bfde42e5d56df57b2d0ce2743094fbca31dbc4d6728d183ac373116"
   }
  ],
  "tag": "21084952305",
- "verified_at": "2026-10-09T08:15:26Z"
+ "verified_at": "2026-10-09T16:17:38Z"
 }

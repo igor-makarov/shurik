@@ -14,10 +14,30 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 0,
+   "expected": 1,
    "note": "number of image files actually inside the layers vs the post record",
    "observed": 1,
-   "passed": false
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nruv9dFAyI1r3it8zo1_500.jpg]",
+   "expected": "e678c16a7bbbcd372a08d4237e57a3eb943ddebaa0871c969ad98798de141391",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nruv9dFAyI1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nruv9dFAyI1r3it8zo1_500.jpg]",
+   "expected": 29974,
+   "observed": 29974,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nruv9dFAyI1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
   },
   {
    "check": "post_metadata_layer_present",
@@ -74,15 +94,37 @@
    "expected": "20191231235959",
    "observed": "20191231235959",
    "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nruv9dFAyI1r3it8zo1_500.jpg]",
+   "expected": "-אובי-וואן מעולם לא סיפר לך מה קרה לאבי-לן-הוא אמר לי מספיק, הוא אמר לי שהרגת אותו-לא, אני אבי-לן",
+   "observed": "-אובי-וואן מעולם לא סיפר לך מה קרה לאבי-לן-הוא אמר לי מספיק, הוא אמר לי שהרגת אותו-לא, אני אבי-לן",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803153322",
+   "observed": "20150803153322",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803153322id_/http://40.media.tumblr.com/df97f0bbe075356f3b4b8ace3db6f4f1/tumblr_nruv9dFAyI1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803153322id_/http://40.media.tumblr.com/df97f0bbe075356f3b4b8ace3db6f4f1/tumblr_nruv9dFAyI1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803153322",
+   "passed": true
   }
  ],
- "checks_passed": 9,
- "checks_total": 10,
+ "checks_passed": 17,
+ "checks_total": 17,
  "config_digest": "sha256:7cff51ca1c7cc5b9c83350352a1186af8de140bd14f2fa768bf71acbfdbfc1e8",
- "failed_checks": [
-  "media_layer_count_matches_record"
- ],
- "images_verified": 0,
+ "failed_checks": [],
+ "images_verified": 1,
  "labels": {
   "org.opencontainers.image.created": "2017-11-10T05:30:33Z",
   "org.opencontainers.image.description": "-אובי-וואן מעולם לא סיפר לך מה קרה לאבי-לן",
@@ -112,7 +154,7 @@
  ],
  "manifest_digest": "sha256:bd1c03591b6efbaa3d0f77a034a098c3add2276e15b43f82793c8e54ee5a6776",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
- "passed": false,
+ "passed": true,
  "post_id": "124689085518",
  "pulled_files": [
   {
@@ -132,5 +174,5 @@
   }
  ],
  "tag": "124689085518",
- "verified_at": "2026-10-05T09:45:50Z"
+ "verified_at": "2026-10-09T16:17:45Z"
 }

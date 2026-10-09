@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:b82e0fe2a0dc86cf8f5db49005da596087304e6110372f37393c27e7bdf93b1f",
+   "observed": "sha256:9afa2db6f3730ec0988f7ea4afc0c6cec9b85d0f17ff6ee67ac1c844255a0a1a",
    "passed": true
   },
   {
@@ -14,9 +14,9 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 2,
+   "expected": 4,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 2,
+   "observed": 4,
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_mq1ehv8EDK1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mq1ehv8EDK1r3it8zo1_250.jpg]",
+   "expected": "a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mq1ehv8EDK1r3it8zo1_250.jpg]",
+   "expected": 95457,
+   "observed": 95457,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mq1ehv8EDK1r3it8zo1_250.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -60,6 +80,26 @@
    "passed": true
   },
   {
+   "check": "image_bytes[tumblr_mq1ehv8EDK1r3it8zo1_500.jpg]",
+   "expected": "a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mq1ehv8EDK1r3it8zo1_500.jpg]",
+   "expected": 95457,
+   "observed": 95457,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mq1ehv8EDK1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
    "check": "post_metadata_layer_present",
    "passed": true
   },
@@ -71,8 +111,8 @@
   },
   {
    "check": "metadata[content_html]",
-   "expected": "<306 chars>",
-   "observed": "<306 chars>",
+   "expected": "<401 chars>",
+   "observed": "<401 chars>",
    "passed": true
   },
   {
@@ -120,6 +160,18 @@
    "passed": true
   },
   {
+   "check": "image_caption[tumblr_mq1ehv8EDK1r3it8zo1_250.jpg]",
+   "expected": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
+   "observed": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mq1ehv8EDK1r3it8zo1_500.jpg]",
+   "expected": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
+   "observed": "ו… קרס להם השרת.\nhttp://www.lapidomator.com/",
+   "passed": true
+  },
+  {
    "check": "provenance[capture_timestamp]",
    "expected": "20140111015130",
    "observed": "20140111015130",
@@ -138,11 +190,11 @@
    "passed": true
   }
  ],
- "checks_passed": 20,
- "checks_total": 20,
- "config_digest": "sha256:515c584dcaa7d3d6191096dea4514b06da2e043fe7e1deb18345ab7b0de3c02d",
+ "checks_passed": 28,
+ "checks_total": 28,
+ "config_digest": "sha256:89103616b5f08a3c50076e3f8096ee880b8dd52389e59d947b3533553f1674f3",
  "failed_checks": [],
- "images_verified": 2,
+ "images_verified": 4,
  "labels": {
   "org.opencontainers.image.created": "2017-11-10T18:26:59Z",
   "org.opencontainers.image.description": "ו… קרס להם השרת.",
@@ -154,7 +206,7 @@
   "shurik.post.content_len": "44",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "55609357483",
-  "shurik.post.images": "2",
+  "shurik.post.images": "4",
   "shurik.post.missing_images": "2",
   "shurik.post.tags": "יאיר-לפיד,וזה-נעלם,and-it's-gone,הלפידומטור"
  },
@@ -165,17 +217,27 @@
    "size": 95581
   },
   {
+   "digest": "sha256:a89da8234bbf576ac3a6162b8941f82a9f9cde71d3a3ab6f38127628278ec6d5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 95581
+  },
+  {
    "digest": "sha256:9876fd8d8b8e1b8e4b95a55f8ca7256271d31b6344ad9ad267ece6be73cd7985",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
    "size": 102287
   },
   {
-   "digest": "sha256:54266639ad170be4a91c962955e8527b64cd14b58fe96219956c5ef310b48e09",
+   "digest": "sha256:53f890d6c91e47422930bd223875d25ff484edabda1715830f484366b55796e4",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1620
+   "size": 95581
+  },
+  {
+   "digest": "sha256:bf09127888a36657dc76f985a792bd7f002020aea61952ffddf813bb1d1388bc",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1820
   }
  ],
- "manifest_digest": "sha256:b82e0fe2a0dc86cf8f5db49005da596087304e6110372f37393c27e7bdf93b1f",
+ "manifest_digest": "sha256:9afa2db6f3730ec0988f7ea4afc0c6cec9b85d0f17ff6ee67ac1c844255a0a1a",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "55609357483",
@@ -189,6 +251,14 @@
    "sha256": "a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f"
   },
   {
+   "bytes": 95457,
+   "file": "tumblr_mq1ehv8EDK1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:a89da8234bbf576ac3a6162b8941f82a9f9cde71d3a3ab6f38127628278ec6d5",
+   "role": "media",
+   "sha256": "a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f"
+  },
+  {
    "bytes": 102178,
    "file": "tumblr_mpoh6ao6M81r3it8zo1_250.jpg",
    "image_magic_ok": true,
@@ -197,13 +267,21 @@
    "sha256": "70772d13d4e218f06976a678820d11d8b17c4df23fe03fe51de7461005ea90be"
   },
   {
-   "bytes": 7500,
+   "bytes": 95457,
+   "file": "tumblr_mq1ehv8EDK1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:53f890d6c91e47422930bd223875d25ff484edabda1715830f484366b55796e4",
+   "role": "media",
+   "sha256": "a78da09e4c3301648bd71cf9a75dae9e5cbac6953de98c863e52295ca19dcd4f"
+  },
+  {
+   "bytes": 8431,
    "file": "post.json",
-   "layer": "sha256:54266639ad170be4a91c962955e8527b64cd14b58fe96219956c5ef310b48e09",
+   "layer": "sha256:bf09127888a36657dc76f985a792bd7f002020aea61952ffddf813bb1d1388bc",
    "role": "post-metadata",
-   "sha256": "9047cc068cd139000b93ab81237ef0286efb32c2528a2bc5ce76088812e508c8"
+   "sha256": "482c8573b31dae67a2acf069ded75ce24ade8e449e18aee06b640aff34334cb0"
   }
  ],
  "tag": "55609357483",
- "verified_at": "2026-10-08T23:07:33Z"
+ "verified_at": "2026-10-09T16:17:42Z"
 }

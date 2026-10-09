@@ -128,13 +128,27 @@ class _ListingCollector(HTMLParser):
         if any(a.get(name) for name in self.IMAGE_URL_ATTRS) and tag not in ("img", "source", "a"):
             self._note_image(a, "attr:" + tag)
         if tag == "a":
-            m = LISTING_POST_ANCHOR_RE.search(a.get("href", ""))
+            href = a.get("href", "")
+            m = LISTING_POST_ANCHOR_RE.search(href)
             if m:
-                pid = m.group(1)
-                self.current = pid
-                rec = self._post(pid)
-                if a.get("href") not in rec["urls"]:
-                    rec["urls"].append(a["href"])
+                if self._is_container_href(href):
+                    pid = m.group(1)
+                    self.current = pid
+                    rec = self._post(pid)
+                    if href not in rec["urls"]:
+                        rec["urls"].append(href)
+                else:
+                    # A link to another blog's post is a reblog *source*, not
+                    # this blog's post. Adopting its id synthesized phantom
+                    # records (19000835176, 17807692208, 15257317890) whose
+                    # `original_url` was invented as hazfalafel.com/post/<id>,
+                    # and the images that followed such a link were filed
+                    # under the foreign id. Keep the source link as evidence,
+                    # never adopt the id.
+                    if self.current:
+                        rec = self._post(self.current)
+                        if href not in rec.setdefault("reblog_sources", []):
+                            rec["reblog_sources"].append(href)
             return
         if tag in ("img", "source"):
             self._note_image(a, "img")
@@ -146,6 +160,27 @@ class _ListingCollector(HTMLParser):
 
     def handle_startendtag(self, tag, attrs):
         self.handle_starttag(tag, attrs)
+
+    def _is_container_href(self, href: str) -> bool:
+        """Is this `/post/<id>` link on the listing page's own blog?
+
+        Only the container blog's permalinks identify the post the page is
+        showing. A `/post/<id>` on another host is the reblog source.
+        """
+        from urllib.parse import urljoin, urlsplit
+
+        href = (href or "").strip()
+        if not href:
+            return False
+        if href.startswith(("/", "?", "#")):
+            return True
+        try:
+            host = urlsplit(urljoin(self.base_url, href)).netloc.lower()
+            base_host = urlsplit(self.base_url).netloc.lower()
+        except Exception:  # pragma: no cover - malformed archived href
+            return False
+        strip_port = lambda h: h.split(":", 1)[0]
+        return strip_port(host) == strip_port(base_host)
 
     def _note_post_block(self, a: dict) -> None:
         """Adopt the post id the markup itself states, not just permalink order.

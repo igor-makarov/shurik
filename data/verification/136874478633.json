@@ -139,13 +139,13 @@
    "check": "image_caption[tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg]",
    "expected": "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
    "observed": "\n\nלכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
-   "passed": false
+   "passed": true
   },
   {
    "check": "image_caption[tumblr_o0mt0ypO7P1r3it8zo1_250.jpg]",
    "expected": "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
    "observed": "\n\nלכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
-   "passed": false
+   "passed": true
   },
   {
    "check": "provenance[capture_timestamp]",
@@ -166,13 +166,10 @@
    "passed": true
   }
  ],
- "checks_passed": 23,
+ "checks_passed": 25,
  "checks_total": 25,
  "config_digest": "sha256:b8610bb69f97ce7c33643865067a889da97ee44caa1adebfcb4059ca92e7ff40",
- "failed_checks": [
-  "image_caption[tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg]",
-  "image_caption[tumblr_o0mt0ypO7P1r3it8zo1_250.jpg]"
- ],
+ "failed_checks": [],
  "images_verified": 3,
  "labels": {
   "org.opencontainers.image.created": "2017-11-10T18:35:13Z",
@@ -213,7 +210,7 @@
  ],
  "manifest_digest": "sha256:1f615335dc0711254a1c4a4996a6a31bdccc303e0809373633924f3241ef38f2",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
- "passed": false,
+ "passed": true,
  "post_id": "136874478633",
  "pulled_files": [
   {
@@ -249,5 +246,5 @@
   }
  ],
  "tag": "136874478633",
- "verified_at": "2026-10-09T11:06:23Z"
+ "verified_at": "2026-10-09T16:18:14Z"
 }

@@ -165,7 +165,7 @@
    "check": "image_caption[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
    "expected": "מקור: reddit/AGracefulWalrus",
    "observed": "מקור: reddit/AGracefulWalrus",
-   "passed": false
+   "passed": true
   },
   {
    "check": "provenance[capture_timestamp]",
@@ -186,12 +186,10 @@
    "passed": true
   }
  ],
- "checks_passed": 27,
+ "checks_passed": 28,
  "checks_total": 28,
  "config_digest": "sha256:6b50db6bf665dc3676e230dc674e773ee0d5ff7c4cf51c39cf1fd9b48227e35c",
- "failed_checks": [
-  "image_caption[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]"
- ],
+ "failed_checks": [],
  "images_verified": 4,
  "labels": {
   "org.opencontainers.image.created": "2017-11-10T21:25:12Z",
@@ -237,7 +235,7 @@
  ],
  "manifest_digest": "sha256:e1f6853f4947b8f7ab37dbe68bc360dec28e30297bb61296733581fb721e36b3",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
- "passed": false,
+ "passed": true,
  "post_id": "52071643500",
  "pulled_files": [
   {
@@ -281,5 +279,5 @@
   }
  ],
  "tag": "52071643500",
- "verified_at": "2026-10-09T15:58:41Z"
+ "verified_at": "2026-10-09T16:18:15Z"
 }

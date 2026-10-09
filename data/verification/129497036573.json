@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:f45fb98e2ca48d64a7914145c112c0e49302503cf259e94211c910590280356a",
+   "observed": "sha256:33bd0c3c72318c7655a0848fd6e7cdba92f0dc72738528429b7b7c06c195c29f",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 1,
+   "expected": 2,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 1,
+   "observed": 2,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_nuzfn6pg0E1r3it8zo1_250.jpg]",
    "expected": "f5d53d2df2bdea5dc31bac16ee64b578b89e2cc269775b78f5a7e9fb35ee2900",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_nuzfn6pg0E1r3it8zo1_250.jpg",
+   "observed": "tumblr_nuzfn6pg0E1r3it8zo1_500.jpg",
    "passed": true
   },
   {
@@ -34,6 +34,26 @@
   },
   {
    "check": "image_magic[tumblr_nuzfn6pg0E1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nuzfn6pg0E1r3it8zo1_500.jpg]",
+   "expected": "f5d53d2df2bdea5dc31bac16ee64b578b89e2cc269775b78f5a7e9fb35ee2900",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nuzfn6pg0E1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nuzfn6pg0E1r3it8zo1_500.jpg]",
+   "expected": 64438,
+   "observed": 64438,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nuzfn6pg0E1r3it8zo1_500.jpg]",
    "expected": true,
    "note": "the bytes really start with an image magic number",
    "observed": true,
@@ -82,8 +102,14 @@
   {
    "check": "image_caption[tumblr_nuzfn6pg0E1r3it8zo1_250.jpg]",
    "expected": "כי לפי התמונה עיתון לחתולים כבר יש\nהכתבה במעריב",
-   "observed": "",
-   "passed": false
+   "observed": "כי לפי התמונה עיתון לחתולים כבר יש\nהכתבה במעריב",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nuzfn6pg0E1r3it8zo1_500.jpg]",
+   "expected": "כי לפי התמונה עיתון לחתולים כבר יש\nהכתבה במעריב",
+   "observed": "כי לפי התמונה עיתון לחתולים כבר יש\nהכתבה במעריב",
+   "passed": true
   },
   {
    "check": "provenance[capture_timestamp]",
@@ -104,13 +130,11 @@
    "passed": true
   }
  ],
- "checks_passed": 16,
- "checks_total": 17,
- "config_digest": "sha256:7294f714e9c12d00fe846533c4f273d72fdda4377cb9ff6e1a29be478ff52043",
- "failed_checks": [
-  "image_caption[tumblr_nuzfn6pg0E1r3it8zo1_250.jpg]"
- ],
- "images_verified": 1,
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:51b895245131a007e8d954efdf61a996b9b16c1500e1f66cc84e38ab4ae56b39",
+ "failed_checks": [],
+ "images_verified": 2,
  "labels": {
   "org.opencontainers.image.created": "2015-11-15T18:36:54Z",
   "org.opencontainers.image.licenses": "UNKNOWN",
@@ -121,8 +145,8 @@
   "shurik.post.content_len": "0",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "129497036573",
-  "shurik.post.images": "1",
-  "shurik.post.missing_images": "1"
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0"
  },
  "layers": [
   {
@@ -131,14 +155,19 @@
    "size": 62947
   },
   {
-   "digest": "sha256:2446bee2a5ac6f2ec9e718f92332c1c45633adcccf21542fa2d102dc67083fea",
+   "digest": "sha256:9cc83a5ce27ea2a8f524cfe3e4c134bbd487b9bc7587ff0a066aad14fdc5cd2f",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 695
+   "size": 62950
+  },
+  {
+   "digest": "sha256:1888b2424392d5fdb2f22a6bb9450356c2c32d4856dab24a7fb8fd44089afc09",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 782
   }
  ],
- "manifest_digest": "sha256:f45fb98e2ca48d64a7914145c112c0e49302503cf259e94211c910590280356a",
+ "manifest_digest": "sha256:33bd0c3c72318c7655a0848fd6e7cdba92f0dc72738528429b7b7c06c195c29f",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
- "passed": false,
+ "passed": true,
  "post_id": "129497036573",
  "pulled_files": [
   {
@@ -150,13 +179,21 @@
    "sha256": "f5d53d2df2bdea5dc31bac16ee64b578b89e2cc269775b78f5a7e9fb35ee2900"
   },
   {
-   "bytes": 1426,
+   "bytes": 64438,
+   "file": "tumblr_nuzfn6pg0E1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:9cc83a5ce27ea2a8f524cfe3e4c134bbd487b9bc7587ff0a066aad14fdc5cd2f",
+   "role": "media",
+   "sha256": "f5d53d2df2bdea5dc31bac16ee64b578b89e2cc269775b78f5a7e9fb35ee2900"
+  },
+  {
+   "bytes": 2214,
    "file": "post.json",
-   "layer": "sha256:2446bee2a5ac6f2ec9e718f92332c1c45633adcccf21542fa2d102dc67083fea",
+   "layer": "sha256:1888b2424392d5fdb2f22a6bb9450356c2c32d4856dab24a7fb8fd44089afc09",
    "role": "post-metadata",
-   "sha256": "dff67221e1efc3df8fa5e0f84b7083ea26f5d307d14f498aa6e77ec17453ff8e"
+   "sha256": "fde892cc2da8ba031cfde355d3a59fa703f1a6f9709b1c34fc9ff82e329e09ff"
   }
  ],
  "tag": "129497036573",
- "verified_at": "2026-10-09T11:06:22Z"
+ "verified_at": "2026-10-09T16:17:43Z"
 }

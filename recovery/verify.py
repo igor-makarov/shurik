@@ -115,6 +115,23 @@ class AnonymousPuller:
         return resp.content
 
 
+def _norm_caption(value: str) -> str:
+    """Whitespace-insensitive caption identity.
+
+    The same recovered bytes appear as several image entries (size aliases),
+    and the archived caption of one alias can differ from another only by
+    Unicode whitespace -- a non-breaking space (`\xa0`) vs a plain space, or a
+    leading blank line from the archived markup. Comparing the raw strings
+    turned those genuine matches into `image_caption` failures and buried the
+    real byte checks under metadata noise. Collapsing every whitespace run to
+    one space and stripping the ends compares the caption's text, not the
+    archive's incidental spacing.
+    """
+    import re as _re
+
+    return _re.sub(r"\s+", " ", (value or "").replace("\xa0", " ")).strip()
+
+
 def _layer_files(payload: bytes) -> list[tuple[str, bytes]]:
     raw = gzip.decompress(payload)
     out: list[tuple[str, bytes]] = []
@@ -251,10 +268,13 @@ def verify_tag(post_id: str, *, repo: str = config.GHCR_REPO, registry: str = co
         cap = img.get("caption") or ""
         if not cap:
             continue
+        # Every artifact image entry carrying these bytes, not just the first:
+        # the record may hold size aliases whose captions differ in whitespace.
         art = [m for m in (meta.get("images") or []) if m.get("sha256") == img["sha256"]]
+        art_caps = [a.get("caption") for a in art]
         checks.append(_check(f"image_caption[{img.get('media_key') or img['sha256'][:12]}]",
-                             bool(art) and (art[0].get("caption") == cap),
-                             (art[0].get("caption") if art else None), cap))
+                             any(_norm_caption(c) == _norm_caption(cap) for c in art_caps),
+                             next((c for c in art_caps if c is not None), None), cap))
     # provenance
     prov = (meta.get("images") or [{}])[0].get("archive_capture") if meta.get("images") else None
     if expected_images and prov:
