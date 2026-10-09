@@ -4,8 +4,8 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "stopped",
-  "generation": 20,
+  "status": "running",
+  "generation": 21,
   "next": 335,
   "owner": null,
   "deadline": "2026-10-10T07:59:06.000Z",
@@ -16,11 +16,11 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "37938306893",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
-    "workCommit": "6de07c620ca3d910dd7c3afb85304863b302bdce",
+    "workCommit": "9dedc61008a10de44d5ff58ac118fc961f93cf36",
     "generation": 20,
     "sequence": "20-334",
     "runId": "37938306893",
@@ -107,9 +107,11 @@
   },
   "activeExperiment": {
     "id": "falafel-throughput-20261009",
-    "generation": 20,
+    "generation": 21,
     "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261009-throughput.json",
-    "deadline": "2026-10-10T07:59:06.000Z"
+    "deadline": "2026-10-10T07:59:06.000Z",
+    "initialGeneration": 20,
+    "guidanceContinuationOfGeneration": 20
   },
   "monitorGuidancePause": {
     "experimentId": "falafel-throughput-20261009",
@@ -140,7 +142,11 @@
         34650
       ],
       "previousCheck": "80943bdbf382677e2bf38074aaed75ed0e5e558f"
-    }
+    },
+    "completedAt": "2026-10-09T14:10:32Z",
+    "outcome": "resumed_with_prompt_change",
+    "newGeneration": 21,
+    "promptCommit": "9dedc61008a10de44d5ff58ac118fc961f93cf36"
   },
   "monitorGuidancePauseHistory": [
     {
@@ -169,5 +175,44 @@
       }
     }
   ],
-  "stoppedAt": "2026-10-09T14:04:18Z"
+  "monitorGuidanceAdjustment": {
+    "experimentId": "falafel-throughput-20261009",
+    "oldGeneration": 20,
+    "newGeneration": 21,
+    "at": "2026-10-09T14:10:32Z",
+    "reason": "First flat hourly window: reduce repeated reorientation, persist alternate-capture candidates/scoped answers, repair failed probe through real task path, close targeted verification backlog.",
+    "promptCommit": "9dedc61008a10de44d5ff58ac118fc961f93cf36",
+    "parentEdits": [
+      "PROMPT.md"
+    ],
+    "pauseNonce": "falafel-throughput-check6-2026-10-09T14:03:07Z",
+    "previousCheckpoint": {
+      "workCommit": "6de07c620ca3d910dd7c3afb85304863b302bdce",
+      "generation": 20,
+      "sequence": "20-334",
+      "runId": "37938306893",
+      "at": "2026-10-09T14:04:39.494Z"
+    },
+    "evidence": {
+      "controlHead": "9ebec384ed7ffaed416b6fb82fcf613992beca8d",
+      "previousCheckControl": "80943bdbf382677e2bf38074aaed75ed0e5e558f",
+      "nativeEntries": [
+        34349,
+        34646,
+        34650
+      ],
+      "windowFrom": "2026-10-09T13:03:46.635Z",
+      "windowTo": "2026-10-09T14:04:39.494Z",
+      "images": 325,
+      "positivePosts": 190,
+      "uniqueHashes": 204,
+      "newDurableHashes": 0,
+      "newByteVerifiedHashes": 0,
+      "consecutiveFlatWindows": 1,
+      "experimentEstimatedUSD": 0.6760470960000005
+    },
+    "model": "deepseek-v4.1-flash",
+    "reasoning": "high",
+    "deadline": "2026-10-10T07:59:06.000Z"
+  }
 }
