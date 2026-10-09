@@ -4,7 +4,7 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "running",
+  "status": "stopped",
   "generation": 20,
   "next": 327,
   "owner": {
@@ -19,7 +19,7 @@
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
-  "lastDispatchAt": "2026-10-09T09:47:36.919Z",
+  "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
   "lastRunId": "37909692870",
   "stateStorage": "control",
@@ -115,5 +115,21 @@
     "generation": 20,
     "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261009-throughput.json",
     "deadline": "2026-10-10T07:59:06.000Z"
+  },
+  "stoppedAt": "2026-10-09T10:05:09Z",
+  "monitorGuidancePause": {
+    "experimentId": "falafel-throughput-20261009",
+    "cause": "First flat hourly window: no new durable image hashes/publications/verification; 256 saved scoped CDX negatives and 31 published prior-new hashes still lack anonymous receipts. Add targeted recovery-stage guidance.",
+    "nonce": "falafel-throughput-check2-2026-10-09T10:05:09Z",
+    "originalGeneration": 20,
+    "originalDeadline": "2026-10-10T07:59:06.000Z",
+    "originalCheckpoint": {
+      "workCommit": "a8a550e6044e3bf2b1fd21335c91877727f0612c",
+      "generation": 20,
+      "sequence": "20-327",
+      "runId": "37913549121",
+      "at": "2026-10-09T10:03:39.187Z"
+    },
+    "stoppedAt": "2026-10-09T10:05:09Z"
   }
 }
