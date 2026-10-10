@@ -3,7 +3,7 @@
  "checks": [
   {
    "check": "anonymous_manifest_pull",
-   "observed": "sha256:8ab108f07cea8481bd9df3aea850ec5bd6e69e070663cea2f17a54f87e5de02d",
+   "observed": "sha256:20581ca01193420787f75a55c3639ad17bca2593c2a97a3442a5ff1b2eb21c11",
    "passed": true
   },
   {
@@ -14,16 +14,16 @@
   },
   {
    "check": "media_layer_count_matches_record",
-   "expected": 6,
+   "expected": 8,
    "note": "number of image files actually inside the layers vs the post record",
-   "observed": 6,
+   "observed": 8,
    "passed": true
   },
   {
    "check": "image_bytes[tumblr_ng1vkjYFIB1r3it8zo6_500.jpg]",
    "expected": "072589150b1bf8bb75b537922c6a82776e74b9a32b45d23c34bca5aca08061c0",
    "note": "recovered image pulled anonymously out of an image layer",
-   "observed": "tumblr_ng1vkjYFIB1r3it8zo6_500.jpg",
+   "observed": "tumblr_ng1vkjYFIB1r3it8zo6_250.jpg",
    "passed": true
   },
   {
@@ -140,43 +140,105 @@
    "passed": true
   },
   {
+   "check": "image_bytes[tumblr_ng1vkjYFIB1r3it8zo6_250.jpg]",
+   "expected": "072589150b1bf8bb75b537922c6a82776e74b9a32b45d23c34bca5aca08061c0",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ng1vkjYFIB1r3it8zo6_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ng1vkjYFIB1r3it8zo6_250.jpg]",
+   "expected": 24176,
+   "observed": 24176,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ng1vkjYFIB1r3it8zo6_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[i.imgur.com/rqwc0ei.jpg]",
+   "expected": "5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[i.imgur.com/rqwc0ei.jpg]",
+   "expected": 27656,
+   "observed": 27656,
+   "passed": true
+  },
+  {
+   "check": "image_magic[i.imgur.com/rqwc0ei.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
    "check": "post_metadata_layer_present",
    "passed": true
   },
   {
    "check": "metadata[content_text]",
-   "expected_sha256": "9edb91d779a44a67696388980d96041b6394007a27aa7558d753beaa48d5f134",
-   "observed_sha256": "9edb91d779a44a67696388980d96041b6394007a27aa7558d753beaa48d5f134",
+   "expected": "עוד רעיונות? שלחו לנו!\nתבנית: http://i.imgur.com/rQWc0EI.jpg",
+   "observed": "עוד רעיונות? שלחו לנו!\nתבנית: http://i.imgur.com/rQWc0EI.jpg",
    "passed": true
   },
   {
    "check": "metadata[content_html]",
-   "expected_sha256": "8ab6618e69c331c63a516db17ae6aefe78d29fa412e65cc4efbd95afbe717ccf",
-   "observed_sha256": "8ab6618e69c331c63a516db17ae6aefe78d29fa412e65cc4efbd95afbe717ccf",
+   "expected": "<p>עוד רעיונות? שלחו לנו!</p>\n<p>תבנית: <a href=\"http://i.imgur.com/rQWc0EI.jpg\" title=\"יאיר לפיד מנותק\" target=\"_blank\">http://i.imgur.com/rQWc0EI.jpg</a></p>",
+   "observed": "<p>עוד רעיונות? שלחו לנו!</p>\n<p>תבנית: <a href=\"http://i.imgur.com/rQWc0EI.jpg\" title=\"יאיר לפיד מנותק\" target=\"_blank\">http://i.imgur.com/rQWc0EI.jpg</a></p>",
    "passed": true
   },
   {
    "check": "metadata[tags]",
-   "expected_sha256": "27495ebedf0d8e47203ece9cbe4084123f1e0e450825d13c9ff8cc791c6a5437",
-   "observed_sha256": "27495ebedf0d8e47203ece9cbe4084123f1e0e450825d13c9ff8cc791c6a5437",
+   "expected": [
+    "יאיר-לפיד",
+    "יאיר-לפיד-מנותק",
+    "אתה-מנותק",
+    "משחקי-הכס",
+    "מלחמת-הכוכבים",
+    "הוט",
+    "אבודים"
+   ],
+   "observed": [
+    "יאיר-לפיד",
+    "יאיר-לפיד-מנותק",
+    "אתה-מנותק",
+    "משחקי-הכס",
+    "מלחמת-הכוכבים",
+    "הוט",
+    "אבודים"
+   ],
    "passed": true
   },
   {
    "check": "metadata[captions]",
-   "expected_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-   "observed_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+   "expected": [],
+   "observed": [],
    "passed": true
   },
   {
    "check": "metadata[original_url]",
-   "expected_sha256": "f2dee8ba0817d5b5a4d2a6ed35e4db4d04c4703dd907fefab18c78e65dc2d8c6",
-   "observed_sha256": "f2dee8ba0817d5b5a4d2a6ed35e4db4d04c4703dd907fefab18c78e65dc2d8c6",
+   "expected": "http://hazfalafel.com/post/104317036098",
+   "observed": "http://hazfalafel.com/post/104317036098",
    "passed": true
   },
   {
    "check": "metadata[cutoff]",
-   "expected_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
-   "observed_sha256": "4788ea591ccf6c620e2d1a5f24d68e659c82734fed50f747e36a93824cb1bbc9",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[i.imgur.com/rqwc0ei.jpg]",
+   "expected": "יאיר לפיד מנותק",
+   "observed": "יאיר לפיד מנותק",
    "passed": true
   },
   {
@@ -198,11 +260,11 @@
    "passed": true
   }
  ],
- "checks_passed": 31,
- "checks_total": 31,
- "config_digest": "sha256:48f9d9094ab32fa3cd16bbd4bf03a2061d29e5bfb9ae2ba26c0d33a697f5798e",
+ "checks_passed": 38,
+ "checks_total": 38,
+ "config_digest": "sha256:c4312542e1e1c40362036358db978c91349e9eff9f6bb62ba839860a7f8c67be",
  "failed_checks": [],
- "images_verified": 6,
+ "images_verified": 8,
  "labels": {
   "org.opencontainers.image.created": "2019-08-24T09:40:53Z",
   "org.opencontainers.image.description": "עוד רעיונות? שלחו לנו!",
@@ -214,7 +276,7 @@
   "shurik.post.content_len": "60",
   "shurik.post.cutoff": "20191231235959",
   "shurik.post.id": "104317036098",
-  "shurik.post.images": "6",
+  "shurik.post.images": "8",
   "shurik.post.missing_images": "0",
   "shurik.post.tags": "יאיר-לפיד,יאיר-לפיד-מנותק,אתה-מנותק,משחקי-הכס,מלחמת-הכוכבים,הוט,אבודים"
  },
@@ -250,13 +312,22 @@
    "size": 25193
   },
   {
-   "digest": "sha256:9cec4396724ee51b7ec8f79cb131cabc4219b356c98246515f1436c6e1eb08db",
+   "digest": "sha256:e99cd6254d3549538b6dd0502ef989935ab0a3df7259a979b4a46e9975041a26",
    "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
-   "size": 1575
+   "size": 23870
+  },
+  {
+   "digest": "sha256:a1178bf92a960f50eae007b2f8b0fc72dbeb855998048cf157bb990387fa3380",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 27812
+  },
+  {
+   "digest": "sha256:39d56dc76ce1315acb9c5bca2dc3e911581860f005eac2625b0f8b1bd79014ae",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1774
   }
  ],
- "manifest_digest": "sha256:8ab108f07cea8481bd9df3aea850ec5bd6e69e070663cea2f17a54f87e5de02d",
- "metadata_comparison_encoding": "sha256 of canonical JSON (UTF-8, sorted keys, compact separators); full values remain in GHCR and prior Git history",
+ "manifest_digest": "sha256:20581ca01193420787f75a55c3639ad17bca2593c2a97a3442a5ff1b2eb21c11",
  "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
  "passed": true,
  "post_id": "104317036098",
@@ -310,13 +381,29 @@
    "sha256": "56f0940c6fadaf4b04657a7f64475c20b36a3114439b49d55a7ba406f7fc888d"
   },
   {
-   "bytes": 7021,
+   "bytes": 24176,
+   "file": "tumblr_ng1vkjYFIB1r3it8zo6_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:e99cd6254d3549538b6dd0502ef989935ab0a3df7259a979b4a46e9975041a26",
+   "role": "media",
+   "sha256": "072589150b1bf8bb75b537922c6a82776e74b9a32b45d23c34bca5aca08061c0"
+  },
+  {
+   "bytes": 27656,
+   "file": "5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:a1178bf92a960f50eae007b2f8b0fc72dbeb855998048cf157bb990387fa3380",
+   "role": "media",
+   "sha256": "5e1a06feaf440960e6ef2f4c2407b1e608596ff607a5c62b51cc93a3a6fe3e7e"
+  },
+  {
+   "bytes": 8424,
    "file": "post.json",
-   "layer": "sha256:9cec4396724ee51b7ec8f79cb131cabc4219b356c98246515f1436c6e1eb08db",
+   "layer": "sha256:39d56dc76ce1315acb9c5bca2dc3e911581860f005eac2625b0f8b1bd79014ae",
    "role": "post-metadata",
-   "sha256": "b75de499750257e6aeae691a8318be9f49fab53505f647d2db367b6857948b5b"
+   "sha256": "dc0554622feb13fbde10c6a495302ce190ad66f7d2443426779e52d75038457f"
   }
  ],
  "tag": "104317036098",
- "verified_at": "2026-10-05T08:16:04Z"
+ "verified_at": "2026-10-10T01:07:56Z"
 }
