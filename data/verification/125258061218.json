@@ -1,0 +1,176 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:d91ed0884a99b4630aa02aa0dfdf1fa54838c12bb0d94434edd0c1707ce658d1",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ns7b8ejDyp1r3it8zo1_500.jpg]",
+   "expected": "bb7a5d845a2ea881abdd11240613c343679de612c961740aab0279a2a7061d15",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ns7b8ejDyp1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ns7b8ejDyp1r3it8zo1_500.jpg]",
+   "expected": 54111,
+   "observed": 54111,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ns7b8ejDyp1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "הוא רק רצה אבא",
+   "observed": "הוא רק רצה אבא",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1492;&#1493;&#1488; &#1512;&#1511; &#1512;&#1510;&#1492; &#1488;&#1489;&#1488;</p>",
+   "observed": "<p>&#1492;&#1493;&#1488; &#1512;&#1511; &#1512;&#1510;&#1492; &#1488;&#1489;&#1488;</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אייל-גולן",
+    "פרשת-הזמר-המפורסם",
+    "כלב-מפגר",
+    "retard-dog"
+   ],
+   "observed": [
+    "אייל-גולן",
+    "פרשת-הזמר-המפורסם",
+    "כלב-מפגר",
+    "retard-dog"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "הוא רק רצה אבא"
+   ],
+   "observed": [
+    "הוא רק רצה אבא"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/125258061218",
+   "observed": "http://hazfalafel.com/post/125258061218",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ns7b8ejDyp1r3it8zo1_500.jpg]",
+   "expected": "הוא רק רצה אבא",
+   "observed": "הוא רק רצה אבא",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803171744",
+   "observed": "20150803171744",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803171744id_/http://40.media.tumblr.com/0625e55864cbb7363015c5a63dfa6746/tumblr_ns7b8ejDyp1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803171744id_/http://40.media.tumblr.com/0625e55864cbb7363015c5a63dfa6746/tumblr_ns7b8ejDyp1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803171744",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:bb3f8375b7b260691159e0451f31472416db29e6ebd76237ed21371c1d18429e",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T04:24:02Z",
+  "org.opencontainers.image.description": "הוא רק רצה אבא",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 125258061218",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/125258061218",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "14",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "125258061218",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "אייל-גולן,פרשת-הזמר-המפורסם,כלב-מפגר,retard-dog"
+ },
+ "layers": [
+  {
+   "digest": "sha256:1b1b7624e1eac7ee0847f02349c31741eb40c4fbdfce8362249e45c49396c814",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 49964
+  },
+  {
+   "digest": "sha256:240d7f33584c70b66d78e5e5f4c47bec1a027db9704be1132fdbdad2f1bdc3f2",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1340
+  }
+ ],
+ "manifest_digest": "sha256:d91ed0884a99b4630aa02aa0dfdf1fa54838c12bb0d94434edd0c1707ce658d1",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "125258061218",
+ "pulled_files": [
+  {
+   "bytes": 54111,
+   "file": "tumblr_ns7b8ejDyp1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:1b1b7624e1eac7ee0847f02349c31741eb40c4fbdfce8362249e45c49396c814",
+   "role": "media",
+   "sha256": "bb7a5d845a2ea881abdd11240613c343679de612c961740aab0279a2a7061d15"
+  },
+  {
+   "bytes": 5206,
+   "file": "post.json",
+   "layer": "sha256:240d7f33584c70b66d78e5e5f4c47bec1a027db9704be1132fdbdad2f1bdc3f2",
+   "role": "post-metadata",
+   "sha256": "c6d85be29fdde367dab0139ef5c161fba17d4cbdb8740717bf0ea6132d200ffd"
+  }
+ ],
+ "tag": "125258061218",
+ "verified_at": "2026-10-06T04:15:35Z"
+}

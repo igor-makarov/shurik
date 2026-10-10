@@ -1,0 +1,178 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:ccad4fed06ca2fe1c84914653a7d467ba31c13675d0f80ccb1da0ab8cc2183e7",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[l2R0fFFXzjpb3Yw3m.gif]",
+   "expected": "2f96bf5a703e2d7b8ab12db101c3c113046f44d01a72f1abc7d1487cbc4364e2",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "l2R0fFFXzjpb3Yw3m.gif",
+   "passed": true
+  },
+  {
+   "check": "image_size[l2R0fFFXzjpb3Yw3m.gif]",
+   "expected": 1382310,
+   "observed": 1382310,
+   "passed": true
+  },
+  {
+   "check": "image_magic[l2R0fFFXzjpb3Yw3m.gif]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "הודעת משרד הבטחון",
+   "observed": "הודעת משרד הבטחון",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<596 chars>",
+   "observed": "<596 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "גיף",
+    "animated-gif",
+    "אשדוד",
+    "משרד-הבטחון",
+    "צונאמי",
+    "Confused-Travolta",
+    "טרבולטה-מבולבל"
+   ],
+   "observed": [
+    "גיף",
+    "animated-gif",
+    "אשדוד",
+    "משרד-הבטחון",
+    "צונאמי",
+    "Confused-Travolta",
+    "טרבולטה-מבולבל"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/141544736293",
+   "observed": "http://hazfalafel.com/post/141544736293",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[l2R0fFFXzjpb3Yw3m.gif]",
+   "expected": "image",
+   "observed": "image",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20191103145451",
+   "observed": "20191103145451",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20191103145451id_/http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif",
+   "observed": "https://web.archive.org/web/20191103145451id_/http://i.giphy.com/l2R0fFFXzjpb3Yw3m.gif",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20191103145451",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:7d463a93bd80027f5c630f981b911f7924cb581d8018bf5181993fceea42c52f",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-11-03T14:54:51Z",
+  "org.opencontainers.image.description": "הודעת משרד הבטחון",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 141544736293",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/141544736293",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "17",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "141544736293",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "גיף,animated-gif,אשדוד,משרד-הבטחון,צונאמי,Confused-Travolta,טרבולטה-מבולבל"
+ },
+ "layers": [
+  {
+   "digest": "sha256:58da087686e1f5f94d10c04ef013059db7ce625b123b2cef7c60e0699c49ba1c",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1377308
+  },
+  {
+   "digest": "sha256:bd94ecf3ca518fb46ee0ab8053964fc5e67c48172a808b2bab83d7378402d30e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1176
+  }
+ ],
+ "manifest_digest": "sha256:ccad4fed06ca2fe1c84914653a7d467ba31c13675d0f80ccb1da0ab8cc2183e7",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "141544736293",
+ "pulled_files": [
+  {
+   "bytes": 1382310,
+   "file": "l2R0fFFXzjpb3Yw3m.gif",
+   "image_magic_ok": true,
+   "layer": "sha256:58da087686e1f5f94d10c04ef013059db7ce625b123b2cef7c60e0699c49ba1c",
+   "role": "media",
+   "sha256": "2f96bf5a703e2d7b8ab12db101c3c113046f44d01a72f1abc7d1487cbc4364e2"
+  },
+  {
+   "bytes": 2121,
+   "file": "post.json",
+   "layer": "sha256:bd94ecf3ca518fb46ee0ab8053964fc5e67c48172a808b2bab83d7378402d30e",
+   "role": "post-metadata",
+   "sha256": "76ad103db5d0193e71845ccba3555e2a23f362929339eab547207bf2bf660ce0"
+  }
+ ],
+ "tag": "141544736293",
+ "verified_at": "2026-10-06T20:31:50Z"
+}

@@ -1,0 +1,166 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:6bae01a557b28a8bb8caa5dd03332aac41b66e2ca9d5d1d1410719e6b4c9ba81",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[h8scGSm.jpg]",
+   "expected": "9434fcf258b2ddfceaca50050e0e550bbc5f5c53a09bc04fbe06195890ab90db",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "h8scGSm.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[h8scGSm.jpg]",
+   "expected": 125133,
+   "observed": 125133,
+   "passed": true
+  },
+  {
+   "check": "image_magic[h8scGSm.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "חג שמח וחופשה מהנה",
+   "observed": "חג שמח וחופשה מהנה",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><img src=\"http://i.imgur.com/h8scGSm.jpg\"></p><p>&#1495;&#1490; &#1513;&#1502;&#1495; &#1493;&#1495;&#1493;&#1508;&#1513;&#1492; &#1502;&#1492;&#1504;&#1492;</p>",
+   "observed": "<p><img src=\"http://i.imgur.com/h8scGSm.jpg\"></p><p>&#1495;&#1490; &#1513;&#1502;&#1495; &#1493;&#1495;&#1493;&#1508;&#1513;&#1492; &#1502;&#1492;&#1504;&#1492;</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ראש-השנה",
+    "ארזת-לבד",
+    "חתול-ממורמר",
+    "grumpy-cat"
+   ],
+   "observed": [
+    "ראש-השנה",
+    "ארזת-לבד",
+    "חתול-ממורמר",
+    "grumpy-cat"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/60192816248",
+   "observed": "http://hazfalafel.com/post/60192816248",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131223034958",
+   "observed": "20131223034958",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131223034958id_/http://i.imgur.com/h8scGSm.jpg",
+   "observed": "https://web.archive.org/web/20131223034958id_/http://i.imgur.com/h8scGSm.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131223034958",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:e909ce88995cdbd3ad8aafe029771d8b3409f535ec79e8bf682760abaa86b795",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-03-22T21:48:43Z",
+  "org.opencontainers.image.description": "חג שמח וחופשה מהנה",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 60192816248",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/60192816248",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "18",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "60192816248",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "ראש-השנה,ארזת-לבד,חתול-ממורמר,grumpy-cat"
+ },
+ "layers": [
+  {
+   "digest": "sha256:7e101820f6190485fb0ec1af0dde4d97b8ae9ee4fbf19f89bfbe9b7f1852f4fb",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 125137
+  },
+  {
+   "digest": "sha256:dff2bbae18c8852c81b42e1061a6cc79b581a6b8a83d9a9d1d34849005941735",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 875
+  }
+ ],
+ "manifest_digest": "sha256:6bae01a557b28a8bb8caa5dd03332aac41b66e2ca9d5d1d1410719e6b4c9ba81",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "60192816248",
+ "pulled_files": [
+  {
+   "bytes": 125133,
+   "file": "h8scGSm.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:7e101820f6190485fb0ec1af0dde4d97b8ae9ee4fbf19f89bfbe9b7f1852f4fb",
+   "role": "media",
+   "sha256": "9434fcf258b2ddfceaca50050e0e550bbc5f5c53a09bc04fbe06195890ab90db"
+  },
+  {
+   "bytes": 1550,
+   "file": "post.json",
+   "layer": "sha256:dff2bbae18c8852c81b42e1061a6cc79b581a6b8a83d9a9d1d34849005941735",
+   "role": "post-metadata",
+   "sha256": "4ef3c14857c22f60d76f8af7199b56ae2758359994b70f63c00b1d34601c3cab"
+  }
+ ],
+ "tag": "60192816248",
+ "verified_at": "2026-10-06T20:30:27Z"
+}

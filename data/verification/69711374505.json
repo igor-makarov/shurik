@@ -1,0 +1,176 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:c4b7f542022460a926dcbfa902ed327fb4bd4ffab975f3610ebc46c1dacfbd8a",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxnqpfkYRp1r3it8zo1_500.jpg]",
+   "expected": "2ccb66f3827a903eb63d294c36601d7fbda24d8bac4fca49b5ce9326d2991214",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxnqpfkYRp1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxnqpfkYRp1r3it8zo1_500.jpg]",
+   "expected": 102070,
+   "observed": 102070,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxnqpfkYRp1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אנחנו איתך, חברת הכנסת!\nhttp://www.ynet.co.il/articles/0,7340,L-4464161,00.html",
+   "observed": "אנחנו איתך, חברת הכנסת!\nhttp://www.ynet.co.il/articles/0,7340,L-4464161,00.html",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<507 chars>",
+   "observed": "<507 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "רדנק-כמעט-פוליטיקלי-קורקט",
+    "almost-politically-correct-redneck",
+    "פוליטיקה-ישראלית",
+    "חדשות"
+   ],
+   "observed": [
+    "רדנק-כמעט-פוליטיקלי-קורקט",
+    "almost-politically-correct-redneck",
+    "פוליטיקה-ישראלית",
+    "חדשות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "אנחנו איתך, חברת הכנסת!\nhttp://www.ynet.co.il/articles/0,7340,L-4464161,00.html"
+   ],
+   "observed": [
+    "אנחנו איתך, חברת הכנסת!\nhttp://www.ynet.co.il/articles/0,7340,L-4464161,00.html"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/69711374505",
+   "observed": "http://hazfalafel.com/post/69711374505",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mxnqpfkYRp1r3it8zo1_500.jpg]",
+   "expected": "אנחנו איתך, חברת הכנסת!\nhttp://www.ynet.co.il/articles/0,7340,L-4464161,00.html",
+   "observed": "אנחנו איתך, חברת הכנסת!\nhttp://www.ynet.co.il/articles/0,7340,L-4464161,00.html",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131222035327",
+   "observed": "20131222035327",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131222035327id_/http://31.media.tumblr.com/5909598de1d162dedb9d5aadf72b9684/tumblr_mxnqpfkYRp1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131222035327id_/http://31.media.tumblr.com/5909598de1d162dedb9d5aadf72b9684/tumblr_mxnqpfkYRp1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131222035327",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:da8d2dd90609b4839f97e967ffbf2f6f595e26f95c2971fdf8bebab19c59cb83",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T08:34:51Z",
+  "org.opencontainers.image.description": "אנחנו איתך, חברת הכנסת!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 69711374505",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/69711374505",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "79",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "69711374505",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "רדנק-כמעט-פוליטיקלי-קורקט,almost-politically-correct-redneck,פוליטיקה-ישראלית,חדשות"
+ },
+ "layers": [
+  {
+   "digest": "sha256:1ec941cd8d9475750e45d84e8b2314103ec81114caab30aeb5af8f6b145fa255",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 102187
+  },
+  {
+   "digest": "sha256:8212cad89b16d0354124af93a7bc555f17deeb4a2b6bd0b96a8b169613b81278",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1691
+  }
+ ],
+ "manifest_digest": "sha256:c4b7f542022460a926dcbfa902ed327fb4bd4ffab975f3610ebc46c1dacfbd8a",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "69711374505",
+ "pulled_files": [
+  {
+   "bytes": 102070,
+   "file": "tumblr_mxnqpfkYRp1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:1ec941cd8d9475750e45d84e8b2314103ec81114caab30aeb5af8f6b145fa255",
+   "role": "media",
+   "sha256": "2ccb66f3827a903eb63d294c36601d7fbda24d8bac4fca49b5ce9326d2991214"
+  },
+  {
+   "bytes": 7755,
+   "file": "post.json",
+   "layer": "sha256:8212cad89b16d0354124af93a7bc555f17deeb4a2b6bd0b96a8b169613b81278",
+   "role": "post-metadata",
+   "sha256": "9f0e48c5b50be63bbd662d302ac458800cfaa570f70a6a4d6dd17b69b9d214b1"
+  }
+ ],
+ "tag": "69711374505",
+ "verified_at": "2026-10-09T21:40:40Z"
+}

@@ -1,0 +1,217 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:82322a1ddbc7236fdc6b00a60ea47c5e57e8526423a45072435dfa5cb0a3c8fe",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ndp94n8cUf1r3it8zo1_500.jpg]",
+   "expected": "287407ac345190fa2a9f0a9861a6612791f92c791fbe35adf2a8919e459c304d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ndp94n8cUf1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ndp94n8cUf1r3it8zo1_500.jpg]",
+   "expected": 46702,
+   "observed": 46702,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ndp94n8cUf1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ndp94n8cUf1r3it8zo1_1280.jpg]",
+   "expected": "287407ac345190fa2a9f0a9861a6612791f92c791fbe35adf2a8919e459c304d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ndp94n8cUf1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ndp94n8cUf1r3it8zo1_1280.jpg]",
+   "expected": 46702,
+   "observed": 46702,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ndp94n8cUf1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "Nothing to do here\nזה פוסט אמיתי",
+   "observed": "Nothing to do here\nזה פוסט אמיתי",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>Nothing to do here</p>\n<p><a href=\"https://www.facebook.com/ynetnews/posts/10152905963555572\" target=\"_blank\">זה פוסט אמיתי</a></p>",
+   "observed": "<p>Nothing to do here</p>\n<p><a href=\"https://www.facebook.com/ynetnews/posts/10152905963555572\" target=\"_blank\">זה פוסט אמיתי</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חורף",
+    "brace-yourselves",
+    "imminent-ned",
+    "נד-המשמש-ובא",
+    "משחקי-הכס",
+    "טמקא",
+    "חדשות",
+    "שנסו-מותניים"
+   ],
+   "observed": [
+    "חורף",
+    "brace-yourselves",
+    "imminent-ned",
+    "נד-המשמש-ובא",
+    "משחקי-הכס",
+    "טמקא",
+    "חדשות",
+    "שנסו-מותניים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "Nothing to do here\nזה פוסט אמיתי"
+   ],
+   "observed": [
+    "Nothing to do here\nזה פוסט אמיתי"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/100416769893",
+   "observed": "http://hazfalafel.com:80/post/100416769893",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ndp94n8cUf1r3it8zo1_500.jpg]",
+   "expected": "Nothing to do here\nזה פוסט אמיתי",
+   "observed": "Nothing to do here\nזה פוסט אמיתי",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150106090204",
+   "observed": "20150106090204",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150106090204id_/http://40.media.tumblr.com/adb87bddbbc96c60f41476a0ba60a36d/tumblr_ndp94n8cUf1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150106090204id_/http://40.media.tumblr.com/adb87bddbbc96c60f41476a0ba60a36d/tumblr_ndp94n8cUf1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150106090204",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:dd9f60774d9e3d9594d2345b1947cca4c2977b7a0b5908586b301e90b86b1b12",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2015-01-19T07:31:10Z",
+  "org.opencontainers.image.description": "Nothing to do here",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 100416769893",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/100416769893",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "32",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "100416769893",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "חורף,brace-yourselves,imminent-ned,נד-המשמש-ובא,משחקי-הכס,טמקא,חדשות,שנסו-מותניים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:d9ad3646768f50e728e65ef022f0f77394735b787a2621ba7871fb8c48c5e030",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 41320
+  },
+  {
+   "digest": "sha256:ecb0912d98fcd3bee051cf2679665770631ca272239da71e0a3d36aaf3307b98",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 41322
+  },
+  {
+   "digest": "sha256:7844bf2533e69e115a575785f19fbf10410fa24d56bd046df4f2e564f9ddfb5f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1016
+  }
+ ],
+ "manifest_digest": "sha256:82322a1ddbc7236fdc6b00a60ea47c5e57e8526423a45072435dfa5cb0a3c8fe",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "100416769893",
+ "pulled_files": [
+  {
+   "bytes": 46702,
+   "file": "tumblr_ndp94n8cUf1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:d9ad3646768f50e728e65ef022f0f77394735b787a2621ba7871fb8c48c5e030",
+   "role": "media",
+   "sha256": "287407ac345190fa2a9f0a9861a6612791f92c791fbe35adf2a8919e459c304d"
+  },
+  {
+   "bytes": 46702,
+   "file": "tumblr_ndp94n8cUf1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:ecb0912d98fcd3bee051cf2679665770631ca272239da71e0a3d36aaf3307b98",
+   "role": "media",
+   "sha256": "287407ac345190fa2a9f0a9861a6612791f92c791fbe35adf2a8919e459c304d"
+  },
+  {
+   "bytes": 2742,
+   "file": "post.json",
+   "layer": "sha256:7844bf2533e69e115a575785f19fbf10410fa24d56bd046df4f2e564f9ddfb5f",
+   "role": "post-metadata",
+   "sha256": "b240d8a8fd40a82fff25c7b59df720400d6dab35e74e5d23ed33ad044f0969f3"
+  }
+ ],
+ "tag": "100416769893",
+ "verified_at": "2026-10-06T02:03:19Z"
+}

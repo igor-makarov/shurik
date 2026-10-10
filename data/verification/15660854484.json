@@ -1,0 +1,176 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:a1cc3bae13fca8d23be69a29256a5a60eb2a6acf6f9e4e25b159964b76c69499",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxme1hXMdp1r3it8zo1_400.jpg]",
+   "expected": "3fd1c3d3a0df455a544c2bedb8f7e2c81f53329ce7691f38b2f32c77138b0cfe",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxme1hXMdp1r3it8zo1_400.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxme1hXMdp1r3it8zo1_400.jpg]",
+   "expected": 137602,
+   "observed": 137602,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxme1hXMdp1r3it8zo1_400.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אהוד אולמרט, 2007: “אני ראש ממשלה לא פופולרי”.",
+   "observed": "אהוד אולמרט, 2007: “אני ראש ממשלה לא פופולרי”.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>אהוד אולמרט, 2007: &#8220;<a href=\"http://www.ynet.co.il/articles/0,7340,L-3377148,00.html\" target=\"_blank\">אני ראש ממשלה לא פופולרי</a>&#8221;.</p>",
+   "observed": "<p>אהוד אולמרט, 2007: &#8220;<a href=\"http://www.ynet.co.il/articles/0,7340,L-3377148,00.html\" target=\"_blank\">אני ראש ממשלה לא פופולרי</a>&#8221;.</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אהוד-אולמרט",
+    "היפסטר",
+    "אקזיביט",
+    "אחינו"
+   ],
+   "observed": [
+    "אהוד-אולמרט",
+    "היפסטר",
+    "אקזיביט",
+    "אחינו"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "אהוד אולמרט, 2007: &#8220;אני ראש ממשלה לא פופולרי&#8221;."
+   ],
+   "observed": [
+    "אהוד אולמרט, 2007: &#8220;אני ראש ממשלה לא פופולרי&#8221;."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15660854484/2007",
+   "observed": "http://hazfalafel.com:80/post/15660854484/2007",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxme1hXMdp1r3it8zo1_400.jpg]",
+   "expected": "אהוד אולמרט, 2007: &#8220;אני ראש ממשלה לא פופולרי&#8221;.",
+   "observed": "אהוד אולמרט, 2007: &#8220;אני ראש ממשלה לא פופולרי&#8221;.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130930175154",
+   "observed": "20130930175154",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130930175154id_/http://24.media.tumblr.com/tumblr_lxme1hXMdp1r3it8zo1_400.jpg",
+   "observed": "https://web.archive.org/web/20130930175154id_/http://24.media.tumblr.com/tumblr_lxme1hXMdp1r3it8zo1_400.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130930175154",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:fbf266b5a989e8eb3c5667a8f1ba8b3df3f1e9e31af569d04e3f3aed4ef140dd",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-06T17:49:58Z",
+  "org.opencontainers.image.description": "אהוד אולמרט, 2007: “אני ראש ממשלה לא פופולרי”.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15660854484",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15660854484/2007",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "46",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15660854484",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "אהוד-אולמרט,היפסטר,אקזיביט,אחינו"
+ },
+ "layers": [
+  {
+   "digest": "sha256:c133e3000b2be8d239998b0beee15a7df9716f2f71a6d3c925956cbd1d2ae9cd",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 137292
+  },
+  {
+   "digest": "sha256:86aa4ea3621fbc366045fc8412203d9e488e7a48fabf1b9e82bcd18f91ec92ed",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 970
+  }
+ ],
+ "manifest_digest": "sha256:a1cc3bae13fca8d23be69a29256a5a60eb2a6acf6f9e4e25b159964b76c69499",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15660854484",
+ "pulled_files": [
+  {
+   "bytes": 137602,
+   "file": "tumblr_lxme1hXMdp1r3it8zo1_400.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:c133e3000b2be8d239998b0beee15a7df9716f2f71a6d3c925956cbd1d2ae9cd",
+   "role": "media",
+   "sha256": "3fd1c3d3a0df455a544c2bedb8f7e2c81f53329ce7691f38b2f32c77138b0cfe"
+  },
+  {
+   "bytes": 2271,
+   "file": "post.json",
+   "layer": "sha256:86aa4ea3621fbc366045fc8412203d9e488e7a48fabf1b9e82bcd18f91ec92ed",
+   "role": "post-metadata",
+   "sha256": "4daaca51e6068a667de721deaeb31f5da70d64eb2c1f77431fc97cdfd54272a4"
+  }
+ ],
+ "tag": "15660854484",
+ "verified_at": "2026-10-06T02:03:18Z"
+}

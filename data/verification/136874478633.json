@@ -1,0 +1,250 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:1f615335dc0711254a1c4a4996a6a31bdccc303e0809373633924f3241ef38f2",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 3,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 3,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o0mt0ypO7P1r3it8zo1_500.jpg]",
+   "expected": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o0mt0ypO7P1r3it8zo1_500.jpg]",
+   "expected": 35298,
+   "observed": 35298,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o0mt0ypO7P1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg]",
+   "expected": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg]",
+   "expected": 35298,
+   "observed": 35298,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_o0mt0ypO7P1r3it8zo1_250.jpg]",
+   "expected": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_o0mt0ypO7P1r3it8zo1_250.jpg]",
+   "expected": 35298,
+   "observed": 35298,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_o0mt0ypO7P1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "לכתב תשאר צלקת בגב ולנו בלב.\nתודה לניצן חודורוב",
+   "observed": "לכתב תשאר צלקת בגב ולנו בלב.\nתודה לניצן חודורוב",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<474 chars>",
+   "observed": "<474 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "טל-מוסרי",
+    "ערוץ-1"
+   ],
+   "observed": [
+    "טל-מוסרי",
+    "ערוץ-1"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב"
+   ],
+   "observed": [
+    "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/136874478633",
+   "observed": "http://hazfalafel.com/post/136874478633",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_o0mt0ypO7P1r3it8zo1_500.jpg]",
+   "expected": "\n\nלכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
+   "observed": "\n\nלכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg]",
+   "expected": "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
+   "observed": "\n\nלכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_o0mt0ypO7P1r3it8zo1_250.jpg]",
+   "expected": "לכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
+   "observed": "\n\nלכתב תשאר צלקת בגב ולנו בלב.תודה לניצן חודורוב",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20160126053236",
+   "observed": "20160126053236",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20160126053236id_/http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20160126053236id_/http://40.media.tumblr.com/414181104302ff53509232dd9c95e2ac/tumblr_o0mt0ypO7P1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20160126053236",
+   "passed": true
+  }
+ ],
+ "checks_passed": 25,
+ "checks_total": 25,
+ "config_digest": "sha256:b8610bb69f97ce7c33643865067a889da97ee44caa1adebfcb4059ca92e7ff40",
+ "failed_checks": [],
+ "images_verified": 3,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T18:35:13Z",
+  "org.opencontainers.image.description": "לכתב תשאר צלקת בגב ולנו בלב.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 136874478633",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/136874478633",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "47",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "136874478633",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "טל-מוסרי,ערוץ-1"
+ },
+ "layers": [
+  {
+   "digest": "sha256:47816d85b3caf244f5783410a548ac8c121c493857919efc4832b94e410bef87",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 35341
+  },
+  {
+   "digest": "sha256:e15a41d0d7c8deda6b7b9e303a2a5be978725a6e8a6e0c2e3b1d724c37948fd9",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 35343
+  },
+  {
+   "digest": "sha256:b245827c184a1ed749d527aff1a671b42f4896a33e1c50cf017e5378f328d42d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 35341
+  },
+  {
+   "digest": "sha256:f565007ff06cf82542632c522262e1b0480acbaa6e7f795680340c5a3980d771",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1190
+  }
+ ],
+ "manifest_digest": "sha256:1f615335dc0711254a1c4a4996a6a31bdccc303e0809373633924f3241ef38f2",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "136874478633",
+ "pulled_files": [
+  {
+   "bytes": 35298,
+   "file": "tumblr_o0mt0ypO7P1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:47816d85b3caf244f5783410a548ac8c121c493857919efc4832b94e410bef87",
+   "role": "media",
+   "sha256": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0"
+  },
+  {
+   "bytes": 35298,
+   "file": "tumblr_o0mt0ypO7P1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:e15a41d0d7c8deda6b7b9e303a2a5be978725a6e8a6e0c2e3b1d724c37948fd9",
+   "role": "media",
+   "sha256": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0"
+  },
+  {
+   "bytes": 35298,
+   "file": "tumblr_o0mt0ypO7P1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b245827c184a1ed749d527aff1a671b42f4896a33e1c50cf017e5378f328d42d",
+   "role": "media",
+   "sha256": "699560b6fce8d2659a8955f8edabefd0371d64830907724019ae64321cea66b0"
+  },
+  {
+   "bytes": 4275,
+   "file": "post.json",
+   "layer": "sha256:f565007ff06cf82542632c522262e1b0480acbaa6e7f795680340c5a3980d771",
+   "role": "post-metadata",
+   "sha256": "02c52f19e53f452f438db67121c708242787f241acad4b532913c627bb0580aa"
+  }
+ ],
+ "tag": "136874478633",
+ "verified_at": "2026-10-09T16:18:14Z"
+}

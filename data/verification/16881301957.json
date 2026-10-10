@@ -1,0 +1,236 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:e842a948a94dc75ea914a8c4b9ffc0309f96b5694de6197a6581630f48a33a5d",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 3,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 3,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lyqhwwCcvt1r3it8zo1_500.jpg]",
+   "expected": "d521689da1aeea85c6f083466053841f970937ded57edf09789671391708ae78",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lyqhwwCcvt1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lyqhwwCcvt1r3it8zo1_500.jpg]",
+   "expected": 49059,
+   "observed": 49059,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lyqhwwCcvt1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lyqhwwCcvt1r3it8zo1_1280.jpg]",
+   "expected": "d521689da1aeea85c6f083466053841f970937ded57edf09789671391708ae78",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lyqhwwCcvt1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lyqhwwCcvt1r3it8zo1_1280.jpg]",
+   "expected": 49059,
+   "observed": 49059,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lyqhwwCcvt1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lyqhwwCcvt1r3it8zo1_250.jpg]",
+   "expected": "dbb1ef96072f1243b08af158a143feeec18d8101f7a90720e7e1d7b957d10a12",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lyqhwwCcvt1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lyqhwwCcvt1r3it8zo1_250.jpg]",
+   "expected": 50266,
+   "observed": 50266,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lyqhwwCcvt1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צרות של אשכנזים: לילה טוב, נסיכה מתוקה",
+   "observed": "צרות של אשכנזים: לילה טוב, נסיכה מתוקה",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<225 chars>",
+   "observed": "<225 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צרות של אשכנזים: לילה טוב, נסיכה מתוקה"
+   ],
+   "observed": [
+    "צרות של אשכנזים: לילה טוב, נסיכה מתוקה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/16881301957",
+   "observed": "http://hazfalafel.com:80/post/16881301957",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lyqhwwCcvt1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: לילה טוב, נסיכה מתוקה",
+   "observed": "צרות של אשכנזים: לילה טוב, נסיכה מתוקה",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181018115714",
+   "observed": "20181018115714",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181018115714id_/https://78.media.tumblr.com/tumblr_lyqhwwCcvt1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181018115714id_/https://78.media.tumblr.com/tumblr_lyqhwwCcvt1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181018115714",
+   "passed": true
+  }
+ ],
+ "checks_passed": 23,
+ "checks_total": 23,
+ "config_digest": "sha256:12f982607a2001963d25c19e63f410b602ee9f40d82942c10bc78663686a1009",
+ "failed_checks": [],
+ "images_verified": 3,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:33Z",
+  "org.opencontainers.image.description": "צרות של אשכנזים: לילה טוב, נסיכה מתוקה",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 16881301957",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/16881301957",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "38",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "16881301957",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "צרות-של-אשכנזים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:4d91557491c822e626e7db1548945c01dc8507a2d94ae0937f4a7502dadbf58e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 49132
+  },
+  {
+   "digest": "sha256:2caabb29ad6d5495ff11db5c1a29155f0211c799b35da5e795374d1e8b562274",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 49133
+  },
+  {
+   "digest": "sha256:b6533df6412d023597a0ec86822c8f21b89dc422f4b3d4cb1861ed451a18577d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 50369
+  },
+  {
+   "digest": "sha256:b7e9f3d7ba6defef1d63d1b24253cb682e00f95160449f0cd300d1802b4b0793",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1116
+  }
+ ],
+ "manifest_digest": "sha256:e842a948a94dc75ea914a8c4b9ffc0309f96b5694de6197a6581630f48a33a5d",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "16881301957",
+ "pulled_files": [
+  {
+   "bytes": 49059,
+   "file": "tumblr_lyqhwwCcvt1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:4d91557491c822e626e7db1548945c01dc8507a2d94ae0937f4a7502dadbf58e",
+   "role": "media",
+   "sha256": "d521689da1aeea85c6f083466053841f970937ded57edf09789671391708ae78"
+  },
+  {
+   "bytes": 49059,
+   "file": "tumblr_lyqhwwCcvt1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:2caabb29ad6d5495ff11db5c1a29155f0211c799b35da5e795374d1e8b562274",
+   "role": "media",
+   "sha256": "d521689da1aeea85c6f083466053841f970937ded57edf09789671391708ae78"
+  },
+  {
+   "bytes": 50266,
+   "file": "tumblr_lyqhwwCcvt1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b6533df6412d023597a0ec86822c8f21b89dc422f4b3d4cb1861ed451a18577d",
+   "role": "media",
+   "sha256": "dbb1ef96072f1243b08af158a143feeec18d8101f7a90720e7e1d7b957d10a12"
+  },
+  {
+   "bytes": 3882,
+   "file": "post.json",
+   "layer": "sha256:b7e9f3d7ba6defef1d63d1b24253cb682e00f95160449f0cd300d1802b4b0793",
+   "role": "post-metadata",
+   "sha256": "db8f401f9ed0c7c4bf513de1fc2a23de130261b98788a5b6229b149a366a18d4"
+  }
+ ],
+ "tag": "16881301957",
+ "verified_at": "2026-10-06T12:27:36Z"
+}

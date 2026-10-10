@@ -1,0 +1,178 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:85786abbe39150abb5b96be55116d32a45a636d024de063c918040c37f0f6a22",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nruizmGn9Y1r3it8zo1_500.jpg]",
+   "expected": "2c5a4a831c65642912d27a708e311bdd3468157c08296e0c52cc5ba7dd059777",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nruizmGn9Y1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nruizmGn9Y1r3it8zo1_500.jpg]",
+   "expected": 57133,
+   "observed": 57133,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nruizmGn9Y1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "בכל פעם שאתה מוחא כף, סטטוצים מצייצים קם לתחיה ונמחק.",
+   "observed": "בכל פעם שאתה מוחא כף, סטטוצים מצייצים קם לתחיה ונמחק.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<316 chars>",
+   "observed": "<316 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "סטטוסים-מצייצים",
+    "אבי-לן",
+    "and-it's-gone",
+    "וזה-נעלם",
+    "פייסבוק"
+   ],
+   "observed": [
+    "סטטוסים-מצייצים",
+    "אבי-לן",
+    "and-it's-gone",
+    "וזה-נעלם",
+    "פייסבוק"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "בכל פעם שאתה מוחא כף, סטטוצים מצייצים קם לתחיה ונמחק."
+   ],
+   "observed": [
+    "בכל פעם שאתה מוחא כף, סטטוצים מצייצים קם לתחיה ונמחק."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/124670989223",
+   "observed": "http://hazfalafel.com/post/124670989223",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nruizmGn9Y1r3it8zo1_500.jpg]",
+   "expected": "בכל פעם שאתה מוחא כף, סטטוצים מצייצים קם לתחיה ונמחק.",
+   "observed": "בכל פעם שאתה מוחא כף, סטטוצים מצייצים קם לתחיה ונמחק.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803160347",
+   "observed": "20150803160347",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803160347id_/http://40.media.tumblr.com/32ce1fa91132b19ec636429999d035de/tumblr_nruizmGn9Y1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803160347id_/http://40.media.tumblr.com/32ce1fa91132b19ec636429999d035de/tumblr_nruizmGn9Y1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803160347",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:bd5758fbac3f2fe948361dce20134269dc922879b3fd87693f0d44d3400bcf44",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T06:27:45Z",
+  "org.opencontainers.image.description": "בכל פעם שאתה מוחא כף, סטטוצים מצייצים קם לתחיה ונמחק.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 124670989223",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/124670989223",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "53",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "124670989223",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "סטטוסים-מצייצים,אבי-לן,and-it's-gone,וזה-נעלם,פייסבוק"
+ },
+ "layers": [
+  {
+   "digest": "sha256:b0507050048b0ff12911b169327e2442c2c1f4fd415626a387e9b8ebf78737f6",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 56817
+  },
+  {
+   "digest": "sha256:4a92955de77cbd21faba02bfc4b5edc3a0a5c5af29b212577a3ccfaf5c9dfebf",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1399
+  }
+ ],
+ "manifest_digest": "sha256:85786abbe39150abb5b96be55116d32a45a636d024de063c918040c37f0f6a22",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "124670989223",
+ "pulled_files": [
+  {
+   "bytes": 57133,
+   "file": "tumblr_nruizmGn9Y1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b0507050048b0ff12911b169327e2442c2c1f4fd415626a387e9b8ebf78737f6",
+   "role": "media",
+   "sha256": "2c5a4a831c65642912d27a708e311bdd3468157c08296e0c52cc5ba7dd059777"
+  },
+  {
+   "bytes": 4706,
+   "file": "post.json",
+   "layer": "sha256:4a92955de77cbd21faba02bfc4b5edc3a0a5c5af29b212577a3ccfaf5c9dfebf",
+   "role": "post-metadata",
+   "sha256": "2c0c72c63147761e0844ea360adb72cda97b21e34b915e893630b7efb8b0e330"
+  }
+ ],
+ "tag": "124670989223",
+ "verified_at": "2026-10-09T11:06:24Z"
+}

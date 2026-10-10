@@ -1,0 +1,238 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:b6f1bf16b3df847b0f7f78a7d2ae259a9cb3edb9f368fc873b8510ae776a61a8",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 3,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 3,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m0hdg2xbic1r3it8zo1_500.jpg]",
+   "expected": "7db70956aaa6b6669ba6a234c7ffee4941f821bdf0f09de1ffa88c324d19073c",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m0hdg2xbic1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m0hdg2xbic1r3it8zo1_500.jpg]",
+   "expected": 53009,
+   "observed": 53009,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m0hdg2xbic1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m0hdg2xbic1r3it8zo1_1280.jpg]",
+   "expected": "7db70956aaa6b6669ba6a234c7ffee4941f821bdf0f09de1ffa88c324d19073c",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m0hdg2xbic1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m0hdg2xbic1r3it8zo1_1280.jpg]",
+   "expected": 53009,
+   "observed": 53009,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m0hdg2xbic1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m0hdg2xbic1r3it8zo1_250.jpg]",
+   "expected": "aabea63e733a433bd29bcd6fe1c8131d22d8191d38b72cfeab04f3430e4e4528",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m0hdg2xbic1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m0hdg2xbic1r3it8zo1_250.jpg]",
+   "expected": 54648,
+   "observed": 54648,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m0hdg2xbic1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צרות של אשכנזים: תחרות הסיפור הקצר של “הארץ”.",
+   "observed": "צרות של אשכנזים: תחרות הסיפור הקצר של “הארץ”.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<268 chars>",
+   "observed": "<268 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים",
+    "תחרות-הסיפור-הקצר"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים",
+    "תחרות-הסיפור-הקצר"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צרות של אשכנזים: תחרות הסיפור הקצר של “הארץ”."
+   ],
+   "observed": [
+    "צרות של אשכנזים: תחרות הסיפור הקצר של “הארץ”."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/18859742391",
+   "observed": "http://hazfalafel.com:80/post/18859742391",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m0hdg2xbic1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: תחרות הסיפור הקצר של “הארץ”.",
+   "observed": "צרות של אשכנזים: תחרות הסיפור הקצר של “הארץ”.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181018115724",
+   "observed": "20181018115724",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181018115724id_/https://78.media.tumblr.com/tumblr_m0hdg2xbic1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181018115724id_/https://78.media.tumblr.com/tumblr_m0hdg2xbic1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181018115724",
+   "passed": true
+  }
+ ],
+ "checks_passed": 23,
+ "checks_total": 23,
+ "config_digest": "sha256:dc2727e46eee3611d190b5efd08d64f5d980674ca171ec5704a1319183030014",
+ "failed_checks": [],
+ "images_verified": 3,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:19Z",
+  "org.opencontainers.image.description": "צרות של אשכנזים: תחרות הסיפור הקצר של “הארץ”.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 18859742391",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/18859742391",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "45",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "18859742391",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "צרות-של-אשכנזים,תחרות-הסיפור-הקצר"
+ },
+ "layers": [
+  {
+   "digest": "sha256:0e79d34975e81d8363df4e473b80deb6704f0f99b2500f72f49660a19452f8b8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 53135
+  },
+  {
+   "digest": "sha256:0088acc1c446a67e24f2b978c87023ee29fc611351355f797afa8d4a24f9fc7c",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 53137
+  },
+  {
+   "digest": "sha256:4a0cda33ed0917c20c888829313c426f02f79dab5781d549956cf5febb160805",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 54742
+  },
+  {
+   "digest": "sha256:9d820d38c10c32a81db20e4dfac98ed58a1b11dea1633e4c3d2899ae66b47fc4",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1130
+  }
+ ],
+ "manifest_digest": "sha256:b6f1bf16b3df847b0f7f78a7d2ae259a9cb3edb9f368fc873b8510ae776a61a8",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "18859742391",
+ "pulled_files": [
+  {
+   "bytes": 53009,
+   "file": "tumblr_m0hdg2xbic1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0e79d34975e81d8363df4e473b80deb6704f0f99b2500f72f49660a19452f8b8",
+   "role": "media",
+   "sha256": "7db70956aaa6b6669ba6a234c7ffee4941f821bdf0f09de1ffa88c324d19073c"
+  },
+  {
+   "bytes": 53009,
+   "file": "tumblr_m0hdg2xbic1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0088acc1c446a67e24f2b978c87023ee29fc611351355f797afa8d4a24f9fc7c",
+   "role": "media",
+   "sha256": "7db70956aaa6b6669ba6a234c7ffee4941f821bdf0f09de1ffa88c324d19073c"
+  },
+  {
+   "bytes": 54648,
+   "file": "tumblr_m0hdg2xbic1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:4a0cda33ed0917c20c888829313c426f02f79dab5781d549956cf5febb160805",
+   "role": "media",
+   "sha256": "aabea63e733a433bd29bcd6fe1c8131d22d8191d38b72cfeab04f3430e4e4528"
+  },
+  {
+   "bytes": 3864,
+   "file": "post.json",
+   "layer": "sha256:9d820d38c10c32a81db20e4dfac98ed58a1b11dea1633e4c3d2899ae66b47fc4",
+   "role": "post-metadata",
+   "sha256": "fb7df91bfca85b678387f722459fd618073223e82e9a57e6c7c95c48a18b77a8"
+  }
+ ],
+ "tag": "18859742391",
+ "verified_at": "2026-10-07T00:10:17Z"
+}

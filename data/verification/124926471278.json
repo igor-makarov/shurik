@@ -1,0 +1,180 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:841cb706492574d4de971f863138215b70b7470154409b5ba9504617517eac18",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ns01b8W0n21r3it8zo1_500.jpg]",
+   "expected": "337ee627d3f04315a8f7b9d1e28edeccd20109e2f19566bf2751f7329af0c203",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ns01b8W0n21r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ns01b8W0n21r3it8zo1_500.jpg]",
+   "expected": 76561,
+   "observed": 76561,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ns01b8W0n21r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "תודה לממים אקטואלים",
+   "observed": "תודה לממים אקטואלים",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1514;&#1493;&#1491;&#1492; &#1500;<a href=\"https://www.facebook.com/lsrameme\" target=\"_blank\">&#1502;&#1502;&#1497;&#1501; &#1488;&#1511;&#1496;&#1493;&#1488;&#1500;&#1497;&#1501;</a></p>",
+   "observed": "<p>&#1514;&#1493;&#1491;&#1492; &#1500;<a href=\"https://www.facebook.com/lsrameme\" target=\"_blank\">&#1502;&#1502;&#1497;&#1501; &#1488;&#1511;&#1496;&#1493;&#1488;&#1500;&#1497;&#1501;</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "עתידורמה",
+    "futurama",
+    "good-new-everyone",
+    "I-don't-want-to-live-on-this-planet-anymore",
+    "אני-לא-רוצה-לחיות-יותר-על-הכוכב-הזה",
+    "חדשות-טובות-כולם"
+   ],
+   "observed": [
+    "עתידורמה",
+    "futurama",
+    "good-new-everyone",
+    "I-don't-want-to-live-on-this-planet-anymore",
+    "אני-לא-רוצה-לחיות-יותר-על-הכוכב-הזה",
+    "חדשות-טובות-כולם"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "תודה לממים אקטואלים"
+   ],
+   "observed": [
+    "תודה לממים אקטואלים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/124926471278",
+   "observed": "http://hazfalafel.com/post/124926471278",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ns01b8W0n21r3it8zo1_500.jpg]",
+   "expected": "תודה לממים אקטואלים",
+   "observed": "תודה לממים אקטואלים",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803155708",
+   "observed": "20150803155708",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803155708id_/http://41.media.tumblr.com/79be392fa3c8ec6a353db86e5cb8a5bd/tumblr_ns01b8W0n21r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803155708id_/http://41.media.tumblr.com/79be392fa3c8ec6a353db86e5cb8a5bd/tumblr_ns01b8W0n21r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803155708",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:4e686e2eb6768da13866555969934cb68332d48c758f1fe8457b2cc137c08130",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2016-08-06T04:01:29Z",
+  "org.opencontainers.image.description": "תודה לממים אקטואלים",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 124926471278",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/124926471278",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "19",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "124926471278",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "עתידורמה,futurama,good-new-everyone,I-don't-want-to-live-on-this-planet-anymore,אני-לא-רוצה-לחיות-יותר-על-הכוכב-הזה,חדשות-טובות-כולם"
+ },
+ "layers": [
+  {
+   "digest": "sha256:5fcbbbbe51622524a4a44d8d973b31f9c4764b548bd79447c671088962ab93b4",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 76109
+  },
+  {
+   "digest": "sha256:1fdcd2957078ab4944a4ae171cf62c8e1559cf8439a63770935af6ab5e7e5c14",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1443
+  }
+ ],
+ "manifest_digest": "sha256:841cb706492574d4de971f863138215b70b7470154409b5ba9504617517eac18",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "124926471278",
+ "pulled_files": [
+  {
+   "bytes": 76561,
+   "file": "tumblr_ns01b8W0n21r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:5fcbbbbe51622524a4a44d8d973b31f9c4764b548bd79447c671088962ab93b4",
+   "role": "media",
+   "sha256": "337ee627d3f04315a8f7b9d1e28edeccd20109e2f19566bf2751f7329af0c203"
+  },
+  {
+   "bytes": 5392,
+   "file": "post.json",
+   "layer": "sha256:1fdcd2957078ab4944a4ae171cf62c8e1559cf8439a63770935af6ab5e7e5c14",
+   "role": "post-metadata",
+   "sha256": "59c764ab7176a2eadc29d2edc1a5123ac500af2de7eb900f0072600bb6e31e3d"
+  }
+ ],
+ "tag": "124926471278",
+ "verified_at": "2026-10-05T09:45:52Z"
+}

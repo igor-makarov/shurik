@@ -1,0 +1,283 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:e1f6853f4947b8f7ab37dbe68bc360dec28e30297bb61296733581fb721e36b3",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 4,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 4,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": 40892,
+   "observed": 40892,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnty6t80Nx1r3it8zo1_1280.jpg]",
+   "expected": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnty6t80Nx1r3it8zo1_1280.jpg]",
+   "expected": 40892,
+   "observed": 40892,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnty6t80Nx1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meu2oirfXY1r3it8zo1_250.jpg]",
+   "expected": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meu2oirfXY1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meu2oirfXY1r3it8zo1_250.jpg]",
+   "expected": 33227,
+   "observed": 33227,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meu2oirfXY1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": 40892,
+   "observed": 40892,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מקור: reddit/AGracefulWalrus",
+   "observed": "מקור: reddit/AGracefulWalrus",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1502;&#1511;&#1493;&#1512;:&nbsp;reddit/AGracefulWalrus</p>",
+   "observed": "<p>&#1502;&#1511;&#1493;&#1512;:&nbsp;reddit/AGracefulWalrus</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "נתן-גושן"
+   ],
+   "observed": [
+    "נתן-גושן"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מקור: reddit/AGracefulWalrus",
+    "מקור: reddit/AGracefulWalrus"
+   ],
+   "observed": [
+    "מקור: reddit/AGracefulWalrus",
+    "מקור: reddit/AGracefulWalrus"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/52071643500",
+   "observed": "http://hazfalafel.com/post/52071643500",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": "מקור: reddit/AGracefulWalrus",
+   "observed": "מקור: reddit/AGracefulWalrus",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mnty6t80Nx1r3it8zo1_1280.jpg]",
+   "expected": "מקור: reddit/AGracefulWalrus",
+   "observed": "מקור: reddit/AGracefulWalrus",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mnty6t80Nx1r3it8zo1_500.jpg]",
+   "expected": "מקור: reddit/AGracefulWalrus",
+   "observed": "מקור: reddit/AGracefulWalrus",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131022010424",
+   "observed": "20131022010424",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131022010424id_/http://25.media.tumblr.com/932395846e813022e9429298c2fcfcc1/tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131022010424id_/http://25.media.tumblr.com/932395846e813022e9429298c2fcfcc1/tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131022010424",
+   "passed": true
+  }
+ ],
+ "checks_passed": 28,
+ "checks_total": 28,
+ "config_digest": "sha256:6b50db6bf665dc3676e230dc674e773ee0d5ff7c4cf51c39cf1fd9b48227e35c",
+ "failed_checks": [],
+ "images_verified": 4,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T21:25:12Z",
+  "org.opencontainers.image.description": "מקור: reddit/AGracefulWalrus",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 52071643500",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/52071643500",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "28",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "52071643500",
+  "shurik.post.images": "4",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "נתן-גושן"
+ },
+ "layers": [
+  {
+   "digest": "sha256:69108a2281cb96a054223244f41d63dfd51f241d0407b01e3f70d2ba1e3d4674",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 40744
+  },
+  {
+   "digest": "sha256:7d6b0e97a37dd5f11ac8c3c0089ba0146f67aa2fd858e2fd83dde468e875fd85",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 40745
+  },
+  {
+   "digest": "sha256:e28cd76bd73a70dbb6aa2de175c83501091f3284a00802d3ce91703b8d1e9565",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 33287
+  },
+  {
+   "digest": "sha256:69108a2281cb96a054223244f41d63dfd51f241d0407b01e3f70d2ba1e3d4674",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 40744
+  },
+  {
+   "digest": "sha256:3607e397e4077fa31517676bc5af153336780d2cc8d20f42025921952d416205",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1451
+  }
+ ],
+ "manifest_digest": "sha256:e1f6853f4947b8f7ab37dbe68bc360dec28e30297bb61296733581fb721e36b3",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "52071643500",
+ "pulled_files": [
+  {
+   "bytes": 40892,
+   "file": "tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:69108a2281cb96a054223244f41d63dfd51f241d0407b01e3f70d2ba1e3d4674",
+   "role": "media",
+   "sha256": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30"
+  },
+  {
+   "bytes": 40892,
+   "file": "tumblr_mnty6t80Nx1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:7d6b0e97a37dd5f11ac8c3c0089ba0146f67aa2fd858e2fd83dde468e875fd85",
+   "role": "media",
+   "sha256": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30"
+  },
+  {
+   "bytes": 33227,
+   "file": "tumblr_meu2oirfXY1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:e28cd76bd73a70dbb6aa2de175c83501091f3284a00802d3ce91703b8d1e9565",
+   "role": "media",
+   "sha256": "f1acf0ec98f199edbb12deb2e1b7d6238ed5f6adb860a950ffc36eb3a5497c91"
+  },
+  {
+   "bytes": 40892,
+   "file": "tumblr_mnty6t80Nx1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:69108a2281cb96a054223244f41d63dfd51f241d0407b01e3f70d2ba1e3d4674",
+   "role": "media",
+   "sha256": "e576b7e39b27cb777bdd8310b54f82a1353968f3a748205676f2eba1ee0b4e30"
+  },
+  {
+   "bytes": 7774,
+   "file": "post.json",
+   "layer": "sha256:3607e397e4077fa31517676bc5af153336780d2cc8d20f42025921952d416205",
+   "role": "post-metadata",
+   "sha256": "e5b1e2e346c013d67ca63a16bfe0e99a8192c5943afb95cfc0fe88304009bcbe"
+  }
+ ],
+ "tag": "52071643500",
+ "verified_at": "2026-10-09T16:18:15Z"
+}

@@ -1,0 +1,238 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:369aed02c7542efbd924a27af71fe2a78bb65f9f6d1e554423e4dec35c800302",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 3,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 3,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lymln7yrqJ1r3it8zo1_500.jpg]",
+   "expected": "2ae2317de83fc2e348f2f0b78abb0757b9c1e3bea1a2473291e8f7c379b7a5bd",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lymln7yrqJ1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lymln7yrqJ1r3it8zo1_500.jpg]",
+   "expected": 30458,
+   "observed": 30458,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lymln7yrqJ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lymln7yrqJ1r3it8zo1_1280.jpg]",
+   "expected": "2ae2317de83fc2e348f2f0b78abb0757b9c1e3bea1a2473291e8f7c379b7a5bd",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lymln7yrqJ1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lymln7yrqJ1r3it8zo1_1280.jpg]",
+   "expected": 30458,
+   "observed": 30458,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lymln7yrqJ1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lymln7yrqJ1r3it8zo1_250.jpg]",
+   "expected": "2a3229ef82af6ef84c02dda5fad158661526b07ca53d236bb0e5bda4f673799e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lymln7yrqJ1r3it8zo1_250.jpg]",
+   "expected": 31115,
+   "observed": 31115,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lymln7yrqJ1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צרות של אשכנזים: הבימה.",
+   "observed": "צרות של אשכנזים: הבימה.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1510;&#1512;&#1493;&#1514; &#1513;&#1500; &#1488;&#1513;&#1499;&#1504;&#1494;&#1497;&#1501;: &#1492;&#1489;&#1497;&#1502;&#1492;.</p>",
+   "observed": "<p>&#1510;&#1512;&#1493;&#1514; &#1513;&#1500; &#1488;&#1513;&#1499;&#1504;&#1494;&#1497;&#1501;: &#1492;&#1489;&#1497;&#1502;&#1492;.</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים",
+    "הבימה"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים",
+    "הבימה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צרות של אשכנזים: הבימה."
+   ],
+   "observed": [
+    "צרות של אשכנזים: הבימה."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/16809999572",
+   "observed": "http://hazfalafel.com:80/post/16809999572",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lymln7yrqJ1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: הבימה.",
+   "observed": "צרות של אשכנזים: הבימה.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181018115724",
+   "observed": "20181018115724",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181018115724id_/https://78.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181018115724id_/https://78.media.tumblr.com/tumblr_lymln7yrqJ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181018115724",
+   "passed": true
+  }
+ ],
+ "checks_passed": 23,
+ "checks_total": 23,
+ "config_digest": "sha256:06fb62162f7b02f59e6380d839ad394747666d1add3761b0aba18567c1afcccb",
+ "failed_checks": [],
+ "images_verified": 3,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:02Z",
+  "org.opencontainers.image.description": "צרות של אשכנזים: הבימה.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 16809999572",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/16809999572",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "23",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "16809999572",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "צרות-של-אשכנזים,הבימה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:fbf5beae73f7dacacc89c2128d2658405862c2161a0afa5aebf81c6b6e35fde2",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 30507
+  },
+  {
+   "digest": "sha256:b3bbf0cfa243591c8780b28dd140db97bef322b8c1401f98dcd9eae557b05132",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 30508
+  },
+  {
+   "digest": "sha256:686241fa0923983e0c737cddf76636136c307279d8453bd96985adebef5a1b85",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 31218
+  },
+  {
+   "digest": "sha256:2be20c160a7494860785c012ecac631eeb091230c5ac7130ca06d9e062282ae8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1072
+  }
+ ],
+ "manifest_digest": "sha256:369aed02c7542efbd924a27af71fe2a78bb65f9f6d1e554423e4dec35c800302",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "16809999572",
+ "pulled_files": [
+  {
+   "bytes": 30458,
+   "file": "tumblr_lymln7yrqJ1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:fbf5beae73f7dacacc89c2128d2658405862c2161a0afa5aebf81c6b6e35fde2",
+   "role": "media",
+   "sha256": "2ae2317de83fc2e348f2f0b78abb0757b9c1e3bea1a2473291e8f7c379b7a5bd"
+  },
+  {
+   "bytes": 30458,
+   "file": "tumblr_lymln7yrqJ1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b3bbf0cfa243591c8780b28dd140db97bef322b8c1401f98dcd9eae557b05132",
+   "role": "media",
+   "sha256": "2ae2317de83fc2e348f2f0b78abb0757b9c1e3bea1a2473291e8f7c379b7a5bd"
+  },
+  {
+   "bytes": 31115,
+   "file": "tumblr_lymln7yrqJ1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:686241fa0923983e0c737cddf76636136c307279d8453bd96985adebef5a1b85",
+   "role": "media",
+   "sha256": "2a3229ef82af6ef84c02dda5fad158661526b07ca53d236bb0e5bda4f673799e"
+  },
+  {
+   "bytes": 3727,
+   "file": "post.json",
+   "layer": "sha256:2be20c160a7494860785c012ecac631eeb091230c5ac7130ca06d9e062282ae8",
+   "role": "post-metadata",
+   "sha256": "fda05454eff28c5d6461e7d1c9cfe595ab62b95fe97f594bb6204f723ea5c40a"
+  }
+ ],
+ "tag": "16809999572",
+ "verified_at": "2026-10-07T00:10:16Z"
+}

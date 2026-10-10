@@ -1,0 +1,172 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:00ee0d8a0b02455357dfd83061a13413c43e0e0e774ab4f70706e3d6bfae1ad9",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxnq0mX39G1r3it8zo1_500.jpg]",
+   "expected": "1d6a513a84f520d790dc0def043026fcd40283acba8be3ee1b68bd5c3dd085f9",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxnq0mX39G1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxnq0mX39G1r3it8zo1_500.jpg]",
+   "expected": 30655,
+   "observed": 30655,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxnq0mX39G1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "טריילר לסרט נח",
+   "observed": "טריילר לסרט נח",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><a href=\"http://www.youtube.com/watch?v=6qmj5mhDwJQ\" target=\"_blank\">טריילר לסרט נח</a></p>",
+   "observed": "<p><a href=\"http://www.youtube.com/watch?v=6qmj5mhDwJQ\" target=\"_blank\">טריילר לסרט נח</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חורף",
+    "תל-אביב"
+   ],
+   "observed": [
+    "חורף",
+    "תל-אביב"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "טריילר לסרט נח"
+   ],
+   "observed": [
+    "טריילר לסרט נח"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/69710209568",
+   "observed": "http://hazfalafel.com:80/post/69710209568",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mxnq0mX39G1r3it8zo1_500.jpg]",
+   "expected": "טריילר לסרט נח",
+   "observed": "טריילר לסרט נח",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131222054545",
+   "observed": "20131222054545",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131222054545id_/http://25.media.tumblr.com/fa30dd582147241eadfa4584afa2680d/tumblr_mxnq0mX39G1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131222054545id_/http://25.media.tumblr.com/fa30dd582147241eadfa4584afa2680d/tumblr_mxnq0mX39G1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131222054545",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:2ae0d6ee3a325524791f87546f380e2e0806c825f22490f9d4f4fdd5be7b24eb",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2013-12-22T05:45:45Z",
+  "org.opencontainers.image.description": "טריילר לסרט נח",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 69710209568",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/69710209568",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "14",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "69710209568",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "חורף,תל-אביב"
+ },
+ "layers": [
+  {
+   "digest": "sha256:4a7bb0e83f2f8d9b1948ea82c83dc6f18310b34a98137e0b59013d1fed346670",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 30497
+  },
+  {
+   "digest": "sha256:ee6eace338f01ec37c85d2e657cbe2f3b2f0b0b4834f8b1fafdfdaf4eb4bbc4a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1122
+  }
+ ],
+ "manifest_digest": "sha256:00ee0d8a0b02455357dfd83061a13413c43e0e0e774ab4f70706e3d6bfae1ad9",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "69710209568",
+ "pulled_files": [
+  {
+   "bytes": 30655,
+   "file": "tumblr_mxnq0mX39G1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:4a7bb0e83f2f8d9b1948ea82c83dc6f18310b34a98137e0b59013d1fed346670",
+   "role": "media",
+   "sha256": "1d6a513a84f520d790dc0def043026fcd40283acba8be3ee1b68bd5c3dd085f9"
+  },
+  {
+   "bytes": 3519,
+   "file": "post.json",
+   "layer": "sha256:ee6eace338f01ec37c85d2e657cbe2f3b2f0b0b4834f8b1fafdfdaf4eb4bbc4a",
+   "role": "post-metadata",
+   "sha256": "4cf5b2c39be53918753231f53f3ae0fcfa3c8b41968cad5434f8e53841f73d31"
+  }
+ ],
+ "tag": "69710209568",
+ "verified_at": "2026-10-05T17:31:32Z"
+}

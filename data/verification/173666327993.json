@@ -1,0 +1,217 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:cd2304220c97e4b77b07e64e5de305dd7371ebb67b55e5593996081b5da172d5",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8cqd17fLe1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": 76505,
+   "observed": 76505,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
+   "expected": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8cqd17fLe1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
+   "expected": 76505,
+   "observed": 76505,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "observed": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<206 chars>",
+   "observed": "<206 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אוסטין-פאוורס",
+    "שגב-משה",
+    "שרה-נתניהו",
+    "ביבי-נתניהו",
+    "ביבי"
+   ],
+   "observed": [
+    "אוסטין-פאוורס",
+    "שגב-משה",
+    "שרה-נתניהו",
+    "ביבי-נתניהו",
+    "ביבי"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף"
+   ],
+   "observed": [
+    "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173666327993",
+   "observed": "https://hazfalafel.com/post/173666327993",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8cqd17fLe1r3it8zo1_500.jpg]",
+   "expected": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "observed": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8cqd17fLe1r3it8zo1_250.jpg]",
+   "expected": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "observed": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120425",
+   "observed": "20180721120425",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120425id_/https://78.media.tumblr.com/85e540104caf933e6d497197d11ec9ac/tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120425id_/https://78.media.tumblr.com/85e540104caf933e6d497197d11ec9ac/tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120425",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:3c2eac4d0c2c98ca4d48ef37969495171e24d714d97fa679baf4b5b8c405604a",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-07-28T17:39:50Z",
+  "org.opencontainers.image.description": "הוא לא הלך ל-Evil Culinary School כדי להיקרא סתם שף",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173666327993",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173666327993",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "51",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173666327993",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "אוסטין-פאוורס,שגב-משה,שרה-נתניהו,ביבי-נתניהו,ביבי"
+ },
+ "layers": [
+  {
+   "digest": "sha256:656d9901af315d87b54c0258bb4af1b1494ff3b4db1e320f7f815d0937d6606f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 76154
+  },
+  {
+   "digest": "sha256:39b52b889c7ee6eb17fb215924a4f990cba31ce6d2f8e4bd29145b313ca9499d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 76154
+  },
+  {
+   "digest": "sha256:9cb2147cb4687abeb29e17d4a35a232d532c1de44b9725eb6eac19b220e1b938",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1266
+  }
+ ],
+ "manifest_digest": "sha256:cd2304220c97e4b77b07e64e5de305dd7371ebb67b55e5593996081b5da172d5",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173666327993",
+ "pulled_files": [
+  {
+   "bytes": 76505,
+   "file": "tumblr_p8cqd17fLe1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:656d9901af315d87b54c0258bb4af1b1494ff3b4db1e320f7f815d0937d6606f",
+   "role": "media",
+   "sha256": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531"
+  },
+  {
+   "bytes": 76505,
+   "file": "tumblr_p8cqd17fLe1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:39b52b889c7ee6eb17fb215924a4f990cba31ce6d2f8e4bd29145b313ca9499d",
+   "role": "media",
+   "sha256": "53f9e82a6d2317b3e878d83cc17262ba8c5e41146b2200d804976d8c47475531"
+  },
+  {
+   "bytes": 4748,
+   "file": "post.json",
+   "layer": "sha256:9cb2147cb4687abeb29e17d4a35a232d532c1de44b9725eb6eac19b220e1b938",
+   "role": "post-metadata",
+   "sha256": "7a5ad2642e652075f02638f667958daee84c944e3d132e7c705b1ccde80ed400"
+  }
+ ],
+ "tag": "173666327993",
+ "verified_at": "2026-10-09T01:48:35Z"
+}

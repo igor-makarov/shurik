@@ -1,0 +1,207 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:3c299b9a76ed7e43ead6f230b9f780724746bb62547f7e39bb03f7bb84a00d4f",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_n40fwkkLoe1r3it8zo1_500.jpg]",
+   "expected": "9147254be8113596fbb469dbd396c244c88242249b991b443d1a4bd85acd758e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_n40fwkkLoe1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_n40fwkkLoe1r3it8zo1_500.jpg]",
+   "expected": 107807,
+   "observed": 107807,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_n40fwkkLoe1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_n40fwkkLoe1r3it8zo1_1280.jpg]",
+   "expected": "9147254be8113596fbb469dbd396c244c88242249b991b443d1a4bd85acd758e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_n40fwkkLoe1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_n40fwkkLoe1r3it8zo1_1280.jpg]",
+   "expected": 107807,
+   "observed": 107807,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_n40fwkkLoe1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "שועל מה הוא אומר",
+   "observed": "שועל מה הוא אומר",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>שועל מה הוא אומר</p>",
+   "observed": "<p>שועל מה הוא אומר</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מה-אומר-השועל",
+    "What-Does-The-Fox-Say",
+    "פסח"
+   ],
+   "observed": [
+    "מה-אומר-השועל",
+    "What-Does-The-Fox-Say",
+    "פסח"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "שועל מה הוא אומר"
+   ],
+   "observed": [
+    "שועל מה הוא אומר"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/82670220517",
+   "observed": "http://hazfalafel.com:80/post/82670220517",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_n40fwkkLoe1r3it8zo1_500.jpg]",
+   "expected": "שועל מה הוא אומר",
+   "observed": "שועל מה הוא אומר",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20141217222748",
+   "observed": "20141217222748",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20141217222748id_/https://40.media.tumblr.com/57d5c6526257f37ea4915a65e94ae4ef/tumblr_n40fwkkLoe1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20141217222748id_/https://40.media.tumblr.com/57d5c6526257f37ea4915a65e94ae4ef/tumblr_n40fwkkLoe1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20141217222748",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:99613db848799b78dbf860607dd8fa9216eecdbe92c2993d96c9e3b15a89c627",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2016-03-06T22:28:24Z",
+  "org.opencontainers.image.description": "שועל מה הוא אומר",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 82670220517",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/82670220517",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "16",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "82670220517",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "מה-אומר-השועל,What-Does-The-Fox-Say,פסח"
+ },
+ "layers": [
+  {
+   "digest": "sha256:2a4152149fc2e7a9a1ba689963a29a066cc8d983aa8a3aa6489076752b6949be",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 107800
+  },
+  {
+   "digest": "sha256:6dc9f954c5d8ae7d592c1b6d2e5f0749417f678e047bd718d1e29206c0c31795",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 107801
+  },
+  {
+   "digest": "sha256:c6eb2cbe453fee4e8bbb1302c5f575d622e79afd856b996d56d859791ba7e6fd",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 909
+  }
+ ],
+ "manifest_digest": "sha256:3c299b9a76ed7e43ead6f230b9f780724746bb62547f7e39bb03f7bb84a00d4f",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "82670220517",
+ "pulled_files": [
+  {
+   "bytes": 107807,
+   "file": "tumblr_n40fwkkLoe1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:2a4152149fc2e7a9a1ba689963a29a066cc8d983aa8a3aa6489076752b6949be",
+   "role": "media",
+   "sha256": "9147254be8113596fbb469dbd396c244c88242249b991b443d1a4bd85acd758e"
+  },
+  {
+   "bytes": 107807,
+   "file": "tumblr_n40fwkkLoe1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:6dc9f954c5d8ae7d592c1b6d2e5f0749417f678e047bd718d1e29206c0c31795",
+   "role": "media",
+   "sha256": "9147254be8113596fbb469dbd396c244c88242249b991b443d1a4bd85acd758e"
+  },
+  {
+   "bytes": 2808,
+   "file": "post.json",
+   "layer": "sha256:c6eb2cbe453fee4e8bbb1302c5f575d622e79afd856b996d56d859791ba7e6fd",
+   "role": "post-metadata",
+   "sha256": "be2f4a046dbdeedc332beaaf863faa101a0af1a7af180818f671c75a87df048c"
+  }
+ ],
+ "tag": "82670220517",
+ "verified_at": "2026-10-05T17:31:33Z"
+}

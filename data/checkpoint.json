@@ -1,0 +1,19 @@
+{
+ "blobs": {
+  "config": "sha256:0a02b49054360daa42a301d34306bf6d321aaf5fa2fae038d2397dc15e275538",
+  "layer": "sha256:cd0e3244b4e2380cf83318da1553d58d94b144ad99461021da3810514198686d"
+ },
+ "contains": [
+  "data/posts",
+  "data/cdx",
+  "data/image-queue.json",
+  "data/missing.jsonl",
+  "data/gaps.jsonl"
+ ],
+ "layer_bytes": 5399258,
+ "manifest_digest": "sha256:729d9b23533f202f12ace81bf56d1dbb2e75e829094f7c63054073616e56db78",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "pushed_at": "2026-10-09T17:11:44Z",
+ "schema_version": 1,
+ "tag": "crawl-state"
+}

@@ -1,0 +1,197 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:cb938d02e8259a45f980f38bba1c551dac8fedea33c94c4993f62b38d1ecdce1",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meq1t6VlAZ1r3it8zo1_500.jpg]",
+   "expected": "47e32ba0b8a9b3b599b5637317348e90caf35fa5aff226b62e930a55c5a7f0e7",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meq1t6VlAZ1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meq1t6VlAZ1r3it8zo1_500.jpg]",
+   "expected": 183072,
+   "observed": 183072,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meq1t6VlAZ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_meq1t6VlAZ1r3it8zo1_250.jpg]",
+   "expected": "47e32ba0b8a9b3b599b5637317348e90caf35fa5aff226b62e930a55c5a7f0e7",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_meq1t6VlAZ1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_meq1t6VlAZ1r3it8zo1_250.jpg]",
+   "expected": 183072,
+   "observed": 183072,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_meq1t6VlAZ1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "<203 chars>",
+   "observed": "<203 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<11337 chars>",
+   "observed": "<11337 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "scumbag-steve",
+    "חנוכה",
+    "חלאה"
+   ],
+   "observed": [
+    "scumbag-steve",
+    "חנוכה",
+    "חלאה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/37552309629",
+   "observed": "http://hazfalafel.com/post/37552309629",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20170107145354",
+   "observed": "20170107145354",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20170107145354id_/https://68.media.tumblr.com/e1d19c85eceaebd1895483b4596cc5b4/tumblr_meq1t6VlAZ1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20170107145354id_/https://68.media.tumblr.com/e1d19c85eceaebd1895483b4596cc5b4/tumblr_meq1t6VlAZ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20170107145354",
+   "passed": true
+  }
+ ],
+ "checks_passed": 19,
+ "checks_total": 19,
+ "config_digest": "sha256:60334ba8989f6648593c76c70de787d8a5ef9fa1fb8054a3c3422b351cae621c",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-17T17:13:18Z",
+  "org.opencontainers.image.description": "Posted 2 days ago",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 37552309629",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/37552309629",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "203",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "37552309629",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "scumbag-steve,חנוכה,חלאה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:1c883261fe40553e2d0a1d9c57303bc196b18b8f147997b867b66027fde48544",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 158946
+  },
+  {
+   "digest": "sha256:efda75093537d2820ac5c57a8abb6dadba07c08b890a497fd82236e6132b2fa8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 158946
+  },
+  {
+   "digest": "sha256:78bd5148b53908d7192f613f4045dd818cd9fd8ff955f2f2e6fb9050641c5ed3",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 2444
+  }
+ ],
+ "manifest_digest": "sha256:cb938d02e8259a45f980f38bba1c551dac8fedea33c94c4993f62b38d1ecdce1",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "37552309629",
+ "pulled_files": [
+  {
+   "bytes": 183072,
+   "file": "tumblr_meq1t6VlAZ1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:1c883261fe40553e2d0a1d9c57303bc196b18b8f147997b867b66027fde48544",
+   "role": "media",
+   "sha256": "47e32ba0b8a9b3b599b5637317348e90caf35fa5aff226b62e930a55c5a7f0e7"
+  },
+  {
+   "bytes": 183072,
+   "file": "tumblr_meq1t6VlAZ1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:efda75093537d2820ac5c57a8abb6dadba07c08b890a497fd82236e6132b2fa8",
+   "role": "media",
+   "sha256": "47e32ba0b8a9b3b599b5637317348e90caf35fa5aff226b62e930a55c5a7f0e7"
+  },
+  {
+   "bytes": 14774,
+   "file": "post.json",
+   "layer": "sha256:78bd5148b53908d7192f613f4045dd818cd9fd8ff955f2f2e6fb9050641c5ed3",
+   "role": "post-metadata",
+   "sha256": "6b21526dbfe411b4712e515f1936aaed7e5f53ef4540e13f2f12720912343f28"
+  }
+ ],
+ "tag": "37552309629",
+ "verified_at": "2026-10-09T08:15:28Z"
+}

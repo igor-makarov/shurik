@@ -1,0 +1,182 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:01cc5caa8c93f420f85922a78e3a7803c1ec5d864a9b09ee6be6c5fb4a058581",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg]",
+   "expected": "54cb898ddfbd4f35243bc22048b73dc93eb864a637235c92bc7ce6e2d65321b3",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg]",
+   "expected": 46221,
+   "observed": 46221,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "תודה לכל מי שמשקיע מזמנו להזהיר אותנו בפייסבוק מפני הסערה הקרבה",
+   "observed": "תודה לכל מי שמשקיע מזמנו להזהיר אותנו בפייסבוק מפני הסערה הקרבה",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<388 chars>",
+   "observed": "<388 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "imminent-ned",
+    "Annoying-Facebook-Girl",
+    "פקאצת-פייסבוק",
+    "נד-המשמש-ובא",
+    "שנסו-מותניים",
+    "חורף",
+    "הכינו-נפשותיכם"
+   ],
+   "observed": [
+    "imminent-ned",
+    "Annoying-Facebook-Girl",
+    "פקאצת-פייסבוק",
+    "נד-המשמש-ובא",
+    "שנסו-מותניים",
+    "חורף",
+    "הכינו-נפשותיכם"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "תודה לכל מי שמשקיע מזמנו להזהיר אותנו בפייסבוק מפני הסערה הקרבה"
+   ],
+   "observed": [
+    "תודה לכל מי שמשקיע מזמנו להזהיר אותנו בפייסבוק מפני הסערה הקרבה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/69605048398",
+   "observed": "http://hazfalafel.com/post/69605048398",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg]",
+   "expected": "תודה לכל מי שמשקיע מזמנו להזהיר אותנו בפייסבוק מפני הסערה הקרבה",
+   "observed": "תודה לכל מי שמשקיע מזמנו להזהיר אותנו בפייסבוק מפני הסערה הקרבה",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131222061153",
+   "observed": "20131222061153",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131222061153id_/http://24.media.tumblr.com/6e4d71772bbc6ed5f1cd7a3b4a13b759/tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131222061153id_/http://24.media.tumblr.com/6e4d71772bbc6ed5f1cd7a3b4a13b759/tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131222061153",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:5c6218350ba2786f7ea677d2f364e25e7d29a13cf15add233f5d0866e2adb439",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2016-08-17T09:55:56Z",
+  "org.opencontainers.image.description": "תודה לכל מי שמשקיע מזמנו להזהיר אותנו בפייסבוק מפני הסערה הקרבה",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 69605048398",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/69605048398",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "63",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "69605048398",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "imminent-ned,Annoying-Facebook-Girl,פקאצת-פייסבוק,נד-המשמש-ובא,שנסו-מותניים,חורף,הכינו-נפשותיכם"
+ },
+ "layers": [
+  {
+   "digest": "sha256:5495407d30d5ecc582cb1ac5e38eaf81bbad23ead46f4f0fdb64ae2cabf186a4",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 44425
+  },
+  {
+   "digest": "sha256:fedb6b1419a7a85ae64c314719263769d52131409c6f082cc76303eb6b14bb6a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1381
+  }
+ ],
+ "manifest_digest": "sha256:01cc5caa8c93f420f85922a78e3a7803c1ec5d864a9b09ee6be6c5fb4a058581",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "69605048398",
+ "pulled_files": [
+  {
+   "bytes": 46221,
+   "file": "tumblr_mxlsdiGW6Z1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:5495407d30d5ecc582cb1ac5e38eaf81bbad23ead46f4f0fdb64ae2cabf186a4",
+   "role": "media",
+   "sha256": "54cb898ddfbd4f35243bc22048b73dc93eb864a637235c92bc7ce6e2d65321b3"
+  },
+  {
+   "bytes": 5158,
+   "file": "post.json",
+   "layer": "sha256:fedb6b1419a7a85ae64c314719263769d52131409c6f082cc76303eb6b14bb6a",
+   "role": "post-metadata",
+   "sha256": "f5bb7b5e05bdb8bdaa91df5a7c48f85b915d27a74b563aa14d132cdc398e3b73"
+  }
+ ],
+ "tag": "69605048398",
+ "verified_at": "2026-10-09T21:40:32Z"
+}

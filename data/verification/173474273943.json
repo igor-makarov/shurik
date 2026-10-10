@@ -1,0 +1,217 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:55a216745ea8209e3030c81cec080a863a088c7c321323825cf51e6157d22842",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p81dz2syCJ1r3it8zo1_500.png]",
+   "expected": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p81dz2syCJ1r3it8zo1_250.png",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p81dz2syCJ1r3it8zo1_500.png]",
+   "expected": 78139,
+   "observed": 78139,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p81dz2syCJ1r3it8zo1_500.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p81dz2syCJ1r3it8zo1_250.png]",
+   "expected": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p81dz2syCJ1r3it8zo1_250.png",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p81dz2syCJ1r3it8zo1_250.png]",
+   "expected": 78139,
+   "observed": 78139,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p81dz2syCJ1r3it8zo1_250.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "observed": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<325 chars>",
+   "observed": "<325 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ביבי",
+    "ביבי-נתניהו",
+    "Dick-Butt",
+    "איראן",
+    "תחת-זין"
+   ],
+   "observed": [
+    "ביבי",
+    "ביבי-נתניהו",
+    "Dick-Butt",
+    "איראן",
+    "תחת-זין"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”"
+   ],
+   "observed": [
+    "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173474273943",
+   "observed": "https://hazfalafel.com/post/173474273943",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p81dz2syCJ1r3it8zo1_500.png]",
+   "expected": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "observed": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p81dz2syCJ1r3it8zo1_250.png]",
+   "expected": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "observed": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120438",
+   "observed": "20180721120438",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120438id_/https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
+   "observed": "https://web.archive.org/web/20180721120438id_/https://78.media.tumblr.com/5881f7a8c09eafe5717690a097398343/tumblr_p81dz2syCJ1r3it8zo1_500.png",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120438",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:8f6a285d095c81d1a3d588ad13f6b1f64e6616e1c7ffe51ea2aff93f8e20d062",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T07:40:57Z",
+  "org.opencontainers.image.description": "“בשקף הבא אציג את עמדתה הרשמית של ישראל בנושא איראן”",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173474273943",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173474273943",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "52",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173474273943",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "ביבי,ביבי-נתניהו,Dick-Butt,איראן,תחת-זין"
+ },
+ "layers": [
+  {
+   "digest": "sha256:b173ccb8b50218c37052523028620ac11c46bb8dbcd317877f8b9f740b4ecd9a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 78099
+  },
+  {
+   "digest": "sha256:891dca31b6f9ae27cca0020ed1644a6f0dcfcc67c8283e586658290fc857d0d2",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 78099
+  },
+  {
+   "digest": "sha256:841d78e78a3a3d8c6acc250a33444e7291d9312c9861aa1a3edebdf53065c4b8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1334
+  }
+ ],
+ "manifest_digest": "sha256:55a216745ea8209e3030c81cec080a863a088c7c321323825cf51e6157d22842",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173474273943",
+ "pulled_files": [
+  {
+   "bytes": 78139,
+   "file": "tumblr_p81dz2syCJ1r3it8zo1_500.png",
+   "image_magic_ok": true,
+   "layer": "sha256:b173ccb8b50218c37052523028620ac11c46bb8dbcd317877f8b9f740b4ecd9a",
+   "role": "media",
+   "sha256": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae"
+  },
+  {
+   "bytes": 78139,
+   "file": "tumblr_p81dz2syCJ1r3it8zo1_250.png",
+   "image_magic_ok": true,
+   "layer": "sha256:891dca31b6f9ae27cca0020ed1644a6f0dcfcc67c8283e586658290fc857d0d2",
+   "role": "media",
+   "sha256": "f16af4bc3c2c38b6d77a858af1c6d551f3a2253e8bba233b4dfcb1914d6799ae"
+  },
+  {
+   "bytes": 5121,
+   "file": "post.json",
+   "layer": "sha256:841d78e78a3a3d8c6acc250a33444e7291d9312c9861aa1a3edebdf53065c4b8",
+   "role": "post-metadata",
+   "sha256": "dc9a5e598ec9b9e8530c552766a1bd98eec5136d824ea7117a2fab3510a2b0b7"
+  }
+ ],
+ "tag": "173474273943",
+ "verified_at": "2026-10-09T01:48:34Z"
+}

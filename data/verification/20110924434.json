@@ -1,0 +1,203 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:c04a8b0462f4732710b4d8ba3628f1665e0ef93c39360fb513c215e53819e140",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": 51040,
+   "observed": 51040,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg]",
+   "expected": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg]",
+   "expected": 51040,
+   "observed": 51040,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "observed": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>צרות של אשכנזים: לא נכנסתי <a href=\"http://digital.timeout.co.il/activemagazine/welcome/timeout_491.asp\" target=\"_blank\">לרשימה של טיים אאוט</a></p>",
+   "observed": "<p>צרות של אשכנזים: לא נכנסתי <a href=\"http://digital.timeout.co.il/activemagazine/welcome/timeout_491.asp\" target=\"_blank\">לרשימה של טיים אאוט</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "צרות-של-אשכנזים"
+   ],
+   "observed": [
+    "צרות-של-אשכנזים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט"
+   ],
+   "observed": [
+    "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/20110924434",
+   "observed": "http://hazfalafel.com:80/post/20110924434",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg]",
+   "expected": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "observed": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181225182121",
+   "observed": "20181225182121",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181225182121id_/https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20181225182121id_/https://66.media.tumblr.com/tumblr_m1n4x3wAQQ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181225182121",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:00c2c2fc3b666b2fb6fdfc90b487542bc59cb4858ce0976513a44d5b8b5f8dbe",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-25T18:22:16Z",
+  "org.opencontainers.image.description": "צרות של אשכנזים: לא נכנסתי לרשימה של טיים אאוט",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 20110924434",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/20110924434",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "46",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "20110924434",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "צרות-של-אשכנזים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:bd11c6bf2d6027c30c2050816660a2a86abc193500820d58237a9238084854f5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 51185
+  },
+  {
+   "digest": "sha256:3b2fac41fa1b4a3b4fcfd00ec4fb3a8fc1b866cf2af6b0b9f1bb6e297cabc42d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 51158
+  },
+  {
+   "digest": "sha256:f6a519ad15c4c4b8403bdd8c4214a8811ae725ca3b6a1948b4659959ca48c4e8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1546
+  }
+ ],
+ "manifest_digest": "sha256:c04a8b0462f4732710b4d8ba3628f1665e0ef93c39360fb513c215e53819e140",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "20110924434",
+ "pulled_files": [
+  {
+   "bytes": 51040,
+   "file": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e",
+   "image_magic_ok": true,
+   "layer": "sha256:bd11c6bf2d6027c30c2050816660a2a86abc193500820d58237a9238084854f5",
+   "role": "media",
+   "sha256": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e"
+  },
+  {
+   "bytes": 51040,
+   "file": "tumblr_m1n4x3wAQQ1r3it8zo1_640.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:3b2fac41fa1b4a3b4fcfd00ec4fb3a8fc1b866cf2af6b0b9f1bb6e297cabc42d",
+   "role": "media",
+   "sha256": "a60c3ec0eeea5e10eef9ecc4f0d5a4bce68860026e93f3c46165713c94339a0e"
+  },
+  {
+   "bytes": 9777,
+   "file": "post.json",
+   "layer": "sha256:f6a519ad15c4c4b8403bdd8c4214a8811ae725ca3b6a1948b4659959ca48c4e8",
+   "role": "post-metadata",
+   "sha256": "5e4013ee30ce5039383f412e14105083d0b568771ca2fbfe626c7be79e7c9400"
+  }
+ ],
+ "tag": "20110924434",
+ "verified_at": "2026-10-07T06:03:31Z"
+}

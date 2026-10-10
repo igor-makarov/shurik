@@ -1,0 +1,211 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:297afc9ffc2659df9fe7ee936e899bcfb50b443484574a894f6a3979850a2d13",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8nu2aUDRz1r3it8zo1_500.jpg]",
+   "expected": "0e9c78043543ae195a8823f75f8335090a7c6189dee7c9a5803d532a2d2c5dcb",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8nu2aUDRz1r3it8zo1_500.jpg]",
+   "expected": 20983,
+   "observed": 20983,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8nu2aUDRz1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8nu2aUDRz1r3it8zo1_250.jpg]",
+   "expected": "0e9c78043543ae195a8823f75f8335090a7c6189dee7c9a5803d532a2d2c5dcb",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8nu2aUDRz1r3it8zo1_250.jpg]",
+   "expected": 20983,
+   "observed": 20983,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8nu2aUDRz1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "observed": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<388 chars>",
+   "observed": "<388 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אירוויזיון",
+    "מירי-רגב"
+   ],
+   "observed": [
+    "אירוויזיון",
+    "מירי-רגב"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019."
+   ],
+   "observed": [
+    "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173855310168",
+   "observed": "https://hazfalafel.com/post/173855310168",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8nu2aUDRz1r3it8zo1_500.jpg]",
+   "expected": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "observed": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8nu2aUDRz1r3it8zo1_250.jpg]",
+   "expected": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "observed": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120433",
+   "observed": "20180721120433",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120433id_/https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120433id_/https://78.media.tumblr.com/c5ab799a71ca75c488c57467e11d072a/tumblr_p8nu2aUDRz1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120433",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:e83663dc8ddd2204f325c60528e23c903f0544fc1a0f51184c49ef4da91b3493",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T07:42:18Z",
+  "org.opencontainers.image.description": "מירי רגב מצאה את הדרך היחידה שבה יתנו לה לעלות לבמה באירוויזיון 2019.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173855310168",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173855310168",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "69",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173855310168",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "אירוויזיון,מירי-רגב"
+ },
+ "layers": [
+  {
+   "digest": "sha256:ad5455b168bc7a10414f00c2a5248095b4d8f81f4e19d99f5cb7d8f40bef222e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 20530
+  },
+  {
+   "digest": "sha256:6436db8e75db466a1c5aa945c234aeeb206e041b0f2f8400a01240d522fb3baf",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 20532
+  },
+  {
+   "digest": "sha256:136169db9b158605d786b7b108b7fe4c0027e323e6af6fc7c05d6f69577cccf0",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1317
+  }
+ ],
+ "manifest_digest": "sha256:297afc9ffc2659df9fe7ee936e899bcfb50b443484574a894f6a3979850a2d13",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173855310168",
+ "pulled_files": [
+  {
+   "bytes": 20983,
+   "file": "tumblr_p8nu2aUDRz1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:ad5455b168bc7a10414f00c2a5248095b4d8f81f4e19d99f5cb7d8f40bef222e",
+   "role": "media",
+   "sha256": "0e9c78043543ae195a8823f75f8335090a7c6189dee7c9a5803d532a2d2c5dcb"
+  },
+  {
+   "bytes": 20983,
+   "file": "tumblr_p8nu2aUDRz1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:6436db8e75db466a1c5aa945c234aeeb206e041b0f2f8400a01240d522fb3baf",
+   "role": "media",
+   "sha256": "0e9c78043543ae195a8823f75f8335090a7c6189dee7c9a5803d532a2d2c5dcb"
+  },
+  {
+   "bytes": 5237,
+   "file": "post.json",
+   "layer": "sha256:136169db9b158605d786b7b108b7fe4c0027e323e6af6fc7c05d6f69577cccf0",
+   "role": "post-metadata",
+   "sha256": "cb5f32e031955a6c97333abad449235d2c8937ad0cd08658b4a63ce507ce3734"
+  }
+ ],
+ "tag": "173855310168",
+ "verified_at": "2026-10-09T01:48:35Z"
+}

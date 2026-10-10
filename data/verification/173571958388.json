@@ -1,0 +1,215 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:c7f912a7eb8c4e0846fdb5041bc064db04e585f582244277afeec912967e62c8",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p876cmEgI31r3it8zo1_500.jpg]",
+   "expected": "cad708034d4201bdbc6484a19f04236c09ea6feb6f5cd7df31dd37758761a697",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p876cmEgI31r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p876cmEgI31r3it8zo1_500.jpg]",
+   "expected": 63274,
+   "observed": 63274,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p876cmEgI31r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p876cmEgI31r3it8zo1_250.jpg]",
+   "expected": "cad708034d4201bdbc6484a19f04236c09ea6feb6f5cd7df31dd37758761a697",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p876cmEgI31r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p876cmEgI31r3it8zo1_250.jpg]",
+   "expected": 63274,
+   "observed": 63274,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p876cmEgI31r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "יום מלחמת הכוכבים שמח\nMay the 4th be with you",
+   "observed": "יום מלחמת הכוכבים שמח\nMay the 4th be with you",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1497;&#1493;&#1501; &#1502;&#1500;&#1495;&#1502;&#1514; &#1492;&#1499;&#1493;&#1499;&#1489;&#1497;&#1501; &#1513;&#1502;&#1495;</p><p>May the 4th be with you</p>",
+   "observed": "<p>&#1497;&#1493;&#1501; &#1502;&#1500;&#1495;&#1502;&#1514; &#1492;&#1499;&#1493;&#1499;&#1489;&#1497;&#1501; &#1513;&#1502;&#1495;</p><p>May the 4th be with you</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מלחמת-הכוכבים",
+    "איראן",
+    "ביבי",
+    "ביבי-נתניהו"
+   ],
+   "observed": [
+    "מלחמת-הכוכבים",
+    "איראן",
+    "ביבי",
+    "ביבי-נתניהו"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "יום מלחמת הכוכבים שמח\nMay the 4th be with you"
+   ],
+   "observed": [
+    "יום מלחמת הכוכבים שמח\nMay the 4th be with you"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173571958388",
+   "observed": "https://hazfalafel.com/post/173571958388",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p876cmEgI31r3it8zo1_500.jpg]",
+   "expected": "יום מלחמת הכוכבים שמח\nMay the 4th be with you",
+   "observed": "יום מלחמת הכוכבים שמח\nMay the 4th be with you",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p876cmEgI31r3it8zo1_250.jpg]",
+   "expected": "יום מלחמת הכוכבים שמח\nMay the 4th be with you",
+   "observed": "יום מלחמת הכוכבים שמח\nMay the 4th be with you",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120433",
+   "observed": "20180721120433",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120433id_/https://78.media.tumblr.com/7412e25ae6bee759bef2f190ad04bda2/tumblr_p876cmEgI31r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120433id_/https://78.media.tumblr.com/7412e25ae6bee759bef2f190ad04bda2/tumblr_p876cmEgI31r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120433",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:1d4e921181f4bc95caa786acaaccccbae5dad2df4a9f0761e0caaac3241e14de",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T08:33:07Z",
+  "org.opencontainers.image.description": "יום מלחמת הכוכבים שמח",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173571958388",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173571958388",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "45",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173571958388",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "מלחמת-הכוכבים,איראן,ביבי,ביבי-נתניהו"
+ },
+ "layers": [
+  {
+   "digest": "sha256:6d737482a6c7d3a1acef9d7d3dc0a04e9af8af4a9011522ed0a3096d9c9c7d96",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 63354
+  },
+  {
+   "digest": "sha256:781d55ecee19502d97f4f01823f8724da947fdf564e28a282581f81ab9295764",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 63354
+  },
+  {
+   "digest": "sha256:3ae300434d49a9df0f1b0da0e9e8275a055d85f7d397ec675bb865158a967c63",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1238
+  }
+ ],
+ "manifest_digest": "sha256:c7f912a7eb8c4e0846fdb5041bc064db04e585f582244277afeec912967e62c8",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173571958388",
+ "pulled_files": [
+  {
+   "bytes": 63274,
+   "file": "tumblr_p876cmEgI31r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:6d737482a6c7d3a1acef9d7d3dc0a04e9af8af4a9011522ed0a3096d9c9c7d96",
+   "role": "media",
+   "sha256": "cad708034d4201bdbc6484a19f04236c09ea6feb6f5cd7df31dd37758761a697"
+  },
+  {
+   "bytes": 63274,
+   "file": "tumblr_p876cmEgI31r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:781d55ecee19502d97f4f01823f8724da947fdf564e28a282581f81ab9295764",
+   "role": "media",
+   "sha256": "cad708034d4201bdbc6484a19f04236c09ea6feb6f5cd7df31dd37758761a697"
+  },
+  {
+   "bytes": 4827,
+   "file": "post.json",
+   "layer": "sha256:3ae300434d49a9df0f1b0da0e9e8275a055d85f7d397ec675bb865158a967c63",
+   "role": "post-metadata",
+   "sha256": "47fcde257bc9bcf0eb1a4af6b2ddbde1bfe1e0f9ebad576c8ae39cbbd537f357"
+  }
+ ],
+ "tag": "173571958388",
+ "verified_at": "2026-10-09T01:48:35Z"
+}

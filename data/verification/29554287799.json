@@ -1,0 +1,178 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:e5c143380d95fe0a0083a0eefbb1fb60ff5cbb6bcc138890061b14e003ef7b82",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_m8utwk1HNI1r3it8zo1_250.png]",
+   "expected": "2e0c31a2b08229d4bd876e9ef4b5a709267615147034d4d071bd084717357c01",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_m8utwk1HNI1r3it8zo1_250.png",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_m8utwk1HNI1r3it8zo1_250.png]",
+   "expected": 24821,
+   "observed": 24821,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_m8utwk1HNI1r3it8zo1_250.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מזל טוב, שמעון פרס!",
+   "observed": "מזל טוב, שמעון פרס!",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1502;&#1494;&#1500; &#1496;&#1493;&#1489;, &#1513;&#1502;&#1506;&#1493;&#1503; &#1508;&#1512;&#1505;!</p>",
+   "observed": "<p>&#1502;&#1494;&#1500; &#1496;&#1493;&#1489;, &#1513;&#1502;&#1506;&#1493;&#1503; &#1508;&#1512;&#1505;!</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "שמעון-פרס",
+    "Shimon-Peres",
+    "true-story",
+    "סיפור-אמיתי",
+    "המפץ-הגדול"
+   ],
+   "observed": [
+    "שמעון-פרס",
+    "Shimon-Peres",
+    "true-story",
+    "סיפור-אמיתי",
+    "המפץ-הגדול"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מזל טוב, שמעון פרס!"
+   ],
+   "observed": [
+    "מזל טוב, שמעון פרס!"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/29554287799",
+   "observed": "http://hazfalafel.com/post/29554287799",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_m8utwk1HNI1r3it8zo1_250.png]",
+   "expected": "מזל טוב, שמעון פרס!",
+   "observed": "מזל טוב, שמעון פרס!",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20120816174729",
+   "observed": "20120816174729",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20120816174729id_/http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_100.png",
+   "observed": "https://web.archive.org/web/20120816174729id_/http://25.media.tumblr.com/tumblr_m8utwk1HNI1r3it8zo1_100.png",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20120816174729",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:5b2623018ac2d3ea6960bd0add2bc68e3043e063e466e5f28cc5e582bfca368b",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-07T03:40:05Z",
+  "org.opencontainers.image.description": "מזל טוב, שמעון פרס!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 29554287799",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/29554287799",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "19",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "29554287799",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "שמעון-פרס,Shimon-Peres,true-story,סיפור-אמיתי,המפץ-הגדול"
+ },
+ "layers": [
+  {
+   "digest": "sha256:60b8c946eb19c1f96d184d0485efa425d815240123f114864a9d42046171e925",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 24954
+  },
+  {
+   "digest": "sha256:de550273b5cd3aec3dc2a990c5473ce35090fb49f19abbbd9ac3e36807705bc5",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1321
+  }
+ ],
+ "manifest_digest": "sha256:e5c143380d95fe0a0083a0eefbb1fb60ff5cbb6bcc138890061b14e003ef7b82",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "29554287799",
+ "pulled_files": [
+  {
+   "bytes": 24821,
+   "file": "tumblr_m8utwk1HNI1r3it8zo1_250.png",
+   "image_magic_ok": true,
+   "layer": "sha256:60b8c946eb19c1f96d184d0485efa425d815240123f114864a9d42046171e925",
+   "role": "media",
+   "sha256": "2e0c31a2b08229d4bd876e9ef4b5a709267615147034d4d071bd084717357c01"
+  },
+  {
+   "bytes": 3977,
+   "file": "post.json",
+   "layer": "sha256:de550273b5cd3aec3dc2a990c5473ce35090fb49f19abbbd9ac3e36807705bc5",
+   "role": "post-metadata",
+   "sha256": "e48fb2c030a2a7bdbadf12fa1b677ab2334c6d1b276870508bf561b02f43457d"
+  }
+ ],
+ "tag": "29554287799",
+ "verified_at": "2026-10-09T11:06:26Z"
+}

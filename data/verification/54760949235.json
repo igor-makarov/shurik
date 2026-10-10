@@ -1,0 +1,205 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:5ee614dfa09afb62738a0e1e4dfdad4c1d3b101c99f28c49670d60ae50d500b3",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mpixldlO5i1r3it8zo1_500.jpg]",
+   "expected": "db23ee33b969324fadb3154f8c0315f14908439bc6dec5623ad2dae1914ce871",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mpixldlO5i1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mpixldlO5i1r3it8zo1_500.jpg]",
+   "expected": 71116,
+   "observed": 71116,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mpixldlO5i1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mphhvljDs11r3it8zo1_250.jpg]",
+   "expected": "929e72618bb9ac3a093c294fb4b2fb461d4f7a3c7182dd244fbd40904569cd1b",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mphhvljDs11r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mphhvljDs11r3it8zo1_250.jpg]",
+   "expected": 130671,
+   "observed": 130671,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mphhvljDs11r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "Bang Bus!\nגברים באוטובוסים\nתודה לארז וולף",
+   "observed": "Bang Bus!\nגברים באוטובוסים\nתודה לארז וולף",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<265 chars>",
+   "observed": "<265 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "גברים-באוטובוסים",
+    "barzzers"
+   ],
+   "observed": [
+    "גברים-באוטובוסים",
+    "barzzers"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "Bang Bus!\nגברים באוטובוסים\nתודה לארז וולף"
+   ],
+   "observed": [
+    "Bang Bus!\nגברים באוטובוסים\nתודה לארז וולף"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/54760949235",
+   "observed": "http://hazfalafel.com:80/post/54760949235",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mpixldlO5i1r3it8zo1_500.jpg]",
+   "expected": "Bang Bus!\nגברים באוטובוסים\nתודה לארז וולף",
+   "observed": "Bang Bus!\nגברים באוטובוסים\nתודה לארז וולף",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20140111015810",
+   "observed": "20140111015810",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20140111015810id_/http://25.media.tumblr.com/cd14d62ec0d32c5a461b2a1dda4c2f13/tumblr_mpixldlO5i1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20140111015810id_/http://25.media.tumblr.com/cd14d62ec0d32c5a461b2a1dda4c2f13/tumblr_mpixldlO5i1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20140111015810",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:de49ee3b7f0e5b772a6e921c3cdacea3a55ab38458ca6e593ecd47769113d916",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-06T22:40:55Z",
+  "org.opencontainers.image.description": "Bang Bus!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 54760949235",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/54760949235",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "41",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "54760949235",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "3",
+  "shurik.post.tags": "גברים-באוטובוסים,barzzers"
+ },
+ "layers": [
+  {
+   "digest": "sha256:584354631034d6f4ceafdec8555e0809b8b5a29568c5ea1d94eceec6b30da6ce",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 71251
+  },
+  {
+   "digest": "sha256:35d00687eebe3c12b159e3e1d412b83ca38570a80792953684057990b3d7a19d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 118693
+  },
+  {
+   "digest": "sha256:a4ba7ee301a8874fa8c2a5b01eacd645cde29acb361aa3dc22986874de67006f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1653
+  }
+ ],
+ "manifest_digest": "sha256:5ee614dfa09afb62738a0e1e4dfdad4c1d3b101c99f28c49670d60ae50d500b3",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "54760949235",
+ "pulled_files": [
+  {
+   "bytes": 71116,
+   "file": "tumblr_mpixldlO5i1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:584354631034d6f4ceafdec8555e0809b8b5a29568c5ea1d94eceec6b30da6ce",
+   "role": "media",
+   "sha256": "db23ee33b969324fadb3154f8c0315f14908439bc6dec5623ad2dae1914ce871"
+  },
+  {
+   "bytes": 130671,
+   "file": "tumblr_mphhvljDs11r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:35d00687eebe3c12b159e3e1d412b83ca38570a80792953684057990b3d7a19d",
+   "role": "media",
+   "sha256": "929e72618bb9ac3a093c294fb4b2fb461d4f7a3c7182dd244fbd40904569cd1b"
+  },
+  {
+   "bytes": 9123,
+   "file": "post.json",
+   "layer": "sha256:a4ba7ee301a8874fa8c2a5b01eacd645cde29acb361aa3dc22986874de67006f",
+   "role": "post-metadata",
+   "sha256": "56ac87addec67371dd15679bbe5559766fbc8b31f05c7eb132c4ae95128e1cc8"
+  }
+ ],
+ "tag": "54760949235",
+ "verified_at": "2026-10-08T23:07:31Z"
+}

@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:8db44c51ac926a2f7e428acc8c350cbc35553c6cab93423da5b40b39ecc18ecb",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg]",
+   "expected": "e0ca20514138a55e563ae18a5f5a816151aed3a4fcfa622a790de9dbcfb73255",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg]",
+   "expected": 34532,
+   "observed": 34532,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "שרת הקליטה לעולים מאתיופיה: “תגידו תודה”",
+   "observed": "שרת הקליטה לעולים מאתיופיה: “תגידו תודה”",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><a href=\"http://www.ynet.co.il/articles/0,7340,L-4174182,00.html\" title='שרת הקליטה לעולים מאתיופיה: \"תגידו תודה\"' target=\"_blank\">שרת הקליטה לעולים מאתיופיה: &#8220;תגידו תודה&#8221;</a></p>",
+   "observed": "<p><a href=\"http://www.ynet.co.il/articles/0,7340,L-4174182,00.html\" title='שרת הקליטה לעולים מאתיופיה: \"תגידו תודה\"' target=\"_blank\">שרת הקליטה לעולים מאתיופיה: &#8220;תגידו תודה&#8221;</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "ילד-הצלחה-עולם-שלישי",
+    "סופה-לנדבר",
+    "אתיופים"
+   ],
+   "observed": [
+    "ילד-הצלחה-עולם-שלישי",
+    "סופה-לנדבר",
+    "אתיופים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "שרת הקליטה לעולים מאתיופיה: &#8220;תגידו תודה&#8221;"
+   ],
+   "observed": [
+    "שרת הקליטה לעולים מאתיופיה: &#8220;תגידו תודה&#8221;"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15681645043",
+   "observed": "http://hazfalafel.com:80/post/15681645043",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg]",
+   "expected": "שרת הקליטה לעולים מאתיופיה: &#8220;תגידו תודה&#8221;",
+   "observed": "שרת הקליטה לעולים מאתיופיה: &#8220;תגידו תודה&#8221;",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130930175154",
+   "observed": "20130930175154",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130930175154id_/http://27.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20130930175154id_/http://27.media.tumblr.com/tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130930175154",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:375ee40d06b7578bac858152aa26ad16cf0cb11ed621a9506ade46f7da54e69e",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T12:54:02Z",
+  "org.opencontainers.image.description": "שרת הקליטה לעולים מאתיופיה: “תגידו תודה”",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15681645043",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15681645043",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "40",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15681645043",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "ילד-הצלחה-עולם-שלישי,סופה-לנדבר,אתיופים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:b36eb93214f2ac4a2e1f5f08019a4c5a9449de84204ffa6da1e7e133b5cd82fd",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 34587
+  },
+  {
+   "digest": "sha256:1fc2cf088ed0bfcaa0438285355046c9a883ace4bd24537b0e7f245602849fe0",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 917
+  }
+ ],
+ "manifest_digest": "sha256:8db44c51ac926a2f7e428acc8c350cbc35553c6cab93423da5b40b39ecc18ecb",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15681645043",
+ "pulled_files": [
+  {
+   "bytes": 34532,
+   "file": "tumblr_lxnh8j8hXJ1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b36eb93214f2ac4a2e1f5f08019a4c5a9449de84204ffa6da1e7e133b5cd82fd",
+   "role": "media",
+   "sha256": "e0ca20514138a55e563ae18a5f5a816151aed3a4fcfa622a790de9dbcfb73255"
+  },
+  {
+   "bytes": 2110,
+   "file": "post.json",
+   "layer": "sha256:1fc2cf088ed0bfcaa0438285355046c9a883ace4bd24537b0e7f245602849fe0",
+   "role": "post-metadata",
+   "sha256": "6c91e4acb63763c67b848f90b9490a30a57372831d0b76b7bc72beeb822bd157"
+  }
+ ],
+ "tag": "15681645043",
+ "verified_at": "2026-10-05T12:37:14Z"
+}

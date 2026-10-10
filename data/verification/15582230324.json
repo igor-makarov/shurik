@@ -1,0 +1,195 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:80057a1ecdc9920adc0363632dcd7dd6f2c16bfda67e10f08c408746817136c3",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxjw9goTvh1r3it8zo1_500.jpg]",
+   "expected": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxjw9goTvh1r3it8zo1_500.jpg]",
+   "expected": 94352,
+   "observed": 94352,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxjw9goTvh1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
+   "expected": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
+   "expected": 94352,
+   "observed": 94352,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "observed": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>הממשלה בעד חוק שאוסר לקרוא נאצי.</p>\n<p>כן, ככה <strong>מייק גודווין</strong> נראה</p>",
+   "observed": "<p>הממשלה בעד חוק שאוסר לקרוא נאצי.</p>\n<p>כן, ככה <strong>מייק גודווין</strong> נראה</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חוק-גודווין",
+    "כלבה-בבקשה",
+    "חרדים"
+   ],
+   "observed": [
+    "חוק-גודווין",
+    "כלבה-בבקשה",
+    "חרדים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה"
+   ],
+   "observed": [
+    "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15582230324",
+   "observed": "http://hazfalafel.com:80/post/15582230324",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxjw9goTvh1r3it8zo1_500.jpg]",
+   "expected": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "observed": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxjw9goTvh1r3it8zo1_250.jpg]",
+   "expected": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "observed": "הממשלה בעד חוק שאוסר לקרוא נאצי.\nכן, ככה מייק גודווין נראה",
+   "passed": true
+  }
+ ],
+ "checks_passed": 18,
+ "checks_total": 18,
+ "config_digest": "sha256:9da947333957f31378236033ed95134086a49f764aadea50a83a42a10ab97f5c",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2013-09-30T17:51:55Z",
+  "org.opencontainers.image.description": "הממשלה בעד חוק שאוסר לקרוא נאצי.",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15582230324",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15582230324",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "58",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15582230324",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "חוק-גודווין,כלבה-בבקשה,חרדים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:c8f936e1d5453e62204489400ed7f415b7dc534d61b3b39a1193387f3796d55d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 94238
+  },
+  {
+   "digest": "sha256:81e1d816ec6bff2e2f3143fb11f0087c04279bf2a1b2acc1e7fa80339c9cb169",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 94238
+  },
+  {
+   "digest": "sha256:d24dab3f4b349c5f393d65f0bc83ebe1d683152525d4506e98aa43e5395baf58",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 887
+  }
+ ],
+ "manifest_digest": "sha256:80057a1ecdc9920adc0363632dcd7dd6f2c16bfda67e10f08c408746817136c3",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15582230324",
+ "pulled_files": [
+  {
+   "bytes": 94352,
+   "file": "tumblr_lxjw9goTvh1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:c8f936e1d5453e62204489400ed7f415b7dc534d61b3b39a1193387f3796d55d",
+   "role": "media",
+   "sha256": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657"
+  },
+  {
+   "bytes": 94352,
+   "file": "tumblr_lxjw9goTvh1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:81e1d816ec6bff2e2f3143fb11f0087c04279bf2a1b2acc1e7fa80339c9cb169",
+   "role": "media",
+   "sha256": "60ded552180d080ee4e98c50bf9a7a0b0855488d1e7e16155b11000e2d3ae657"
+  },
+  {
+   "bytes": 2357,
+   "file": "post.json",
+   "layer": "sha256:d24dab3f4b349c5f393d65f0bc83ebe1d683152525d4506e98aa43e5395baf58",
+   "role": "post-metadata",
+   "sha256": "83a0cca293859af20c8dbeb5406e82c9513b7a048fed031832d565a8df702e2f"
+  }
+ ],
+ "tag": "15582230324",
+ "verified_at": "2026-10-09T11:06:23Z"
+}

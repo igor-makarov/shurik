@@ -1,0 +1,182 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:0b024c7be9b48e83300c7a92adb7044d06de73de88dd2f18eac79cfa3b4f9f4f",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nrvpbe1uLc1r3it8zo1_500.jpg]",
+   "expected": "d48f4ed6c90da30c65de35c08e8fbbf842364db17167ac61ff45c840780f06c3",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nrvpbe1uLc1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nrvpbe1uLc1r3it8zo1_500.jpg]",
+   "expected": 43826,
+   "observed": 43826,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nrvpbe1uLc1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "סטטוסים מצייצים חוזר פעם שלישית, הפעם בתור “מצייצים”. עם אותו לוגו, אותה כתובת וכמעט אותו שם, הפעם זה ודאי - האלגוריתמים של פייסבוק לא מספיק מתוחכמים כדי לעלות על זה!",
+   "observed": "סטטוסים מצייצים חוזר פעם שלישית, הפעם בתור “מצייצים”. עם אותו לוגו, אותה כתובת וכמעט אותו שם, הפעם זה ודאי - האלגוריתמים של פייסבוק לא מספיק מתוחכמים כדי לעלות על זה!",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<965 chars>",
+   "observed": "<965 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אוסטין-פאוורס",
+    "austin-powers",
+    "למה-אתה-לא-מוכן-למות",
+    "סטטוסים-מצייצים",
+    "אבי-לן",
+    "Why-won't-you-die",
+    "פייסבוק"
+   ],
+   "observed": [
+    "אוסטין-פאוורס",
+    "austin-powers",
+    "למה-אתה-לא-מוכן-למות",
+    "סטטוסים-מצייצים",
+    "אבי-לן",
+    "Why-won't-you-die",
+    "פייסבוק"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "סטטוסים מצייצים חוזר פעם שלישית, הפעם בתור “מצייצים”. עם אותו לוגו, אותה כתובת וכמעט אותו שם, הפעם זה ודאי - האלגוריתמים של פייסבוק לא מספיק מתוחכמים כדי לעלות על זה!"
+   ],
+   "observed": [
+    "סטטוסים מצייצים חוזר פעם שלישית, הפעם בתור “מצייצים”. עם אותו לוגו, אותה כתובת וכמעט אותו שם, הפעם זה ודאי - האלגוריתמים של פייסבוק לא מספיק מתוחכמים כדי לעלות על זה!"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/124734041188",
+   "observed": "http://hazfalafel.com/post/124734041188",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nrvpbe1uLc1r3it8zo1_500.jpg]",
+   "expected": "סטטוסים מצייצים חוזר פעם שלישית, הפעם בתור “מצייצים”. עם אותו לוגו, אותה כתובת וכמעט אותו שם, הפעם זה ודאי - האלגוריתמים של פייסבוק לא מספיק מתוחכמים כדי לעלות על זה!",
+   "observed": "סטטוסים מצייצים חוזר פעם שלישית, הפעם בתור “מצייצים”. עם אותו לוגו, אותה כתובת וכמעט אותו שם, הפעם זה ודאי - האלגוריתמים של פייסבוק לא מספיק מתוחכמים כדי לעלות על זה!",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20150803153828",
+   "observed": "20150803153828",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20150803153828id_/http://40.media.tumblr.com/748b1f6e6724c5ae3d123e2a270dc1f5/tumblr_nrvpbe1uLc1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20150803153828id_/http://40.media.tumblr.com/748b1f6e6724c5ae3d123e2a270dc1f5/tumblr_nrvpbe1uLc1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20150803153828",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:02f25ebe749dc8f8601ae6a9f532f4e2e947673a0c5de5eea072f45b70cf3f43",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2016-08-17T10:12:08Z",
+  "org.opencontainers.image.description": "סטטוסים מצייצים חוזר פעם שלישית, הפעם בתור “מצייצים”. עם אותו לוגו, אותה כתובת וכמעט אותו שם, הפעם זה ודאי - האלגוריתמים של פייסבוק לא מספיק מתוחכמים כדי לעלות על זה!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 124734041188",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/124734041188",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "166",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "124734041188",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "אוסטין-פאוורס,austin-powers,למה-אתה-לא-מוכן-למות,סטטוסים-מצייצים,אבי-לן,Why-won't-you-die,פייסבוק"
+ },
+ "layers": [
+  {
+   "digest": "sha256:de4855cb093792348f2e75b6d6ba6539e5f56dc01ff41c9c3f01ab8b66ae44b3",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 43570
+  },
+  {
+   "digest": "sha256:f2c613ea24a98eccec629400626f301007e2ce029e30ef4ed71a6ca504eb9bb8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1564
+  }
+ ],
+ "manifest_digest": "sha256:0b024c7be9b48e83300c7a92adb7044d06de73de88dd2f18eac79cfa3b4f9f4f",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "124734041188",
+ "pulled_files": [
+  {
+   "bytes": 43826,
+   "file": "tumblr_nrvpbe1uLc1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:de4855cb093792348f2e75b6d6ba6539e5f56dc01ff41c9c3f01ab8b66ae44b3",
+   "role": "media",
+   "sha256": "d48f4ed6c90da30c65de35c08e8fbbf842364db17167ac61ff45c840780f06c3"
+  },
+  {
+   "bytes": 6293,
+   "file": "post.json",
+   "layer": "sha256:f2c613ea24a98eccec629400626f301007e2ce029e30ef4ed71a6ca504eb9bb8",
+   "role": "post-metadata",
+   "sha256": "584ee81ed994904248ed626eadba5a722a8f0634302ab58a78c64e5fab1bc352"
+  }
+ ],
+ "tag": "124734041188",
+ "verified_at": "2026-10-09T21:40:34Z"
+}

@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:1a4e6ed5d797b7099982cd3c333253d8b608b8b0bba8862027715e2ad2cb7565",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[O390NkH.gif]",
+   "expected": "44d5e54276c78f3258510075e25a9f8d1cf1bb7f18bb9dc5859dab3b24fe732b",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "O390NkH.gif",
+   "passed": true
+  },
+  {
+   "check": "image_size[O390NkH.gif]",
+   "expected": 1861535,
+   "observed": 1861535,
+   "passed": true
+  },
+  {
+   "check": "image_magic[O390NkH.gif]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מתוך הפרומו של המקור",
+   "observed": "מתוך הפרומו של המקור",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><img alt=\"image\" src=\"http://i.imgur.com/O390NkH.gif\" width=\"500\"/></p>\n<p><a href=\"http://www.youtube.com/watch?v=uFRIY1VvkCU\" title=\"המקור\" target=\"_blank\">מתוך הפרומו של המקור</a></p>",
+   "observed": "<p><img alt=\"image\" src=\"http://i.imgur.com/O390NkH.gif\" width=\"500\"/></p>\n<p><a href=\"http://www.youtube.com/watch?v=uFRIY1VvkCU\" title=\"המקור\" target=\"_blank\">מתוך הפרומו של המקור</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "Dick-Butt",
+    "המקור",
+    "גיף",
+    "ביבי",
+    "ציפי-לבני"
+   ],
+   "observed": [
+    "Dick-Butt",
+    "המקור",
+    "גיף",
+    "ביבי",
+    "ציפי-לבני"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/72682241439",
+   "observed": "http://hazfalafel.com:80/post/72682241439",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[O390NkH.gif]",
+   "expected": "image",
+   "observed": "image",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181228121403",
+   "observed": "20181228121403",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181228121403id_/http://i.imgur.com/O390NkH.gif",
+   "observed": "https://web.archive.org/web/20181228121403id_/http://i.imgur.com/O390NkH.gif",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181228121403",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:088b6cfd198d5a7c4b3bcad23ec7db4a5d5c4ce2829aa08054e68d5d208bb138",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-28T12:14:03Z",
+  "org.opencontainers.image.description": "מתוך הפרומו של המקור",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 72682241439",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/72682241439",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "20",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "72682241439",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "Dick-Butt,המקור,גיף,ביבי,ציפי-לבני"
+ },
+ "layers": [
+  {
+   "digest": "sha256:7d06b16a3cd11659a5e6b962873cace9331f5cdf42dc685866d74a870b403646",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1861345
+  },
+  {
+   "digest": "sha256:5f32ea0936c6bd7804d4543462e9b97b5047e968afaede6c6eaa1e3b6a26d24a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 939
+  }
+ ],
+ "manifest_digest": "sha256:1a4e6ed5d797b7099982cd3c333253d8b608b8b0bba8862027715e2ad2cb7565",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "72682241439",
+ "pulled_files": [
+  {
+   "bytes": 1861535,
+   "file": "O390NkH.gif",
+   "image_magic_ok": true,
+   "layer": "sha256:7d06b16a3cd11659a5e6b962873cace9331f5cdf42dc685866d74a870b403646",
+   "role": "media",
+   "sha256": "44d5e54276c78f3258510075e25a9f8d1cf1bb7f18bb9dc5859dab3b24fe732b"
+  },
+  {
+   "bytes": 1940,
+   "file": "post.json",
+   "layer": "sha256:5f32ea0936c6bd7804d4543462e9b97b5047e968afaede6c6eaa1e3b6a26d24a",
+   "role": "post-metadata",
+   "sha256": "a2d28656eaa7c47fa2313f1d8058386a49958ae4f62ba0f6c3b290fcb94a2bb9"
+  }
+ ],
+ "tag": "72682241439",
+ "verified_at": "2026-10-06T20:31:16Z"
+}

@@ -1,0 +1,209 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:42e49c67f4b3e4d2d88d32226efa41a4b689c64ffaf46001b33c1bb8e8e1e707",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxjrbav0Ye1r3it8zo1_500.jpg]",
+   "expected": "44bc9b3deeef3aad0ae62625ad4638b2f11b7bb2e0ca43b256ad2fdf6036614e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxjrbav0Ye1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxjrbav0Ye1r3it8zo1_500.jpg]",
+   "expected": 47278,
+   "observed": 47278,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxjrbav0Ye1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lxjrbav0Ye1r3it8zo1_250.jpg]",
+   "expected": "44bc9b3deeef3aad0ae62625ad4638b2f11b7bb2e0ca43b256ad2fdf6036614e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lxjrbav0Ye1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lxjrbav0Ye1r3it8zo1_250.jpg]",
+   "expected": 47278,
+   "observed": 47278,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lxjrbav0Ye1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "“גשם!!!11”\nתודה לדניאל זאוטנר",
+   "observed": "“גשם!!!11”\nתודה לדניאל זאוטנר",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>“גשם!!!11”</p>\n<p>תודה ל<strong>דניאל זאוטנר</strong></p>",
+   "observed": "<p>“גשם!!!11”</p>\n<p>תודה ל<strong>דניאל זאוטנר</strong></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "פקאצת-פייסבוק"
+   ],
+   "observed": [
+    "פקאצת-פייסבוק"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "“גשם!!!11”\nתודה לדניאל זאוטנר"
+   ],
+   "observed": [
+    "“גשם!!!11”\nתודה לדניאל זאוטנר"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15577014830/11",
+   "observed": "http://hazfalafel.com:80/post/15577014830/11",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxjrbav0Ye1r3it8zo1_500.jpg]",
+   "expected": "“גשם!!!11”\nתודה לדניאל זאוטנר",
+   "observed": "“גשם!!!11”\nתודה לדניאל זאוטנר",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lxjrbav0Ye1r3it8zo1_250.jpg]",
+   "expected": "“גשם!!!11”\nתודה לדניאל זאוטנר",
+   "observed": "“גשם!!!11”\nתודה לדניאל זאוטנר",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130930175155",
+   "observed": "20130930175155",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130930175155id_/http://29.media.tumblr.com/tumblr_lxjrbav0Ye1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20130930175155id_/http://29.media.tumblr.com/tumblr_lxjrbav0Ye1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130930175155",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:2ae0ebb9a694677904143b9fb2fc9fd80fe2e57a189f81f71ca70f7eb3738d49",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2013-09-30T17:51:55Z",
+  "org.opencontainers.image.description": "“גשם!!!11”",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15577014830",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15577014830/11",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "29",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15577014830",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "פקאצת-פייסבוק"
+ },
+ "layers": [
+  {
+   "digest": "sha256:b3cf003cc278f9b327776d60ac9229fe78ebed36c211ca67ed1d6391a5e80d90",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 45611
+  },
+  {
+   "digest": "sha256:36f6d607130bf75649a8019cef4adb5bdeea7b50e4c837b17728620e852c704e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 45609
+  },
+  {
+   "digest": "sha256:7663287297574ba7786b3dcb90ab46f2da7ad5665029426eec45bf946ecbc240",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 860
+  }
+ ],
+ "manifest_digest": "sha256:42e49c67f4b3e4d2d88d32226efa41a4b689c64ffaf46001b33c1bb8e8e1e707",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15577014830",
+ "pulled_files": [
+  {
+   "bytes": 47278,
+   "file": "tumblr_lxjrbav0Ye1r3it8zo1_500.jpg.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b3cf003cc278f9b327776d60ac9229fe78ebed36c211ca67ed1d6391a5e80d90",
+   "role": "media",
+   "sha256": "44bc9b3deeef3aad0ae62625ad4638b2f11b7bb2e0ca43b256ad2fdf6036614e"
+  },
+  {
+   "bytes": 47278,
+   "file": "tumblr_lxjrbav0Ye1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:36f6d607130bf75649a8019cef4adb5bdeea7b50e4c837b17728620e852c704e",
+   "role": "media",
+   "sha256": "44bc9b3deeef3aad0ae62625ad4638b2f11b7bb2e0ca43b256ad2fdf6036614e"
+  },
+  {
+   "bytes": 2347,
+   "file": "post.json",
+   "layer": "sha256:7663287297574ba7786b3dcb90ab46f2da7ad5665029426eec45bf946ecbc240",
+   "role": "post-metadata",
+   "sha256": "fcaec6de9672d76069ce6e0c76cf22d83296be0ccb14473e93140be301e26fd1"
+  }
+ ],
+ "tag": "15577014830",
+ "verified_at": "2026-10-09T01:48:33Z"
+}

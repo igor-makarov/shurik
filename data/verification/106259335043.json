@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:4f72664aa70cf72f8406526c6b2c8079a37c49b45870dee38ebc412012740fec",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_nh7mauUfns1r3it8zo1_500.jpg]",
+   "expected": "11b6a7e661a49d112c2a3cc5bda9d5ad4bc21fa803ac03d8d519e3aa52d7dc23",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_nh7mauUfns1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_nh7mauUfns1r3it8zo1_500.jpg]",
+   "expected": 90708,
+   "observed": 90708,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_nh7mauUfns1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מסורת של שישי ישראלי\nתודה לאסף מדיקס ווקסלר\nחשד: אם דקרה את בנה במהלך ארוחת השבת (מאקו)",
+   "observed": "מסורת של שישי ישראלי\nתודה לאסף מדיקס ווקסלר\nחשד: אם דקרה את בנה במהלך ארוחת השבת (מאקו)",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<1764 chars>",
+   "observed": "<1764 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "csi",
+    "שישי-ישראלי",
+    "חדשות"
+   ],
+   "observed": [
+    "csi",
+    "שישי-ישראלי",
+    "חדשות"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מסורת של שישי ישראלי\nתודה לאסף מדיקס ווקסלר\nחשד: אם דקרה את בנה במהלך ארוחת השבת (מאקו)"
+   ],
+   "observed": [
+    "מסורת של שישי ישראלי\nתודה לאסף מדיקס ווקסלר\nחשד: אם דקרה את בנה במהלך ארוחת השבת (מאקו)"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/106259335043",
+   "observed": "https://hazfalafel.com/post/106259335043",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_nh7mauUfns1r3it8zo1_500.jpg]",
+   "expected": "מסורת של שישי ישראלי\nתודה לאסף מדיקס ווקסלר\nחשד: אם דקרה את בנה במהלך ארוחת השבת (מאקו)",
+   "observed": "מסורת של שישי ישראלי\nתודה לאסף מדיקס ווקסלר\nחשד: אם דקרה את בנה במהלך ארוחת השבת (מאקו)",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20151115183658",
+   "observed": "20151115183658",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20151115183658id_/http://41.media.tumblr.com/325615c268ea849095e4b9f2a0ced240/tumblr_nh7mauUfns1r3it8zo1_400.jpg",
+   "observed": "https://web.archive.org/web/20151115183658id_/http://41.media.tumblr.com/325615c268ea849095e4b9f2a0ced240/tumblr_nh7mauUfns1r3it8zo1_400.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20151115183658",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:f8ff2e075f600fab5cdb68cf242154397b615393e234ee04bfd3915cac500ffa",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T09:05:50Z",
+  "org.opencontainers.image.description": "מסורת של שישי ישראלי",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 106259335043",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/106259335043",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "87",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "106259335043",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "csi,שישי-ישראלי,חדשות"
+ },
+ "layers": [
+  {
+   "digest": "sha256:0b9d62abce5f1034d2a6e47cc67c36d204299fba14db633c017c9b4d1f86ed59",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 88467
+  },
+  {
+   "digest": "sha256:7a14f13dced7689d9991d27b16b015813290fe2e50c4f4fa55e89b18c0b07115",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 2021
+  }
+ ],
+ "manifest_digest": "sha256:4f72664aa70cf72f8406526c6b2c8079a37c49b45870dee38ebc412012740fec",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "106259335043",
+ "pulled_files": [
+  {
+   "bytes": 90708,
+   "file": "tumblr_nh7mauUfns1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:0b9d62abce5f1034d2a6e47cc67c36d204299fba14db633c017c9b4d1f86ed59",
+   "role": "media",
+   "sha256": "11b6a7e661a49d112c2a3cc5bda9d5ad4bc21fa803ac03d8d519e3aa52d7dc23"
+  },
+  {
+   "bytes": 9503,
+   "file": "post.json",
+   "layer": "sha256:7a14f13dced7689d9991d27b16b015813290fe2e50c4f4fa55e89b18c0b07115",
+   "role": "post-metadata",
+   "sha256": "9e08a939370fd489c555de0e25e67afe77ba67dd897ca612c1b073f280d2f856"
+  }
+ ],
+ "tag": "106259335043",
+ "verified_at": "2026-10-08T22:56:45Z"
+}

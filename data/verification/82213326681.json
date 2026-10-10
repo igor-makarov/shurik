@@ -1,0 +1,162 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:b85c1fb61f4126605ddeb60ee644506f192d93f5b483cdf456101a67f623c736",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[PBj4mwW.jpg]",
+   "expected": "94d100bcbef833db564e56d60668b35d8852781a08ed598d00459ddafa2a02a2",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "PBj4mwW.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[PBj4mwW.jpg]",
+   "expected": 78219,
+   "observed": 78219,
+   "passed": true
+  },
+  {
+   "check": "image_magic[PBj4mwW.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "Fuck the king!",
+   "observed": "Fuck the king!",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p><img src=\"http://i.imgur.com/PBj4mwW.jpg?1\"></p>\n<p>Fuck the king!</p>",
+   "observed": "<p><img src=\"http://i.imgur.com/PBj4mwW.jpg?1\"></p>\n<p>Fuck the king!</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "יאיר-לפיד",
+    "משחקי-הכס"
+   ],
+   "observed": [
+    "יאיר-לפיד",
+    "משחקי-הכס"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/82213326681",
+   "observed": "http://hazfalafel.com/post/82213326681",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181228212654",
+   "observed": "20181228212654",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181228212654id_/http://i.imgur.com/PBj4mwW.jpg?1",
+   "observed": "https://web.archive.org/web/20181228212654id_/http://i.imgur.com/PBj4mwW.jpg?1",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181228212654",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:3ab39d1846468337a5047096cad19d6714fefe364967bb30de4d743b8359ca43",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-28T21:26:54Z",
+  "org.opencontainers.image.description": "Fuck the king!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 82213326681",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/82213326681",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "14",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "82213326681",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "יאיר-לפיד,משחקי-הכס"
+ },
+ "layers": [
+  {
+   "digest": "sha256:37ef5c18ec8bc1572ffd6468d7d9a70f83ae49a011c555d614cad31783ca92d7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 78227
+  },
+  {
+   "digest": "sha256:a76becadb6532f79f951faf8fcba45831410270fe015b8474c9cdeb95a29e4ff",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 797
+  }
+ ],
+ "manifest_digest": "sha256:b85c1fb61f4126605ddeb60ee644506f192d93f5b483cdf456101a67f623c736",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "82213326681",
+ "pulled_files": [
+  {
+   "bytes": 78219,
+   "file": "PBj4mwW.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:37ef5c18ec8bc1572ffd6468d7d9a70f83ae49a011c555d614cad31783ca92d7",
+   "role": "media",
+   "sha256": "94d100bcbef833db564e56d60668b35d8852781a08ed598d00459ddafa2a02a2"
+  },
+  {
+   "bytes": 1405,
+   "file": "post.json",
+   "layer": "sha256:a76becadb6532f79f951faf8fcba45831410270fe015b8474c9cdeb95a29e4ff",
+   "role": "post-metadata",
+   "sha256": "cd2fa9d7ab75ee2765104faeb88be541893d38efa58d6c1d52b0519e7bf1036e"
+  }
+ ],
+ "tag": "82213326681",
+ "verified_at": "2026-10-06T20:31:28Z"
+}

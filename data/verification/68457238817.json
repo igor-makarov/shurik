@@ -1,0 +1,176 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:3ea61feb6ab9b9aec5c4220dae733a46dbbc221523f2240f1aaceb835384c41e",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mx11laRDxC1r3it8zo1_500.jpg]",
+   "expected": "59ceb22fd2c0f54856836531905e8ddf72fb5de434702cbb1968eceb728af823",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mx11laRDxC1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mx11laRDxC1r3it8zo1_500.jpg]",
+   "expected": 161774,
+   "observed": 161774,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mx11laRDxC1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "תודה ל-ntheg111/reddit",
+   "observed": "תודה ל-ntheg111/reddit",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>תודה ל-<a href=\"http://www.reddit.com/user/ntheg111\" title=\"ntheg111\" target=\"_blank\">ntheg111/reddit</a></p>",
+   "observed": "<p>תודה ל-<a href=\"http://www.reddit.com/user/ntheg111\" title=\"ntheg111\" target=\"_blank\">ntheg111/reddit</a></p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חנוכה",
+    "דב-קוקאין",
+    "Cocaine-Bear",
+    "סופגניה"
+   ],
+   "observed": [
+    "חנוכה",
+    "דב-קוקאין",
+    "Cocaine-Bear",
+    "סופגניה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "תודה ל-ntheg111/reddit"
+   ],
+   "observed": [
+    "תודה ל-ntheg111/reddit"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/68457238817",
+   "observed": "http://hazfalafel.com:80/post/68457238817",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mx11laRDxC1r3it8zo1_500.jpg]",
+   "expected": "תודה ל-ntheg111/reddit",
+   "observed": "תודה ל-ntheg111/reddit",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20181214100626",
+   "observed": "20181214100626",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20181214100626id_/https://66.media.tumblr.com/edb7e5c9bdc1622de74d76323ab4a47c/tumblr_mx11laRDxC1r3it8zo1_1280.jpg",
+   "observed": "https://web.archive.org/web/20181214100626id_/https://66.media.tumblr.com/edb7e5c9bdc1622de74d76323ab4a47c/tumblr_mx11laRDxC1r3it8zo1_1280.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20181214100626",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:c462d5600c652840e3bc9253c271b7807012b09969bbb17cb72b82d96cca1106",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2018-12-14T10:06:26Z",
+  "org.opencontainers.image.description": "תודה ל-ntheg111/reddit",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 68457238817",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/68457238817",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "22",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "68457238817",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "חנוכה,דב-קוקאין,Cocaine-Bear,סופגניה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:50a9f3e54efb433409b48f09b35378cd0502f04ba9fd1e3183830f5f3828c43d",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 160968
+  },
+  {
+   "digest": "sha256:54008dc9e0907ff81c3005d380eae81f0c8953c98d45a509d49a5c27b7e2b1cb",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1187
+  }
+ ],
+ "manifest_digest": "sha256:3ea61feb6ab9b9aec5c4220dae733a46dbbc221523f2240f1aaceb835384c41e",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "68457238817",
+ "pulled_files": [
+  {
+   "bytes": 161774,
+   "file": "tumblr_mx11laRDxC1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:50a9f3e54efb433409b48f09b35378cd0502f04ba9fd1e3183830f5f3828c43d",
+   "role": "media",
+   "sha256": "59ceb22fd2c0f54856836531905e8ddf72fb5de434702cbb1968eceb728af823"
+  },
+  {
+   "bytes": 3921,
+   "file": "post.json",
+   "layer": "sha256:54008dc9e0907ff81c3005d380eae81f0c8953c98d45a509d49a5c27b7e2b1cb",
+   "role": "post-metadata",
+   "sha256": "15ab2dcb67f25237c1cfbaf25c7523f0aa928d32005209ded28a8d64687afa27"
+  }
+ ],
+ "tag": "68457238817",
+ "verified_at": "2026-10-09T10:02:57Z"
+}

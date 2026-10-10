@@ -1,0 +1,164 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:731c144afc74f295d49327a0f844690c0b8852ac71e607986c3f4e4eb31a14ee",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mxcillvQK81r3it8zo1_500.jpg]",
+   "expected": "882a313abeb3574db479ee7e667cd458f2fdb48965aefdb5d06c434142b64b58",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mxcillvQK81r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mxcillvQK81r3it8zo1_500.jpg]",
+   "expected": 98003,
+   "observed": 98003,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mxcillvQK81r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "קצת באיחור\nמלחמת הכוכביםאייל גולןstar wars",
+   "observed": "קצת באיחור\nמלחמת הכוכביםאייל גולןstar wars",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<650 chars>",
+   "observed": "<650 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מלחמת הכוכבים",
+    "אייל גולן",
+    "star wars"
+   ],
+   "observed": [
+    "מלחמת הכוכבים",
+    "אייל גולן",
+    "star wars"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/69088900531/amp",
+   "observed": "http://hazfalafel.com/post/69088900531/amp",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131222054429",
+   "observed": "20131222054429",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131222054429id_/http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20131222054429id_/http://25.media.tumblr.com/a78b69a4c9318a14afcc37e4ebaa31f9/tumblr_mxcillvQK81r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131222054429",
+   "passed": true
+  }
+ ],
+ "checks_passed": 16,
+ "checks_total": 16,
+ "config_digest": "sha256:facf143cb2526a80ffe2ae6c69578e6a6106f4d35855a3827e1e9f3db737fdf5",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-12-06T22:07:48Z",
+  "org.opencontainers.image.description": "קצת באיחור",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 69088900531",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/69088900531/amp",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "42",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "69088900531",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "מלחמת הכוכבים,אייל גולן,star wars"
+ },
+ "layers": [
+  {
+   "digest": "sha256:219e0204f935fdc8adc9853a6ff71837e2b454923984ee8084ce6e3605065726",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 97488
+  },
+  {
+   "digest": "sha256:eabd25b6081dfaad1bae13db4e6d21638185ccecc949fb1037a36b61e50e7550",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1370
+  }
+ ],
+ "manifest_digest": "sha256:731c144afc74f295d49327a0f844690c0b8852ac71e607986c3f4e4eb31a14ee",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "69088900531",
+ "pulled_files": [
+  {
+   "bytes": 98003,
+   "file": "tumblr_mxcillvQK81r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:219e0204f935fdc8adc9853a6ff71837e2b454923984ee8084ce6e3605065726",
+   "role": "media",
+   "sha256": "882a313abeb3574db479ee7e667cd458f2fdb48965aefdb5d06c434142b64b58"
+  },
+  {
+   "bytes": 6124,
+   "file": "post.json",
+   "layer": "sha256:eabd25b6081dfaad1bae13db4e6d21638185ccecc949fb1037a36b61e50e7550",
+   "role": "post-metadata",
+   "sha256": "b423b60bc69ec1e092a7afea6ae2deb6bc94f97b19b8465a86c77e7208c9fa36"
+  }
+ ],
+ "tag": "69088900531",
+ "verified_at": "2026-10-09T00:11:49Z"
+}

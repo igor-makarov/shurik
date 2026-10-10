@@ -1,0 +1,207 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:fe4235f475393fede4fbee13648ba96d1e46bd07dd0c2ed14f2a9d6f0f720ed7",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[prUsdqz.png]",
+   "expected": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "prUsdqz.png",
+   "passed": true
+  },
+  {
+   "check": "image_size[prUsdqz.png]",
+   "expected": 31319,
+   "observed": 31319,
+   "passed": true
+  },
+  {
+   "check": "image_magic[prUsdqz.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mnv48wKhCI1r3it8zo1_250.jpg]",
+   "expected": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mnv48wKhCI1r3it8zo1_250.jpg]",
+   "expected": 87678,
+   "observed": 87678,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mnv48wKhCI1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אינני מבין, כיצד הם מצאו אותי?!\nהאזינו: הלובים מארחים את ברי סחרוף (ynet)",
+   "observed": "אינני מבין, כיצד הם מצאו אותי?!\nהאזינו: הלובים מארחים את ברי סחרוף (ynet)",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<279 chars>",
+   "observed": "<279 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "בחזרה-לעתיד",
+    "back-to-the-future",
+    "הלובים",
+    "ברי-סחרוף",
+    "פסטיבל-ישראל"
+   ],
+   "observed": [
+    "בחזרה-לעתיד",
+    "back-to-the-future",
+    "הלובים",
+    "ברי-סחרוף",
+    "פסטיבל-ישראל"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/52151844735",
+   "observed": "http://hazfalafel.com/post/52151844735",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[prUsdqz.png]",
+   "expected": "image",
+   "observed": "image",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130924034019",
+   "observed": "20130924034019",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130924034019id_/http://i.imgur.com/prUsdqz.png",
+   "observed": "https://web.archive.org/web/20130924034019id_/http://i.imgur.com/prUsdqz.png",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130924034019",
+   "passed": true
+  }
+ ],
+ "checks_passed": 20,
+ "checks_total": 20,
+ "config_digest": "sha256:b7e71b56f36db487b07060baa5c4712827f10e1ecb98d99e16ec3265c5feb6ef",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2014-01-11T01:33:58Z",
+  "org.opencontainers.image.description": "אינני מבין, כיצד הם מצאו אותי?!",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 52151844735",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/52151844735",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "73",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "52151844735",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "בחזרה-לעתיד,back-to-the-future,הלובים,ברי-סחרוף,פסטיבל-ישראל"
+ },
+ "layers": [
+  {
+   "digest": "sha256:ca6c9e66787a8a2194204239c8fa6611557a773255e9b54e352723713e130bd7",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 30700
+  },
+  {
+   "digest": "sha256:4430072682efba3881e99ba49a26805e3c6c5f562dea0166eb78d1dcb1bc91cf",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 87436
+  },
+  {
+   "digest": "sha256:c041d88cb79089c6bd1038eaaff829cfb6acf0dc59c2c1fede6f224ebafb624f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1193
+  }
+ ],
+ "manifest_digest": "sha256:fe4235f475393fede4fbee13648ba96d1e46bd07dd0c2ed14f2a9d6f0f720ed7",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "52151844735",
+ "pulled_files": [
+  {
+   "bytes": 31319,
+   "file": "prUsdqz.png",
+   "image_magic_ok": true,
+   "layer": "sha256:ca6c9e66787a8a2194204239c8fa6611557a773255e9b54e352723713e130bd7",
+   "role": "media",
+   "sha256": "1e016188808f86ee9558dba479b16f2dcaf9ae0c8953b5ebed15f3e7d35b7cd6"
+  },
+  {
+   "bytes": 87678,
+   "file": "tumblr_mnv48wKhCI1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:4430072682efba3881e99ba49a26805e3c6c5f562dea0166eb78d1dcb1bc91cf",
+   "role": "media",
+   "sha256": "4ac338585a7e0d1cae2dc1401b31302bbc2f27895da7ef260de6badb628f6a6d"
+  },
+  {
+   "bytes": 2652,
+   "file": "post.json",
+   "layer": "sha256:c041d88cb79089c6bd1038eaaff829cfb6acf0dc59c2c1fede6f224ebafb624f",
+   "role": "post-metadata",
+   "sha256": "347bb9ba7672203b8513352df908fc47917f6e8c01d7dad64876706569ce855f"
+  }
+ ],
+ "tag": "52151844735",
+ "verified_at": "2026-10-09T00:12:07Z"
+}

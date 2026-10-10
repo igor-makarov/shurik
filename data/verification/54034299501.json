@@ -1,0 +1,168 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:5fc8fa0646ab18d311ea3e259402d939b7398f546cc67dbb9e867f222e5b086f",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[dobO1Cu.jpg]",
+   "expected": "378e3bb9bb48245653b295f780094a55ae39fc0cded78c52e56780b8dc1675d7",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "dobO1Cu.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[dobO1Cu.jpg]",
+   "expected": 220861,
+   "observed": 220861,
+   "passed": true
+  },
+  {
+   "check": "image_magic[dobO1Cu.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "לאור הבקשות עשינו המשך לשיר\nתודה ליואב גור, סילביה לסקר ונעה אור פלג\nמומלץ להאזין לשיר בזמן הצפייה (קישור לבית שני)",
+   "observed": "לאור הבקשות עשינו המשך לשיר\nתודה ליואב גור, סילביה לסקר ונעה אור פלג\nמומלץ להאזין לשיר בזמן הצפייה (קישור לבית שני)",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<1026 chars>",
+   "observed": "<1026 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מוניקה-סקס",
+    "מכה-אפורה"
+   ],
+   "observed": [
+    "מוניקה-סקס",
+    "מכה-אפורה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [],
+   "observed": [],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/54034299501",
+   "observed": "http://hazfalafel.com/post/54034299501",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[dobO1Cu.jpg]",
+   "expected": "image",
+   "observed": "image",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20131223035746",
+   "observed": "20131223035746",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20131223035746id_/http://i.imgur.com/dobO1Cu.jpg",
+   "observed": "https://web.archive.org/web/20131223035746id_/http://i.imgur.com/dobO1Cu.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20131223035746",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:ebf8f6f8077de1da1f35143c68106dd86c247d24d629eb3608d30394e9b32a2e",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T22:07:38Z",
+  "org.opencontainers.image.description": "לאור הבקשות עשינו המשך לשיר",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 54034299501",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/54034299501",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "115",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "54034299501",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "מוניקה-סקס,מכה-אפורה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:612f3b60e765e5bf4018d7a49b59d3be5debd372212521c8055fa99d8c7ae0b0",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 213204
+  },
+  {
+   "digest": "sha256:0e3edfc5f737be52a1a911d2c118a50fb6e3696c23ed3ccc4e8d2b3f3c4be7fa",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1317
+  }
+ ],
+ "manifest_digest": "sha256:5fc8fa0646ab18d311ea3e259402d939b7398f546cc67dbb9e867f222e5b086f",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "54034299501",
+ "pulled_files": [
+  {
+   "bytes": 220861,
+   "file": "dobO1Cu.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:612f3b60e765e5bf4018d7a49b59d3be5debd372212521c8055fa99d8c7ae0b0",
+   "role": "media",
+   "sha256": "378e3bb9bb48245653b295f780094a55ae39fc0cded78c52e56780b8dc1675d7"
+  },
+  {
+   "bytes": 2701,
+   "file": "post.json",
+   "layer": "sha256:0e3edfc5f737be52a1a911d2c118a50fb6e3696c23ed3ccc4e8d2b3f3c4be7fa",
+   "role": "post-metadata",
+   "sha256": "867a3336917ec9bb05eda2fe896855ef6ac396d88681e08c248655158a7efd19"
+  }
+ ],
+ "tag": "54034299501",
+ "verified_at": "2026-10-06T20:30:16Z"
+}

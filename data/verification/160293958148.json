@@ -1,0 +1,215 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:35eef0c4b87fb1653487986d590915029ae31d25ae7d4d103379bd5880dfc3a8",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_opf5im1U6A1r3it8zo1_500.jpg]",
+   "expected": "5e4e24321e657bcd86bc6af0c033ef3ca0a8077a5fc2b0e5a88e528df32d3a8f",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_opf5im1U6A1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_opf5im1U6A1r3it8zo1_500.jpg]",
+   "expected": 74676,
+   "observed": 74676,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_opf5im1U6A1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_opf5im1U6A1r3it8zo1_250.jpg]",
+   "expected": "5e4e24321e657bcd86bc6af0c033ef3ca0a8077a5fc2b0e5a88e528df32d3a8f",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_opf5im1U6A1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_opf5im1U6A1r3it8zo1_250.jpg]",
+   "expected": 74676,
+   "observed": 74676,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_opf5im1U6A1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you",
+   "observed": "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<471 chars>",
+   "observed": "<471 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "מלחמת-הכוכבים",
+    "ביבי-נתניהו",
+    "ביבי",
+    "פוליטיקה"
+   ],
+   "observed": [
+    "מלחמת-הכוכבים",
+    "ביבי-נתניהו",
+    "ביבי",
+    "פוליטיקה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you"
+   ],
+   "observed": [
+    "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/160293958148",
+   "observed": "http://hazfalafel.com/post/160293958148",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_opf5im1U6A1r3it8zo1_500.jpg]",
+   "expected": "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you",
+   "observed": "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_opf5im1U6A1r3it8zo1_250.jpg]",
+   "expected": "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you",
+   "observed": "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?\nיום מלחמת הכוכבים שמח למי שחוגג - May the fourth be with you",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120430",
+   "observed": "20180721120430",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120430id_/https://78.media.tumblr.com/32181112c2f56b1242ba4ed74273b8fb/tumblr_opf5im1U6A1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120430id_/https://78.media.tumblr.com/32181112c2f56b1242ba4ed74273b8fb/tumblr_opf5im1U6A1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120430",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:ea602b1e85cc5eaddab8a899b2384d2af58abd6077be6e45b0be76e4366b3e33",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T08:50:54Z",
+  "org.opencontainers.image.description": "אלו מיקי מיקי זוהר ודוד ביטן שם ליד ביבי?",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 160293958148",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/160293958148",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "102",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "160293958148",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "מלחמת-הכוכבים,ביבי-נתניהו,ביבי,פוליטיקה"
+ },
+ "layers": [
+  {
+   "digest": "sha256:45e06bb0e95e501cf2d5c9b193a6dda865aa39745d1559fca4084b0fc55e0072",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 74721
+  },
+  {
+   "digest": "sha256:6915ba3683a70b9553638f2d2a5ee14a82d9a9f1e259d524f1542b42e05045ff",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 74721
+  },
+  {
+   "digest": "sha256:6dfe5ebebff03b8cc080755c8ea5b8ca6c6d09965f265e07e097a2f146758931",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1584
+  }
+ ],
+ "manifest_digest": "sha256:35eef0c4b87fb1653487986d590915029ae31d25ae7d4d103379bd5880dfc3a8",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "160293958148",
+ "pulled_files": [
+  {
+   "bytes": 74676,
+   "file": "tumblr_opf5im1U6A1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:45e06bb0e95e501cf2d5c9b193a6dda865aa39745d1559fca4084b0fc55e0072",
+   "role": "media",
+   "sha256": "5e4e24321e657bcd86bc6af0c033ef3ca0a8077a5fc2b0e5a88e528df32d3a8f"
+  },
+  {
+   "bytes": 74676,
+   "file": "tumblr_opf5im1U6A1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:6915ba3683a70b9553638f2d2a5ee14a82d9a9f1e259d524f1542b42e05045ff",
+   "role": "media",
+   "sha256": "5e4e24321e657bcd86bc6af0c033ef3ca0a8077a5fc2b0e5a88e528df32d3a8f"
+  },
+  {
+   "bytes": 7220,
+   "file": "post.json",
+   "layer": "sha256:6dfe5ebebff03b8cc080755c8ea5b8ca6c6d09965f265e07e097a2f146758931",
+   "role": "post-metadata",
+   "sha256": "7cc253fa05f9519a6bab1933620c4906b113f691fab3bebaa04bfa90bddd873a"
+  }
+ ],
+ "tag": "160293958148",
+ "verified_at": "2026-10-09T15:58:36Z"
+}

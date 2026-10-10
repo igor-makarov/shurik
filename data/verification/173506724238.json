@@ -1,0 +1,219 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:c8b47ebf6352e9d407ad858c8fb98a21c42516f198d7acf74ed3e89a6af15d2b",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p838p3YaE61r3it8zo1_500.jpg]",
+   "expected": "1ed8b79ae806f8e30d02c358b350bb1428e56f558df53a42847d4fec9afa3fda",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p838p3YaE61r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p838p3YaE61r3it8zo1_500.jpg]",
+   "expected": 108356,
+   "observed": 108356,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p838p3YaE61r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p838p3YaE61r3it8zo1_250.jpg]",
+   "expected": "1ed8b79ae806f8e30d02c358b350bb1428e56f558df53a42847d4fec9afa3fda",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p838p3YaE61r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p838p3YaE61r3it8zo1_250.jpg]",
+   "expected": 108356,
+   "observed": 108356,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p838p3YaE61r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן",
+   "observed": "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<1295 chars>",
+   "observed": "<1295 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "עובדות-שרוט",
+    "Schrute-Facts",
+    "ארנב",
+    "שפן",
+    "טורנדו",
+    "המשרד"
+   ],
+   "observed": [
+    "עובדות-שרוט",
+    "Schrute-Facts",
+    "ארנב",
+    "שפן",
+    "טורנדו",
+    "המשרד"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן"
+   ],
+   "observed": [
+    "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173506724238",
+   "observed": "https://hazfalafel.com/post/173506724238",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p838p3YaE61r3it8zo1_500.jpg]",
+   "expected": "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן",
+   "observed": "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p838p3YaE61r3it8zo1_250.jpg]",
+   "expected": "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן",
+   "observed": "כמה פעמים צריך להסביר:\nקוסם שולף *ארנב* מהכובע!\nפלייבוי באני זה *ארנבת* פלייבוי!\nבאיורים של “השפן הקטן” מתואר *ארנב*!\nבפרק הבא - הנשר האמריקאי הוא בכלל עיט.\nתודה ליואב שכטמן",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120428",
+   "observed": "20180721120428",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120428id_/https://78.media.tumblr.com/d7c8d2e1095514f064654aef5fd82ba8/tumblr_p838p3YaE61r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120428id_/https://78.media.tumblr.com/d7c8d2e1095514f064654aef5fd82ba8/tumblr_p838p3YaE61r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120428",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:47cf0f66d462a9f17527fbfe86e0b39a4283a72f9904eca978c72d5ca42a17aa",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-08-24T07:33:52Z",
+  "org.opencontainers.image.description": "כמה פעמים צריך להסביר:",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173506724238",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173506724238",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "173",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173506724238",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "עובדות-שרוט,Schrute-Facts,ארנב,שפן,טורנדו,המשרד"
+ },
+ "layers": [
+  {
+   "digest": "sha256:6d9d6c4a2085a49e0ba499ffd487a0ede62f0a74347132b53f6ff54b91a66fe8",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 108250
+  },
+  {
+   "digest": "sha256:363caae895e19883ab5f65caacb8900f0c2b915047c765db0fb7672fc7d1175f",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 108250
+  },
+  {
+   "digest": "sha256:1947cd89dcea65451509d57bf0d3d0ce19f2b4bb1e9bd0f3ff08d6cbf34ef634",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1835
+  }
+ ],
+ "manifest_digest": "sha256:c8b47ebf6352e9d407ad858c8fb98a21c42516f198d7acf74ed3e89a6af15d2b",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173506724238",
+ "pulled_files": [
+  {
+   "bytes": 108356,
+   "file": "tumblr_p838p3YaE61r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:6d9d6c4a2085a49e0ba499ffd487a0ede62f0a74347132b53f6ff54b91a66fe8",
+   "role": "media",
+   "sha256": "1ed8b79ae806f8e30d02c358b350bb1428e56f558df53a42847d4fec9afa3fda"
+  },
+  {
+   "bytes": 108356,
+   "file": "tumblr_p838p3YaE61r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:363caae895e19883ab5f65caacb8900f0c2b915047c765db0fb7672fc7d1175f",
+   "role": "media",
+   "sha256": "1ed8b79ae806f8e30d02c358b350bb1428e56f558df53a42847d4fec9afa3fda"
+  },
+  {
+   "bytes": 6978,
+   "file": "post.json",
+   "layer": "sha256:1947cd89dcea65451509d57bf0d3d0ce19f2b4bb1e9bd0f3ff08d6cbf34ef634",
+   "role": "post-metadata",
+   "sha256": "07a34c184d824114578dca8feed8a096d7d0800274075ea45b47373893a048af"
+  }
+ ],
+ "tag": "173506724238",
+ "verified_at": "2026-10-09T01:48:34Z"
+}

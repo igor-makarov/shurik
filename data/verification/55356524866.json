@@ -1,0 +1,174 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:cd5493d212f9e7f02fdb91ada98132340e30c46f866104a875fc7c2cf2e272da",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_mpoh6ao6M81r3it8zo1_500.jpg]",
+   "expected": "70772d13d4e218f06976a678820d11d8b17c4df23fe03fe51de7461005ea90be",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_mpoh6ao6M81r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_mpoh6ao6M81r3it8zo1_500.jpg]",
+   "expected": 102178,
+   "observed": 102178,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_mpoh6ao6M81r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "וכביש 431 יוצא מתל אביב ונגמר באמצע שום מקום",
+   "observed": "וכביש 431 יוצא מתל אביב ונגמר באמצע שום מקום",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<249 chars>",
+   "observed": "<249 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "dwight-schrute",
+    "דוויט-שרוט",
+    "Waze"
+   ],
+   "observed": [
+    "dwight-schrute",
+    "דוויט-שרוט",
+    "Waze"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "וכביש 431 יוצא מתל אביב ונגמר באמצע שום מקום"
+   ],
+   "observed": [
+    "וכביש 431 יוצא מתל אביב ונגמר באמצע שום מקום"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/55356524866",
+   "observed": "http://hazfalafel.com/post/55356524866",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_mpoh6ao6M81r3it8zo1_500.jpg]",
+   "expected": "וכביש 431 יוצא מתל אביב ונגמר באמצע שום מקום",
+   "observed": "וכביש 431 יוצא מתל אביב ונגמר באמצע שום מקום",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20140111020135",
+   "observed": "20140111020135",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20140111020135id_/http://25.media.tumblr.com/25228a1502795b4d4afe7c0bd6ffc231/tumblr_mpoh6ao6M81r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20140111020135id_/http://25.media.tumblr.com/25228a1502795b4d4afe7c0bd6ffc231/tumblr_mpoh6ao6M81r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20140111020135",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:796ddbc82b0fbdb6c7941c580190f68ab804c18b362eafc183abd5735b014d77",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-10T18:49:01Z",
+  "org.opencontainers.image.description": "וכביש 431 יוצא מתל אביב ונגמר באמצע שום מקום",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 55356524866",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/55356524866",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "44",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "55356524866",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "3",
+  "shurik.post.tags": "dwight-schrute,דוויט-שרוט,Waze"
+ },
+ "layers": [
+  {
+   "digest": "sha256:f9fde73e6745fc88ec5464e93b426a2b82ee8f03f06bdb21b3d50532ac19f4cc",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 102287
+  },
+  {
+   "digest": "sha256:0abfb9c9857f1e17337010941c0498f226bde5f628f32ba76260642a8c55dc6e",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1480
+  }
+ ],
+ "manifest_digest": "sha256:cd5493d212f9e7f02fdb91ada98132340e30c46f866104a875fc7c2cf2e272da",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "55356524866",
+ "pulled_files": [
+  {
+   "bytes": 102178,
+   "file": "tumblr_mpoh6ao6M81r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:f9fde73e6745fc88ec5464e93b426a2b82ee8f03f06bdb21b3d50532ac19f4cc",
+   "role": "media",
+   "sha256": "70772d13d4e218f06976a678820d11d8b17c4df23fe03fe51de7461005ea90be"
+  },
+  {
+   "bytes": 8331,
+   "file": "post.json",
+   "layer": "sha256:0abfb9c9857f1e17337010941c0498f226bde5f628f32ba76260642a8c55dc6e",
+   "role": "post-metadata",
+   "sha256": "81f737fb3f77dbd388d25d829da77a378b8d435e6009936c303e43b156dc7800"
+  }
+ ],
+ "tag": "55356524866",
+ "verified_at": "2026-10-08T23:07:32Z"
+}

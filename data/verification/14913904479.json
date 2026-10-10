@@ -1,0 +1,172 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:ff07993fb9df2defa86c8e9c8f7d1dbcf22766b8d9891dec89c9445932445792",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lwwuyhLUVq1r1bcmho1_250.jpg]",
+   "expected": "98d287286a2efa18b0181d5476b761e58f80ef84c54c029c0cf84ae3880984d7",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lwwuyhLUVq1r1bcmho1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lwwuyhLUVq1r1bcmho1_250.jpg]",
+   "expected": 34440,
+   "observed": 34440,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lwwuyhLUVq1r1bcmho1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "עושה משהו בעברית, אף אחד מהערסים לא בא",
+   "observed": "עושה משהו בעברית, אף אחד מהערסים לא בא",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>עושה משהו בעברית, אף אחד מהערסים לא בא</p>",
+   "observed": "<p>עושה משהו בעברית, אף אחד מהערסים לא בא</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "לבד-לעד",
+    "כל-הערסים"
+   ],
+   "observed": [
+    "לבד-לעד",
+    "כל-הערסים"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "עושה משהו בעברית, אף אחד מהערסים לא בא"
+   ],
+   "observed": [
+    "עושה משהו בעברית, אף אחד מהערסים לא בא"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/14913904479",
+   "observed": "http://hazfalafel.com/post/14913904479",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lwwuyhLUVq1r1bcmho1_250.jpg]",
+   "expected": "עושה משהו בעברית, אף אחד מהערסים לא בא",
+   "observed": "עושה משהו בעברית, אף אחד מהערסים לא בא",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20120117201524",
+   "observed": "20120117201524",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20120117201524id_/http://24.media.tumblr.com/tumblr_lwwuyhLUVq1r1bcmho1_250.jpg",
+   "observed": "https://web.archive.org/web/20120117201524id_/http://24.media.tumblr.com/tumblr_lwwuyhLUVq1r1bcmho1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20120117201524",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:924fbfbebebe76d45caf3b94ce56ad4d7ed5ea364960ae31cb6ecdf51bd8b218",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2017-11-11T12:21:17Z",
+  "org.opencontainers.image.description": "עושה משהו בעברית, אף אחד מהערסים לא בא",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 14913904479",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/14913904479",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "38",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "14913904479",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "2",
+  "shurik.post.tags": "לבד-לעד,כל-הערסים"
+ },
+ "layers": [
+  {
+   "digest": "sha256:ef8b971595492eddb91b9bbb8015941e35521d81b193a4f9b93a4fc87c8b17d6",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 24226
+  },
+  {
+   "digest": "sha256:53d555d32b898b34aca86f1db2d10032742b4c4a9db52aa698712183b98a2569",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1636
+  }
+ ],
+ "manifest_digest": "sha256:ff07993fb9df2defa86c8e9c8f7d1dbcf22766b8d9891dec89c9445932445792",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "14913904479",
+ "pulled_files": [
+  {
+   "bytes": 34440,
+   "file": "tumblr_lwwuyhLUVq1r1bcmho1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:ef8b971595492eddb91b9bbb8015941e35521d81b193a4f9b93a4fc87c8b17d6",
+   "role": "media",
+   "sha256": "98d287286a2efa18b0181d5476b761e58f80ef84c54c029c0cf84ae3880984d7"
+  },
+  {
+   "bytes": 9438,
+   "file": "post.json",
+   "layer": "sha256:53d555d32b898b34aca86f1db2d10032742b4c4a9db52aa698712183b98a2569",
+   "role": "post-metadata",
+   "sha256": "facd1bac0db9c965284ed9771e7eaf1cb782e4d1956e6260f139551491e92186"
+  }
+ ],
+ "tag": "14913904479",
+ "verified_at": "2026-10-09T17:11:36Z"
+}

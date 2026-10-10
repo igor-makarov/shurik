@@ -1,0 +1,209 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:7e675684d38c5117a9df7182889fabb16e6a6b5840fa8ac303cc44f886c85674",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 2,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 2,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8pu1hjF6G1r3it8zo1_500.jpg]",
+   "expected": "46beda882b7c3aa74fdb430afe524328120e96ab9c2abc3453ddc5a81ec46dd4",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8pu1hjF6G1r3it8zo1_500.jpg]",
+   "expected": 20689,
+   "observed": 20689,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8pu1hjF6G1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_p8pu1hjF6G1r3it8zo1_250.jpg]",
+   "expected": "46beda882b7c3aa74fdb430afe524328120e96ab9c2abc3453ddc5a81ec46dd4",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_p8pu1hjF6G1r3it8zo1_250.jpg]",
+   "expected": 20689,
+   "observed": 20689,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_p8pu1hjF6G1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "observed": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>&#1502;&#1511;&#1510;&#1493;&#1514; &#1506;&#1494;&#1492; &#1489;&#1488;&#1504;&#1493;,<br />&#1492;&#1489;&#1488;&#1504;&#1493; &#1488;&#1489;&#1504;&#1497;&#1501;.</p>",
+   "observed": "<p>&#1502;&#1511;&#1510;&#1493;&#1514; &#1506;&#1494;&#1492; &#1489;&#1488;&#1504;&#1493;,<br />&#1492;&#1489;&#1488;&#1504;&#1493; &#1488;&#1489;&#1504;&#1497;&#1501;.</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "חלאס-צחי"
+   ],
+   "observed": [
+    "חלאס-צחי"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מקצות עזה באנו,\nהבאנו אבנים."
+   ],
+   "observed": [
+    "מקצות עזה באנו,\nהבאנו אבנים."
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "https://hazfalafel.com/post/173890539078",
+   "observed": "https://hazfalafel.com/post/173890539078",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8pu1hjF6G1r3it8zo1_500.jpg]",
+   "expected": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "observed": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_p8pu1hjF6G1r3it8zo1_250.jpg]",
+   "expected": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "observed": "מקצות עזה באנו,\nהבאנו אבנים.",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20180721120428",
+   "observed": "20180721120428",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20180721120428id_/https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20180721120428id_/https://78.media.tumblr.com/6552d1440ea8b839201bbbe19e8dacec/tumblr_p8pu1hjF6G1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20180721120428",
+   "passed": true
+  }
+ ],
+ "checks_passed": 21,
+ "checks_total": 21,
+ "config_digest": "sha256:e48c215aa33d746176ec8aebfe71d983c086d222351ee20ddd333bcf46ae935e",
+ "failed_checks": [],
+ "images_verified": 2,
+ "labels": {
+  "org.opencontainers.image.created": "2019-07-28T15:33:20Z",
+  "org.opencontainers.image.description": "מקצות עזה באנו,",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 173890539078",
+  "org.opencontainers.image.url": "https://hazfalafel.com/post/173890539078",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "28",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "173890539078",
+  "shurik.post.images": "2",
+  "shurik.post.missing_images": "1",
+  "shurik.post.tags": "חלאס-צחי"
+ },
+ "layers": [
+  {
+   "digest": "sha256:5a976f7154604ee7e1fd9fa93c2305b4b8b9c59b24e840547af565d667370f44",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 20495
+  },
+  {
+   "digest": "sha256:851057edfdb1c6a80c1ca96f3174f7dbe95bd400c3c80c283e9fec926a68b98a",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 20495
+  },
+  {
+   "digest": "sha256:513a542554547cf86d371b336c4831203031a4ad5a8b399f36ee29832c361457",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1198
+  }
+ ],
+ "manifest_digest": "sha256:7e675684d38c5117a9df7182889fabb16e6a6b5840fa8ac303cc44f886c85674",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "173890539078",
+ "pulled_files": [
+  {
+   "bytes": 20689,
+   "file": "tumblr_p8pu1hjF6G1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:5a976f7154604ee7e1fd9fa93c2305b4b8b9c59b24e840547af565d667370f44",
+   "role": "media",
+   "sha256": "46beda882b7c3aa74fdb430afe524328120e96ab9c2abc3453ddc5a81ec46dd4"
+  },
+  {
+   "bytes": 20689,
+   "file": "tumblr_p8pu1hjF6G1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:851057edfdb1c6a80c1ca96f3174f7dbe95bd400c3c80c283e9fec926a68b98a",
+   "role": "media",
+   "sha256": "46beda882b7c3aa74fdb430afe524328120e96ab9c2abc3453ddc5a81ec46dd4"
+  },
+  {
+   "bytes": 4625,
+   "file": "post.json",
+   "layer": "sha256:513a542554547cf86d371b336c4831203031a4ad5a8b399f36ee29832c361457",
+   "role": "post-metadata",
+   "sha256": "c368997cef6de5b120b853c05dd8f8b1f369fb42600f64b156d8cdf37a017baf"
+  }
+ ],
+ "tag": "173890539078",
+ "verified_at": "2026-10-09T01:48:36Z"
+}

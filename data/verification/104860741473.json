@@ -1,0 +1,254 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:9db9a2e135e2fa077f1f179bea6df53eb81428788dc94712d3f571c152f3d263",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 3,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 3,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ngdt8o2sRv1r3it8zo1_500.jpg]",
+   "expected": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ngdt8o2sRv1r3it8zo1_500.jpg]",
+   "expected": 44475,
+   "observed": 44475,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ngdt8o2sRv1r3it8zo1_500.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg]",
+   "expected": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg]",
+   "expected": 44475,
+   "observed": 44475,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_ngdt8o2sRv1r3it8zo1_250.jpg]",
+   "expected": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_ngdt8o2sRv1r3it8zo1_250.jpg]",
+   "expected": 44475,
+   "observed": 44475,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_ngdt8o2sRv1r3it8zo1_250.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "מעוניינים לברך את כחלון ומפלגת “כולנו” ואת ציפי ובוז’י ומפלגת… ציפוז’י?\nתודה לג’ון ברנר",
+   "observed": "מעוניינים לברך את כחלון ומפלגת “כולנו” ואת ציפי ובוז’י ומפלגת… ציפוז’י?\nתודה לג’ון ברנר",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<222 chars>",
+   "observed": "<222 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "אני-צריך-לקנות-סירה",
+    "I-SHOULD-BUY-A-BOAT",
+    "בחירות",
+    "בחירות-2015"
+   ],
+   "observed": [
+    "אני-צריך-לקנות-סירה",
+    "I-SHOULD-BUY-A-BOAT",
+    "בחירות",
+    "בחירות-2015"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר"
+   ],
+   "observed": [
+    "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com/post/104860741473",
+   "observed": "http://hazfalafel.com/post/104860741473",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ngdt8o2sRv1r3it8zo1_500.jpg]",
+   "expected": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
+   "observed": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg]",
+   "expected": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
+   "observed": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_ngdt8o2sRv1r3it8zo1_250.jpg]",
+   "expected": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
+   "observed": "מעוניינים לברך את כחלון ומפלגת &#8220;כולנו&#8221; ואת ציפי ובוז&#8217;י ומפלגת&#8230; ציפוז&#8217;י?\nתודה לג&#8217;ון ברנר",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20141222024812",
+   "observed": "20141222024812",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20141222024812id_/http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
+   "observed": "https://web.archive.org/web/20141222024812id_/http://40.media.tumblr.com/46d8d7b78f377e7db41bd71f1bfc980d/tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20141222024812",
+   "passed": true
+  }
+ ],
+ "checks_passed": 25,
+ "checks_total": 25,
+ "config_digest": "sha256:66a012f2ae96973c9fffe4126e05ae6549722fcec7171a5feae7afbb4153d9b2",
+ "failed_checks": [],
+ "images_verified": 3,
+ "labels": {
+  "org.opencontainers.image.created": "2015-02-16T05:54:45Z",
+  "org.opencontainers.image.description": "מעוניינים לברך את כחלון ומפלגת “כולנו” ואת ציפי ובוז’י ומפלגת… ציפוז’י?",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 104860741473",
+  "org.opencontainers.image.url": "http://hazfalafel.com/post/104860741473",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "87",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "104860741473",
+  "shurik.post.images": "3",
+  "shurik.post.missing_images": "0",
+  "shurik.post.tags": "אני-צריך-לקנות-סירה,I-SHOULD-BUY-A-BOAT,בחירות,בחירות-2015"
+ },
+ "layers": [
+  {
+   "digest": "sha256:b5d6486359bfdfc72339c7fb816c36eed8c9295edc830f01a091b97f8646cf60",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 44510
+  },
+  {
+   "digest": "sha256:94509b2e0984d7194080de33608a2e1ee972ce03947f290bdc38f34574c94ced",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 44511
+  },
+  {
+   "digest": "sha256:31a66c7bdab52b54456d01db0cc56a1ef2708f92c74d774d2ab7653e09d35ad3",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 44510
+  },
+  {
+   "digest": "sha256:e3256a968d0a6f9b0f41de6d7a92b86080d467f4e66890356a2c27988a6aa155",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1132
+  }
+ ],
+ "manifest_digest": "sha256:9db9a2e135e2fa077f1f179bea6df53eb81428788dc94712d3f571c152f3d263",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "104860741473",
+ "pulled_files": [
+  {
+   "bytes": 44475,
+   "file": "tumblr_ngdt8o2sRv1r3it8zo1_500.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:b5d6486359bfdfc72339c7fb816c36eed8c9295edc830f01a091b97f8646cf60",
+   "role": "media",
+   "sha256": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72"
+  },
+  {
+   "bytes": 44475,
+   "file": "tumblr_ngdt8o2sRv1r3it8zo1_1280.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:94509b2e0984d7194080de33608a2e1ee972ce03947f290bdc38f34574c94ced",
+   "role": "media",
+   "sha256": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72"
+  },
+  {
+   "bytes": 44475,
+   "file": "tumblr_ngdt8o2sRv1r3it8zo1_250.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:31a66c7bdab52b54456d01db0cc56a1ef2708f92c74d774d2ab7653e09d35ad3",
+   "role": "media",
+   "sha256": "89f8c441083d8cca2c7de32332cca4200e4ffc2414539503c1514c9953e8aa72"
+  },
+  {
+   "bytes": 4340,
+   "file": "post.json",
+   "layer": "sha256:e3256a968d0a6f9b0f41de6d7a92b86080d467f4e66890356a2c27988a6aa155",
+   "role": "post-metadata",
+   "sha256": "fa3ccf95b2489b53f974a00d0c0ffc03ceeab04903e8634b1b8854e621562478"
+  }
+ ],
+ "tag": "104860741473",
+ "verified_at": "2026-10-08T23:58:55Z"
+}

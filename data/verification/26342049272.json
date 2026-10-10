@@ -1,0 +1,172 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:b71b76a38851e7118e9bc0ebf2027d3d867fe97a0da0a465e0d5c54174f103dd",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[i.imgur.com/8yrzn.jpg]",
+   "expected": "8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13.jpg",
+   "passed": true
+  },
+  {
+   "check": "image_size[i.imgur.com/8yrzn.jpg]",
+   "expected": 93608,
+   "observed": 93608,
+   "passed": true
+  },
+  {
+   "check": "image_magic[i.imgur.com/8yrzn.jpg]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "צולם במעונות של הטכניון\nנכתב על ידי רון דנון וצולם על ידי אברהם דניאל הוניגסבלום\nמקור\nהתמונה באיכות גבוהה",
+   "observed": "צולם במעונות של הטכניון\nנכתב על ידי רון דנון וצולם על ידי אברהם דניאל הוניגסבלום\nמקור\nהתמונה באיכות גבוהה",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<2272 chars>",
+   "observed": "<2272 chars>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "בעולם-האמיתי",
+    "אולד-ספייס"
+   ],
+   "observed": [
+    "בעולם-האמיתי",
+    "אולד-ספייס"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "צולם במעונות של הטכניון\nנכתב על ידי רון דנון וצולם על ידי אברהם דניאל הוניגסבלום\nמקור\nהתמונה באיכות גבוהה"
+   ],
+   "observed": [
+    "צולם במעונות של הטכניון\nנכתב על ידי רון דנון וצולם על ידי אברהם דניאל הוניגסבלום\nמקור\nהתמונה באיכות גבוהה"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/26342049272",
+   "observed": "http://hazfalafel.com:80/post/26342049272",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[i.imgur.com/8yrzn.jpg]",
+   "expected": "התמונה באיכות גבוהה",
+   "observed": "התמונה באיכות גבוהה",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20130606000438",
+   "observed": "20130606000438",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20130606000438id_/http://i.imgur.com/8yRzN.jpg",
+   "observed": "https://web.archive.org/web/20130606000438id_/http://i.imgur.com/8yRzN.jpg",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20130606000438",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:97e82b77780e7d86cd36f94c36f357568321be7294b80100bfd1a63a1a5ff5f3",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2013-06-06T00:04:38Z",
+  "org.opencontainers.image.description": "צולם במעונות של הטכניון",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 26342049272",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/26342049272",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "105",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "26342049272",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "3",
+  "shurik.post.tags": "בעולם-האמיתי,אולד-ספייס"
+ },
+ "layers": [
+  {
+   "digest": "sha256:38707fbe316782e9aa75515f3a97560b69e1102a8d542fbf3f194376316fca99",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 93812
+  },
+  {
+   "digest": "sha256:5bab75600d9a78957d8d21347ab4a17dc3b04455c1ee49ae2e486a53f5685462",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 2258
+  }
+ ],
+ "manifest_digest": "sha256:b71b76a38851e7118e9bc0ebf2027d3d867fe97a0da0a465e0d5c54174f103dd",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "26342049272",
+ "pulled_files": [
+  {
+   "bytes": 93608,
+   "file": "8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13.jpg",
+   "image_magic_ok": true,
+   "layer": "sha256:38707fbe316782e9aa75515f3a97560b69e1102a8d542fbf3f194376316fca99",
+   "role": "media",
+   "sha256": "8b6691d54a70feac46a7875f9a77d37270ea69d600f3fc5db027806c22cb5a13"
+  },
+  {
+   "bytes": 12627,
+   "file": "post.json",
+   "layer": "sha256:5bab75600d9a78957d8d21347ab4a17dc3b04455c1ee49ae2e486a53f5685462",
+   "role": "post-metadata",
+   "sha256": "a755c01978c7cdbc88401889db75fa7073ebf1c3b28c6dc1f96554b79919c3d4"
+  }
+ ],
+ "tag": "26342049272",
+ "verified_at": "2026-10-09T23:43:20Z"
+}
