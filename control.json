@@ -4,7 +4,7 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "running",
+  "status": "stopped",
   "generation": 23,
   "next": 352,
   "owner": {
@@ -19,7 +19,7 @@
   "source": "9a8f84f88f8fc01db7d4454501d26d7c9dcd1701",
   "sourceRef": "codex/hazfalafel-fresh",
   "createdAt": "2026-10-04T21:33:40.211Z",
-  "lastDispatchAt": "2026-10-10T01:35:12.589Z",
+  "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
   "lastRunId": "38008538744",
   "stateStorage": "control",
@@ -120,39 +120,39 @@
   },
   "monitorGuidancePause": {
     "experimentId": "falafel-throughput-20261009",
-    "cause": "First flat hourly window after five backlog verifications: duplicate completed external capture rediscovery and stale temporary HTTP body after000; target durable unfinished work and19 remaining verification hashes.",
-    "nonce": "falafel-throughput-check13-2026-10-09T21:00:01Z",
-    "originalGeneration": 22,
+    "cause": "Useful throughput fell over two hourly windows: no new image payloads/publications versus14 new hashes in preceding two hours; last2 pending unique-image verifications completed. Refresh completed worklist and redirect low-yield temporary cross-shard probing toward a measured new recovery opportunity.",
+    "nonce": "falafel-throughput-check18-2026-10-10T02:08:11Z",
+    "originalGeneration": 23,
     "originalDeadline": "2026-10-10T07:59:06.000Z",
     "originalCheckpoint": {
-      "workCommit": "139b1db7c7b3418f9f3515053826880debaa9ca6",
-      "generation": 22,
-      "sequence": "22-345",
-      "runId": "37990035577",
-      "at": "2026-10-09T20:59:15.987Z"
+      "workCommit": "78079b7294e5522846a3413a7a4e9bf75ae333b6",
+      "generation": 23,
+      "sequence": "23-352",
+      "runId": "38013748114",
+      "at": "2026-10-10T02:05:35.043Z"
     },
-    "stoppedAt": "2026-10-09T21:00:01Z",
+    "stoppedAt": "2026-10-10T02:08:11Z",
     "evidence": {
-      "controlHead": "9498f7ff74443bd42ff9467600bb431e255e33c3",
-      "workCommit": "139b1db7c7b3418f9f3515053826880debaa9ca6",
+      "controlHead": "11e628ba8acfef30f2c9a3762cdad0f96e0feb84",
+      "workCommit": "78079b7294e5522846a3413a7a4e9bf75ae333b6",
       "nativeEntries": [
-        38440,
-        38444,
-        38779,
-        38735
+        41189,
+        41253,
+        41383,
+        41495,
+        41503
       ],
-      "publicationImages": 343,
-      "positivePosts": 194,
-      "uniqueHashes": 207,
-      "byteVerifiedHashes": 183,
-      "priorVerificationBacklog": 19,
-      "experimentEstimatedUSD": 1.556566674,
-      "firstFlatWindow": true
-    },
-    "completedAt": "2026-10-09T21:05:45Z",
-    "outcome": "resumed_with_prompt_change",
-    "newGeneration": 23,
-    "promptCommit": "3a26fd9cd0a7956e6121d79d764902f30a2b38e1"
+      "publicationImages": 357,
+      "positivePosts": 206,
+      "uniqueHashes": 221,
+      "byteVerifiedHashes": 221,
+      "currentTwoWindowsNewImageHashes": 0,
+      "precedingTwoWindowsNewImageHashes": 14,
+      "currentWindowNewVerifiedHashes": 2,
+      "backlogClosed": true,
+      "experimentEstimatedUSD": 2.119389978,
+      "usagePartialThroughEntry": 41511
+    }
   },
   "monitorGuidancePauseHistory": [
     {
@@ -385,5 +385,6 @@
       "reasoning": "high",
       "deadline": "2026-10-10T07:59:06.000Z"
     }
-  ]
+  ],
+  "stoppedAt": "2026-10-10T02:08:11Z"
 }
