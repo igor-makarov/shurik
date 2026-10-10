@@ -5,7 +5,7 @@
  "captions": [
   "אתה מכין קפה?"
  ],
- "capture_timestamp": "20120223215750",
+ "capture_timestamp": "20120424145155",
  "captures": [
   {
    "error": null,
@@ -23,9 +23,9 @@
  "content_html": "<p>אתה מכין קפה?</p>",
  "content_source": "div.copy",
  "content_text": "אתה מכין קפה?",
- "date_text": "Posted 5 days ago",
+ "date_text": "Posted 2 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T12:00:32Z",
+ "fetched_at": "2026-10-10T02:43:36Z",
  "image_count": 0,
  "images": [
   {
@@ -187,6 +187,28 @@
     "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1.png",
     "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lz39kryZq61r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_lz39kryZq61r3it8zo1_250.jpg",
+   "media_url": "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_250.jpg",
+   "url_forms": [
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_250.jpg",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_1280.jpg",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_1024.jpg",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_540.jpg",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_500.jpg",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_400.jpg",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_100.jpg",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1.png",
+    "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -212,9 +234,19 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/17790517011"
+  },
+  {
+   "bytes": 56001,
+   "capture_timestamp": "20120424145155",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/17790517011"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 3,
  "missing_images": [
   {
    "attempts": [
@@ -270,11 +302,16 @@
    "attempts": [],
    "media_url": "http://67.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_250.jpg",
    "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://30.media.tumblr.com/tumblr_lz39kryZq61r3it8zo1_250.jpg",
+   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/17790517011",
  "page_bytes": 55163,
- "page_sha256": "a7a15889a617f227db0bda2b0ae955f5362ae2700b99433aaa3ddff90a438731",
+ "page_sha256": "dc780456971a08cf3c7acb5428ae20885eddfbbdb4b6419c9e511669d21e15b8",
  "partial": true,
  "post_id": "17790517011",
  "published": {
@@ -290,7 +327,7 @@
   ]
  },
  "refetched_captures": [],
- "replay_url": "https://web.archive.org/web/20120223215750id_/http://hazfalafel.com:80/post/17790517011",
+ "replay_url": "https://web.archive.org/web/20120424145155id_/http://hazfalafel.com:80/post/17790517011",
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [

@@ -6,7 +6,7 @@
  "captions": [
   "את רק בת 16"
  ],
- "capture_timestamp": "20120413235735",
+ "capture_timestamp": "20171111043131",
  "captures": [
   {
    "error": null,
@@ -21,12 +21,12 @@
    "timestamp": "20171111043131"
   }
  ],
- "content_html": "<p>את רק בת 16</p>",
+ "content_html": "<p>&#1488;&#1514; &#1512;&#1511; &#1489;&#1514; 16</p>",
  "content_source": "div.copy",
  "content_text": "את רק בת 16",
- "date_text": "Posted 1 month ago",
+ "date_text": "Posted 5 years ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T10:04:49Z",
+ "fetched_at": "2026-10-10T02:43:34Z",
  "image_count": 0,
  "images": [
   {
@@ -251,6 +251,28 @@
     "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
     "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lxjwvgZGwm1r3it8zo1.jpg",
+   "caption_alt": "את רק בת 16",
+   "found_in": "img",
+   "link_text": "",
+   "media_key": "tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+   "media_url": "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+   "url_forms": [
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg"
+   ],
+   "variants": [
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1280.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_1024.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_540.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_400.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_100.jpg",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.png",
+    "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -276,9 +298,19 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/17666950173/16"
+  },
+  {
+   "bytes": 66862,
+   "capture_timestamp": "20171111043131",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com/post/17666950173"
   }
  ],
- "missing_image_count": 2,
+ "missing_image_count": 3,
  "missing_images": [
   {
    "attempts": [
@@ -403,13 +435,19 @@
    ],
    "media_url": "http://24.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_250.jpg",
    "reason": "archive_gap"
+  },
+  {
+   "attempts": [],
+   "media_url": "http://78.media.tumblr.com/tumblr_lxjwvgZGwm1r3it8zo1_500.jpg",
+   "reason": null
   }
  ],
- "original_url": "http://hazfalafel.com:80/post/17666950173/16",
+ "original_url": "http://hazfalafel.com/post/17666950173",
  "page_bytes": 56865,
- "page_sha256": "a5d0ac90a9167035d4a65e62059b2c59360a56e4a3c656f8ad2bd125e1ebcb1d",
+ "page_sha256": "f2d53cfec7d447f9bad6dad8b214bd114e4dcfcdae03aac61993e5d7ce7cce61",
  "partial": true,
  "post_id": "17666950173",
+ "posted_on": "Posted on Wednesday the 15th of February 2012 at 9:38 PM",
  "published": {
   "action": "pushed",
   "at": "2026-10-05T00:26:30Z",
@@ -423,7 +461,7 @@
   ]
  },
  "refetched_captures": [],
- "replay_url": "https://web.archive.org/web/20120413235735id_/http://hazfalafel.com:80/post/17666950173/16",
+ "replay_url": "https://web.archive.org/web/20171111043131id_/http://hazfalafel.com/post/17666950173",
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [

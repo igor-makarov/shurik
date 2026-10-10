@@ -1,11 +1,12 @@
 {
  "canonical_urls": [
-  "http://hazfalafel.com:80/post/68751641955"
+  "http://hazfalafel.com:80/post/68751641955",
+  "http://hazfalafel.com:80/post/68751641955?route=%2Fpost%2F%3Aid"
  ],
  "captions": [
   "80 אלף שקל על מים. הוצאות בתי רה&#8221;מ\nנתניהו: אריק איינשטיין אמר שמוצצים את דמי\nתודה לרועי דיין"
  ],
- "capture_timestamp": "20131216230555",
+ "capture_timestamp": "20140221193632",
  "captures": [
   {
    "error": null,
@@ -18,14 +19,20 @@
    "kind": "perm",
    "original": "http://hazfalafel.com:80/post/68751641955",
    "timestamp": "20140221193632"
+  },
+  {
+   "error": null,
+   "kind": "other",
+   "original": "http://hazfalafel.com:80/post/68751641955?route=%2Fpost%2F%3Aid",
+   "timestamp": "20131218064124"
   }
  ],
  "content_html": "<p><a href=\"http://www.ynet.co.il/articles/0,7340,L-4459902,00.html\" title='80 אלף שקל על מים. הוצאות בתי רה\"מ' target=\"_blank\">80 אלף שקל על מים. הוצאות בתי רה&#8221;מ</a></p>\n<p><a href=\"http://www.ynet.co.il/articles/0,7340,L-4459974,00.html\" title=\"נתניהו: אריק איינשטיין אמר שמוצצים את דמי\" target=\"_blank\">נתניהו: אריק איינשטיין אמר שמוצצים את דמי</a></p>\n<p>תודה ל<a href=\"https://www.facebook.com/shokod\" title=\"רועי דיין\" target=\"_blank\">רועי דיין</a></p>",
  "content_source": "div.copy",
  "content_text": "80 אלף שקל על מים. הוצאות בתי רה”מ\nנתניהו: אריק איינשטיין אמר שמוצצים את דמי\nתודה לרועי דיין",
- "date_text": "Posted 2 weeks ago",
+ "date_text": "Posted 2 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-09T10:18:02Z",
+ "fetched_at": "2026-10-10T02:52:45Z",
  "image_count": 0,
  "images": [
   {
@@ -253,6 +260,26 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/68751641955"
+  },
+  {
+   "bytes": 63323,
+   "capture_timestamp": "20140221193632",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/68751641955"
+  },
+  {
+   "bytes": 61631,
+   "capture_timestamp": "20131218064124",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "other",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/68751641955?route=%2Fpost%2F%3Aid"
   }
  ],
  "missing_image_count": 3,
@@ -339,14 +366,14 @@
  ],
  "original_url": "http://hazfalafel.com:80/post/68751641955",
  "page_bytes": 61447,
- "page_sha256": "28426506e66370b7b95d20b2da589ee65b1b845259189ec511447e7b80995791",
+ "page_sha256": "64721d601e210d9e5ed85a2c78c1fde45c0f88d231f1cd62e726c456366f0a7a",
  "partial": true,
  "post_id": "68751641955",
  "posted_on": "Posted on Monday the 2nd of December 2013 at 6:52 AM",
  "refetched_captures": [
   "20131218064124"
  ],
- "replay_url": "https://web.archive.org/web/20131216230555id_/http://hazfalafel.com:80/post/68751641955",
+ "replay_url": "https://web.archive.org/web/20140221193632id_/http://hazfalafel.com:80/post/68751641955",
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [

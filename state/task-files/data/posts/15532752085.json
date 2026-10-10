@@ -5,7 +5,7 @@
  "captions": [
   "הוא היה הראשון לזהות את התופעה!\nתודה לדין לנגסם על התמיכה"
  ],
- "capture_timestamp": "20120114064825",
+ "capture_timestamp": "20120426031306",
  "captures": [
   {
    "error": null,
@@ -23,9 +23,9 @@
  "content_html": "<p>הוא היה הראשון לזהות את התופעה!</p>\n<p>תודה ל<strong>דין לנגסם</strong> על התמיכה</p>",
  "content_source": "div.copy",
  "content_text": "הוא היה הראשון לזהות את התופעה!\nתודה לדין לנגסם על התמיכה",
- "date_text": "Posted 5 days ago",
+ "date_text": "Posted 3 months ago",
  "failure_count": 0,
- "fetched_at": "2026-10-06T01:57:19Z",
+ "fetched_at": "2026-10-10T02:42:51Z",
  "image_count": 1,
  "images": [
   {
@@ -214,6 +214,28 @@
     "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1.png",
     "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1.gif"
    ]
+  },
+  {
+   "base_key": "tumblr_lxi4jkcMJY1r3it8zo1.jpg",
+   "caption_alt": "",
+   "found_in": "og:image",
+   "link_text": "",
+   "media_key": "tumblr_lxi4jkcMJY1r3it8zo1_250.jpg",
+   "media_url": "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_250.jpg",
+   "url_forms": [
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_250.jpg"
+   ],
+   "variants": [
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_250.jpg",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_1280.jpg",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_1024.jpg",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_540.jpg",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_500.jpg",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_400.jpg",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_100.jpg",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1.png",
+    "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1.gif"
+   ]
   }
  ],
  "images_done": true,
@@ -243,19 +265,34 @@
    "message": "",
    "status": 200,
    "url": "http://hazfalafel.com:80/post/15532752085"
+  },
+  {
+   "bytes": 52023,
+   "capture_timestamp": "20120426031306",
+   "endpoint": "replay id_",
+   "error": "ok",
+   "kind": "perm",
+   "message": "",
+   "status": 200,
+   "url": "http://hazfalafel.com:80/post/15532752085"
   }
  ],
- "missing_image_count": 1,
+ "missing_image_count": 2,
  "missing_images": [
   {
    "attempts": [],
    "media_url": "http://78.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_250.jpg",
    "reason": null
+  },
+  {
+   "attempts": [],
+   "media_url": "http://28.media.tumblr.com/tumblr_lxi4jkcMJY1r3it8zo1_250.jpg",
+   "reason": null
   }
  ],
  "original_url": "http://hazfalafel.com:80/post/15532752085",
  "page_bytes": 50224,
- "page_sha256": "f1dbd616414d199d093e91e977246944d8d1a2d0210c9dbb876f53a5e350d3f7",
+ "page_sha256": "f74cda1050e7db22af56c3b996ab5284995ef1ff7f556725a7a7ec5465d017f3",
  "partial": true,
  "post_id": "15532752085",
  "published": {
@@ -271,7 +308,7 @@
   ]
  },
  "refetched_captures": [],
- "replay_url": "https://web.archive.org/web/20120114064825id_/http://hazfalafel.com:80/post/15532752085",
+ "replay_url": "https://web.archive.org/web/20120426031306id_/http://hazfalafel.com:80/post/15532752085",
  "snapshot_retries": 0,
  "state": "partial",
  "tags": [
