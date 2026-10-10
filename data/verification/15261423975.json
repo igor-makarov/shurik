@@ -1,0 +1,170 @@
+{
+ "anonymous": true,
+ "checks": [
+  {
+   "check": "anonymous_manifest_pull",
+   "observed": "sha256:5444cc4a31fa71a186b75940d9fafeb2779ab150bd7ddb9ca1fc5e6a5ca03561",
+   "passed": true
+  },
+  {
+   "check": "source_label",
+   "expected": "https://github.com/igor-makarov/shurik",
+   "observed": "https://github.com/igor-makarov/shurik",
+   "passed": true
+  },
+  {
+   "check": "media_layer_count_matches_record",
+   "expected": 1,
+   "note": "number of image files actually inside the layers vs the post record",
+   "observed": 1,
+   "passed": true
+  },
+  {
+   "check": "image_bytes[tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png]",
+   "expected": "ab5d843c81d67929263050eb7e97abfe83bc3ccf0b2281e4ffdc320e15ab9b7e",
+   "note": "recovered image pulled anonymously out of an image layer",
+   "observed": "tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png",
+   "passed": true
+  },
+  {
+   "check": "image_size[tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png]",
+   "expected": 132848,
+   "observed": 132848,
+   "passed": true
+  },
+  {
+   "check": "image_magic[tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png]",
+   "expected": true,
+   "note": "the bytes really start with an image magic number",
+   "observed": true,
+   "passed": true
+  },
+  {
+   "check": "post_metadata_layer_present",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_text]",
+   "expected": "אני לא תמיד יורק על אנשים, אבל כשכן…",
+   "observed": "אני לא תמיד יורק על אנשים, אבל כשכן…",
+   "passed": true
+  },
+  {
+   "check": "metadata[content_html]",
+   "expected": "<p>אני לא תמיד יורק על אנשים, אבל כשכן&#8230;</p>",
+   "observed": "<p>אני לא תמיד יורק על אנשים, אבל כשכן&#8230;</p>",
+   "passed": true
+  },
+  {
+   "check": "metadata[tags]",
+   "expected": [
+    "האיש-הכי-מעניין-בעולם"
+   ],
+   "observed": [
+    "האיש-הכי-מעניין-בעולם"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[captions]",
+   "expected": [
+    "אני לא תמיד יורק על אנשים, אבל כשכן&#8230;"
+   ],
+   "observed": [
+    "אני לא תמיד יורק על אנשים, אבל כשכן&#8230;"
+   ],
+   "passed": true
+  },
+  {
+   "check": "metadata[original_url]",
+   "expected": "http://hazfalafel.com:80/post/15261423975",
+   "observed": "http://hazfalafel.com:80/post/15261423975",
+   "passed": true
+  },
+  {
+   "check": "metadata[cutoff]",
+   "expected": "20191231235959",
+   "observed": "20191231235959",
+   "passed": true
+  },
+  {
+   "check": "image_caption[tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png]",
+   "expected": "אני לא תמיד יורק על אנשים, אבל כשכן&#8230;",
+   "observed": "אני לא תמיד יורק על אנשים, אבל כשכן&#8230;",
+   "passed": true
+  },
+  {
+   "check": "provenance[capture_timestamp]",
+   "expected": "20140902160916",
+   "observed": "20140902160916",
+   "passed": true
+  },
+  {
+   "check": "provenance[replay_url]",
+   "expected": "https://web.archive.org/web/20140902160916id_/http://24.media.tumblr.com/tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png",
+   "observed": "https://web.archive.org/web/20140902160916id_/http://24.media.tumblr.com/tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png",
+   "passed": true
+  },
+  {
+   "check": "capture_within_cutoff",
+   "expected": "<= 20191231235959",
+   "observed": "20140902160916",
+   "passed": true
+  }
+ ],
+ "checks_passed": 17,
+ "checks_total": 17,
+ "config_digest": "sha256:ad2889fe97d77af7342f45f64d5ced44a73d3cc18412e7856eaeb812480fe2db",
+ "failed_checks": [],
+ "images_verified": 1,
+ "labels": {
+  "org.opencontainers.image.created": "2014-09-02T16:09:16Z",
+  "org.opencontainers.image.description": "אני לא תמיד יורק על אנשים, אבל כשכן…",
+  "org.opencontainers.image.licenses": "UNKNOWN",
+  "org.opencontainers.image.source": "https://github.com/igor-makarov/shurik",
+  "org.opencontainers.image.title": "hazfalafel post 15261423975",
+  "org.opencontainers.image.url": "http://hazfalafel.com:80/post/15261423975",
+  "org.opencontainers.image.vendor": "Hazfalafel (archived)",
+  "shurik.post.content_len": "36",
+  "shurik.post.cutoff": "20191231235959",
+  "shurik.post.id": "15261423975",
+  "shurik.post.images": "1",
+  "shurik.post.missing_images": "3",
+  "shurik.post.tags": "האיש-הכי-מעניין-בעולם"
+ },
+ "layers": [
+  {
+   "digest": "sha256:452f68bf0ff7c0d80bc34efb2002d22876f6dfb0f1b56a21adfe202ae4464465",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 133068
+  },
+  {
+   "digest": "sha256:3c40a1f8501201c51b129f841af84567f616699e89f490527bace742bc8717f6",
+   "mediaType": "application/vnd.oci.image.layer.v1.tar+gzip",
+   "size": 1384
+  }
+ ],
+ "manifest_digest": "sha256:5444cc4a31fa71a186b75940d9fafeb2779ab150bd7ddb9ca1fc5e6a5ca03561",
+ "package": "ghcr.io/igor-makarov/shurik-hazfalafel-com",
+ "passed": true,
+ "post_id": "15261423975",
+ "pulled_files": [
+  {
+   "bytes": 132848,
+   "file": "tumblr_lx8vz0T9qp1r3it8zo1_r2_250.png",
+   "image_magic_ok": true,
+   "layer": "sha256:452f68bf0ff7c0d80bc34efb2002d22876f6dfb0f1b56a21adfe202ae4464465",
+   "role": "media",
+   "sha256": "ab5d843c81d67929263050eb7e97abfe83bc3ccf0b2281e4ffdc320e15ab9b7e"
+  },
+  {
+   "bytes": 7419,
+   "file": "post.json",
+   "layer": "sha256:3c40a1f8501201c51b129f841af84567f616699e89f490527bace742bc8717f6",
+   "role": "post-metadata",
+   "sha256": "9c49b54575f4232d39326ed617d433130369d9305875d018ad3a8a3914261408"
+  }
+ ],
+ "tag": "15261423975",
+ "verified_at": "2026-10-10T03:07:22Z"
+}
