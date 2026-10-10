@@ -4,8 +4,8 @@
   "branch": "codex/shurik/hazfalafel-20261004t213311",
   "defaultBranch": "main",
   "supervisor": "0f70096aa0712d44ee6d3b1c7e555062da05882c",
-  "status": "stopped",
-  "generation": 23,
+  "status": "running",
+  "generation": 24,
   "next": 353,
   "owner": null,
   "deadline": "2026-10-10T07:59:06.000Z",
@@ -16,11 +16,11 @@
   "createdAt": "2026-10-04T21:33:40.211Z",
   "lastDispatchAt": null,
   "pr": "https://github.com/igor-makarov/shurik/pull/5",
-  "lastRunId": "38013748114",
+  "lastRunId": null,
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
-    "workCommit": "78079b7294e5522846a3413a7a4e9bf75ae333b6",
+    "workCommit": "6db1bdc57221e979d40e523dd752caff13295776",
     "generation": 23,
     "sequence": "23-352",
     "runId": "38013748114",
@@ -107,11 +107,11 @@
   },
   "activeExperiment": {
     "id": "falafel-throughput-20261009",
-    "generation": 23,
+    "generation": 24,
     "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261009-throughput.json",
     "deadline": "2026-10-10T07:59:06.000Z",
     "initialGeneration": 20,
-    "guidanceContinuationOfGeneration": 22
+    "guidanceContinuationOfGeneration": 23
   },
   "monitorGuidancePause": {
     "experimentId": "falafel-throughput-20261009",
@@ -147,7 +147,11 @@
       "backlogClosed": true,
       "experimentEstimatedUSD": 2.119389978,
       "usagePartialThroughEntry": 41511
-    }
+    },
+    "completedAt": "2026-10-10T02:12:32Z",
+    "outcome": "resumed_with_prompt_change",
+    "newGeneration": 24,
+    "promptCommit": "6db1bdc57221e979d40e523dd752caff13295776"
   },
   "monitorGuidancePauseHistory": [
     {
@@ -250,47 +254,55 @@
   ],
   "monitorGuidanceAdjustment": {
     "experimentId": "falafel-throughput-20261009",
-    "oldGeneration": 22,
-    "newGeneration": 23,
-    "at": "2026-10-09T21:05:45Z",
-    "reason": "First flat hourly window after five backlog verifications: duplicate completed external capture rediscovery and stale reused temporary response bodies after status000. Focus task-owned diagnosis on valid durable probe evidence, genuinely unfinished recovery and19 prior-image verification hashes; preserve autonomy and safeguards.",
-    "promptCommit": "3a26fd9cd0a7956e6121d79d764902f30a2b38e1",
+    "oldGeneration": 23,
+    "newGeneration": 24,
+    "at": "2026-10-10T02:12:32Z",
+    "reason": "Useful throughput fell over two hourly windows after14 new hashes:0 new payloads/publications,2 remaining anonymous verifications completed. Replace stale completed backlog; diagnose concrete directory/size omission in106-query cross-shard probe, preserve actually answered scopes and choose a measured useful recovery unit.",
+    "promptCommit": "6db1bdc57221e979d40e523dd752caff13295776",
     "parentEdits": [
       "PROMPT.md"
     ],
-    "pauseNonce": "falafel-throughput-check13-2026-10-09T21:00:01Z",
+    "pauseNonce": "falafel-throughput-check18-2026-10-10T02:08:11Z",
     "previousCheckpoint": {
-      "workCommit": "139b1db7c7b3418f9f3515053826880debaa9ca6",
-      "generation": 22,
-      "sequence": "22-345",
-      "runId": "37990035577",
-      "at": "2026-10-09T21:00:33.214Z"
+      "workCommit": "78079b7294e5522846a3413a7a4e9bf75ae333b6",
+      "generation": 23,
+      "sequence": "23-352",
+      "runId": "38013748114",
+      "at": "2026-10-10T02:08:33.778Z"
     },
     "evidence": {
-      "sourceControl": "9498f7ff74443bd42ff9467600bb431e255e33c3",
-      "finalSavedControl": "fd9e0e9e36fbeb99f9c43bf38e1689ace75765b1",
-      "previousCheckControl": "2af6379065b2e44b386cf934196905c7d93b6ee4",
+      "sourceControl": "11e628ba8acfef30f2c9a3762cdad0f96e0feb84",
+      "finalSavedControl": "bdfa6d82b6a1b1421e80ada0ceb83ed023d658a1",
+      "previousCheckControl": "ba4a4bcd023c2f148dddefedb4baab7bee34e875",
       "nativeEntries": [
-        38440,
-        38444,
-        38779,
-        38735
+        41189,
+        41253,
+        41493,
+        41495,
+        41503
       ],
-      "windowFrom": "2026-10-09T19:58:21.474Z",
-      "windowTo": "2026-10-09T21:00:33.214Z",
-      "publicationImages": 343,
-      "positivePosts": 194,
-      "uniqueHashes": 207,
-      "byteVerifiedHashes": 183,
-      "newDurableImageHashes": 0,
-      "newByteVerifiedHashes": 0,
-      "consecutiveFlatHourlyWindows": 1,
-      "priorVerificationBacklog": 19,
-      "duplicateRecoveredPost": "51736373134",
-      "duplicateRecoveredHash": "02ee9714fa2ebb7580d97013a839a2d305bc93fcd9bb2c6c8ed9ea6229e6ad5b",
-      "staleProbeBodyAfterNoHttpResponse": true,
-      "actualRawHostdumpSnapshotAbsent": true,
-      "experimentEstimatedUSD": 1.5644926199999931
+      "windowFrom": "2026-10-10T00:19:11.803Z",
+      "windowTo": "2026-10-10T02:08:33.778Z",
+      "publicationImages": 357,
+      "positivePosts": 206,
+      "uniqueHashes": 221,
+      "byteVerifiedHashes": 221,
+      "currentTwoWindowsNewDurableImageHashes": 0,
+      "precedingTwoWindowsNewDurableImageHashes": 14,
+      "newUniqueVerificationHashesThisWindow": 2,
+      "verificationBacklogClosed": true,
+      "probeBareBaseDropsDirectoryAndSize": true,
+      "examplePost": "141911803528",
+      "exampleStoredUrl": "http://68.media.tumblr.com/bec05edc316c2e3d91bdd57db39c2518/tumblr_o4tf7oElDa1r3it8zo1_500.jpg",
+      "sampleQueryCountsReported": [
+        92,
+        106
+      ],
+      "queriesSentNotIndependentlyTallied": true,
+      "scopedNegativeAnswersNotCarried": true,
+      "noRecoveredImagePayloadLossDemonstrated": true,
+      "experimentEstimatedUSD": 2.179736777999988,
+      "costSource": "23-352"
     },
     "model": "deepseek-v4.1-flash",
     "reasoning": "high",
@@ -379,7 +391,54 @@
       "model": "deepseek-v4.1-flash",
       "reasoning": "high",
       "deadline": "2026-10-10T07:59:06.000Z"
+    },
+    {
+      "experimentId": "falafel-throughput-20261009",
+      "oldGeneration": 22,
+      "newGeneration": 23,
+      "at": "2026-10-09T21:05:45Z",
+      "reason": "First flat hourly window after five backlog verifications: duplicate completed external capture rediscovery and stale reused temporary response bodies after status000. Focus task-owned diagnosis on valid durable probe evidence, genuinely unfinished recovery and19 prior-image verification hashes; preserve autonomy and safeguards.",
+      "promptCommit": "3a26fd9cd0a7956e6121d79d764902f30a2b38e1",
+      "parentEdits": [
+        "PROMPT.md"
+      ],
+      "pauseNonce": "falafel-throughput-check13-2026-10-09T21:00:01Z",
+      "previousCheckpoint": {
+        "workCommit": "139b1db7c7b3418f9f3515053826880debaa9ca6",
+        "generation": 22,
+        "sequence": "22-345",
+        "runId": "37990035577",
+        "at": "2026-10-09T21:00:33.214Z"
+      },
+      "evidence": {
+        "sourceControl": "9498f7ff74443bd42ff9467600bb431e255e33c3",
+        "finalSavedControl": "fd9e0e9e36fbeb99f9c43bf38e1689ace75765b1",
+        "previousCheckControl": "2af6379065b2e44b386cf934196905c7d93b6ee4",
+        "nativeEntries": [
+          38440,
+          38444,
+          38779,
+          38735
+        ],
+        "windowFrom": "2026-10-09T19:58:21.474Z",
+        "windowTo": "2026-10-09T21:00:33.214Z",
+        "publicationImages": 343,
+        "positivePosts": 194,
+        "uniqueHashes": 207,
+        "byteVerifiedHashes": 183,
+        "newDurableImageHashes": 0,
+        "newByteVerifiedHashes": 0,
+        "consecutiveFlatHourlyWindows": 1,
+        "priorVerificationBacklog": 19,
+        "duplicateRecoveredPost": "51736373134",
+        "duplicateRecoveredHash": "02ee9714fa2ebb7580d97013a839a2d305bc93fcd9bb2c6c8ed9ea6229e6ad5b",
+        "staleProbeBodyAfterNoHttpResponse": true,
+        "actualRawHostdumpSnapshotAbsent": true,
+        "experimentEstimatedUSD": 1.5644926199999931
+      },
+      "model": "deepseek-v4.1-flash",
+      "reasoning": "high",
+      "deadline": "2026-10-10T07:59:06.000Z"
     }
-  ],
-  "stoppedAt": "2026-10-10T02:08:11Z"
+  ]
 }
