@@ -70,7 +70,7 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `inputs` | Optional JSON from `${{ toJSON(inputs) }}`; explicit action inputs override it |
 | `model`, `reasoning` | Provider model and explicit reasoning level |
 | `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
-| `source-ref` | Consumer branch or commit to start from |
+| `source-ref` | Consumer task branch or commit; workflow definitions come from the default branch |
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |
 | `workflow` | Iteration workflow filename; default `shurik.yml` |
 | `token` | Defaults to `${{ github.token }}` |

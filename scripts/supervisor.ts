@@ -79,6 +79,16 @@ export async function start(options: Options) {
   if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Deadline must be an absolute future timestamp');
   const source = options.source_ref ? (await api<{ sha: string }>(`commits/${encodeURIComponent(options.source_ref)}`)).sha : await git(project, 'rev-parse', 'HEAD');
   const workspace = await clone('workspace'); await git(workspace, 'checkout', '-b', workBranch(id), source);
+  // The Actions token cannot introduce historical/custom workflow definitions on
+  // a new branch. Task source may vary; workflows must match the default branch.
+  const workflowRef = `origin/${defaultBranch}`;
+  if (await git(workspace, 'diff', '--name-only', source, workflowRef, '--', '.github/workflows')) {
+    await rm(join(workspace, '.github/workflows'), { recursive: true, force: true });
+    await git(workspace, 'rm', '-r', '--cached', '--ignore-unmatch', '--', '.github/workflows');
+    if (await git(workspace, 'ls-tree', workflowRef, '--', '.github/workflows')) {
+      await git(workspace, 'restore', '--source', workflowRef, '--staged', '--worktree', '--', '.github/workflows');
+    }
+  }
   const config = await projectConfig(workspace);
   const model = options.model || config.model;
   await readFile(join(workspace, config.prompt), 'utf8');
@@ -94,7 +104,7 @@ export async function start(options: Options) {
     engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
     owner: null, deadline, seconds: options.seconds ? seconds : config.iterationSeconds,
     model, reasoning, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
-  await git(ctl, 'checkout', '-b', store.branch, source);
+  await git(ctl, 'checkout', '-b', store.branch, workflowRef);
   emergencyWorkspace = workspace;
   const state = runtimeState(repo, id); emergencyState = state; await mkdir(join(state, PATHS.journal), { recursive: true });
   await saveJson(join(state, PATHS.runtime), { version: 2, selected: supervisor, fallback: supervisor,
@@ -108,7 +118,7 @@ export async function start(options: Options) {
     await writeFile(join(workspace, 'PROMPT.md'), 'Verification task: inspect src/verification-defect.ts and the import in src/worker.ts. Use bash/read/edit/write tools to remove this intentional import-time runner fault. Write verification-proof.txt containing a short explanation. Use list_sessions and search_sessions to inspect prior iteration failures. If prior sessions exist, read one with read_session. Make no other code changes. Then yield.\n');
   }
   await saveJson(join(state, PATHS.loop), loopSnapshot(control));
-  await pruneAndGuard(workspace, state, source);
+  await pruneAndGuard(workspace, state, workflowRef);
   await initializeCheckpoint({ workspace, state, store, control, message: `shurik: initialize ${id}` });
   const pr = await createPr(control, workspace);
   await store.mutate(c => ({ ...c, pr, verification: control.verification, lastDispatchAt: new Date().toISOString() }));

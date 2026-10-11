@@ -113,7 +113,11 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
   await git(project, 'init', '-b', 'main'); await configureGit(project);
   await writeFile(join(project, 'PROMPT.md'), 'Implement a small consumer change');
   await saveJson(join(project, PATHS.config), { iterationSeconds: 20, checkpointSeconds: 1 });
+  await mkdir(join(project, '.github/workflows'), { recursive: true });
+  await writeFile(join(project, '.github/workflows/shurik.yml'), 'name: Old workflow\n');
   const source = await commit(project, 'consumer source');
+  await writeFile(join(project, '.github/workflows/shurik.yml'), 'name: Current workflow\n');
+  await commit(project, 'consumer workflow update');
   await git(dir, 'init', '--bare', remote); await git(project, 'remote', 'add', 'origin', remote);
   await git(project, 'push', 'origin', 'main'); await git(dir, '--git-dir', remote, 'symbolic-ref', 'HEAD', 'refs/heads/main');
   for (const name of ['src', 'scripts', 'bin', 'package.json', 'package-lock.json']) {
@@ -142,15 +146,19 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       const path = new URL(url).pathname;
       if (path.endsWith('/permission')) return Response.json({ permission: 'write' });
       if (path.endsWith('/repos/fixture/consumer')) return Response.json({ default_branch: 'main' });
+      if (path.endsWith('/commits/older-task-source')) return Response.json({ sha: source });
       if (path.endsWith('/pulls')) return Response.json(init.method === 'POST' ? { html_url: 'https://github.com/fixture/consumer/pull/1' } : []);
       if (path.endsWith('/dispatches')) { dispatches.push(JSON.parse(init.body)); return new Response(null, { status: 204 }); }
       throw new Error(`Unexpected API request: ${url}`);
     };
     const { main } = await import(`../scripts/supervisor.ts?consumer=${Date.now()}`);
-    await main({ command: 'start', loop_id: 'demo', reasoning: 'high', workflow: 'agent.yml' });
+    await main({ command: 'start', loop_id: 'demo', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source' });
     const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl);
     const store = new ControlStore(ctl, 'demo');
     const started = (await store.read()).value;
+    assert.equal(await git(ctl, 'show', `${(await store.read()).revision}:.github/workflows/shurik.yml`), 'name: Current workflow');
+    await git(ctl, 'fetch', 'origin', started.branch);
+    assert.equal(await git(ctl, 'show', `${started.checkpoint.workCommit}:.github/workflows/shurik.yml`), 'name: Current workflow');
     assert.equal(started.source, source); assert.notEqual(started.source, engineSHA);
     assert.equal(started.seconds, 20); assert.deepEqual(started.engine, { repository: 'fixture/shurik', ref: 'v1' });
     assert.equal(dispatches[0].inputs.supervisor_ref, undefined, 'reusable continuation does not pin an engine');

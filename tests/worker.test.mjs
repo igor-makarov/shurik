@@ -155,7 +155,7 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.0');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.1');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
