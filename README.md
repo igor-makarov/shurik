@@ -2,13 +2,14 @@
 
 Shurik runs durable coding-agent loops for your project through a reusable GitHub Action. Its core is a CLI whose subcommands orchestrate [Pi Durable](https://github.com/earendil-works/pi/tree/main/packages/durable), Git checkpoints, draft PRs, and recovery.
 
+Pi Durable handles conversations, tools, and persistence; [Pi AI](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models) supplies model providers and authentication. See [Providers and authentication](#providers-and-authentication) for the upstream capabilities and the adapter included in this release.
+
 ```yaml
 - uses: igor-makarov/shurik@v1
   with:
     command: start
     loop-id: my-task
     reasoning: high
-    opencode-api-key: ${{ secrets.OPENCODE_API_KEY }}
 ```
 
 Use a major version such as `@v1` or, for a future breaking release, `@v2`. Every invocation uses the current release under that tag; an existing loop can receive engine updates within the same major version. Engine commit IDs in iteration records are diagnostic evidence, not a per-loop version lock.
@@ -19,7 +20,7 @@ Use a major version such as `@v1` or, for a future breaking release, `@v2`. Ever
 
 1. Add a public-safe task in `PROMPT.md`. Configure Shurik through action inputs in the workflow; no project configuration directory is required.
 2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. It invokes `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
-3. Add the repository Actions secret `OPENCODE_API_KEY`.
+3. Add your model credential as a repository Actions secret and pass it to the iteration job. See [Providers and authentication](#providers-and-authentication) for the current adapter's credential input.
 4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
 5. Review the task branch, or the draft PR if enabled. Stop with **Shurik → stop**, or resume with a new explicit reasoning level.
 
@@ -35,7 +36,7 @@ Every iteration starts a fresh model context while retaining native journals. Th
 
 The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. A blank model on resume keeps the previous model; a blank resume deadline clears the previous deadline. Iteration numbers continue across stops and resumes: `1, 2, 3, 4, 5 → stop → resume → 6, 7, 8`. Run titles show only the number, for example `Shurik demo / 6`. An interrupted iteration that claimed ownership consumes its number; an unclaimed queued run does not. Resume changes an internal generation so older queued invocations cannot claim the resumed loop. GitHub run IDs saved in control also keep their cancellation and recovery events separate, even when two queued runs have the same title.
 
-“Budget” refers to execution time: `seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs. The demo uses `deepseek-v4.1-flash` because `space-bunny-free` was unavailable during verification.
+“Budget” refers to execution time: `seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs.
 
 Stop first records durable stopped state, then requests cancellation of the active run. GitHub cancellation is asynchronous; the worker also polls stopped state. Already queued iterations skip work while stopped and remain fenced out after resume.
 
@@ -84,9 +85,29 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |
 | `workflow` | Iteration workflow filename; default `shurik.yml` |
 | `token` | Defaults to `${{ github.token }}` |
-| `opencode-api-key` | Model credential supplied from Actions secrets |
+| `opencode-api-key` | Credential for the bundled OpenCode Go adapter; supplied from Actions secrets |
 
 Outputs are `engine-revision` (the commit used by this invocation), `state-path`, `logs-path`, `emergency-path` (absolute directories outside the repository), and `control-branch`. Path outputs are written before the CLI runs, so failure artifact steps can use `emergency-path`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
+
+## Providers and authentication
+
+Pi Durable accepts a Pi AI `Models` collection and identifies a model by its provider ID and model ID. Its [quick start](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md#quick-start) registers OpenAI; its [per-conversation agent configuration](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md#per-conversation-agent) selects the provider, model, and thinking level. Durable journals and Shurik's GitHub scheduling do not depend on one model vendor.
+
+Pi AI provides built-in adapters for providers including OpenAI, Anthropic, Google, Amazon Bedrock, OpenRouter, DeepSeek, and OpenCode. Each adapter owns its model catalog, protocol, and authentication. Providers can use API keys, supported OAuth flows, or ambient cloud credentials. Pi AI also supports custom providers for compatible endpoints. Refer to its [provider documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models), [authentication documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#auth), and [custom-provider documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#custom-providers).
+
+**Current Shurik adapter:** this release registers `opencode-go`; the `model` input selects a model from its catalog. Using other Pi AI providers requires adding provider selection and registration to Shurik's worker and action.
+
+For the bundled adapter, add the Actions secret `OPENCODE_API_KEY` and pass it only to the iteration action:
+
+```yaml
+- uses: igor-makarov/shurik@v1
+  with:
+    command: iterate
+    inputs: ${{ toJSON(inputs) }}
+    opencode-api-key: ${{ secrets.OPENCODE_API_KEY }}
+```
+
+Start, stop, resume, and recovery need the repository token but make no model requests. Keep credentials in Actions secrets, outside dispatch inputs and saved control/session data. The public demo uses `deepseek-v4.1-flash` through this adapter.
 
 ## Loop configuration
 
@@ -154,12 +175,12 @@ Publish tested releases with immutable version tags such as `v1.0.0`, then advan
 
 **Contributor access and execution are different boundaries.** GitHub normally withholds repository secrets from fork pull request workflows. Keep contributor CI secret-free, and reserve credentialed loop execution for trusted, maintainer-authorized code. Do not execute unreviewed fork code or consume its artifacts in privileged recovery workflows. A repository writer or code executed with a secret can expose it, even though the stored value is not displayed in repository settings. Passing tests does not establish trust in a contributor's changes or prevent an automatically updated runner from leaking a key it receives. [Actions secrets](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets), [Secure workflow guidance](https://docs.github.com/en/actions/reference/security/secure-use)
 
-**The agent shares the runner and its credentials.** Coding tools and candidate code run directly on the Actions runner, can modify local files and make network requests, and receive the job's repository-scoped GitHub token and OpenCode key. The worker has no separate filesystem sandbox or resource caps. It can interfere with loop state or use the token outside its working branch. This is an intentional prototype tradeoff; timeouts, publication redaction, fixed candidate checks and fallback copies remain, but they do not provide credential isolation or a security boundary.
+**The agent shares the runner and its credentials.** Coding tools and candidate code run directly on the Actions runner, can modify local files and make network requests, and receive the job's repository-scoped GitHub token and model-provider credentials. The worker has no separate filesystem sandbox or resource caps. It can interfere with loop state or use the token outside its working branch. This is an intentional prototype tradeoff; timeouts, publication redaction, fixed candidate checks and fallback copies remain, but they do not provide credential isolation or a security boundary.
 
 **The dependency is experimental.** Pi Durable explicitly warns that its API can change without notice between releases. Compatible package versions must be pinned and state migrations tested before runner updates are adopted. [Pi Durable documentation](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md)
 
 **Persistence and repair have limits.** Local checkpoints can disappear with an ephemeral runner before they are pushed. After the initial session-boundary checkpoint, checkpoints publish at tool-round boundaries after the configured interval, with the Pi hook awaiting publication. The journal copy is serialized against Pi writes; task files are stable between foreground tool rounds. Detached background writers need their own coordinated durable checkpoints and are not frozen by this hook. A model request with no tool boundary cannot publish an intermediate checkpoint. Abrupt host loss or forced Actions cancellation may lose work since the latest push; recovery preserves available Actions diagnostics independently but cannot reconstruct unpublished work. Malformed journals are retained for diagnosis and replaced with the last readable snapshot. Emergency artifacts after a push conflict are evidence for manual recovery, never trusted automatic inputs. Rebuilding a runner also depends on dependency downloads or the npm cache being available; a build failure is recorded and retried by the loop. Tests and fallback preserve an opportunity for repair, not a guarantee of repair or reversal of external side effects. GitHub outages, branch conflicts, or failures in the fixed supervisor itself can still require maintainer intervention. Reusable loops receive the current release from their workflow’s major action tag on each run. Legacy self-hosted loops retain their original supervisor behavior.
 
-**Continued execution consumes resources.** Repeated runs use provider allowances, Actions resources, and storage. An omitted deadline means execution continues until stopped, not that usage is free or unlimited. Provider quotas, GitHub limits, service outages, and applicable usage terms still apply; chaining jobs does not remove those constraints. [Actions limits](https://docs.github.com/en/actions/reference/limits), [GitHub Actions terms](https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#actions), [OpenCode Go usage](https://opencode.ai/docs/go/#usage-limits)
+**Continued execution consumes resources.** Repeated runs use provider allowances, Actions resources, and storage. An omitted deadline means execution continues until stopped, not that usage is free or unlimited. Provider quotas, GitHub limits, service outages, and applicable usage terms still apply; chaining jobs does not remove those constraints. [Actions limits](https://docs.github.com/en/actions/reference/limits), [GitHub Actions terms](https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#actions)
 
 **Release scope.** `v1` is the first reusable action interface. Updates within `v1` must preserve that interface and the session layout. Operational guarantees and stronger runner isolation remain future work. License selection is pending; the CLI is packaged in this repository, not published to npm.

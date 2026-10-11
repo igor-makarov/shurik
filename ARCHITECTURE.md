@@ -11,6 +11,8 @@ flowchart LR
   C --> S[GitHub supervisor]
   S --> W[CLI worker subcommand]
   W --> P[Pi Durable harness]
+  P --> M[Pi AI provider and model]
+  M --> V[Model provider API]
   P --> T[Consumer task checkout]
   P --> J[Native journal]
   S --> G[Atomic task and control branch checkpoint]
@@ -28,11 +30,20 @@ flowchart LR
 | Git/control store | `scripts/github.ts`, `scripts/state.ts` | GitHub API, compare-and-swap control updates, atomic two-branch checkpoints, state hydration |
 | Runtime | `scripts/runtime.ts` | Build engine separately, launch worker process group, handle cooperative checkpoints and shutdown |
 | Pi Durable worker | `src/worker.ts`, `src/cli.ts` | Native JSONL storage, fresh context, model requests, coding/history tools; `src/cli.ts` is the private bundle entry |
+| Model access | Pi AI `Models` collection and provider adapters | Model catalogs, provider protocols, authentication, thinking-level capabilities |
 | History and checkpoints | `src/history.ts`, `src/checkpoint.ts` | Bounded prior-session retrieval, serialized journal snapshots, continuation instructions |
 | Failure recovery | `scripts/failures.ts`, `scripts/policy.ts` | Immutable diagnostics, trusted run identity, cancellation and generation fencing |
 | Consumer contract | `scripts/config.ts`, `scripts/paths.ts` | Action configuration and canonical persisted layout version 1 |
 
 All authored code is TypeScript: the CLI, action entry point, supervisor, worker, tests, test helpers, and native runner proof. Node 24 executes the CLI and orchestration through built-in type stripping; `tsc --noEmit` checks production modules and every test/helper. The CLI supervisor uses Node built-ins. It does not import Pi Durable or consumer code into the supervisor process. Pi Durable and its pinned dependencies are bundled into `dist/worker.cjs`, run as a child through `shurik worker --request FILE`. A broken worker import therefore leaves the supervisor able to preserve diagnostics.
+
+## Model providers
+
+[Pi Durable](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md#quick-start) receives a Pi AI `Models` collection when its harness opens. The host registers provider adapters and configures a conversation with `{ provider, modelId }` plus a thinking level. Pi AI routes requests through the selected adapter, which supplies its catalog, wire protocol, and authentication. Provider choice is independent of durable storage, history tools, Git checkpoints, and GitHub dispatch/recovery.
+
+[Pi AI's provider layer](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models) supports individual provider factories or a collection of all built-in providers. Its [authentication layer](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#auth) resolves provider credentials from supported environment variables, credential stores, OAuth, or ambient cloud configuration. Custom compatible endpoints require a registered custom provider with its own model metadata and authentication.
+
+The current Shurik worker registers `opencodeGoProvider()` and selects models from its catalog. `opencode-api-key` supplies `OPENCODE_API_KEY` to that adapter. Supporting other Pi AI providers requires carrying provider selection through action inputs, saved loop settings, and worker requests, then registering the selected adapter. Credentials remain separate from persisted configuration.
 
 ## Release and repository boundaries
 
