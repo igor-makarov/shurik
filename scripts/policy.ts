@@ -16,6 +16,15 @@ export function validateCreatePr(value: Options['create_pr']): boolean | 'auto' 
   if (value === false || value === 'false') return false;
   throw new Error('create-pr must be auto, true or false');
 }
+export function validateProvider(value: string | undefined): string {
+  if (value === undefined || value === '') return 'opencode-go';
+  if (typeof value !== 'string' || !/^[a-z0-9][a-z0-9-]*$/.test(value.trim())) throw new Error('Provider must be a Pi AI provider ID');
+  return value.trim();
+}
+export function credentialValues(env: NodeJS.ProcessEnv = process.env): Secrets {
+  return Object.entries(env).filter(([name]) => /(?:^|_)(?:API_KEY|TOKEN|SECRET|PASSWORD|ACCESS_KEY_ID|SECRET_ACCESS_KEY)$/.test(name))
+    .map(([, value]) => value);
+}
 export function resumeSettings(value: Control, options: Options): Control {
   if (value.status === 'running') throw new Error('Loop already running');
   const reasoning = validateReasoning(options.reasoning);
@@ -25,16 +34,20 @@ export function resumeSettings(value: Control, options: Options): Control {
   // has not consumed a number and its generation still prevents it from claiming.
   const next = Math.max(value.next, (value.owner?.iteration ?? 0) + 1);
   const generation = value.generation + 1;
+  const priorProvider = validateProvider(value.provider);
+  const provider = options.provider?.trim() ? validateProvider(options.provider) : priorProvider;
+  if (provider !== priorProvider && !options.model?.trim()) throw new Error('Explicit model required when changing provider');
   return { ...value, generation, next, status: 'running', owner: null, deadline,
-    model: options.model?.trim() || value.model, reasoning,
+    provider, model: options.model?.trim() || value.model, reasoning,
     createPr: options.create_pr === undefined ? (value.createPr ?? 'auto') : validateCreatePr(options.create_pr),
     lastRunId: null, lastDispatchAt: new Date().toISOString() };
 }
-export function loopSnapshot(control: Control) {
+export function loopSnapshot(control: Control): Record<string, unknown> {
   // Task-facing metadata only. Scheduling belongs to the supervisor's control record.
   const fields = ['version', 'id', 'branch', 'defaultBranch', 'supervisor', 'status', 'generation',
     'next', 'model', 'reasoning', 'source', 'sourceRef', 'pr', 'verification'] as const;
-  return Object.fromEntries(fields.filter(key => Object.hasOwn(control, key)).map(key => [key, control[key]]));
+  return { ...Object.fromEntries(fields.filter(key => Object.hasOwn(control, key)).map(key => [key, control[key]])),
+    provider: validateProvider(control.provider) };
 }
 export function validateId(id: string | undefined): string {
   if (!/^[a-z0-9][a-z0-9-]{0,48}$/.test(id ?? '')) throw new Error('Loop ID must be 1–49 lowercase letters, numbers, or hyphens');

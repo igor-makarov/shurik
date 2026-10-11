@@ -1,7 +1,7 @@
 import type { Request } from '../src/worker.ts';
 import type { SessionSummary } from '../src/history.ts';
 
-export type Options = Partial<Record<'command' | 'loop_id' | 'model' | 'reasoning' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean };
+export type Options = Partial<Record<'command' | 'loop_id' | 'provider' | 'model' | 'reasoning' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean };
 export type Secrets = (string | undefined)[];
 export type Outcome = 'running' | 'yielded' | 'agent_failure' | 'timeout' | 'runner_failure' | 'interrupted';
 export interface Checkpoint { workCommit: string; generation: number; sequence: string; runId: string | null; at: string }
@@ -13,7 +13,7 @@ export interface Control {
   status: string; generation: number; next: number;
   dispatchedRuns?: { runId: string; generation: number; iteration: number }[];
   owner: { runId: string; generation: number; iteration: number; claimedAt?: string } | null;
-  deadline?: string | null; seconds: number; model: string; reasoning: string;
+  deadline?: string | null; seconds: number; provider?: string; model: string; reasoning: string;
   source: string; sourceRef?: string | null; createdAt: string; lastDispatchAt: string | null;
   stoppedAt?: string; lastRunId?: string | null; pr?: string | null; createPr?: boolean | 'auto'; verification?: boolean;
   checkpoint?: Checkpoint; failureTrail?: string[];
@@ -25,7 +25,7 @@ export interface Runtime {
 }
 export interface Iteration {
   version: number; id: string; runId: string; generation: number; iteration: number;
-  startedAt: string; outcome: Outcome; source: string; runtime: string; model: string; reasoning: string;
+  startedAt: string; outcome: Outcome; source: string; runtime: string; provider?: string; model: string; reasoning: string;
   minEntryId?: number; maxEntryId?: number; checkpointAt?: string; finishedAt?: string;
   error?: string; recovery?: string; usage?: unknown; workCommit?: string;
 }
@@ -46,7 +46,7 @@ export interface Failure {
   url: string; headSha: string; startedAt: string; completedAt: string; collectedAt: string;
   interruptedOwner: boolean; jobs: FailureJob[]; jobsTruncated?: boolean; jobsUnavailable?: string;
 }
-export interface WorkerResult { version: number; outcome: Outcome | 'readable'; error?: unknown; usage?: unknown; captured?: unknown[]; minEntryId?: number; maxEntryId?: number }
+export interface WorkerResult { version: number; outcome: Outcome | 'readable'; provider?: string; model?: string; reasoning?: string; error?: unknown; usage?: unknown; captured?: unknown[]; minEntryId?: number; maxEntryId?: number }
 export interface WorkerReport { outcome: Outcome; result: WorkerResult | null; log: string; code?: number | null }
 export type WorkerRequest = Omit<Request, 'cwd' | 'journal' | 'output'>;
 export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string; phase: 'started' | 'tools' }

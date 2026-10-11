@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { BACKGROUND_CONTEXT } from '@earendil-works/chord/context';
 import { createModels, getSupportedThinkingLevels } from '@earendil-works/pi-ai/models';
 import type { ModelThinkingLevel } from '@earendil-works/pi-ai';
-import { opencodeGoProvider } from '@earendil-works/pi-ai/providers/opencode-go';
+import { builtinModels } from '@earendil-works/pi-ai/providers/all';
 import { fauxProvider, fauxAssistantMessage, fauxToolCall } from '@earendil-works/pi-ai/providers/faux';
 import { createRegistry, defineExtension, GenerationTask, hook, Harness, type Conversation, type JsonObject } from '@earendil-works/pi-durable';
 import { openNodeJsonlStorage } from '@earendil-works/pi-durable/storage/jsonl/node';
@@ -16,7 +16,7 @@ const INSTRUCTIONS = 'You are a coding agent running one iteration of a Ralph lo
 
 export interface Request {
   version: 1; id: string; cwd: string; journal: string; output: string; prompt: string;
-  model: string; reasoning: ModelThinkingLevel; seconds: number; deadline?: string | null; checkpointSeconds?: number; checkpointHandshake?: boolean; sessions: SessionSummary[];
+  provider?: string; model: string; reasoning: ModelThinkingLevel; seconds: number; deadline?: string | null; checkpointSeconds?: number; checkpointHandshake?: boolean; sessions: SessionSummary[];
   mode?: 'run' | 'inspect';
   script?: { text?: string; tool?: string; args?: JsonObject; error?: string; delayMs?: number }[];
 }
@@ -31,9 +31,9 @@ export async function runIteration(req: Request) {
   }
   const context = BACKGROUND_CONTEXT;
   await mkdir(req.output, { recursive: true });
-  const models = createModels(); const registry = createRegistry();
+  const models = req.script || req.mode === 'inspect' ? createModels() : builtinModels(); const registry = createRegistry();
   const captured: unknown[] = [];
-  let provider = 'opencode-go'; let modelId = req.model;
+  let provider = req.provider ?? 'opencode-go'; let modelId = req.model;
   if (req.script) {
     const faux = fauxProvider(); models.setProvider(faux.provider); provider = 'faux'; modelId = 'faux-1';
     faux.setResponses(req.script.map(step => async (ctx) => {
@@ -43,14 +43,13 @@ export async function runIteration(req: Request) {
         : step.tool ? fauxAssistantMessage(fauxToolCall(step.tool, step.args ?? {}), { stopReason: 'toolUse' })
         : fauxAssistantMessage(step.text ?? 'Done');
     }));
-  } else {
-    const p = opencodeGoProvider();
-    const model = p.getModels().find(m => m.id === req.model);
-    if (!model) throw new Error(`Unknown OpenCode Go model: ${req.model}`);
-    if (req.mode !== 'inspect' && !getSupportedThinkingLevels(model).includes(req.reasoning)) {
+  } else if (req.mode !== 'inspect') {
+    if (!models.getProvider(provider)) throw new Error(`Unknown Pi AI provider: ${provider}`);
+    const model = models.getModel(provider, req.model);
+    if (!model) throw new Error(`Unknown chat model for ${provider}: ${req.model}`);
+    if (!getSupportedThinkingLevels(model).includes(req.reasoning)) {
       throw new Error(`Model ${req.model} does not support reasoning ${req.reasoning}; choose ${getSupportedThinkingLevels(model).join(', ')}`);
     }
-    models.setProvider(p);
   }
   let root: Conversation;
   let minEntryId: number | undefined;
@@ -79,7 +78,7 @@ export async function runIteration(req: Request) {
   const harness = await Harness.open(storage, { models, registry,
     env: ({ cwd }) => new NodeExecutionEnv({ cwd: cwd ?? req.cwd }),
     settings: { retry: { enabled: false, maxRetries: 0 }, toolExecution: 'sequential',
-      stream: { headers: { 'User-Agent': 'shurik/1.1.7' }, timeoutMs: 120000, maxRetries: 0 } } }, context);
+      stream: { headers: { 'User-Agent': 'shurik/1.1.8' }, timeoutMs: 120000, maxRetries: 0 } } }, context);
   root = await harness.root(context);
   if (req.mode === 'inspect') {
     const inspect = await harness.inspect(context); await harness.close(context);
@@ -112,7 +111,7 @@ export async function runIteration(req: Request) {
     process.removeListener('SIGTERM', shutdown);
     await root.abort(context);
     const page = await root.entries({}, 1, undefined, context);
-    const result = { version: 1, id: req.id, model: req.model, reasoning: req.reasoning, outcome, error, minEntryId,
+    const result = { version: 1, id: req.id, provider: req.provider ?? 'opencode-go', model: req.model, reasoning: req.reasoning, outcome, error, minEntryId,
       maxEntryId: page.items[0]?.id, usage: await harness.usage(context), captured: req.script ? captured : undefined };
     await harness.close(context);
     await json(join(req.output, 'result.json'), result);

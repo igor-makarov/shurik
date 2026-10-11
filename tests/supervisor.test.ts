@@ -5,7 +5,7 @@ import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { ControlStore, git, command, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.ts';
-import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings } from '../scripts/policy.ts';
+import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings, credentialValues } from '../scripts/policy.ts';
 import { buildRuntime } from '../scripts/runtime.ts';
 import { expireUnstartedIteration, start } from '../scripts/supervisor.ts';
 
@@ -50,6 +50,26 @@ test('draft PR mode defaults to auto and accepts explicit boolean overrides', ()
   for (const value of [true, 'true']) assert.equal(validateCreatePr(value), true);
   for (const value of [false, 'false']) assert.equal(validateCreatePr(value), false);
   assert.throws(() => validateCreatePr('sometimes'), /create-pr/);
+});
+
+test('resume retains provider/model, upgrades legacy state, and requires a model for provider changes', () => {
+  const legacy = controlFixture({ status: 'stopped' });
+  assert.equal(resumeSettings(legacy, { reasoning: 'high' }).provider, 'opencode-go');
+  assert.throws(() => resumeSettings(legacy, { provider: 'openai', reasoning: 'high' }), /Explicit model required/);
+  const next = resumeSettings(legacy, { provider: 'openai', model: 'gpt-6-sol', reasoning: 'high' });
+  const resumed = resumeSettings({ ...next, status: 'stopped' }, { reasoning: 'medium' });
+  assert.equal(resumed.provider, 'openai'); assert.equal(resumed.model, 'gpt-6-sol');
+  assert.equal(loopSnapshot(resumed).provider, 'openai'); assert.equal(loopSnapshot(legacy).provider, 'opencode-go');
+});
+
+test('native provider and cloud credentials participate in publication redaction', () => {
+  const env = { OPENAI_API_KEY: 'SYNTHETIC_OPENAI_KEY', ANTHROPIC_OAUTH_TOKEN: 'SYNTHETIC_ANTHROPIC_TOKEN',
+    AWS_SECRET_ACCESS_KEY: 'SYNTHETIC_AWS_SECRET', AWS_SESSION_TOKEN: 'SYNTHETIC_SESSION_TOKEN',
+    GH_TOKEN: 'SYNTHETIC_GH_TOKEN', PATH: '/usr/bin', AWS_REGION: 'us-east-1' };
+  const values = credentialValues(env);
+  assert.equal(values.length, 5);
+  assert.ok(!values.includes(env.PATH)); assert.ok(!values.includes(env.AWS_REGION));
+  for (const key of values) assert.ok(!redact(JSON.stringify(env), values).includes(key!));
 });
 
 async function expiredFixture() {

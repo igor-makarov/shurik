@@ -8,8 +8,10 @@ inputs:
     description: start, iterate, stop, resume, or recover
   loop-id:
     description: Unique loop ID (lowercase letters, digits, hyphens)
+  provider:
+    description: Pi AI provider ID; defaults to opencode-go on start, retained on resume
   model:
-    description: OpenCode Go model; defaults to space-bunny-free on start, retained on resume
+    description: Model ID from the selected provider; required for other providers and provider changes
   prompt:
     description: Relative task prompt file; defaults to PROMPT.md on start
   checkpoint-seconds:
@@ -40,7 +42,7 @@ inputs:
     description: Repository-scoped token with contents, pull-requests, and actions write access
     default: ${{ github.token }}
   opencode-api-key:
-    description: OpenCode Go key; required for agent execution
+    description: Optional legacy alias for OPENCODE_API_KEY; provider environment variables also work
 outputs:
   engine-revision:
     description: Resolved engine commit used by this invocation
@@ -73,6 +75,7 @@ runs:
         SHURIK_INPUTS: ${{ inputs.inputs }}
         SHURIK_COMMAND: ${{ inputs.command }}
         SHURIK_LOOP_ID: ${{ inputs.loop-id }}
+        SHURIK_PROVIDER: ${{ inputs.provider }}
         SHURIK_MODEL: ${{ inputs.model }}
         SHURIK_PROMPT: ${{ inputs.prompt }}
         SHURIK_CHECKPOINT_SECONDS: ${{ inputs.checkpoint-seconds }}
@@ -86,5 +89,5 @@ runs:
         SHURIK_ITERATION: ${{ inputs.iteration }}
         SHURIK_WORKFLOW: ${{ inputs.workflow }}
         GITHUB_TOKEN: ${{ inputs.token }}
-        OPENCODE_API_KEY: ${{ inputs.opencode-api-key }}
+        OPENCODE_API_KEY: ${{ inputs.opencode-api-key || env.OPENCODE_API_KEY }}
       run: node "$SHURIK_ACTION_PATH/action/run.ts"

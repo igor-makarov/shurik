@@ -4,12 +4,12 @@ import { resolve, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawn } from 'node:child_process';
 import { git } from '../scripts/github.ts';
-import { validateId, redact } from '../scripts/policy.ts';
+import { validateId, redact, credentialValues } from '../scripts/policy.ts';
 import { runtimeState, runtimeLogs, runtimeEmergency, controlBranch } from '../scripts/paths.ts';
 
 export function actionOptions(env = process.env) {
   const options: Options = JSON.parse(env.SHURIK_INPUTS ?? '{}');
-  for (const name of ['command', 'loop_id', 'model', 'reasoning', 'seconds', 'deadline',
+  for (const name of ['command', 'loop_id', 'provider', 'model', 'reasoning', 'seconds', 'deadline',
     'source_ref', 'generation', 'iteration', 'workflow', 'create_pr', 'prompt', 'checkpoint_seconds', 'checkpoint_paths'] as const) {
     const value = env[`SHURIK_${name.toUpperCase()}`];
     if (value) options[name] = value;
@@ -56,7 +56,7 @@ async function run() {
 }
 if (process.argv[1] && resolve(process.argv[1]) === resolve(process.env.SHURIK_ACTION_PATH ?? '.', 'action/run.ts')) {
   run().catch(error => {
-    console.error(redact(String(error), [process.env.GITHUB_TOKEN, process.env.GH_TOKEN, process.env.OPENCODE_API_KEY]));
+    console.error(redact(String(error), credentialValues()));
     process.exitCode = 1;
   });
 }

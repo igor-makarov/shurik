@@ -7,7 +7,7 @@ import { createRequire } from 'node:module';
 import { mkdtemp, cp, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { sessionPaths } from '../scripts/paths.ts';
-import { redact, validateId } from '../scripts/policy.ts';
+import { redact, validateId, credentialValues } from '../scripts/policy.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const help = `Usage: shurik <command> [options]
@@ -23,7 +23,7 @@ Commands:
   paths       Print the canonical runtime and control-branch session paths
 
 Options:
-  --loop-id ID --model ID --reasoning LEVEL --seconds N --deadline TIMESTAMP
+  --loop-id ID --provider ID --model ID --reasoning LEVEL --seconds N --deadline TIMESTAMP
   --source-ref REF --generation N --iteration N --workflow FILE
   --create-pr auto|true|false  Draft PR creation (default: auto)
   --prompt FILE --checkpoint-seconds N --checkpoint-paths JSON_ARRAY
@@ -34,12 +34,13 @@ Options:
 
 Lifecycle commands require GitHub Actions repository, actor, ref and token context.
 The action supplies SHURIK_INPUTS; explicit flags override those inputs.
+Pi AI resolves model authentication from its provider environment variables.
 `;
 
 export function parseArgs(args: string[], inputs: Options = {}): Options {
   const [command, ...flags] = args;
   if (!command || ['--help', '-h', 'help'].includes(command)) return { help: true };
-  const allowed = new Set(['loop-id', 'model', 'reasoning', 'seconds', 'deadline', 'source-ref',
+  const allowed = new Set(['loop-id', 'provider', 'model', 'reasoning', 'seconds', 'deadline', 'source-ref',
     'generation', 'iteration', 'workflow', 'workspace', 'repository', 'request', 'bundle', 'create-pr',
     'prompt', 'checkpoint-seconds', 'checkpoint-paths']);
   const options: Options = { ...inputs, command };
@@ -93,7 +94,7 @@ export async function main(args = process.argv.slice(2)) {
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   main().catch(error => {
-    console.error(redact(String(error), [process.env.OPENCODE_API_KEY, process.env.GITHUB_TOKEN, process.env.GH_TOKEN]));
+    console.error(redact(String(error), credentialValues()));
     process.exitCode = 1;
   });
 }

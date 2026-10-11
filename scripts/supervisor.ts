@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, configureGit, saveJson, readJson, ControlStore } from './github.ts';
-import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings } from './policy.ts';
+import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings, validateProvider, credentialValues } from './policy.ts';
 import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.ts';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt, completedIterationRun } from './failures.ts';
 import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
@@ -17,7 +17,7 @@ const project = resolve(process.env.SHURIK_PROJECT_ROOT ?? process.env.GITHUB_WO
 const repo = process.env.GITHUB_REPOSITORY;
 const remote = repo ? `https://github.com/${repo}.git` : process.env.SHURIK_REMOTE;
 const runId = process.env.GITHUB_RUN_ID ?? `local-${Date.now()}`;
-const secrets = [process.env.OPENCODE_API_KEY, process.env.GITHUB_TOKEN, process.env.GH_TOKEN];
+const secrets = credentialValues();
 let emergencyWorkspace: string | undefined;
 let emergencyState: string | undefined;
 let emergencyLogs: string | undefined;
@@ -110,7 +110,7 @@ export async function start(options: Options) {
     }
   }
   const config = await projectConfig(workspace, options);
-  const model = options.model || config.model;
+  const model = config.model;
   await readFile(join(workspace, config.prompt), 'utf8');
   if (verification && process.env.SHURIK_ENGINE_REPOSITORY) throw new Error('Live self-repair verification is only available to legacy self-hosted loops');
   const ctl = await clone('control'); const store = new ControlStore(ctl, id);
@@ -124,7 +124,7 @@ export async function start(options: Options) {
     engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
     checkpointSeconds: config.checkpointSeconds, checkpointPaths: config.checkpointPaths,
     owner: null, deadline, seconds: options.seconds ? seconds : config.iterationSeconds,
-    model, reasoning, createPr: createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
+    provider: config.provider, model, reasoning, createPr: createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, workflowRef);
   emergencyWorkspace = workspace;
   const state = runtimeState(repo, id); emergencyState = state; await mkdir(join(state, PATHS.journal), { recursive: true });
@@ -183,7 +183,7 @@ export async function iterate(options: Options) {
   const failures = await importFailures(store, state, logs);
   await recoverInterrupted(state, sessions, failures);
   const record: Iteration = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
-    outcome: 'running', source: initial, runtime: runtime.selected, model: control.model, reasoning: control.reasoning };
+    outcome: 'running', source: initial, runtime: runtime.selected, provider: validateProvider(control.provider), model: control.model, reasoning: control.reasoning };
   await saveJson(recordPath, record); await saveJson(join(state, PATHS.history), sessions);
   await saveJson(join(state, PATHS.loop), loopSnapshot(control));
   await publish(workspace, store, generation, state, `shurik: begin iteration ${sequence}`, initial, record);
@@ -205,8 +205,8 @@ export async function iterate(options: Options) {
     }
     bundle = await buildRuntime(engineSource, runtime.selected, stable, builds);
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
-    report = await launchWorker({ workspace, state, bundle, stable, key: process.env.OPENCODE_API_KEY,
-      req: { version: 1, id: `${id}:${sequence}`, model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
+    report = await launchWorker({ workspace, state, bundle, stable,
+      req: { version: 1, id: `${id}:${sequence}`, provider: validateProvider(control.provider), model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
         checkpointSeconds: control.checkpointSeconds ?? (await projectConfig(workspace)).checkpointSeconds,
         sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, state, logs) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },

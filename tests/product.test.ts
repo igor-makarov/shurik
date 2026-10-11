@@ -30,6 +30,8 @@ test('runtime sessions are outside the checkout and scoped by repository and loo
 });
 
 test('CLI and action input validation keep explicit reasoning and allow flags to override dispatch inputs', () => {
+  assert.equal(parseArgs(['start', '--provider', 'openai'], { provider: 'opencode-go' }).provider, 'openai');
+  assert.equal(actionOptions({ SHURIK_INPUTS: '{"loop_id":"demo","provider":"opencode-go"}', SHURIK_PROVIDER: 'anthropic' }).provider, 'anthropic');
   assert.equal(parseArgs(['resume', '--reasoning', 'high'], { command: 'stop', reasoning: 'low' }).reasoning, 'high');
   assert.equal(parseArgs(['start', '--create-pr', 'false'], { create_pr: 'auto' }).create_pr, 'false');
   assert.equal(actionOptions({ SHURIK_INPUTS: '{"create_pr":"auto","loop_id":"demo"}', SHURIK_CREATE_PR: 'false' }).create_pr, 'false');
@@ -55,6 +57,19 @@ test('action configuration works without a project config file and overrides leg
     await saveJson(join(project, PATHS.config), { prompt });
     await assert.rejects(projectConfig(project), /relative project file/);
   }
+});
+
+test('provider configuration requires a matching model and preserves legacy OpenCode defaults', async () => {
+  const project = await mkdtemp(join(tmpdir(), 'shurik-providers-'));
+  const legacy = await projectConfig(project);
+  assert.equal(legacy.provider, 'opencode-go'); assert.equal(legacy.model, 'space-bunny-free');
+  await assert.rejects(projectConfig(project, { provider: 'openai' }), /Explicit model required/);
+  const config = await projectConfig(project, { provider: 'openai', model: 'gpt-6-sol' });
+  assert.equal(config.provider, 'openai'); assert.equal(config.model, 'gpt-6-sol');
+  await saveJson(join(project, PATHS.config), { version: 1, provider: 'anthropic', model: 'claude-haiku-4-5' });
+  assert.equal((await projectConfig(project)).provider, 'anthropic');
+  await assert.rejects(projectConfig(project, { provider: 'openai' }), /Explicit model required/);
+  await assert.rejects(projectConfig(project, { provider: '../provider', model: 'custom' }), /Provider/);
 });
 
 test('major action tags resolve again on every invocation and receive updates within the major version', async () => {
@@ -138,7 +153,9 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
   const worker = join(engine, 'src/worker.ts');
   await writeFile(worker, (await readFile(worker, 'utf8')).replace('export async function runIteration(req: Request) {',
     `export async function runIteration(req: Request) {
-      req.script = [{ tool: 'write', args: { path: 'consumer-result.txt', content: 'SUPERVISOR_CONSUMER_PROOF' } }, { text: 'Done' }];`));
+      req.script = [{ tool: 'write', args: { path: 'consumer-result.txt', content: 'SUPERVISOR_CONSUMER_PROOF' } },
+        { tool: 'write', args: { path: 'provider-selection.json', content: JSON.stringify({ provider: req.provider, model: req.model }) } },
+        { text: 'Done' }];`));
   await git(engine, 'init'); await configureGit(engine);
   const engineSHA = await commit(engine, 'scripted engine release');
   const gitConfig = join(dir, 'gitconfig');
@@ -180,11 +197,12 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       throw new Error(`Unexpected API request: ${url}`);
     };
     const { main } = await import(`../scripts/supervisor.ts?consumer=${Date.now()}`);
-    await main({ command: 'start', loop_id: 'demo', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source',
+    await main({ command: 'start', loop_id: 'demo', provider: 'openai', model: 'gpt-6-sol', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source',
       seconds: '20', checkpoint_seconds: '1', prompt: 'PROMPT.md', checkpoint_paths: '[]' });
     const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
     const store = new ControlStore(ctl, 'demo');
     const started = (await store.read()).value;
+    assert.equal(started.provider, 'openai'); assert.equal(started.model, 'gpt-6-sol');
     assert.equal(await git(ctl, 'show', `${(await store.read()).revision}:.github/workflows/shurik.yml`), 'name: Current workflow');
     await git(ctl, 'fetch', 'origin', started.branch);
     assert.equal(await git(ctl, 'show', `${started.checkpoint!.workCommit}:.github/workflows/shurik.yml`), 'name: Current workflow');
@@ -202,12 +220,15 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(prAttempts, 1, 'later iterations do not retry a denied optional PR');
     const record = JSON.parse(await git(ctl, 'show', `${revision}:state/iterations/1-1.json`));
     assert.equal(record.outcome, 'yielded'); assert.equal(record.runtime, engineSHA);
+    assert.equal(record.provider, 'openai'); assert.equal(record.model, 'gpt-6-sol');
     const logs = runtimeLogs('fixture/consumer', 'demo');
     assert.equal((await readJson<WorkerResult>(join(logs, '1-1-worker.json'))).outcome, 'yielded');
     assert.equal(JSON.parse(await git(ctl, 'show', `${revision}:state/diagnostics/1-1-worker.json`)).outcome, 'yielded');
     assert.ok(!(await readdir(runtimeState('fixture/consumer', 'demo'))).includes('diagnostics'));
     await git(ctl, 'fetch', 'origin', value.branch);
     assert.equal(await git(ctl, 'show', `${value.checkpoint!.workCommit}:consumer-result.txt`), 'SUPERVISOR_CONSUMER_PROOF');
+    assert.deepEqual(JSON.parse(await git(ctl, 'show', `${value.checkpoint!.workCommit}:provider-selection.json`)),
+      { provider: 'openai', model: 'gpt-6-sol' });
     assert.equal(dispatches.length, 2);
     assert.equal(dispatches[1].inputs.iteration, '2');
     assert.equal(dispatches[1].inputs.supervisor_ref, undefined);
@@ -229,9 +250,10 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (oldResult === undefined) delete process.env.SHURIK_ITERATION_RESULT; else process.env.SHURIK_ITERATION_RESULT = oldResult;
     }
     await main({ command: 'stop', loop_id: 'demo' });
-    await main({ command: 'resume', loop_id: 'demo', reasoning: 'medium' });
+    await main({ command: 'resume', loop_id: 'demo', provider: 'anthropic', model: 'claude-haiku-4-5', reasoning: 'medium' });
     const resumed = (await store.read()).value;
     assert.equal(resumed.generation, 2); assert.equal(resumed.next, 3);
+    assert.equal(resumed.provider, 'anthropic'); assert.equal(resumed.model, 'claude-haiku-4-5');
     assert.equal(dispatches[3].inputs.generation, '2'); assert.equal(dispatches[3].inputs.iteration, '3');
     assert.deepEqual(resumed.dispatchedRuns?.slice(-2), [
       { runId: '102', generation: 1, iteration: 3 }, { runId: '103', generation: 2, iteration: 3 }
@@ -239,9 +261,14 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await main({ command: 'iterate', loop_id: 'demo', generation: '1', iteration: '3' });
     assert.equal(dispatches.length, 4, 'old queued iteration is skipped without claiming or redispatching');
     await main({ command: 'iterate', loop_id: 'demo', generation: '2', iteration: '3' });
-    assert.equal((await store.read()).value.next, 4);
-    const resumedRecord = JSON.parse(await git(ctl, 'show', `${(await store.read()).revision}:state/iterations/2-3.json`));
+    const finished = await store.read();
+    assert.equal(finished.value.next, 4);
+    const resumedRecord = JSON.parse(await git(ctl, 'show', `${finished.revision}:state/iterations/2-3.json`));
     assert.equal(resumedRecord.iteration, 3); assert.equal(resumedRecord.outcome, 'yielded');
+    assert.equal(resumedRecord.provider, 'anthropic'); assert.equal(resumedRecord.model, 'claude-haiku-4-5');
+    await git(ctl, 'fetch', 'origin', finished.value.branch);
+    assert.deepEqual(JSON.parse(await git(ctl, 'show', `${finished.value.checkpoint!.workCommit}:provider-selection.json`)),
+      { provider: 'anthropic', model: 'claude-haiku-4-5' });
     await main({ command: 'start', loop_id: 'without-pr', reasoning: 'high', create_pr: false, source_ref: 'older-task-source' });
     assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
     failDispatch = true;

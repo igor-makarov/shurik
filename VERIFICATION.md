@@ -10,7 +10,7 @@ These automated checks use scripted model responses and local Git remotes; the i
 
 ## Property-based tests
 
-`npm run test:pbt` runs 40 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 30,390 generated scenarios: 30 ordinary properties with 1,000 cases each, five filesystem properties with 50–75 cases, and five real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
+`npm run test:pbt` runs 44 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 34,390 generated scenarios: 34 ordinary properties with 1,000 cases each, five filesystem properties with 50–75 cases, and five real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
 
 Each property has a deterministic default seed. Fast-check shrinks failures and prints the seed, shrink path, and smallest counterexample. To replay a failing property, set `SHURIK_PBT_SEED` to its printed seed and select its test name:
 
@@ -64,6 +64,12 @@ The inventory below corresponds to named properties in [properties.test.ts](test
 
 39. Iteration numbers remain contiguous across repeated stops/resumes, counting claimed interruptions and preserving unstarted slots.
 40. GitHub run IDs distinguish old/current queued cancellations with short or earlier continuous titles; unknown IDs cannot infer a generation from the iteration number.
+41. Provider/model choices round-trip through CLI flags, action inputs, and configuration without copying credentials.
+42. Resume retains the saved provider/model, upgrades legacy provider-free state, and does not mutate the previous control.
+43. Provider changes require an explicit model and atomically save the pair with a new generation that fences older invocations.
+44. Native provider/cloud credential values are redacted while nonsecret environment values remain unchanged.
+
+Native HTTP transport tests exercise OpenAI Responses and Anthropic Messages through Pi AI's built-in adapters with synthetic environment credentials. They verify endpoint, provider/model selection, native authorization headers, and successful journal reopen after switching providers. The journal omits the synthetic keys; inspection works with a retired provider/model and makes no model request. The existing native OpenCode transport checks retain coverage for legacy provider-free requests. Consumer supervisor integration saves OpenAI settings at start, carries them into iteration diagnostics, switches to Anthropic on resume, rejects the older queued generation, and runs the next iteration with the new pair. These checks make no paid provider requests.
 
 Generated cases found two defects fixed in release 1.1.4: masking an unescaped credential before its longer JSON encoding could leave a dangling backslash and corrupt evidence JSON, and an API token ending in `-` was partially masked because of a word-boundary match. Redaction now masks longer encoded forms first and consumes the complete API token. The minimized examples also have a focused unit regression.
 

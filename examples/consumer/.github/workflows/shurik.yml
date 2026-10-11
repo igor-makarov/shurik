@@ -18,6 +18,9 @@ on:
       reasoning:
         description: Required for start/resume (off, minimal, low, medium, high, xhigh, max)
         type: string
+      provider:
+        description: Optional Pi AI provider; resume keeps the previous provider
+        type: string
       model:
         description: Optional model; resume keeps the previous model
         type: string
@@ -91,10 +94,13 @@ jobs:
           fetch-depth: 0
       - id: shurik
         uses: igor-makarov/shurik@v1
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
         with:
           command: iterate
           inputs: ${{ toJSON(inputs) }}
-          opencode-api-key: ${{ secrets.OPENCODE_API_KEY }}
       - name: Preserve emergency snapshot after publication failure
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

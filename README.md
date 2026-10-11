@@ -2,13 +2,15 @@
 
 Shurik runs durable coding-agent loops for your project through a reusable GitHub Action. Its core is a CLI whose subcommands orchestrate [Pi Durable](https://github.com/earendil-works/pi/tree/main/packages/durable), Git checkpoints, draft PRs, and recovery.
 
-Pi Durable handles conversations, tools, and persistence; [Pi AI](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models) supplies model providers and authentication. See [Providers and authentication](#providers-and-authentication) for the upstream capabilities and the adapter included in this release.
+Pi Durable handles conversations, tools, and persistence; [Pi AI](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models) supplies model providers and authentication. See [Providers and authentication](#providers-and-authentication) for supported providers and setup examples.
 
 ```yaml
 - uses: igor-makarov/shurik@v1
   with:
     command: start
     loop-id: my-task
+    provider: openai
+    model: gpt-6-sol
     reasoning: high
 ```
 
@@ -20,7 +22,7 @@ Use a major version such as `@v1` or, for a future breaking release, `@v2`. Ever
 
 1. Add a public-safe task in `PROMPT.md`. Configure Shurik through action inputs in the workflow; no project configuration directory is required.
 2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. It invokes `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
-3. Add your model credential as a repository Actions secret and pass it to the iteration job. See [Providers and authentication](#providers-and-authentication) for the current adapter's credential input.
+3. Add the selected provider's credential as a repository Actions secret and expose it in the iteration action's `env`. Pi AI resolves authentication automatically; see [Providers and authentication](#providers-and-authentication).
 4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
 5. Review the task branch, or the draft PR if enabled. Stop with **Shurik → stop**, or resume with a new explicit reasoning level.
 
@@ -34,7 +36,7 @@ The workflow uses repository-scoped `github.token`. Iteration jobs need `content
 
 Every iteration starts a fresh model context while retaining native journals. The agent can retrieve past work through `list_sessions`, `search_sessions`, and `read_session`. A normal model response ends one iteration; the outer loop continues after success and failure until stopped or its deadline expires. Shurik never merges its draft PR.
 
-The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. A blank model on resume keeps the previous model; a blank resume deadline clears the previous deadline. Iteration numbers continue across stops and resumes: `1, 2, 3, 4, 5 → stop → resume → 6, 7, 8`. Run titles show only the number, for example `Shurik demo / 6`. An interrupted iteration that claimed ownership consumes its number; an unclaimed queued run does not. Resume changes an internal generation so older queued invocations cannot claim the resumed loop. GitHub run IDs saved in control also keep their cancellation and recovery events separate, even when two queued runs have the same title.
+The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. Blank provider/model inputs on resume keep the saved selection; changing provider requires an explicit model. A blank resume deadline clears the previous deadline. Iteration numbers continue across stops and resumes: `1, 2, 3, 4, 5 → stop → resume → 6, 7, 8`. Run titles show only the number, for example `Shurik demo / 6`. An interrupted iteration that claimed ownership consumes its number; an unclaimed queued run does not. Resume changes an internal generation so older queued invocations cannot claim the resumed loop. GitHub run IDs saved in control also keep their cancellation and recovery events separate, even when two queued runs have the same title.
 
 “Budget” refers to execution time: `seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs.
 
@@ -60,7 +62,7 @@ node bin/shurik.ts paths --repository owner/project --loop-id my-task --workspac
 | `start` | Create task/control branches, save initial state, dispatch the first iteration |
 | `iterate` | Run one fenced Pi Durable iteration, publish checkpoints, dispatch the successor |
 | `stop` | Save a durable stop and cancel the active run |
-| `resume` | Start a new generation with explicit reasoning and optional model/deadline changes |
+| `resume` | Start a new generation with explicit reasoning and optional provider/model/deadline changes |
 | `recover` | Reconcile interrupted runs, retain diagnostics, and restore missing dispatches |
 | `worker --request FILE` | Execute a versioned JSON request through the Pi Durable worker |
 | `inspect --request FILE` | Open a disposable copy of a native journal without model calls |
@@ -75,7 +77,8 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `command` | `start`, `iterate`, `stop`, `resume`, or `recover`; defaults to `start` |
 | `loop-id` | Unique lowercase loop ID; required except for recovery |
 | `inputs` | Optional JSON from `${{ toJSON(inputs) }}`; explicit action inputs override it |
-| `model`, `reasoning` | Provider model and explicit reasoning level |
+| `provider` | Pi AI provider ID; defaults to `opencode-go` on start, retained on resume |
+| `model`, `reasoning` | Model ID from the selected provider and explicit reasoning level |
 | `create-pr` | `auto` (default), `true`, or `false`; denied repository PR settings become `false` without stopping the loop |
 | `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
 | `prompt` | Relative task prompt file; defaults to `PROMPT.md` at start |
@@ -85,7 +88,7 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |
 | `workflow` | Iteration workflow filename; default `shurik.yml` |
 | `token` | Defaults to `${{ github.token }}` |
-| `opencode-api-key` | Credential for the bundled OpenCode Go adapter; supplied from Actions secrets |
+| `opencode-api-key` | Optional compatibility alias for the `OPENCODE_API_KEY` environment variable |
 
 Outputs are `engine-revision` (the commit used by this invocation), `state-path`, `logs-path`, `emergency-path` (absolute directories outside the repository), and `control-branch`. Path outputs are written before the CLI runs, so failure artifact steps can use `emergency-path`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
 
@@ -93,21 +96,34 @@ Outputs are `engine-revision` (the commit used by this invocation), `state-path`
 
 Pi Durable accepts a Pi AI `Models` collection and identifies a model by its provider ID and model ID. Its [quick start](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md#quick-start) registers OpenAI; its [per-conversation agent configuration](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md#per-conversation-agent) selects the provider, model, and thinking level. Durable journals and Shurik's GitHub scheduling do not depend on one model vendor.
 
-Pi AI provides built-in adapters for providers including OpenAI, Anthropic, Google, Amazon Bedrock, OpenRouter, DeepSeek, and OpenCode. Each adapter owns its model catalog, protocol, and authentication. Providers can use API keys, supported OAuth flows, or ambient cloud credentials. Pi AI also supports custom providers for compatible endpoints. Refer to its [provider documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models), [authentication documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#auth), and [custom-provider documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#custom-providers).
+Shurik registers Pi AI's built-in providers and selects the requested chat model from their bundled catalogs. Each adapter owns its protocol, authentication, and supported reasoning levels. The catalogs ship with the pinned Pi AI version; account access and live model availability still depend on the provider. See Pi AI's [provider documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models) and [authentication documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#auth).
 
-**Current Shurik adapter:** this release registers `opencode-go`; the `model` input selects a model from its catalog. Using other Pi AI providers requires adding provider selection and registration to Shurik's worker and action.
+Set `provider` and `model` in the control action or workflow dispatch. Start saves them in `control.json`; later iterations read that saved pair. Resume retains it when both inputs are blank, or switches provider with an explicit model. Older loops without a provider field retain `opencode-go`. For compatibility, a new start with no provider/model still defaults to `opencode-go` / `space-bunny-free`; select an available model explicitly.
 
-For the bundled adapter, add the Actions secret `OPENCODE_API_KEY` and pass it only to the iteration action:
+Pi AI reads its native environment variables and ambient cloud credentials automatically. GitHub secrets must be exposed as environment variables in the iteration action; Shurik needs no new credential input. For OpenAI:
 
 ```yaml
 - uses: igor-makarov/shurik@v1
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   with:
     command: iterate
     inputs: ${{ toJSON(inputs) }}
-    opencode-api-key: ${{ secrets.OPENCODE_API_KEY }}
 ```
 
-Start, stop, resume, and recovery need the repository token but make no model requests. Keep credentials in Actions secrets, outside dispatch inputs and saved control/session data. The public demo uses `deepseek-v4.1-flash` through this adapter.
+For Anthropic, use `provider: anthropic`, `model: claude-haiku-4-5`, and expose `ANTHROPIC_API_KEY` instead. Common choices are:
+
+| Provider ID | Native authentication |
+| --- | --- |
+| `openai` | `OPENAI_API_KEY` |
+| `anthropic` | `ANTHROPIC_API_KEY` or `ANTHROPIC_OAUTH_TOKEN` |
+| `google` | `GEMINI_API_KEY` |
+| `openrouter` | `OPENROUTER_API_KEY` |
+| `deepseek` | `DEEPSEEK_API_KEY` |
+| `amazon-bedrock` | AWS credentials/profile/role configured on the runner |
+| `opencode`, `opencode-go` | `OPENCODE_API_KEY` |
+
+Start, stop, resume, and recovery need the repository token but make no model requests. Keep credentials outside dispatch inputs and saved control/session data. Shurik does not run interactive OAuth login or configure a persistent credential store. Custom providers/endpoints need a worker integration; see Pi AI's [custom-provider documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#custom-providers). The public demo uses `opencode-go` / `deepseek-v4.1-flash` with native environment authentication.
 
 ## Loop configuration
 
@@ -122,7 +138,7 @@ Set configuration in the control job's action inputs:
     prompt: PROMPT.md
 ```
 
-Choose the model and iteration time limit with the `model` and `seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective model, time limit, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
+Choose the provider, model, and iteration time limit with the `provider`, `model`, and `seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective provider/model pair, time limit, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
 
 The iteration time limit is 10–1,800 seconds; the checkpoint interval is 1–1,800 seconds. `prompt` names a relative project file. `checkpoint-paths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository's visibility; use artifact storage for large files.
 

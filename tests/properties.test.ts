@@ -8,7 +8,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import fc from 'fast-check';
 import {
   validateId, validateReasoning, validateCreatePr, resumeSettings, claimable,
-  stopped, cancelledForLoop, trustedRecovery, classify, nextRuntime, redact, loopSnapshot,
+  stopped, cancelledForLoop, trustedRecovery, classify, nextRuntime, redact, loopSnapshot, validateProvider, credentialValues,
 } from '../scripts/policy.ts';
 import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, sessionPaths, workBranch, controlBranch } from '../scripts/paths.ts';
 import { projectConfig } from '../scripts/config.ts';
@@ -394,3 +394,53 @@ property('named action configuration needs no project file and preserves explici
       assert.equal(config.iterationSeconds, seconds); assert.equal(config.checkpointSeconds, checkpoint);
       assert.deepEqual(config.checkpointPaths, ['data/' + name]); assert.equal(copy(inputs), before);
     }));
+
+property('provider and model selection round-trips through CLI, action and configuration without credentials',
+  fc.asyncProperty(identifier, identifier, identifier, async (provider, model, secret) => {
+    const inputs = { command: 'start', loop_id: 'loop', provider: 'opencode-go', model: 'old', reasoning: 'high' };
+    const cli = parseArgs(['start', '--provider', provider, '--model', model], inputs);
+    const action = actionOptions({ SHURIK_INPUTS: JSON.stringify(inputs), SHURIK_PROVIDER: provider,
+      SHURIK_MODEL: model, OPENAI_API_KEY: secret });
+    const config = await projectConfig(join(home, 'no-config'), action);
+    for (const value of [cli, action, config]) {
+      assert.equal(value.provider, provider); assert.equal(value.model, model);
+      assert.ok(!Object.hasOwn(value, 'OPENAI_API_KEY'));
+    }
+    assert.equal(inputs.provider, 'opencode-go'); assert.equal(inputs.model, 'old');
+  }));
+
+property('resume preserves the saved provider/model and upgrades legacy state without mutating it',
+  fc.property(control, reasoning, (previous, level) => {
+    previous = { ...previous, status: 'stopped' }; const before = copy(previous);
+    for (const provider of [undefined, '', previous.provider]) {
+      const resumed = resumeSettings(previous, { provider, reasoning: level });
+      assert.equal(resumed.provider, validateProvider(previous.provider)); assert.equal(resumed.model, previous.model);
+      assert.equal(loopSnapshot(resumed).provider, resumed.provider);
+    }
+    assert.equal(copy(previous), before);
+  }));
+
+property('switching providers requires an explicit model and atomically saves the pair with a new generation',
+  fc.property(control, reasoning, identifier, (previous, level, model) => {
+    previous = { ...previous, status: 'stopped' }; const before = copy(previous);
+    const provider = validateProvider(previous.provider) === 'openai' ? 'anthropic' : 'openai';
+    for (const absent of [undefined, '', '   ']) assert.throws(() => resumeSettings(previous,
+      { provider, model: absent, reasoning: level }), /Explicit model required/);
+    const resumed = resumeSettings(previous, { provider, model, reasoning: level });
+    assert.equal(resumed.provider, provider); assert.equal(resumed.model, model);
+    assert.equal(resumed.generation, previous.generation + 1); assert.equal(resumed.owner, null);
+    assert.equal(claimable(resumed, previous.generation, resumed.next, 'old-run'), false);
+    assert.equal(copy(previous), before);
+  }));
+
+property('native provider and cloud credential values are redacted while nonsecret environment values remain',
+  fc.property(identifier, identifier, (provider, token) => {
+    const secret = 'SYNTHETIC_CREDENTIAL_' + token;
+    const env = { [provider.toUpperCase().replaceAll('-', '_') + '_API_KEY']: secret,
+      AWS_SECRET_ACCESS_KEY: secret, ANTHROPIC_OAUTH_TOKEN: secret, GITHUB_TOKEN: secret,
+      PATH: '/usr/bin', AWS_REGION: 'us-east-1' };
+    const values = credentialValues(env), clean = JSON.parse(redact(JSON.stringify(env), values));
+    assert.ok(!JSON.stringify(clean).includes(secret));
+    assert.equal(clean.PATH, env.PATH); assert.equal(clean.AWS_REGION, env.AWS_REGION);
+    assert.ok(!values.includes(env.PATH)); assert.ok(!values.includes(env.AWS_REGION));
+  }));

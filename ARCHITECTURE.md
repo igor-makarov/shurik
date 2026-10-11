@@ -43,7 +43,9 @@ All authored code is TypeScript: the CLI, action entry point, supervisor, worker
 
 [Pi AI's provider layer](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models) supports individual provider factories or a collection of all built-in providers. Its [authentication layer](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#auth) resolves provider credentials from supported environment variables, credential stores, OAuth, or ambient cloud configuration. Custom compatible endpoints require a registered custom provider with its own model metadata and authentication.
 
-The current Shurik worker registers `opencodeGoProvider()` and selects models from its catalog. `opencode-api-key` supplies `OPENCODE_API_KEY` to that adapter. Supporting other Pi AI providers requires carrying provider selection through action inputs, saved loop settings, and worker requests, then registering the selected adapter. Credentials remain separate from persisted configuration.
+The worker uses Pi AI's `builtinModels()` collection. `provider` and `model` pass from action/CLI inputs into authoritative `control.json`, task-facing loop metadata, iteration diagnostics, and worker requests. Conversations receive that pair and an explicit supported reasoning level. Resume retains the saved pair or atomically changes it with the new generation; a provider change requires an explicit model. Missing provider fields in older version-1 controls and worker requests mean `opencode-go`, preserving same-major compatibility. Journal inspection does not resolve a provider or require authentication.
+
+The iteration action inherits native provider environment variables and cloud configuration. Pi AI resolves authentication; Shurik supplies no per-request API-key override, interactive login flow, or persistent credential store. The existing `opencode-api-key` input remains an optional environment alias. Credentials never become action configuration, worker-request JSON, or saved control fields. Publication redaction includes provider key/token variables and cloud credentials present in the environment. Model catalogs are those shipped with the pinned Pi AI package; additional custom endpoints need an adapter integration.
 
 ## Release and repository boundaries
 
@@ -75,10 +77,10 @@ The built-in GitHub token has contents/PR/Actions write permissions for the cons
 
 ## Iteration lifecycle
 
-1. `start` checks authorization, reasoning, budget, deadline, consumer source, prompt, and configuration. It initializes `codex/shurik/<id>` and `codex/shurik-control/<id>` with a paired checkpoint, then dispatches iteration 1.
+1. `start` checks authorization, reasoning, provider/model configuration, budget, deadline, consumer source, and prompt. It initializes `codex/shurik/<id>` and `codex/shurik-control/<id>` with a paired checkpoint, then dispatches iteration 1.
 2. `iterate` reads authoritative control and claims the expected generation/iteration. Stale, duplicate, stopped, or expired invocations do not start an agent.
 3. Clone the consumer work branch and hydrate canonical session state from its control branch. Import failure evidence and mark unfinished sessions as interrupted. Save an iteration-start record.
-4. Build the current engine separately. Run the worker with the consumer working directory, journal path, bounded budget, explicit reasoning, prompt, and history index.
+4. Build the current engine separately. Run the worker with the saved provider/model pair, consumer working directory, journal path, bounded budget, explicit reasoning, prompt, and history index.
 5. Pi Durable aborts pending historical work and resets to a fresh model context. Publish the native session boundary before the first model request. History tools retrieve older transcript ranges on demand.
 6. At completed tool-round boundaries, the Pi hook serializes a journal copy and waits for the supervisor to publish source, journal, session boundaries, index, and available output together. No process freeze is used for checkpoints.
 7. At yield, failure, or timeout, abort the worker and preserve partial code and diagnostics. Inspect journals on disposable copies; retain malformed data and restore the last readable snapshot if necessary.

@@ -162,7 +162,7 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.7');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.8');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
@@ -171,6 +171,74 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     globalThis.fetch = fetchOriginal;
     if (keyOriginal === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = keyOriginal;
   }
+});
+
+test('native OpenAI and Anthropic adapters resolve environment credentials and switch providers across journal reopen', async () => {
+  const f = await fixture(), requests: { url: string; headers: Headers; body: { model: string } }[] = [];
+  const fetchOriginal = globalThis.fetch;
+  const credentials = { OPENAI_API_KEY: 'SYNTHETIC_OPENAI_CONTRACT_KEY', ANTHROPIC_API_KEY: 'SYNTHETIC_ANTHROPIC_CONTRACT_KEY' };
+  const previous = Object.fromEntries(Object.keys(credentials).map(name => [name, process.env[name]]));
+  Object.assign(process.env, credentials);
+  globalThis.fetch = async (url, options = {}) => {
+    const request = { url: String(url), headers: new Headers(options.headers), body: JSON.parse(options.body as string) };
+    requests.push(request);
+    const events = request.url.includes('api.openai.com') ? [
+      { type: 'response.created', response: { id: 'response-test' } },
+      { type: 'response.completed', response: { id: 'response-test', status: 'completed', model: 'gpt-6-sol',
+        output: [{ type: 'message', id: 'message-test', status: 'completed', role: 'assistant',
+          content: [{ type: 'output_text', text: 'OpenAI done.', annotations: [] }] }],
+        usage: { input_tokens: 10, output_tokens: 3, total_tokens: 13 } } },
+    ] : [
+      { type: 'message_start', message: { id: 'message-test', type: 'message', role: 'assistant', model: 'claude-haiku-4-5',
+        content: [], stop_reason: null, stop_sequence: null, usage: { input_tokens: 10, output_tokens: 0 } } },
+      { type: 'content_block_start', index: 0, content_block: { type: 'text', text: '' } },
+      { type: 'content_block_delta', index: 0, delta: { type: 'text_delta', text: 'Anthropic done.' } },
+      { type: 'content_block_stop', index: 0 },
+      { type: 'message_delta', delta: { stop_reason: 'end_turn', stop_sequence: null }, usage: { output_tokens: 3 } },
+      { type: 'message_stop' },
+    ];
+    return new Response(events.map(event => `event: ${event.type}\ndata: ${JSON.stringify(event)}\n\n`).join(''),
+      { headers: { 'content-type': 'text/event-stream' } });
+  };
+  try {
+    const { runIteration } = loadWorker();
+    for (const [provider, model] of [['openai', 'gpt-6-sol'], ['anthropic', 'claude-haiku-4-5']]) {
+      const output = join(f.dir, provider);
+      await runIteration({ version: 1, id: provider, cwd: f.cwd, journal: f.journal, output,
+        prompt: 'Yield a final response.', provider, model, reasoning: 'high', seconds: 10, sessions: [] });
+      const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+      assert.equal(result.outcome, 'yielded', JSON.stringify(result.error));
+      assert.equal(result.provider, provider); assert.equal(result.model, model);
+    }
+    assert.equal(requests.length, 2);
+    assert.equal(requests[0].url, 'https://api.openai.com/v1/responses');
+    assert.equal(requests[0].headers.get('authorization'), 'Bearer ' + credentials.OPENAI_API_KEY);
+    assert.equal(requests[0].body.model, 'gpt-6-sol');
+    assert.match(requests[1].url, /^https:\/\/api\.anthropic\.com\/v1\/messages(?:\?|$)/);
+    assert.equal(requests[1].headers.get('x-api-key'), credentials.ANTHROPIC_API_KEY);
+    assert.equal(requests[1].body.model, 'claude-haiku-4-5');
+    for (const request of requests) assert.equal(request.headers.get('x-opencode-session'), null);
+    await runIteration({ version: 1, id: 'inspect', cwd: f.cwd, journal: f.journal, output: join(f.dir, 'inspect'),
+      prompt: '', provider: 'retired-provider', model: 'retired-model', reasoning: 'off', seconds: 1, sessions: [], mode: 'inspect' });
+    assert.equal(requests.length, 2, 'inspection does not require a registered provider or make a request');
+    const journal = (await Promise.all((await readdir(f.journal)).filter(name => name.endsWith('.jsonl'))
+      .map(name => readFile(join(f.journal, name), 'utf8')))).join('\n');
+    for (const credential of Object.values(credentials)) assert.ok(!journal.includes(credential));
+  } finally {
+    globalThis.fetch = fetchOriginal;
+    for (const [name, value] of Object.entries(previous)) {
+      if (value === undefined) delete process.env[name]; else process.env[name] = value;
+    }
+  }
+});
+
+test('worker rejects unknown providers and mismatched provider/model pairs', async () => {
+  const f = await fixture(), { runIteration } = loadWorker();
+  const req: WorkerRequest = { version: 1, id: 'invalid-provider', cwd: f.cwd, journal: f.journal,
+    output: join(f.dir, 'invalid'), prompt: 'Yield', provider: 'unknown-provider', model: 'space-bunny-free',
+    reasoning: 'high', seconds: 1, sessions: [] };
+  await assert.rejects(runIteration(req), /Unknown Pi AI provider/);
+  await assert.rejects(runIteration({ ...req, provider: 'openai' }), /Unknown chat model for openai/);
 });
 
 test('checkpoint feedback reaches native system messages and gates the next request until publication', async () => {

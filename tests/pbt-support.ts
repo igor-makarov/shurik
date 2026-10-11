@@ -33,6 +33,7 @@ export const terminal = fc.constantFrom<Outcome>('yielded', 'agent_failure', 'ti
 export const control = fc.record({
   id: identifier, generation: positive, next: positive, seconds: fc.integer({ min: 10, max: 1800 }),
   branch: fc.constant('codex/shurik/task'), source: sha, status: fc.constant('running'),
+  provider: fc.option(fc.constantFrom('opencode-go', 'openai', 'anthropic', 'google', 'amazon-bedrock', 'openrouter', 'deepseek'), { nil: undefined }),
   model: identifier, reasoning, owner: fc.option(fc.record({ runId: identifier }), { nil: null }),
   deadline: fc.constant(null), lastRunId: identifier, lastDispatchAt: fc.constant('2026-10-11T12:00:00Z'),
   engine: fc.record({ repository: fc.constant('fixture/shurik'), ref: fc.constant('v1') }),
