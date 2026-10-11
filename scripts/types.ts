@@ -1,7 +1,7 @@
 import type { Request } from '../src/worker.ts';
 import type { SessionSummary } from '../src/history.ts';
 
-export type Options = Partial<Record<'command' | 'loop_id' | 'model' | 'reasoning' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle', string>> & { verification?: boolean | string; help?: boolean };
+export type Options = Partial<Record<'command' | 'loop_id' | 'model' | 'reasoning' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean };
 export type Secrets = (string | undefined)[];
 export type Outcome = 'running' | 'yielded' | 'agent_failure' | 'timeout' | 'runner_failure' | 'interrupted';
 export interface Checkpoint { workCommit: string; generation: number; sequence: string; runId: string | null; at: string }
@@ -13,7 +13,7 @@ export interface Control {
   owner: { runId: string; generation: number; iteration: number; claimedAt?: string } | null;
   deadline?: string | null; seconds: number; model: string; reasoning: string;
   source: string; sourceRef?: string | null; createdAt: string; lastDispatchAt: string | null;
-  stoppedAt?: string; lastRunId?: string | null; pr?: string | null; verification?: boolean;
+  stoppedAt?: string; lastRunId?: string | null; pr?: string | null; createPr?: boolean | 'auto'; verification?: boolean;
   checkpoint?: Checkpoint; failureTrail?: string[];
   recovery?: { runId: string; conclusion: string | null; at: string };
 }

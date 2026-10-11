@@ -1,12 +1,28 @@
 # Verification
 
-Current implementation: a reusable action invoking the TypeScript Shurik CLI, Node 24.14.0, Pi Durable / Pi AI / Chord 1.0.2, and a native worker built separately from consumer task source. Reusable loops follow the current major release; selected/fallback source commits remain part of the legacy self-hosted path. Runtime sessions live outside the repository under `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/`, and journals and framework state persist on the control branch; task files live on the work branch. Docker and committed worker bundles have been removed. The earlier live evidence below describes the previous container implementation.
+Current implementation: a reusable action invoking the TypeScript Shurik CLI, Node 24.14.0, Pi Durable / Pi AI / Chord 1.0.2, and a native worker built separately from consumer task source. Reusable loops follow the current major release; selected/fallback source commits remain part of the legacy self-hosted path. Runtime sessions live outside the repository under `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/`, and journals and framework state persist on the control branch; task files live on the work branch. Docker and committed worker bundles have been removed.
 
 ## Reusable component checks
 
 The component adds CLI/action input checks, optional consumer configuration, current-major-tag resolution on each invocation, and a consumer Git repository with no Shurik source or package dependencies. Real Pi Durable coding tools create a task file through the CLI worker; a paired Git checkpoint publishes that file and native history to separate branches. A cold task checkout restores the canonical session directory, and a fresh worker retrieves the earlier transcript through history tools. CLI journal inspection leaves the canonical native journal bytes unchanged. The independent demo passes `node --test` without engine dependencies or credentials.
 
-These checks use scripted model responses and local Git remotes. They do not claim a live consumer GitHub Actions or OpenCode run. Type checking covers all production TypeScript modules. Git-backed recovery tests verify recovery while the workflow remains in progress, rejection of an unfinished/mismatched iteration job, and immediate retry after a failure before claim. Workflow lint verifies the single `shurik.yml` with control, iteration, and recovery jobs. The existing native runner proof are also part of extraction validation. See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime and saved-state contract.
+These automated checks use scripted model responses and local Git remotes; the independent live consumer run is documented below. Type checking covers all production TypeScript modules. Git-backed recovery tests verify recovery while the workflow remains in progress, rejection of an unfinished/mismatched iteration job, and immediate retry after a failure before claim. Consumer integration checks deny automatic PR creation and verify start, task checkpoint publication, ownership release, and successor dispatch still succeed. They also verify successful creation after enabling it and that explicit `false` makes no creation request. Workflow lint verifies the single `shurik.yml` with control, iteration, and recovery jobs. The existing native runner proof is also part of extraction validation. See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime and saved-state contract.
+
+## Live reusable consumer evidence
+
+The public [shurik-demo](https://github.com/igor-makarov/shurik-demo) repository invokes `igor-makarov/shurik@v1` from one `shurik.yml` and contains no engine source or dependencies. Loop `greeting-20261011-120943-retry` used two-minute iterations and a finite deadline. The initial `space-bunny-free` requests failed because the provider reported the model unavailable. After an explicit stop and maintainer-approved resume with `deepseek-v4.1-flash` and `high` reasoning, the native worker completed the greeting task.
+
+| Observed run | Result |
+| --- | --- |
+| [DeepSeek iteration 2-5](https://github.com/igor-makarov/shurik-demo/actions/runs/38138912933) | Added backward-compatible English/Spanish greetings, five passing tests, and `greeting-api.md`; published a paired code/session checkpoint |
+| [Continuation 2-6](https://github.com/igor-makarov/shurik-demo/actions/runs/38138996521) | Restored native history on a fresh runner, called `read_session` for 2-5, and verified the completed task without further code changes |
+| Recovery jobs in both runs above | Continued the loop in the same workflow after GitHub denied optional PR creation; retained the Actions failure reports before dispatch |
+| [Durable stop](https://github.com/igor-makarov/shurik-demo/actions/runs/38139089855) | Control and recovery succeeded; committed `status: stopped` and `owner: null` |
+| [Linux engine CI](https://github.com/igor-makarov/shurik/actions/runs/38138846445) | Passed production type/build checks, native integration tests, and the complete scripted runner proof |
+
+Both paid iteration records name engine commit `810eb28cdf35a07f94f9d43f5997e8696872fa42`, received through the current major tag although the loop originally started with `ff7488806b221b3c8af26e6384d514cbdd03ebe6`. The task commit is `e1df2c834f4e4e39c940921df29d3c1cc1acfa1e`. The control branch retains native journals, iteration records, checkpoint pairing, and failure evidence under the declared paths. CLI inspection of a disposable copy of the final remote journal returned `readable`. The final usage snapshot reports a cumulative model cost of $0.010511934 for these two paid iterations; this is provider-reported usage, not a spending cap.
+
+The paid iteration jobs failed only at automatic PR creation after successful task publication; their recovery jobs succeeded. Release 1.1.3 adds optional PR creation with an automatic default, so consumers can install only the workflow and secret. The verified task changes are published directly to demo `main`; no demo PR was created. The loop remains stopped.
 
 ## Local evidence
 
@@ -31,7 +47,7 @@ The failure-trail tests use real temporary Git remotes. They verify that report 
 
 The collector was also tested against the existing [cancelled live iteration](https://github.com/igor-makarov/shurik/actions/runs/37211182079), using the configured GitHub login. It retrieved one job's step results and a 16 KiB log excerpt, recorded `cancelled`, and passed known-token redaction. This is a real API check; the new interruption/recovery proofs use a scripted provider and do not claim an additional live Space Bunny recovery run.
 
-## Live evidence
+## Earlier container live evidence
 
 The corrected controlled loop used the maintainer-selected `opencode-go/space-bunny-free` model with a finite deadline and 180-second agent budget in [draft PR #2](https://github.com/igor-makarov/shurik/pull/2).
 

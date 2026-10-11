@@ -4,7 +4,7 @@ import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, configureGit, saveJson, readJson, ControlStore } from './github.ts';
-import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, resumeSettings } from './policy.ts';
+import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings } from './policy.ts';
 import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.ts';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt, completedIterationRun } from './failures.ts';
 import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
@@ -56,18 +56,28 @@ async function publish(workspace: string, controlStore: ControlStore, generation
   return publishCheckpoint({ workspace, state, store: controlStore, generation, owner: record ? runId : null,
     sequence: record?.id ?? 'initialize', message, record, journalSnapshot });
 }
-async function createPr(control: Control, workspace: string) {
+async function createPr(control: Control, workspace: string): Promise<{ pr: string | null; createPr: boolean | 'auto' }> {
+  if (control.createPr === false) return { pr: control.pr ?? null, createPr: false };
   const existing = await api<{ html_url: string }[]>(`pulls?state=open&head=${encodeURIComponent(repo!.split('/')[0] + ':' + control.branch)}`);
-  if (existing[0]) return existing[0].html_url;
+  if (existing[0]) return { pr: existing[0].html_url, createPr: true };
   // An empty task branch has no PR yet. State on the control branch must not manufacture a code diff.
-  if (!await git(workspace, 'diff', '--name-only', `origin/${control.defaultBranch}...HEAD`)) return null;
-  const pr = await api<{ html_url: string }>('pulls', 'POST', { title: `Shurik loop: ${control.id}`, head: control.branch,
-    base: control.defaultBranch, draft: true,
-    body: `Autonomous Ralph task changes. Session journals and failure diagnostics are retained on the [control branch](https://github.com/${repo}/tree/codex/shurik-control/${control.id}), including partial and failed iterations. Review source, dependencies, and transcripts before merging. Workflow changes are blocked; merging is manual.` });
-  return pr.html_url;
+  if (!await git(workspace, 'diff', '--name-only', `origin/${control.defaultBranch}...HEAD`)) return { pr: null, createPr: control.createPr ?? 'auto' };
+  try {
+    const pr = await api<{ html_url: string }>('pulls', 'POST', { title: `Shurik loop: ${control.id}`, head: control.branch,
+      base: control.defaultBranch, draft: true,
+      body: `Autonomous Shurik task changes. Session journals and failure diagnostics are retained on the [control branch](https://github.com/${repo}/tree/codex/shurik-control/${control.id}), including partial and failed iterations. Review source, dependencies, and transcripts before merging. Workflow changes are blocked; merging is manual.` });
+    return { pr: pr.html_url, createPr: true };
+  } catch (error) {
+    if (String(error).includes('GitHub POST pulls: 403') && String(error).includes('GitHub Actions is not permitted to create or approve pull requests')) {
+      console.log(`Task changes saved on ${control.branch}. Automatic PR creation is disabled in repository Actions settings.`);
+      return { pr: null, createPr: false };
+    }
+    throw error;
+  }
 }
 export async function start(options: Options) {
   const reasoning = validateReasoning(options.reasoning);
+  const createPrMode = validateCreatePr(options.create_pr);
   await authorized(); const id = validateId(options.loop_id);
   const verification = options.verification === true || options.verification === 'true';
   const metadata = await api<{ default_branch: string }>(''); const defaultBranch = metadata.default_branch;
@@ -103,7 +113,7 @@ export async function start(options: Options) {
   const control: Control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
     engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
     owner: null, deadline, seconds: options.seconds ? seconds : config.iterationSeconds,
-    model, reasoning, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
+    model, reasoning, createPr: createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, workflowRef);
   emergencyWorkspace = workspace;
   const state = runtimeState(repo, id); emergencyState = state; await mkdir(join(state, PATHS.journal), { recursive: true });
@@ -120,9 +130,9 @@ export async function start(options: Options) {
   await saveJson(join(state, PATHS.loop), loopSnapshot(control));
   await pruneAndGuard(workspace, state, workflowRef);
   await initializeCheckpoint({ workspace, state, store, control, message: `shurik: initialize ${id}` });
-  const pr = await createPr(control, workspace);
-  await store.mutate(c => ({ ...c, pr, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
-  console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}; draft PR awaits task changes`);
+  const decision = await createPr(control, workspace); const { pr } = decision;
+  await store.mutate(c => ({ ...c, ...decision, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
+  console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}`);
   await dispatch({ ...control, pr });
 }
 export async function expireUnstartedIteration(store: ControlStore, generation: number, iteration: number, invocationRunId: string) {
@@ -240,9 +250,9 @@ export async function iterate(options: Options) {
       await publish(workspace, store, generation, state, `shurik: candidate validation ${sequence}`, initial, record);
     }
   }
-  if (!control.pr) {
-    const pr = await createPr(control, workspace);
-    if (pr) await store.mutate(c => c.generation === generation ? { ...c, pr } : null);
+  if (!control.pr && control.createPr !== false) {
+    const decision = await createPr(control, workspace);
+    await store.mutate(c => c.generation === generation ? { ...c, ...decision } : null);
   }
   // The stable control branch is authoritative: edits or cancellation during cleanup cannot resurrect the loop.
   control = await store.mutate(c => {

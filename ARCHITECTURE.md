@@ -58,6 +58,8 @@ Recovery identifies the workflow name `Shurik`, job name `iteration`, and run ti
 
 The built-in GitHub token has contents/PR/Actions write permissions for the consumer worker job. Start and control check the dispatch actor's repository write permission. Secrets stay in Actions inputs/environment and do not enter command-line arguments. Fork contributor CI remains read-only and receives no model key.
 
+`create-pr` is an optional action/CLI setting; the workflow adapter calls it `create_pr`. The default `auto` attempts a draft PR when task changes exist. Successful creation records `createPr: true`; GitHub's specific repository-setting denial records `createPr: false` and continues. Explicit `false` skips PR API calls, while `true` enables an attempt. Other API errors retain the normal failure/recovery behavior. The durable control field is carried across iterations and can be changed on resume; `auto` retries permission discovery after repository settings change. Permission discovery uses the normal PR request and does not require an administration token.
+
 ## Iteration lifecycle
 
 1. `start` checks authorization, reasoning, budget, deadline, consumer source, prompt, and configuration. It initializes `codex/shurik/<id>` and `codex/shurik-control/<id>` with a paired checkpoint, then dispatches iteration 1.
@@ -67,7 +69,7 @@ The built-in GitHub token has contents/PR/Actions write permissions for the cons
 5. Pi Durable aborts pending historical work and resets to a fresh model context. Publish the native session boundary before the first model request. History tools retrieve older transcript ranges on demand.
 6. At completed tool-round boundaries, the Pi hook serializes a journal copy and waits for the supervisor to publish source, journal, session boundaries, index, and available output together. No process freeze is used for checkpoints.
 7. At yield, failure, or timeout, abort the worker and preserve partial code and diagnostics. Inspect journals on disposable copies; retain malformed data and restore the last readable snapshot if necessary.
-8. Publish the final paired checkpoint, create/update the draft PR when there are task changes, release ownership, and re-read stop/deadline/generation state before dispatching a successor.
+8. Publish the final paired checkpoint, create/update a draft PR when repository settings allow it (otherwise retain the task branch), release ownership, and re-read stop/deadline/generation state before dispatching a successor.
 
 A model final response ends an iteration, not the outer loop. A stop or deadline is authoritative. Ordinary progress feedback encourages continuing useful work; clock/countdown/handoff instructions appear only within the last checkpoint interval before preemption.
 

@@ -10,7 +10,7 @@ import { runtimeState, controlBranch } from '../scripts/paths.ts';
 export function actionOptions(env = process.env) {
   const options: Options = JSON.parse(env.SHURIK_INPUTS ?? '{}');
   for (const name of ['command', 'loop_id', 'model', 'reasoning', 'seconds', 'deadline',
-    'source_ref', 'generation', 'iteration', 'workflow'] as const) {
+    'source_ref', 'generation', 'iteration', 'workflow', 'create_pr'] as const) {
     const value = env[`SHURIK_${name.toUpperCase()}`];
     if (value) options[name] = value;
   }

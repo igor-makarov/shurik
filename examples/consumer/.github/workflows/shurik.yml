@@ -21,6 +21,11 @@ on:
       model:
         description: Optional model; start uses project config, resume keeps the previous model
         type: string
+      create_pr:
+        description: Create draft PRs when allowed (auto), always try (true), or disable (false)
+        type: choice
+        options: [auto, 'true', 'false']
+        default: auto
       source_ref:
         description: Optional project branch or commit for start
         type: string

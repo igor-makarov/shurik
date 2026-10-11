@@ -12,6 +12,8 @@ inputs:
     description: OpenCode Go model; defaults to project configuration on start
   reasoning:
     description: Explicit model reasoning level; required for start and resume
+  create-pr:
+    description: auto (default), true or false; auto creates a draft PR when repository settings allow it
   seconds:
     description: Iteration budget in seconds (10–1800)
   deadline:
@@ -61,6 +63,7 @@ runs:
         SHURIK_LOOP_ID: ${{ inputs.loop-id }}
         SHURIK_MODEL: ${{ inputs.model }}
         SHURIK_REASONING: ${{ inputs.reasoning }}
+        SHURIK_CREATE_PR: ${{ inputs.create-pr }}
         SHURIK_SECONDS: ${{ inputs.seconds }}
         SHURIK_DEADLINE: ${{ inputs.deadline }}
         SHURIK_SOURCE_REF: ${{ inputs.source-ref }}

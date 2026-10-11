@@ -4,7 +4,7 @@ import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { ControlStore, git, command, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.ts';
-import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot, validateReasoning, resumeSettings } from '../scripts/policy.ts';
+import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings } from '../scripts/policy.ts';
 import { buildRuntime } from '../scripts/runtime.ts';
 import { expireUnstartedIteration, start } from '../scripts/supervisor.ts';
 
@@ -27,6 +27,16 @@ test('resume requires fresh explicit reasoning and atomically changes model with
   assert.equal(resumeSettings(previous, { reasoning: 'high' }).model, 'space-bunny-free');
   assert.throws(() => resumeSettings({ ...previous, status: 'running' }, { reasoning: 'high' }), /already running/);
   assert.throws(() => resumeSettings(previous, { reasoning: 'high', deadline: 'invalid' }), /future/);
+  assert.equal(resumeSettings({ ...previous, createPr: false }, { reasoning: 'high' }).createPr, false);
+  assert.equal(resumeSettings({ ...previous, createPr: false }, { reasoning: 'high', create_pr: 'auto' }).createPr, 'auto');
+});
+
+test('draft PR mode defaults to auto and accepts explicit boolean overrides', () => {
+  assert.equal(validateCreatePr(undefined), 'auto');
+  assert.equal(validateCreatePr('auto'), 'auto');
+  for (const value of [true, 'true']) assert.equal(validateCreatePr(value), true);
+  for (const value of [false, 'false']) assert.equal(validateCreatePr(value), false);
+  assert.throws(() => validateCreatePr('sometimes'), /create-pr/);
 });
 
 async function expiredFixture() {

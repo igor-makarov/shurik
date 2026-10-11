@@ -13,17 +13,19 @@ Shurik runs durable coding-agent loops for your project through a reusable GitHu
 
 Use a major version such as `@v1` or, for a future breaking release, `@v2`. Every invocation uses the current release under that tag; an existing loop can receive engine updates within the same major version. Engine commit IDs in iteration records are diagnostic evidence, not a per-loop version lock.
 
-**Status:** reusable TypeScript CLI and action. The agent runs directly on the Actions runner with its job credentials. Integration checks use native Pi Durable journals and scripted providers. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
+**Status:** reusable TypeScript CLI and action, verified in the independent demo with live DeepSeek requests, native Pi Durable journals, and recovery in the same workflow. The agent runs directly on the Actions runner with its job credentials. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
 
 ## Add Shurik to a project
 
 1. Add a public-safe task in `PROMPT.md` and optionally configure `.shurik/config.json`.
-2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. They invoke `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
-3. Add the repository Actions secret `OPENCODE_API_KEY`, then enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**.
+2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. It invokes `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
+3. Add the repository Actions secret `OPENCODE_API_KEY`.
 4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
-5. Review the resulting draft PR. Stop with **Shurik → stop**, or resume with a new explicit reasoning level.
+5. Review the task branch, or the draft PR if enabled. Stop with **Shurik → stop**, or resume with a new explicit reasoning level.
 
 One workflow handles start/stop/resume, iterations, and recovery in separate jobs. No separate recovery file or model secret for control/recovery is needed. Keep the workflow name `Shurik`, job name `iteration`, and its `Shurik <id> / <command> <generation>-<iteration>` run-name format: recovery verifies them against GitHub. The default filename is `shurik.yml`; if you rename it, pass the new filename in the control job's `workflow` action input.
+
+The `create_pr` workflow input defaults to `auto`: create a draft PR when GitHub permits it, or save changes on the task branch and continue when the repository setting denies it. Shurik remembers a denial and does not retry it every iteration. Choose `false` to skip PR creation or `true` to enable it explicitly. The corresponding action input is `create-pr`, and the CLI option is `--create-pr auto|true|false`. Start records the choice; resume can change it. Enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests** for automatic PRs. After enabling it for an existing loop, resume with `auto` or `true` to try again.
 
 The workflow uses repository-scoped `github.token`. Iteration jobs need `contents: write`, `pull-requests: write`, and `actions: write`; the control job also needs PR access, while recovery needs contents and actions write access. Contributor CI should use read-only permissions and no model key.
 
@@ -32,6 +34,8 @@ The workflow uses repository-scoped `github.token`. Iteration jobs need `content
 Every iteration starts a fresh model context while retaining native journals. The agent can retrieve past work through `list_sessions`, `search_sessions`, and `read_session`. A normal model response ends one iteration; the outer loop continues after success and failure until stopped or its deadline expires. Shurik never merges its draft PR.
 
 The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. A blank model on resume keeps the previous model; a blank resume deadline clears the previous deadline. Each resume creates a new generation, fencing older queued invocations.
+
+“Budget” refers to execution time: `seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs. The demo uses `deepseek-v4.1-flash` because `space-bunny-free` was unavailable during verification.
 
 The recovery job uses `needs` and `always()` to run after iteration success or failure in the same workflow. It verifies the completed iteration job even while the overall workflow is still running. The same file includes a 15-minute scheduled check for interruption of the entire workflow. It saves available Actions failure diagnostics before redispatching. Cancelling the active loop in the Actions UI also becomes a durable stop. GitHub can delay scheduled jobs, and cancellation of an expected queued successor is conservatively treated as a stop.
 
@@ -69,6 +73,7 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `loop-id` | Unique lowercase loop ID; required except for recovery |
 | `inputs` | Optional JSON from `${{ toJSON(inputs) }}`; explicit action inputs override it |
 | `model`, `reasoning` | Provider model and explicit reasoning level |
+| `create-pr` | `auto` (default), `true`, or `false`; denied repository PR settings become `false` without stopping the loop |
 | `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
 | `source-ref` | Consumer task branch or commit; workflow definitions come from the default branch |
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |

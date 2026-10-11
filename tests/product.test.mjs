@@ -29,6 +29,8 @@ test('runtime sessions are outside the checkout and scoped by repository and loo
 
 test('CLI and action input validation keep explicit reasoning and allow flags to override dispatch inputs', () => {
   assert.equal(parseArgs(['resume', '--reasoning', 'high'], { command: 'stop', reasoning: 'low' }).reasoning, 'high');
+  assert.equal(parseArgs(['start', '--create-pr', 'false'], { create_pr: 'auto' }).create_pr, 'false');
+  assert.equal(actionOptions({ SHURIK_INPUTS: '{"create_pr":"auto","loop_id":"demo"}', SHURIK_CREATE_PR: 'false' }).create_pr, 'false');
   assert.equal(actionOptions({ SHURIK_INPUTS: '{"command":"iterate","loop_id":"demo","iteration":"2"}', SHURIK_MODEL: 'model' }).command, 'iterate');
   assert.equal(actionOptions({ SHURIK_INPUTS: '{"command":"recover"}' }).command, 'recover');
   assert.throws(() => parseArgs(['start', '--unknown', 'value']), /Unknown option/);
@@ -137,7 +139,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     GITHUB_TOKEN: 'TEST_ONLY_TOKEN', GH_TOKEN: undefined, SHURIK_PROJECT_ROOT: project,
     SHURIK_ENGINE_ROOT: engine, SHURIK_ENGINE_REPOSITORY: 'fixture/shurik', SHURIK_ACTION_REF: 'v1' };
   const previous = Object.fromEntries(Object.keys(overrides).map(key => [key, process.env[key]]));
-  const originalFetch = globalThis.fetch, dispatches = [];
+  const originalFetch = globalThis.fetch, dispatches = []; let prAllowed = false, prAttempts = 0;
   try {
     for (const [key, value] of Object.entries(overrides)) {
       if (value === undefined) delete process.env[key]; else process.env[key] = value;
@@ -154,13 +156,18 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (path.endsWith('/actions/workflows/55')) return Response.json({ name: 'Shurik' });
       if (path.endsWith('/actions/runs/100/jobs')) return Response.json({ jobs: [
         { id: 456, name: 'iteration', status: 'completed', conclusion: 'success' } ] });
-      if (path.endsWith('/pulls')) return Response.json(init.method === 'POST' ? { html_url: 'https://github.com/fixture/consumer/pull/1' } : []);
+      if (path.endsWith('/pulls')) {
+        if (init.method !== 'POST') return Response.json([]);
+        prAttempts++;
+        return prAllowed ? Response.json({ html_url: 'https://github.com/fixture/consumer/pull/1' })
+          : Response.json({ message: 'GitHub Actions is not permitted to create or approve pull requests.' }, { status: 403 });
+      }
       if (path.endsWith('/dispatches')) { dispatches.push(JSON.parse(init.body)); return new Response(null, { status: 204 }); }
       throw new Error(`Unexpected API request: ${url}`);
     };
     const { main } = await import(`../scripts/supervisor.ts?consumer=${Date.now()}`);
     await main({ command: 'start', loop_id: 'demo', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source' });
-    const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl);
+    const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
     const store = new ControlStore(ctl, 'demo');
     const started = (await store.read()).value;
     assert.equal(await git(ctl, 'show', `${(await store.read()).revision}:.github/workflows/shurik.yml`), 'name: Current workflow');
@@ -168,11 +175,14 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(await git(ctl, 'show', `${started.checkpoint.workCommit}:.github/workflows/shurik.yml`), 'name: Current workflow');
     assert.equal(started.source, source); assert.notEqual(started.source, engineSHA);
     assert.equal(started.seconds, 20); assert.deepEqual(started.engine, { repository: 'fixture/shurik', ref: 'v1' });
+    assert.equal(started.pr, null, 'PR creation being disabled does not prevent starting the loop');
+    assert.equal(started.createPr, false, 'auto learns that this repository disallows PR creation');
     assert.equal(dispatches[0].inputs.supervisor_ref, undefined, 'reusable continuation does not pin an engine');
     await main({ command: 'iterate', loop_id: 'demo', generation: '1', iteration: '1' });
     const { value, revision } = await store.read();
     assert.equal(value.next, 2); assert.equal(value.owner, null);
-    assert.equal(value.pr, 'https://github.com/fixture/consumer/pull/1');
+    assert.equal(value.pr, null, 'PR creation being disabled does not prevent completing an iteration');
+    assert.equal(prAttempts, 1, 'later iterations do not retry a denied optional PR');
     const record = JSON.parse(await git(ctl, 'show', `${revision}:state/iterations/1-1.json`));
     assert.equal(record.outcome, 'yielded'); assert.equal(record.runtime, engineSHA);
     await git(ctl, 'fetch', 'origin', value.branch);
@@ -180,15 +190,25 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(dispatches.length, 2);
     assert.equal(dispatches[1].inputs.iteration, '2');
     assert.equal(dispatches[1].inputs.supervisor_ref, undefined);
+    prAllowed = true;
+    await store.mutate(c => ({ ...c, createPr: true }), 'fixture: enable draft PRs');
+    await main({ command: 'iterate', loop_id: 'demo', generation: '1', iteration: '2' });
+    const continued = (await store.read()).value;
+    assert.equal(continued.next, 3); assert.equal(continued.owner, null);
+    assert.equal(continued.pr, 'https://github.com/fixture/consumer/pull/1');
+    assert.equal(continued.createPr, true);
+    assert.equal(dispatches.length, 3);
     const oldEvent = process.env.GITHUB_EVENT_NAME, oldResult = process.env.SHURIK_ITERATION_RESULT;
     try {
       process.env.GITHUB_EVENT_NAME = 'workflow_dispatch'; process.env.SHURIK_ITERATION_RESULT = 'success';
       await main({ command: 'recover' });
-      assert.equal(dispatches.length, 2, 'recovery verifies the workflow name by ID and does not duplicate the successor');
+      assert.equal(dispatches.length, 3, 'recovery verifies the workflow name by ID and does not duplicate the successor');
     } finally {
       if (oldEvent === undefined) delete process.env.GITHUB_EVENT_NAME; else process.env.GITHUB_EVENT_NAME = oldEvent;
       if (oldResult === undefined) delete process.env.SHURIK_ITERATION_RESULT; else process.env.SHURIK_ITERATION_RESULT = oldResult;
     }
+    await main({ command: 'start', loop_id: 'without-pr', reasoning: 'high', create_pr: false, source_ref: 'older-task-source' });
+    assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
   } finally {
     globalThis.fetch = originalFetch;
     for (const [key, value] of Object.entries(previous)) {

@@ -9,6 +9,12 @@ export function validateReasoning(value: string | undefined): ModelThinkingLevel
   if (!reasoningLevels.some(level => level === value)) throw new Error('Explicit reasoning level required: ' + reasoningLevels.join(', '));
   return value as ModelThinkingLevel;
 }
+export function validateCreatePr(value: Options['create_pr']): boolean | 'auto' {
+  if (value === undefined || value === '' || value === 'auto') return 'auto';
+  if (value === true || value === 'true') return true;
+  if (value === false || value === 'false') return false;
+  throw new Error('create-pr must be auto, true or false');
+}
 export function resumeSettings(value: Control, options: Options): Control {
   if (value.status === 'running') throw new Error('Loop already running');
   const reasoning = validateReasoning(options.reasoning);
@@ -16,6 +22,7 @@ export function resumeSettings(value: Control, options: Options): Control {
   if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Resume deadline must be in the future');
   return { ...value, generation: value.generation + 1, status: 'running', owner: null, deadline,
     model: options.model?.trim() || value.model, reasoning,
+    createPr: options.create_pr === undefined ? (value.createPr ?? 'auto') : validateCreatePr(options.create_pr),
     lastRunId: null, lastDispatchAt: new Date().toISOString() };
 }
 export function loopSnapshot(control: Control) {
