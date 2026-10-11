@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { spawn } from 'node:child_process';
+import { createRequire } from 'node:module';
 import { mkdtemp, cp, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { sessionPaths } from '../scripts/paths.mjs';
@@ -53,26 +53,24 @@ export function parseArgs(args, inputs = {}) {
 
 async function worker(options) {
   if (!options.request) throw new Error('--request FILE is required');
-  let request = resolve(options.request), disposable;
+  let req = JSON.parse(await readFile(resolve(options.request), 'utf8')), disposable;
+  const { saveJson } = await import('../scripts/github.mjs');
   try {
     if (options.command === 'inspect') {
-      const req = JSON.parse(await readFile(request, 'utf8'));
       disposable = await mkdtemp(resolve(tmpdir(), 'shurik-inspect-cli-'));
       const journal = resolve(disposable, 'journal');
       await cp(resolve(req.journal), journal, { recursive: true });
-      const { saveJson } = await import('../scripts/github.mjs');
-      request = resolve(disposable, 'request.json');
-      await saveJson(request, { ...req, mode: 'inspect', journal });
+      req = { ...req, mode: 'inspect', journal };
     }
-    const child = spawn(process.execPath, [resolve(options.bundle ?? resolve(root, 'dist/worker.cjs')), request], { stdio: 'inherit' });
-    const forward = signal => { if (child.exitCode === null) child.kill(signal); };
-    const term = () => forward('SIGTERM'), interrupt = () => forward('SIGINT');
-    process.on('SIGTERM', term); process.on('SIGINT', interrupt);
+    // Execute in this process: the supervisor signals the worker process group.
+    // A forwarding wrapper would deliver SIGTERM twice and interrupt journal flush.
     try {
-      process.exitCode = await new Promise((accept, reject) => {
-        child.once('error', reject); child.once('exit', (code, signal) => accept(code ?? (signal ? 1 : 0)));
-      });
-    } finally { process.off('SIGTERM', term); process.off('SIGINT', interrupt); }
+      const { runIteration } = createRequire(import.meta.url)(resolve(options.bundle ?? resolve(root, 'dist/worker.cjs')));
+      await runIteration(req);
+    } catch (error) {
+      await saveJson(resolve(req.output, 'result.json'), { version: 1, outcome: 'runner_failure', error: String(error) });
+      throw error;
+    }
   } finally { if (disposable) await rm(disposable, { recursive: true, force: true }); }
 }
 
