@@ -20,7 +20,7 @@
   "stateStorage": "control",
   "reasoning": "high",
   "checkpoint": {
-    "workCommit": "eaa5e58771a16083ff2a79f632a312ecb3c43e3b",
+    "workCommit": "d2cb173059aa8e2e3f0c8a066533e972bb02bc70",
     "generation": 24,
     "sequence": "24-354",
     "runId": "38018609529",
@@ -533,5 +533,23 @@
       "runId": "38018609529",
       "at": "2026-10-10T03:06:03.474Z"
     }
+  },
+  "userToolTrialPreparation": {
+    "experimentId": "falafel-tools-20261011",
+    "at": "2026-10-11T09:30:11.000Z",
+    "authorization": "On 2026-10-11 the user explicitly requested a fresh one-hour run, nothing huge, same model, using available Internet Archive download libraries/tools including the Ruby gem. This supersedes the prior experiment's after-deadline read-only instruction for this new trial only; preserve its stopped history and results.",
+    "promptCommit": "d2cb173059aa8e2e3f0c8a066533e972bb02bc70",
+    "baselinePath": "state/model-experiments/deepseek-v4.1-flash-20261011-tools.json",
+    "previousCheckpoint": {
+      "workCommit": "eaa5e58771a16083ff2a79f632a312ecb3c43e3b",
+      "generation": 24,
+      "sequence": "24-354",
+      "runId": "38018609529",
+      "at": "2026-10-10T03:08:35.970Z"
+    },
+    "parentEdits": [
+      "PROMPT.md"
+    ],
+    "status": "prepared_stopped"
   }
 }
