@@ -5,7 +5,7 @@ import { cp, lstat, mkdir, readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { readJson, saveJson } from './github.ts';
 
-function validatePaths(paths: unknown): string[] {
+export function validatePaths(paths: unknown): string[] {
   if (!Array.isArray(paths) || paths.some(path => typeof path !== 'string'
     || !path || path.split('/').some(part => !part || part === '.' || part === '..'
       || part.startsWith('.') || ['node_modules', 'dist'].includes(part))
@@ -35,9 +35,9 @@ async function safeTree(root: string, path: string) {
 }
 
 // Explicitly selected ignored task state travels with the journal on the control branch.
-export async function snapshotTaskState(workspace: string, state: string, workCommit: string) {
-  const config = await readJson<Partial<ProjectConfig>>(join(workspace, PATHS.config), {});
-  const paths = validatePaths(config.checkpointPaths ?? []);
+export async function snapshotTaskState(workspace: string, state: string, workCommit: string, checkpointPaths?: string[]) {
+  const config = checkpointPaths === undefined ? await readJson<Partial<ProjectConfig>>(join(workspace, PATHS.config), {}) : {};
+  const paths = validatePaths(checkpointPaths ?? config.checkpointPaths ?? []);
   const root = join(state, PATHS.taskFiles);
   await rm(root, { recursive: true, force: true });
   await mkdir(root, { recursive: true });

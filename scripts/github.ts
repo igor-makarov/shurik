@@ -64,6 +64,16 @@ export async function commit(cwd: string, message: string) {
   if (await git(cwd, 'status', '--porcelain')) await git(cwd, 'commit', '-m', message);
   return git(cwd, 'rev-parse', 'HEAD');
 }
+// Runtime logs have their own directory; the saved layout stays compatible with v1.
+export async function copySession(state: string, destination: string, logs?: string) {
+  await rm(destination, { recursive: true, force: true });
+  await cp(state, destination, { recursive: true });
+  if (logs) {
+    await rm(join(destination, PATHS.diagnostics), { recursive: true, force: true });
+    await mkdir(logs, { recursive: true });
+    await cp(logs, join(destination, PATHS.diagnostics), { recursive: true });
+  }
+}
 export class ControlStore {
   cwd: string; branch: string;
   constructor(cwd: string, id: string) { this.cwd = cwd; this.branch = controlBranch(id); }
@@ -83,8 +93,7 @@ export class ControlStore {
         await saveJson(join(this.cwd, path), report);
       }
       if (checkpoint) {
-        await rm(join(this.cwd, PATHS.controlState), { recursive: true, force: true });
-        await cp(checkpoint.state, join(this.cwd, PATHS.controlState), { recursive: true });
+        await copySession(checkpoint.state, join(this.cwd, PATHS.controlState), checkpoint.logs);
         if (checkpoint.journalSnapshot) {
           await rm(join(this.cwd, `${PATHS.controlState}/${PATHS.journal}`), { recursive: true, force: true });
           await cp(checkpoint.journalSnapshot, join(this.cwd, `${PATHS.controlState}/${PATHS.journal}`), { recursive: true });

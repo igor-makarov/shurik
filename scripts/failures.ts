@@ -114,12 +114,12 @@ export async function reconcileLoop(store: ControlStore, { wake, request = api, 
   c = await store.mutate(v => !stopped(v) && !v.owner ? { ...v, lastDispatchAt: new Date().toISOString() } : null);
   if (!c.owner && !stopped(c)) await dispatchNext(c);
 }
-export async function importFailures(store: ControlStore, state: string) {
+export async function importFailures(store: ControlStore, state: string, logs = join(state, PATHS.diagnostics)) {
   const { revision, value } = await store.read(); const reports: Failure[] = [];
   for (const key of value.failureTrail ?? []) {
     if (!/^\d+-\d+$/.test(key)) throw new Error('Invalid failure trail key');
     const report: Failure = JSON.parse(await git(store.cwd, 'show', `${revision}:${PATHS.failures}/${key}.json`));
-    await saveJson(join(state, 'diagnostics/recovery', `${key}.json`), report); reports.push(report);
+    await saveJson(join(logs, 'recovery', `${key}.json`), report); reports.push(report);
   }
   return reports;
 }
@@ -144,12 +144,12 @@ export async function recoverInterrupted(state: string, sessions: Sessions, repo
     await saveJson(path, old); upsertSession(sessions, old);
   }
 }
-export function iterationPrompt(task: string, sequence: string, sessions: Sessions, reports: Failure[], state: string) {
+export function iterationPrompt(task: string, sequence: string, sessions: Sessions, reports: Failure[], state: string, logs = join(state, PATHS.diagnostics)) {
   const recent = sessions.slice(-3).map(({ id, outcome, error, transcript, recovery }) => ({ id, outcome, error, transcript, recovery }));
   const failures = reports.slice(-3).map(r => ({ runId: r.runId, conclusion: r.conclusion,
-    path: `${state}/${PATHS.diagnostics}/recovery/${r.key}.json`, jobsUnavailable: r.jobsUnavailable,
+    path: `${logs}/recovery/${r.key}.json`, jobsUnavailable: r.jobsUnavailable,
     jobs: r.jobs.filter(j => j.conclusion !== 'success' || j.log).map(j => ({ name: j.name, conclusion: j.conclusion,
       steps: j.steps.filter(s => s.conclusion && s.conclusion !== 'success' && s.conclusion !== 'skipped'),
       logExcerpt: j.log?.text.slice(-2000), logUnavailable: j.logUnavailable })) }));
-  return `${task}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under ${state}/${PATHS.diagnostics}/recovery/. This local state comes from the control branch and is excluded from task commits. Use the initial coding-tool working directory for task changes; GITHUB_WORKSPACE is the initial consumer checkout. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
+  return `${task}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under ${logs}/recovery/. Session state is under ${state}/. This data comes from the control branch and is excluded from task commits. Use the initial coding-tool working directory for task changes; GITHUB_WORKSPACE is the initial consumer checkout. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
 }

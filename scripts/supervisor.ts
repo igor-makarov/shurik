@@ -8,7 +8,8 @@ import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeT
 import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.ts';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt, completedIterationRun } from './failures.ts';
 import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
-import { PATHS, runtimeState, workBranch } from './paths.ts';
+import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, workBranch } from './paths.ts';
+import { preserveEmergency } from './emergency.ts';
 import { projectConfig } from './config.ts';
 
 const stable = resolve(process.env.SHURIK_ENGINE_ROOT ?? process.env.GITHUB_WORKSPACE ?? '.');
@@ -19,6 +20,8 @@ const runId = process.env.GITHUB_RUN_ID ?? `local-${Date.now()}`;
 const secrets = [process.env.OPENCODE_API_KEY, process.env.GITHUB_TOKEN, process.env.GH_TOKEN];
 let emergencyWorkspace: string | undefined;
 let emergencyState: string | undefined;
+let emergencyLogs: string | undefined;
+let emergencyDestination: string | undefined;
 async function clone(name: string) {
   const dir = await mkdtemp(join(tmpdir(), `shurik-${name}-`));
   await git(stable, 'clone', '--no-checkout', remote!, dir); await configureGit(dir); return dir;
@@ -38,7 +41,7 @@ async function dispatch(control: Control) {
       reasoning: validateReasoning(control.reasoning) }
   });
 }
-async function pruneAndGuard(workspace: string, state: string, initial: string, journalSnapshot?: string) {
+async function pruneAndGuard(workspace: string, state: string, initial: string, journalSnapshot?: string, logs?: string) {
   const attempted = await git(workspace, 'status', '--porcelain', '--', '.github/workflows');
   // Drop local workflow edits so GitHub's workflow restriction does not reject progress/state pushes.
   if (attempted) {
@@ -47,13 +50,15 @@ async function pruneAndGuard(workspace: string, state: string, initial: string, 
   }
   const redactions = await sanitizeTree(workspace, secrets)
     + await sanitizeTree(state, secrets)
+    + (logs ? await sanitizeTree(logs, secrets) : 0)
     + (journalSnapshot ? await sanitizeTree(journalSnapshot, secrets) : 0);
   return { attempted, redactions };
 }
 async function publish(workspace: string, controlStore: ControlStore, generation: number, state: string, message: string, initial: string, record?: Iteration, journalSnapshot?: string) {
-  const guard = await pruneAndGuard(workspace, state, initial, journalSnapshot);
-  if (guard.attempted || guard.redactions) await saveJson(join(state, 'diagnostics/publication.json'), guard);
-  return publishCheckpoint({ workspace, state, store: controlStore, generation, owner: record ? runId : null,
+  const logs = emergencyLogs!;
+  const guard = await pruneAndGuard(workspace, state, initial, journalSnapshot, logs);
+  if (guard.attempted || guard.redactions) await saveJson(join(logs, 'publication.json'), guard);
+  return publishCheckpoint({ workspace, state, logs, store: controlStore, generation, owner: record ? runId : null,
     sequence: record?.id ?? 'initialize', message, record, journalSnapshot });
 }
 async function createPr(control: Control, workspace: string): Promise<{ pr: string | null; createPr: boolean | 'auto' }> {
@@ -99,7 +104,7 @@ export async function start(options: Options) {
       await git(workspace, 'restore', '--source', workflowRef, '--staged', '--worktree', '--', '.github/workflows');
     }
   }
-  const config = await projectConfig(workspace);
+  const config = await projectConfig(workspace, options);
   const model = options.model || config.model;
   await readFile(join(workspace, config.prompt), 'utf8');
   if (verification && process.env.SHURIK_ENGINE_REPOSITORY) throw new Error('Live self-repair verification is only available to legacy self-hosted loops');
@@ -112,11 +117,15 @@ export async function start(options: Options) {
   if (!/^[a-zA-Z0-9_.-]+\.ya?ml$/.test(workflow)) throw new Error('Workflow must be a YAML filename');
   const control: Control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
     engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
+    checkpointSeconds: config.checkpointSeconds, checkpointPaths: config.checkpointPaths,
     owner: null, deadline, seconds: options.seconds ? seconds : config.iterationSeconds,
     model, reasoning, createPr: createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, workflowRef);
   emergencyWorkspace = workspace;
   const state = runtimeState(repo, id); emergencyState = state; await mkdir(join(state, PATHS.journal), { recursive: true });
+  emergencyDestination = runtimeEmergency(repo, id);
+  const logs = runtimeLogs(repo, id); emergencyLogs = logs;
+  await rm(logs, { recursive: true, force: true }); await mkdir(logs, { recursive: true });
   await saveJson(join(state, PATHS.runtime), { version: 2, selected: supervisor, fallback: supervisor,
     probation: false, quarantined: [], validatedSource: supervisor });
   await saveJson(join(state, PATHS.history), []);
@@ -128,8 +137,8 @@ export async function start(options: Options) {
     await writeFile(join(workspace, 'PROMPT.md'), 'Verification task: inspect src/verification-defect.ts and the import in src/worker.ts. Use bash/read/edit/write tools to remove this intentional import-time runner fault. Write verification-proof.txt containing a short explanation. Use list_sessions and search_sessions to inspect prior iteration failures. If prior sessions exist, read one with read_session. Make no other code changes. Then yield.\n');
   }
   await saveJson(join(state, PATHS.loop), loopSnapshot(control));
-  await pruneAndGuard(workspace, state, workflowRef);
-  await initializeCheckpoint({ workspace, state, store, control, message: `shurik: initialize ${id}` });
+  await pruneAndGuard(workspace, state, workflowRef, undefined, logs);
+  await initializeCheckpoint({ workspace, state, logs, store, control, message: `shurik: initialize ${id}` });
   const decision = await createPr(control, workspace); const { pr } = decision;
   await store.mutate(c => ({ ...c, ...decision, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
   console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}`);
@@ -161,10 +170,12 @@ export async function iterate(options: Options) {
   const workspace = await clone('workspace'); await git(workspace, 'checkout', control.branch);
   emergencyWorkspace = workspace;
   const initial = await git(workspace, 'rev-parse', 'HEAD'); const state = await loadState(store, workspace, id); emergencyState = state;
+  emergencyDestination = runtimeEmergency(repo, id);
+  const logs = runtimeLogs(repo, id); emergencyLogs = logs;
   const sequence = `${generation}-${iteration}`; const recordPath = join(state, PATHS.iterations, `${sequence}.json`);
   let runtime = await readJson<Runtime>(join(state, PATHS.runtime)); let sessions = await readJson<Sessions>(join(state, PATHS.history));
   if (control.engine) runtime = { ...runtime, selected: engineSourceRevision, fallback: engineSourceRevision, probation: false };
-  const failures = await importFailures(store, state);
+  const failures = await importFailures(store, state, logs);
   await recoverInterrupted(state, sessions, failures);
   const record: Iteration = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
     outcome: 'running', source: initial, runtime: runtime.selected, model: control.model, reasoning: control.reasoning };
@@ -191,8 +202,8 @@ export async function iterate(options: Options) {
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
     report = await launchWorker({ workspace, state, bundle, stable, key: process.env.OPENCODE_API_KEY,
       req: { version: 1, id: `${id}:${sequence}`, model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
-        checkpointSeconds: (await projectConfig(workspace)).checkpointSeconds,
-        sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, state) },
+        checkpointSeconds: control.checkpointSeconds ?? (await projectConfig(workspace)).checkpointSeconds,
+        sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, state, logs) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
       onCheckpoint: async (checkpoint, log, journalSnapshot) => {
         // Update rollback only after a readable, published checkpoint. A later corruption restores this boundary.
@@ -202,7 +213,7 @@ export async function iterate(options: Options) {
         record.minEntryId = checkpoint.minEntryId; record.maxEntryId = checkpoint.maxEntryId; record.checkpointAt = checkpoint.at;
         upsertSession(sessions, record);
         await saveJson(recordPath, record); await saveJson(join(state, PATHS.history), sessions);
-        await saveJson(join(state, PATHS.diagnostics, `${sequence}-worker.json`), { checkpoint, log: redact(log, secrets) });
+        await saveJson(join(logs, `${sequence}-worker.json`), { checkpoint, log: redact(log, secrets) });
         await publish(workspace, store, generation, state, `shurik: checkpoint ${sequence}`, initial, record, journalSnapshot);
         publishedBounds = { minEntryId: record.minEntryId, maxEntryId: record.maxEntryId, checkpointAt: record.checkpointAt };
         await rm(before, { recursive: true, force: true }); await cp(journalSnapshot, before, { recursive: true });
@@ -213,11 +224,11 @@ export async function iterate(options: Options) {
     record.outcome = report.outcome; record.finishedAt = new Date().toISOString();
     record.error = report.outcome === 'yielded' ? undefined : redact(JSON.stringify(report.result?.error ?? report.log).slice(0, 16000), secrets);
     record.usage = report.result?.usage;
-    await saveJson(join(state, PATHS.diagnostics, `${sequence}-worker.json`), {
+    await saveJson(join(logs, `${sequence}-worker.json`), {
       outcome: report.outcome, code: report.code, error: report.result?.error, log: redact(report.log, secrets), checkpointAt: record.checkpointAt
     });
     await sanitizeTree(workspace, secrets);
-    if (fallback && await repairJournal({ bundle: fallback, journal, backup: before, diagnostics: join(state, PATHS.diagnostics, `${sequence}-malformed-journal`), stable })) {
+    if (fallback && await repairJournal({ bundle: fallback, journal, backup: before, diagnostics: join(logs, `${sequence}-malformed-journal`), stable })) {
       record.outcome = 'runner_failure'; record.error += '\nJournal invalid; restored last readable checkpoint. Malformed files retained.';
       Object.assign(record, publishedBounds ?? { minEntryId: undefined, maxEntryId: undefined, checkpointAt: undefined });
     } else {
@@ -240,7 +251,7 @@ export async function iterate(options: Options) {
     if (runtime.validatedFingerprint !== fingerprint && runtime.rejectedFingerprint !== fingerprint) {
       const candidateBundle = join(before, 'candidate.cjs');
       const validation = await validateCandidate(workspace, stable, journal, candidateBundle);
-      await saveJson(join(state, PATHS.diagnostics, `${sequence}-validation.json`), validation);
+      await saveJson(join(logs, `${sequence}-validation.json`), validation);
       if (validation.passed) {
         const selected = validation.source;
         runtime = { ...runtime, selected, fallback: runtime.selected, probation: selected !== runtime.selected,
@@ -317,6 +328,7 @@ export async function recover(options: Options) {
 }
 export async function main(options: Options = JSON.parse(process.env.SHURIK_INPUTS ?? '{}')) {
   if (!remote || !repo) throw new Error('Expected GitHub Actions repository context');
+  emergencyWorkspace = emergencyState = emergencyLogs = emergencyDestination = undefined;
   try {
     if (options.command === 'start') return await start(options);
     if (options.command === 'iterate') return await iterate(options);
@@ -324,15 +336,12 @@ export async function main(options: Options = JSON.parse(process.env.SHURIK_INPU
     if (options.command === 'recover') return await recover(options);
     throw new Error('Unknown supervisor command');
   } catch (error) {
-    if (emergencyWorkspace) {
-      await sanitizeTree(emergencyWorkspace, secrets);
-      if (emergencyState) await sanitizeTree(emergencyState, secrets);
-      await cp(emergencyWorkspace, join(project, PATHS.emergency), {
-        recursive: true, filter: path => !['.git', 'node_modules', 'dist'].includes(path.split('/').at(-1)!)
-      }).catch(e => console.error(redact(String(e), secrets)));
-      if (emergencyState) await cp(emergencyState, join(project, PATHS.emergency, PATHS.controlState), {
-        recursive: true
-      }).catch(e => console.error(redact(String(e), secrets)));
+    if (emergencyWorkspace && emergencyDestination) {
+      try {
+        await preserveEmergency({ workspace: emergencyWorkspace, state: emergencyState, logs: emergencyLogs,
+          destination: emergencyDestination, secrets });
+        console.error(`Emergency snapshot: ${emergencyDestination}`);
+      } catch (snapshotError) { console.error(redact(String(snapshotError), secrets)); }
     }
     throw error;
   }

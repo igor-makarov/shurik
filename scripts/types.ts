@@ -1,13 +1,14 @@
 import type { Request } from '../src/worker.ts';
 import type { SessionSummary } from '../src/history.ts';
 
-export type Options = Partial<Record<'command' | 'loop_id' | 'model' | 'reasoning' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean };
+export type Options = Partial<Record<'command' | 'loop_id' | 'model' | 'reasoning' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean };
 export type Secrets = (string | undefined)[];
 export type Outcome = 'running' | 'yielded' | 'agent_failure' | 'timeout' | 'runner_failure' | 'interrupted';
 export interface Checkpoint { workCommit: string; generation: number; sequence: string; runId: string | null; at: string }
 export interface Control {
   version: number; id: string; branch: string; defaultBranch: string; supervisor: string;
   stateStorage: string; layoutVersion?: number; prompt?: string; workflow?: string;
+  checkpointSeconds?: number; checkpointPaths?: string[];
   engine?: { repository: string; ref: string | null } | null;
   status: string; generation: number; next: number;
   owner: { runId: string; generation: number; iteration: number; claimedAt?: string } | null;
@@ -49,5 +50,5 @@ export interface WorkerReport { outcome: Outcome; result: WorkerResult | null; l
 export type WorkerRequest = Omit<Request, 'cwd' | 'journal' | 'output'>;
 export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string }
 export type Sessions = SessionSummary[];
-export interface Publication { state: string; workspace: string; workCommit: string; workBranch: string; journalSnapshot?: string }
+export interface Publication { state: string; logs?: string; workspace: string; workCommit: string; workBranch: string; journalSnapshot?: string }
 export function errorCode(error: unknown): string | undefined { return error instanceof Error && 'code' in error ? String(error.code) : undefined; }

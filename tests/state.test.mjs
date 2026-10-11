@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { ControlStore, commit, configureGit, git, saveJson } from '../scripts/github.ts';
 import { loadState, publishCheckpoint, initializeCheckpoint } from '../scripts/state.ts';
+import { runtimeLogs } from '../scripts/paths.ts';
 
 process.env.SHURIK_HOME = await mkdtemp(join(tmpdir(), 'shurik-home-state-'));
 process.env.GITHUB_REPOSITORY = 'fixture/state';
@@ -31,10 +32,11 @@ async function fixture() {
   const workspace = join(dir, 'workspace'); await git(dir, 'clone', remote, workspace);
   await configureGit(workspace); await git(workspace, 'checkout', 'codex/shurik/state-test');
   const store = await reader('control'); const state = await loadState(store, workspace, 'state-test');
-  const publish = options => publishCheckpoint({ workspace, state, store, generation: 1, owner: '123',
+  const logs = runtimeLogs('fixture/state', 'state-test');
+  const publish = options => publishCheckpoint({ workspace, state, logs, store, generation: 1, owner: '123',
     sequence: '1-1', message: 'paired checkpoint', ...options });
   const workHead = () => git(dir, '--git-dir', remote, 'rev-parse', 'refs/heads/codex/shurik/state-test');
-  return { dir, remote, base, workspace, store, state, reader, publish, workHead };
+  return { dir, remote, base, workspace, store, state, logs, reader, publish, workHead };
 }
 
 test('journals, session index, malformed evidence and runtime source refs live only on control; cold resume restores them', async () => {
@@ -44,7 +46,7 @@ test('journals, session index, malformed evidence and runtime source refs live o
   await writeFile(join(f.state, 'pi-jsonl/main.jsonl'), 'NEW_JOURNAL\n');
   await saveJson(join(f.state, 'history-index.json'), [{ id: '1-1', minEntryId: 7, maxEntryId: 21 }]);
   await saveJson(join(f.state, 'runtime.json'), { version: 2, selected: f.base, fallback: f.base });
-  await saveJson(join(f.state, 'diagnostics/1-1-malformed-journal/evidence.json'), { error: 'partial write' });
+  await saveJson(join(f.logs, '1-1-malformed-journal/evidence.json'), { error: 'partial write' });
   const record = { id: '1-1', outcome: 'timeout', minEntryId: 7, maxEntryId: 21 };
   const workCommit = await f.publish({ record });
   assert.equal(workCommit, await f.workHead());
@@ -61,7 +63,8 @@ test('journals, session index, malformed evidence and runtime source refs live o
   assert.equal(await readFile(join(freshState, 'pi-jsonl/main.jsonl'), 'utf8'), 'NEW_JOURNAL\n');
   assert.equal(JSON.parse(await readFile(join(freshState, 'history-index.json'), 'utf8'))[0].id, '1-1');
   assert.equal(JSON.parse(await readFile(join(freshState, 'runtime.json'), 'utf8')).selected, f.base);
-  assert.ok(await readFile(join(freshState, 'diagnostics/1-1-malformed-journal/evidence.json')));
+  assert.ok(await readFile(join(f.logs, '1-1-malformed-journal/evidence.json')));
+  await assert.rejects(readFile(join(freshState, 'diagnostics/1-1-malformed-journal/evidence.json')));
   await assert.rejects(readFile(join(freshWork, 'control.json')), 'supervisor deadline stays outside task checkout');
   assert.equal(await git(freshWork, 'status', '--porcelain'), '', 'hydrated local state is ignored even without a repository .gitignore');
 });
@@ -83,7 +86,7 @@ test('initialization publishes both new branches with state only on control, inc
 
 test('ignored task discoveries survive a cold restart without rolling back newer tracked records', async () => {
   const f = await fixture();
-  await saveJson(join(f.workspace, '.shurik/config.json'), { checkpointPaths: ['data/cdx', 'data/missing.jsonl'] });
+  await f.store.mutate(c => ({ ...c, checkpointPaths: ['data/cdx', 'data/missing.jsonl'] }), 'fixture: saved action configuration');
   await writeFile(join(f.workspace, '.gitignore'), 'data/cdx/\n');
   await saveJson(join(f.workspace, 'data/cdx/stem.json'), { captures: ['new-discovery'] });
   await writeFile(join(f.workspace, 'data/missing.jsonl'), 'newer-ledger\n');

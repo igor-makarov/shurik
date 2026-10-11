@@ -9,7 +9,13 @@ inputs:
   loop-id:
     description: Unique loop ID (lowercase letters, digits, hyphens)
   model:
-    description: OpenCode Go model; defaults to project configuration on start
+    description: OpenCode Go model; defaults to space-bunny-free on start, retained on resume
+  prompt:
+    description: Relative task prompt file; defaults to PROMPT.md on start
+  checkpoint-seconds:
+    description: Checkpoint interval in seconds (1–1800); defaults to 300 on start
+  checkpoint-paths:
+    description: JSON array of ignored task paths to retain with checkpoints; defaults to []
   reasoning:
     description: Explicit model reasoning level; required for start and resume
   create-pr:
@@ -45,6 +51,12 @@ outputs:
   control-branch:
     description: Consumer branch containing control and session data
     value: ${{ steps.shurik.outputs.control-branch }}
+  logs-path:
+    description: Absolute runtime diagnostics directory under SHURIK_HOME/logs or $HOME/.shurik/logs
+    value: ${{ steps.shurik.outputs.logs-path }}
+  emergency-path:
+    description: Absolute fallback snapshot directory for this loop and run attempt
+    value: ${{ steps.shurik.outputs.emergency-path }}
 runs:
   using: composite
   steps:
@@ -62,6 +74,9 @@ runs:
         SHURIK_COMMAND: ${{ inputs.command }}
         SHURIK_LOOP_ID: ${{ inputs.loop-id }}
         SHURIK_MODEL: ${{ inputs.model }}
+        SHURIK_PROMPT: ${{ inputs.prompt }}
+        SHURIK_CHECKPOINT_SECONDS: ${{ inputs.checkpoint-seconds }}
+        SHURIK_CHECKPOINT_PATHS: ${{ inputs.checkpoint-paths }}
         SHURIK_REASONING: ${{ inputs.reasoning }}
         SHURIK_CREATE_PR: ${{ inputs.create-pr }}
         SHURIK_SECONDS: ${{ inputs.seconds }}

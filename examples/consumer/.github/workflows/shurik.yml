@@ -19,7 +19,7 @@ on:
         description: Required for start/resume (off, minimal, low, medium, high, xhigh, max)
         type: string
       model:
-        description: Optional model; start uses project config, resume keeps the previous model
+        description: Optional model; resume keeps the previous model
         type: string
       create_pr:
         description: Create draft PRs when allowed (auto), always try (true), or disable (false)
@@ -60,10 +60,23 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: igor-makarov/shurik@v1
+      - id: shurik
+        uses: igor-makarov/shurik@v1
         with:
           inputs: ${{ toJSON(inputs) }}
           workflow: shurik.yml
+          checkpoint-seconds: 300
+          prompt: PROMPT.md
+          checkpoint-paths: '[]'
+      - name: Preserve emergency snapshot after publication failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shurik-emergency-${{ github.run_id }}
+          path: ${{ steps.shurik.outputs.emergency-path }}
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
   iteration:
     if: github.event_name == 'workflow_dispatch' && inputs.command == 'iterate' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
     runs-on: ubuntu-24.04
@@ -76,7 +89,8 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: igor-makarov/shurik@v1
+      - id: shurik
+        uses: igor-makarov/shurik@v1
         with:
           command: iterate
           inputs: ${{ toJSON(inputs) }}
@@ -86,7 +100,7 @@ jobs:
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: shurik-emergency-${{ github.run_id }}
-          path: .shurik-emergency/
+          path: ${{ steps.shurik.outputs.emergency-path }}
           include-hidden-files: true
           if-no-files-found: ignore
           retention-days: 7

@@ -17,7 +17,7 @@ Use a major version such as `@v1` or, for a future breaking release, `@v2`. Ever
 
 ## Add Shurik to a project
 
-1. Add a public-safe task in `PROMPT.md` and optionally configure `.shurik/config.json`.
+1. Add a public-safe task in `PROMPT.md`. Configure Shurik through action inputs in the workflow; no project configuration directory is required.
 2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. It invokes `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
 3. Add the repository Actions secret `OPENCODE_API_KEY`.
 4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
@@ -75,31 +75,35 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `model`, `reasoning` | Provider model and explicit reasoning level |
 | `create-pr` | `auto` (default), `true`, or `false`; denied repository PR settings become `false` without stopping the loop |
 | `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
+| `prompt` | Relative task prompt file; defaults to `PROMPT.md` at start |
+| `checkpoint-seconds` | Checkpoint interval, 1–1,800 seconds; defaults to 300 at start |
+| `checkpoint-paths` | JSON array of ignored task paths to retain with sessions; defaults to `[]` |
 | `source-ref` | Consumer task branch or commit; workflow definitions come from the default branch |
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |
 | `workflow` | Iteration workflow filename; default `shurik.yml` |
 | `token` | Defaults to `${{ github.token }}` |
 | `opencode-api-key` | Model credential supplied from Actions secrets |
 
-Outputs are `engine-revision` (the commit used by this invocation), `state-path` (the absolute runtime session directory outside the repository), and `control-branch`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
+Outputs are `engine-revision` (the commit used by this invocation), `state-path`, `logs-path`, `emergency-path` (absolute directories outside the repository), and `control-branch`. Path outputs are written before the CLI runs, so failure artifact steps can use `emergency-path`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
 
-## Project configuration
+## Loop configuration
 
-Configuration is optional and belongs to the consumer project:
+Set configuration in the control job's action inputs:
 
-```json
-{
-  "version": 1,
-  "provider": "opencode-go",
-  "model": "space-bunny-free",
-  "prompt": "PROMPT.md",
-  "iterationSeconds": 1800,
-  "checkpointSeconds": 300,
-  "checkpointPaths": []
-}
+```yaml
+- uses: igor-makarov/shurik@v1
+  with:
+    inputs: ${{ toJSON(inputs) }}
+    checkpoint-seconds: 300
+    checkpoint-paths: '["data/posts", "data/cdx"]'
+    prompt: PROMPT.md
 ```
 
-The iteration budget is 10–1,800 seconds; the checkpoint interval is 1–1,800 seconds. `prompt` is a relative project file. `checkpointPaths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository’s visibility; use artifact storage for large files.
+Choose the model and iteration time limit with the `model` and `seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective model, time limit, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
+
+The iteration time limit is 10–1,800 seconds; the checkpoint interval is 1–1,800 seconds. `prompt` names a relative project file. `checkpoint-paths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository's visibility; use artifact storage for large files.
+
+Existing consumers may still provide `.shurik/config.json`; it is an optional legacy fallback at start, overridden by action inputs. New loops retain their effective configuration on the control branch, including checkpoint selections, so later task-side configuration edits do not change their settings.
 
 ## Canonical session paths
 
@@ -113,17 +117,18 @@ The iteration budget is 10–1,800 seconds; the checkpoint interval is 1–1,800
 | Identity/progress snapshot | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/loop.json` | `state/loop.json` |
 | Engine diagnostics | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/runtime.json` | `state/runtime.json` |
 | Iteration records | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/iterations/<generation>-<iteration>.json` | `state/iterations/<generation>-<iteration>.json` |
-| Worker/recovery diagnostics | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/diagnostics/` | `state/diagnostics/` |
+| Worker/recovery diagnostics | `$HOME/.shurik/logs/<owner>/<repo>/<loop-id>/` | `state/diagnostics/` |
 | Selected ignored task data | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/task-files/` | `state/task-files/` |
 | Task snapshot manifest | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/task-files.json` | `state/task-files.json` |
-| Authoritative loop control | Supervisor’s private control checkout | `control.json` |
-| Immutable Actions failure evidence | Imported under session `diagnostics/recovery/` | `failures/<run-id>-<attempt>.json` |
+| Emergency fallback | `$HOME/.shurik/emergency/<owner>/<repo>/<loop-id>/<run-id>-<attempt>/` | Actions artifact only |
+| Authoritative loop control and configuration | Supervisor’s private control checkout | `control.json` |
+| Immutable Actions failure evidence | Imported under `$HOME/.shurik/logs/<owner>/<repo>/<loop-id>/recovery/` | `failures/<run-id>-<attempt>.json` |
 
-Runtime state is outside every checkout, so it never enters task commits and needs no ignore rule. Set `SHURIK_HOME` to override `$HOME/.shurik` without changing persisted paths. Repository and loop names isolate sessions. Shurik copies the complete session directory to `state/` on every checkpoint and restores it before the next worker starts. The task branch is `codex/shurik/<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions.
+Shurik uses three directories under `$HOME/.shurik`: `state/` for sessions, `logs/` for worker and recovery diagnostics, and `emergency/` for fallback snapshots. They are outside every checkout and need no ignore rules, including no blanket `*.log` rule. Worker output is retained as bounded logs in diagnostic JSON files under `logs/`. Set `SHURIK_HOME` to override `$HOME/.shurik` without changing persisted paths. Repository and loop names isolate sessions. Shurik copies the session directory to control-branch `state/` and the runtime logs to `state/diagnostics/` on every checkpoint. The next run restores them into the separate runtime `state/` and `logs/` directories. The persisted version-1 paths stay compatible with older sessions. The task branch is `codex/shurik/<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions.
 
 A Pi hook publishes the session boundary before the first model request and publishes later checkpoints at completed tool-round boundaries. It takes a serialized native journal snapshot and waits for Git publication before continuing. Malformed journals are retained for diagnosis and replaced with the last readable checkpoint. Unpublished work can be lost on abrupt runner failure.
 
-Temporary engine/build/worker-I/O directories live under `RUNNER_TEMP` (locally, the OS temporary directory). They are not session storage. After a publication failure, `.shurik-emergency/` in the initial consumer checkout includes the external session state and is uploaded as evidence when possible; it is not an automatic recovery source.
+Temporary engine/build/worker-I/O directories live under `RUNNER_TEMP` (locally, the OS temporary directory). They are not session storage. After a supervisor failure, `emergency/<owner>/<repo>/<loop-id>/<run-id>-<attempt>/` under `$HOME/.shurik` contains `workspace/`, `state/`, and `logs/` copies. The workflow uploads that path as evidence when possible; it is not an automatic recovery source. Repository metadata, dependencies, and build output are excluded, and known credentials are redacted before copying.
 
 ## Development and release
 

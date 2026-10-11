@@ -7,7 +7,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { parseArgs } from '../bin/shurik.ts';
 import { actionOptions, checkoutEngine } from '../action/run.ts';
-import { PATHS, runtimeState, sessionPaths } from '../scripts/paths.ts';
+import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, sessionPaths } from '../scripts/paths.ts';
 import { projectConfig } from '../scripts/config.ts';
 import { git, configureGit, commit, saveJson, readJson, ControlStore } from '../scripts/github.ts';
 import { initializeCheckpoint, loadState, publishCheckpoint } from '../scripts/state.ts';
@@ -38,11 +38,17 @@ test('CLI and action input validation keep explicit reasoning and allow flags to
   assert.throws(() => parseArgs(['unknown']), /Unknown command/);
 });
 
-test('consumer configuration belongs to the project and is optional', async () => {
+test('action configuration works without a project config file and overrides legacy settings', async () => {
   const project = await mkdtemp(join(tmpdir(), 'shurik-config-'));
   assert.equal((await projectConfig(project)).checkpointSeconds, 300);
+  const inputs = { model: 'custom', seconds: '120', checkpoint_seconds: '60', prompt: 'tasks/task.md', checkpoint_paths: '["data/cache"]' };
+  const config = await projectConfig(project, inputs);
+  assert.equal(config.model, 'custom'); assert.equal(config.iterationSeconds, 120);
+  assert.equal(config.checkpointSeconds, 60); assert.deepEqual(config.checkpointPaths, ['data/cache']);
+  assert.deepEqual(await readdir(project), [], 'configuration does not create a file');
   await saveJson(join(project, PATHS.config), { version: 1, model: 'custom', checkpointSeconds: 90, prompt: 'tasks/task.md' });
   assert.equal((await projectConfig(project)).model, 'custom');
+  assert.equal((await projectConfig(project, inputs)).checkpointSeconds, 60);
   for (const prompt of ['../secret', '/absolute']) {
     await saveJson(join(project, PATHS.config), { prompt });
     await assert.rejects(projectConfig(project), /relative project file/);
@@ -114,7 +120,6 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
   await mkdir(project); await mkdir(engine);
   await git(project, 'init', '-b', 'main'); await configureGit(project);
   await writeFile(join(project, 'PROMPT.md'), 'Implement a small consumer change');
-  await saveJson(join(project, PATHS.config), { iterationSeconds: 20, checkpointSeconds: 1 });
   await mkdir(join(project, '.github/workflows'), { recursive: true });
   await writeFile(join(project, '.github/workflows/shurik.yml'), 'name: Old workflow\n');
   const source = await commit(project, 'consumer source');
@@ -139,7 +144,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     GITHUB_TOKEN: 'TEST_ONLY_TOKEN', GH_TOKEN: undefined, SHURIK_PROJECT_ROOT: project,
     SHURIK_ENGINE_ROOT: engine, SHURIK_ENGINE_REPOSITORY: 'fixture/shurik', SHURIK_ACTION_REF: 'v1' };
   const previous = Object.fromEntries(Object.keys(overrides).map(key => [key, process.env[key]]));
-  const originalFetch = globalThis.fetch, dispatches = []; let prAllowed = false, prAttempts = 0;
+  const originalFetch = globalThis.fetch, dispatches = []; let prAllowed = false, prAttempts = 0, failDispatch = false;
   try {
     for (const [key, value] of Object.entries(overrides)) {
       if (value === undefined) delete process.env[key]; else process.env[key] = value;
@@ -162,11 +167,15 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
         return prAllowed ? Response.json({ html_url: 'https://github.com/fixture/consumer/pull/1' })
           : Response.json({ message: 'GitHub Actions is not permitted to create or approve pull requests.' }, { status: 403 });
       }
-      if (path.endsWith('/dispatches')) { dispatches.push(JSON.parse(init.body)); return new Response(null, { status: 204 }); }
+      if (path.endsWith('/dispatches')) {
+        if (failDispatch) throw new Error('INJECTED_DISPATCH_FAILURE');
+        dispatches.push(JSON.parse(init.body)); return new Response(null, { status: 204 });
+      }
       throw new Error(`Unexpected API request: ${url}`);
     };
     const { main } = await import(`../scripts/supervisor.ts?consumer=${Date.now()}`);
-    await main({ command: 'start', loop_id: 'demo', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source' });
+    await main({ command: 'start', loop_id: 'demo', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source',
+      seconds: '20', checkpoint_seconds: '1', prompt: 'PROMPT.md', checkpoint_paths: '[]' });
     const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
     const store = new ControlStore(ctl, 'demo');
     const started = (await store.read()).value;
@@ -175,6 +184,8 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(await git(ctl, 'show', `${started.checkpoint.workCommit}:.github/workflows/shurik.yml`), 'name: Current workflow');
     assert.equal(started.source, source); assert.notEqual(started.source, engineSHA);
     assert.equal(started.seconds, 20); assert.deepEqual(started.engine, { repository: 'fixture/shurik', ref: 'v1' });
+    assert.equal(started.checkpointSeconds, 1); assert.deepEqual(started.checkpointPaths, []);
+    assert.deepEqual((await readdir(project)).sort(), ['.git', '.github', 'PROMPT.md']);
     assert.equal(started.pr, null, 'PR creation being disabled does not prevent starting the loop');
     assert.equal(started.createPr, false, 'auto learns that this repository disallows PR creation');
     assert.equal(dispatches[0].inputs.supervisor_ref, undefined, 'reusable continuation does not pin an engine');
@@ -185,6 +196,10 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(prAttempts, 1, 'later iterations do not retry a denied optional PR');
     const record = JSON.parse(await git(ctl, 'show', `${revision}:state/iterations/1-1.json`));
     assert.equal(record.outcome, 'yielded'); assert.equal(record.runtime, engineSHA);
+    const logs = runtimeLogs('fixture/consumer', 'demo');
+    assert.equal((await readJson(join(logs, '1-1-worker.json'))).outcome, 'yielded');
+    assert.equal(JSON.parse(await git(ctl, 'show', `${revision}:state/diagnostics/1-1-worker.json`)).outcome, 'yielded');
+    assert.ok(!(await readdir(runtimeState('fixture/consumer', 'demo'))).includes('diagnostics'));
     await git(ctl, 'fetch', 'origin', value.branch);
     assert.equal(await git(ctl, 'show', `${value.checkpoint.workCommit}:consumer-result.txt`), 'SUPERVISOR_CONSUMER_PROOF');
     assert.equal(dispatches.length, 2);
@@ -209,6 +224,13 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     }
     await main({ command: 'start', loop_id: 'without-pr', reasoning: 'high', create_pr: false, source_ref: 'older-task-source' });
     assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
+    failDispatch = true;
+    await assert.rejects(main({ command: 'start', loop_id: 'failed-dispatch', reasoning: 'high', create_pr: false }), /INJECTED_DISPATCH_FAILURE/);
+    const emergency = runtimeEmergency('fixture/consumer', 'failed-dispatch');
+    assert.equal(await readFile(join(emergency, 'workspace/PROMPT.md'), 'utf8'), 'Implement a small consumer change');
+    assert.ok(await readFile(join(emergency, 'state/history-index.json')));
+    assert.deepEqual(await readdir(join(emergency, 'logs')), []);
+    assert.equal(await git(project, 'status', '--porcelain'), '', 'failure evidence creates no task files or ignore rules');
   } finally {
     globalThis.fetch = originalFetch;
     for (const [key, value] of Object.entries(previous)) {

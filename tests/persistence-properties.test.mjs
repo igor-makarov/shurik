@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtemp, mkdir, readFile, writeFile, rm, symlink } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, writeFile, rm, symlink, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import fc from 'fast-check';
@@ -8,7 +8,9 @@ import { property, text, positive, sha } from './pbt-support.mjs';
 import { snapshotTaskState, restoreTaskState } from '../scripts/task-state.ts';
 import { ControlStore, commit, configureGit, git, saveJson, readJson } from '../scripts/github.ts';
 import { initializeCheckpoint, publishCheckpoint, loadState } from '../scripts/state.ts';
-import { PATHS, runtimeState, workBranch, controlBranch } from '../scripts/paths.ts';
+import { PATHS, runtimeState, runtimeLogs, workBranch, controlBranch } from '../scripts/paths.ts';
+import { preserveEmergency } from '../scripts/emergency.ts';
+import { redact } from '../scripts/policy.ts';
 
 const home = await mkdtemp(join(tmpdir(), 'shurik-pbt-persistence-home-'));
 process.env.SHURIK_HOME = home;
@@ -111,19 +113,22 @@ async function fixture(directory, generation) {
   }
   const store = await reader('control'); await git(store.cwd, 'checkout', '-b', controlBranch(id), 'origin/main');
   const state = runtimeState('fixture/pbt', id);
+  const logs = runtimeLogs('fixture/pbt', id);
+  await mkdir(logs, { recursive: true });
   await saveJson(join(state, PATHS.history), []);
   await put(join(state, PATHS.journal, 'main.jsonl'), JSON.stringify({ original: true }) + '\n');
   const control = { version: 1, stateStorage: 'control', id, branch: workBranch(id), status: 'running',
     generation, next: 1, owner: { runId: 'worker', generation, iteration: 1 } };
-  await initializeCheckpoint({ workspace, state, store, control, message: 'initialize property fixture' });
+  await initializeCheckpoint({ workspace, state, logs, store, control, message: 'initialize property fixture' });
   const workHead = () => git(directory, '--git-dir', remote, 'rev-parse', 'refs/heads/' + control.branch);
-  const publish = options => publishCheckpoint({ workspace, state, store, generation, owner: 'worker',
+  const publish = options => publishCheckpoint({ workspace, state, logs, store, generation, owner: 'worker',
     sequence: generation + '-1', message: 'generated checkpoint', ...options });
   const edit = async value => {
     await saveJson(join(workspace, 'app.json'), { value });
     await put(join(state, PATHS.journal, 'main.jsonl'), JSON.stringify({ value }) + '\n');
+    await saveJson(join(logs, 'worker.json'), { value });
   };
-  return { workspace, state, store, remote, control, base, reader, workHead, publish, edit };
+  return { workspace, state, logs, store, remote, control, base, reader, workHead, publish, edit };
 }
 
 property('generated checkpoint sequences pair code and session state and restore cold',
@@ -142,6 +147,7 @@ property('generated checkpoint sequences pair code and session state and restore
         assert.deepEqual(JSON.parse(await git(f.workspace, 'show', workCommit + ':app.json')), { value: marker });
         assert.deepEqual(JSON.parse(await git(f.store.cwd, 'show', revision + ':state/pi-jsonl/main.jsonl')), { value: marker });
         assert.deepEqual(JSON.parse(await git(f.store.cwd, 'show', revision + ':state/history-index.json')), sessions);
+        assert.deepEqual(JSON.parse(await git(f.store.cwd, 'show', revision + ':state/diagnostics/worker.json')), { value: marker });
         assert.equal(JSON.parse(await git(f.store.cwd, 'show', revision + ':state/iterations/' + record.id + '.json')).workCommit, workCommit);
         assert.equal(await git(f.workspace, 'ls-tree', '-r', '--name-only', workCommit), 'app.json');
       }
@@ -149,6 +155,8 @@ property('generated checkpoint sequences pair code and session state and restore
       await git(cold, 'checkout', f.control.branch);
       const restored = await loadState(await f.reader('cold-control'), cold, f.control.id);
       assert.deepEqual(await readJson(join(restored, PATHS.history)), sessions);
+      assert.deepEqual(await readJson(join(f.logs, 'worker.json')), { value: { index: values.length - 1, text: values.at(-1) } });
+      assert.ok(!(await readdir(restored)).includes(PATHS.diagnostics));
       assert.deepEqual(await readJson(join(cold, 'app.json')), await readJson(join(restored, PATHS.journal, 'main.jsonl')));
       assert.equal(await git(cold, 'status', '--porcelain'), '');
     })), 8);
@@ -210,3 +218,27 @@ property('concurrent task edits reject the whole generated checkpoint and retain
     assert.equal(await f.workHead(), maintained); assert.equal((await f.store.read()).revision, before.revision);
     assert.deepEqual(JSON.parse(await git(other, 'show', maintained + ':app.json')), { author: 'maintainer', value: maintainer });
   })), 8);
+
+property('emergency snapshots retain redacted task, state and logs outside the checkout',
+  fc.asyncProperty(text, text, (payload, credential) => withDirectory(async directory => {
+    const workspace = join(directory, 'project'), state = join(directory, 'home/state/fixture/project/loop');
+    const logs = join(directory, 'home/logs/fixture/project/loop');
+    const destination = join(directory, 'home/emergency/fixture/project/loop/local-1');
+    const secret = 'TEST_CREDENTIAL_' + credential;
+    await put(join(workspace, 'task.txt'), payload + '\n' + secret);
+    await put(join(workspace, '.git/private'), secret);
+    await put(join(workspace, 'node_modules/private'), secret);
+    await put(join(workspace, 'dist/private'), secret);
+    await saveJson(join(state, 'history-index.json'), { payload, secret });
+    await saveJson(join(logs, 'worker.json'), { payload, secret });
+    await put(join(destination, 'stale.txt'), 'old evidence');
+    await preserveEmergency({ workspace, state, logs, destination, secrets: [secret] });
+    assert.equal(await readFile(join(destination, 'workspace/task.txt'), 'utf8'), redact(payload + '\n' + secret, [secret]));
+    for (const path of ['state/history-index.json', 'logs/worker.json']) {
+      const evidence = await readJson(join(destination, path));
+      assert.equal(evidence.payload, payload); assert.ok(!JSON.stringify(evidence).includes(secret));
+    }
+    assert.deepEqual((await readdir(destination)).sort(), ['logs', 'state', 'workspace']);
+    assert.deepEqual(await readdir(join(destination, 'workspace')), ['task.txt']);
+    assert.deepEqual((await readdir(workspace)).sort(), ['.git', 'dist', 'node_modules', 'task.txt']);
+  })), 75);

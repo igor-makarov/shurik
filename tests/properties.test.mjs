@@ -8,7 +8,8 @@ import {
   validateId, validateReasoning, validateCreatePr, resumeSettings, claimable,
   stopped, cancelledForLoop, trustedRecovery, classify, nextRuntime, redact, loopSnapshot,
 } from '../scripts/policy.ts';
-import { PATHS, runtimeState, sessionPaths, workBranch, controlBranch } from '../scripts/paths.ts';
+import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, sessionPaths, workBranch, controlBranch } from '../scripts/paths.ts';
+import { projectConfig } from '../scripts/config.ts';
 import { runFence, failureKey, completedIterationRun, upsertSession, sessionSummary } from '../scripts/failures.ts';
 import { timeRemainingInstructions } from '../src/checkpoint.ts';
 import { parseArgs } from '../bin/shurik.ts';
@@ -44,6 +45,7 @@ property('unsafe loop IDs are rejected by every path and ref entry point',
     for (const call of [
       () => validateId(id), () => workBranch(id), () => controlBranch(id),
       () => runtimeState('owner/project', id), () => sessionPaths('/tmp/project', id, 'owner/project'),
+      () => runtimeLogs('owner/project', id), () => runtimeEmergency('owner/project', id),
     ]) assert.throws(call, /Loop ID/);
   }));
 
@@ -53,10 +55,13 @@ property('session namespaces do not alias repositories or depend on the task che
     const second = sessionPaths(join(home, checkout), id, repo);
     assert.deepEqual(first.runtime, second.runtime);
     assert.deepEqual(first.control, second.control);
+    assert.equal(first.emergency, second.emergency);
+    assert.equal(first.runtime.diagnostics, join(home, 'logs', repo, id));
+    assert.equal(first.emergency, join(home, 'emergency', repo, id, `${process.env.GITHUB_RUN_ID ?? 'local'}-${process.env.GITHUB_RUN_ATTEMPT ?? '1'}`));
     assert.notEqual(runtimeState(repo, id), runtimeState('other-' + repo, id));
     assert.notEqual(runtimeState(repo, id), runtimeState(repo, 'other-' + id.slice(0, 43)));
     for (const [name, path] of Object.entries(first.runtime)) {
-      if (name === 'state') continue;
+      if (name === 'state' || name === 'diagnostics') continue;
       assert.equal(relative(first.runtime.state, path), relative(PATHS.controlState, first.control[name]));
     }
   }));
@@ -67,7 +72,7 @@ property('repository traversal and malformed namespaces cannot escape runtime st
       '../' + repo, owner + '/..', './' + repo, owner + '/.',
       '/' + owner + '/' + repo, owner + '/' + repo + '/extra',
       owner + '\\' + repo, owner + '/../../' + repo, owner + '\0/' + repo,
-    ]) assert.throws(() => runtimeState(bad, 'loop'), /Repository/);
+    ]) for (const directory of [runtimeState, runtimeLogs, runtimeEmergency]) assert.throws(() => directory(bad, 'loop'), /Repository/);
   }));
 
 property('explicit CLI flags override dispatch JSON without mutating it',
@@ -341,4 +346,15 @@ property('time feedback respects the earlier limit, clamps expiry and omits earl
         assert.equal(seconds, Math.max(0, Math.ceil(remaining / 1000)));
         assert.ok(message.includes(new Date(now + remaining).toISOString()));
       }
+    }));
+
+property('named action configuration needs no project file and preserves explicit settings',
+  fc.asyncProperty(identifier, identifier, fc.integer({ min: 10, max: 1800 }),
+    fc.integer({ min: 1, max: 1800 }), async (model, name, seconds, checkpoint) => {
+      const inputs = { model, prompt: name + '.md', seconds: String(seconds),
+        checkpoint_seconds: String(checkpoint), checkpoint_paths: JSON.stringify(['data/' + name]) };
+      const before = copy(inputs), config = await projectConfig(join(home, 'no-config'), inputs);
+      assert.equal(config.model, model); assert.equal(config.prompt, name + '.md');
+      assert.equal(config.iterationSeconds, seconds); assert.equal(config.checkpointSeconds, checkpoint);
+      assert.deepEqual(config.checkpointPaths, ['data/' + name]); assert.equal(copy(inputs), before);
     }));

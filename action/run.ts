@@ -5,12 +5,12 @@ import { tmpdir } from 'node:os';
 import { spawn } from 'node:child_process';
 import { git } from '../scripts/github.ts';
 import { validateId, redact } from '../scripts/policy.ts';
-import { runtimeState, controlBranch } from '../scripts/paths.ts';
+import { runtimeState, runtimeLogs, runtimeEmergency, controlBranch } from '../scripts/paths.ts';
 
 export function actionOptions(env = process.env) {
   const options: Options = JSON.parse(env.SHURIK_INPUTS ?? '{}');
   for (const name of ['command', 'loop_id', 'model', 'reasoning', 'seconds', 'deadline',
-    'source_ref', 'generation', 'iteration', 'workflow', 'create_pr'] as const) {
+    'source_ref', 'generation', 'iteration', 'workflow', 'create_pr', 'prompt', 'checkpoint_seconds', 'checkpoint_paths'] as const) {
     const value = env[`SHURIK_${name.toUpperCase()}`];
     if (value) options[name] = value;
   }
@@ -40,7 +40,7 @@ async function run() {
   if (process.env.GITHUB_OUTPUT) {
     await appendFile(process.env.GITHUB_OUTPUT, `engine-revision=${revision}\n`);
     if (options.loop_id) await appendFile(process.env.GITHUB_OUTPUT,
-      `state-path=${runtimeState(process.env.GITHUB_REPOSITORY, options.loop_id)}\ncontrol-branch=${controlBranch(options.loop_id)}\n`);
+      `state-path=${runtimeState(process.env.GITHUB_REPOSITORY, options.loop_id)}\nlogs-path=${runtimeLogs(process.env.GITHUB_REPOSITORY, options.loop_id)}\nemergency-path=${runtimeEmergency(process.env.GITHUB_REPOSITORY, options.loop_id)}\ncontrol-branch=${controlBranch(options.loop_id)}\n`);
   }
   const child = spawn(process.execPath, [join(engine, 'bin/shurik.ts'), options.command!], {
     cwd: project, stdio: 'inherit', env: { ...process.env, SHURIK_INPUTS: JSON.stringify(options),

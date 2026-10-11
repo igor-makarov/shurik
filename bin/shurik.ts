@@ -26,6 +26,7 @@ Options:
   --loop-id ID --model ID --reasoning LEVEL --seconds N --deadline TIMESTAMP
   --source-ref REF --generation N --iteration N --workflow FILE
   --create-pr auto|true|false  Draft PR creation (default: auto)
+  --prompt FILE --checkpoint-seconds N --checkpoint-paths JSON_ARRAY
   --repository OWNER/NAME  Session namespace (default: GITHUB_REPOSITORY)
   --workspace DIR   Consumer checkout (default: GITHUB_WORKSPACE or cwd)
   --request FILE    Worker/inspection JSON request
@@ -39,7 +40,8 @@ export function parseArgs(args: string[], inputs: Options = {}): Options {
   const [command, ...flags] = args;
   if (!command || ['--help', '-h', 'help'].includes(command)) return { help: true };
   const allowed = new Set(['loop-id', 'model', 'reasoning', 'seconds', 'deadline', 'source-ref',
-    'generation', 'iteration', 'workflow', 'workspace', 'repository', 'request', 'bundle', 'create-pr']);
+    'generation', 'iteration', 'workflow', 'workspace', 'repository', 'request', 'bundle', 'create-pr',
+    'prompt', 'checkpoint-seconds', 'checkpoint-paths']);
   const options: Options = { ...inputs, command };
   for (let i = 0; i < flags.length; i++) {
     if (flags[i] === '--help') return { help: true };
