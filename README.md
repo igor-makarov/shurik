@@ -13,19 +13,19 @@ Shurik runs durable coding-agent loops for your project through a reusable GitHu
 
 Use a major version such as `@v1` or, for a future breaking release, `@v2`. Every invocation uses the current release under that tag; an existing loop can receive engine updates within the same major version. Engine commit IDs in iteration records are diagnostic evidence, not a per-loop version lock.
 
-**Status:** first reusable action extraction. The agent runs directly on the Actions runner with its job credentials. Integration checks use native Pi Durable journals and scripted providers. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
+**Status:** reusable TypeScript CLI and action. The agent runs directly on the Actions runner with its job credentials. Integration checks use native Pi Durable journals and scripted providers. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
 
 ## Add Shurik to a project
 
 1. Add a public-safe task in `PROMPT.md` and optionally configure `.shurik/config.json`.
-2. Copy the three workflows from [examples/consumer/.github/workflows](examples/consumer/.github/workflows) to your repository’s `.github/workflows/` directory. They invoke `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
+2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. They invoke `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
 3. Add the repository Actions secret `OPENCODE_API_KEY`, then enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**.
-4. In **Actions → Shurik Ralph → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
-5. Review the resulting draft PR. Stop with **Shurik Control → stop**, or resume with a new explicit reasoning level.
+4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
+5. Review the resulting draft PR. Stop with **Shurik → stop**, or resume with a new explicit reasoning level.
 
-A complete loop needs the iteration, control, and recovery workflows. The small action snippet above demonstrates invocation; the [complete iteration workflow](examples/consumer/.github/workflows/ralph.yml) also supplies continuation inputs and concurrency. Keep the name `Shurik Ralph` and its `Ralph <id> / <command> <generation>-<iteration>` run-name format: recovery uses them to identify first-party runs. If you rename `ralph.yml`, pass its filename through the action’s `workflow` input.
+One workflow handles start/stop/resume, iterations, and recovery in separate jobs. No separate recovery file or model secret for control/recovery is needed. Keep the workflow name `Shurik`, job name `iteration`, and its `Shurik <id> / <command> <generation>-<iteration>` run-name format: recovery verifies them against GitHub. The default filename is `shurik.yml`; if you rename it, pass the new filename in the control job's `workflow` action input.
 
-The workflows use repository-scoped `github.token`. Worker jobs need `contents: write`, `pull-requests: write`, and `actions: write`; control and recovery need contents and actions write access. Contributor CI should use read-only permissions and no model key.
+The workflow uses repository-scoped `github.token`. Iteration jobs need `contents: write`, `pull-requests: write`, and `actions: write`; the control job also needs PR access, while recovery needs contents and actions write access. Contributor CI should use read-only permissions and no model key.
 
 ## Loop behavior
 
@@ -33,19 +33,19 @@ Every iteration starts a fresh model context while retaining native journals. Th
 
 The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. A blank model on resume keeps the previous model; a blank resume deadline clears the previous deadline. Each resume creates a new generation, fencing older queued invocations.
 
-Recovery runs after completed worker workflows and from a 15-minute watchdog. It saves available Actions failure diagnostics before redispatching. Cancelling the active loop in the Actions UI also becomes a durable stop. GitHub can delay scheduled jobs, and cancellation of an expected queued successor is conservatively treated as a stop.
+The recovery job uses `needs` and `always()` to run after iteration success or failure in the same workflow. It verifies the completed iteration job even while the overall workflow is still running. The same file includes a 15-minute scheduled check for interruption of the entire workflow. It saves available Actions failure diagnostics before redispatching. Cancelling the active loop in the Actions UI also becomes a durable stop. GitHub can delay scheduled jobs, and cancellation of an expected queued successor is conservatively treated as a stop.
 
 The action keeps engine code in a separate temporary checkout. The task agent edits a clone of the consumer’s working branch. `GITHUB_WORKSPACE` names the initial consumer checkout; task changes belong in the coding tools’ initial working directory. New reusable loops execute the released engine and never adopt files from the consumer as Shurik implementation. Existing legacy self-hosted loops keep their previous candidate-validation and fallback behavior.
 
 ## CLI
 
-Use Node 24. The repository exposes `bin/shurik.mjs` as the `shurik` executable; the action invokes this same CLI. The package is not published to npm.
+Use Node 24. TypeScript runs with Node's built-in type stripping; `npm run check` type-checks the CLI, action, orchestration, and worker. The repository exposes `bin/shurik.ts` as the `shurik` executable; the action invokes this same CLI. The package is not published to npm.
 
 ```sh
 npm ci --ignore-scripts
 npm run build
-node bin/shurik.mjs --help
-node bin/shurik.mjs paths --loop-id my-task --workspace /path/to/project
+node bin/shurik.ts --help
+node bin/shurik.ts paths --repository owner/project --loop-id my-task --workspace /path/to/project
 ```
 
 | Subcommand | Responsibility |
@@ -72,11 +72,11 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
 | `source-ref` | Consumer branch or commit to start from |
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |
-| `workflow` | Iteration workflow filename; default `ralph.yml` |
+| `workflow` | Iteration workflow filename; default `shurik.yml` |
 | `token` | Defaults to `${{ github.token }}` |
 | `opencode-api-key` | Model credential supplied from Actions secrets |
 
-Outputs are `engine-revision` (the commit used by this invocation), `state-path` (the relative session path within the agent task checkout), and `control-branch`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
+Outputs are `engine-revision` (the commit used by this invocation), `state-path` (the absolute runtime session directory outside the repository), and `control-branch`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
 
 ## Project configuration
 
@@ -98,27 +98,27 @@ The iteration budget is 10–1,800 seconds; the checkpoint interval is 1–1,800
 
 ## Canonical session paths
 
-[scripts/paths.mjs](scripts/paths.mjs) declares layout version 1. `shurik paths --loop-id ID --workspace DIR` prints the resolved mapping. All persisted data belongs to the **consumer repository**, including when Shurik is loaded from another repository.
+[scripts/paths.ts](scripts/paths.ts) declares layout version 1. `shurik paths --repository OWNER/REPO --loop-id ID --workspace DIR` prints the resolved mapping. All persisted data belongs to the **consumer repository**, including when Shurik is loaded from another repository.
 
-| Data | Runtime, relative to the agent task checkout | Control branch `codex/shurik-control/<loop-id>` |
+| Data | Runtime, outside the repository | Control branch `codex/shurik-control/<loop-id>` |
 | --- | --- | --- |
-| Session root | `.shurik-local/state/<loop-id>/` | `state/` |
-| Native Pi Durable journal | `.shurik-local/state/<loop-id>/pi-jsonl/` | `state/pi-jsonl/` |
-| History index | `.shurik-local/state/<loop-id>/history-index.json` | `state/history-index.json` |
-| Identity/progress snapshot | `.shurik-local/state/<loop-id>/loop.json` | `state/loop.json` |
-| Engine diagnostics | `.shurik-local/state/<loop-id>/runtime.json` | `state/runtime.json` |
-| Iteration records | `.shurik-local/state/<loop-id>/iterations/<generation>-<iteration>.json` | `state/iterations/<generation>-<iteration>.json` |
-| Worker/recovery diagnostics | `.shurik-local/state/<loop-id>/diagnostics/` | `state/diagnostics/` |
-| Selected ignored task data | `.shurik-local/state/<loop-id>/task-files/` | `state/task-files/` |
-| Task snapshot manifest | `.shurik-local/state/<loop-id>/task-files.json` | `state/task-files.json` |
+| Session root | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/` | `state/` |
+| Native Pi Durable journal | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/pi-jsonl/` | `state/pi-jsonl/` |
+| History index | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/history-index.json` | `state/history-index.json` |
+| Identity/progress snapshot | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/loop.json` | `state/loop.json` |
+| Engine diagnostics | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/runtime.json` | `state/runtime.json` |
+| Iteration records | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/iterations/<generation>-<iteration>.json` | `state/iterations/<generation>-<iteration>.json` |
+| Worker/recovery diagnostics | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/diagnostics/` | `state/diagnostics/` |
+| Selected ignored task data | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/task-files/` | `state/task-files/` |
+| Task snapshot manifest | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/task-files.json` | `state/task-files.json` |
 | Authoritative loop control | Supervisor’s private control checkout | `control.json` |
 | Immutable Actions failure evidence | Imported under session `diagnostics/recovery/` | `failures/<run-id>-<attempt>.json` |
 
-The runtime directory is ignored through Git’s local exclude file even if your project has no `.gitignore`. It never appears in the task PR. Shurik copies the complete session directory to `state/` on every checkpoint and restores it before the next worker starts. The task branch is `codex/shurik/<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions.
+Runtime state is outside every checkout, so it never enters task commits and needs no ignore rule. Set `SHURIK_HOME` to override `$HOME/.shurik` without changing persisted paths. Repository and loop names isolate sessions. Shurik copies the complete session directory to `state/` on every checkpoint and restores it before the next worker starts. The task branch is `codex/shurik/<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions.
 
 A Pi hook publishes the session boundary before the first model request and publishes later checkpoints at completed tool-round boundaries. It takes a serialized native journal snapshot and waits for Git publication before continuing. Malformed journals are retained for diagnosis and replaced with the last readable checkpoint. Unpublished work can be lost on abrupt runner failure.
 
-Temporary engine/build/worker-I/O directories live under `RUNNER_TEMP` (locally, temporary or `.shurik-local` directories). They are not session storage. After a publication failure, `.shurik-emergency/` in the initial consumer checkout is uploaded as evidence when possible; it is not an automatic recovery source.
+Temporary engine/build/worker-I/O directories live under `RUNNER_TEMP` (locally, the OS temporary directory). They are not session storage. After a publication failure, `.shurik-emergency/` in the initial consumer checkout includes the external session state and is uploaded as evidence when possible; it is not an automatic recovery source.
 
 ## Development and release
 

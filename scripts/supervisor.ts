@@ -1,14 +1,15 @@
+import type { Control, Event, Iteration, Job, Options, Run, Runtime, Sessions, WorkerReport } from './types.ts';
 import { mkdtemp, mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
-import { api, git, configureGit, saveJson, readJson, ControlStore } from './github.mjs';
-import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, resumeSettings } from './policy.mjs';
-import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.mjs';
-import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt } from './failures.mjs';
-import { loadState, publishCheckpoint, initializeCheckpoint } from './state.mjs';
-import { PATHS, runtimeState, workBranch } from './paths.mjs';
-import { projectConfig } from './config.mjs';
+import { api, git, configureGit, saveJson, readJson, ControlStore } from './github.ts';
+import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, resumeSettings } from './policy.ts';
+import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.ts';
+import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt, completedIterationRun } from './failures.ts';
+import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
+import { PATHS, runtimeState, workBranch } from './paths.ts';
+import { projectConfig } from './config.ts';
 
 const stable = resolve(process.env.SHURIK_ENGINE_ROOT ?? process.env.GITHUB_WORKSPACE ?? '.');
 const project = resolve(process.env.SHURIK_PROJECT_ROOT ?? process.env.GITHUB_WORKSPACE ?? '.');
@@ -16,27 +17,28 @@ const repo = process.env.GITHUB_REPOSITORY;
 const remote = repo ? `https://github.com/${repo}.git` : process.env.SHURIK_REMOTE;
 const runId = process.env.GITHUB_RUN_ID ?? `local-${Date.now()}`;
 const secrets = [process.env.OPENCODE_API_KEY, process.env.GITHUB_TOKEN, process.env.GH_TOKEN];
-let emergencyWorkspace;
-async function clone(name) {
+let emergencyWorkspace: string | undefined;
+let emergencyState: string | undefined;
+async function clone(name: string) {
   const dir = await mkdtemp(join(tmpdir(), `shurik-${name}-`));
-  await git(stable, 'clone', '--no-checkout', remote, dir); await configureGit(dir); return dir;
+  await git(stable, 'clone', '--no-checkout', remote!, dir); await configureGit(dir); return dir;
 }
 async function authorized() {
   const actor = process.env.GITHUB_ACTOR;
   if (!actor) throw new Error('Expected a GitHub maintainer dispatch');
-  const p = await api(`collaborators/${encodeURIComponent(actor)}/permission`);
+  const p = await api<{ permission: string }>(`collaborators/${encodeURIComponent(actor)}/permission`);
   if (!['admin', 'maintain', 'write'].includes(p.permission)) throw new Error('Loop control requires repository write access');
 }
-async function dispatch(control) {
+async function dispatch(control: Control) {
   if (stopped(control)) return;
-  await api(`actions/workflows/${encodeURIComponent(control.workflow ?? 'ralph.yml')}/dispatches`, 'POST', {
+  await api(`actions/workflows/${encodeURIComponent(control.workflow ?? 'shurik.yml')}/dispatches`, 'POST', {
     ref: control.defaultBranch,
     inputs: { command: 'iterate', loop_id: control.id, generation: String(control.generation),
       iteration: String(control.next), ...(!control.engine ? { supervisor_ref: control.supervisor } : {}),
       reasoning: validateReasoning(control.reasoning) }
   });
 }
-async function pruneAndGuard(workspace, state, initial, journalSnapshot) {
+async function pruneAndGuard(workspace: string, state: string, initial: string, journalSnapshot?: string) {
   const attempted = await git(workspace, 'status', '--porcelain', '--', '.github/workflows');
   // Drop local workflow edits so GitHub's workflow restriction does not reject progress/state pushes.
   if (attempted) {
@@ -44,37 +46,38 @@ async function pruneAndGuard(workspace, state, initial, journalSnapshot) {
     await git(workspace, 'restore', '--source', initial, '--staged', '--worktree', '--', '.github/workflows');
   }
   const redactions = await sanitizeTree(workspace, secrets)
+    + await sanitizeTree(state, secrets)
     + (journalSnapshot ? await sanitizeTree(journalSnapshot, secrets) : 0);
   return { attempted, redactions };
 }
-async function publish(workspace, controlStore, generation, state, message, initial, record, journalSnapshot) {
+async function publish(workspace: string, controlStore: ControlStore, generation: number, state: string, message: string, initial: string, record?: Iteration, journalSnapshot?: string) {
   const guard = await pruneAndGuard(workspace, state, initial, journalSnapshot);
   if (guard.attempted || guard.redactions) await saveJson(join(state, 'diagnostics/publication.json'), guard);
   return publishCheckpoint({ workspace, state, store: controlStore, generation, owner: record ? runId : null,
     sequence: record?.id ?? 'initialize', message, record, journalSnapshot });
 }
-async function createPr(control, workspace) {
-  const existing = await api(`pulls?state=open&head=${encodeURIComponent(repo.split('/')[0] + ':' + control.branch)}`);
+async function createPr(control: Control, workspace: string) {
+  const existing = await api<{ html_url: string }[]>(`pulls?state=open&head=${encodeURIComponent(repo!.split('/')[0] + ':' + control.branch)}`);
   if (existing[0]) return existing[0].html_url;
   // An empty task branch has no PR yet. State on the control branch must not manufacture a code diff.
   if (!await git(workspace, 'diff', '--name-only', `origin/${control.defaultBranch}...HEAD`)) return null;
-  const pr = await api('pulls', 'POST', { title: `Shurik loop: ${control.id}`, head: control.branch,
+  const pr = await api<{ html_url: string }>('pulls', 'POST', { title: `Shurik loop: ${control.id}`, head: control.branch,
     base: control.defaultBranch, draft: true,
     body: `Autonomous Ralph task changes. Session journals and failure diagnostics are retained on the [control branch](https://github.com/${repo}/tree/codex/shurik-control/${control.id}), including partial and failed iterations. Review source, dependencies, and transcripts before merging. Workflow changes are blocked; merging is manual.` });
   return pr.html_url;
 }
-export async function start(options) {
+export async function start(options: Options) {
   const reasoning = validateReasoning(options.reasoning);
   await authorized(); const id = validateId(options.loop_id);
   const verification = options.verification === true || options.verification === 'true';
-  const metadata = await api(''); const defaultBranch = metadata.default_branch;
+  const metadata = await api<{ default_branch: string }>(''); const defaultBranch = metadata.default_branch;
   if (process.env.GITHUB_REF !== `refs/heads/${defaultBranch}`) throw new Error('Start must use the default branch');
   const seconds = Number(options.seconds || 1800);
   if (!Number.isInteger(seconds) || seconds < 10 || seconds > 1800) throw new Error('Agent budget must be 10–1800 seconds');
   const deadline = options.deadline || null;
   if (verification && !deadline) throw new Error('Live verification requires a deadline');
   if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Deadline must be an absolute future timestamp');
-  const source = options.source_ref ? (await api(`commits/${encodeURIComponent(options.source_ref)}`)).sha : await git(project, 'rev-parse', 'HEAD');
+  const source = options.source_ref ? (await api<{ sha: string }>(`commits/${encodeURIComponent(options.source_ref)}`)).sha : await git(project, 'rev-parse', 'HEAD');
   const workspace = await clone('workspace'); await git(workspace, 'checkout', '-b', workBranch(id), source);
   const config = await projectConfig(workspace);
   const model = options.model || config.model;
@@ -85,15 +88,15 @@ export async function start(options) {
   const supervisor = await git(stable, 'rev-parse', 'HEAD');
   const engine = process.env.SHURIK_ENGINE_REPOSITORY ? { repository: process.env.SHURIK_ENGINE_REPOSITORY,
     ref: process.env.SHURIK_ACTION_REF || null } : null;
-  const workflow = options.workflow || 'ralph.yml';
+  const workflow = options.workflow || 'shurik.yml';
   if (!/^[a-zA-Z0-9_.-]+\.ya?ml$/.test(workflow)) throw new Error('Workflow must be a YAML filename');
-  const control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
+  const control: Control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
     engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
     owner: null, deadline, seconds: options.seconds ? seconds : config.iterationSeconds,
     model, reasoning, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, source);
   emergencyWorkspace = workspace;
-  const state = runtimeState(workspace, id); await mkdir(join(state, PATHS.journal), { recursive: true });
+  const state = runtimeState(repo, id); emergencyState = state; await mkdir(join(state, PATHS.journal), { recursive: true });
   await saveJson(join(state, PATHS.runtime), { version: 2, selected: supervisor, fallback: supervisor,
     probation: false, quarantined: [], validatedSource: supervisor });
   await saveJson(join(state, PATHS.history), []);
@@ -112,7 +115,7 @@ export async function start(options) {
   console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}; draft PR awaits task changes`);
   await dispatch({ ...control, pr });
 }
-export async function expireUnstartedIteration(store, generation, iteration, invocationRunId) {
+export async function expireUnstartedIteration(store: ControlStore, generation: number, iteration: number, invocationRunId: string) {
   // Recheck the fence inside CAS: a skipped invocation must never stop a resumed generation or another owner.
   return store.mutate(c => {
     if (c.generation !== generation || c.next !== iteration || c.status !== 'running'
@@ -120,7 +123,7 @@ export async function expireUnstartedIteration(store, generation, iteration, inv
     return { ...c, status: 'deadline', owner: null, lastDispatchAt: null };
   }, 'shurik: deadline expired before agent start');
 }
-export async function iterate(options) {
+export async function iterate(options: Options) {
   const id = validateId(options.loop_id); const generation = Number(options.generation); const iteration = Number(options.iteration);
   const ctl = await clone('control'); const store = new ControlStore(ctl, id);
   let control = (await store.read()).value;
@@ -137,13 +140,13 @@ export async function iterate(options) {
   }
   const workspace = await clone('workspace'); await git(workspace, 'checkout', control.branch);
   emergencyWorkspace = workspace;
-  const initial = await git(workspace, 'rev-parse', 'HEAD'); const state = await loadState(store, workspace, id);
+  const initial = await git(workspace, 'rev-parse', 'HEAD'); const state = await loadState(store, workspace, id); emergencyState = state;
   const sequence = `${generation}-${iteration}`; const recordPath = join(state, PATHS.iterations, `${sequence}.json`);
-  let runtime = await readJson(join(state, PATHS.runtime)); let sessions = await readJson(join(state, PATHS.history));
+  let runtime = await readJson<Runtime>(join(state, PATHS.runtime)); let sessions = await readJson<Sessions>(join(state, PATHS.history));
   if (control.engine) runtime = { ...runtime, selected: engineSourceRevision, fallback: engineSourceRevision, probation: false };
   const failures = await importFailures(store, state);
   await recoverInterrupted(state, sessions, failures);
-  const record = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
+  const record: Iteration = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
     outcome: 'running', source: initial, runtime: runtime.selected, model: control.model, reasoning: control.reasoning };
   await saveJson(recordPath, record); await saveJson(join(state, PATHS.history), sessions);
   await saveJson(join(state, PATHS.loop), loopSnapshot(control));
@@ -151,9 +154,9 @@ export async function iterate(options) {
   const journal = join(state, PATHS.journal); await mkdir(journal, { recursive: true });
   const before = await mkdtemp(join(tmpdir(), 'shurik-journal-'));
   await cp(journal, before, { recursive: true });
-  let publishedBounds;
-  let fallback; const builds = new Map();
-  let report = { outcome: 'runner_failure', result: null, log: '' };
+  let publishedBounds: Pick<Iteration, 'minEntryId' | 'maxEntryId' | 'checkpointAt'> | undefined;
+  let fallback: string | undefined; const builds = new Map();
+  let report: WorkerReport = { outcome: 'runner_failure', result: null, log: '' };
   try {
     // Build the working fallback before attempting changed runner source. All build output stays local.
     const engineSource = control.engine ? stable : workspace;
@@ -169,11 +172,11 @@ export async function iterate(options) {
     report = await launchWorker({ workspace, state, bundle, stable, key: process.env.OPENCODE_API_KEY,
       req: { version: 1, id: `${id}:${sequence}`, model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
         checkpointSeconds: (await projectConfig(workspace)).checkpointSeconds,
-        sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, id) },
+        sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, state) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
       onCheckpoint: async (checkpoint, log, journalSnapshot) => {
         // Update rollback only after a readable, published checkpoint. A later corruption restores this boundary.
-        if (!await inspectJournal(fallback, journalSnapshot, stable)) throw new Error('Checkpoint journal is not readable by fallback runner');
+        if (!await inspectJournal(fallback!,  journalSnapshot, stable)) throw new Error('Checkpoint journal is not readable by fallback runner');
         if (checkpoint.id !== `${id}:${sequence}` || !Number.isSafeInteger(checkpoint.minEntryId)
           || !Number.isSafeInteger(checkpoint.maxEntryId) || checkpoint.maxEntryId < checkpoint.minEntryId) throw new Error('Invalid checkpoint session boundaries');
         record.minEntryId = checkpoint.minEntryId; record.maxEntryId = checkpoint.maxEntryId; record.checkpointAt = checkpoint.at;
@@ -212,7 +215,7 @@ export async function iterate(options) {
   // execute the current action release; a consumer need not contain src/ or npm.
   if (!control.engine) {
     const sourceHash = await git(workspace, 'rev-parse', 'HEAD:src');
-    const packageHash = digest((await readFile(join(workspace, 'package-lock.json'))) + (await readFile(join(workspace, 'package.json'))));
+    const packageHash = digest((await readFile(join(workspace, 'package-lock.json'), 'utf8')) + (await readFile(join(workspace, 'package.json'), 'utf8')));
     const fingerprint = `${sourceHash}:${packageHash}`;
     if (runtime.validatedFingerprint !== fingerprint && runtime.rejectedFingerprint !== fingerprint) {
       const candidateBundle = join(before, 'candidate.cjs');
@@ -241,7 +244,7 @@ export async function iterate(options) {
   if (!stopped(control) && control.generation === generation && control.next === iteration + 1) await dispatch(control);
   console.log(`Iteration ${sequence}: ${record.outcome}; loop ${control.status}`);
 }
-export async function controlLoop(options) {
+export async function controlLoop(options: Options) {
   await authorized(); const id = validateId(options.loop_id); const ctl = await clone('control'); const store = new ControlStore(ctl, id);
   if (options.command === 'stop') {
     const old = (await store.read()).value;
@@ -252,7 +255,7 @@ export async function controlLoop(options) {
   } else if (options.command === 'resume') {
     validateReasoning(options.reasoning);
     const prior = (await store.read()).value;
-    if (!prior.engine && (await git(ctl, 'show', `${prior.supervisor}:scripts/github.mjs`)).includes('shurik@users.noreply.github.com')) {
+    if (!prior.engine && (await git(ctl, 'show', `${prior.supervisor}:scripts/github.ts`)).includes('shurik@users.noreply.github.com')) {
       throw new Error('Pinned supervisor uses retired commit attribution. Start a new loop from main or have the maintainer update the pinned bootstrap before resuming.');
     }
     if (prior.stateStorage !== 'control' || (!prior.engine && !(await git(ctl, 'show', `${prior.supervisor}:src/worker.ts`)).includes('thinkingLevel: req.reasoning'))) {
@@ -262,33 +265,50 @@ export async function controlLoop(options) {
     await dispatch(c);
   }
 }
-export async function recover(options) {
-  let event;
-  if (process.env.GITHUB_EVENT_PATH) event = await readJson(process.env.GITHUB_EVENT_PATH);
-  if (process.env.GITHUB_EVENT_NAME === 'workflow_run' && !trustedRecovery(event, repo)) { console.log('Untrusted recovery event ignored'); return; }
+export async function recover(options: Options) {
+  let event: Event | undefined;
+  if (process.env.GITHUB_EVENT_PATH) event = await readJson<Event>(process.env.GITHUB_EVENT_PATH);
+  if (process.env.GITHUB_EVENT_NAME === 'workflow_run' && !trustedRecovery(event ?? {}, repo)) { console.log('Untrusted recovery event ignored'); return; }
+  let wake = event?.workflow_run;
+  // A separate job runs after the worker, while this workflow is still in progress.
+  // Verify both GitHub's run identity and the actual completed job before reconciling it.
+  const result = process.env.SHURIK_ITERATION_RESULT;
+  if (process.env.GITHUB_EVENT_NAME === 'workflow_dispatch' && result && result !== 'skipped') {
+    const run = await api<Run>(`actions/runs/${runId}`);
+    const metadata = await api<{ default_branch: string }>('');
+    if (!trustedRecovery({ workflow_run: run, repository: metadata }, repo)) throw new Error('Untrusted iteration recovery');
+    const { jobs } = await api<{ jobs: (Job & { status: string })[] }>(`actions/runs/${runId}/jobs?per_page=100`);
+    wake = completedIterationRun(run, result, jobs);
+  }
+  const request: typeof api = async <T>(path: string, method = 'GET', body?: unknown): Promise<T> =>
+    wake?.id === Number(runId) && path === `actions/runs/${runId}` ? wake as T : api<T>(path, method, body);
   const ctl = await clone('recovery');
   const refs = await git(ctl, 'ls-remote', '--heads', 'origin', 'refs/heads/codex/shurik-control/*');
   const failed = [];
   for (const line of refs.split('\n').filter(Boolean)) {
     const id = line.split('refs/heads/codex/shurik-control/')[1]; validateId(id); const store = new ControlStore(ctl, id);
-    try { await reconcileLoop(store, { wake: event?.workflow_run, secrets, dispatchNext: dispatch }); }
+    try { await reconcileLoop(store, { wake, request, secrets, dispatchNext: dispatch }); }
     catch (e) { failed.push(id); console.error(redact(`Recovery ${id}: ${String(e)}`, secrets)); }
   }
   if (failed.length) throw new Error(`Recovery needs retry for: ${failed.join(', ')}`);
 }
-export async function main(options = JSON.parse(process.env.SHURIK_INPUTS ?? '{}')) {
+export async function main(options: Options = JSON.parse(process.env.SHURIK_INPUTS ?? '{}')) {
   if (!remote || !repo) throw new Error('Expected GitHub Actions repository context');
   try {
     if (options.command === 'start') return await start(options);
     if (options.command === 'iterate') return await iterate(options);
-    if (['stop', 'resume'].includes(options.command)) return await controlLoop(options);
+    if (['stop', 'resume'].includes(options.command!)) return await controlLoop(options);
     if (options.command === 'recover') return await recover(options);
     throw new Error('Unknown supervisor command');
   } catch (error) {
     if (emergencyWorkspace) {
       await sanitizeTree(emergencyWorkspace, secrets);
+      if (emergencyState) await sanitizeTree(emergencyState, secrets);
       await cp(emergencyWorkspace, join(project, PATHS.emergency), {
-        recursive: true, filter: path => !['.git', 'node_modules', 'dist'].includes(path.split('/').at(-1))
+        recursive: true, filter: path => !['.git', 'node_modules', 'dist'].includes(path.split('/').at(-1)!)
+      }).catch(e => console.error(redact(String(e), secrets)));
+      if (emergencyState) await cp(emergencyState, join(project, PATHS.emergency, PATHS.controlState), {
+        recursive: true
       }).catch(e => console.error(redact(String(e), secrets)));
     }
     throw error;

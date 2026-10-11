@@ -1,6 +1,6 @@
 # Shurik architecture
 
-Shurik is a CLI distributed with a reusable GitHub Action. A consumer repository supplies a prompt, optional configuration, and three small workflows referencing `igor-makarov/shurik@v1`. The action invokes the CLI; the CLI supervises a Pi Durable worker and publishes task changes and sessions back to the consumer repository.
+Shurik is a CLI distributed with a reusable GitHub Action. A consumer repository supplies a prompt, optional configuration, and one workflow referencing `igor-makarov/shurik@v1`. The action invokes the CLI; the CLI supervises a Pi Durable worker and publishes task changes and sessions back to the consumer repository.
 
 ## Components
 
@@ -22,17 +22,17 @@ flowchart LR
 
 | Component | Implementation | Role |
 | --- | --- | --- |
-| Public action | `action.yml`, `action/run.mjs` | Set up Node, resolve the current action release, invoke CLI with consumer inputs |
-| CLI | `bin/shurik.mjs` | Parse commands/flags, route lifecycle operations, run or inspect native workers, print session paths |
-| Supervisor | `scripts/supervisor.mjs` | Authorize starts/control, fence owners, enforce budgets/stops, publish PRs and dispatch successors |
-| Git/control store | `scripts/github.mjs`, `scripts/state.mjs` | GitHub API, compare-and-swap control updates, atomic two-branch checkpoints, state hydration |
-| Runtime | `scripts/runtime.mjs` | Build engine separately, launch worker process group, handle cooperative checkpoints and shutdown |
+| Public action | `action.yml`, `action/run.ts` | Set up Node, resolve the current action release, invoke CLI with consumer inputs |
+| CLI | `bin/shurik.ts` | Parse commands/flags, route lifecycle operations, run or inspect native workers, print session paths |
+| Supervisor | `scripts/supervisor.ts` | Authorize starts/control, fence owners, enforce budgets/stops, publish PRs and dispatch successors |
+| Git/control store | `scripts/github.ts`, `scripts/state.ts` | GitHub API, compare-and-swap control updates, atomic two-branch checkpoints, state hydration |
+| Runtime | `scripts/runtime.ts` | Build engine separately, launch worker process group, handle cooperative checkpoints and shutdown |
 | Pi Durable worker | `src/worker.ts`, `src/cli.ts` | Native JSONL storage, fresh context, model requests, coding/history tools; `src/cli.ts` is the private bundle entry |
 | History and checkpoints | `src/history.ts`, `src/checkpoint.ts` | Bounded prior-session retrieval, serialized journal snapshots, continuation instructions |
-| Failure recovery | `scripts/failures.mjs`, `scripts/policy.mjs` | Immutable diagnostics, trusted run identity, cancellation and generation fencing |
-| Consumer contract | `scripts/config.mjs`, `scripts/paths.mjs` | Project-owned configuration and canonical layout version 1 |
+| Failure recovery | `scripts/failures.ts`, `scripts/policy.ts` | Immutable diagnostics, trusted run identity, cancellation and generation fencing |
+| Consumer contract | `scripts/config.ts`, `scripts/paths.ts` | Project-owned configuration and canonical persisted layout version 1 |
 
-The CLI supervisor uses Node built-ins. It does not import Pi Durable or consumer code into the supervisor process. Pi Durable and its pinned dependencies are bundled into `dist/worker.cjs`, run as a child through `shurik worker --request FILE`. A broken worker import therefore leaves the supervisor able to preserve diagnostics.
+The CLI, action entry point, supervisor, and worker are TypeScript. Node 24 executes the CLI and orchestration through built-in type stripping; `tsc --noEmit` checks all production modules. The CLI supervisor uses Node built-ins. It does not import Pi Durable or consumer code into the supervisor process. Pi Durable and its pinned dependencies are bundled into `dist/worker.cjs`, run as a child through `shurik worker --request FILE`. A broken worker import therefore leaves the supervisor able to preserve diagnostics.
 
 ## Release and repository boundaries
 
@@ -42,13 +42,19 @@ The action fetches engine source into a temporary checkout outside the task chec
 
 Both work and control branches are created in the consumer repository. The action repository receives no task code or journals. `GITHUB_WORKSPACE` is the initial consumer checkout; coding tools start in the separate task clone. Temporary engine/build directories have no persistence role.
 
-Legacy self-hosted loops used immutable supervisor source references and validated candidate/fallback runner revisions. The existing helpers and runner proof retain that behavior. Shurik's own iteration workflow recognizes a legacy checkout without `action.yml` and invokes its original supervisor. New reusable loops use the current release and do not promote consumer source into the engine. Legacy state is not silently migrated.
+Legacy self-hosted loops used immutable supervisor source references and validated candidate/fallback runner revisions. The existing helpers and runner proof retain that behavior. New reusable loops use the current release and do not promote consumer source into the engine. Legacy state is not silently migrated.
 
 ## CLI and workflow contract
 
 The public commands are `start`, `iterate`, `stop`, `resume`, `recover`, `worker`, `inspect`, and `paths`. The action exposes the first five. Its optional JSON `inputs` adapter passes dispatch fields without shell interpolation; individual action inputs and CLI flags can override them.
 
-`ralph.yml` dispatches `start` or `iterate`. `control.yml` dispatches `stop` or `resume`. `recover.yml` wakes after worker completion and every 15 minutes. See the [complete consumer workflows](examples/consumer/.github/workflows). Recovery expects the workflow name `Shurik Ralph`, the run-title format `Ralph <loop-id> / <command> <generation>-<iteration>`, first-party repository identity, and a default-branch workflow dispatch. The iteration filename is recorded in control and can be changed using the `workflow` input.
+[`shurik.yml`](examples/consumer/.github/workflows/shurik.yml) is the only consumer workflow:
+
+- `control` handles `start`, `stop`, and `resume`, with its own concurrency group so stops do not wait for a worker.
+- `iteration` handles the internal `iterate` dispatch and runs the Pi Durable worker with the model secret.
+- `recovery` depends on both jobs and uses `always()`. On iteration completion it verifies the first-party default-branch workflow identity and GitHub's completed `iteration` job, using that job's result while the overall run is still in progress. It preserves failure evidence and reconciles a stranded owner or a failure before claim. A 15-minute schedule in the same workflow recovers when the entire workflow was interrupted.
+
+Recovery identifies the workflow name `Shurik`, job name `iteration`, and run title `Shurik <loop-id> / <command> <generation>-<iteration>`. Legacy `Shurik Ralph` names remain readable for existing failure records. The dispatch filename is recorded in control; the default is `shurik.yml`.
 
 The built-in GitHub token has contents/PR/Actions write permissions for the consumer worker job. Start and control check the dispatch actor's repository write permission. Secrets stay in Actions inputs/environment and do not enter command-line arguments. Fork contributor CI remains read-only and receives no model key.
 
@@ -67,12 +73,12 @@ A model final response ends an iteration, not the outer loop. A stop or deadline
 
 ## Canonical persistence contract
 
-`PATHS` and `runtimeState()` in [scripts/paths.mjs](scripts/paths.mjs) are the shared declaration of layout version 1. `shurik paths --loop-id ID --workspace DIR` exposes the resolved mapping.
+`PATHS` and `runtimeState()` in [scripts/paths.ts](scripts/paths.ts) are the shared declaration of layout version 1. `shurik paths --repository OWNER/REPO --loop-id ID --workspace DIR` exposes the resolved mapping.
 
 ```text
-Consumer task checkout                 Consumer control branch
+External runner session directory     Consumer control branch
                                       codex/shurik-control/<id>
-.shurik-local/state/<id>/              state/
+$HOME/.shurik/state/<owner>/<repo>/<id>/  state/
   pi-jsonl/                             pi-jsonl/
   history-index.json                    history-index.json
   loop.json                             loop.json
@@ -88,7 +94,7 @@ Consumer task checkout                 Consumer control branch
 
 Native `pi-jsonl/` is the complete Pi Durable directory, including its native sidecars; Shurik does not replace it with a custom transcript format. `history-index.json` indexes stable iteration IDs and published transcript bounds. `loop.json` is task-facing identity/progress metadata; scheduling and deadlines belong to authoritative `control.json`. `runtime.json` retains engine diagnostic fields and legacy candidate/fallback metadata.
 
-Checkpoint publication copies the complete runtime session root to control-branch `state/`, optionally replacing the live journal with the independent serialized snapshot. `control.json.checkpoint.workCommit` identifies the paired work commit. Git `push --atomic` publishes both refs; a conflict publishes neither. Control compare-and-swap retries re-read the latest generation/owner and preserve racing stop/resume decisions. The next run restores `state/` to `.shurik-local/state/<id>/` before launching the worker. These files are excluded through `.git/info/exclude` and removed from the task index even if an agent stages them.
+Checkpoint publication copies the complete runtime session root to control-branch `state/`, optionally replacing the live journal with the independent serialized snapshot. `control.json.checkpoint.workCommit` identifies the paired work commit. Git `push --atomic` publishes both refs; a conflict publishes neither. Control compare-and-swap retries re-read the latest generation/owner and preserve racing stop/resume decisions. The next run restores `state/` to `$HOME/.shurik/state/<owner>/<repo>/<id>/` before launching the worker. The runtime root is outside the task checkout and needs no Git exclusion. `SHURIK_HOME` optionally overrides `$HOME/.shurik`. Redaction scans both the task checkout and external session root before publication.
 
 `checkpointPaths` explicitly selects ignored consumer data. Its snapshot is saved under `task-files/`, with the paired commit recorded in `task-files.json`. Restore fills missing files; newer tracked data stays authoritative. Detached background writers need their own coordination because the cooperative hook only stabilizes foreground tool rounds.
 
@@ -98,6 +104,6 @@ Recovery commits immutable reports to `failures/<run-id>-<attempt>.json` and ind
 
 The worker shares the Actions runner and job credentials. Separate checkouts isolate engine selection from task files operationally; they are not a security sandbox. Sessions follow the consumer repository's visibility. Redaction reduces accidental credential publication, with the limits documented in [README.md](README.md#caveats).
 
-Forced cancellation or host loss can discard unpublished work. `.shurik-emergency/` in the initial consumer checkout is an optional failure artifact, never a trusted automatic recovery input. Git state is canonical. Recovery can retain available Actions logs but cannot reconstruct an unpublished journal.
+Forced cancellation or host loss can discard unpublished work. `.shurik-emergency/` in the initial consumer checkout includes a copy of the external session root and is an optional failure artifact, never a trusted automatic recovery input. Git state is canonical. Recovery can retain available Actions logs but cannot reconstruct an unpublished journal.
 
 `npm run verify` checks types, bundles, native journals, provider configuration, checkpoint races, recovery, and an unrelated consumer with no engine source. `node tests/runner-proof.mjs` exercises the retained legacy self-repair path. Release checks must keep earlier same-major journals readable; incompatible migrations belong in a new major version.

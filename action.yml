@@ -24,7 +24,7 @@ inputs:
     description: Internal continuation sequence
   workflow:
     description: Consumer iteration workflow filename
-    default: ralph.yml
+    default: shurik.yml
   inputs:
     description: Optional workflow-dispatch inputs JSON; explicit action inputs override it
     default: '{}'
@@ -38,7 +38,7 @@ outputs:
     description: Resolved engine commit used by this invocation
     value: ${{ steps.shurik.outputs.engine-revision }}
   state-path:
-    description: Canonical session path within the agent task checkout
+    description: Absolute runtime session directory under SHURIK_HOME or $HOME/.shurik
     value: ${{ steps.shurik.outputs.state-path }}
   control-branch:
     description: Consumer branch containing control and session data
@@ -69,4 +69,4 @@ runs:
         SHURIK_WORKFLOW: ${{ inputs.workflow }}
         GITHUB_TOKEN: ${{ inputs.token }}
         OPENCODE_API_KEY: ${{ inputs.opencode-api-key }}
-      run: node "$SHURIK_ACTION_PATH/action/run.mjs"
+      run: node "$SHURIK_ACTION_PATH/action/run.ts"

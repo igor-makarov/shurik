@@ -1,13 +1,15 @@
+import type { ModelThinkingLevel } from '@earendil-works/pi-ai';
+import type { Control, Event, Options, Outcome, Runtime, Secrets, WorkerResult, Run } from './types.ts';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, readdir, lstat } from 'node:fs/promises';
 import { join } from 'node:path';
-export const digest = value => createHash('sha256').update(value).digest('hex');
-export const reasoningLevels = ['off', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'];
-export function validateReasoning(value) {
-  if (!reasoningLevels.includes(value)) throw new Error('Explicit reasoning level required: ' + reasoningLevels.join(', '));
-  return value;
+export const digest = (value: string | Buffer) => createHash('sha256').update(value).digest('hex');
+export const reasoningLevels = ['off', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'] as const;
+export function validateReasoning(value: string | undefined): ModelThinkingLevel {
+  if (!reasoningLevels.some(level => level === value)) throw new Error('Explicit reasoning level required: ' + reasoningLevels.join(', '));
+  return value as ModelThinkingLevel;
 }
-export function resumeSettings(value, options) {
+export function resumeSettings(value: Control, options: Options): Control {
   if (value.status === 'running') throw new Error('Loop already running');
   const reasoning = validateReasoning(options.reasoning);
   const deadline = options.deadline || null;
@@ -16,60 +18,60 @@ export function resumeSettings(value, options) {
     model: options.model?.trim() || value.model, reasoning,
     lastRunId: null, lastDispatchAt: new Date().toISOString() };
 }
-export function loopSnapshot(control) {
+export function loopSnapshot(control: Control) {
   // Task-facing metadata only. Scheduling belongs to the supervisor's control record.
   const fields = ['version', 'id', 'branch', 'defaultBranch', 'supervisor', 'status', 'generation',
-    'next', 'model', 'reasoning', 'source', 'sourceRef', 'pr', 'verification'];
+    'next', 'model', 'reasoning', 'source', 'sourceRef', 'pr', 'verification'] as const;
   return Object.fromEntries(fields.filter(key => Object.hasOwn(control, key)).map(key => [key, control[key]]));
 }
-export function validateId(id) {
+export function validateId(id: string | undefined): string {
   if (!/^[a-z0-9][a-z0-9-]{0,48}$/.test(id ?? '')) throw new Error('Loop ID must be 1–49 lowercase letters, numbers, or hyphens');
-  return id;
+  return id!;
 }
-export function stopped(control, now = Date.now()) {
-  return control.status !== 'running' || (control.deadline && now >= Date.parse(control.deadline));
+export function stopped(control: Control, now = Date.now()): boolean {
+  return control.status !== 'running' || !!(control.deadline && now >= Date.parse(control.deadline));
 }
-export function claimable(control, generation, iteration, runId) {
+export function claimable(control: Control, generation: number, iteration: number, runId: string) {
   return !stopped(control) && control.generation === generation && control.next === iteration
     && (!control.owner || control.owner.runId === runId);
 }
-export function trustedRecovery(event, repo) {
+export function trustedRecovery(event: Event, repo: string | undefined) {
   const r = event.workflow_run;
-  return !!r && r.name === 'Shurik Ralph' && r.event === 'workflow_dispatch'
+  return !!r && ['Shurik', 'Shurik Ralph'].includes(r.name) && r.event === 'workflow_dispatch'
     && r.repository?.full_name === repo && r.head_repository?.full_name === repo
     && r.head_branch === event.repository?.default_branch;
 }
-export function cancelledForLoop(control, run) {
+export function cancelledForLoop(control: Control, run?: Run) {
   if (run?.conclusion !== 'cancelled') return false;
   if ([control.lastRunId, control.owner?.runId].filter(Boolean).includes(String(run.id))) return true;
   // A queued successor has not claimed ownership yet. Its fixed run name carries the fence.
-  const match = /^Ralph ([a-z0-9-]+) \/ (start|iterate) (\d+)-(\d+)$/.exec(run.display_title ?? '');
+  const match = /^(?:Shurik|Ralph) ([a-z0-9-]+) \/ (start|iterate) (\d+)-(\d+)$/.exec(run.display_title ?? '');
   return !control.owner && !!match && match[1] === control.id
     && Number(match[3]) === control.generation && Number(match[4]) === control.next;
 }
-export function classify(result, exitCode) {
+export function classify(result: WorkerResult | null, exitCode: number | null): Outcome {
   if (!result || exitCode !== 0 || result.version !== 1) return 'runner_failure';
-  return ['yielded', 'agent_failure', 'timeout', 'runner_failure'].includes(result.outcome) ? result.outcome : 'runner_failure';
+  return ['yielded', 'agent_failure', 'timeout', 'runner_failure'].includes(result.outcome) ? result.outcome as Outcome : 'runner_failure';
 }
-export function nextRuntime(runtime, outcome) {
+export function nextRuntime(runtime: Runtime, outcome: Outcome): Runtime {
   if (outcome === 'runner_failure' && runtime.fallback && runtime.selected !== runtime.fallback) {
     return { ...runtime, selected: runtime.fallback, probation: false,
       quarantined: [...new Set([...(runtime.quarantined ?? []), runtime.selected])] };
   }
   return { ...runtime, probation: outcome === 'runner_failure' ? runtime.probation : false };
 }
-export function redact(text, secrets) {
+export function redact(text: string, secrets: Secrets) {
   let value = text;
-  for (const key of secrets.filter(s => s && s.length >= 8)) {
+  for (const key of secrets.filter((s): s is string => !!s && s.length >= 8)) {
     for (const form of new Set([key, encodeURIComponent(key), Buffer.from(key).toString('base64'), JSON.stringify(key).slice(1, -1)])) {
       value = value.split(form).join('*'.repeat(form.length));
     }
   }
   return value.replace(/\b(?:ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,}|sk-[A-Za-z0-9_-]{24,})\b/g, match => '*'.repeat(match.length));
 }
-export async function sanitizeTree(root, secrets) {
+export async function sanitizeTree(root: string, secrets: Secrets) {
   let redactions = 0;
-  async function visit(path) {
+  async function visit(path: string) {
     for (const name of await readdir(path)) {
       if (['.git', 'node_modules', 'dist'].includes(name)) continue;
       const file = join(path, name); const stat = await lstat(file);

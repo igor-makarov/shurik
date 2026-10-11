@@ -1,0 +1,108 @@
+name: Shurik
+run-name: ${{ github.event_name == 'schedule' && 'Shurik recovery' || format('Shurik {0} / {1} {2}-{3}', inputs.loop_id, inputs.command, inputs.generation, inputs.iteration) }}
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+    inputs:
+      command:
+        description: Start, stop or resume a loop; iterate is used by Shurik
+        required: true
+        type: choice
+        options: [start, stop, resume, iterate]
+        default: start
+      loop_id:
+        description: Unique lowercase loop ID
+        required: true
+        type: string
+      reasoning:
+        description: Required for start/resume (off, minimal, low, medium, high, xhigh, max)
+        type: string
+      model:
+        description: Optional model; start uses project config, resume keeps the previous model
+        type: string
+      source_ref:
+        description: Optional project branch or commit for start
+        type: string
+      seconds:
+        description: Optional iteration budget for start (10–1800 seconds)
+        type: string
+      deadline:
+        description: Optional absolute UTC deadline for start/resume
+        type: string
+      generation:
+        description: Internal continuation generation
+        default: '1'
+        type: string
+      iteration:
+        description: Internal continuation sequence
+        default: '1'
+        type: string
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+jobs:
+  control:
+    if: github.event_name == 'workflow_dispatch' && inputs.command != 'iterate' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    concurrency:
+      group: shurik-control-${{ inputs.loop_id }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: igor-makarov/shurik@v1
+        with:
+          inputs: ${{ toJSON(inputs) }}
+          workflow: shurik.yml
+  iteration:
+    if: github.event_name == 'workflow_dispatch' && inputs.command == 'iterate' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    concurrency:
+      group: shurik-worker-${{ inputs.loop_id }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: igor-makarov/shurik@v1
+        with:
+          command: iterate
+          inputs: ${{ toJSON(inputs) }}
+          opencode-api-key: ${{ secrets.OPENCODE_API_KEY }}
+      - name: Preserve emergency snapshot after publication failure
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: shurik-emergency-${{ github.run_id }}
+          path: .shurik-emergency/
+          include-hidden-files: true
+          if-no-files-found: ignore
+          retention-days: 7
+  recovery:
+    needs: [control, iteration]
+    if: always() && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    concurrency:
+      group: shurik-recovery
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      actions: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: igor-makarov/shurik@v1
+        env:
+          SHURIK_ITERATION_RESULT: ${{ needs.iteration.result }}
+        with:
+          command: recover

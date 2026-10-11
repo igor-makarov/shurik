@@ -2,13 +2,15 @@
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, cp, readFile, writeFile, readdir } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import { launchWorker, validateCandidate, buildRuntime, inspectJournal, repairJournal } from '../scripts/runtime.mjs';
-import { nextRuntime } from '../scripts/policy.mjs';
-import { recoverInterrupted, upsertSession, iterationPrompt } from '../scripts/failures.mjs';
-import { saveJson, readJson, git, commit, configureGit, ControlStore } from '../scripts/github.mjs';
-import { publishCheckpoint, loadState } from '../scripts/state.mjs';
-const stable = resolve('.'); await mkdir(join(stable, '.shurik-local'), { recursive: true });
-const dir = await mkdtemp(join(stable, '.shurik-local/shurik-runner-proof-'));
+import { launchWorker, validateCandidate, buildRuntime, inspectJournal, repairJournal } from '../scripts/runtime.ts';
+import { nextRuntime } from '../scripts/policy.ts';
+import { recoverInterrupted, upsertSession, iterationPrompt } from '../scripts/failures.ts';
+import { saveJson, readJson, git, commit, configureGit, ControlStore } from '../scripts/github.ts';
+import { publishCheckpoint, loadState } from '../scripts/state.ts';
+const stable = resolve('.');
+const dir = await mkdtemp('/tmp/shurik-runner-proof-');
+process.env.SHURIK_HOME = join(dir, 'home');
+process.env.GITHUB_REPOSITORY = 'fixture/proof';
 const workspace = join(dir, 'repo');
 await mkdir(workspace);
 for (const name of await readdir(stable)) {
@@ -24,7 +26,7 @@ await commit(workspace, 'initial control'); await git(workspace, 'push', 'origin
 await git(workspace, 'checkout', '--detach', good);
 const controlCheckout = join(dir, 'control'); await git(dir, 'clone', remote, controlCheckout); await configureGit(controlCheckout);
 const store = new ControlStore(controlCheckout, 'proof');
-const state = join(workspace, '.shurik-local/state/proof'); await mkdir(join(state, 'pi-jsonl'), { recursive: true });
+const state = join(dir, 'home/state/fixture/proof/proof'); await mkdir(join(state, 'pi-jsonl'), { recursive: true });
 const builds = new Map(); const bundle = await buildRuntime(workspace, good, stable, builds);
 assert.equal(await buildRuntime(workspace, good, stable, builds), bundle, 'a source revision is built once per job');
 const baseReq = { version: 1, model: 'space-bunny-free', reasoning: 'high', seconds: 10, prompt: 'Test coding tools', sessions: [] };
@@ -137,7 +139,7 @@ const reports = [{ key: '789-1', runId: '789', generation: 1, conclusion: 'failu
 ] }];
 await recoverInterrupted(restoredState, restoredIndex, reports);
 const recovered = await launchWorker({ workspace: published, state: restoredState, bundle, stable, req: {
-  ...baseReq, id: 'proof:1-8', sessions: restoredIndex, prompt: iterationPrompt('Inspect the failure trail', '1-8', restoredIndex, reports, 'proof'),
+  ...baseReq, id: 'proof:1-8', sessions: restoredIndex, prompt: iterationPrompt('Inspect the failure trail', '1-8', restoredIndex, reports, restoredState),
   script: [{ tool: 'list_sessions', args: {} }, { tool: 'search_sessions', args: { query: 'SURVIVABLE_FAILURE_NEEDLE' } },
     { tool: 'read_session', args: { id: '1-7', limit: 50 } }, { text: 'Recovered failure evidence' }]
 } });

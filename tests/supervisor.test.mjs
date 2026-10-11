@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { ControlStore, git, command, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.mjs';
-import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot, validateReasoning, resumeSettings } from '../scripts/policy.mjs';
-import { buildRuntime } from '../scripts/runtime.mjs';
-import { expireUnstartedIteration, start } from '../scripts/supervisor.mjs';
+import { ControlStore, git, command, configureGit, saveJson, commit, repositoryURL } from '../scripts/github.ts';
+import { claimable, stopped, nextRuntime, classify, trustedRecovery, cancelledForLoop, redact, sanitizeTree, validateId, loopSnapshot, validateReasoning, resumeSettings } from '../scripts/policy.ts';
+import { buildRuntime } from '../scripts/runtime.ts';
+import { expireUnstartedIteration, start } from '../scripts/supervisor.ts';
 
 test('start requires an explicit reasoning level before creating any loop', async () => {
   for (const value of [undefined, '', 'automatic']) {
@@ -61,7 +61,7 @@ test('an expired skipped invocation records deadline without starting work or di
   await expireUnstartedIteration(store, 1, 4, 'stale');
   await expireUnstartedIteration(store, 2, 3, 'stale');
   assert.equal((await store.read()).revision, original, 'stale invocations leave control untouched');
-  const module = new URL('../scripts/supervisor.mjs', import.meta.url).href;
+  const module = new URL('../scripts/supervisor.ts', import.meta.url).href;
   const code = `import { iterate } from ${JSON.stringify(module)}; await iterate({ loop_id: 'expiry', generation: '2', iteration: '4' });`;
   const output = await command(process.execPath, ['--input-type=module', '-e', code], f.dir, { env: {
     ...process.env, GITHUB_WORKSPACE: f.seed, SHURIK_REMOTE: f.remote, GITHUB_REPOSITORY: '', GITHUB_RUN_ID: 'queued',

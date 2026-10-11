@@ -1,24 +1,12 @@
-import { PATHS, runtimeState } from './paths.mjs';
-import { appendFile, cp, mkdir, rm, readFile } from 'node:fs/promises';
+import type { Control, Iteration } from './types.ts';
+import { PATHS, runtimeState } from './paths.ts';
+import { cp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import { commit, git, saveJson } from './github.mjs';
-import { snapshotTaskState, restoreTaskState } from './task-state.mjs';
+import { commit, git, saveJson, type ControlStore } from './github.ts';
+import { snapshotTaskState, restoreTaskState } from './task-state.ts';
 
-async function ignoreLocalState(workspace) {
-  await mkdir(join(workspace, '.git', 'info'), { recursive: true });
-  const exclude = join(workspace, '.git', 'info', 'exclude');
-  const rules = await readFile(exclude, 'utf8').catch(e => { if (e.code === 'ENOENT') return ''; throw e; });
-  if (!rules.split('\n').includes(`/${PATHS.localRoot}/`)) await appendFile(exclude, `\n/${PATHS.localRoot}/\n`);
-}
-
-async function commitWork(workspace, message) {
-  await ignoreLocalState(workspace);
-  await git(workspace, 'rm', '-r', '-f', '--cached', '--ignore-unmatch', '--', PATHS.localRoot);
-  return commit(workspace, message);
-}
-
-export async function initializeCheckpoint({ workspace, state, store, control, message }) {
-  const workCommit = await commitWork(workspace, message);
+export async function initializeCheckpoint({ workspace, state, store, control, message }: { workspace: string; state: string; store: ControlStore; control: Control; message: string }) {
+  const workCommit = await commit(workspace, message);
   await snapshotTaskState(workspace, state, workCommit);
   const next = { ...control, checkpoint: { workCommit, generation: control.generation,
     sequence: 'initialize', runId: null, at: new Date().toISOString() } };
@@ -31,24 +19,23 @@ export async function initializeCheckpoint({ workspace, state, store, control, m
   return next;
 }
 
-export async function loadState(store, workspace, id) {
+export async function loadState(store: ControlStore, workspace: string, id: string) {
   const { revision, value } = await store.read();
   if (value.stateStorage !== 'control') throw new Error('Loop requires its legacy pinned supervisor; state was not migrated');
   await git(store.cwd, 'checkout', '--detach', revision);
-  const state = runtimeState(workspace, id);
-  await ignoreLocalState(workspace);
+  const state = runtimeState(process.env.GITHUB_REPOSITORY, id);
   await rm(state, { recursive: true, force: true });
   await cp(join(store.cwd, PATHS.controlState), state, { recursive: true });
   await restoreTaskState(workspace, state, value.checkpoint?.workCommit);
   return state;
 }
 
-export async function publishCheckpoint({ workspace, state, store, generation, owner, sequence, message, record, journalSnapshot }) {
-  const owns = c => c.generation === generation && (owner === null ? c.owner === null : c.owner?.runId === owner);
+export async function publishCheckpoint({ workspace, state, store, generation, owner, sequence, message, record, journalSnapshot }: { workspace: string; state: string; store: ControlStore; generation: number; owner: string | null; sequence: string; message: string; record?: Iteration; journalSnapshot?: string }) {
+  const owns = (c: Control) => c.generation === generation && (owner === null ? c.owner === null : c.owner?.runId === owner);
   const { value: initial } = await store.read();
   if (!owns(initial)) throw new Error('Stale checkpoint: control ownership or generation changed');
-  // This local cache remains available to tools, but never becomes part of the task PR.
-  const workCommit = await commitWork(workspace, message);
+  // Runtime state lives outside the task checkout and cannot enter the task index.
+  const workCommit = await commit(workspace, message);
   await snapshotTaskState(workspace, state, workCommit);
   if (record) {
     record.workCommit = workCommit;

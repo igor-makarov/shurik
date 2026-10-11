@@ -3,8 +3,11 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { ControlStore, commit, configureGit, git, saveJson } from '../scripts/github.mjs';
-import { loadState, publishCheckpoint, initializeCheckpoint } from '../scripts/state.mjs';
+import { ControlStore, commit, configureGit, git, saveJson } from '../scripts/github.ts';
+import { loadState, publishCheckpoint, initializeCheckpoint } from '../scripts/state.ts';
+
+process.env.SHURIK_HOME = await mkdtemp(join(tmpdir(), 'shurik-home-state-'));
+process.env.GITHUB_REPOSITORY = 'fixture/state';
 
 async function fixture() {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-state-'));
@@ -36,8 +39,7 @@ async function fixture() {
 
 test('journals, session index, malformed evidence and runtime source refs live only on control; cold resume restores them', async () => {
   const f = await fixture();
-  // Force-stage an older journal, then let its contents advance before publication.
-  await git(f.workspace, 'add', '-f', '.shurik-local');
+  assert.ok(!f.state.startsWith(f.workspace + '/'), 'session root is outside task checkout');
   await writeFile(join(f.workspace, 'app.txt'), 'changed code');
   await writeFile(join(f.state, 'pi-jsonl/main.jsonl'), 'NEW_JOURNAL\n');
   await saveJson(join(f.state, 'history-index.json'), [{ id: '1-1', minEntryId: 7, maxEntryId: 21 }]);

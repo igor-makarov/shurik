@@ -1,22 +1,24 @@
-import { PATHS, controlBranch } from './paths.mjs';
+import type { ExecFileOptions } from 'node:child_process';
+import { errorCode, type Control, type Publication } from './types.ts';
+import { PATHS, controlBranch } from './paths.ts';
 // Stable supervisor code. This module uses built-ins only and never executes worker source.
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { readFile, writeFile, mkdir, cp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 const exec = promisify(execFile);
-export async function command(cmd, args, cwd, options = {}) {
-  const env = { ...process.env, GIT_TERMINAL_PROMPT: '0' };
+export async function command(cmd: string, args: string[], cwd: string, options: ExecFileOptions = {}) {
+  const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: '0' };
   if (cmd === 'git' && (process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN)) {
     env.GIT_CONFIG_COUNT = '1'; env.GIT_CONFIG_KEY_0 = 'http.https://github.com/.extraheader';
     env.GIT_CONFIG_VALUE_0 = `AUTHORIZATION: basic ${Buffer.from(`x-access-token:${process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN}`).toString('base64')}`;
   }
   return (await exec(cmd, args, { cwd, maxBuffer: 8 * 1024 * 1024, timeout: 120000,
-    env, ...options })).stdout.trim();
+    env, ...options })).stdout.toString().trim();
 }
-export const git = (cwd, ...args) => command('git', args, cwd);
-export const repositoryURL = (repo, path = '') => `https://api.github.com/repos/${repo}${path ? '/' + path : ''}`;
-export async function api(path, method = 'GET', body) {
+export const git = (cwd: string, ...args: string[]) => command('git', args, cwd);
+export const repositoryURL = (repo: string | undefined, path = '') => `https://api.github.com/repos/${repo}${path ? '/' + path : ''}`;
+export async function api<T = unknown>(path: string, method = 'GET', body?: unknown): Promise<T> {
   const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
   if (!token) throw new Error('Supervisor GitHub token missing');
   const response = await fetch(repositoryURL(process.env.GITHUB_REPOSITORY, path), {
@@ -25,9 +27,9 @@ export async function api(path, method = 'GET', body) {
     body: body === undefined ? undefined : JSON.stringify(body), signal: AbortSignal.timeout(30000)
   });
   if (!response.ok) throw new Error(`GitHub ${method} ${path}: ${response.status} ${await response.text()}`);
-  return response.status === 204 ? undefined : response.json();
+  return response.status === 204 ? undefined as T : response.json() as Promise<T>;
 }
-export async function jobLog(jobId, fetcher = fetch) {
+export async function jobLog(jobId: number, fetcher = fetch) {
   if (!/^\d+$/.test(String(jobId))) throw new Error('Invalid job ID');
   const token = process.env.GH_TOKEN ?? process.env.GITHUB_TOKEN;
   if (!token) throw new Error('Supervisor GitHub token missing');
@@ -36,7 +38,7 @@ export async function jobLog(jobId, fetcher = fetch) {
     redirect: 'manual', signal: AbortSignal.timeout(30000)
   });
   if (response.status === 302) {
-    const location = new URL(response.headers.get('location'));
+    const location = new URL(response.headers.get('location') ?? '');
     if (location.protocol !== 'https:') throw new Error('Invalid job log redirect');
     // GitHub returns a short-lived storage URL. Never forward the API credential there.
     response = await fetcher(location, { signal: AbortSignal.timeout(30000) });
@@ -44,31 +46,33 @@ export async function jobLog(jobId, fetcher = fetch) {
   if (!response.ok) throw new Error(`GitHub job logs: ${response.status}`);
   let tail = Buffer.alloc(0); let bytes = 0;
   // Keep a bounded tail; cap download cost independently of the retained excerpt.
+  if (!response.body) throw new Error('Missing job log body');
   for await (const chunk of response.body) {
     bytes += chunk.length; tail = Buffer.concat([tail, chunk]).subarray(-16384);
     if (bytes >= 2 * 1024 * 1024) return { text: tail.toString('utf8'), truncated: true, downloadLimited: true };
   }
   return { text: tail.toString('utf8'), truncated: bytes > 16384, downloadLimited: false };
 }
-export async function configureGit(cwd) {
+export async function configureGit(cwd: string) {
   await git(cwd, 'config', 'user.name', 'github-actions[bot]');
   await git(cwd, 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com');
 }
-export async function saveJson(path, value) { await mkdir(join(path, '..'), { recursive: true }); await writeFile(path, JSON.stringify(value, null, 2) + '\n'); }
-export async function readJson(path, fallback) { try { return JSON.parse(await readFile(path, 'utf8')); } catch (e) { if (e.code === 'ENOENT' && fallback !== undefined) return fallback; throw e; } }
-export async function commit(cwd, message) {
+export async function saveJson(path: string, value: unknown) { await mkdir(join(path, '..'), { recursive: true }); await writeFile(path, JSON.stringify(value, null, 2) + '\n'); }
+export async function readJson<T>(path: string, fallback?: T): Promise<T> { try { return JSON.parse(await readFile(path, 'utf8')); } catch (e) { if (errorCode(e) === 'ENOENT' && fallback !== undefined) return fallback; throw e; } }
+export async function commit(cwd: string, message: string) {
   await git(cwd, 'add', '-A');
   if (await git(cwd, 'status', '--porcelain')) await git(cwd, 'commit', '-m', message);
   return git(cwd, 'rev-parse', 'HEAD');
 }
 export class ControlStore {
-  constructor(cwd, id) { this.cwd = cwd; this.branch = controlBranch(id); }
+  cwd: string; branch: string;
+  constructor(cwd: string, id: string) { this.cwd = cwd; this.branch = controlBranch(id); }
   async read() {
     await git(this.cwd, 'fetch', 'origin', `refs/heads/${this.branch}`);
     const revision = await git(this.cwd, 'rev-parse', 'FETCH_HEAD');
-    return { revision, value: JSON.parse(await git(this.cwd, 'show', `${revision}:${PATHS.control}`)) };
+    return { revision, value: JSON.parse(await git(this.cwd, 'show', `${revision}:${PATHS.control}`)) as Control };
   }
-  async mutate(change, message = 'shurik: update loop control', evidence = {}, checkpoint) {
+  async mutate(change: (value: Control) => Control | null | Promise<Control | null>, message = 'shurik: update loop control', evidence: Record<string, unknown> = {}, checkpoint?: Publication): Promise<Control> {
     for (let i = 0; i < 5; i++) {
       const { revision, value } = await this.read();
       const next = await change(structuredClone(value)); if (!next) return value;
@@ -94,5 +98,6 @@ export class ControlStore {
       try { await git(this.cwd, 'push', ...(checkpoint ? ['--atomic'] : []), 'origin', ...refs); return next; }
       catch (e) { if (i === 4) throw e; }
     }
+    throw new Error('Control CAS exhausted');
   }
 }

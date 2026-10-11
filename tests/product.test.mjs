@@ -5,15 +5,27 @@ import { resolve, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { parseArgs } from '../bin/shurik.mjs';
-import { actionOptions, checkoutEngine } from '../action/run.mjs';
-import { PATHS, runtimeState, sessionPaths } from '../scripts/paths.mjs';
-import { projectConfig } from '../scripts/config.mjs';
-import { git, configureGit, commit, saveJson, readJson, ControlStore } from '../scripts/github.mjs';
-import { initializeCheckpoint, loadState, publishCheckpoint } from '../scripts/state.mjs';
-import { launchWorker } from '../scripts/runtime.mjs';
+import { parseArgs } from '../bin/shurik.ts';
+import { actionOptions, checkoutEngine } from '../action/run.ts';
+import { PATHS, runtimeState, sessionPaths } from '../scripts/paths.ts';
+import { projectConfig } from '../scripts/config.ts';
+import { git, configureGit, commit, saveJson, readJson, ControlStore } from '../scripts/github.ts';
+import { initializeCheckpoint, loadState, publishCheckpoint } from '../scripts/state.ts';
+import { launchWorker } from '../scripts/runtime.ts';
 const exec = promisify(execFile);
-const cli = resolve('bin/shurik.mjs'), bundle = resolve('dist/worker.cjs');
+const cli = resolve('bin/shurik.ts'), bundle = resolve('dist/worker.cjs');
+
+process.env.SHURIK_HOME = await mkdtemp(join(tmpdir(), 'shurik-home-product-'));
+process.env.GITHUB_REPOSITORY = 'fixture/product';
+
+test('runtime sessions are outside the checkout and scoped by repository and loop identity', () => {
+  const first = sessionPaths('/tmp/project', 'demo', 'alice/project');
+  assert.equal(first.runtime.state, join(process.env.SHURIK_HOME, 'state/alice/project/demo'));
+  assert.notEqual(first.runtime.state, runtimeState('bob/project', 'demo'));
+  assert.equal(first.control.journal, 'state/pi-jsonl');
+  assert.throws(() => runtimeState('../project', 'demo'), /Repository/);
+  assert.throws(() => runtimeState('alice/..', 'demo'), /Repository/);
+});
 
 test('CLI and action input validation keep explicit reasoning and allow flags to override dispatch inputs', () => {
   assert.equal(parseArgs(['resume', '--reasoning', 'high'], { command: 'stop', reasoning: 'low' }).reasoning, 'high');
@@ -57,7 +69,7 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   await git(project, 'push', 'origin', 'HEAD:refs/heads/main');
   const ctl = join(dir, 'control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
   await git(ctl, 'checkout', '-b', 'codex/shurik-control/demo', 'origin/main');
-  const store = new ControlStore(ctl, 'demo'), state = runtimeState(project, 'demo');
+  const store = new ControlStore(ctl, 'demo'), state = runtimeState(process.env.GITHUB_REPOSITORY, 'demo');
   await mkdir(join(state, PATHS.journal), { recursive: true });
   await saveJson(join(state, PATHS.history), []);
   await initializeCheckpoint({ workspace: project, state, store,
@@ -134,7 +146,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (path.endsWith('/dispatches')) { dispatches.push(JSON.parse(init.body)); return new Response(null, { status: 204 }); }
       throw new Error(`Unexpected API request: ${url}`);
     };
-    const { main } = await import(`../scripts/supervisor.mjs?consumer=${Date.now()}`);
+    const { main } = await import(`../scripts/supervisor.ts?consumer=${Date.now()}`);
     await main({ command: 'start', loop_id: 'demo', reasoning: 'high', workflow: 'agent.yml' });
     const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl);
     const store = new ControlStore(ctl, 'demo');

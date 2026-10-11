@@ -4,12 +4,12 @@ The reusable CLI/action design is documented in [ARCHITECTURE.md](ARCHITECTURE.m
 
 ## Current scope
 
-- Package Shurik as a CLI with lifecycle, native worker, journal inspection, and session-path subcommands.
+- Implement Shurik in TypeScript and package it as a CLI with lifecycle, native worker, journal inspection, and session-path subcommands.
 - Expose that CLI through a GitHub Action referenced by consumer workflows as `igor-makarov/shurik@v1`.
 - Separate engine source and builds from consumer task source, prompts, and configuration.
 - Keep work branches, draft PRs, session state, and failure evidence in the consumer repository.
-- Declare layout version 1 centrally: runtime `.shurik-local/state/<id>/`, persisted control-branch `state/`, authoritative `control.json`, and immutable `failures/`.
-- Ship consumer workflow examples and the independent `shurik-demo` repository.
+- Declare layout version 1 centrally: runtime `$HOME/.shurik/state/<owner>/<repo>/<id>/`, persisted control-branch `state/`, authoritative `control.json`, and immutable `failures/`.
+- Ship one consumer `shurik.yml` with independent control, iteration, and recovery jobs and the independent `shurik-demo` repository.
 - Preserve existing native checkpoint, history, stop/resume, and recovery behavior.
 
 ## Version policy
@@ -25,7 +25,7 @@ New reusable loops do not automatically adopt Shurik implementation from consume
 - Native journals and indexed boundaries survive an atomic two-branch checkpoint and a cold restart.
 - Journal inspection uses a disposable copy and leaves canonical state unchanged.
 - Moving a major release tag affects the next invocation.
-- Existing failure recovery, cancellation/generation fences, partial-work retention, and checkpoint races remain covered by integration checks.
+- Existing same-workflow failed-job recovery, scheduled recovery, cancellation/generation fences, partial-work retention, and checkpoint races remain covered by integration checks.
 - Demo application tests pass independently of Shurik and model credentials.
 - Consumer workflows parse correctly and call the public action rather than repository-local engine scripts.
 

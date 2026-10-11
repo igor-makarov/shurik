@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
-import { ControlStore, git, configureGit, saveJson, commit, jobLog } from '../scripts/github.mjs';
-import { reconcileLoop, importFailures, recoverInterrupted, iterationPrompt } from '../scripts/failures.mjs';
+import { ControlStore, git, configureGit, saveJson, commit, jobLog } from '../scripts/github.ts';
+import { reconcileLoop, importFailures, recoverInterrupted, iterationPrompt, completedIterationRun } from '../scripts/failures.ts';
 
 async function fixture(extra = {}) {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-trail-')); const remote = join(dir, 'remote'); const seed = join(dir, 'seed');
@@ -21,6 +21,28 @@ async function fixture(extra = {}) {
 }
 const run = { id: 123, run_attempt: 1, status: 'completed', conclusion: 'failure',
   display_title: 'Ralph trail / iterate 1-1', html_url: 'https://github.com/owner/repo/actions/runs/123', head_sha: 'abc' };
+test('recovery in the same workflow reconciles a completed failed job while the workflow remains in progress', async () => {
+  const f = await fixture();
+  const active = { ...run, status: 'in_progress', conclusion: null, display_title: 'Shurik trail / iterate 1-1' };
+  const jobs = [{ id: 456, name: 'iteration', status: 'completed', conclusion: 'failure' }];
+  assert.throws(() => completedIterationRun(active, 'failure', [{ ...jobs[0], status: 'in_progress' }]), /has not completed/);
+  assert.throws(() => completedIterationRun(active, 'success', jobs), /has not completed/);
+  const completed = completedIterationRun(active, 'failure', jobs);
+  assert.equal(active.status, 'in_progress');
+  let dispatches = 0;
+  await reconcileLoop(f.store, { wake: completed, request: requestFor(completed),
+    logs: async () => ({ text: 'CRASH_BEFORE_FINALIZATION', truncated: false }),
+    dispatchNext: async c => { dispatches++; assert.equal(c.next, 2); assert.equal(c.owner, null); } });
+  assert.equal(dispatches, 1);
+  assert.deepEqual((await f.store.read()).value.failureTrail, ['123-1']);
+});
+test('a failed iteration before claim retries in the recovery job without waiting for the schedule', async () => {
+  const f = await fixture({ owner: null, lastDispatchAt: new Date().toISOString() });
+  let dispatches = 0;
+  await reconcileLoop(f.store, { wake: run, request: requestFor(), logs: async () => ({ text: 'FAILED_BEFORE_CLAIM' }),
+    dispatchNext: async c => { dispatches++; assert.equal(c.next, 1); assert.equal(c.owner, null); } });
+  assert.equal(dispatches, 1);
+});
 function requestFor(value = run, jobsError) {
   return async path => {
     if (path.includes('/jobs?')) {
@@ -56,9 +78,9 @@ test('failure evidence survives a lost work checkout and dispatch crash; a fresh
   assert.equal(sessions.length, 1); assert.equal(sessions[0].outcome, 'interrupted');
   assert.equal(sessions[0].minEntryId, 10); assert.equal(sessions[0].maxEntryId, 30);
   assert.equal(sessions[0].transcript, 'checkpoint'); assert.match(sessions[0].error, /failure/);
-  const prompt = iterationPrompt('Repair runner', '1-2', sessions, reports, 'trail');
+  const prompt = iterationPrompt('Repair runner', '1-2', sessions, reports, '/tmp/shurik-home/state/fixture/consumer/trail');
   assert.match(prompt, /FAILURE_NEEDLE/); assert.match(prompt, /Execute iteration/);
-  assert.match(prompt, /\.shurik-local\/state\/trail\/diagnostics\/recovery\/123-1.json/);
+  assert.match(prompt, /\/tmp\/shurik-home\/state\/fixture\/consumer\/trail\/diagnostics\/recovery\/123-1.json/);
   assert.equal(JSON.parse(await readFile(join(state, 'iterations/1-1.json'), 'utf8')).recovery, 'diagnostics/recovery/123-1.json');
   const before = (await fresh.read()).revision;
   await reconcileLoop(fresh, { wake: run, request: requestFor(), logs: async () => { throw new Error('must not recapture'); },
@@ -122,7 +144,7 @@ test('a successful Actions run with stranded ownership also provides logs explai
     logs: async () => ({ text: 'STRANDED_HANDOFF_DIAGNOSTIC' }), dispatchNext: async () => {} });
   const reports = await importFailures(f.store, join(f.dir, 'state'));
   assert.equal(reports[0].interruptedOwner, true);
-  assert.match(iterationPrompt('Repair', '1-2', [], reports, 'trail'), /STRANDED_HANDOFF_DIAGNOSTIC/);
+  assert.match(iterationPrompt('Repair', '1-2', [], reports, '/tmp/shurik-home/state/fixture/consumer/trail'), /STRANDED_HANDOFF_DIAGNOSTIC/);
 });
 test('log redirect omits authorization and retains a bounded excerpt', async () => {
   const original = process.env.GH_TOKEN; process.env.GH_TOKEN = 'test-github-secret-12345678';
