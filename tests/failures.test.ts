@@ -25,7 +25,7 @@ const run = runFixture({ id: 123, run_attempt: 1, status: 'completed', conclusio
   display_title: 'Ralph trail / iterate 1-1', html_url: 'https://github.com/owner/repo/actions/runs/123', head_sha: 'abc' });
 test('recovery in the same workflow reconciles a completed failed job while the workflow remains in progress', async () => {
   const f = await fixture();
-  const active = { ...run, status: 'in_progress', conclusion: null, display_title: 'Shurik trail / iterate 1' };
+  const active = { ...run, status: 'in_progress', conclusion: null, display_title: 'Shurik trail / 1' };
   const jobs = [{ id: 456, name: 'iteration', status: 'completed', conclusion: 'failure' }];
   assert.throws(() => completedIterationRun(active, 'failure', [{ ...jobs[0], status: 'in_progress' }]), /has not completed/);
   assert.throws(() => completedIterationRun(active, 'success', jobs), /has not completed/);
@@ -51,7 +51,7 @@ test('a cancelled old queued run cannot stop a resumed run with the same title a
     lastDispatchAt: new Date().toISOString(), dispatchedRuns: [
       { runId: '123', generation: 1, iteration: 6 }, { runId: '124', generation: 2, iteration: 6 }
     ] });
-  const cancelled = { ...run, conclusion: 'cancelled', display_title: 'Shurik trail / iterate 6' };
+  const cancelled = { ...run, conclusion: 'cancelled', display_title: 'Shurik trail / 6' };
   await reconcileLoop(f.store, { wake: cancelled, request: requestFor(cancelled),
     logs: async () => ({ text: 'Old queued run cancelled', truncated: false, downloadLimited: false }),
     dispatchNext: async () => { throw new Error('Resume already dispatched'); } });

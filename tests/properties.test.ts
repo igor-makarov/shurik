@@ -141,13 +141,13 @@ property('iteration numbering remains contiguous across repeated stops and resum
     assert.equal(c.generation, generation + cycles.length);
   }));
 
-property('GitHub run IDs fence old queued cancellations even when resumed titles are identical',
-  fc.property(control, positive, positive, (previous, runId, delta) => {
+property('GitHub run IDs fence old queued cancellations with short and legacy continuous titles',
+  fc.property(control, positive, positive, fc.constantFrom('', 'iterate '), (previous, runId, delta, verb) => {
     previous = { ...previous, status: 'stopped', owner: null, lastRunId: null,
       dispatchedRuns: [{ runId: String(runId), generation: previous.generation, iteration: previous.next }] };
     let c = resumeSettings(previous, { reasoning: 'high' });
     c = { ...c, dispatchedRuns: [...c.dispatchedRuns!, { runId: String(runId + delta), generation: c.generation, iteration: c.next }] };
-    const old = runFixture({ id: runId, conclusion: 'cancelled', display_title: 'Shurik ' + c.id + ' / iterate ' + c.next });
+    const old = runFixture({ id: runId, conclusion: 'cancelled', display_title: 'Shurik ' + c.id + ' / ' + verb + c.next });
     const current = { ...old, id: runId + delta };
     assert.equal(c.next, previous.next);
     assert.equal(claimable(c, previous.generation, c.next, String(runId)), false);

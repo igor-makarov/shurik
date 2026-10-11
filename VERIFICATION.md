@@ -63,7 +63,7 @@ The inventory below corresponds to named properties in [properties.test.ts](test
 38. Emergency snapshots preserve redacted task, state, and log evidence outside the checkout, discard stale snapshots, and exclude repository metadata, dependencies, and builds.
 
 39. Iteration numbers remain contiguous across repeated stops/resumes, counting claimed interruptions and preserving unstarted slots.
-40. GitHub run IDs distinguish old/current queued cancellations with identical resumed titles; unknown IDs cannot infer a generation from the iteration number.
+40. GitHub run IDs distinguish old/current queued cancellations with short or earlier continuous titles; unknown IDs cannot infer a generation from the iteration number.
 
 Generated cases found two defects fixed in release 1.1.4: masking an unescaped credential before its longer JSON encoding could leave a dangling backslash and corrupt evidence JSON, and an API token ending in `-` was partially masked because of a word-boundary match. Redaction now masks longer encoded forms first and consumes the complete API token. The minimized examples also have a focused unit regression.
 

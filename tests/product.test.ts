@@ -159,7 +159,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (path.endsWith('/repos/fixture/consumer')) return Response.json({ default_branch: 'main' });
       if (path.endsWith('/commits/older-task-source')) return Response.json({ sha: source });
       if (path.endsWith('/actions/runs/100')) return Response.json({ id: 100, workflow_id: 55,
-        name: 'Shurik demo / iterate 1', display_title: 'Shurik demo / iterate 1',
+        name: 'Shurik demo / 1', display_title: 'Shurik demo / 1',
         event: 'workflow_dispatch', status: 'in_progress', conclusion: null, head_branch: 'main',
         repository: { full_name: 'fixture/consumer' }, head_repository: { full_name: 'fixture/consumer' } });
       if (path.endsWith('/actions/workflows/55')) return Response.json({ name: 'Shurik' });

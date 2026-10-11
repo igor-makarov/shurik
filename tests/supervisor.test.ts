@@ -41,7 +41,7 @@ test('stop and resume preserve the next number when the previous successor never
   assert.equal(claimable(resumed, 1, 6, '123'), false);
   assert.equal(claimable(resumed, 2, 6, '124'), true);
   assert.equal(cancelledForLoop(resumed, runFixture({ id: 123, conclusion: 'cancelled',
-    display_title: 'Shurik fixture / iterate 6' })), false);
+    display_title: 'Shurik fixture / 6' })), false);
 });
 
 test('draft PR mode defaults to auto and accepts explicit boolean overrides', () => {
