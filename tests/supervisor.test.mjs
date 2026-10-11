@@ -181,3 +181,13 @@ test('invalid IDs cannot traverse state paths or inject refs', () => {
   for (const id of ['../main', 'a b', 'foo;bar', '', 'UPPER']) assert.throws(() => validateId(id));
   assert.equal(validateId('proof-123'), 'proof-123');
 });
+
+test('redaction preserves JSON escapes and masks trailing-hyphen API tokens', () => {
+  const secret = 'CREDENTIAL_\\';
+  const evidence = JSON.stringify({ id: 1, log: secret });
+  const clean = redact(evidence, [secret]);
+  assert.equal(clean.length, evidence.length);
+  assert.deepEqual(JSON.parse(clean), { id: 1, log: '*'.repeat(secret.length + 1) });
+  const token = 'sk-' + 'a'.repeat(24) + '-';
+  assert.equal(redact('[' + token + ']', []), '[' + '*'.repeat(token.length) + ']');
+});

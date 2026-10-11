@@ -69,12 +69,15 @@ export function nextRuntime(runtime: Runtime, outcome: Outcome): Runtime {
 }
 export function redact(text: string, secrets: Secrets) {
   let value = text;
-  for (const key of secrets.filter((s): s is string => !!s && s.length >= 8)) {
-    for (const form of new Set([key, encodeURIComponent(key), Buffer.from(key).toString('base64'), JSON.stringify(key).slice(1, -1)])) {
-      value = value.split(form).join('*'.repeat(form.length));
-    }
+  const forms = [...new Set(secrets.filter((s): s is string => !!s && s.length >= 8)
+    .flatMap(key => [key, encodeURIComponent(key), Buffer.from(key).toString('base64'), JSON.stringify(key).slice(1, -1)]))]
+    .sort((a, b) => b.length - a.length);
+  // An unescaped key can prefix its JSON encoding (notably a trailing backslash).
+  // Mask the complete longer form first so its remaining escape cannot break JSON.
+  for (const form of forms) {
+    value = value.split(form).join('*'.repeat(form.length));
   }
-  return value.replace(/\b(?:ghp_[A-Za-z0-9]{30,}|github_pat_[A-Za-z0-9_]{40,}|sk-[A-Za-z0-9_-]{24,})\b/g, match => '*'.repeat(match.length));
+  return value.replace(/\b(?:ghp_[A-Za-z0-9]{30,}\b|github_pat_[A-Za-z0-9_]{40,}\b|sk-[A-Za-z0-9_-]{24,}(?![A-Za-z0-9_-]))/g, match => '*'.repeat(match.length));
 }
 export async function sanitizeTree(root: string, secrets: Secrets) {
   let redactions = 0;
