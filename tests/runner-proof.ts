@@ -1,4 +1,6 @@
-// Native process fault-injection proof: run `node tests/runner-proof.mjs`. No Docker or real credentials.
+// Native process fault-injection proof: run `node tests/runner-proof.ts`. No Docker or real credentials.
+import type { WorkerRequest, Sessions, Failure } from '../scripts/types.ts';
+import { iterationFixture, runtimeFixture } from './test-support.ts';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, cp, readFile, writeFile, readdir } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
@@ -27,9 +29,9 @@ await git(workspace, 'checkout', '--detach', good);
 const controlCheckout = join(dir, 'control'); await git(dir, 'clone', remote, controlCheckout); await configureGit(controlCheckout);
 const store = new ControlStore(controlCheckout, 'proof');
 const state = join(dir, 'home/state/fixture/proof/proof'); await mkdir(join(state, 'pi-jsonl'), { recursive: true });
-const builds = new Map(); const bundle = await buildRuntime(workspace, good, stable, builds);
+const builds = new Map<string, string>(); const bundle = await buildRuntime(workspace, good, stable, builds);
 assert.equal(await buildRuntime(workspace, good, stable, builds), bundle, 'a source revision is built once per job');
-const baseReq = { version: 1, model: 'space-bunny-free', reasoning: 'high', seconds: 10, prompt: 'Test coding tools', sessions: [] };
+const baseReq: Omit<WorkerRequest, 'id'> = { version: 1, model: 'space-bunny-free', reasoning: 'high', seconds: 10, prompt: 'Test coding tools', sessions: [] };
 const previousToken = process.env.GITHUB_TOKEN; process.env.GITHUB_TOKEN = 'TEST_ONLY_REPOSITORY_TOKEN';
 const failed = await launchWorker({ workspace, state, bundle, stable, key: 'TEST_ONLY_NO_REAL_SECRET', req: {
   ...baseReq, id: 'failure', script: [
@@ -78,10 +80,11 @@ assert.equal(probationCheck.source, bad, 'promotion selects exactly the source c
 const badRun = await launchWorker({ workspace, state, bundle: await buildRuntime(workspace, bad, stable, builds), stable,
   req: { ...baseReq, id: 'probation', script: [{ text: 'should never run' }] } });
 assert.equal(badRun.outcome, 'runner_failure');
-const runtime = nextRuntime({ selected: bad, fallback: good, probation: true }, badRun.outcome);
+const runtime = nextRuntime(runtimeFixture({ selected: bad, fallback: good, probation: true }), badRun.outcome);
 assert.equal(runtime.selected, good); assert.ok(runtime.quarantined.includes(bad));
 const coldFallback = await buildRuntime(workspace, runtime.selected, stable);
 assert.notEqual(coldFallback, bundle, 'fallback can be rebuilt on a fresh runner while current source is broken');
+assert.ok(failed.result);
 const repair = await launchWorker({ workspace, state, bundle: coldFallback, stable, req: {
   ...baseReq, id: 'repair', sessions: [{ id: 'failure', outcome: 'agent_failure', minEntryId: failed.result.minEntryId, maxEntryId: failed.result.maxEntryId }],
   script: [{ tool: 'search_sessions', args: { query: 'Intentional model failure' } },
@@ -112,7 +115,7 @@ assert.equal(afterCorruption.outcome, 'yielded');
 console.log('PASS: cooperative Pi snapshot is readable, malformed journal retained, restored fresh iteration');
 
 // Lose the supervising operation immediately after publishing a checkpoint, before final result/index cleanup.
-const interrupted = { id: '1-7', runId: '789', generation: 1, outcome: 'running' }; const index = [];
+const interrupted = iterationFixture({ id: '1-7', runId: '789', generation: 1, iteration: 7, outcome: 'running' }); const index: Sessions = [];
 const published = join(dir, 'published-work');
 await assert.rejects(launchWorker({ workspace, state, bundle, stable, req: {
   ...baseReq, id: 'proof:1-7', checkpointSeconds: 0.001,
@@ -132,10 +135,10 @@ assert.ok(!(await git(published, 'ls-tree', '-r', '--name-only', 'HEAD')).includ
 const coldControl = join(dir, 'cold-control'); await git(dir, 'clone', remote, coldControl); await configureGit(coldControl);
 const coldStore = new ControlStore(coldControl, 'proof');
 const restoredState = await loadState(coldStore, published, 'proof');
-assert.equal((await coldStore.read()).value.checkpoint.workCommit, await git(published, 'rev-parse', 'HEAD'));
-const restoredIndex = await readJson(join(restoredState, 'history-index.json'));
-const reports = [{ key: '789-1', runId: '789', generation: 1, conclusion: 'failure', jobs: [
-  { name: 'iteration', conclusion: 'failure', steps: [{ name: 'Execute iteration', conclusion: 'failure' }], log: { text: 'SUPERVISOR_FAILURE_DIAGNOSIS' } }
+assert.equal((await coldStore.read()).value.checkpoint!.workCommit, await git(published, 'rev-parse', 'HEAD'));
+const restoredIndex = await readJson<Sessions>(join(restoredState, 'history-index.json'));
+const reports: Failure[] = [{ version: 1, loopId: 'proof', iteration: 7, attempt: 1, command: 'iterate', url: 'https://github.com/fixture/proof/actions/runs/789', headSha: good, startedAt: interrupted.startedAt, completedAt: new Date().toISOString(), collectedAt: new Date().toISOString(), interruptedOwner: true, key: '789-1', runId: '789', generation: 1, conclusion: 'failure', jobs: [
+  { id: 123, name: 'iteration', conclusion: 'failure', steps: [{ number: 1, name: 'Execute iteration', conclusion: 'failure' }], log: { text: 'SUPERVISOR_FAILURE_DIAGNOSIS', truncated: false, downloadLimited: false } }
 ] }];
 await recoverInterrupted(restoredState, restoredIndex, reports);
 const recovered = await launchWorker({ workspace: published, state: restoredState, bundle, stable, req: {
@@ -145,6 +148,7 @@ const recovered = await launchWorker({ workspace: published, state: restoredStat
 } });
 assert.equal(recovered.outcome, 'yielded', recovered.log);
 assert.equal(await readFile(join(published, 'surviving-trail.txt'), 'utf8'), 'SURVIVABLE_FAILURE_NEEDLE');
+assert.ok(recovered.result?.captured);
 assert.ok(JSON.stringify(recovered.result.captured[0]).includes('SUPERVISOR_FAILURE_DIAGNOSIS'));
 assert.ok(JSON.stringify(recovered.result.captured.at(-1)).includes('SURVIVABLE_FAILURE_NEEDLE'));
 assert.equal(restoredIndex[0].outcome, 'interrupted'); assert.equal(restoredIndex[0].transcript, 'checkpoint');

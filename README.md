@@ -23,7 +23,7 @@ Use a major version such as `@v1` or, for a future breaking release, `@v2`. Ever
 4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
 5. Review the task branch, or the draft PR if enabled. Stop with **Shurik → stop**, or resume with a new explicit reasoning level.
 
-One workflow handles start/stop/resume, iterations, and recovery in separate jobs. No separate recovery file or model secret for control/recovery is needed. Keep the workflow name `Shurik`, job name `iteration`, and its `Shurik <id> / <command> <generation>-<iteration>` run-name format: recovery verifies them against GitHub. The default filename is `shurik.yml`; if you rename it, pass the new filename in the control job's `workflow` action input.
+One workflow handles start/stop/resume, iterations, and recovery in separate jobs. No separate recovery file or model secret for control/recovery is needed. Keep the workflow name `Shurik`, job name `iteration`, and its `Shurik <id> / iterate <n>` iteration run-name format: recovery verifies them against GitHub. The default filename is `shurik.yml`; if you rename it, pass the new filename in the control job's `workflow` action input.
 
 The `create_pr` workflow input defaults to `auto`: create a draft PR when GitHub permits it, or save changes on the task branch and continue when the repository setting denies it. Shurik remembers a denial and does not retry it every iteration. Choose `false` to skip PR creation or `true` to enable it explicitly. The corresponding action input is `create-pr`, and the CLI option is `--create-pr auto|true|false`. Start records the choice; resume can change it. Enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests** for automatic PRs. After enabling it for an existing loop, resume with `auto` or `true` to try again.
 
@@ -33,9 +33,11 @@ The workflow uses repository-scoped `github.token`. Iteration jobs need `content
 
 Every iteration starts a fresh model context while retaining native journals. The agent can retrieve past work through `list_sessions`, `search_sessions`, and `read_session`. A normal model response ends one iteration; the outer loop continues after success and failure until stopped or its deadline expires. Shurik never merges its draft PR.
 
-The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. A blank model on resume keeps the previous model; a blank resume deadline clears the previous deadline. Each resume creates a new generation, fencing older queued invocations.
+The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. A blank model on resume keeps the previous model; a blank resume deadline clears the previous deadline. Iteration numbers continue across stops and resumes: `1, 2, 3, 4, 5 → stop → resume → 6, 7, 8`. Run titles show only the number, for example `Shurik demo / iterate 6`. An interrupted iteration that claimed ownership consumes its number; an unclaimed queued run does not. Resume changes an internal generation so older queued invocations cannot claim the resumed loop. GitHub run IDs saved in control also keep their cancellation and recovery events separate, even when two queued runs have the same title.
 
 “Budget” refers to execution time: `seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs. The demo uses `deepseek-v4.1-flash` because `space-bunny-free` was unavailable during verification.
+
+Stop first records durable stopped state, then requests cancellation of the active run. GitHub cancellation is asynchronous; the worker also polls stopped state. Already queued iterations skip work while stopped and remain fenced out after resume.
 
 The recovery job uses `needs` and `always()` to run after iteration success or failure in the same workflow. It verifies the completed iteration job even while the overall workflow is still running. The same file includes a 15-minute scheduled check for interruption of the entire workflow. It saves available Actions failure diagnostics before redispatching. Cancelling the active loop in the Actions UI also becomes a durable stop. GitHub can delay scheduled jobs, and cancellation of an expected queued successor is conservatively treated as a stop.
 
@@ -43,7 +45,7 @@ The action keeps engine code in a separate temporary checkout. The task agent ed
 
 ## CLI
 
-Use Node 24. TypeScript runs with Node's built-in type stripping; `npm run check` type-checks the CLI, action, orchestration, and worker. The repository exposes `bin/shurik.ts` as the `shurik` executable; the action invokes this same CLI. The package is not published to npm.
+Use Node 24. TypeScript runs with Node's built-in type stripping; `npm run check` type-checks all authored code: the CLI, action, orchestration, worker, unit/property tests, and runner proof. All source and test files are `.ts`; `dist/worker.cjs` is generated build output. The repository exposes `bin/shurik.ts` as the `shurik` executable; the action invokes this same CLI. The package is not published to npm.
 
 ```sh
 npm ci --ignore-scripts
@@ -135,7 +137,7 @@ Temporary engine/build/worker-I/O directories live under `RUNNER_TEMP` (locally,
 ```sh
 npm ci --ignore-scripts
 npm run verify
-node tests/runner-proof.mjs
+node tests/runner-proof.ts
 ```
 
 Checks cover native journal persistence, fresh contexts, coding/history tools, checkpoint races, failure recovery, model reasoning, and an unrelated consumer repository. The scripted runner proof covers the legacy self-repair path. No real model credentials are needed for these checks.

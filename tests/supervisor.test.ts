@@ -1,3 +1,4 @@
+import { controlFixture, runFixture, runtimeFixture } from './test-support.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile } from 'node:fs/promises';
@@ -17,18 +18,30 @@ test('start requires an explicit reasoning level before creating any loop', asyn
 });
 
 test('resume requires fresh explicit reasoning and atomically changes model with the new generation', () => {
-  const previous = Object.freeze({ status: 'stopped', generation: 3, model: 'space-bunny-free', reasoning: 'high',
-    owner: { runId: 'old' }, deadline: '2000-01-01T00:00:00Z' });
+  const previous = Object.freeze(controlFixture({ status: 'stopped', generation: 3, model: 'space-bunny-free', reasoning: 'high',
+    next: 5, owner: { runId: 'old', generation: 3, iteration: 5 }, deadline: '2000-01-01T00:00:00Z' }));
   assert.throws(() => resumeSettings(previous, {}), /Explicit reasoning level required/);
   const changed = resumeSettings(previous, { reasoning: 'medium', model: 'another-model' });
   assert.equal(changed.reasoning, 'medium'); assert.equal(changed.model, 'another-model');
   assert.equal(changed.generation, 4); assert.equal(changed.owner, null); assert.equal(changed.deadline, null);
+  assert.equal(changed.next, 6, 'an interrupted claimed iteration consumes its number');
   assert.equal(changed.status, 'running'); assert.equal(previous.reasoning, 'high');
   assert.equal(resumeSettings(previous, { reasoning: 'high' }).model, 'space-bunny-free');
   assert.throws(() => resumeSettings({ ...previous, status: 'running' }, { reasoning: 'high' }), /already running/);
   assert.throws(() => resumeSettings(previous, { reasoning: 'high', deadline: 'invalid' }), /future/);
   assert.equal(resumeSettings({ ...previous, createPr: false }, { reasoning: 'high' }).createPr, false);
   assert.equal(resumeSettings({ ...previous, createPr: false }, { reasoning: 'high', create_pr: 'auto' }).createPr, 'auto');
+});
+
+test('stop and resume preserve the next number when the previous successor never claimed it', () => {
+  const previous = controlFixture({ status: 'stopped', generation: 1, next: 6,
+    lastDispatchAt: new Date().toISOString(), dispatchedRuns: [{ runId: '123', generation: 1, iteration: 6 }] });
+  const resumed = resumeSettings(previous, { reasoning: 'high' });
+  assert.equal(resumed.next, 6); assert.equal(resumed.generation, 2);
+  assert.equal(claimable(resumed, 1, 6, '123'), false);
+  assert.equal(claimable(resumed, 2, 6, '124'), true);
+  assert.equal(cancelledForLoop(resumed, runFixture({ id: 123, conclusion: 'cancelled',
+    display_title: 'Shurik fixture / iterate 6' })), false);
 });
 
 test('draft PR mode defaults to auto and accepts explicit boolean overrides', () => {
@@ -48,7 +61,7 @@ async function expiredFixture() {
     deadline: '2020-01-01T00:00:00Z', lastDispatchAt: '2019-12-31T23:59:59Z', lastRunId: 'previous' });
   await commit(seed, 'expired handoff'); await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/expiry');
   await git(seed, 'checkout', '--detach', supervisor);
-  async function reader(name) {
+  async function reader(name: string) {
     const cwd = join(dir, name); await git(dir, 'clone', remote, cwd); await configureGit(cwd); return new ControlStore(cwd, 'expiry');
   }
   return { dir, seed, remote, reader, store: await reader('worker') };
@@ -59,9 +72,9 @@ test('repository root API URL has no trailing slash; nested endpoints retain the
   assert.equal(repositoryURL('owner/repo', 'actions/runs'), 'https://api.github.com/repos/owner/repo/actions/runs');
 });
 test('claim fence rejects duplicates, stale generations, stopped loops, and elapsed deadline', () => {
-  const c = { status: 'running', generation: 2, next: 4, owner: null };
+  const c = controlFixture({ generation: 2, next: 4 });
   assert.ok(claimable(c, 2, 4, 'one'));
-  assert.ok(!claimable({ ...c, owner: { runId: 'one' } }, 2, 4, 'two'));
+  assert.ok(!claimable({ ...c, owner: { runId: 'one', generation: 2, iteration: 4 } }, 2, 4, 'two'));
   assert.ok(!claimable(c, 1, 4, 'one')); assert.ok(!claimable(c, 2, 3, 'one'));
   assert.ok(!claimable({ ...c, status: 'stopped' }, 2, 4, 'one'));
   assert.ok(!claimable({ ...c, deadline: '2020-01-01T00:00:00Z' }, 2, 4, 'one'));
@@ -98,7 +111,7 @@ test('an expired skipped invocation records deadline without starting work or di
 test('an expired invocation racing resume cannot overwrite the new generation or deadline', async () => {
   const f = await expiredFixture(); const resume = await f.reader('resume'); let resumed = false; let attempts = 0;
   const future = '2099-01-01T08:00:00Z';
-  const racingStore = { mutate: (change, message) => f.store.mutate(async c => {
+  const racingStore: Pick<ControlStore, 'mutate'> = { mutate: (change, message) => f.store.mutate(async c => {
     attempts++;
     if (!resumed) {
       resumed = true;
@@ -113,9 +126,9 @@ test('an expired invocation racing resume cannot overwrite the new generation or
   assert.equal(c.next, 4); assert.ok(attempts >= 2, 'failed stale push rechecks the latest fence');
 });
 test('agent loop snapshot omits scheduling while the control record still enforces the deadline', () => {
-  const control = { version: 1, id: 'task', branch: 'codex/shurik/task', status: 'running',
+  const control = { ...controlFixture(), version: 1, id: 'task', branch: 'codex/shurik/task', status: 'running',
     generation: 1, next: 2, model: 'space-bunny-free', deadline: '2020-01-01T00:00:00Z', seconds: 600,
-    owner: { runId: '123', claimedAt: '2019-12-31T23:59:00Z' }, createdAt: '2019-12-31T23:58:00Z',
+    owner: { runId: '123', generation: 1, iteration: 2, claimedAt: '2019-12-31T23:59:00Z' }, createdAt: '2019-12-31T23:58:00Z',
     lastDispatchAt: '2019-12-31T23:59:00Z', futureSchedulingField: { remainingSeconds: 30 } };
   const snapshot = loopSnapshot(control);
   assert.equal(snapshot.id, control.id); assert.equal(snapshot.model, control.model); assert.equal(snapshot.next, 2);
@@ -125,23 +138,23 @@ test('agent loop snapshot omits scheduling while the control record still enforc
   assert.equal(control.seconds, 600); assert.ok(stopped(control));
 });
 test('architecture faults quarantine candidates while provider failures retain a working runner', () => {
-  const r = { selected: 'candidate', fallback: 'baseline', probation: true };
+  const r = runtimeFixture({ selected: 'candidate', fallback: 'baseline', probation: true });
   assert.equal(nextRuntime(r, 'runner_failure').selected, 'baseline');
   assert.deepEqual(nextRuntime(r, 'runner_failure').quarantined, ['candidate']);
   assert.equal(nextRuntime(r, 'agent_failure').selected, 'candidate');
   assert.equal(classify(null, 1), 'runner_failure'); assert.equal(classify({ version: 1, outcome: 'timeout' }, 0), 'timeout');
 });
 test('queued cancellation stops the expected fence, ignores stale generations and owned duplicates', () => {
-  const c = { id: 'test', generation: 2, next: 3, owner: null, lastRunId: 'old' };
-  const r = { id: 123, conclusion: 'cancelled', display_title: 'Ralph test / iterate 2-3' };
+  const c = controlFixture({ id: 'test', generation: 2, next: 3, lastRunId: '999' });
+  const r = runFixture({ id: 123, conclusion: 'cancelled', display_title: 'Ralph test / iterate 2-3' });
   assert.ok(cancelledForLoop(c, r));
   assert.ok(!cancelledForLoop(c, { ...r, display_title: 'Ralph test / iterate 1-3' }));
-  assert.ok(!cancelledForLoop({ ...c, owner: { runId: 'active' } }, r));
-  assert.ok(cancelledForLoop({ ...c, owner: { runId: 'active' } }, { ...r, id: 'old' }), 'UI cancellation during handoff stops successor');
+  assert.ok(!cancelledForLoop({ ...c, owner: { runId: 'active', generation: 2, iteration: 3 } }, r));
+  assert.ok(cancelledForLoop({ ...c, owner: { runId: 'active', generation: 2, iteration: 3 } }, { ...r, id: 999 }), 'UI cancellation during handoff stops successor');
 });
 test('recovery accepts only expected first-party default-branch dispatch; ignores fork/PR outputs', () => {
-  const event = { repository: { default_branch: 'main' }, workflow_run: { name: 'Shurik Ralph', event: 'workflow_dispatch',
-    head_branch: 'main', repository: { full_name: 'owner/repo' }, head_repository: { full_name: 'owner/repo' } } };
+  const event = { repository: { default_branch: 'main' }, workflow_run: runFixture({ name: 'Shurik Ralph', event: 'workflow_dispatch',
+    head_branch: 'main', repository: { full_name: 'owner/repo' }, head_repository: { full_name: 'owner/repo' } }) };
   assert.ok(trustedRecovery(event, 'owner/repo'));
   assert.ok(!trustedRecovery({ ...event, workflow_run: { ...event.workflow_run, head_repository: { full_name: 'attacker/repo' } } }, 'owner/repo'));
   assert.ok(!trustedRecovery({ ...event, workflow_run: { ...event.workflow_run, event: 'pull_request' } }, 'owner/repo'));
@@ -168,7 +181,7 @@ test('Git CAS race preserves a durable stop during worker finalization; no force
   const a = join(dir, 'a'); const b = join(dir, 'b'); await git(dir, 'clone', remote, a); await git(dir, 'clone', remote, b);
   await configureGit(a); await configureGit(b);
   const stop = new ControlStore(a, 'race'); const finish = new ControlStore(b, 'race');
-  let finishReady; const ready = new Promise(r => { finishReady = r; }); let release; const gate = new Promise(r => { release = r; }); let calls = 0;
+  let finishReady!: () => void; const ready = new Promise<void>(r => { finishReady = r; }); let release!: () => void; const gate = new Promise<void>(r => { release = r; }); let calls = 0;
   const finalizing = finish.mutate(async c => {
     if (calls++ === 0) { finishReady(); await gate; }
     return { ...c, owner: null, next: 2, status: stopped(c) ? c.status : 'running' };

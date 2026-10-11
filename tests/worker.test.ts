@@ -1,3 +1,6 @@
+import type { Request as WorkerRequest } from '../src/worker.ts';
+import type { SessionSummary } from '../src/history.ts';
+import type { WorkerCheckpoint, WorkerResult } from '../scripts/types.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, readFile, writeFile, cp, mkdir, readdir } from 'node:fs/promises';
@@ -7,14 +10,17 @@ import { execFile, spawn } from 'node:child_process';
 import { promisify } from 'node:util';
 import { createRequire } from 'node:module';
 const exec = promisify(execFile);
+interface Result extends WorkerResult { captured: unknown[]; minEntryId: number; maxEntryId: number }
+interface ProviderBody { reasoning_effort?: string; messages: { role: string; content: string }[] }
+const loadWorker = () => createRequire(import.meta.url)(bundle) as { runIteration: (req: WorkerRequest) => Promise<void> };
 const bundle = resolve(process.env.SHURIK_BUNDLE ?? 'dist/worker.cjs');
 async function fixture() {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-worker-'));
   const cwd = join(dir, 'repo'); await mkdir(cwd);
   return { dir, cwd, journal: join(dir, 'journal'), output: join(dir, 'output') };
 }
-async function run(f, id, script, sessions = [], extra = {}) {
-  const output = join(f.dir, id); const req = { version: 1, id, cwd: f.cwd, journal: f.journal,
+async function run(f: Awaited<ReturnType<typeof fixture>>, id: string, script: WorkerRequest['script'], sessions: SessionSummary[] = [], extra: Partial<WorkerRequest> = {}): Promise<Result> {
+  const output = join(f.dir, id); const req: WorkerRequest = { version: 1, id, cwd: f.cwd, journal: f.journal,
     output, prompt: `Iteration ${id}. Use the available tools.`, model: 'space-bunny-free', reasoning: 'high', seconds: 10, sessions, script, ...extra };
   const file = join(f.dir, `${id}.json`); await writeFile(file, JSON.stringify(req));
   await exec(process.execPath, [bundle, file], { timeout: Math.max(20000, (req.seconds + 10) * 1000) });
@@ -52,7 +58,7 @@ test('time budget aborts work and journal opens in a new process', async () => {
   assert.equal((await run(f, 'after-timeout', [{ text: 'Fresh' }])).outcome, 'yielded');
 });
 test('candidate can reopen a COPY of the real journal without replaying work', { skip: !process.env.SHURIK_REAL_JOURNAL }, async () => {
-  const f = await fixture(); await cp(process.env.SHURIK_REAL_JOURNAL, f.journal, { recursive: true });
+  const f = await fixture(); assert.ok(process.env.SHURIK_REAL_JOURNAL); await cp(process.env.SHURIK_REAL_JOURNAL, f.journal, { recursive: true });
   assert.equal((await run(f, 'real-state-canary', [{ tool: 'bash', args: { command: 'printf canary > canary.txt' } }, { text: 'canary done' }])).outcome, 'yielded');
   assert.equal(await readFile(join(f.cwd, 'canary.txt'), 'utf8'), 'canary');
 });
@@ -92,10 +98,10 @@ test('published checkpoint boundaries make a killed session searchable from a fr
     script: [{ tool: 'write', args: { path: 'survived.txt', content: 'INTERRUPTED_SESSION_NEEDLE' } }, { delayMs: 10000, text: 'never finishes' }] }));
   const child = spawn(process.execPath, [bundle, file], { stdio: 'ignore' });
   const closed = new Promise(resolve => child.once('close', resolve));
-  const snapshot = join(f.dir, 'published-journal'); let boundary; let initial = false;
+  const snapshot = join(f.dir, 'published-journal'); let boundary: WorkerCheckpoint | undefined; let initial = false;
   try {
     for (let n = 0; n < 500; n++) {
-      let checkpoint;
+      let checkpoint: WorkerCheckpoint | undefined;
       try { checkpoint = JSON.parse(await readFile(join(output, 'checkpoint.json'), 'utf8')); } catch {}
       if (checkpoint?.phase === 'started' && !initial) {
         initial = true; assert.ok(checkpoint.minEntryId <= checkpoint.maxEntryId);
@@ -111,7 +117,7 @@ test('published checkpoint boundaries make a killed session searchable from a fr
   } finally { child.kill('SIGKILL'); await closed; }
   await assert.rejects(readFile(join(output, 'result.json')), 'no final result survived');
   const fresh = await fixture(); await cp(snapshot, fresh.journal, { recursive: true });
-  const session = { id: '1-1', outcome: 'interrupted', minEntryId: boundary.minEntryId, maxEntryId: boundary.maxEntryId,
+  const session: SessionSummary = { id: '1-1', outcome: 'interrupted', minEntryId: boundary.minEntryId, maxEntryId: boundary.maxEntryId,
     checkpointAt: boundary.at, transcript: 'checkpoint', recovery: 'diagnostics/recovery/123-1.json' };
   const after = await run(fresh, 'after-interruption', [
     { tool: 'list_sessions', args: {} }, { tool: 'search_sessions', args: { query: 'INTERRUPTED_SESSION_NEEDLE' } },
@@ -125,21 +131,22 @@ test('published checkpoint boundaries make a killed session searchable from a fr
 });
 test('worker rejects missing, invalid and unsupported reasoning instead of choosing a default', async () => {
   const f = await fixture();
-  const { runIteration } = createRequire(import.meta.url)(bundle);
-  const req = { version: 1, id: 'reasoning-required', cwd: f.cwd, journal: f.journal,
+  const { runIteration } = loadWorker();
+  const req: Omit<WorkerRequest, 'reasoning'> = { version: 1, id: 'reasoning-required', cwd: f.cwd, journal: f.journal,
     output: join(f.dir, 'reasoning-required'), prompt: 'Yield', model: 'space-bunny-free', seconds: 1, sessions: [] };
   for (const reasoning of [undefined, '', 'automatic']) {
-    await assert.rejects(runIteration({ ...req, reasoning }), /Explicit reasoning level required/);
+    await assert.rejects(runIteration({ ...req, reasoning } as unknown as WorkerRequest), /Explicit reasoning level required/);
   }
   await assert.rejects(runIteration({ ...req, reasoning: 'minimal' }), /does not support reasoning minimal/);
 });
 
 test('native OpenCode requests send explicit reasoning, apply changes and retain session header across reset', async () => {
   const f = await fixture(); const fetchOriginal = globalThis.fetch; const keyOriginal = process.env.OPENCODE_API_KEY;
-  const requests = [];
+  const requests: { url: string; headers: Headers; body: ProviderBody }[] = [];
   process.env.OPENCODE_API_KEY = 'FAKE_KEY_FOR_REQUEST_CONTRACT_TEST';
-  globalThis.fetch = async (url, options) => {
-    requests.push({ url: String(url), headers: new Headers(options.headers), body: JSON.parse(options.body) });
+  globalThis.fetch = async (url, options = {}) => {
+    assert.equal(typeof options.body, 'string');
+    requests.push({ url: String(url), headers: new Headers(options.headers), body: JSON.parse(options.body as string) });
     const chunks = [
       { id: 'test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: { role: 'assistant', content: 'Done.' }, finish_reason: null }] },
       { id: 'test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free', choices: [{ index: 0, delta: {}, finish_reason: 'stop' }], usage: { prompt_tokens: 10, completion_tokens: 2, total_tokens: 12 } }
@@ -147,15 +154,15 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     return new Response(chunks.map(c => `data: ${JSON.stringify(c)}\n\n`).join('') + 'data: [DONE]\n\n', { headers: { 'content-type': 'text/event-stream' } });
   };
   try {
-    const { runIteration } = createRequire(import.meta.url)(bundle);
-    for (const [id, reasoning] of [['headers-first', 'high'], ['headers-second', 'medium']]) {
+    const { runIteration } = loadWorker();
+    for (const [id, reasoning] of [['headers-first', 'high'], ['headers-second', 'medium']] as const) {
       const output = join(f.dir, id);
       await runIteration({ version: 1, id, cwd: f.cwd, journal: f.journal, output, prompt: 'Use coding tools as needed; then yield.', model: 'space-bunny-free', reasoning, seconds: 10, sessions: [] });
       assert.equal(JSON.parse(await readFile(join(output, 'result.json'), 'utf8')).outcome, 'yielded');
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.5');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.6');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
@@ -169,10 +176,11 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
 test('checkpoint feedback reaches native system messages and gates the next request until publication', async () => {
   const f = await fixture(); const output = join(f.dir, 'time-feedback');
   const fetchOriginal = globalThis.fetch; const keyOriginal = process.env.OPENCODE_API_KEY;
-  const requests = []; const checkpoints = []; const monitorErrors = [];
+  const requests: ProviderBody[] = []; const checkpoints: WorkerCheckpoint[] = []; const monitorErrors: unknown[] = [];
   process.env.OPENCODE_API_KEY = 'FAKE_KEY_FOR_CHECKPOINT_TEST';
-  globalThis.fetch = async (_url, options) => {
-    requests.push(JSON.parse(options.body));
+  globalThis.fetch = async (_url, options = {}) => {
+    assert.equal(typeof options.body, 'string');
+    requests.push(JSON.parse(options.body as string));
     const tools = requests.length <= 2;
     const delta = tools ? { role: 'assistant', tool_calls: [{ index: 0, id: `time-tool-${requests.length}`, type: 'function',
       function: { name: 'bash', arguments: JSON.stringify({ command: 'sleep 3.1; printf saved > time-feedback.txt' }) } }] }
@@ -185,9 +193,9 @@ test('checkpoint feedback reaches native system messages and gates the next requ
   };
   let finished = false;
   const monitor = (async () => {
-    let nonce;
+    let nonce: string | undefined;
     while (!finished) {
-      let boundary;
+      let boundary: WorkerCheckpoint | undefined;
       try { boundary = JSON.parse(await readFile(join(output, 'checkpoint.json'), 'utf8')); } catch {}
       if (boundary && boundary.nonce !== nonce) {
         nonce = boundary.nonce; checkpoints.push(boundary);
@@ -208,7 +216,7 @@ test('checkpoint feedback reaches native system messages and gates the next requ
     }
   })();
   try {
-    const { runIteration } = createRequire(import.meta.url)(bundle);
+    const { runIteration } = loadWorker();
     await runIteration({ version: 1, id: 'time-feedback', cwd: f.cwd, journal: f.journal, output,
       prompt: 'Save progress then yield.', model: 'space-bunny-free', reasoning: 'high', seconds: 9,
       deadline: new Date(Date.now() + 60000).toISOString(), checkpointHandshake: true, checkpointSeconds: 3, sessions: [] });
@@ -220,8 +228,9 @@ test('checkpoint feedback reaches native system messages and gates the next requ
     for (const s of systems.slice(0, 2)) {
       assert.doesNotMatch(s, /Time update|\d{4}-\d{2}-\d{2}T|seconds remain|overall loop deadline|handoff|preempt|next fresh-context iteration/);
     }
-    const finalSystem = systems.at(-1);
-    const remaining = Number(finalSystem.match(/about (\d+) seconds remain in this iteration/)[1]);
+    const finalSystem = systems.at(-1); assert.ok(finalSystem);
+    const match = finalSystem.match(/about (\d+) seconds remain in this iteration/); assert.ok(match);
+    const remaining = Number(match[1]);
     assert.ok(remaining > 0 && remaining <= 3, 'only the final configured checkpoint interval introduces preemption guidance');
     assert.match(finalSystem, /overall loop deadline/);
     assert.match(finalSystem, /next fresh-context iteration/);

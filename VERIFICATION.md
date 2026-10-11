@@ -4,23 +4,23 @@ Current implementation: a reusable action invoking the TypeScript Shurik CLI, No
 
 ## Reusable component checks
 
-The component adds CLI/action input checks, optional consumer configuration, current-major-tag resolution on each invocation, and a consumer Git repository with no Shurik source or package dependencies. Real Pi Durable coding tools create a task file through the CLI worker; a paired Git checkpoint publishes that file and native history to separate branches. A cold task checkout restores the canonical session directory, and a fresh worker retrieves the earlier transcript through history tools. Configuration can be supplied entirely through named action inputs and is retained in the control record. An injected dispatch failure preserves a snapshot under the external emergency directory while leaving the initial checkout clean without ignore rules. Git-backed unit and generated tests retain logs alongside checkpoints and restore older `state/diagnostics/` data into the separate runtime logs directory. CLI journal inspection leaves the canonical native journal bytes unchanged. The independent demo passes `node --test` without engine dependencies or credentials.
+The component adds CLI/action input checks, optional consumer configuration, current-major-tag resolution on each invocation, and a consumer Git repository with no Shurik source or package dependencies. Real Pi Durable coding tools create a task file through the CLI worker; a paired Git checkpoint publishes that file and native history to separate branches. A cold task checkout restores the canonical session directory, and a fresh worker retrieves the earlier transcript through history tools. Configuration can be supplied entirely through named action inputs and is retained in the control record. An injected dispatch failure preserves a snapshot under the external emergency directory while leaving the initial checkout clean without ignore rules. Git-backed unit and generated tests retain logs alongside checkpoints and restore older `state/diagnostics/` data into the separate runtime logs directory. CLI journal inspection leaves the canonical native journal bytes unchanged. The independent TypeScript demo passes `npm run verify` without engine or runtime dependencies or credentials; TypeScript and Node types are development dependencies.
 
-These automated checks use scripted model responses and local Git remotes; the independent live consumer run is documented below. Type checking covers all production TypeScript modules. Git-backed recovery tests verify recovery while the workflow remains in progress, rejection of an unfinished/mismatched iteration job, and immediate retry after a failure before claim. Consumer integration checks deny automatic PR creation and verify start, task checkpoint publication, ownership release, and successor dispatch still succeed. They also verify successful creation after enabling it and that explicit `false` makes no creation request. Workflow lint verifies the single `shurik.yml` with control, iteration, and recovery jobs. The existing native runner proof is also part of extraction validation. See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime and saved-state contract.
+These automated checks use scripted model responses and local Git remotes; the independent live consumer run is documented below. Type checking covers all production modules, unit/property tests, helpers, and the runner proof; all authored code is `.ts`. Git-backed recovery tests verify recovery while the workflow remains in progress, rejection of an unfinished/mismatched iteration job, and immediate retry after a failure before claim. Consumer integration checks deny automatic PR creation and verify start, task checkpoint publication, ownership release, and successor dispatch still succeed. They also verify successful creation after enabling it and that explicit `false` makes no creation request. The consumer fixture runs iterations 1 and 2, stops/resumes, rejects the old queued generation, and runs iteration 3 with medium reasoning. GitHub dispatch receipts identify old/current queued runs with identical titles. A cancelled old queued run retains its failure evidence without stopping the resumed loop; cancelling the current queued run still stops it. Claimed interrupted iterations advance numbering when resumed or reconciled after stop. Workflow lint verifies the single `shurik.yml` with control, iteration, and recovery jobs. The existing native runner proof is also part of extraction validation. See [ARCHITECTURE.md](ARCHITECTURE.md) for the runtime and saved-state contract.
 
 ## Property-based tests
 
-`npm run test:pbt` runs 38 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 28,390 generated scenarios: 28 ordinary properties with 1,000 cases each, five filesystem properties with 50–75 cases, and five real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
+`npm run test:pbt` runs 40 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 30,390 generated scenarios: 30 ordinary properties with 1,000 cases each, five filesystem properties with 50–75 cases, and five real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
 
 Each property has a deterministic default seed. Fast-check shrinks failures and prints the seed, shrink path, and smallest counterexample. To replay a failing property, set `SHURIK_PBT_SEED` to its printed seed and select its test name:
 
 ```sh
-SHURIK_PBT_SEED=20261033 node --test --test-name-pattern='redacting serialized evidence' tests/properties.test.mjs
+SHURIK_PBT_SEED=20261033 node --test --test-name-pattern='redacting serialized evidence' tests/properties.test.ts
 ```
 
-`SHURIK_PBT_RUNS` changes the ordinary property's case count. For exploration, run `SHURIK_PBT_SEED=104729 SHURIK_PBT_RUNS=5000 node --test tests/properties.test.mjs`. Filesystem and Git case counts stay bounded. All generated credentials are synthetic and all filesystem/Git fixtures are temporary; these checks need no provider key or GitHub writes.
+`SHURIK_PBT_RUNS` changes the ordinary property's case count. For exploration, run `SHURIK_PBT_SEED=104729 SHURIK_PBT_RUNS=5000 node --test tests/properties.test.ts`. Filesystem and Git case counts stay bounded. All generated credentials are synthetic and all filesystem/Git fixtures are temporary; these checks need no provider key or GitHub writes.
 
-The inventory below corresponds to named properties in [properties.test.mjs](tests/properties.test.mjs) and [persistence-properties.test.mjs](tests/persistence-properties.test.mjs):
+The inventory below corresponds to named properties in [properties.test.ts](tests/properties.test.ts) and [persistence-properties.test.ts](tests/persistence-properties.test.ts):
 
 1. Valid loop IDs produce confined runtime paths and separate work/control refs.
 2. Unsafe loop IDs are rejected by every path/ref entry point.
@@ -62,11 +62,14 @@ The inventory below corresponds to named properties in [properties.test.mjs](tes
 37. Named action configuration works without a project file, preserves explicit settings, and does not mutate inputs.
 38. Emergency snapshots preserve redacted task, state, and log evidence outside the checkout, discard stale snapshots, and exclude repository metadata, dependencies, and builds.
 
+39. Iteration numbers remain contiguous across repeated stops/resumes, counting claimed interruptions and preserving unstarted slots.
+40. GitHub run IDs distinguish old/current queued cancellations with identical resumed titles; unknown IDs cannot infer a generation from the iteration number.
+
 Generated cases found two defects fixed in release 1.1.4: masking an unescaped credential before its longer JSON encoding could leave a dangling backslash and corrupt evidence JSON, and an API token ending in `-` was partially masked because of a word-boundary match. Redaction now masks longer encoded forms first and consumes the complete API token. The minimized examples also have a focused unit regression.
 
 ## Live reusable consumer evidence
 
-The public [shurik-demo](https://github.com/igor-makarov/shurik-demo) repository invokes `igor-makarov/shurik@v1` from one `shurik.yml` and contains no engine source or dependencies. Loop `greeting-20261011-120943-retry` used two-minute iterations and a finite deadline. The initial `space-bunny-free` requests failed because the provider reported the model unavailable. After an explicit stop and maintainer-approved resume with `deepseek-v4.1-flash` and `high` reasoning, the native worker completed the greeting task.
+The public [shurik-demo](https://github.com/igor-makarov/shurik-demo) repository invokes `igor-makarov/shurik@v1` from one `shurik.yml` and contains no engine source or runtime dependencies. Loop `greeting-20261011-120943-retry` used two-minute iterations and a finite deadline. The initial `space-bunny-free` requests failed because the provider reported the model unavailable. After an explicit stop and maintainer-approved resume with `deepseek-v4.1-flash` and `high` reasoning, the native worker completed the greeting task.
 
 | Observed run | Result |
 | --- | --- |
@@ -88,7 +91,7 @@ Checkpoint tests also queue a competing Pi configuration mutation during snapsho
 
 Real Git remotes exercise atomic paired checkpoints: journals, indexes, malformed-journal evidence and source references are present only on the control branch; a cold checkout retrieves them without any task diff. A control CAS race publishes neither ref before retry and preserves a manual stop. A racing resume blocks stale source and journals. A concurrent task-branch edit rejects the complete checkpoint, keeping the prior control checkpoint intact. An atomic dry-run push also confirmed support on the repository's GitHub remote without creating branches.
 
-`node tests/runner-proof.mjs` exercises the complete scripted repair proof:
+`node tests/runner-proof.ts` exercises the complete scripted repair proof:
 
 1. Run real Pi Durable coding tools as a native process. A test GitHub token and provider key reach the worker; local workflow files are writable. Partial code and native history survive an intentional model failure.
 2. Introduce an import-time runner defect. Fixed candidate checks reject it.

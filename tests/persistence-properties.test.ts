@@ -1,10 +1,11 @@
+import { controlFixture, iterationFixture } from './test-support.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, writeFile, rm, symlink, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import fc from 'fast-check';
-import { property, text, positive, sha } from './pbt-support.mjs';
+import { property, text, positive, sha } from './pbt-support.ts';
 import { snapshotTaskState, restoreTaskState } from '../scripts/task-state.ts';
 import { ControlStore, commit, configureGit, git, saveJson, readJson } from '../scripts/github.ts';
 import { initializeCheckpoint, publishCheckpoint, loadState } from '../scripts/state.ts';
@@ -24,12 +25,12 @@ const directories = fc.array(component, { minLength: 1, maxLength: 4 });
 const files = fc.array(fc.record({ bytes, newer: bytes, exists: fc.boolean(), directories }),
   { minLength: 1, maxLength: 6 });
 
-async function withDirectory(fn) {
+async function withDirectory<T>(fn: (directory: string) => Promise<T>): Promise<T> {
   const directory = await mkdtemp(join(tmpdir(), 'shurik-pbt-case-'));
   try { return await fn(directory); }
   finally { await rm(directory, { recursive: true, force: true }); }
 }
-async function put(path, data) {
+async function put(path: string, data: string | Uint8Array) {
   await mkdir(join(path, '..'), { recursive: true }); await writeFile(path, data);
 }
 
@@ -41,7 +42,7 @@ property('task snapshots round-trip bytes, preserve newer files and restore idem
     await saveJson(join(source, PATHS.config), { checkpointPaths: [...paths, ...paths] });
     for (let i = 0; i < generated.length; i++) await put(join(source, paths[i]), generated[i].bytes);
     await snapshotTaskState(source, state, workCommit);
-    assert.deepEqual((await readJson(join(state, PATHS.taskManifest))).paths, paths);
+    assert.deepEqual((await readJson<{ version: number; workCommit: string; paths: string[] }>(join(state, PATHS.taskManifest))).paths, paths);
     for (let i = 0; i < generated.length; i++) {
       if (generated[i].exists) await put(join(cold, paths[i]), generated[i].newer);
     }
@@ -61,7 +62,7 @@ property('mismatched task manifests fail before modifying the task checkout',
     await put(join(cold, 'sentinel.bin'), content);
     await saveJson(join(source, PATHS.config), { checkpointPaths: ['data/file.bin'] });
     await snapshotTaskState(source, state, workCommit);
-    const manifest = await readJson(join(state, PATHS.taskManifest));
+    const manifest = await readJson<{ version: number; workCommit: string; paths: string[] }>(join(state, PATHS.taskManifest));
     await saveJson(join(state, PATHS.taskManifest), wrongVersion
       ? { ...manifest, version: 2 } : { ...manifest, workCommit: 'different-' + workCommit });
     await assert.rejects(restoreTaskState(cold, state, workCommit), /does not match/);
@@ -100,14 +101,14 @@ property('snapshot and restore reject symlinks at any generated path depth',
   })), 50);
 
 let caseNumber = 0;
-async function fixture(directory, generation) {
+async function fixture(directory: string, generation: number) {
   const id = 'case-' + ++caseNumber, remote = join(directory, 'remote'), workspace = join(directory, 'workspace');
   await mkdir(workspace); await git(directory, 'init', '--bare', remote);
   await git(directory, '--git-dir', remote, 'symbolic-ref', 'HEAD', 'refs/heads/main');
   await git(workspace, 'init', '-b', 'main'); await configureGit(workspace);
   await saveJson(join(workspace, 'app.json'), { original: true }); const base = await commit(workspace, 'baseline');
   await git(workspace, 'remote', 'add', 'origin', remote); await git(workspace, 'push', 'origin', 'main');
-  async function reader(name) {
+  async function reader(name: string) {
     const cwd = join(directory, name); await git(directory, 'clone', remote, cwd); await configureGit(cwd);
     return new ControlStore(cwd, id);
   }
@@ -117,13 +118,13 @@ async function fixture(directory, generation) {
   await mkdir(logs, { recursive: true });
   await saveJson(join(state, PATHS.history), []);
   await put(join(state, PATHS.journal, 'main.jsonl'), JSON.stringify({ original: true }) + '\n');
-  const control = { version: 1, stateStorage: 'control', id, branch: workBranch(id), status: 'running',
-    generation, next: 1, owner: { runId: 'worker', generation, iteration: 1 } };
+  const control = controlFixture({ version: 1, stateStorage: 'control', id, branch: workBranch(id), status: 'running',
+    generation, next: 1, owner: { runId: 'worker', generation, iteration: 1 } });
   await initializeCheckpoint({ workspace, state, logs, store, control, message: 'initialize property fixture' });
   const workHead = () => git(directory, '--git-dir', remote, 'rev-parse', 'refs/heads/' + control.branch);
-  const publish = options => publishCheckpoint({ workspace, state, logs, store, generation, owner: 'worker',
+  const publish = (options: Partial<Parameters<typeof publishCheckpoint>[0]> = {}) => publishCheckpoint({ workspace, state, logs, store, generation, owner: 'worker',
     sequence: generation + '-1', message: 'generated checkpoint', ...options });
-  const edit = async value => {
+  const edit = async (value: unknown) => {
     await saveJson(join(workspace, 'app.json'), { value });
     await put(join(state, PATHS.journal, 'main.jsonl'), JSON.stringify({ value }) + '\n');
     await saveJson(join(logs, 'worker.json'), { value });
@@ -134,16 +135,16 @@ async function fixture(directory, generation) {
 property('generated checkpoint sequences pair code and session state and restore cold',
   fc.asyncProperty(fc.array(text, { minLength: 1, maxLength: 4 }), positive,
     (values, generation) => withDirectory(async directory => {
-      const f = await fixture(directory, generation), sessions = [];
+      const f = await fixture(directory, generation), sessions: { id: string; marker: { index: number; text: string } }[] = [];
       for (let index = 0; index < values.length; index++) {
         const marker = { index, text: values[index] };
         await f.edit(marker); sessions.push({ id: generation + '-' + index, marker });
         await saveJson(join(f.state, PATHS.history), sessions);
-        const record = { id: generation + '-' + index, outcome: 'yielded' };
+        const record = iterationFixture({ id: generation + '-' + index, generation, iteration: index, outcome: 'yielded' });
         const workCommit = await f.publish({ sequence: record.id, record });
         const { revision, value } = await f.store.read();
-        assert.equal(await f.workHead(), workCommit); assert.equal(value.checkpoint.workCommit, workCommit);
-        assert.equal(value.checkpoint.sequence, record.id); assert.equal(value.checkpoint.generation, generation);
+        assert.equal(await f.workHead(), workCommit); assert.equal(value.checkpoint!.workCommit, workCommit);
+        assert.equal(value.checkpoint!.sequence, record.id); assert.equal(value.checkpoint!.generation, generation);
         assert.deepEqual(JSON.parse(await git(f.workspace, 'show', workCommit + ':app.json')), { value: marker });
         assert.deepEqual(JSON.parse(await git(f.store.cwd, 'show', revision + ':state/pi-jsonl/main.jsonl')), { value: marker });
         assert.deepEqual(JSON.parse(await git(f.store.cwd, 'show', revision + ':state/history-index.json')), sessions);
@@ -176,7 +177,7 @@ property('a generated CAS stop race preserves the stop and keeps checkpoint refs
   fc.asyncProperty(positive, text, (generation, marker) => withDirectory(async directory => {
     const f = await fixture(directory, generation), stop = await f.reader('stop'); let attempts = 0;
     await f.edit(marker);
-    const racing = { read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
+    const racing: ControlStore = { ...f.store, read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
       f.store.mutate(async current => {
         if (attempts++ === 0) await stop.mutate(c => ({ ...c, status: 'stopped' }));
         else assert.equal(await f.workHead(), f.base, 'rejected atomic push must not advance the task ref');
@@ -185,14 +186,14 @@ property('a generated CAS stop race preserves the stop and keeps checkpoint refs
     const workCommit = await f.publish({ store: racing });
     const { value } = await stop.read();
     assert.ok(attempts >= 2); assert.equal(value.status, 'stopped');
-    assert.equal(value.checkpoint.workCommit, workCommit); assert.equal(await f.workHead(), workCommit);
+    assert.equal(value.checkpoint!.workCommit, workCommit); assert.equal(await f.workHead(), workCommit);
   })), 8);
 
 property('a generated CAS resume race prevents old code and journals from reaching either ref',
   fc.asyncProperty(positive, positive, text, (generation, delta, marker) => withDirectory(async directory => {
     const f = await fixture(directory, generation), resume = await f.reader('resume'); let raced = false;
     await f.edit(marker);
-    const racing = { read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
+    const racing: ControlStore = { ...f.store, read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
       f.store.mutate(async current => {
         if (!raced) {
           raced = true;
@@ -203,7 +204,7 @@ property('a generated CAS resume race prevents old code and journals from reachi
     await assert.rejects(f.publish({ store: racing }), /Stale checkpoint/);
     const { revision, value } = await resume.read();
     assert.equal(value.generation, generation + delta); assert.equal(value.owner, null);
-    assert.equal(await f.workHead(), f.base); assert.equal(value.checkpoint.workCommit, f.base);
+    assert.equal(await f.workHead(), f.base); assert.equal(value.checkpoint!.workCommit, f.base);
     assert.deepEqual(JSON.parse(await git(resume.cwd, 'show', revision + ':state/pi-jsonl/main.jsonl')), { original: true });
   })), 8);
 
@@ -235,7 +236,7 @@ property('emergency snapshots retain redacted task, state and logs outside the c
     await preserveEmergency({ workspace, state, logs, destination, secrets: [secret] });
     assert.equal(await readFile(join(destination, 'workspace/task.txt'), 'utf8'), redact(payload + '\n' + secret, [secret]));
     for (const path of ['state/history-index.json', 'logs/worker.json']) {
-      const evidence = await readJson(join(destination, path));
+      const evidence = await readJson<{ payload: string; secret: string }>(join(destination, path));
       assert.equal(evidence.payload, payload); assert.ok(!JSON.stringify(evidence).includes(secret));
     }
     assert.deepEqual((await readdir(destination)).sort(), ['logs', 'state', 'workspace']);

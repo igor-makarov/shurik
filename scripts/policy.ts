@@ -3,6 +3,7 @@ import type { Control, Event, Options, Outcome, Runtime, Secrets, WorkerResult, 
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, readdir, lstat } from 'node:fs/promises';
 import { join } from 'node:path';
+import { runFence } from './iterations.ts';
 export const digest = (value: string | Buffer) => createHash('sha256').update(value).digest('hex');
 export const reasoningLevels = ['off', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'] as const;
 export function validateReasoning(value: string | undefined): ModelThinkingLevel {
@@ -20,7 +21,11 @@ export function resumeSettings(value: Control, options: Options): Control {
   const reasoning = validateReasoning(options.reasoning);
   const deadline = options.deadline || null;
   if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Resume deadline must be in the future');
-  return { ...value, generation: value.generation + 1, status: 'running', owner: null, deadline,
+  // Claimed iterations count even when interrupted. An unclaimed queued run
+  // has not consumed a number and its generation still prevents it from claiming.
+  const next = Math.max(value.next, (value.owner?.iteration ?? 0) + 1);
+  const generation = value.generation + 1;
+  return { ...value, generation, next, status: 'running', owner: null, deadline,
     model: options.model?.trim() || value.model, reasoning,
     createPr: options.create_pr === undefined ? (value.createPr ?? 'auto') : validateCreatePr(options.create_pr),
     lastRunId: null, lastDispatchAt: new Date().toISOString() };
@@ -51,10 +56,10 @@ export function trustedRecovery(event: Event, repo: string | undefined) {
 export function cancelledForLoop(control: Control, run?: Run) {
   if (run?.conclusion !== 'cancelled') return false;
   if ([control.lastRunId, control.owner?.runId].filter(Boolean).includes(String(run.id))) return true;
-  // A queued successor has not claimed ownership yet. Its fixed run name carries the fence.
-  const match = /^(?:Shurik|Ralph) ([a-z0-9-]+) \/ (start|iterate) (\d+)-(\d+)$/.exec(run.display_title ?? '');
-  return !control.owner && !!match && match[1] === control.id
-    && Number(match[3]) === control.generation && Number(match[4]) === control.next;
+  // A queued successor has not claimed ownership yet. Its saved GitHub run ID
+  // identifies the generation even when a resume reuses the unstarted number.
+  const fence = runFence(control, run);
+  return !control.owner && !!fence && fence.generation === control.generation && fence.iteration === control.next;
 }
 export function classify(result: WorkerResult | null, exitCode: number | null): Outcome {
   if (!result || exitCode !== 0 || result.version !== 1) return 'runner_failure';

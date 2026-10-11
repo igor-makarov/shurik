@@ -31,7 +31,7 @@ export async function validateCandidate(workspace: string, stable: string, journ
   await git(candidate, 'checkout', '--detach', source);
   // Fixed build + checks come from the trusted supervisor, irrespective of candidate package scripts/tests.
   await cp(join(stable, 'scripts/build.ts'), join(candidate, 'trusted-build.ts'));
-  await cp(join(stable, 'tests/worker.test.mjs'), join(candidate, 'trusted-worker.test.mjs'));
+  await cp(join(stable, 'tests/worker.test.ts'), join(candidate, 'trusted-worker.test.ts'));
   await cp(join(stable, 'tsconfig.json'), join(candidate, 'trusted-tsconfig.json'));
   await mkdir(join(candidate, 'real-journal')); await cp(journal, join(candidate, 'real-journal'), { recursive: true });
   const env = { ...process.env, SHURIK_BUNDLE: join(candidate, 'dist/worker.cjs'), SHURIK_REAL_JOURNAL: join(candidate, 'real-journal') };
@@ -43,7 +43,7 @@ export async function validateCandidate(workspace: string, stable: string, journ
     await check('npm', ['ci', '--ignore-scripts']);
     await check(process.execPath, ['node_modules/typescript/bin/tsc', '--project', 'trusted-tsconfig.json']);
     await check(process.execPath, ['trusted-build.ts']);
-    await check(process.execPath, ['--test', 'trusted-worker.test.mjs']);
+    await check(process.execPath, ['--test', 'trusted-worker.test.ts']);
     await cp(join(candidate, 'dist/worker.cjs'), destination);
     return { passed: true, source, log: log.slice(-16000) };
   } catch (error) { const failure = error as Error & { stdout?: string; stderr?: string }; return { passed: false, source, log: `${log}${failure.stdout ?? ''}\n${failure.stderr ?? ''}\n${failure.message}`.slice(-16000) }; }

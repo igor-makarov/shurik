@@ -11,6 +11,7 @@ export interface Control {
   checkpointSeconds?: number; checkpointPaths?: string[];
   engine?: { repository: string; ref: string | null } | null;
   status: string; generation: number; next: number;
+  dispatchedRuns?: { runId: string; generation: number; iteration: number }[];
   owner: { runId: string; generation: number; iteration: number; claimedAt?: string } | null;
   deadline?: string | null; seconds: number; model: string; reasoning: string;
   source: string; sourceRef?: string | null; createdAt: string; lastDispatchAt: string | null;
@@ -45,10 +46,10 @@ export interface Failure {
   url: string; headSha: string; startedAt: string; completedAt: string; collectedAt: string;
   interruptedOwner: boolean; jobs: FailureJob[]; jobsTruncated?: boolean; jobsUnavailable?: string;
 }
-export interface WorkerResult { version: number; outcome: Outcome | 'readable'; error?: unknown; usage?: unknown; minEntryId?: number; maxEntryId?: number }
+export interface WorkerResult { version: number; outcome: Outcome | 'readable'; error?: unknown; usage?: unknown; captured?: unknown[]; minEntryId?: number; maxEntryId?: number }
 export interface WorkerReport { outcome: Outcome; result: WorkerResult | null; log: string; code?: number | null }
 export type WorkerRequest = Omit<Request, 'cwd' | 'journal' | 'output'>;
-export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string }
+export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string; phase: 'started' | 'tools' }
 export type Sessions = SessionSummary[];
 export interface Publication { state: string; logs?: string; workspace: string; workCommit: string; workBranch: string; journalSnapshot?: string }
 export function errorCode(error: unknown): string | undefined { return error instanceof Error && 'code' in error ? String(error.code) : undefined; }

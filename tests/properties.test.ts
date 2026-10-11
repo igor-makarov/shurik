@@ -1,3 +1,5 @@
+import type { Iteration, Outcome, Sessions, WorkerResult } from '../scripts/types.ts';
+import { controlFixture, runFixture, runtimeFixture, iterationFixture } from './test-support.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { join, relative, isAbsolute } from 'node:path';
@@ -14,7 +16,7 @@ import { runFence, failureKey, completedIterationRun, upsertSession, sessionSumm
 import { timeRemainingInstructions } from '../src/checkpoint.ts';
 import { parseArgs } from '../bin/shurik.ts';
 import { actionOptions } from '../action/run.ts';
-import { property, text, identifier, positive, control, terminal, reasoning, sha } from './pbt-support.mjs';
+import { property, text, identifier, positive, control, terminal, reasoning, sha } from './pbt-support.ts';
 
 const home = await mkdtemp(join(tmpdir(), 'shurik-pbt-home-'));
 process.env.SHURIK_HOME = home;
@@ -27,9 +29,9 @@ const forbiddenId = fc.oneof(
   identifier.map(id => '-' + id), fc.constant(''), fc.constant('x'.repeat(50)),
   fc.constantFrom('\0', '.', '..', 'a;exit', 'a\nb', 'a\\b', 'a~1', 'a.lock'),
 );
-const title = (id, generation, iteration, prefix = 'Shurik') =>
+const title = (id: string, generation: number, iteration: number, prefix = 'Shurik') =>
   prefix + ' ' + id + ' / iterate ' + generation + '-' + iteration;
-const copy = value => JSON.stringify(value);
+const copy = (value: unknown) => JSON.stringify(value);
 
 property('valid loop IDs produce confined paths and separate work/control refs',
   fc.property(identifier, repository, (id, repo) => {
@@ -62,7 +64,7 @@ property('session namespaces do not alias repositories or depend on the task che
     assert.notEqual(runtimeState(repo, id), runtimeState(repo, 'other-' + id.slice(0, 43)));
     for (const [name, path] of Object.entries(first.runtime)) {
       if (name === 'state' || name === 'diagnostics') continue;
-      assert.equal(relative(first.runtime.state, path), relative(PATHS.controlState, first.control[name]));
+      assert.equal(relative(first.runtime.state, path), relative(PATHS.controlState, first.control[name as keyof typeof first.runtime]));
     }
   }));
 
@@ -105,10 +107,11 @@ property('resume advances one generation, clears ownership and retains checkpoin
     const before = copy(previous);
     const resumed = resumeSettings(previous, { reasoning: level, model: 'next-' + model });
     assert.equal(resumed.generation, previous.generation + 1);
+    assert.equal(resumed.next, previous.next + (previous.owner ? 1 : 0));
     assert.equal(resumed.status, 'running'); assert.equal(resumed.owner, null);
     assert.equal(resumed.lastRunId, null); assert.equal(resumed.reasoning, level);
     assert.equal(resumed.model, ('next-' + model).trim()); assert.equal(resumed.deadline, null);
-    for (const field of ['id', 'branch', 'engine', 'source', 'next', 'seconds', 'checkpoint']) {
+    for (const field of ['id', 'branch', 'engine', 'source', 'seconds', 'checkpoint'] as const) {
       assert.deepEqual(resumed[field], previous[field]);
     }
     assert.equal(copy(previous), before);
@@ -122,6 +125,39 @@ property('resuming fences every invocation from an earlier generation',
     assert.equal(claimable(resumed, resumed.generation, resumed.next, 'new-run'), true);
   }));
 
+property('iteration numbering remains contiguous across repeated stops and resumes',
+  fc.property(positive, fc.array(fc.record({ completed: fc.integer({ min: 0, max: 20 }), interrupted: fc.boolean() }),
+    { minLength: 1, maxLength: 50 }), (generation, cycles) => {
+    let c = controlFixture({ generation }); let started = 0;
+    for (const cycle of cycles) {
+      started += cycle.completed;
+      c = { ...c, next: started + 1, status: 'stopped', lastDispatchAt: new Date().toISOString(),
+        owner: cycle.interrupted ? { runId: 'interrupted', generation: c.generation, iteration: started + 1 } : null };
+      if (cycle.interrupted) started++;
+      c = resumeSettings(c, { reasoning: 'high' });
+      assert.equal(c.next, started + 1);
+      assert.equal(c.owner, null);
+    }
+    assert.equal(c.generation, generation + cycles.length);
+  }));
+
+property('GitHub run IDs fence old queued cancellations even when resumed titles are identical',
+  fc.property(control, positive, positive, (previous, runId, delta) => {
+    previous = { ...previous, status: 'stopped', owner: null, lastRunId: null,
+      dispatchedRuns: [{ runId: String(runId), generation: previous.generation, iteration: previous.next }] };
+    let c = resumeSettings(previous, { reasoning: 'high' });
+    c = { ...c, dispatchedRuns: [...c.dispatchedRuns!, { runId: String(runId + delta), generation: c.generation, iteration: c.next }] };
+    const old = runFixture({ id: runId, conclusion: 'cancelled', display_title: 'Shurik ' + c.id + ' / iterate ' + c.next });
+    const current = { ...old, id: runId + delta };
+    assert.equal(c.next, previous.next);
+    assert.equal(claimable(c, previous.generation, c.next, String(runId)), false);
+    assert.equal(cancelledForLoop(c, old), false);
+    assert.equal(cancelledForLoop(c, current), true);
+    assert.equal(runFence(c, old)?.generation, previous.generation);
+    assert.equal(runFence(c, current)?.generation, c.generation);
+    assert.equal(runFence({ ...c, dispatchedRuns: [] }, current), null, 'unknown run IDs are not inferred from the number');
+  }));
+
 property('resume requires fresh valid reasoning and rejects already-running loops',
   fc.property(control, reasoning, identifier, (previous, level, invalid) => {
     const stoppedControl = { ...previous, status: 'stopped', reasoning: level };
@@ -133,7 +169,7 @@ property('resume requires fresh valid reasoning and rejects already-running loop
   }));
 
 property('PR settings survive resume unless explicitly overridden; boolean/string forms agree',
-  fc.property(control, fc.constantFrom(true, false, 'auto'), fc.boolean(), (previous, mode, override) => {
+  fc.property(control, fc.constantFrom<boolean | 'auto'>(true, false, 'auto'), fc.boolean(), (previous, mode, override) => {
     previous = { ...previous, status: 'stopped', createPr: mode };
     assert.equal(resumeSettings(previous, { reasoning: 'high' }).createPr, mode);
     for (const value of [override, String(override)]) {
@@ -149,8 +185,8 @@ property('claims require current generation, iteration and owner and a running l
     assert.equal(claimable(c, c.generation, c.next, 'run'), true);
     assert.equal(claimable(c, c.generation + delta, c.next, 'run'), false);
     assert.equal(claimable(c, c.generation, c.next + delta, 'run'), false);
-    assert.equal(claimable({ ...c, owner: { runId: 'other' } }, c.generation, c.next, 'run'), false);
-    assert.equal(claimable({ ...c, owner: { runId: 'run' } }, c.generation, c.next, 'run'), true);
+    assert.equal(claimable({ ...c, owner: { runId: 'other', generation: c.generation, iteration: c.next } }, c.generation, c.next, 'run'), false);
+    assert.equal(claimable({ ...c, owner: { runId: 'run', generation: c.generation, iteration: c.next } }, c.generation, c.next, 'run'), true);
     for (const status of ['stopped', 'deadline']) {
       assert.equal(claimable({ ...c, status }, c.generation, c.next, 'run'), false);
     }
@@ -159,7 +195,7 @@ property('claims require current generation, iteration and owner and a running l
 
 property('deadline expiry is inclusive and cannot reverse as time advances',
   fc.property(fc.integer({ min: -1000000, max: 1000000 }), positive, (offset, step) => {
-    const deadline = now + offset, c = { status: 'running', deadline: new Date(deadline).toISOString() };
+    const deadline = now + offset, c = controlFixture({ deadline: new Date(deadline).toISOString() });
     assert.equal(stopped(c, deadline - 1), false);
     assert.equal(stopped(c, deadline), true); assert.equal(stopped(c, deadline + step), true);
     assert.equal(stopped({ ...c, status: 'stopped' }, deadline - step), true);
@@ -168,7 +204,7 @@ property('deadline expiry is inclusive and cannot reverse as time advances',
 property('queued cancellation only stops the matching loop generation and iteration',
   fc.property(control, positive, fc.constantFrom('Shurik', 'Ralph'), (c, delta, prefix) => {
     c = { ...c, owner: null, lastRunId: null };
-    const run = { id: 99, conclusion: 'cancelled', display_title: title(c.id, c.generation, c.next, prefix) };
+    const run = runFixture({ id: 99, conclusion: 'cancelled', display_title: title(c.id, c.generation, c.next, prefix) });
     assert.equal(cancelledForLoop(c, run), true);
     for (const display_title of [
       title('other-' + c.id, c.generation, c.next, prefix),
@@ -176,13 +212,13 @@ property('queued cancellation only stops the matching loop generation and iterat
       title(c.id, c.generation, c.next + delta, prefix),
     ]) assert.equal(cancelledForLoop(c, { ...run, display_title }), false);
     assert.equal(cancelledForLoop(c, { ...run, conclusion: 'failure' }), false);
-    assert.equal(cancelledForLoop({ ...c, owner: { runId: 'different' } }, run), false);
+    assert.equal(cancelledForLoop({ ...c, owner: { runId: 'different', generation: c.generation, iteration: c.next } }, run), false);
   }));
 
 property('recovery trusts only first-party dispatches on the default branch',
   fc.property(repository, identifier, fc.constantFrom('Shurik', 'Shurik Ralph'), (repo, branch, name) => {
-    const run = { name, event: 'workflow_dispatch', repository: { full_name: repo },
-      head_repository: { full_name: repo }, head_branch: branch };
+    const run = runFixture({ name, event: 'workflow_dispatch', repository: { full_name: repo },
+      head_repository: { full_name: repo }, head_branch: branch });
     const trusted = { workflow_run: run, repository: { default_branch: branch } };
     assert.equal(trustedRecovery(trusted, repo), true);
     for (const changed of [
@@ -193,7 +229,7 @@ property('recovery trusts only first-party dispatches on the default branch',
 
 property('same-workflow recovery requires a completed iteration with a matching result',
   fc.property(fc.constantFrom('success', 'failure', 'cancelled'), positive, text, (result, id, title) => {
-    const run = { id, name: title, status: 'in_progress', conclusion: null };
+    const run = runFixture({ id, name: title, status: 'in_progress', conclusion: null });
     const before = copy(run);
     const job = { id: id + 1, name: 'iteration', status: 'completed', conclusion: result };
     const finished = completedIterationRun(run, result, [job]);
@@ -214,8 +250,8 @@ property('failure report paths are unique across runs and attempts and reject un
     assert.equal(failureKey({ id }), failureKey({ id, run_attempt: 1 }));
     assert.ok(!key.includes('/') && !key.includes('..'));
     for (const bad of ['../' + id, -id, id + 0.5, 'x' + id]) {
-      assert.throws(() => failureKey({ id: bad, run_attempt: attempt }), /identity/);
-      assert.throws(() => failureKey({ id, run_attempt: bad }), /identity/);
+      assert.throws(() => failureKey({ id: bad as number, run_attempt: attempt }), /identity/);
+      assert.throws(() => failureKey({ id, run_attempt: bad as number }), /identity/);
     }
   }));
 
@@ -231,7 +267,7 @@ property('nonzero exits and malformed worker envelopes always classify as runner
   fc.property(terminal, fc.integer({ min: 1, max: 255 }), (outcome, code) => {
     assert.equal(classify({ version: 1, outcome }, 0), outcome);
     for (const result of [null, { version: 0, outcome }, { version: 2, outcome }, { version: 1, outcome: 'unknown' }]) {
-      assert.equal(classify(result, 0), 'runner_failure');
+      assert.equal(classify(result as WorkerResult | null, 0), 'runner_failure');
     }
     assert.equal(classify({ version: 1, outcome }, code), 'runner_failure');
     assert.equal(classify({ version: 1, outcome }, -code), 'runner_failure');
@@ -241,7 +277,7 @@ property('nonzero exits and malformed worker envelopes always classify as runner
 property('runner rollback is idempotent and retains earlier quarantine evidence',
   fc.property(sha, sha, fc.array(sha, { maxLength: 12 }), (fallback, suffix, quarantine) => {
     const selected = 'candidate-' + suffix;
-    const original = { selected, fallback, probation: true, quarantined: quarantine };
+    const original = runtimeFixture({ selected, fallback, probation: true, quarantined: quarantine });
     const before = copy(original), rolled = nextRuntime(original, 'runner_failure');
     assert.equal(rolled.selected, fallback); assert.equal(rolled.probation, false);
     assert.ok(rolled.quarantined.includes(selected));
@@ -252,9 +288,9 @@ property('runner rollback is idempotent and retains earlier quarantine evidence'
   }));
 
 property('provider failures, timeout and yield never quarantine or switch a working engine',
-  fc.property(sha, sha, fc.array(sha, { maxLength: 12 }), fc.constantFrom('agent_failure', 'timeout', 'yielded'),
+  fc.property(sha, sha, fc.array(sha, { maxLength: 12 }), fc.constantFrom<Outcome>('agent_failure', 'timeout', 'yielded'),
     (selected, fallback, quarantine, outcome) => {
-      const runtime = { selected, fallback, quarantined: quarantine, probation: true };
+      const runtime = runtimeFixture({ selected, fallback, quarantined: quarantine, probation: true });
       const before = copy(runtime), next = nextRuntime(runtime, outcome);
       assert.equal(next.selected, selected); assert.equal(next.fallback, fallback);
       assert.deepEqual(next.quarantined, quarantine); assert.equal(next.probation, false);
@@ -295,21 +331,21 @@ const record = fc.record({
   outcome: fc.constantFrom('running', 'interrupted', 'yielded', 'agent_failure', 'timeout', 'runner_failure'),
   minEntryId: fc.option(positive, { nil: undefined }), maxEntryId: fc.option(positive, { nil: undefined }),
   error: text,
-});
+}).map(value => iterationFixture(value));
 property('session upserts retain every identity in first-seen order with only the latest record',
   fc.property(fc.array(record, { minLength: 1, maxLength: 100 }), records => {
-    const sessions = [], model = new Map();
+    const sessions: Sessions = [], model = new Map<string, Iteration>();
     for (const record of records) {
       const before = copy(record);
       upsertSession(sessions, record); model.set(record.id, record);
       assert.equal(copy(record), before);
       assert.deepEqual(sessions.map(s => s.id), [...model.keys()]);
       for (const session of sessions) {
-        const latest = model.get(session.id);
-        for (const field of ['outcome', 'error', 'minEntryId', 'maxEntryId']) assert.equal(session[field], latest[field]);
+        const latest = model.get(session.id)!;
+        for (const field of ['outcome', 'error', 'minEntryId', 'maxEntryId'] as const) assert.equal(session[field], latest[field]);
       }
     }
-    const before = copy(sessions); upsertSession(sessions, records.at(-1));
+    const before = copy(sessions); upsertSession(sessions, records.at(-1)!);
     assert.equal(copy(sessions), before);
   }));
 
@@ -327,7 +363,7 @@ property('task-facing snapshots exclude ownership, deadlines and recovery machin
     for (const key of ['owner', 'deadline', 'lastDispatchAt', 'failureTrail', 'checkpoint', 'engine']) {
       assert.ok(!Object.hasOwn(snapshot, key));
     }
-    for (const key of ['id', 'branch', 'status', 'model', 'reasoning', 'source']) assert.equal(snapshot[key], c[key]);
+    for (const key of ['id', 'branch', 'status', 'model', 'reasoning', 'source'] as const) assert.equal(snapshot[key], c[key]);
     assert.equal(copy(c), before);
   }));
 
@@ -341,7 +377,7 @@ property('time feedback respects the earlier limit, clamps expiry and omits earl
       if (remaining > checkpointSeconds * 1000) {
         assert.doesNotMatch(message, /Time update|seconds remain|handoff|preempt/);
       } else {
-        const seconds = Number(/about (\d+) seconds remain in this iteration/.exec(message)[1]);
+        const seconds = Number(/about (\d+) seconds remain in this iteration/.exec(message)![1]);
         assert.ok(seconds >= 0);
         assert.equal(seconds, Math.max(0, Math.ceil(remaining / 1000)));
         assert.ok(message.includes(new Date(now + remaining).toISOString()));

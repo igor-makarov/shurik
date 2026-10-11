@@ -8,6 +8,7 @@ import { join } from 'node:path';
 import { BACKGROUND_CONTEXT } from '@earendil-works/chord/context';
 import { createModels } from '@earendil-works/pi-ai/models';
 import { createRegistry, Harness } from '@earendil-works/pi-durable';
+import type { Conversation } from '@earendil-works/pi-durable';
 import { openNodeJsonlStorage } from '@earendil-works/pi-durable/storage/jsonl/node';
 
 test('time feedback distinguishes iteration and loop deadlines and keeps a continuation goal', () => {
@@ -51,9 +52,9 @@ test('prepared journal excludes a concurrent Pi mutation and remains independent
   try {
     const root = await harness.root(context);
     await root.configure({ instructions: 'BEFORE_PREPARED_SNAPSHOT' }, context);
-    let copying;
-    const started = new Promise(resolve => { copying = resolve; });
-    const guardedRoot = { id: root.id, commit: (change, ctx) => root.commit(async tx => { copying(); return change(tx); }, ctx) };
+    let copying!: () => void;
+    const started = new Promise<void>(resolve => { copying = resolve; });
+    const guardedRoot: Pick<Conversation, 'id' | 'commit'> = { id: root.id, commit: (change, ctx) => root.commit(async tx => { copying(); return change(tx); }, ctx) };
     const snapshot = snapshotJournal(guardedRoot, journal, output, context);
     await started;
     const competing = root.configure({ instructions: 'AFTER_PREPARED_SNAPSHOT' }, context);

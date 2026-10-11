@@ -1,3 +1,5 @@
+import type { WorkerRequest, WorkerResult, Sessions } from '../scripts/types.ts';
+import { controlFixture, iterationFixture } from './test-support.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, readdir, writeFile, cp } from 'node:fs/promises';
@@ -20,7 +22,7 @@ process.env.GITHUB_REPOSITORY = 'fixture/product';
 
 test('runtime sessions are outside the checkout and scoped by repository and loop identity', () => {
   const first = sessionPaths('/tmp/project', 'demo', 'alice/project');
-  assert.equal(first.runtime.state, join(process.env.SHURIK_HOME, 'state/alice/project/demo'));
+  assert.equal(first.runtime.state, join(process.env.SHURIK_HOME!, 'state/alice/project/demo'));
   assert.notEqual(first.runtime.state, runtimeState('bob/project', 'demo'));
   assert.equal(first.control.journal, 'state/pi-jsonl');
   assert.throws(() => runtimeState('../project', 'demo'), /Repository/);
@@ -81,14 +83,15 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   await mkdir(join(state, PATHS.journal), { recursive: true });
   await saveJson(join(state, PATHS.history), []);
   await initializeCheckpoint({ workspace: project, state, store,
-    control: { version: 1, id: 'demo', stateStorage: 'control', branch: 'codex/shurik/demo',
-      generation: 1, next: 1, owner: null, status: 'running' }, message: 'initialize consumer' });
-  const request = { version: 1, id: 'demo:1-1', model: 'space-bunny-free', reasoning: 'high',
+    control: controlFixture({ version: 1, id: 'demo', stateStorage: 'control', branch: 'codex/shurik/demo',
+      generation: 1, next: 1, owner: null, status: 'running' }), message: 'initialize consumer' });
+  const request: WorkerRequest = { version: 1, id: 'demo:1-1', model: 'space-bunny-free', reasoning: 'high',
     seconds: 10, sessions: [], prompt: 'Use coding tools on the consumer',
     script: [{ tool: 'write', args: { path: 'demo.txt', content: 'UNRELATED_CONSUMER_HISTORY' } }, { text: 'Saved' }] };
   const result = await launchWorker({ workspace: project, state, bundle, stable: resolve('.'), req: request });
   assert.equal(result.outcome, 'yielded', result.log);
-  const session = { id: '1-1', outcome: result.outcome, minEntryId: result.result.minEntryId, maxEntryId: result.result.maxEntryId };
+  assert.ok(result.result);
+  const session = iterationFixture({ id: '1-1', outcome: result.outcome, minEntryId: result.result.minEntryId, maxEntryId: result.result.maxEntryId });
   await saveJson(join(state, PATHS.history), [session]);
   await publishCheckpoint({ workspace: project, state, store, generation: 1, owner: null,
     sequence: '1-1', message: 'save consumer history', record: session });
@@ -97,16 +100,17 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   const cold = join(dir, 'cold'); await git(dir, 'clone', remote, cold); await git(cold, 'checkout', 'codex/shurik/demo');
   const restored = await loadState(store, cold, 'demo');
   const retrieved = await launchWorker({ workspace: cold, state: restored, bundle, stable: resolve('.'), req: {
-    ...request, id: 'demo:1-2', sessions: await readJson(join(restored, PATHS.history)),
+    ...request, id: 'demo:1-2', sessions: await readJson<Sessions>(join(restored, PATHS.history)),
     script: [{ tool: 'search_sessions', args: { query: 'UNRELATED_CONSUMER_HISTORY' } }, { text: 'Retrieved' }]
   } });
   assert.equal(retrieved.outcome, 'yielded', retrieved.log);
+  assert.ok(retrieved.result?.captured);
   assert.ok(JSON.stringify(retrieved.result.captured.at(-1)).includes('UNRELATED_CONSUMER_HISTORY'));
   const output = join(dir, 'inspect'); await mkdir(output);
   const inspectReq = join(dir, 'inspect.json'); await saveJson(inspectReq, { ...request, journal: join(restored, PATHS.journal), output });
   const before = await readFile(join(restored, PATHS.journal, 'main.jsonl'));
   await exec(process.execPath, [cli, 'inspect', '--request', inspectReq]);
-  assert.equal((await readJson(join(output, 'result.json'))).outcome, 'readable');
+  assert.equal((await readJson<WorkerResult>(join(output, 'result.json'))).outcome, 'readable');
   assert.deepEqual(await readFile(join(restored, PATHS.journal, 'main.jsonl')), before, 'inspect never mutates the canonical journal');
   const printed = JSON.parse((await exec(process.execPath, [cli, 'paths', '--loop-id', 'demo', '--workspace', cold])).stdout);
   assert.deepEqual(printed, sessionPaths(cold, 'demo'));
@@ -144,18 +148,18 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     GITHUB_TOKEN: 'TEST_ONLY_TOKEN', GH_TOKEN: undefined, SHURIK_PROJECT_ROOT: project,
     SHURIK_ENGINE_ROOT: engine, SHURIK_ENGINE_REPOSITORY: 'fixture/shurik', SHURIK_ACTION_REF: 'v1' };
   const previous = Object.fromEntries(Object.keys(overrides).map(key => [key, process.env[key]]));
-  const originalFetch = globalThis.fetch, dispatches = []; let prAllowed = false, prAttempts = 0, failDispatch = false;
+  const originalFetch = globalThis.fetch, dispatches: { ref: string; return_run_details: boolean; inputs: Record<string, string> }[] = []; let prAllowed = false, prAttempts = 0, failDispatch = false;
   try {
     for (const [key, value] of Object.entries(overrides)) {
       if (value === undefined) delete process.env[key]; else process.env[key] = value;
     }
     globalThis.fetch = async (url, init = {}) => {
-      const path = new URL(url).pathname;
+      const path = new URL(url instanceof Request ? url.url : url).pathname;
       if (path.endsWith('/permission')) return Response.json({ permission: 'write' });
       if (path.endsWith('/repos/fixture/consumer')) return Response.json({ default_branch: 'main' });
       if (path.endsWith('/commits/older-task-source')) return Response.json({ sha: source });
       if (path.endsWith('/actions/runs/100')) return Response.json({ id: 100, workflow_id: 55,
-        name: 'Shurik demo / iterate 1-1', display_title: 'Shurik demo / iterate 1-1',
+        name: 'Shurik demo / iterate 1', display_title: 'Shurik demo / iterate 1',
         event: 'workflow_dispatch', status: 'in_progress', conclusion: null, head_branch: 'main',
         repository: { full_name: 'fixture/consumer' }, head_repository: { full_name: 'fixture/consumer' } });
       if (path.endsWith('/actions/workflows/55')) return Response.json({ name: 'Shurik' });
@@ -169,7 +173,9 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       }
       if (path.endsWith('/dispatches')) {
         if (failDispatch) throw new Error('INJECTED_DISPATCH_FAILURE');
-        dispatches.push(JSON.parse(init.body)); return new Response(null, { status: 204 });
+        assert.equal(typeof init.body, 'string');
+        const body = JSON.parse(init.body as string); assert.equal(body.return_run_details, true);
+        dispatches.push(body); return Response.json({ workflow_run_id: 100 + dispatches.length - 1 });
       }
       throw new Error(`Unexpected API request: ${url}`);
     };
@@ -181,7 +187,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     const started = (await store.read()).value;
     assert.equal(await git(ctl, 'show', `${(await store.read()).revision}:.github/workflows/shurik.yml`), 'name: Current workflow');
     await git(ctl, 'fetch', 'origin', started.branch);
-    assert.equal(await git(ctl, 'show', `${started.checkpoint.workCommit}:.github/workflows/shurik.yml`), 'name: Current workflow');
+    assert.equal(await git(ctl, 'show', `${started.checkpoint!.workCommit}:.github/workflows/shurik.yml`), 'name: Current workflow');
     assert.equal(started.source, source); assert.notEqual(started.source, engineSHA);
     assert.equal(started.seconds, 20); assert.deepEqual(started.engine, { repository: 'fixture/shurik', ref: 'v1' });
     assert.equal(started.checkpointSeconds, 1); assert.deepEqual(started.checkpointPaths, []);
@@ -197,11 +203,11 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     const record = JSON.parse(await git(ctl, 'show', `${revision}:state/iterations/1-1.json`));
     assert.equal(record.outcome, 'yielded'); assert.equal(record.runtime, engineSHA);
     const logs = runtimeLogs('fixture/consumer', 'demo');
-    assert.equal((await readJson(join(logs, '1-1-worker.json'))).outcome, 'yielded');
+    assert.equal((await readJson<WorkerResult>(join(logs, '1-1-worker.json'))).outcome, 'yielded');
     assert.equal(JSON.parse(await git(ctl, 'show', `${revision}:state/diagnostics/1-1-worker.json`)).outcome, 'yielded');
     assert.ok(!(await readdir(runtimeState('fixture/consumer', 'demo'))).includes('diagnostics'));
     await git(ctl, 'fetch', 'origin', value.branch);
-    assert.equal(await git(ctl, 'show', `${value.checkpoint.workCommit}:consumer-result.txt`), 'SUPERVISOR_CONSUMER_PROOF');
+    assert.equal(await git(ctl, 'show', `${value.checkpoint!.workCommit}:consumer-result.txt`), 'SUPERVISOR_CONSUMER_PROOF');
     assert.equal(dispatches.length, 2);
     assert.equal(dispatches[1].inputs.iteration, '2');
     assert.equal(dispatches[1].inputs.supervisor_ref, undefined);
@@ -222,6 +228,20 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (oldEvent === undefined) delete process.env.GITHUB_EVENT_NAME; else process.env.GITHUB_EVENT_NAME = oldEvent;
       if (oldResult === undefined) delete process.env.SHURIK_ITERATION_RESULT; else process.env.SHURIK_ITERATION_RESULT = oldResult;
     }
+    await main({ command: 'stop', loop_id: 'demo' });
+    await main({ command: 'resume', loop_id: 'demo', reasoning: 'medium' });
+    const resumed = (await store.read()).value;
+    assert.equal(resumed.generation, 2); assert.equal(resumed.next, 3);
+    assert.equal(dispatches[3].inputs.generation, '2'); assert.equal(dispatches[3].inputs.iteration, '3');
+    assert.deepEqual(resumed.dispatchedRuns?.slice(-2), [
+      { runId: '102', generation: 1, iteration: 3 }, { runId: '103', generation: 2, iteration: 3 }
+    ]);
+    await main({ command: 'iterate', loop_id: 'demo', generation: '1', iteration: '3' });
+    assert.equal(dispatches.length, 4, 'old queued iteration is skipped without claiming or redispatching');
+    await main({ command: 'iterate', loop_id: 'demo', generation: '2', iteration: '3' });
+    assert.equal((await store.read()).value.next, 4);
+    const resumedRecord = JSON.parse(await git(ctl, 'show', `${(await store.read()).revision}:state/iterations/2-3.json`));
+    assert.equal(resumedRecord.iteration, 3); assert.equal(resumedRecord.outcome, 'yielded');
     await main({ command: 'start', loop_id: 'without-pr', reasoning: 'high', create_pr: false, source_ref: 'older-task-source' });
     assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
     failDispatch = true;

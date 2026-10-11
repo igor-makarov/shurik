@@ -1,3 +1,4 @@
+import { controlFixture, iterationFixture } from './test-support.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promises';
@@ -25,7 +26,7 @@ async function fixture() {
   await writeFile(join(seed, 'state/pi-jsonl/main.jsonl'), 'OLD_JOURNAL\n');
   await commit(seed, 'initial control state');
   await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/state-test');
-  async function reader(name) {
+  async function reader(name: string) {
     const cwd = join(dir, name); await git(dir, 'clone', remote, cwd); await configureGit(cwd);
     return new ControlStore(cwd, 'state-test');
   }
@@ -33,7 +34,7 @@ async function fixture() {
   await configureGit(workspace); await git(workspace, 'checkout', 'codex/shurik/state-test');
   const store = await reader('control'); const state = await loadState(store, workspace, 'state-test');
   const logs = runtimeLogs('fixture/state', 'state-test');
-  const publish = options => publishCheckpoint({ workspace, state, logs, store, generation: 1, owner: '123',
+  const publish = (options: Partial<Parameters<typeof publishCheckpoint>[0]> = {}) => publishCheckpoint({ workspace, state, logs, store, generation: 1, owner: '123',
     sequence: '1-1', message: 'paired checkpoint', ...options });
   const workHead = () => git(dir, '--git-dir', remote, 'rev-parse', 'refs/heads/codex/shurik/state-test');
   return { dir, remote, base, workspace, store, state, logs, reader, publish, workHead };
@@ -47,13 +48,13 @@ test('journals, session index, malformed evidence and runtime source refs live o
   await saveJson(join(f.state, 'history-index.json'), [{ id: '1-1', minEntryId: 7, maxEntryId: 21 }]);
   await saveJson(join(f.state, 'runtime.json'), { version: 2, selected: f.base, fallback: f.base });
   await saveJson(join(f.logs, '1-1-malformed-journal/evidence.json'), { error: 'partial write' });
-  const record = { id: '1-1', outcome: 'timeout', minEntryId: 7, maxEntryId: 21 };
+  const record = iterationFixture({ id: '1-1', outcome: 'timeout', minEntryId: 7, maxEntryId: 21 });
   const workCommit = await f.publish({ record });
   assert.equal(workCommit, await f.workHead());
   const tree = await git(f.workspace, 'ls-tree', '-r', '--name-only', workCommit);
   assert.equal(tree, 'app.txt');
   const { revision, value } = await f.store.read();
-  assert.equal(value.checkpoint.workCommit, workCommit);
+  assert.equal(value.checkpoint!.workCommit, workCommit);
   assert.equal(await git(f.store.cwd, 'show', `${revision}:state/pi-jsonl/main.jsonl`), 'NEW_JOURNAL');
   assert.equal(JSON.parse(await git(f.store.cwd, 'show', `${revision}:state/iterations/1-1.json`)).workCommit, workCommit);
   assert.ok(!(await git(f.store.cwd, 'ls-tree', '-r', '--name-only', revision)).includes('worker.cjs'));
@@ -70,14 +71,14 @@ test('journals, session index, malformed evidence and runtime source refs live o
 });
 
 test('initialization publishes both new branches with state only on control, including an empty task diff', async () => {
-  const f = await fixture(); const control = { version: 1, stateStorage: 'control', id: 'fresh',
-    branch: 'codex/shurik/fresh', generation: 1, next: 1, owner: null, status: 'running' };
+  const f = await fixture(); const control = controlFixture({ version: 1, stateStorage: 'control', id: 'fresh',
+    branch: 'codex/shurik/fresh', generation: 1, next: 1, owner: null, status: 'running' });
   await git(f.workspace, 'checkout', '--detach', f.base);
   const cwd = join(f.dir, 'fresh-initialize'); await git(f.dir, 'clone', f.remote, cwd); await configureGit(cwd);
   await git(cwd, 'checkout', '--detach', f.base);
   const store = new ControlStore(cwd, 'fresh');
   const value = await initializeCheckpoint({ workspace: f.workspace, state: f.state, store, control, message: 'initialize fresh loop' });
-  assert.equal(value.checkpoint.workCommit, f.base, 'loop initialization creates no artificial code changes');
+  assert.equal(value.checkpoint!.workCommit, f.base, 'loop initialization creates no artificial code changes');
   const loaded = await loadState(store, f.workspace, 'fresh');
   assert.equal(await readFile(join(loaded, 'pi-jsonl/main.jsonl'), 'utf8'), 'OLD_JOURNAL\n');
   assert.equal(await git(f.dir, '--git-dir', f.remote, 'rev-parse', 'refs/heads/codex/shurik/fresh'), f.base);
@@ -119,7 +120,7 @@ test('task snapshots reject paths outside the workspace and symlink traversal', 
 test('a control CAS race publishes neither ref until retry; manual stop remains authoritative', async () => {
   const f = await fixture(); const stop = await f.reader('stop'); let calls = 0;
   await writeFile(join(f.workspace, 'app.txt'), 'new code');
-  const racing = { read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
+  const racing: ControlStore = { ...f.store, read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
     f.store.mutate(async c => {
       calls++;
       if (calls === 1) await stop.mutate(v => ({ ...v, status: 'stopped' }));
@@ -129,14 +130,14 @@ test('a control CAS race publishes neither ref until retry; manual stop remains 
   const work = await f.publish({ store: racing });
   const control = (await stop.read()).value;
   assert.ok(calls >= 2); assert.equal(control.status, 'stopped');
-  assert.equal(control.checkpoint.workCommit, work); assert.equal(await f.workHead(), work);
+  assert.equal(control.checkpoint!.workCommit, work); assert.equal(await f.workHead(), work);
 });
 
 test('resume racing a checkpoint prevents old-generation journals and source from being published', async () => {
   const f = await fixture(); const resume = await f.reader('resume'); let calls = 0;
   await writeFile(join(f.workspace, 'app.txt'), 'stale code');
   await writeFile(join(f.state, 'pi-jsonl/main.jsonl'), 'STALE_JOURNAL');
-  const racing = { read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
+  const racing: ControlStore = { ...f.store, read: () => f.store.read(), mutate: (change, message, evidence, checkpoint) =>
     f.store.mutate(async c => {
       if (calls++ === 0) await resume.mutate(v => ({ ...v, generation: 2, owner: null }));
       return change(c);

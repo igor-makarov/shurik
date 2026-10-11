@@ -32,14 +32,19 @@ async function authorized() {
   const p = await api<{ permission: string }>(`collaborators/${encodeURIComponent(actor)}/permission`);
   if (!['admin', 'maintain', 'write'].includes(p.permission)) throw new Error('Loop control requires repository write access');
 }
-async function dispatch(control: Control) {
+async function dispatch(control: Control, store: ControlStore) {
   if (stopped(control)) return;
-  await api(`actions/workflows/${encodeURIComponent(control.workflow ?? 'shurik.yml')}/dispatches`, 'POST', {
+  const run = await api<{ workflow_run_id: number }>(`actions/workflows/${encodeURIComponent(control.workflow ?? 'shurik.yml')}/dispatches`, 'POST', {
     ref: control.defaultBranch,
+    return_run_details: true,
     inputs: { command: 'iterate', loop_id: control.id, generation: String(control.generation),
       iteration: String(control.next), ...(!control.engine ? { supervisor_ref: control.supervisor } : {}),
       reasoning: validateReasoning(control.reasoning) }
   });
+  if (!Number.isSafeInteger(run?.workflow_run_id) || run.workflow_run_id < 1) throw new Error('Workflow dispatch did not return a run ID');
+  const receipt = { runId: String(run.workflow_run_id), generation: control.generation, iteration: control.next };
+  await store.mutate(value => value.dispatchedRuns?.some(entry => entry.runId === receipt.runId) ? null
+    : { ...value, dispatchedRuns: [...(value.dispatchedRuns ?? []), receipt] }, 'shurik: record dispatched iteration');
 }
 async function pruneAndGuard(workspace: string, state: string, initial: string, journalSnapshot?: string, logs?: string) {
   const attempted = await git(workspace, 'status', '--porcelain', '--', '.github/workflows');
@@ -142,9 +147,9 @@ export async function start(options: Options) {
   const decision = await createPr(control, workspace); const { pr } = decision;
   await store.mutate(c => ({ ...c, ...decision, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
   console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}`);
-  await dispatch({ ...control, pr });
+  await dispatch({ ...control, pr }, store);
 }
-export async function expireUnstartedIteration(store: ControlStore, generation: number, iteration: number, invocationRunId: string) {
+export async function expireUnstartedIteration(store: Pick<ControlStore, 'mutate'>, generation: number, iteration: number, invocationRunId: string) {
   // Recheck the fence inside CAS: a skipped invocation must never stop a resumed generation or another owner.
   return store.mutate(c => {
     if (c.generation !== generation || c.next !== iteration || c.status !== 'running'
@@ -272,7 +277,7 @@ export async function iterate(options: Options) {
       owner: null, next: iteration + 1, lastRunId: runId, lastDispatchAt: stop ? null : new Date().toISOString() };
   }, `shurik: finalize ${sequence}`);
   await rm(before, { recursive: true, force: true });
-  if (!stopped(control) && control.generation === generation && control.next === iteration + 1) await dispatch(control);
+  if (!stopped(control) && control.generation === generation && control.next === iteration + 1) await dispatch(control, store);
   console.log(`Iteration ${sequence}: ${record.outcome}; loop ${control.status}`);
 }
 export async function controlLoop(options: Options) {
@@ -293,7 +298,7 @@ export async function controlLoop(options: Options) {
       throw new Error('Pinned loop predates explicit reasoning. Have the maintainer migrate its state and upgrade supervisor/runtime source references before resuming.');
     }
     const c = await store.mutate(value => resumeSettings(value, options), 'shurik: explicit resume with new generation and model/reasoning');
-    await dispatch(c);
+    await dispatch(c, store);
   }
 }
 export async function recover(options: Options) {
@@ -321,7 +326,7 @@ export async function recover(options: Options) {
   const failed = [];
   for (const line of refs.split('\n').filter(Boolean)) {
     const id = line.split('refs/heads/codex/shurik-control/')[1]; validateId(id); const store = new ControlStore(ctl, id);
-    try { await reconcileLoop(store, { wake, request, secrets, dispatchNext: dispatch }); }
+    try { await reconcileLoop(store, { wake, request, secrets, dispatchNext: c => dispatch(c, store) }); }
     catch (e) { failed.push(id); console.error(redact(`Recovery ${id}: ${String(e)}`, secrets)); }
   }
   if (failed.length) throw new Error(`Recovery needs retry for: ${failed.join(', ')}`);

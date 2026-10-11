@@ -1,5 +1,5 @@
 name: Shurik
-run-name: ${{ github.event_name == 'schedule' && 'Shurik recovery' || format('Shurik {0} / {1} {2}-{3}', inputs.loop_id, inputs.command, inputs.generation, inputs.iteration) }}
+run-name: ${{ github.event_name == 'schedule' && 'Shurik recovery' || (inputs.command == 'iterate' && format('Shurik {0} / iterate {1}', inputs.loop_id, inputs.iteration) || format('Shurik {0} / {1}', inputs.loop_id, inputs.command)) }}
 on:
   schedule:
     - cron: '*/15 * * * *'
@@ -40,7 +40,7 @@ on:
         default: '1'
         type: string
       iteration:
-        description: Internal continuation sequence
+        description: Continuous iteration number across resumes
         default: '1'
         type: string
 permissions:

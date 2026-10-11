@@ -22,7 +22,7 @@ export function timeRemainingInstructions(iterationEndsAt: number, deadline?: st
     + 'Keep pursuing useful work after saving the handoff until preemption; this reminder is not a request to stop early.';
 }
 
-export async function snapshotJournal(root: Conversation, journal: string, output: string, context: Context) {
+export async function snapshotJournal(root: Pick<Conversation, 'id' | 'commit'>, journal: string, output: string, context: Context) {
   const destination = join(output, CHECKPOINT_JOURNAL);
   await rm(destination, { recursive: true, force: true });
   // Hold Pi's mutation line: preceding fsync commits have settled and no journal

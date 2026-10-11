@@ -6,15 +6,10 @@ import { join } from 'node:path';
 import { readdir } from 'node:fs/promises';
 import { api, jobLog, git, readJson, saveJson, type ControlStore } from './github.ts';
 import { redact, cancelledForLoop, stopped } from './policy.ts';
+import { runFence } from './iterations.ts';
+export { runFence } from './iterations.ts';
 
-export function runFence(control: Control, run: Run) {
-  const match = /^(?:Shurik|Ralph) ([a-z0-9-]+) \/ (start|iterate) (\d+)-(\d+)$/.exec(run.display_title ?? '');
-  if (match?.[1] === control.id) return { generation: Number(match[3]), iteration: Number(match[4]), command: match[2] };
-  if (control.owner?.runId === String(run.id)) return { generation: control.owner.generation, iteration: control.owner.iteration, command: 'iterate' };
-  if (control.lastRunId === String(run.id)) return { generation: control.generation, iteration: Math.max(1, control.next - 1), command: 'iterate' };
-  return null;
-}
-export function failureKey(run: Run) {
+export function failureKey(run: Pick<Run, 'id' | 'run_attempt'>) {
   const key = `${run.id}-${run.run_attempt ?? 1}`;
   if (!/^\d+-\d+$/.test(key)) throw new Error('Invalid failure run identity');
   return key;
@@ -82,7 +77,8 @@ export async function reconcileLoop(store: ControlStore, { wake, request = api, 
         if (value.owner?.runId !== String(run.id)) return null;
         if (value.status !== 'running' || run.conclusion === 'cancelled') return {
           ...value, status: value.status === 'running' ? 'stopped' : value.status,
-          owner: null, lastRunId: String(run.id), stoppedAt: value.stoppedAt ?? new Date().toISOString()
+          owner: null, next: Math.max(value.next, value.owner.iteration + 1), lastDispatchAt: null,
+          lastRunId: String(run.id), stoppedAt: value.stoppedAt ?? new Date().toISOString()
         };
         return { ...value, owner: null, next: value.next + 1, lastRunId: String(run.id),
           recovery: { runId: String(run.id), conclusion: run.conclusion, at: new Date().toISOString() }, lastDispatchAt: null };
