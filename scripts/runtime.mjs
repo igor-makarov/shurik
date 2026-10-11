@@ -1,3 +1,4 @@
+import { PATHS } from './paths.mjs';
 import { spawn } from 'node:child_process';
 import { cp, mkdir, readFile, writeFile, rm, mkdtemp } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
@@ -17,7 +18,7 @@ export async function buildRuntime(repository, source, stable, cache = new Map()
   cache.set(source, bundle); return bundle;
 }
 async function temporary(name, stable) {
-  const root = process.env.RUNNER_TEMP ?? join(stable, '.shurik-local');
+  const root = process.env.RUNNER_TEMP ?? join(stable, PATHS.localRoot);
   await mkdir(root, { recursive: true }); return mkdtemp(join(root, name));
 }
 export async function validateCandidate(workspace, stable, journal, destination) {
@@ -49,10 +50,10 @@ export async function validateCandidate(workspace, stable, journal, destination)
 export async function launchWorker({ workspace, state, bundle, req, onCheckpoint, onPoll, key, stable }) {
   const io = await temporary('shurik-io-', stable); await mkdir(join(io, 'output'));
   await saveJson(join(io, 'request.json'), { ...req, checkpointHandshake: true, cwd: resolve(workspace),
-    journal: resolve(state, 'pi-jsonl'), output: join(io, 'output') });
+    journal: resolve(state, PATHS.journal), output: join(io, 'output') });
   // Prototype: run directly on the Actions runner, including its repository-scoped GitHub token.
   // A process group supports timeout/cancellation cleanup; checkpoints are cooperative Pi hooks.
-  const child = spawn(process.execPath, [resolve(bundle), join(io, 'request.json')], { cwd: workspace,
+  const child = spawn(process.execPath, [join(stable, 'bin/shurik.mjs'), 'worker', '--bundle', resolve(bundle), '--request', join(io, 'request.json')], { cwd: workspace,
     env: { ...process.env, ...(key === undefined ? {} : { OPENCODE_API_KEY: key }) }, detached: true, stdio: ['ignore', 'pipe', 'pipe'] });
   let log = ''; for (const stream of [child.stdout, child.stderr]) stream.on('data', d => { log = (log + d).slice(-16000); });
   let exited = false; const done = new Promise((resolve, reject) => {
@@ -108,7 +109,7 @@ export async function inspectJournal(bundle, journal, stable) {
   try {
     // Inspection is read-only at the Pi API; use a disposable copy because opening can reclaim sidecars.
     await cp(journal, join(io, 'journal'), { recursive: true });
-    await command(process.execPath, [resolve(bundle), join(io, 'request.json')], stable);
+    await command(process.execPath, [join(stable, 'bin/shurik.mjs'), 'worker', '--bundle', resolve(bundle), '--request', join(io, 'request.json')], stable);
     return (await readJson(join(io, 'result.json'))).outcome === 'readable';
   } catch { return false; }
   finally { await rm(io, { recursive: true, force: true }); }

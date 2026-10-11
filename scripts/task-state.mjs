@@ -1,3 +1,4 @@
+import { PATHS } from './paths.mjs';
 import { cp, lstat, mkdir, readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { readJson, saveJson } from './github.mjs';
@@ -33,9 +34,9 @@ async function safeTree(root, path) {
 
 // Explicitly selected ignored task state travels with the journal on the control branch.
 export async function snapshotTaskState(workspace, state, workCommit) {
-  const config = await readJson(join(workspace, '.shurik/config.json'), {});
+  const config = await readJson(join(workspace, PATHS.config), {});
   const paths = validatePaths(config.checkpointPaths ?? []);
-  const root = join(state, 'task-files');
+  const root = join(state, PATHS.taskFiles);
   await rm(root, { recursive: true, force: true });
   await mkdir(root, { recursive: true });
   for (const path of paths) {
@@ -43,15 +44,15 @@ export async function snapshotTaskState(workspace, state, workCommit) {
     await mkdir(join(root, path, '..'), { recursive: true });
     await cp(join(workspace, path), join(root, path), { recursive: true });
   }
-  await saveJson(join(state, 'task-files.json'), { version: 1, workCommit, paths });
+  await saveJson(join(state, PATHS.taskManifest), { version: 1, workCommit, paths });
 }
 
 export async function restoreTaskState(workspace, state, workCommit) {
-  const manifest = await readJson(join(state, 'task-files.json'), null);
+  const manifest = await readJson(join(state, PATHS.taskManifest), null);
   if (!manifest) return;
   if (manifest.version !== 1 || manifest.workCommit !== workCommit) throw new Error('Task snapshot does not match saved work commit');
   const paths = validatePaths(manifest.paths);
-  const root = join(state, 'task-files');
+  const root = join(state, PATHS.taskFiles);
   // Restoring only absent files keeps newer Git/maintainer state authoritative.
   for (const path of paths) {
     if (!await safeTree(root, path)) continue;

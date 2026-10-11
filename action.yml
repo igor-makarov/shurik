@@ -1,0 +1,72 @@
+name: Shurik
+description: Run durable Pi agent loops against the calling repository
+branding:
+  icon: repeat
+  color: purple
+inputs:
+  command:
+    description: start, iterate, stop, resume, or recover
+  loop-id:
+    description: Unique loop ID (lowercase letters, digits, hyphens)
+  model:
+    description: OpenCode Go model; defaults to project configuration on start
+  reasoning:
+    description: Explicit model reasoning level; required for start and resume
+  seconds:
+    description: Iteration budget in seconds (10–1800)
+  deadline:
+    description: Optional absolute future timestamp
+  source-ref:
+    description: Consumer branch or commit to start from
+  generation:
+    description: Internal continuation generation
+  iteration:
+    description: Internal continuation sequence
+  workflow:
+    description: Consumer iteration workflow filename
+    default: ralph.yml
+  inputs:
+    description: Optional workflow-dispatch inputs JSON; explicit action inputs override it
+    default: '{}'
+  token:
+    description: Repository-scoped token with contents, pull-requests, and actions write access
+    default: ${{ github.token }}
+  opencode-api-key:
+    description: OpenCode Go key; required for agent execution
+outputs:
+  engine-revision:
+    description: Resolved engine commit used by this invocation
+    value: ${{ steps.shurik.outputs.engine-revision }}
+  state-path:
+    description: Canonical session path within the agent task checkout
+    value: ${{ steps.shurik.outputs.state-path }}
+  control-branch:
+    description: Consumer branch containing control and session data
+    value: ${{ steps.shurik.outputs.control-branch }}
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      with:
+        node-version: 24.14.0
+    - id: shurik
+      name: Run Shurik CLI
+      shell: bash
+      env:
+        SHURIK_ACTION_PATH: ${{ github.action_path }}
+        SHURIK_ACTION_REPOSITORY: ${{ github.action_repository || github.repository }}
+        SHURIK_ACTION_REF: ${{ github.action_ref || github.sha }}
+        SHURIK_INPUTS: ${{ inputs.inputs }}
+        SHURIK_COMMAND: ${{ inputs.command }}
+        SHURIK_LOOP_ID: ${{ inputs.loop-id }}
+        SHURIK_MODEL: ${{ inputs.model }}
+        SHURIK_REASONING: ${{ inputs.reasoning }}
+        SHURIK_SECONDS: ${{ inputs.seconds }}
+        SHURIK_DEADLINE: ${{ inputs.deadline }}
+        SHURIK_SOURCE_REF: ${{ inputs.source-ref }}
+        SHURIK_GENERATION: ${{ inputs.generation }}
+        SHURIK_ITERATION: ${{ inputs.iteration }}
+        SHURIK_WORKFLOW: ${{ inputs.workflow }}
+        GITHUB_TOKEN: ${{ inputs.token }}
+        OPENCODE_API_KEY: ${{ inputs.opencode-api-key }}
+      run: node "$SHURIK_ACTION_PATH/action/run.mjs"

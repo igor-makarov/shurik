@@ -1,10 +1,26 @@
 {
   "name": "shurik",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "Reusable Pi Durable agent loops for GitHub Actions",
+  "bin": {
+    "shurik": "bin/shurik.mjs"
+  },
+  "files": [
+    "bin",
+    "scripts",
+    "src",
+    "dist",
+    "tests/worker.test.mjs",
+    "tsconfig.json",
+    "action.yml",
+    "action"
+  ],
   "type": "module",
-  "engines": { "node": ">=24" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
+    "shurik": "node bin/shurik.mjs",
     "check": "tsc --noEmit",
     "build": "node scripts/build.mjs",
     "test": "node --test tests/*.test.mjs",
@@ -15,5 +31,10 @@
     "@earendil-works/pi-ai": "1.0.2",
     "@earendil-works/pi-durable": "1.0.2"
   },
-  "devDependencies": { "esbuild": "0.25.12", "typescript": "5.9.3", "@types/node": "24.10.1" }
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "typescript": "5.9.3",
+    "@types/node": "24.10.1"
+  },
+  "private": true
 }

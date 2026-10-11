@@ -1,3 +1,4 @@
+import { PATHS, runtimeState } from './paths.mjs';
 import { appendFile, cp, mkdir, rm, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { commit, git, saveJson } from './github.mjs';
@@ -7,12 +8,12 @@ async function ignoreLocalState(workspace) {
   await mkdir(join(workspace, '.git', 'info'), { recursive: true });
   const exclude = join(workspace, '.git', 'info', 'exclude');
   const rules = await readFile(exclude, 'utf8').catch(e => { if (e.code === 'ENOENT') return ''; throw e; });
-  if (!rules.split('\n').includes('/.shurik-local/')) await appendFile(exclude, '\n/.shurik-local/\n');
+  if (!rules.split('\n').includes(`/${PATHS.localRoot}/`)) await appendFile(exclude, `\n/${PATHS.localRoot}/\n`);
 }
 
 async function commitWork(workspace, message) {
   await ignoreLocalState(workspace);
-  await git(workspace, 'rm', '-r', '-f', '--cached', '--ignore-unmatch', '--', '.shurik-local');
+  await git(workspace, 'rm', '-r', '-f', '--cached', '--ignore-unmatch', '--', PATHS.localRoot);
   return commit(workspace, message);
 }
 
@@ -21,9 +22,9 @@ export async function initializeCheckpoint({ workspace, state, store, control, m
   await snapshotTaskState(workspace, state, workCommit);
   const next = { ...control, checkpoint: { workCommit, generation: control.generation,
     sequence: 'initialize', runId: null, at: new Date().toISOString() } };
-  await cp(state, join(store.cwd, 'state'), { recursive: true });
+  await cp(state, join(store.cwd, PATHS.controlState), { recursive: true });
   await git(store.cwd, 'fetch', workspace, workCommit);
-  await saveJson(join(store.cwd, 'control.json'), next);
+  await saveJson(join(store.cwd, PATHS.control), next);
   const controlCommit = await commit(store.cwd, message);
   await git(store.cwd, 'push', '--atomic', 'origin', `${controlCommit}:refs/heads/${store.branch}`,
     `${workCommit}:refs/heads/${control.branch}`);
@@ -34,10 +35,10 @@ export async function loadState(store, workspace, id) {
   const { revision, value } = await store.read();
   if (value.stateStorage !== 'control') throw new Error('Loop requires its legacy pinned supervisor; state was not migrated');
   await git(store.cwd, 'checkout', '--detach', revision);
-  const state = join(workspace, '.shurik-local', 'state', id);
+  const state = runtimeState(workspace, id);
   await ignoreLocalState(workspace);
   await rm(state, { recursive: true, force: true });
-  await cp(join(store.cwd, 'state'), state, { recursive: true });
+  await cp(join(store.cwd, PATHS.controlState), state, { recursive: true });
   await restoreTaskState(workspace, state, value.checkpoint?.workCommit);
   return state;
 }
@@ -51,7 +52,7 @@ export async function publishCheckpoint({ workspace, state, store, generation, o
   await snapshotTaskState(workspace, state, workCommit);
   if (record) {
     record.workCommit = workCommit;
-    await saveJson(join(state, 'iterations', `${record.id}.json`), record);
+    await saveJson(join(state, PATHS.iterations, `${record.id}.json`), record);
   }
   const checkpoint = { workCommit, generation, sequence, runId: owner, at: new Date().toISOString() };
   const control = await store.mutate(c => {

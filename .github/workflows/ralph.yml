@@ -20,14 +20,14 @@ on:
         required: true
         type: string
       source_ref:
-        description: Optional branch or commit to start working from; supervisor stays pinned to main
+        description: Optional consumer branch or commit to start working from
         type: string
       seconds:
         description: Agent budget per iteration (10–1800 seconds)
         default: '1800'
         type: string
       deadline:
-        description: Optional absolute UTC deadline, e.g. 2026-10-04T16:00:00Z
+        description: Optional absolute UTC deadline, e.g. 2026-10-12T12:00:00Z
         type: string
       generation:
         description: Internal continuation fence
@@ -38,17 +38,13 @@ on:
         default: '1'
         type: string
       supervisor_ref:
-        description: Internal trusted supervisor revision
+        description: Legacy internal supervisor revision
         type: string
-      verification:
-        description: Disposable live runner-fault verification (requires a deadline)
-        default: false
-        type: boolean
+
 permissions:
   contents: write
   pull-requests: write
   actions: write
-  packages: write
 concurrency:
   group: shurik-worker-${{ inputs.loop_id }}
   cancel-in-progress: false
@@ -66,10 +62,14 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 24.14.0
-      - name: Build and validate trusted bootstrap
-        if: inputs.command == 'start'
-        run: npm ci --ignore-scripts && npm run verify
-      - name: Execute one iteration or initialize loop
+      - name: Execute Shurik CLI through the reusable action
+        if: hashFiles('action.yml') != ''
+        uses: ./
+        with:
+          inputs: ${{ toJSON(inputs) }}
+          opencode-api-key: ${{ secrets.OPENCODE_API_KEY }}
+      - name: Execute an existing legacy loop with its saved supervisor
+        if: hashFiles('action.yml') == ''
         env:
           GITHUB_TOKEN: ${{ github.token }}
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}

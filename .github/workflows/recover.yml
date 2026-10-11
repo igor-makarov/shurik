@@ -22,10 +22,6 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
           fetch-depth: 0
-      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      - uses: ./
         with:
-          node-version: 24.14.0
-      - env:
-          GITHUB_TOKEN: ${{ github.token }}
-          SHURIK_INPUTS: '{"command":"recover"}'
-        run: node scripts/supervisor.mjs
+          command: recover

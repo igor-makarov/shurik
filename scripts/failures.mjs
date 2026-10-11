@@ -1,3 +1,4 @@
+import { PATHS } from './paths.mjs';
 // Evidence is committed independently of the worker branch before a recovery dispatch.
 import { join } from 'node:path';
 import { readdir } from 'node:fs/promises';
@@ -43,7 +44,7 @@ export async function collectFailure(control, run, secrets, request = api, logs 
 export async function persistFailure(store, report) {
   return store.mutate(c => c.failureTrail?.includes(report.key) ? null : {
     ...c, failureTrail: [...(c.failureTrail ?? []), report.key]
-  }, `shurik: retain failure evidence ${report.key}`, { [`failures/${report.key}.json`]: report });
+  }, `shurik: retain failure evidence ${report.key}`, { [`${PATHS.failures}/${report.key}.json`]: report });
 }
 export async function reconcileLoop(store, { wake, request = api, logs = jobLog, dispatchNext, secrets = [] }) {
   let c = (await store.read()).value;
@@ -96,7 +97,7 @@ export async function importFailures(store, state) {
   const { revision, value } = await store.read(); const reports = [];
   for (const key of value.failureTrail ?? []) {
     if (!/^\d+-\d+$/.test(key)) throw new Error('Invalid failure trail key');
-    const report = JSON.parse(await git(store.cwd, 'show', `${revision}:failures/${key}.json`));
+    const report = JSON.parse(await git(store.cwd, 'show', `${revision}:${PATHS.failures}/${key}.json`));
     await saveJson(join(state, 'diagnostics/recovery', `${key}.json`), report); reports.push(report);
   }
   return reports;
@@ -112,8 +113,8 @@ export function upsertSession(sessions, record) {
   if (index < 0) sessions.push(summary); else sessions[index] = summary;
 }
 export async function recoverInterrupted(state, sessions, reports) {
-  for (const name of await readdir(join(state, 'iterations')).catch(() => [])) {
-    const path = join(state, 'iterations', name); const old = await readJson(path);
+  for (const name of await readdir(join(state, PATHS.iterations)).catch(() => [])) {
+    const path = join(state, PATHS.iterations, name); const old = await readJson(path);
     if (old.outcome !== 'running') continue;
     const report = reports.findLast(r => r.runId === old.runId && r.generation === old.generation);
     old.outcome = 'interrupted';
@@ -125,9 +126,9 @@ export async function recoverInterrupted(state, sessions, reports) {
 export function iterationPrompt(task, sequence, sessions, reports, loopId) {
   const recent = sessions.slice(-3).map(({ id, outcome, error, transcript, recovery }) => ({ id, outcome, error, transcript, recovery }));
   const failures = reports.slice(-3).map(r => ({ runId: r.runId, conclusion: r.conclusion,
-    path: `.shurik-local/state/${loopId}/diagnostics/recovery/${r.key}.json`, jobsUnavailable: r.jobsUnavailable,
+    path: `${PATHS.stateRoot}/${loopId}/${PATHS.diagnostics}/recovery/${r.key}.json`, jobsUnavailable: r.jobsUnavailable,
     jobs: r.jobs.filter(j => j.conclusion !== 'success' || j.log).map(j => ({ name: j.name, conclusion: j.conclusion,
       steps: j.steps.filter(s => s.conclusion && s.conclusion !== 'success' && s.conclusion !== 'skipped'),
       logExcerpt: j.log?.text.slice(-2000), logUnavailable: j.logUnavailable })) }));
-  return `${task}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under .shurik-local/state/${loopId}/diagnostics/recovery/. This local state comes from the control branch and is excluded from task commits. Use the initial coding-tool working directory for task changes; GITHUB_WORKSPACE is the separate supervisor checkout. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
+  return `${task}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under ${PATHS.stateRoot}/${loopId}/${PATHS.diagnostics}/recovery/. This local state comes from the control branch and is excluded from task commits. Use the initial coding-tool working directory for task changes; GITHUB_WORKSPACE is the initial consumer checkout. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
 }

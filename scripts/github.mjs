@@ -1,3 +1,4 @@
+import { PATHS, controlBranch } from './paths.mjs';
 // Stable supervisor code. This module uses built-ins only and never executes worker source.
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -61,11 +62,11 @@ export async function commit(cwd, message) {
   return git(cwd, 'rev-parse', 'HEAD');
 }
 export class ControlStore {
-  constructor(cwd, id) { this.cwd = cwd; this.branch = `codex/shurik-control/${id}`; }
+  constructor(cwd, id) { this.cwd = cwd; this.branch = controlBranch(id); }
   async read() {
     await git(this.cwd, 'fetch', 'origin', `refs/heads/${this.branch}`);
     const revision = await git(this.cwd, 'rev-parse', 'FETCH_HEAD');
-    return { revision, value: JSON.parse(await git(this.cwd, 'show', `${revision}:control.json`)) };
+    return { revision, value: JSON.parse(await git(this.cwd, 'show', `${revision}:${PATHS.control}`)) };
   }
   async mutate(change, message = 'shurik: update loop control', evidence = {}, checkpoint) {
     for (let i = 0; i < 5; i++) {
@@ -78,16 +79,16 @@ export class ControlStore {
         await saveJson(join(this.cwd, path), report);
       }
       if (checkpoint) {
-        await rm(join(this.cwd, 'state'), { recursive: true, force: true });
-        await cp(checkpoint.state, join(this.cwd, 'state'), { recursive: true });
+        await rm(join(this.cwd, PATHS.controlState), { recursive: true, force: true });
+        await cp(checkpoint.state, join(this.cwd, PATHS.controlState), { recursive: true });
         if (checkpoint.journalSnapshot) {
-          await rm(join(this.cwd, 'state/pi-jsonl'), { recursive: true, force: true });
-          await cp(checkpoint.journalSnapshot, join(this.cwd, 'state/pi-jsonl'), { recursive: true });
+          await rm(join(this.cwd, `${PATHS.controlState}/${PATHS.journal}`), { recursive: true, force: true });
+          await cp(checkpoint.journalSnapshot, join(this.cwd, `${PATHS.controlState}/${PATHS.journal}`), { recursive: true });
         }
         // Import the task commit locally. Both remote refs are then published in one Git transaction.
         await git(this.cwd, 'fetch', checkpoint.workspace, checkpoint.workCommit);
       }
-      await saveJson(join(this.cwd, 'control.json'), next); const revisionToPush = await commit(this.cwd, message);
+      await saveJson(join(this.cwd, PATHS.control), next); const revisionToPush = await commit(this.cwd, message);
       const refs = [`${revisionToPush}:refs/heads/${this.branch}`];
       if (checkpoint) refs.push(`${checkpoint.workCommit}:refs/heads/${checkpoint.workBranch}`);
       try { await git(this.cwd, 'push', ...(checkpoint ? ['--atomic'] : []), 'origin', ...refs); return next; }

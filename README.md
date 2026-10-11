@@ -1,49 +1,136 @@
 # Shurik
 
-Shurik is a Ralph loop built on Pi Durable and GitHub Actions. It works on its own repository, with the agent runner separated from repository configuration so it can later become reusable.
+Shurik runs durable coding-agent loops for your project through a reusable GitHub Action. Its core is a CLI whose subcommands orchestrate [Pi Durable](https://github.com/earendil-works/pi/tree/main/packages/durable), Git checkpoints, draft PRs, and recovery.
 
-**Status: prototype.** Workers run directly on the Actions runner with its repository-scoped token. Native-journal integration tests and a scripted runner recovery proof cover failure persistence and fallback repair. Earlier bounded Space Bunny verification used the previous Docker runtime; see [verification evidence](VERIFICATION.md) and the [design](IMPLEMENTATION_PLAN.md).
+```yaml
+- uses: igor-makarov/shurik@v1
+  with:
+    command: start
+    loop-id: my-task
+    reasoning: high
+    opencode-api-key: ${{ secrets.OPENCODE_API_KEY }}
+```
 
-## Behavior
+Use a major version such as `@v1` or, for a future breaking release, `@v2`. Every invocation uses the current release under that tag; an existing loop can receive engine updates within the same major version. Engine commit IDs in iteration records are diagnostic evidence, not a per-loop version lock.
 
-- One fresh agent context per Actions iteration, with tools to search and read past sessions.
-- OpenCode Go model access through an API key supplied as an Actions secret.
-- Task changes published through a draft PR; session history and failure diagnostics committed on the control branch.
-- A default 30-minute agent budget, followed by time for saving state and validation.
-- Continued iterations after both success and failure, until an optional user deadline or manual cancellation.
-- Validated runner updates with a working fallback source revision; autonomous workflow edits disallowed and merging controlled by the user.
+**Status:** first reusable action extraction. The agent runs directly on the Actions runner with its job credentials. Integration checks use native Pi Durable journals and scripted providers. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
 
-The user supplies the task prompt. A normal agent response does not automatically end the outer loop.
+## Add Shurik to a project
 
-Tasks can set `checkpointPaths` in their `.shurik/config.json` to a list of relative files or directories containing ignored working state (for example, `["data/posts", "data/cdx"]`). The supervisor copies these paths into the control branch with every checkpoint and restores missing files before the next worker starts. Existing task files remain authoritative, so restoration cannot roll back newer Git records. The snapshot is paired with its saved work commit; deleted files disappear from the next snapshot. Hidden paths, dependency/build directories, and symlinks are rejected. Select only task data that is safe to publish; image bytes or other large artifacts should use the task's artifact storage. Foreground tool boundaries keep these snapshots consistent; detached writers still require coordination.
+1. Add a public-safe task in `PROMPT.md` and optionally configure `.shurik/config.json`.
+2. Copy the three workflows from [examples/consumer/.github/workflows](examples/consumer/.github/workflows) to your repository’s `.github/workflows/` directory. They invoke `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
+3. Add the repository Actions secret `OPENCODE_API_KEY`, then enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**.
+4. In **Actions → Shurik Ralph → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
+5. Review the resulting draft PR. Stop with **Shurik Control → stop**, or resume with a new explicit reasoning level.
 
-## Run a loop
+A complete loop needs the iteration, control, and recovery workflows. The small action snippet above demonstrates invocation; the [complete iteration workflow](examples/consumer/.github/workflows/ralph.yml) also supplies continuation inputs and concurrency. Keep the name `Shurik Ralph` and its `Ralph <id> / <command> <generation>-<iteration>` run-name format: recovery uses them to identify first-party runs. If you rename `ralph.yml`, pass its filename through the action’s `workflow` input.
 
-Add the repository Actions secret `OPENCODE_API_KEY`. Enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests**. Workflow permissions are scoped explicitly; contributor CI uses a read-only token and no model secret.
+The workflows use repository-scoped `github.token`. Worker jobs need `contents: write`, `pull-requests: write`, and `actions: write`; control and recovery need contents and actions write access. Contributor CI should use read-only permissions and no model key.
 
-Edit `PROMPT.md` with a public-safe task. Keep task-specific prompts on a side branch if desired. In **Actions → Shurik Ralph → Run workflow**, select the default branch, `start`, a unique loop ID, a model ID, and an explicit reasoning level. Reasoning has no default value; the workflow requires it and the supervisor rejects a missing level before creating a loop. Use a level supported by the model (off, minimal, low, medium, high, xhigh, or max); Space Bunny supports low through max, not off/minimal. Unsupported levels fail explicitly rather than silently clamping. Optional `source_ref` selects the branch or commit to start working from; an omitted value starts from the supervisor revision on the default branch. The selected source commit is recorded at launch. The default model is `space-bunny-free`, selected by the maintainer. Optional `deadline` is an absolute UTC timestamp; `seconds` sets the agent budget (default 1800). Leave internal continuation fields at their defaults. The workflow creates `codex/shurik/<id>`, opens a draft PR when there are task changes, and dispatches fresh iterations. It never merges the PR.
+## Loop behavior
 
-Use **Shurik Control → stop** with the same ID to record a durable stop before cancelling the active run. **resume** requires an explicit reasoning level again and creates a new generation; optionally supply a new model and deadline. A blank model keeps the current model. Model and reasoning are saved with the generation and used for subsequent iterations. Stop does not require a reasoning level. Older pinned loops must have their supervisor/runtime upgraded before resuming; the command rejects a bootstrap that cannot apply reasoning. Cancelling an iteration in the Actions UI is also reconciled as a stop, including cancellation during handoff. Recovery is awakened on completed loop runs and by a 15-minute watchdog; GitHub may delay scheduled runs. Queued duplicates are fenced before agent execution.
+Every iteration starts a fresh model context while retaining native journals. The agent can retrieve past work through `list_sessions`, `search_sessions`, and `read_session`. A normal model response ends one iteration; the outer loop continues after success and failure until stopped or its deadline expires. Shurik never merges its draft PR.
 
-GitHub does not distinguish every cause of queued-run cancellation in its completion payload. Cancellation of the expected queued successor while no agent owns the iteration is conservatively treated as a stop. An automatically cancelled pending duplicate in that situation can therefore require explicit resume. Old test loops with retired commit attribution require a maintainer bootstrap update before resume.
+The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. A blank model on resume keeps the previous model; a blank resume deadline clears the previous deadline. Each resume creates a new generation, fencing older queued invocations.
 
-The work branch `codex/shurik/<id>` contains task code, `PROMPT.md`, and task-owned files. The control branch `codex/shurik-control/<id>` contains `control.json` plus `state/`: native journals, session index, iteration outcomes, diagnostics, malformed-journal evidence, and selected/fallback runner source commit IDs. Each checkpoint atomically pushes both branch refs and records its work commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half; control races retry from the latest control record without overwriting stop/resume decisions.
+Recovery runs after completed worker workflows and from a 15-minute watchdog. It saves available Actions failure diagnostics before redispatching. Cancelling the active loop in the Actions UI also becomes a durable stop. GitHub can delay scheduled jobs, and cancellation of an expected queued successor is conservatively treated as a stop.
 
-Each iteration loads `state/` into an ignored local directory, `.shurik-local/state/<id>/`, so the history tools and failure reports remain available without appearing in the task PR. `loop.json` there includes identity and progress metadata; deadlines, execution budgets and scheduling timestamps stay in the supervisor's control record. The worker receives the current iteration budget and overall deadline separately for time feedback. Runtime builds are local: selected and fallback source commits are checked out separately, installed from their lockfiles, and built on each runner. Generated bundles and dependencies are not committed. New loops use this layout; existing loops keep their pinned supervisor and previous layout until explicitly migrated.
+The action keeps engine code in a separate temporary checkout. The task agent edits a clone of the consumer’s working branch. `GITHUB_WORKSPACE` names the initial consumer checkout; task changes belong in the coding tools’ initial working directory. New reusable loops execute the released engine and never adopt files from the consumer as Shurik implementation. Existing legacy self-hosted loops keep their previous candidate-validation and fallback behavior.
 
-An empty work branch gets a draft PR after its first actual task changes, rather than creating a diff from loop state. The agent can edit source and `PROMPT.md` for subsequent iterations. It runs as a normal Node process and inherits the job environment, including `OPENCODE_API_KEY`, `GITHUB_TOKEN` and `GHCR_USERNAME`. The token has repository contents, PR, Actions and package write permissions. GitHub rejects workflow edits made with this token; the supervisor also drops local `.github/workflows/` edits before saving progress so a rejected push does not block failure persistence. Other files are writable. Keep credential values out of source and history. Task changes belong in the initial coding-tool checkout; `GITHUB_WORKSPACE` names the separate supervisor checkout.
+## CLI
 
-Failure trails survive independently of the work checkout. Before recovery advances a dead owner or retries dispatch, it commits an immutable `failures/<run-id>-<attempt>.json` report on the control branch, indexed by `control.json.failureTrail`. Reports contain the Actions conclusion, run link, job/step results, and bounded, redacted log excerpts. Missing or expired diagnostics are recorded explicitly. Cancellation reports are retained for stopped loops without restarting them. Subsequent iterations copy all reports into `.shurik-local/state/<id>/diagnostics/recovery/` and receive recent report summaries in their prompt. Logs and transcripts are untrusted evidence.
+Use Node 24. The repository exposes `bin/shurik.mjs` as the `shurik` executable; the action invokes this same CLI. The package is not published to npm.
 
-The worker publishes a session boundary before its first model request. Periodic checkpoints run at completed tool-round boundaries after `checkpointSeconds` (default 300 seconds, configurable in `.shurik/config.json`). The Pi hook refreshes progress instructions, saves an independent native journal copy under Pi's serialized mutation line, and waits for publication before the next model/tool round. The supervisor saves source, this prepared journal, transcript boundaries, history index, and available worker output together. It does not freeze the process for checkpoints. Progress feedback encourages continued verified progress, diagnosis and repair of blockers, and working onward after ordinary checkpoints. Only within the final checkpoint interval before preemption (five minutes by default, following `checkpointSeconds`) does it announce the current clock time, deadlines, and remaining iteration and loop time, saving partial results, committing useful progress, and leaving evidence and a resumption point for the next fresh-context iteration or a later resume. The reminder arrives at a completed tool-round boundary and directs continuing useful work after saving the handoff; startup and earlier checkpoints contain no clock, countdown, deadline or handoff reminder. A final response is reserved for fully achieved and verified task completion; blocked retrieval calls for continued diagnosis, repairs, offline validation or another promising approach while preserving evidence and respecting backoff. The supervisor handles preemption. These are agent instructions; a model final response still ends the session. An interrupted session remains searchable through the history tools up to its last published checkpoint; a session with no published boundaries is explicitly marked unavailable. Fixed candidate checks exercise this checkpoint protocol. Log excerpts retain at most 16 KiB per job, with at most ten jobs and a 2 MiB download cap per job; truncation and capture failures are labelled. Full GitHub logs remain subject to GitHub retention. [Job logs API](https://docs.github.com/en/rest/actions/workflow-jobs#download-job-logs-for-a-workflow-run)
+```sh
+npm ci --ignore-scripts
+npm run build
+node bin/shurik.mjs --help
+node bin/shurik.mjs paths --loop-id my-task --workspace /path/to/project
+```
 
-The supervisor revision is fixed when a loop starts. Changes to `scripts/` can be proposed on the working branch; activation requires a maintainer bootstrap update. Worker changes are checked in a disposable directory on the runner using fixed build/type checks and integration tests from the supervisor revision, plus a canary on copied real history. These checks inherit the job environment too. Failed candidates remain visible for repair. A promoted runner that fails structurally is quarantined and the fallback source revision is rebuilt to work on the latest task source. Provider errors preserve the runner and continue the loop.
+| Subcommand | Responsibility |
+| --- | --- |
+| `start` | Create task/control branches, save initial state, dispatch the first iteration |
+| `iterate` | Run one fenced Pi Durable iteration, publish checkpoints, dispatch the successor |
+| `stop` | Save a durable stop and cancel the active run |
+| `resume` | Start a new generation with explicit reasoning and optional model/deadline changes |
+| `recover` | Reconcile interrupted runs, retain diagnostics, and restore missing dispatches |
+| `worker --request FILE` | Execute a versioned JSON request through the Pi Durable worker |
+| `inspect --request FILE` | Open a disposable copy of a native journal without model calls |
+| `paths --loop-id ID` | Print canonical runtime and control-branch paths as JSON |
 
-## Verify locally
+Lifecycle commands expect the GitHub Actions repository, actor, ref, and token context. `--workspace` selects the consumer checkout. Explicit CLI flags override `SHURIK_INPUTS`, the dispatch JSON supplied by the action. `worker` and `inspect` need a built bundle and a version-1 request with `cwd`, `journal`, `output`, model, budget, and session fields; `worker` also requires explicit reasoning and a prompt. These are internal interfaces for local verification; ordinary consumers use the action.
 
-Use Node 24.14.0 (`mise install` if needed), then `npm ci --ignore-scripts && npm run verify`. For the full native recovery proof, run `node tests/runner-proof.mjs`. This proof checks job-environment inheritance, a rejected import failure, a probation fault, fallback coding-tool repair, re-adoption and consistent checkpoints. It uses a scripted provider and test credentials. Node is pinned by version and Actions by commit SHA. Docker is not needed.
+## Action inputs
 
-For a **bounded live verification**, launch `Shurik Ralph` with a fresh ID, `verification=true`, a short iteration budget, an explicit reasoning level, and a deadline. This intentionally breaks source and injects one initial runtime fault on a disposable working branch. A real provider iteration must use the fallback to repair it; later iterations retrieve history and continue until stopped. This mode does not change the task on the default branch.
+| Input | Purpose |
+| --- | --- |
+| `command` | `start`, `iterate`, `stop`, `resume`, or `recover`; defaults to `start` |
+| `loop-id` | Unique lowercase loop ID; required except for recovery |
+| `inputs` | Optional JSON from `${{ toJSON(inputs) }}`; explicit action inputs override it |
+| `model`, `reasoning` | Provider model and explicit reasoning level |
+| `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
+| `source-ref` | Consumer branch or commit to start from |
+| `generation`, `iteration` | Internal continuation fence supplied by Shurik |
+| `workflow` | Iteration workflow filename; default `ralph.yml` |
+| `token` | Defaults to `${{ github.token }}` |
+| `opencode-api-key` | Model credential supplied from Actions secrets |
+
+Outputs are `engine-revision` (the commit used by this invocation), `state-path` (the relative session path within the agent task checkout), and `control-branch`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
+
+## Project configuration
+
+Configuration is optional and belongs to the consumer project:
+
+```json
+{
+  "version": 1,
+  "provider": "opencode-go",
+  "model": "space-bunny-free",
+  "prompt": "PROMPT.md",
+  "iterationSeconds": 1800,
+  "checkpointSeconds": 300,
+  "checkpointPaths": []
+}
+```
+
+The iteration budget is 10–1,800 seconds; the checkpoint interval is 1–1,800 seconds. `prompt` is a relative project file. `checkpointPaths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository’s visibility; use artifact storage for large files.
+
+## Canonical session paths
+
+[scripts/paths.mjs](scripts/paths.mjs) declares layout version 1. `shurik paths --loop-id ID --workspace DIR` prints the resolved mapping. All persisted data belongs to the **consumer repository**, including when Shurik is loaded from another repository.
+
+| Data | Runtime, relative to the agent task checkout | Control branch `codex/shurik-control/<loop-id>` |
+| --- | --- | --- |
+| Session root | `.shurik-local/state/<loop-id>/` | `state/` |
+| Native Pi Durable journal | `.shurik-local/state/<loop-id>/pi-jsonl/` | `state/pi-jsonl/` |
+| History index | `.shurik-local/state/<loop-id>/history-index.json` | `state/history-index.json` |
+| Identity/progress snapshot | `.shurik-local/state/<loop-id>/loop.json` | `state/loop.json` |
+| Engine diagnostics | `.shurik-local/state/<loop-id>/runtime.json` | `state/runtime.json` |
+| Iteration records | `.shurik-local/state/<loop-id>/iterations/<generation>-<iteration>.json` | `state/iterations/<generation>-<iteration>.json` |
+| Worker/recovery diagnostics | `.shurik-local/state/<loop-id>/diagnostics/` | `state/diagnostics/` |
+| Selected ignored task data | `.shurik-local/state/<loop-id>/task-files/` | `state/task-files/` |
+| Task snapshot manifest | `.shurik-local/state/<loop-id>/task-files.json` | `state/task-files.json` |
+| Authoritative loop control | Supervisor’s private control checkout | `control.json` |
+| Immutable Actions failure evidence | Imported under session `diagnostics/recovery/` | `failures/<run-id>-<attempt>.json` |
+
+The runtime directory is ignored through Git’s local exclude file even if your project has no `.gitignore`. It never appears in the task PR. Shurik copies the complete session directory to `state/` on every checkpoint and restores it before the next worker starts. The task branch is `codex/shurik/<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions.
+
+A Pi hook publishes the session boundary before the first model request and publishes later checkpoints at completed tool-round boundaries. It takes a serialized native journal snapshot and waits for Git publication before continuing. Malformed journals are retained for diagnosis and replaced with the last readable checkpoint. Unpublished work can be lost on abrupt runner failure.
+
+Temporary engine/build/worker-I/O directories live under `RUNNER_TEMP` (locally, temporary or `.shurik-local` directories). They are not session storage. After a publication failure, `.shurik-emergency/` in the initial consumer checkout is uploaded as evidence when possible; it is not an automatic recovery source.
+
+## Development and release
+
+```sh
+npm ci --ignore-scripts
+npm run verify
+node tests/runner-proof.mjs
+```
+
+Checks cover native journal persistence, fresh contexts, coding/history tools, checkpoint races, failure recovery, model reasoning, and an unrelated consumer repository. The scripted runner proof covers the legacy self-repair path. No real model credentials are needed for these checks.
+
+Publish tested releases with immutable version tags such as `v1.0.0`, then advance the corresponding major tag `v1`. Changes within a major version must preserve the action inputs, continuation protocol, and session layout, including reading journals written by earlier releases in that major. Breaking changes use a new major tag and documented migration. Consumers choose when to move their workflow from `@v1` to `@v2`; no engine-update control branch or per-loop version lock is required.
 
 ## Caveats
 
@@ -57,8 +144,8 @@ For a **bounded live verification**, launch `Shurik Ralph` with a fresh ID, `ver
 
 **The dependency is experimental.** Pi Durable explicitly warns that its API can change without notice between releases. Compatible package versions must be pinned and state migrations tested before runner updates are adopted. [Pi Durable documentation](https://github.com/earendil-works/pi/blob/main/packages/durable/README.md)
 
-**Persistence and repair have limits.** Local checkpoints can disappear with an ephemeral runner before they are pushed. After the initial session-boundary checkpoint, checkpoints publish at tool-round boundaries after the configured interval, with the Pi hook awaiting publication. The journal copy is serialized against Pi writes; task files are stable between foreground tool rounds. Detached background writers need their own coordinated durable checkpoints and are not frozen by this hook. A model request with no tool boundary cannot publish an intermediate checkpoint. Abrupt host loss or forced Actions cancellation may lose work since the latest push; recovery preserves available Actions diagnostics independently but cannot reconstruct unpublished work. Malformed journals are retained for diagnosis and replaced with the last readable snapshot. Emergency artifacts after a push conflict are evidence for manual recovery, never trusted automatic inputs. Rebuilding a runner also depends on dependency downloads or the npm cache being available; a build failure is recorded and retried by the loop. Tests and fallback preserve an opportunity for repair, not a guarantee of repair or reversal of external side effects. GitHub outages, branch conflicts, or failures in the fixed supervisor itself can still require maintainer intervention. Changes to this protocol apply to newly started loops using the updated supervisor; existing loops retain their pinned bootstrap.
+**Persistence and repair have limits.** Local checkpoints can disappear with an ephemeral runner before they are pushed. After the initial session-boundary checkpoint, checkpoints publish at tool-round boundaries after the configured interval, with the Pi hook awaiting publication. The journal copy is serialized against Pi writes; task files are stable between foreground tool rounds. Detached background writers need their own coordinated durable checkpoints and are not frozen by this hook. A model request with no tool boundary cannot publish an intermediate checkpoint. Abrupt host loss or forced Actions cancellation may lose work since the latest push; recovery preserves available Actions diagnostics independently but cannot reconstruct unpublished work. Malformed journals are retained for diagnosis and replaced with the last readable snapshot. Emergency artifacts after a push conflict are evidence for manual recovery, never trusted automatic inputs. Rebuilding a runner also depends on dependency downloads or the npm cache being available; a build failure is recorded and retried by the loop. Tests and fallback preserve an opportunity for repair, not a guarantee of repair or reversal of external side effects. GitHub outages, branch conflicts, or failures in the fixed supervisor itself can still require maintainer intervention. Reusable loops receive the current release from their workflow’s major action tag on each run. Legacy self-hosted loops retain their original supervisor behavior.
 
 **Continued execution consumes resources.** Repeated runs use provider allowances, Actions resources, and storage. An omitted deadline means execution continues until stopped, not that usage is free or unlimited. Provider quotas, GitHub limits, service outages, and applicable usage terms still apply; chaining jobs does not remove those constraints. [Actions limits](https://docs.github.com/en/actions/reference/limits), [GitHub Actions terms](https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#actions), [OpenCode Go usage](https://opencode.ai/docs/go/#usage-limits)
 
-**Publishing is not a release.** This repository is an early design, with no compatibility commitment or production support. License selection is pending.
+**Release scope.** `v1` is the first reusable action interface. Updates within `v1` must preserve that interface and the session layout. Operational guarantees and stronger runner isolation remain future work. License selection is pending; the CLI is packaged in this repository, not published to npm.
