@@ -286,7 +286,10 @@ export async function recover(options: Options) {
   if (process.env.GITHUB_EVENT_NAME === 'workflow_dispatch' && result && result !== 'skipped') {
     const run = await api<Run>(`actions/runs/${runId}`);
     const metadata = await api<{ default_branch: string }>('');
-    if (!trustedRecovery({ workflow_run: run, repository: metadata }, repo)) throw new Error('Untrusted iteration recovery');
+    // REST run.name is the dynamic run title. Read the workflow's static name
+    // by ID rather than treating that title as the workflow identity.
+    const workflow = await api<{ name: string }>(`actions/workflows/${run.workflow_id}`);
+    if (!trustedRecovery({ workflow_run: { ...run, name: workflow.name }, repository: metadata }, repo)) throw new Error('Untrusted iteration recovery');
     const { jobs } = await api<{ jobs: (Job & { status: string })[] }>(`actions/runs/${runId}/jobs?per_page=100`);
     wake = completedIterationRun(run, result, jobs);
   }

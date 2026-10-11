@@ -147,6 +147,13 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (path.endsWith('/permission')) return Response.json({ permission: 'write' });
       if (path.endsWith('/repos/fixture/consumer')) return Response.json({ default_branch: 'main' });
       if (path.endsWith('/commits/older-task-source')) return Response.json({ sha: source });
+      if (path.endsWith('/actions/runs/100')) return Response.json({ id: 100, workflow_id: 55,
+        name: 'Shurik demo / iterate 1-1', display_title: 'Shurik demo / iterate 1-1',
+        event: 'workflow_dispatch', status: 'in_progress', conclusion: null, head_branch: 'main',
+        repository: { full_name: 'fixture/consumer' }, head_repository: { full_name: 'fixture/consumer' } });
+      if (path.endsWith('/actions/workflows/55')) return Response.json({ name: 'Shurik' });
+      if (path.endsWith('/actions/runs/100/jobs')) return Response.json({ jobs: [
+        { id: 456, name: 'iteration', status: 'completed', conclusion: 'success' } ] });
       if (path.endsWith('/pulls')) return Response.json(init.method === 'POST' ? { html_url: 'https://github.com/fixture/consumer/pull/1' } : []);
       if (path.endsWith('/dispatches')) { dispatches.push(JSON.parse(init.body)); return new Response(null, { status: 204 }); }
       throw new Error(`Unexpected API request: ${url}`);
@@ -173,6 +180,15 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(dispatches.length, 2);
     assert.equal(dispatches[1].inputs.iteration, '2');
     assert.equal(dispatches[1].inputs.supervisor_ref, undefined);
+    const oldEvent = process.env.GITHUB_EVENT_NAME, oldResult = process.env.SHURIK_ITERATION_RESULT;
+    try {
+      process.env.GITHUB_EVENT_NAME = 'workflow_dispatch'; process.env.SHURIK_ITERATION_RESULT = 'success';
+      await main({ command: 'recover' });
+      assert.equal(dispatches.length, 2, 'recovery verifies the workflow name by ID and does not duplicate the successor');
+    } finally {
+      if (oldEvent === undefined) delete process.env.GITHUB_EVENT_NAME; else process.env.GITHUB_EVENT_NAME = oldEvent;
+      if (oldResult === undefined) delete process.env.SHURIK_ITERATION_RESULT; else process.env.SHURIK_ITERATION_RESULT = oldResult;
+    }
   } finally {
     globalThis.fetch = originalFetch;
     for (const [key, value] of Object.entries(previous)) {

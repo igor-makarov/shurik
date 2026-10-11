@@ -28,7 +28,7 @@ export interface Iteration {
   error?: string; recovery?: string; usage?: unknown; workCommit?: string;
 }
 export interface Run {
-  id: number; run_attempt?: number; name: string; event: string; status: string; conclusion: string | null;
+  id: number; workflow_id: number; run_attempt?: number; name: string; event: string; status: string; conclusion: string | null;
   display_title?: string; html_url: string; head_sha: string; head_branch: string;
   run_started_at: string; updated_at: string;
   repository?: { full_name: string }; head_repository?: { full_name: string };
