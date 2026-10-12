@@ -22,9 +22,9 @@ await git(workspace, 'init'); await configureGit(workspace);
 const good = await commit(workspace, 'working baseline');
 const remote = join(dir, 'remote'); await git(dir, 'init', '--bare', remote);
 await git(workspace, 'remote', 'add', 'origin', remote);
-await saveJson(join(workspace, 'control.json'), { id: 'proof', stateStorage: 'control', branch: 'codex/shurik/proof',
+await saveJson(join(workspace, 'control.json'), { id: 'proof', stateStorage: 'control', branch: 'proof',
   status: 'running', generation: 1, next: 7, owner: { runId: '789', generation: 1, iteration: 7 } });
-await commit(workspace, 'initial control'); await git(workspace, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/proof');
+await commit(workspace, 'initial control'); await git(workspace, 'push', 'origin', 'HEAD:refs/heads/shurik-control/proof');
 await git(workspace, 'checkout', '--detach', good);
 const controlCheckout = join(dir, 'control'); await git(dir, 'clone', remote, controlCheckout); await configureGit(controlCheckout);
 const store = new ControlStore(controlCheckout, 'proof');
@@ -130,7 +130,7 @@ await assert.rejects(launchWorker({ workspace, state, bundle, stable, req: {
     throw new Error('INTENTIONAL_SUPERVISOR_LOSS_AFTER_PUBLICATION');
   }
 } }), /INTENTIONAL_SUPERVISOR_LOSS_AFTER_PUBLICATION/);
-await git(dir, 'clone', remote, published); await git(published, 'checkout', 'codex/shurik/proof');
+await git(dir, 'clone', remote, published); await git(published, 'checkout', 'proof');
 assert.ok(!(await git(published, 'ls-tree', '-r', '--name-only', 'HEAD')).includes('.shurik-local/'), 'task commits contain no framework state');
 const coldControl = join(dir, 'cold-control'); await git(dir, 'clone', remote, coldControl); await configureGit(coldControl);
 const coldStore = new ControlStore(coldControl, 'proof');

@@ -3,7 +3,7 @@ import type { api } from '../scripts/github.ts';
 
 const sha = 'a'.repeat(40);
 export function controlFixture(overrides: Partial<Control> = {}): Control {
-  return { version: 1, id: 'fixture', branch: 'codex/shurik/fixture', defaultBranch: 'main', supervisor: sha,
+  return { version: 1, id: 'fixture', branch: 'fixture', defaultBranch: 'main', supervisor: sha,
     stateStorage: 'control', status: 'running', generation: 1, next: 1, owner: null,
     seconds: 10, model: 'space-bunny-free', reasoning: 'high', source: sha,
     createdAt: '2026-10-11T00:00:00Z', lastDispatchAt: null, ...overrides };

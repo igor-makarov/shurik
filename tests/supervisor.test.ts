@@ -79,7 +79,7 @@ async function expiredFixture() {
   await writeFile(join(seed, 'fixture.txt'), 'pinned supervisor fixture\n'); const supervisor = await commit(seed, 'baseline');
   await saveJson(join(seed, 'control.json'), { version: 1, supervisor, status: 'running', generation: 2, next: 4, owner: null,
     deadline: '2020-01-01T00:00:00Z', lastDispatchAt: '2019-12-31T23:59:59Z', lastRunId: 'previous' });
-  await commit(seed, 'expired handoff'); await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/expiry');
+  await commit(seed, 'expired handoff'); await git(seed, 'push', 'origin', 'HEAD:refs/heads/shurik-control/expiry');
   await git(seed, 'checkout', '--detach', supervisor);
   async function reader(name: string) {
     const cwd = join(dir, name); await git(dir, 'clone', remote, cwd); await configureGit(cwd); return new ControlStore(cwd, 'expiry');
@@ -111,7 +111,7 @@ test('an expired skipped invocation records deadline without starting work or di
     GH_TOKEN: '', GITHUB_TOKEN: '', OPENCODE_API_KEY: ''
   } });
   assert.match(output, /invocation skipped/);
-  assert.equal(await git(f.dir, '--git-dir', f.remote, 'for-each-ref', '--format=%(refname)', 'refs/heads/codex/shurik/'), '',
+  assert.equal(await git(f.dir, '--git-dir', f.remote, 'show-ref', '--verify', '--quiet', 'refs/heads/expiry').catch(() => 'missing'), 'missing',
     'expired invocation never creates a work branch or launches an agent');
   let c = (await store.read()).value;
   assert.equal(c.status, 'deadline'); assert.equal(c.owner, null); assert.equal(c.lastDispatchAt, null);
@@ -146,7 +146,7 @@ test('an expired invocation racing resume cannot overwrite the new generation or
   assert.equal(c.next, 4); assert.ok(attempts >= 2, 'failed stale push rechecks the latest fence');
 });
 test('agent loop snapshot omits scheduling while the control record still enforces the deadline', () => {
-  const control = { ...controlFixture(), version: 1, id: 'task', branch: 'codex/shurik/task', status: 'running',
+  const control = { ...controlFixture(), version: 1, id: 'task', branch: 'task', status: 'running',
     generation: 1, next: 2, model: 'space-bunny-free', deadline: '2020-01-01T00:00:00Z', seconds: 600,
     owner: { runId: '123', generation: 1, iteration: 2, claimedAt: '2019-12-31T23:59:00Z' }, createdAt: '2019-12-31T23:58:00Z',
     lastDispatchAt: '2019-12-31T23:59:00Z', futureSchedulingField: { remainingSeconds: 30 } };
@@ -197,7 +197,7 @@ test('Git CAS race preserves a durable stop during worker finalization; no force
   await mkdir(seed); await git(dir, 'init', '--bare', remote); await git(seed, 'init'); await configureGit(seed);
   await git(seed, 'remote', 'add', 'origin', remote);
   await saveJson(join(seed, 'control.json'), { version: 1, status: 'running', generation: 1, next: 1, owner: { runId: 'one' } });
-  await commit(seed, 'start'); await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/race');
+  await commit(seed, 'start'); await git(seed, 'push', 'origin', 'HEAD:refs/heads/shurik-control/race');
   const a = join(dir, 'a'); const b = join(dir, 'b'); await git(dir, 'clone', remote, a); await git(dir, 'clone', remote, b);
   await configureGit(a); await configureGit(b);
   const stop = new ControlStore(a, 'race'); const finish = new ControlStore(b, 'race');

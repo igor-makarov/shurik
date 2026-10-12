@@ -3,12 +3,12 @@ import { mkdtemp, mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
-import { api, git, configureGit, saveJson, readJson, ControlStore } from './github.ts';
+import { api, git, configureGit, saveJson, readJson, ControlStore, checkoutTaskBranch } from './github.ts';
 import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings, validateProvider, credentialValues } from './policy.ts';
 import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.ts';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt, completedIterationRun } from './failures.ts';
 import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
-import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, workBranch } from './paths.ts';
+import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, controlBranchPrefixes, controlBranches, loopIdFromControlBranch } from './paths.ts';
 import { preserveEmergency } from './emergency.ts';
 import { projectConfig } from './config.ts';
 
@@ -66,7 +66,8 @@ async function publish(workspace: string, controlStore: ControlStore, generation
   return publishCheckpoint({ workspace, state, logs, store: controlStore, generation, owner: record ? runId : null,
     sequence: record?.id ?? 'initialize', message, record, journalSnapshot });
 }
-async function createPr(control: Control, workspace: string): Promise<{ pr: string | null; createPr: boolean | 'auto' }> {
+async function createPr(control: Control, workspace: string, controlRef: string): Promise<{ pr: string | null; createPr: boolean | 'auto' }> {
+  if (control.branch === control.defaultBranch) return { pr: null, createPr: false };
   if (control.createPr === false) return { pr: control.pr ?? null, createPr: false };
   const existing = await api<{ html_url: string }[]>(`pulls?state=open&head=${encodeURIComponent(repo!.split('/')[0] + ':' + control.branch)}`);
   if (existing[0]) return { pr: existing[0].html_url, createPr: true };
@@ -75,7 +76,7 @@ async function createPr(control: Control, workspace: string): Promise<{ pr: stri
   try {
     const pr = await api<{ html_url: string }>('pulls', 'POST', { title: `Shurik loop: ${control.id}`, head: control.branch,
       base: control.defaultBranch, draft: true,
-      body: `Autonomous Shurik task changes. Session journals and failure diagnostics are retained on the [control branch](https://github.com/${repo}/tree/codex/shurik-control/${control.id}), including partial and failed iterations. Review source, dependencies, and transcripts before merging. Workflow changes are blocked; merging is manual.` });
+      body: `Autonomous Shurik task changes. Session journals and failure diagnostics are retained on the [control branch](https://github.com/${repo}/tree/${controlRef}), including partial and failed iterations. Review source, dependencies, and transcripts before merging. Workflow changes are blocked; merging is manual.` });
     return { pr: pr.html_url, createPr: true };
   } catch (error) {
     if (String(error).includes('GitHub POST pulls: 403') && String(error).includes('GitHub Actions is not permitted to create or approve pull requests')) {
@@ -97,8 +98,11 @@ export async function start(options: Options) {
   const deadline = options.deadline || null;
   if (verification && !deadline) throw new Error('Live verification requires a deadline');
   if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Deadline must be an absolute future timestamp');
-  const source = options.source_ref ? (await api<{ sha: string }>(`commits/${encodeURIComponent(options.source_ref)}`)).sha : await git(project, 'rev-parse', 'HEAD');
-  const workspace = await clone('workspace'); await git(workspace, 'checkout', '-b', workBranch(id), source);
+  const requestedSource = options.source_ref ? (await api<{ sha: string }>(`commits/${encodeURIComponent(options.source_ref)}`)).sha : undefined;
+  const workspace = await clone('workspace');
+  const existingControl = await git(workspace, 'ls-remote', '--heads', 'origin', ...controlBranches(id).map(branch => `refs/heads/${branch}`));
+  if (existingControl) throw new Error(`Loop ${id} already exists; use resume`);
+  const { branch, source } = await checkoutTaskBranch(workspace, id, await git(project, 'rev-parse', 'HEAD'), requestedSource);
   // The Actions token cannot introduce historical/custom workflow definitions on
   // a new branch. Task source may vary; workflows must match the default branch.
   const workflowRef = `origin/${defaultBranch}`;
@@ -114,7 +118,6 @@ export async function start(options: Options) {
   await readFile(join(workspace, config.prompt), 'utf8');
   if (verification && process.env.SHURIK_ENGINE_REPOSITORY) throw new Error('Live self-repair verification is only available to legacy self-hosted loops');
   const ctl = await clone('control'); const store = new ControlStore(ctl, id);
-  const branch = workBranch(id);
   const supervisor = await git(stable, 'rev-parse', 'HEAD');
   const engine = process.env.SHURIK_ENGINE_REPOSITORY ? { repository: process.env.SHURIK_ENGINE_REPOSITORY,
     ref: process.env.SHURIK_ACTION_REF || null } : null;
@@ -124,7 +127,7 @@ export async function start(options: Options) {
     engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
     checkpointSeconds: config.checkpointSeconds, checkpointPaths: config.checkpointPaths,
     owner: null, deadline, seconds: options.seconds ? seconds : config.iterationSeconds,
-    provider: config.provider, model, reasoning, createPr: createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
+    provider: config.provider, model, reasoning, createPr: branch === defaultBranch ? false : createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, workflowRef);
   emergencyWorkspace = workspace;
   const state = runtimeState(repo, id); emergencyState = state; await mkdir(join(state, PATHS.journal), { recursive: true });
@@ -144,7 +147,7 @@ export async function start(options: Options) {
   await saveJson(join(state, PATHS.loop), loopSnapshot(control));
   await pruneAndGuard(workspace, state, workflowRef, undefined, logs);
   await initializeCheckpoint({ workspace, state, logs, store, control, message: `shurik: initialize ${id}` });
-  const decision = await createPr(control, workspace); const { pr } = decision;
+  const decision = await createPr(control, workspace, store.branch); const { pr } = decision;
   await store.mutate(c => ({ ...c, ...decision, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
   console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}`);
   await dispatch({ ...control, pr }, store);
@@ -267,7 +270,7 @@ export async function iterate(options: Options) {
     }
   }
   if (!control.pr && control.createPr !== false) {
-    const decision = await createPr(control, workspace);
+    const decision = await createPr(control, workspace, store.branch);
     await store.mutate(c => c.generation === generation ? { ...c, ...decision } : null);
   }
   // The stable control branch is authoritative: edits or cancellation during cleanup cannot resurrect the loop.
@@ -322,10 +325,11 @@ export async function recover(options: Options) {
   const request: typeof api = async <T>(path: string, method = 'GET', body?: unknown): Promise<T> =>
     wake?.id === Number(runId) && path === `actions/runs/${runId}` ? wake as T : api<T>(path, method, body);
   const ctl = await clone('recovery');
-  const refs = await git(ctl, 'ls-remote', '--heads', 'origin', 'refs/heads/codex/shurik-control/*');
+  const refs = await git(ctl, 'ls-remote', '--heads', 'origin', ...controlBranchPrefixes.map(prefix => `refs/heads/${prefix}*`));
   const failed = [];
-  for (const line of refs.split('\n').filter(Boolean)) {
-    const id = line.split('refs/heads/codex/shurik-control/')[1]; validateId(id); const store = new ControlStore(ctl, id);
+  const ids = new Set(refs.split('\n').filter(Boolean).map(line => loopIdFromControlBranch(line.split('\t')[1].slice('refs/heads/'.length))));
+  for (const id of ids) {
+    const store = new ControlStore(ctl, id);
     try { await reconcileLoop(store, { wake, request, secrets, dispatchNext: c => dispatch(c, store) }); }
     catch (e) { failed.push(id); console.error(redact(`Recovery ${id}: ${String(e)}`, secrets)); }
   }

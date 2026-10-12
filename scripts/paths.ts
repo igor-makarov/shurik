@@ -11,8 +11,16 @@ export const PATHS = Object.freeze({
   taskFiles: 'task-files', taskManifest: 'task-files.json', config: '.shurik/config.json',
   prompt: 'PROMPT.md', emergency: 'emergency', logs: 'logs',
 });
-export const workBranch = (id: string) => `codex/shurik/${validateId(id)}`;
-export const controlBranch = (id: string) => `codex/shurik-control/${validateId(id)}`;
+export const workBranch = (id: string) => validateId(id);
+export const controlBranchPrefixes = ['shurik-control/', 'codex/shurik-control/'] as const;
+export const controlBranch = (id: string) => `${controlBranchPrefixes[0]}${validateId(id)}`;
+// Existing loops retain their saved refs; new loops use only the canonical prefix.
+export const controlBranches = (id: string) => controlBranchPrefixes.map(prefix => prefix + validateId(id));
+export function loopIdFromControlBranch(branch: string) {
+  const prefix = controlBranchPrefixes.find(prefix => branch.startsWith(prefix));
+  if (!prefix) throw new Error('Not a Shurik control branch');
+  return validateId(branch.slice(prefix.length));
+}
 function runtimeDirectory(directory: string, repository: string | undefined, id: string) {
   if (!repository || !/^[\w.-]+\/[\w.-]+$/.test(repository) || repository.split('/').some(part => part === '.' || part === '..')) throw new Error('Repository must be owner/name (use --repository or GITHUB_REPOSITORY)');
   return resolve(process.env.SHURIK_HOME ?? join(homedir(), '.shurik'), directory, repository, validateId(id));

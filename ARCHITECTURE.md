@@ -77,14 +77,14 @@ The built-in GitHub token has contents/PR/Actions write permissions for the cons
 
 ## Iteration lifecycle
 
-1. `start` checks authorization, reasoning, provider/model configuration, budget, deadline, consumer source, and prompt. It initializes `codex/shurik/<id>` and `codex/shurik-control/<id>` with a paired checkpoint, then dispatches iteration 1.
+1. `start` checks authorization, reasoning, provider/model configuration, budget, deadline, consumer source, and prompt. The task branch is exactly `<id>` and the control branch is `shurik-control/<id>`. An existing task branch uses its current remote tip; a new branch uses the consumer checkout or explicit source. A different explicit source is rejected for an existing task branch. Existing loop control requires resume. Initialization publishes a paired checkpoint without inventing a task commit, then dispatches iteration 1.
 2. `iterate` reads authoritative control and claims the expected generation/iteration. Stale, duplicate, stopped, or expired invocations do not start an agent.
 3. Clone the consumer work branch and hydrate canonical session state from its control branch. Import failure evidence and mark unfinished sessions as interrupted. Save an iteration-start record.
 4. Build the current engine separately. Run the worker with the saved provider/model pair, consumer working directory, journal path, bounded budget, explicit reasoning, prompt, and history index.
 5. Pi Durable aborts pending historical work and resets to a fresh model context. Publish the native session boundary before the first model request. History tools retrieve older transcript ranges on demand.
 6. At completed tool-round boundaries, the Pi hook serializes a journal copy and waits for the supervisor to publish source, journal, session boundaries, index, and available output together. No process freeze is used for checkpoints.
 7. At yield, failure, or timeout, abort the worker and preserve partial code and diagnostics. Inspect journals on disposable copies; retain malformed data and restore the last readable snapshot if necessary.
-8. Publish the final paired checkpoint, create/update a draft PR when repository settings allow it (otherwise retain the task branch), release ownership, and re-read stop/deadline/generation state before dispatching a successor.
+8. Publish the final paired checkpoint, create/update a draft PR when repository settings allow it (otherwise retain the task branch), release ownership, and re-read stop/deadline/generation state before dispatching a successor. When the loop ID is the default branch name, such as `main`, checkpoints go directly to that branch and PR creation is always disabled at start, resume, and publication.
 
 Iteration numbers are continuous across generations: after iteration 5, a stop/resume starts iteration 6. Resume advances past any claimed interrupted owner; an unclaimed queued successor keeps its number. Reconciliation of a stopped/cancelled owner also advances the counter before clearing ownership, so recovery and resume cannot reuse an iteration that started. The internal generation changes on resume and remains in dispatch inputs, ownership fences, and persisted session IDs (`<generation>-<n>`), but is absent from run titles. Saved run IDs distinguish old and current queued runs that share a title.
 
@@ -96,7 +96,7 @@ A model final response ends an iteration, not the outer loop. A stop or deadline
 
 ```text
 Runtime under $HOME/.shurik/                Consumer control branch
-                                           codex/shurik-control/<id>
+                                           shurik-control/<id>
 state/<owner>/<repo>/<id>/                  state/
   pi-jsonl/                                  pi-jsonl/
   history-index.json                         history-index.json
@@ -114,6 +114,8 @@ emergency/<owner>/<repo>/<id>/<run>-<attempt>/  (Actions artifact only)
 ```
 
 Native `pi-jsonl/` is the complete Pi Durable directory, including its native sidecars; Shurik does not replace it with a custom transcript format. `history-index.json` indexes stable iteration IDs and published transcript bounds. `loop.json` is task-facing identity/progress metadata; scheduling and deadlines belong to authoritative `control.json`. `runtime.json` retains engine diagnostic fields and legacy candidate/fallback metadata.
+
+Earlier loops keep their saved branch names. Control lookup first tries the canonical ref and falls back to the earlier control prefix; recovery enumerates both and deduplicates loop IDs. A new start rejects an ID that already has either control ref. The task branch is read from the saved control, so existing loops continue without changing their journals or renaming branches. New IDs reserve `shurik-control` to prevent a task branch from colliding with the control namespace.
 
 Checkpoint publication copies the runtime session root to control-branch `state/` and runtime `logs/` to `state/diagnostics/`, optionally replacing the live journal with the independent serialized snapshot. `control.json.checkpoint.workCommit` identifies the paired work commit. Git `push --atomic` publishes both refs; a conflict publishes neither. Control compare-and-swap retries re-read the latest generation/owner and preserve racing stop/resume decisions. The next run restores `state/` to `$HOME/.shurik/state/<owner>/<repo>/<id>/` and moves its `diagnostics/` into `$HOME/.shurik/logs/<owner>/<repo>/<id>/` before launching the worker. The persisted layout remains version 1, so existing journals and diagnostics need no control-branch migration. The runtime root is outside the task checkout and needs no Git exclusion. `SHURIK_HOME` optionally overrides `$HOME/.shurik`. Redaction scans the task checkout, external session root, and logs before publication.
 

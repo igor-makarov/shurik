@@ -28,6 +28,8 @@ Use a major version such as `@v1` or, for a future breaking release, `@v2`. Ever
 
 One workflow handles start/stop/resume, iterations, and recovery in separate jobs. No separate recovery file or model secret for control/recovery is needed. Keep the workflow name `Shurik`, job name `iteration`, and its `Shurik <id> / <n>` iteration run-name format: recovery verifies them against GitHub. The default filename is `shurik.yml`; if you rename it, pass the new filename in the control job's `workflow` action input.
 
+The loop ID is the task branch name: `greeting-demo` writes to `greeting-demo`, and `main` writes directly to `main`. Control and sessions live on `shurik-control/<loop-id>`. A new task branch starts from the workflow checkout or `source-ref`; an existing branch starts from its current remote tip. An explicit `source-ref` must match that tip when the task branch already exists. On the repository's default branch, PR creation is always disabled, including when `create-pr: true` is supplied. Repository branch protection rules still apply. The loop ID `shurik-control` is reserved for the control namespace. Use `resume` for a loop that already has control state.
+
 The `create_pr` workflow input defaults to `auto`: create a draft PR when GitHub permits it, or save changes on the task branch and continue when the repository setting denies it. Shurik remembers a denial and does not retry it every iteration. Choose `false` to skip PR creation or `true` to enable it explicitly. The corresponding action input is `create-pr`, and the CLI option is `--create-pr auto|true|false`. Start records the choice; resume can change it. Enable **Settings → Actions → General → Allow GitHub Actions to create and approve pull requests** for automatic PRs. After enabling it for an existing loop, resume with `auto` or `true` to try again.
 
 The workflow uses repository-scoped `github.token`. Iteration jobs need `contents: write`, `pull-requests: write`, and `actions: write`; the control job also needs PR access, while recovery needs contents and actions write access. Contributor CI should use read-only permissions and no model key.
@@ -59,7 +61,7 @@ node bin/shurik.ts paths --repository owner/project --loop-id my-task --workspac
 
 | Subcommand | Responsibility |
 | --- | --- |
-| `start` | Create task/control branches, save initial state, dispatch the first iteration |
+| `start` | Initialize the loop's task/control branches, save initial state, dispatch the first iteration |
 | `iterate` | Run one fenced Pi Durable iteration, publish checkpoints, dispatch the successor |
 | `stop` | Save a durable stop and cancel the active run |
 | `resume` | Start a new generation with explicit reasoning and optional provider/model/deadline changes |
@@ -75,16 +77,16 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | Input | Purpose |
 | --- | --- |
 | `command` | `start`, `iterate`, `stop`, `resume`, or `recover`; defaults to `start` |
-| `loop-id` | Unique lowercase loop ID; required except for recovery |
+| `loop-id` | Lowercase loop ID and task branch name; `main` writes directly to `main`; required except for recovery |
 | `inputs` | Optional JSON from `${{ toJSON(inputs) }}`; explicit action inputs override it |
 | `provider` | Pi AI provider ID; defaults to `opencode-go` on start, retained on resume |
 | `model`, `reasoning` | Model ID from the selected provider and explicit reasoning level |
-| `create-pr` | `auto` (default), `true`, or `false`; denied repository PR settings become `false` without stopping the loop |
+| `create-pr` | `auto` (default), `true`, or `false`; disabled on the default branch; denied repository PR settings become `false` without stopping the loop |
 | `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
 | `prompt` | Relative task prompt file; defaults to `PROMPT.md` at start |
 | `checkpoint-seconds` | Checkpoint interval, 1–1,800 seconds; defaults to 300 at start |
 | `checkpoint-paths` | JSON array of ignored task paths to retain with sessions; defaults to `[]` |
-| `source-ref` | Consumer task branch or commit; workflow definitions come from the default branch |
+| `source-ref` | Source for a new task branch; must match an existing branch's current tip; workflow definitions come from the default branch |
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |
 | `workflow` | Iteration workflow filename; default `shurik.yml` |
 | `token` | Defaults to `${{ github.token }}` |
@@ -148,7 +150,7 @@ Existing consumers may still provide `.shurik/config.json`; it is an optional le
 
 [scripts/paths.ts](scripts/paths.ts) declares layout version 1. `shurik paths --repository OWNER/REPO --loop-id ID --workspace DIR` prints the resolved mapping. All persisted data belongs to the **consumer repository**, including when Shurik is loaded from another repository.
 
-| Data | Runtime, outside the repository | Control branch `codex/shurik-control/<loop-id>` |
+| Data | Runtime, outside the repository | Control branch `shurik-control/<loop-id>` |
 | --- | --- | --- |
 | Session root | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/` | `state/` |
 | Native Pi Durable journal | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/pi-jsonl/` | `state/pi-jsonl/` |
@@ -163,7 +165,7 @@ Existing consumers may still provide `.shurik/config.json`; it is an optional le
 | Authoritative loop control and configuration | Supervisor’s private control checkout | `control.json` |
 | Immutable Actions failure evidence | Imported under `$HOME/.shurik/logs/<owner>/<repo>/<loop-id>/recovery/` | `failures/<run-id>-<attempt>.json` |
 
-Shurik uses three directories under `$HOME/.shurik`: `state/` for sessions, `logs/` for worker and recovery diagnostics, and `emergency/` for fallback snapshots. They are outside every checkout and need no ignore rules, including no blanket `*.log` rule. Worker output is retained as bounded logs in diagnostic JSON files under `logs/`. Set `SHURIK_HOME` to override `$HOME/.shurik` without changing persisted paths. Repository and loop names isolate sessions. Shurik copies the session directory to control-branch `state/` and the runtime logs to `state/diagnostics/` on every checkpoint. The next run restores them into the separate runtime `state/` and `logs/` directories. The persisted version-1 paths stay compatible with older sessions. The task branch is `codex/shurik/<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions.
+Shurik uses three directories under `$HOME/.shurik`: `state/` for sessions, `logs/` for worker and recovery diagnostics, and `emergency/` for fallback snapshots. They are outside every checkout and need no ignore rules, including no blanket `*.log` rule. Worker output is retained as bounded logs in diagnostic JSON files under `logs/`. Set `SHURIK_HOME` to override `$HOME/.shurik` without changing persisted paths. Repository and loop names isolate sessions. Shurik copies the session directory to control-branch `state/` and the runtime logs to `state/diagnostics/` on every checkpoint. The next run restores them into the separate runtime `state/` and `logs/` directories. The persisted version-1 paths stay compatible with older sessions. The task branch is `<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions. Earlier loops retain their recorded task/control refs and remain readable, resumable, and discoverable by recovery; new loops use the names above.
 
 A Pi hook publishes the session boundary before the first model request and publishes later checkpoints at completed tool-round boundaries. It takes a serialized native journal snapshot and waits for Git publication before continuing. Malformed journals are retained for diagnosis and replaced with the last readable checkpoint. Unpublished work can be lost on abrupt runner failure.
 

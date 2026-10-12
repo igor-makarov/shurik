@@ -15,7 +15,7 @@ async function fixture(extra: Partial<Control> = {}) {
   const control = controlFixture({ version: 1, id: 'trail', status: 'running', generation: 1, next: 1,
     owner: { runId: '123', generation: 1, iteration: 1 }, ...extra });
   await saveJson(join(seed, 'control.json'), control); await commit(seed, 'start');
-  await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/trail');
+  await git(seed, 'push', 'origin', 'HEAD:refs/heads/shurik-control/trail');
   async function reader(name: string) {
     const cwd = join(dir, name); await git(dir, 'clone', remote, cwd); await configureGit(cwd); return new ControlStore(cwd, 'trail');
   }

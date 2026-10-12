@@ -101,8 +101,8 @@ property('snapshot and restore reject symlinks at any generated path depth',
   })), 50);
 
 let caseNumber = 0;
-async function fixture(directory: string, generation: number) {
-  const id = 'case-' + ++caseNumber, remote = join(directory, 'remote'), workspace = join(directory, 'workspace');
+async function fixture(directory: string, generation: number, onMain = false) {
+  const id = onMain ? 'main' : 'case-' + ++caseNumber, remote = join(directory, 'remote'), workspace = join(directory, 'workspace');
   await mkdir(workspace); await git(directory, 'init', '--bare', remote);
   await git(directory, '--git-dir', remote, 'symbolic-ref', 'HEAD', 'refs/heads/main');
   await git(workspace, 'init', '-b', 'main'); await configureGit(workspace);
@@ -115,6 +115,7 @@ async function fixture(directory: string, generation: number) {
   const store = await reader('control'); await git(store.cwd, 'checkout', '-b', controlBranch(id), 'origin/main');
   const state = runtimeState('fixture/pbt', id);
   const logs = runtimeLogs('fixture/pbt', id);
+  await rm(state, { recursive: true, force: true }); await rm(logs, { recursive: true, force: true });
   await mkdir(logs, { recursive: true });
   await saveJson(join(state, PATHS.history), []);
   await put(join(state, PATHS.journal, 'main.jsonl'), JSON.stringify({ original: true }) + '\n');
@@ -131,6 +132,38 @@ async function fixture(directory: string, generation: number) {
   };
   return { workspace, state, logs, store, remote, control, base, reader, workHead, publish, edit };
 }
+
+property('main checkpoints keep code and sessions paired without putting state on main and restore cold',
+  fc.asyncProperty(fc.array(text, { minLength: 1, maxLength: 3 }), positive,
+    (values, generation) => withDirectory(async directory => {
+      const f = await fixture(directory, generation, true);
+      assert.equal(await f.workHead(), f.base, 'initialization leaves the existing main tip unchanged');
+      assert.equal(f.store.branch, 'shurik-control/main');
+      for (const marker of values) {
+        await f.edit(marker); const work = await f.publish();
+        const { revision, value } = await f.store.read();
+        assert.equal(await f.workHead(), work); assert.equal(value.branch, 'main');
+        assert.equal(value.checkpoint!.workCommit, work);
+        assert.equal(await git(f.workspace, 'ls-tree', '-r', '--name-only', work), 'app.json');
+        assert.deepEqual(JSON.parse(await git(f.store.cwd, 'show', revision + ':state/pi-jsonl/main.jsonl')), { value: marker });
+      }
+      const cold = join(directory, 'cold-main'); await git(directory, 'clone', f.remote, cold);
+      const restored = await loadState(await f.reader('cold-main-control'), cold, 'main');
+      assert.deepEqual(await readJson(join(cold, 'app.json')), await readJson(join(restored, PATHS.journal, 'main.jsonl')));
+      assert.equal(await git(cold, 'status', '--porcelain'), '');
+    })), 8);
+
+property('main checkpoint conflicts preserve maintainer commits and leave control state unchanged',
+  fc.asyncProperty(positive, text, text, (generation, agent, maintainer) => withDirectory(async directory => {
+    const f = await fixture(directory, generation, true), other = join(directory, 'maintainer');
+    await git(directory, 'clone', f.remote, other); await configureGit(other);
+    await saveJson(join(other, 'app.json'), { author: 'maintainer', value: maintainer });
+    const maintained = await commit(other, 'maintainer edit'); await git(other, 'push', 'origin', 'main');
+    const before = await f.store.read(); await f.edit({ author: 'worker', value: agent });
+    await assert.rejects(f.publish());
+    assert.equal(await f.workHead(), maintained); assert.equal((await f.store.read()).revision, before.revision);
+    assert.deepEqual(JSON.parse(await git(other, 'show', maintained + ':app.json')), { author: 'maintainer', value: maintainer });
+  })), 8);
 
 property('generated checkpoint sequences pair code and session state and restore cold',
   fc.asyncProperty(fc.array(text, { minLength: 1, maxLength: 4 }), positive,

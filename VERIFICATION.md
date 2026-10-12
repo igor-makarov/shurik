@@ -10,7 +10,7 @@ These automated checks use scripted model responses and local Git remotes; the i
 
 ## Property-based tests
 
-`npm run test:pbt` runs 44 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 34,390 generated scenarios: 34 ordinary properties with 1,000 cases each, five filesystem properties with 50–75 cases, and five real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
+`npm run test:pbt` runs 47 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 35,406 generated scenarios: 35 ordinary properties with 1,000 cases each, five filesystem properties with 50–75 cases, and seven real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
 
 Each property has a deterministic default seed. Fast-check shrinks failures and prints the seed, shrink path, and smallest counterexample. To replay a failing property, set `SHURIK_PBT_SEED` to its printed seed and select its test name:
 
@@ -68,6 +68,11 @@ The inventory below corresponds to named properties in [properties.test.ts](test
 42. Resume retains the saved provider/model, upgrades legacy provider-free state, and does not mutate the previous control.
 43. Provider changes require an explicit model and atomically save the pair with a new generation that fences older invocations.
 44. Native provider/cloud credential values are redacted while nonsecret environment values remain unchanged.
+45. Default-branch loops retain their task branch and disable PR creation across all resume modes without mutating earlier control state.
+46. Generated checkpoints on existing `main` pair code and sessions, keep state off `main`, and restore on a cold checkout.
+47. Concurrent maintainer commits on `main` reject both checkpoint refs and preserve the maintainer's code and previous control state.
+
+Branch tests verify exact loop-name task refs, `shurik-control/<id>` control refs, reserved namespace rejection, existing-branch tip selection from an older checkout, and rejection of conflicting explicit sources. Older control refs remain readable and mutable, with canonical refs taking precedence for fresh readers. The scripted native consumer integration starts loop `main` from a newly advanced remote tip, publishes task changes directly onto `main`, retains maintainer files, keeps journals on `shurik-control/main`, and disables PR requests even with an explicit `true` at start and resume. These checks use local remotes and make no paid requests.
 
 Native HTTP transport tests exercise OpenAI Responses and Anthropic Messages through Pi AI's built-in adapters with synthetic environment credentials. They verify endpoint, provider/model selection, native authorization headers, and successful journal reopen after switching providers. The journal omits the synthetic keys; inspection works with a retired provider/model and makes no model request. The existing native OpenCode transport checks retain coverage for legacy provider-free requests. Consumer supervisor integration saves OpenAI settings at start, carries them into iteration diagnostics, switches to Anthropic on resume, rejects the older queued generation, and runs the next iteration with the new pair. These checks make no paid provider requests.
 

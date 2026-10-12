@@ -17,26 +17,26 @@ async function fixture() {
   await mkdir(seed); await git(dir, 'init', '--bare', remote); await git(seed, 'init'); await configureGit(seed);
   await writeFile(join(seed, 'app.txt'), 'original'); const base = await commit(seed, 'baseline');
   await git(seed, 'remote', 'add', 'origin', remote);
-  await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik/state-test');
+  await git(seed, 'push', 'origin', 'HEAD:refs/heads/state-test');
   await saveJson(join(seed, 'control.json'), { version: 1, id: 'state-test', stateStorage: 'control',
-    branch: 'codex/shurik/state-test', status: 'running', generation: 1, next: 1,
+    branch: 'state-test', status: 'running', generation: 1, next: 1,
     deadline: '2099-01-01T00:00:00Z', owner: { runId: '123', generation: 1, iteration: 1 } });
   await saveJson(join(seed, 'state/history-index.json'), []);
   await mkdir(join(seed, 'state/pi-jsonl'), { recursive: true });
   await writeFile(join(seed, 'state/pi-jsonl/main.jsonl'), 'OLD_JOURNAL\n');
   await commit(seed, 'initial control state');
-  await git(seed, 'push', 'origin', 'HEAD:refs/heads/codex/shurik-control/state-test');
+  await git(seed, 'push', 'origin', 'HEAD:refs/heads/shurik-control/state-test');
   async function reader(name: string) {
     const cwd = join(dir, name); await git(dir, 'clone', remote, cwd); await configureGit(cwd);
     return new ControlStore(cwd, 'state-test');
   }
   const workspace = join(dir, 'workspace'); await git(dir, 'clone', remote, workspace);
-  await configureGit(workspace); await git(workspace, 'checkout', 'codex/shurik/state-test');
+  await configureGit(workspace); await git(workspace, 'checkout', 'state-test');
   const store = await reader('control'); const state = await loadState(store, workspace, 'state-test');
   const logs = runtimeLogs('fixture/state', 'state-test');
   const publish = (options: Partial<Parameters<typeof publishCheckpoint>[0]> = {}) => publishCheckpoint({ workspace, state, logs, store, generation: 1, owner: '123',
     sequence: '1-1', message: 'paired checkpoint', ...options });
-  const workHead = () => git(dir, '--git-dir', remote, 'rev-parse', 'refs/heads/codex/shurik/state-test');
+  const workHead = () => git(dir, '--git-dir', remote, 'rev-parse', 'refs/heads/state-test');
   return { dir, remote, base, workspace, store, state, logs, reader, publish, workHead };
 }
 
@@ -59,7 +59,7 @@ test('journals, session index, malformed evidence and runtime source refs live o
   assert.equal(JSON.parse(await git(f.store.cwd, 'show', `${revision}:state/iterations/1-1.json`)).workCommit, workCommit);
   assert.ok(!(await git(f.store.cwd, 'ls-tree', '-r', '--name-only', revision)).includes('worker.cjs'));
   const freshWork = join(f.dir, 'fresh-work'); await git(f.dir, 'clone', f.remote, freshWork);
-  await git(freshWork, 'checkout', 'codex/shurik/state-test');
+  await git(freshWork, 'checkout', 'state-test');
   const freshState = await loadState(await f.reader('fresh-control'), freshWork, 'state-test');
   assert.equal(await readFile(join(freshState, 'pi-jsonl/main.jsonl'), 'utf8'), 'NEW_JOURNAL\n');
   assert.equal(JSON.parse(await readFile(join(freshState, 'history-index.json'), 'utf8'))[0].id, '1-1');
@@ -72,7 +72,7 @@ test('journals, session index, malformed evidence and runtime source refs live o
 
 test('initialization publishes both new branches with state only on control, including an empty task diff', async () => {
   const f = await fixture(); const control = controlFixture({ version: 1, stateStorage: 'control', id: 'fresh',
-    branch: 'codex/shurik/fresh', generation: 1, next: 1, owner: null, status: 'running' });
+    branch: 'fresh', generation: 1, next: 1, owner: null, status: 'running' });
   await git(f.workspace, 'checkout', '--detach', f.base);
   const cwd = join(f.dir, 'fresh-initialize'); await git(f.dir, 'clone', f.remote, cwd); await configureGit(cwd);
   await git(cwd, 'checkout', '--detach', f.base);
@@ -81,7 +81,7 @@ test('initialization publishes both new branches with state only on control, inc
   assert.equal(value.checkpoint!.workCommit, f.base, 'loop initialization creates no artificial code changes');
   const loaded = await loadState(store, f.workspace, 'fresh');
   assert.equal(await readFile(join(loaded, 'pi-jsonl/main.jsonl'), 'utf8'), 'OLD_JOURNAL\n');
-  assert.equal(await git(f.dir, '--git-dir', f.remote, 'rev-parse', 'refs/heads/codex/shurik/fresh'), f.base);
+  assert.equal(await git(f.dir, '--git-dir', f.remote, 'rev-parse', 'refs/heads/fresh'), f.base);
   assert.equal(await git(f.workspace, 'ls-tree', '-r', '--name-only', f.base), 'app.txt');
 });
 
@@ -96,7 +96,7 @@ test('ignored task discoveries survive a cold restart without rolling back newer
   assert.match(await git(f.store.cwd, 'show', `${revision}:state/task-files/data/cdx/stem.json`), /new-discovery/);
   assert.ok(!(await git(f.workspace, 'ls-tree', '-r', '--name-only', workCommit)).includes('data/cdx/'));
   const cold = join(f.dir, 'cold-task'); await git(f.dir, 'clone', f.remote, cold);
-  await git(cold, 'checkout', 'codex/shurik/state-test');
+  await git(cold, 'checkout', 'state-test');
   await writeFile(join(cold, 'data/missing.jsonl'), 'maintainer-progress\n');
   await loadState(await f.reader('cold-control'), cold, 'state-test');
   assert.match(await readFile(join(cold, 'data/cdx/stem.json'), 'utf8'), /new-discovery/);
@@ -151,9 +151,9 @@ test('resume racing a checkpoint prevents old-generation journals and source fro
 test('a concurrent task-branch edit rejects the entire checkpoint rather than publishing mismatched history', async () => {
   const f = await fixture(); const other = join(f.dir, 'maintainer');
   await git(f.dir, 'clone', f.remote, other); await configureGit(other);
-  await git(other, 'checkout', 'codex/shurik/state-test');
+  await git(other, 'checkout', 'state-test');
   await writeFile(join(other, 'app.txt'), 'maintainer edit'); await commit(other, 'maintainer edit');
-  await git(other, 'push', 'origin', 'HEAD:refs/heads/codex/shurik/state-test');
+  await git(other, 'push', 'origin', 'HEAD:refs/heads/state-test');
   const head = await f.workHead(), before = (await f.store.read()).revision;
   await writeFile(join(f.workspace, 'app.txt'), 'worker edit');
   await writeFile(join(f.state, 'pi-jsonl/main.jsonl'), 'UNPAIRED_JOURNAL');

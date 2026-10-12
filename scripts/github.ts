@@ -1,6 +1,6 @@
 import type { ExecFileOptions } from 'node:child_process';
 import { errorCode, type Control, type Publication } from './types.ts';
-import { PATHS, controlBranch } from './paths.ts';
+import { PATHS, controlBranch, controlBranches, workBranch } from './paths.ts';
 // Stable supervisor code. This module uses built-ins only and never executes worker source.
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -57,6 +57,18 @@ export async function configureGit(cwd: string) {
   await git(cwd, 'config', 'user.name', 'github-actions[bot]');
   await git(cwd, 'config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com');
 }
+export async function checkoutTaskBranch(cwd: string, id: string, fallbackSource: string, requestedSource?: string) {
+  const branch = workBranch(id);
+  let source = requestedSource ?? fallbackSource;
+  if (await git(cwd, 'ls-remote', '--heads', 'origin', `refs/heads/${branch}`)) {
+    await git(cwd, 'fetch', 'origin', `refs/heads/${branch}`);
+    const tip = await git(cwd, 'rev-parse', 'FETCH_HEAD');
+    if (requestedSource && requestedSource !== tip) throw new Error(`source-ref must match the existing task branch ${branch}`);
+    source = tip;
+  }
+  await git(cwd, 'checkout', '-B', branch, source);
+  return { branch, source };
+}
 export async function saveJson(path: string, value: unknown) { await mkdir(join(path, '..'), { recursive: true }); await writeFile(path, JSON.stringify(value, null, 2) + '\n'); }
 export async function readJson<T>(path: string, fallback?: T): Promise<T> { try { return JSON.parse(await readFile(path, 'utf8')); } catch (e) { if (errorCode(e) === 'ENOENT' && fallback !== undefined) return fallback; throw e; } }
 export async function commit(cwd: string, message: string) {
@@ -75,10 +87,16 @@ export async function copySession(state: string, destination: string, logs?: str
   }
 }
 export class ControlStore {
-  cwd: string; branch: string;
-  constructor(cwd: string, id: string) { this.cwd = cwd; this.branch = controlBranch(id); }
+  cwd: string; branch: string; legacyBranch: string;
+  constructor(cwd: string, id: string) { this.cwd = cwd; this.branch = controlBranch(id); this.legacyBranch = controlBranches(id)[1]; }
   async read() {
-    await git(this.cwd, 'fetch', 'origin', `refs/heads/${this.branch}`);
+    try { await git(this.cwd, 'fetch', 'origin', `refs/heads/${this.branch}`); }
+    catch (error) {
+      if (this.branch === this.legacyBranch) throw error;
+      try { await git(this.cwd, 'fetch', 'origin', `refs/heads/${this.legacyBranch}`); }
+      catch { throw error; }
+      this.branch = this.legacyBranch;
+    }
     const revision = await git(this.cwd, 'rev-parse', 'FETCH_HEAD');
     return { revision, value: JSON.parse(await git(this.cwd, 'show', `${revision}:${PATHS.control}`)) as Control };
   }

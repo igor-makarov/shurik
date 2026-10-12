@@ -39,7 +39,8 @@ export function resumeSettings(value: Control, options: Options): Control {
   if (provider !== priorProvider && !options.model?.trim()) throw new Error('Explicit model required when changing provider');
   return { ...value, generation, next, status: 'running', owner: null, deadline,
     provider, model: options.model?.trim() || value.model, reasoning,
-    createPr: options.create_pr === undefined ? (value.createPr ?? 'auto') : validateCreatePr(options.create_pr),
+    createPr: value.branch === value.defaultBranch ? false
+      : options.create_pr === undefined ? (value.createPr ?? 'auto') : validateCreatePr(options.create_pr),
     lastRunId: null, lastDispatchAt: new Date().toISOString() };
 }
 export function loopSnapshot(control: Control): Record<string, unknown> {
@@ -51,6 +52,7 @@ export function loopSnapshot(control: Control): Record<string, unknown> {
 }
 export function validateId(id: string | undefined): string {
   if (!/^[a-z0-9][a-z0-9-]{0,48}$/.test(id ?? '')) throw new Error('Loop ID must be 1–49 lowercase letters, numbers, or hyphens');
+  if (id === 'shurik-control') throw new Error('Loop ID shurik-control is reserved for control branches');
   return id!;
 }
 export function stopped(control: Control, now = Date.now()): boolean {

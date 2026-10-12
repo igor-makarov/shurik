@@ -10,7 +10,7 @@ import {
   validateId, validateReasoning, validateCreatePr, resumeSettings, claimable,
   stopped, cancelledForLoop, trustedRecovery, classify, nextRuntime, redact, loopSnapshot, validateProvider, credentialValues,
 } from '../scripts/policy.ts';
-import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, sessionPaths, workBranch, controlBranch } from '../scripts/paths.ts';
+import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, sessionPaths, workBranch, controlBranch, controlBranches, loopIdFromControlBranch } from '../scripts/paths.ts';
 import { projectConfig } from '../scripts/config.ts';
 import { runFence, failureKey, completedIterationRun, upsertSession, sessionSummary } from '../scripts/failures.ts';
 import { timeRemainingInstructions } from '../src/checkpoint.ts';
@@ -27,7 +27,7 @@ const forbiddenId = fc.oneof(
   identifier.map(id => '../' + id), identifier.map(id => id + '/child'),
   identifier.map(id => id + ' '), identifier.map(id => id.toUpperCase() + 'A'),
   identifier.map(id => '-' + id), fc.constant(''), fc.constant('x'.repeat(50)),
-  fc.constantFrom('\0', '.', '..', 'a;exit', 'a\nb', 'a\\b', 'a~1', 'a.lock'),
+  fc.constantFrom('\0', '.', '..', 'a;exit', 'a\nb', 'a\\b', 'a~1', 'a.lock', 'shurik-control'),
 );
 const title = (id: string, generation: number, iteration: number, prefix = 'Shurik') =>
   prefix + ' ' + id + ' / iterate ' + generation + '-' + iteration;
@@ -36,11 +36,26 @@ const copy = (value: unknown) => JSON.stringify(value);
 property('valid loop IDs produce confined paths and separate work/control refs',
   fc.property(identifier, repository, (id, repo) => {
     assert.equal(validateId(id), id);
+    assert.equal(workBranch(id), id);
+    assert.equal(controlBranch(id), 'shurik-control/' + id);
+    for (const branch of controlBranches(id)) assert.equal(loopIdFromControlBranch(branch), id);
     assert.notEqual(workBranch(id), controlBranch(id));
     const path = relative(join(home, 'state'), runtimeState(repo, id));
     assert.equal(path, repo + '/' + id);
     assert.ok(!isAbsolute(path) && !path.startsWith('../'));
   }));
+
+property('default-branch loops keep their task branch and disable PRs across resumes',
+  fc.property(control, fc.constantFrom(undefined, 'auto', true, false, 'true', 'false'), reasoning,
+    (value, mode, level) => {
+      const previous = { ...value, id: 'main', branch: 'main', defaultBranch: 'main', status: 'stopped' as const };
+      const before = copy(previous);
+      const resumed = resumeSettings(previous, { reasoning: level, create_pr: mode });
+      assert.equal(resumed.branch, 'main'); assert.equal(resumed.createPr, false);
+      assert.equal(resumed.generation, previous.generation + 1);
+      assert.equal(resumed.checkpoint?.workCommit, previous.checkpoint?.workCommit);
+      assert.equal(copy(previous), before);
+    }));
 
 property('unsafe loop IDs are rejected by every path and ref entry point',
   fc.property(forbiddenId, id => {

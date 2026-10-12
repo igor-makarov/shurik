@@ -93,12 +93,12 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   await git(project, 'remote', 'add', 'origin', remote);
   await git(project, 'push', 'origin', 'HEAD:refs/heads/main');
   const ctl = join(dir, 'control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
-  await git(ctl, 'checkout', '-b', 'codex/shurik-control/demo', 'origin/main');
+  await git(ctl, 'checkout', '-b', 'shurik-control/demo', 'origin/main');
   const store = new ControlStore(ctl, 'demo'), state = runtimeState(process.env.GITHUB_REPOSITORY, 'demo');
   await mkdir(join(state, PATHS.journal), { recursive: true });
   await saveJson(join(state, PATHS.history), []);
   await initializeCheckpoint({ workspace: project, state, store,
-    control: controlFixture({ version: 1, id: 'demo', stateStorage: 'control', branch: 'codex/shurik/demo',
+    control: controlFixture({ version: 1, id: 'demo', stateStorage: 'control', branch: 'demo',
       generation: 1, next: 1, owner: null, status: 'running' }), message: 'initialize consumer' });
   const request: WorkerRequest = { version: 1, id: 'demo:1-1', model: 'space-bunny-free', reasoning: 'high',
     seconds: 10, sessions: [], prompt: 'Use coding tools on the consumer',
@@ -112,7 +112,7 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
     sequence: '1-1', message: 'save consumer history', record: session });
   assert.deepEqual((await git(project, 'ls-tree', '-r', '--name-only', 'HEAD')).split('\n'), ['PROMPT.md', 'demo.txt']);
   assert.equal(await readFile(join(project, 'demo.txt'), 'utf8'), 'UNRELATED_CONSUMER_HISTORY');
-  const cold = join(dir, 'cold'); await git(dir, 'clone', remote, cold); await git(cold, 'checkout', 'codex/shurik/demo');
+  const cold = join(dir, 'cold'); await git(dir, 'clone', remote, cold); await git(cold, 'checkout', 'demo');
   const restored = await loadState(store, cold, 'demo');
   const retrieved = await launchWorker({ workspace: cold, state: restored, bundle, stable: resolve('.'), req: {
     ...request, id: 'demo:1-2', sessions: await readJson<Sessions>(join(restored, PATHS.history)),
@@ -202,6 +202,8 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
     const store = new ControlStore(ctl, 'demo');
     const started = (await store.read()).value;
+    assert.equal(started.branch, 'demo'); assert.equal(store.branch, 'shurik-control/demo');
+    await assert.rejects(main({ command: 'start', loop_id: 'demo', reasoning: 'high' }), /already exists; use resume/);
     assert.equal(started.provider, 'openai'); assert.equal(started.model, 'gpt-6-sol');
     assert.equal(await git(ctl, 'show', `${(await store.read()).revision}:.github/workflows/shurik.yml`), 'name: Current workflow');
     await git(ctl, 'fetch', 'origin', started.branch);
@@ -271,6 +273,30 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       { provider: 'anthropic', model: 'claude-haiku-4-5' });
     await main({ command: 'start', loop_id: 'without-pr', reasoning: 'high', create_pr: false, source_ref: 'older-task-source' });
     assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
+    const maintainer = join(dir, 'maintainer'); await git(dir, 'clone', remote, maintainer); await configureGit(maintainer);
+    await writeFile(join(maintainer, 'maintainer.txt'), 'LATEST_MAIN_CHANGE');
+    const maintained = await commit(maintainer, 'advance main after the consumer checkout');
+    await git(maintainer, 'push', 'origin', 'main');
+    await assert.rejects(main({ command: 'start', loop_id: 'main', reasoning: 'high', source_ref: 'older-task-source' }), /source-ref must match/);
+    await main({ command: 'start', loop_id: 'main', reasoning: 'high', create_pr: true, seconds: '20', checkpoint_seconds: '1' });
+    const mainStore = new ControlStore(ctl, 'main'), mainStarted = (await mainStore.read()).value;
+    assert.equal(mainStarted.branch, 'main'); assert.equal(mainStarted.source, maintained);
+    assert.equal(mainStarted.createPr, false); assert.equal(mainStore.branch, 'shurik-control/main');
+    assert.equal(await git(dir, '--git-dir', remote, 'rev-parse', 'main'), maintained, 'starting on main makes no artificial task commit');
+    await main({ command: 'iterate', loop_id: 'main', generation: '1', iteration: '1' });
+    const mainFinished = await mainStore.read(); await git(ctl, 'fetch', 'origin', 'main');
+    assert.equal(mainFinished.value.next, 2); assert.equal(mainFinished.value.pr, null); assert.equal(mainFinished.value.createPr, false);
+    assert.equal(await git(dir, '--git-dir', remote, 'rev-parse', 'main'), mainFinished.value.checkpoint!.workCommit);
+    assert.equal(await git(ctl, 'show', `${mainFinished.value.checkpoint!.workCommit}:maintainer.txt`), 'LATEST_MAIN_CHANGE');
+    assert.equal(await git(ctl, 'show', `${mainFinished.value.checkpoint!.workCommit}:consumer-result.txt`), 'SUPERVISOR_CONSUMER_PROOF');
+    assert.equal(JSON.parse(await git(ctl, 'show', `${mainFinished.revision}:state/iterations/1-1.json`)).outcome, 'yielded');
+    assert.equal(await git(ctl, 'ls-tree', '-r', '--name-only', mainFinished.value.checkpoint!.workCommit),
+      '.github/workflows/shurik.yml\nPROMPT.md\nconsumer-result.txt\nmaintainer.txt\nprovider-selection.json');
+    assert.equal(prAttempts, 2, 'main never attempts a PR even with create-pr true');
+    await main({ command: 'stop', loop_id: 'main' });
+    await main({ command: 'resume', loop_id: 'main', reasoning: 'medium', create_pr: true });
+    assert.equal((await mainStore.read()).value.createPr, false, 'main cannot enable PR creation on resume');
+    await main({ command: 'stop', loop_id: 'main' });
     failDispatch = true;
     await assert.rejects(main({ command: 'start', loop_id: 'failed-dispatch', reasoning: 'high', create_pr: false }), /INJECTED_DISPATCH_FAILURE/);
     const emergency = runtimeEmergency('fixture/consumer', 'failed-dispatch');

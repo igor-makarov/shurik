@@ -7,7 +7,7 @@ inputs:
   command:
     description: start, iterate, stop, resume, or recover
   loop-id:
-    description: Unique loop ID (lowercase letters, digits, hyphens)
+    description: Loop ID and task branch (lowercase letters, digits, hyphens); use main to work directly on main
   provider:
     description: Pi AI provider ID; defaults to opencode-go on start, retained on resume
   model:
@@ -21,13 +21,13 @@ inputs:
   reasoning:
     description: Explicit model reasoning level; required for start and resume
   create-pr:
-    description: auto (default), true or false; auto creates a draft PR when repository settings allow it
+    description: auto (default), true or false; always disabled when the task branch is the default branch
   seconds:
     description: Iteration budget in seconds (10–1800)
   deadline:
     description: Optional absolute future timestamp
   source-ref:
-    description: Consumer branch or commit to start from
+    description: Source for a new task branch; must match the current tip when the task branch already exists
   generation:
     description: Internal continuation generation
   iteration:

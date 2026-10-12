@@ -12,7 +12,7 @@ on:
         options: [start, stop, resume, iterate]
         default: start
       loop_id:
-        description: Unique lowercase loop ID
+        description: Loop ID and task branch; use main to work directly on main
         required: true
         type: string
       reasoning:
@@ -30,7 +30,7 @@ on:
         options: [auto, 'true', 'false']
         default: auto
       source_ref:
-        description: Optional project branch or commit for start
+        description: Source for a new task branch; existing branches use their current tip
         type: string
       seconds:
         description: Optional iteration budget for start (10–1800 seconds)
