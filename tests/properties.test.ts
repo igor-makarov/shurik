@@ -14,6 +14,9 @@ import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, sessionPaths, workB
 import { projectConfig } from '../scripts/config.ts';
 import { runFence, failureKey, completedIterationRun, upsertSession, sessionSummary } from '../scripts/failures.ts';
 import { timeRemainingInstructions } from '../src/checkpoint.ts';
+import { registerUnlistedModel } from '../src/models.ts';
+import { builtinModels } from '@earendil-works/pi-ai/providers/all';
+import { getSupportedThinkingLevels } from '@earendil-works/pi-ai/models';
 import { parseArgs } from '../bin/shurik.ts';
 import { actionOptions } from '../action/run.ts';
 import { property, text, identifier, positive, control, terminal, reasoning, sha } from './pbt-support.ts';
@@ -32,6 +35,35 @@ const forbiddenId = fc.oneof(
 const title = (id: string, generation: number, iteration: number, prefix = 'Shurik') =>
   prefix + ' ' + id + ' / iterate ' + generation + '-' + iteration;
 const copy = (value: unknown) => JSON.stringify(value);
+
+property('unlisted IDs preserve exact provider/model/reasoning and native adapter/auth without changing bundled metadata',
+  fc.property(identifier, reasoning, fc.constantFrom('opencode-go', 'openai', 'anthropic'), (id, level, providerId) => {
+    const models = builtinModels(), original = models.getProvider(providerId)!;
+    const before = copy(original.getAllModels?.() ?? original.getModels()), modelId = 'unlisted-proof-' + id;
+    assert.equal(registerUnlistedModel(models, providerId, modelId, level), true);
+    const model = models.getModel(providerId, modelId)!;
+    assert.equal(model.id, modelId); assert.equal(model.provider, providerId);
+    assert.ok(getSupportedThinkingLevels(model).includes(level));
+    assert.equal(model.thinkingLevelMap?.[level], level);
+    assert.ok(original.getModels().some(template => template.api === model.api && template.baseUrl === model.baseUrl
+      && template.maxTokens === model.maxTokens && template.contextWindow === model.contextWindow));
+    assert.equal(models.getProvider(providerId)!.stream, original.stream);
+    assert.equal(models.getProvider(providerId)!.auth, original.auth);
+    assert.equal(copy(original.getAllModels?.() ?? original.getModels()), before);
+    const count = models.getModels(providerId).length;
+    assert.equal(registerUnlistedModel(models, providerId, modelId, level), false);
+    assert.equal(models.getModels(providerId).length, count);
+  }));
+
+property('listed models retain their exact metadata and reasoning restrictions instead of receiving provisional defaults',
+  fc.property(reasoning, fc.constantFrom(['opencode-go', 'deepseek-v4.1-flash'], ['openai', 'gpt-6-sol'],
+    ['anthropic', 'claude-haiku-4-5']), (level, [providerId, modelId]) => {
+      const models = builtinModels(), provider = models.getProvider(providerId), model = models.getModel(providerId, modelId)!;
+      const before = copy(model), supported = getSupportedThinkingLevels(model);
+      assert.equal(registerUnlistedModel(models, providerId, modelId, level), false);
+      assert.equal(models.getModel(providerId, modelId), model); assert.equal(models.getProvider(providerId), provider);
+      assert.deepEqual(getSupportedThinkingLevels(model), supported); assert.equal(copy(model), before);
+    }));
 
 property('valid loop IDs produce confined paths and separate work/control refs',
   fc.property(identifier, repository, (id, repo) => {

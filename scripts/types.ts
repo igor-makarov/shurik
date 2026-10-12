@@ -46,7 +46,7 @@ export interface Failure {
   url: string; headSha: string; startedAt: string; completedAt: string; collectedAt: string;
   interruptedOwner: boolean; jobs: FailureJob[]; jobsTruncated?: boolean; jobsUnavailable?: string;
 }
-export interface WorkerResult { version: number; outcome: Outcome | 'readable'; provider?: string; model?: string; reasoning?: string; error?: unknown; usage?: unknown; captured?: unknown[]; minEntryId?: number; maxEntryId?: number }
+export interface WorkerResult { version: number; outcome: Outcome | 'readable'; provider?: string; model?: string; reasoning?: string; provisionalModel?: boolean; error?: unknown; usage?: unknown; captured?: unknown[]; minEntryId?: number; maxEntryId?: number }
 export interface WorkerReport { outcome: Outcome; result: WorkerResult | null; log: string; code?: number | null }
 export type WorkerRequest = Omit<Request, 'cwd' | 'journal' | 'output'>;
 export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string; phase: 'started' | 'tools' }

@@ -137,7 +137,7 @@ test('worker rejects missing, invalid and unsupported reasoning instead of choos
   for (const reasoning of [undefined, '', 'automatic']) {
     await assert.rejects(runIteration({ ...req, reasoning } as unknown as WorkerRequest), /Explicit reasoning level required/);
   }
-  await assert.rejects(runIteration({ ...req, reasoning: 'minimal' }), /does not support reasoning minimal/);
+  await assert.rejects(runIteration({ ...req, model: 'deepseek-v4.1-flash', reasoning: 'minimal' }), /does not support reasoning minimal/);
 });
 
 test('native OpenCode requests send explicit reasoning, apply changes and retain session header across reset', async () => {
@@ -162,7 +162,7 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.9');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.10');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
@@ -232,13 +232,72 @@ test('native OpenAI and Anthropic adapters resolve environment credentials and s
   }
 });
 
-test('worker rejects unknown providers and mismatched provider/model pairs', async () => {
+test('worker rejects providers without an adapter', async () => {
   const f = await fixture(), { runIteration } = loadWorker();
   const req: WorkerRequest = { version: 1, id: 'invalid-provider', cwd: f.cwd, journal: f.journal,
     output: join(f.dir, 'invalid'), prompt: 'Yield', provider: 'unknown-provider', model: 'space-bunny-free',
     reasoning: 'high', seconds: 1, sessions: [] };
   await assert.rejects(runIteration(req), /Unknown Pi AI provider/);
-  await assert.rejects(runIteration({ ...req, provider: 'openai' }), /Unknown chat model for openai/);
+});
+
+test('unlisted model IDs reach the native provider with explicit reasoning; missing IDs return provider errors', async () => {
+  const f = await fixture(), { runIteration } = loadWorker();
+  const originalFetch = globalThis.fetch, originalKey = process.env.OPENCODE_API_KEY;
+  const requests: { url: string; headers: Headers; body: { model: string; reasoning_effort: string; max_tokens: number } }[] = [];
+  process.env.OPENCODE_API_KEY = 'SYNTHETIC_UNLISTED_MODEL_KEY';
+  globalThis.fetch = async (url, options = {}) => {
+    const request = { url: String(url), headers: new Headers(options.headers), body: JSON.parse(options.body as string) };
+    requests.push(request);
+    if (request.body.model === 'missing-native-model') return Response.json({ error: {
+      message: 'MODEL_NOT_FOUND_NATIVE_PROOF', type: 'invalid_request_error', code: 'model_not_found',
+    } }, { status: 404 });
+    if (['xhigh', 'max'].includes(request.body.reasoning_effort)) return Response.json({ error: {
+      message: 'REASONING_LEVEL_NOT_SUPPORTED_NATIVE_PROOF', type: 'invalid_request_error',
+    } }, { status: 400 });
+    const chunks = [
+      { id: 'unlisted', object: 'chat.completion.chunk', created: 1, model: request.body.model,
+        choices: [{ index: 0, delta: { role: 'assistant', content: 'Exact model worked.' }, finish_reason: null }] },
+      { id: 'unlisted', object: 'chat.completion.chunk', created: 1, model: request.body.model,
+        choices: [{ index: 0, delta: {}, finish_reason: 'stop' }], usage: { prompt_tokens: 10, completion_tokens: 3, total_tokens: 13 } },
+    ];
+    return new Response(chunks.map(chunk => `data: ${JSON.stringify(chunk)}\n\n`).join('') + 'data: [DONE]\n\n',
+      { headers: { 'content-type': 'text/event-stream' } });
+  };
+  try {
+    for (const [id, model, reasoning, expected] of [
+      ['unlisted', 'step-5-preview-free', 'high', 'yielded'],
+      ['missing', 'missing-native-model', 'high', 'agent_failure'],
+      ['unsupported', 'step-5-preview-free', 'xhigh', 'agent_failure'],
+      ['unsupported-max', 'step-5-preview-free', 'max', 'agent_failure'],
+    ] as const) {
+      const output = join(f.dir, id);
+      await runIteration({ version: 1, id, cwd: f.cwd, journal: f.journal, output,
+        provider: 'opencode-go', model, reasoning, prompt: 'Yield.', seconds: 10, sessions: [] });
+      const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+      assert.equal(result.outcome, expected, JSON.stringify(result.error));
+      assert.equal(result.model, model); assert.equal(result.reasoning, reasoning); assert.equal(result.provisionalModel, true);
+    }
+    assert.equal(requests.length, 4, 'one exact-model attempt per iteration; no catalog requests or alternate models');
+    assert.deepEqual(requests.map(r => [r.body.model, r.body.reasoning_effort]), [
+      ['step-5-preview-free', 'high'], ['missing-native-model', 'high'], ['step-5-preview-free', 'xhigh'],
+      ['step-5-preview-free', 'max'],
+    ]);
+    for (const request of requests) {
+      assert.equal(request.url, 'https://opencode.ai/zen/go/v1/chat/completions');
+      assert.equal(request.headers.get('authorization'), 'Bearer SYNTHETIC_UNLISTED_MODEL_KEY');
+      assert.ok(request.headers.get('x-opencode-session')); assert.ok(request.body.max_tokens > 0);
+    }
+    const journal = (await Promise.all((await readdir(f.journal)).filter(name => name.endsWith('.jsonl'))
+      .map(name => readFile(join(f.journal, name), 'utf8')))).join('\n');
+    assert.match(journal, /MODEL_NOT_FOUND_NATIVE_PROOF/); assert.match(journal, /REASONING_LEVEL_NOT_SUPPORTED_NATIVE_PROOF/);
+    assert.ok(!journal.includes('SYNTHETIC_UNLISTED_MODEL_KEY'));
+    await runIteration({ version: 1, id: 'inspect-unlisted', cwd: f.cwd, journal: f.journal, output: join(f.dir, 'inspect-unlisted'),
+      provider: 'opencode-go', model: 'missing-native-model', reasoning: 'off', prompt: '', seconds: 1, sessions: [], mode: 'inspect' });
+    assert.equal(requests.length, 4, 'inspection stays network-free');
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = originalKey;
+  }
 });
 
 test('checkpoint feedback reaches native system messages and gates the next request until publication', async () => {
