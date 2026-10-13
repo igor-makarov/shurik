@@ -1,6 +1,6 @@
 {
   "name": "shurik",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "description": "Reusable Pi Durable agent loops for GitHub Actions",
   "bin": {
     "shurik": "bin/shurik.ts"
@@ -11,6 +11,7 @@
     "src",
     "dist",
     "tests/worker.test.ts",
+    "tests/fixtures",
     "tsconfig.json",
     "action.yml",
     "action"
@@ -24,13 +25,13 @@
     "check": "tsc --noEmit",
     "build": "node scripts/build.ts",
     "test": "node --test tests/*.test.ts",
-    "test:pbt": "node --test tests/properties.test.ts tests/persistence-properties.test.ts",
+    "test:pbt": "node --test tests/properties.test.ts tests/persistence-properties.test.ts tests/images.test.ts",
     "verify": "npm run check && npm run build && npm test"
   },
   "dependencies": {
-    "@earendil-works/chord": "1.0.2",
-    "@earendil-works/pi-ai": "1.1.0",
-    "@earendil-works/pi-durable": "1.0.2"
+    "@earendil-works/chord": "1.2.0",
+    "@earendil-works/pi-ai": "1.2.0",
+    "@earendil-works/pi-durable": "1.2.0"
   },
   "devDependencies": {
     "@types/node": "24.10.1",

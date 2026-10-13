@@ -18,7 +18,7 @@ export function historyExtension(root: () => Conversation, sessions: SessionSumm
     } while (cursor !== undefined);
     return all.reverse();
   }
-  const text = (value: unknown) => ({ content: [{ type: 'text' as const, text: JSON.stringify(value) }] });
+  const text = (value: unknown) => ({ output: [{ type: 'text' as const, text: JSON.stringify(value) }] });
   return defineExtension({ name: 'history', tools: [
     defineTool({ name: 'list_sessions', description: 'List retained previous iterations, including failures. Offset pagination.',
       parameters: Type.Object({ offset: page, limit }), replay: 'safe',

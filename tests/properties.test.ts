@@ -43,6 +43,7 @@ property('unlisted IDs preserve exact provider/model/reasoning and native adapte
     assert.equal(registerUnlistedModel(models, providerId, modelId, level), true);
     const model = models.getModel(providerId, modelId)!;
     assert.equal(model.id, modelId); assert.equal(model.provider, providerId);
+    assert.deepEqual(model.input, ['text', 'image'], 'unlisted IDs must forward image input for the provider to judge');
     assert.ok(getSupportedThinkingLevels(model).includes(level));
     assert.equal(model.thinkingLevelMap?.[level], level);
     assert.ok(original.getModels().some(template => template.api === model.api && template.baseUrl === model.baseUrl

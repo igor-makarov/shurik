@@ -62,6 +62,21 @@ test('candidate can reopen a COPY of the real journal without replaying work', {
   assert.equal((await run(f, 'real-state-canary', [{ tool: 'bash', args: { command: 'printf canary > canary.txt' } }, { text: 'canary done' }])).outcome, 'yielded');
   assert.equal(await readFile(join(f.cwd, 'canary.txt'), 'utf8'), 'canary');
 });
+test('Pi Durable 1.0.2 journal with an interrupted v1 tool opens, aborts old work, and retains readable history', async () => {
+  const f = await fixture();
+  await cp(resolve('tests/fixtures/pi-durable-1.0.2'), f.journal, { recursive: true });
+  const session: SessionSummary = { id: 'legacy-tool-v1', outcome: 'interrupted', minEntryId: 7, maxEntryId: 17 };
+  assert.equal((await run(f, 'inspect-legacy', [], [session], { mode: 'inspect' })).outcome, 'readable');
+  const fresh = await run(f, 'upgrade-legacy', [
+    { tool: 'search_sessions', args: { query: 'LEGACY_COMPLETED_TOOL_NEEDLE' } },
+    { tool: 'read_session', args: { id: session.id } }, { text: 'Upgraded' },
+  ], [session]);
+  assert.equal(fresh.outcome, 'yielded'); assert.equal(fresh.captured.length, 3, 'pending old generation must not replay');
+  assert.ok(!JSON.stringify(fresh.captured[0]).includes('LEGACY_COMPLETED_TOOL_NEEDLE'), 'fresh context excludes old transcript');
+  assert.ok(JSON.stringify(fresh.captured.at(-1)).includes('LEGACY_COMPLETED_TOOL_NEEDLE'));
+  assert.ok(JSON.stringify(fresh.captured.at(-1)).includes('Successfully wrote to legacy.txt'));
+  await assert.rejects(readFile(join(f.cwd, 'replayed.txt')));
+});
 test('session boundaries survive more than 200 entries and oldest entries remain searchable', async () => {
   const f = await fixture();
   const script = [{ tool: 'write', args: { path: 'many.txt', content: 'OLDEST_RETAINED_ENTRY' } },
@@ -162,7 +177,7 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.10');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.11');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
@@ -240,6 +255,77 @@ test('worker rejects providers without an adapter', async () => {
   await assert.rejects(runIteration(req), /Unknown Pi AI provider/);
 });
 
+test('newly bundled Step 5 keeps explicit reasoning restrictions without a provider request', async () => {
+  const f = await fixture(), { runIteration } = loadWorker(), originalFetch = globalThis.fetch;
+  let requests = 0;
+  globalThis.fetch = async () => { requests++; throw new Error('Unexpected provider request'); };
+  try {
+    for (const reasoning of ['xhigh', 'max'] as const) await assert.rejects(runIteration({ version: 1,
+      id: 'step-' + reasoning, cwd: f.cwd, journal: f.journal, output: join(f.dir, reasoning),
+      provider: 'opencode-go', model: 'step-5-preview-free', reasoning, prompt: 'Yield.', seconds: 1, sessions: [] }),
+    /does not support reasoning .*choose low, medium, high/);
+    assert.equal(requests, 0);
+  } finally { globalThis.fetch = originalFetch; }
+});
+
+test('native read sends images through listed and unlisted models, retains them across journal reopen, and diagnoses text-only models', async () => {
+  const f = await fixture(), { runIteration } = loadWorker();
+  const image = await readFile(resolve('tests/fixtures/images/sample.png'));
+  await writeFile(join(f.cwd, 'screenshot.png'), image);
+  const originalFetch = globalThis.fetch, originalKey = process.env.OPENCODE_API_KEY;
+  const requests: { model: string; reasoning_effort: string; messages: unknown[] }[] = [];
+  process.env.OPENCODE_API_KEY = 'SYNTHETIC_IMAGE_CONTRACT_KEY';
+  globalThis.fetch = async (url, options = {}) => {
+    assert.equal(String(url), 'https://opencode.ai/zen/go/v1/chat/completions');
+    assert.equal(new Headers(options.headers).get('authorization'), 'Bearer SYNTHETIC_IMAGE_CONTRACT_KEY');
+    const body = JSON.parse(options.body as string); requests.push(body);
+    const reading = requests.length % 2 === 1;
+    const delta = reading ? { role: 'assistant', tool_calls: [{ index: 0, id: 'image-read-' + requests.length,
+      type: 'function', function: { name: 'read', arguments: JSON.stringify({ path: 'screenshot.png' }) } }] }
+      : { role: 'assistant', content: 'Image round completed.' };
+    const chunks = [
+      { id: 'images', object: 'chat.completion.chunk', created: 1, model: body.model,
+        choices: [{ index: 0, delta, finish_reason: null }] },
+      { id: 'images', object: 'chat.completion.chunk', created: 1, model: body.model,
+        choices: [{ index: 0, delta: {}, finish_reason: reading ? 'tool_calls' : 'stop' }] },
+    ];
+    return new Response(chunks.map(c => `data: ${JSON.stringify(c)}\n\n`).join('') + 'data: [DONE]\n\n',
+      { headers: { 'content-type': 'text/event-stream' } });
+  };
+  try {
+    for (const [model, provisional] of [['step-5-preview-free', false], ['unlisted-image-proof', true],
+      ['minimax-m2.7', false]] as const) {
+      const output = join(f.dir, model);
+      await runIteration({ version: 1, id: model, cwd: f.cwd, journal: f.journal, output,
+        provider: 'opencode-go', model, reasoning: 'high', prompt: 'Read screenshot.png then yield.', seconds: 10, sessions: [] });
+      const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+      assert.equal(result.outcome, 'yielded', JSON.stringify(result.error));
+      assert.equal(result.provisionalModel, provisional);
+    }
+    assert.equal(requests.length, 6);
+    for (const request of requests) assert.equal(request.reasoning_effort, 'high');
+    const attachment = 'data:image/png;base64,' + image.toString('base64');
+    assert.ok(JSON.stringify(requests[1].messages).includes(attachment));
+    assert.ok(JSON.stringify(requests[3].messages).includes(attachment), 'unlisted IDs also receive the image');
+    assert.ok(!JSON.stringify(requests[5].messages).includes(attachment));
+    assert.match(JSON.stringify(requests[5].messages), /placeholder|image/i);
+    const journal = (await Promise.all((await readdir(f.journal)).filter(name => name.endsWith('.jsonl'))
+      .map(name => readFile(join(f.journal, name), 'utf8')))).join('\n');
+    assert.ok(journal.includes(image.toString('base64')), 'native journal retains image content');
+    assert.match(journal, /does not support images; it sees a placeholder instead/);
+    assert.ok(!journal.includes('SYNTHETIC_IMAGE_CONTRACT_KEY'));
+    await runIteration({ version: 1, id: 'inspect-images', cwd: f.cwd, journal: f.journal, output: join(f.dir, 'inspect-images'),
+      provider: 'opencode-go', model: 'step-5-preview-free', reasoning: 'high', prompt: '', seconds: 1, sessions: [], mode: 'inspect' });
+    assert.equal(requests.length, 6, 'image-journal inspection is network-free');
+    const cold = await run(f, 'cold-images', [{ tool: 'read', args: { path: 'screenshot.png' } }, { text: 'Reopened' }]);
+    assert.equal(cold.outcome, 'yielded');
+    assert.ok(JSON.stringify(cold.captured.at(-1)).includes(image.toString('base64')));
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = originalKey;
+  }
+});
+
 test('unlisted model IDs reach the native provider with explicit reasoning; missing IDs return provider errors', async () => {
   const f = await fixture(), { runIteration } = loadWorker();
   const originalFetch = globalThis.fetch, originalKey = process.env.OPENCODE_API_KEY;
@@ -265,10 +351,10 @@ test('unlisted model IDs reach the native provider with explicit reasoning; miss
   };
   try {
     for (const [id, model, reasoning, expected] of [
-      ['unlisted', 'step-5-preview-free', 'high', 'yielded'],
+      ['unlisted', 'unlisted-native-proof', 'high', 'yielded'],
       ['missing', 'missing-native-model', 'high', 'agent_failure'],
-      ['unsupported', 'step-5-preview-free', 'xhigh', 'agent_failure'],
-      ['unsupported-max', 'step-5-preview-free', 'max', 'agent_failure'],
+      ['unsupported', 'unlisted-native-proof', 'xhigh', 'agent_failure'],
+      ['unsupported-max', 'unlisted-native-proof', 'max', 'agent_failure'],
     ] as const) {
       const output = join(f.dir, id);
       await runIteration({ version: 1, id, cwd: f.cwd, journal: f.journal, output,
@@ -279,8 +365,8 @@ test('unlisted model IDs reach the native provider with explicit reasoning; miss
     }
     assert.equal(requests.length, 4, 'one exact-model attempt per iteration; no catalog requests or alternate models');
     assert.deepEqual(requests.map(r => [r.body.model, r.body.reasoning_effort]), [
-      ['step-5-preview-free', 'high'], ['missing-native-model', 'high'], ['step-5-preview-free', 'xhigh'],
-      ['step-5-preview-free', 'max'],
+      ['unlisted-native-proof', 'high'], ['missing-native-model', 'high'], ['unlisted-native-proof', 'xhigh'],
+      ['unlisted-native-proof', 'max'],
     ]);
     for (const request of requests) {
       assert.equal(request.url, 'https://opencode.ai/zen/go/v1/chat/completions');

@@ -13,7 +13,8 @@ export function registerUnlistedModel(models: MutableModels, providerId: string,
   if (!template) return false;
   const model: Model<Api> = {
     id: modelId, name: modelId, provider: providerId, api: template.api, baseUrl: template.baseUrl,
-    input: ['text'], contextWindow: template.contextWindow, maxTokens: template.maxTokens,
+    // Forward attachments for the provider to judge; do not silently discard unlisted-model image input.
+    input: ['text', 'image'], contextWindow: template.contextWindow, maxTokens: template.maxTokens,
     reasoning: reasoning !== 'off', thinkingLevelMap: { [reasoning]: reasoning },
     // No prices/capabilities are known for this ID. Zero rates mean unavailable estimates, not free usage.
     cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
