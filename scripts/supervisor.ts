@@ -1,10 +1,10 @@
 import type { Control, Event, Iteration, Job, Options, Run, Runtime, Sessions, WorkerReport } from './types.ts';
-import { mkdtemp, mkdir, readFile, writeFile, cp, rm } from 'node:fs/promises';
+import { mkdtemp, mkdir, readFile, writeFile, appendFile, cp, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { pathToFileURL } from 'node:url';
 import { api, git, configureGit, saveJson, readJson, ControlStore, checkoutTaskBranch } from './github.ts';
-import { validateId, stopped, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings, validateProvider, credentialValues } from './policy.ts';
+import { validateId, stopped, ready, nextRunAt, normalizeOptions, validateWorkSeconds, validateWaitSeconds, claimable, trustedRecovery, nextRuntime, sanitizeTree, redact, digest, loopSnapshot, validateReasoning, validateCreatePr, resumeSettings, validateProvider, credentialValues } from './policy.ts';
 import { buildRuntime, validateCandidate, launchWorker, repairJournal, inspectJournal } from './runtime.ts';
 import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, iterationPrompt, completedIterationRun } from './failures.ts';
 import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
@@ -33,7 +33,9 @@ async function authorized() {
   if (!['admin', 'maintain', 'write'].includes(p.permission)) throw new Error('Loop control requires repository write access');
 }
 async function dispatch(control: Control, store: ControlStore) {
-  if (stopped(control)) return;
+  const latest = (await store.read()).value;
+  if (latest.generation !== control.generation || latest.next !== control.next || latest.owner || !ready(latest)) return;
+  control = latest;
   const run = await api<{ workflow_run_id: number }>(`actions/workflows/${encodeURIComponent(control.workflow ?? 'shurik.yml')}/dispatches`, 'POST', {
     ref: control.defaultBranch,
     return_run_details: true,
@@ -45,6 +47,13 @@ async function dispatch(control: Control, store: ControlStore) {
   const receipt = { runId: String(run.workflow_run_id), generation: control.generation, iteration: control.next };
   await store.mutate(value => value.dispatchedRuns?.some(entry => entry.runId === receipt.runId) ? null
     : { ...value, dispatchedRuns: [...(value.dispatchedRuns ?? []), receipt] }, 'shurik: record dispatched iteration');
+}
+async function reportControl(control: Control) {
+  const status = stopped(control) ? (control.status === 'running' ? 'deadline' : control.status)
+    : control.nextRunAt ? `Waiting until ${control.nextRunAt}` : control.owner ? 'Running' : 'Dispatched';
+  const summary = `### Shurik ${control.id}\n\n${status}\n\nIteration: ${control.next}. Work: ${control.seconds} seconds. Wait: ${control.waitSeconds ?? 0} seconds.\n\n`;
+  console.log(`Loop ${control.id}: ${status}`);
+  if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, summary);
 }
 async function pruneAndGuard(workspace: string, state: string, initial: string, journalSnapshot?: string, logs?: string) {
   const attempted = await git(workspace, 'status', '--porcelain', '--', '.github/workflows');
@@ -87,14 +96,15 @@ async function createPr(control: Control, workspace: string, controlRef: string)
   }
 }
 export async function start(options: Options) {
+  options = normalizeOptions(options);
   const reasoning = validateReasoning(options.reasoning);
   const createPrMode = validateCreatePr(options.create_pr);
   await authorized(); const id = validateId(options.loop_id);
   const verification = options.verification === true || options.verification === 'true';
   const metadata = await api<{ default_branch: string }>(''); const defaultBranch = metadata.default_branch;
   if (process.env.GITHUB_REF !== `refs/heads/${defaultBranch}`) throw new Error('Start must use the default branch');
-  const seconds = Number(options.seconds || 1800);
-  if (!Number.isInteger(seconds) || seconds < 10 || seconds > 1800) throw new Error('Agent budget must be 10–1800 seconds');
+  if (options.work_seconds !== undefined && options.work_seconds !== '') validateWorkSeconds(options.work_seconds);
+  if (options.wait_seconds !== undefined && options.wait_seconds !== '') validateWaitSeconds(options.wait_seconds);
   const deadline = options.deadline || null;
   if (verification && !deadline) throw new Error('Live verification requires a deadline');
   if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Deadline must be an absolute future timestamp');
@@ -126,7 +136,7 @@ export async function start(options: Options) {
   const control: Control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
     engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
     checkpointSeconds: config.checkpointSeconds, checkpointPaths: config.checkpointPaths,
-    owner: null, deadline, seconds: options.seconds ? seconds : config.iterationSeconds,
+    owner: null, deadline, seconds: config.iterationSeconds, waitSeconds: config.waitSeconds, nextRunAt: null,
     provider: config.provider, model, reasoning, createPr: branch === defaultBranch ? false : createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
   await git(ctl, 'checkout', '-b', store.branch, workflowRef);
   emergencyWorkspace = workspace;
@@ -151,13 +161,14 @@ export async function start(options: Options) {
   await store.mutate(c => ({ ...c, ...decision, verification: control.verification, lastDispatchAt: new Date().toISOString() }));
   console.log(pr ? `Draft PR: ${pr}` : `Work branch: ${branch}`);
   await dispatch({ ...control, pr }, store);
+  await reportControl((await store.read()).value);
 }
 export async function expireUnstartedIteration(store: Pick<ControlStore, 'mutate'>, generation: number, iteration: number, invocationRunId: string) {
   // Recheck the fence inside CAS: a skipped invocation must never stop a resumed generation or another owner.
   return store.mutate(c => {
     if (c.generation !== generation || c.next !== iteration || c.status !== 'running'
       || !c.deadline || !stopped(c) || (c.owner && c.owner.runId !== invocationRunId)) return null;
-    return { ...c, status: 'deadline', owner: null, lastDispatchAt: null };
+    return { ...c, status: 'deadline', owner: null, lastDispatchAt: null, nextRunAt: null };
   }, 'shurik: deadline expired before agent start');
 }
 export async function iterate(options: Options) {
@@ -168,10 +179,10 @@ export async function iterate(options: Options) {
   if (!control.engine && control.supervisor !== engineSourceRevision) throw new Error('Supervisor revision mismatch');
   if (!claimable(control, generation, iteration, runId)) {
     await expireUnstartedIteration(store, generation, iteration, runId);
-    console.log('Duplicate, stale, or stopped invocation skipped'); return;
+    console.log('Duplicate, stale, waiting, or stopped invocation skipped'); await reportControl((await store.read()).value); return;
   }
   control = await store.mutate(c => claimable(c, generation, iteration, runId) ? { ...c,
-    owner: { runId, generation, iteration, claimedAt: new Date().toISOString() } } : null, `shurik: claim ${id} ${generation}/${iteration}`);
+    nextRunAt: null, owner: { runId, generation, iteration, claimedAt: new Date().toISOString() } } : null, `shurik: claim ${id} ${generation}/${iteration}`);
   if (control.owner?.runId !== runId || !claimable(control, generation, iteration, runId)) {
     await expireUnstartedIteration(store, generation, iteration, runId); return;
   }
@@ -276,21 +287,25 @@ export async function iterate(options: Options) {
   // The stable control branch is authoritative: edits or cancellation during cleanup cannot resurrect the loop.
   control = await store.mutate(c => {
     if (c.generation !== generation || c.owner?.runId !== runId) return null;
-    const stop = stopped(c); return { ...c, status: stop ? (c.status === 'running' ? 'deadline' : c.status) : 'running',
-      owner: null, next: iteration + 1, lastRunId: runId, lastDispatchAt: stop ? null : new Date().toISOString() };
+    const stop = stopped(c), finishedAt = Date.now(), due = stop ? null : nextRunAt(c, finishedAt);
+    return { ...c, status: stop ? (c.status === 'running' ? 'deadline' : c.status) : 'running',
+      owner: null, next: iteration + 1, lastRunId: runId, nextRunAt: due,
+      lastDispatchAt: stop || due ? null : new Date(finishedAt).toISOString() };
   }, `shurik: finalize ${sequence}`);
   await rm(before, { recursive: true, force: true });
-  if (!stopped(control) && control.generation === generation && control.next === iteration + 1) await dispatch(control, store);
+  if (ready(control) && control.generation === generation && control.next === iteration + 1) await dispatch(control, store);
   console.log(`Iteration ${sequence}: ${record.outcome}; loop ${control.status}`);
+  await reportControl((await store.read()).value);
 }
 export async function controlLoop(options: Options) {
   await authorized(); const id = validateId(options.loop_id); const ctl = await clone('control'); const store = new ControlStore(ctl, id);
   if (options.command === 'stop') {
     const old = (await store.read()).value;
-    const stoppedControl = await store.mutate(c => ({ ...c, status: 'stopped', stoppedAt: new Date().toISOString() }), 'shurik: durable manual stop');
+    const stoppedControl = await store.mutate(c => ({ ...c, status: 'stopped', nextRunAt: null, lastDispatchAt: null, stoppedAt: new Date().toISOString() }), 'shurik: durable manual stop');
     // Stop first. A cancellation race can create a queued successor, but it will refuse the stopped control state.
     if (old.owner && /^\d+$/.test(old.owner.runId)) await api(`actions/runs/${old.owner.runId}/cancel`, 'POST').catch(() => {});
     console.log(`Loop ${id} durably stopped (${stoppedControl.generation})`);
+    await reportControl(stoppedControl);
   } else if (options.command === 'resume') {
     validateReasoning(options.reasoning);
     const prior = (await store.read()).value;
@@ -302,6 +317,7 @@ export async function controlLoop(options: Options) {
     }
     const c = await store.mutate(value => resumeSettings(value, options), 'shurik: explicit resume with new generation and model/reasoning');
     await dispatch(c, store);
+    await reportControl((await store.read()).value);
   }
 }
 export async function recover(options: Options) {
@@ -330,7 +346,7 @@ export async function recover(options: Options) {
   const ids = new Set(refs.split('\n').filter(Boolean).map(line => loopIdFromControlBranch(line.split('\t')[1].slice('refs/heads/'.length))));
   for (const id of ids) {
     const store = new ControlStore(ctl, id);
-    try { await reconcileLoop(store, { wake, request, secrets, dispatchNext: c => dispatch(c, store) }); }
+    try { await reconcileLoop(store, { wake, request, secrets, dispatchNext: c => dispatch(c, store) }); await reportControl((await store.read()).value); }
     catch (e) { failed.push(id); console.error(redact(`Recovery ${id}: ${String(e)}`, secrets)); }
   }
   if (failed.length) throw new Error(`Recovery needs retry for: ${failed.join(', ')}`);

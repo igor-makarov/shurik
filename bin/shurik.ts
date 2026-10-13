@@ -7,7 +7,7 @@ import { createRequire } from 'node:module';
 import { mkdtemp, cp, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { sessionPaths } from '../scripts/paths.ts';
-import { redact, validateId, credentialValues } from '../scripts/policy.ts';
+import { redact, validateId, credentialValues, normalizeOptions } from '../scripts/policy.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const help = `Usage: shurik <command> [options]
@@ -23,7 +23,9 @@ Commands:
   paths       Print the canonical runtime and control-branch session paths
 
 Options:
-  --loop-id ID --provider ID --model ID --reasoning LEVEL --seconds N --deadline TIMESTAMP
+  --loop-id ID --provider ID --model ID --reasoning LEVEL --deadline TIMESTAMP
+  --work-seconds N   Iteration work budget, 10–1800 (default: 1800)
+  --wait-seconds N   Idle time after an iteration, nonnegative (default: 0)
   --source-ref REF --generation N --iteration N --workflow FILE
   --create-pr auto|true|false  Draft PR creation (default: auto)
   --prompt FILE --checkpoint-seconds N --checkpoint-paths JSON_ARRAY
@@ -40,17 +42,17 @@ Pi AI resolves model authentication from its provider environment variables.
 export function parseArgs(args: string[], inputs: Options = {}): Options {
   const [command, ...flags] = args;
   if (!command || ['--help', '-h', 'help'].includes(command)) return { help: true };
-  const allowed = new Set(['loop-id', 'provider', 'model', 'reasoning', 'seconds', 'deadline', 'source-ref',
+  const allowed = new Set(['loop-id', 'provider', 'model', 'reasoning', 'work-seconds', 'wait-seconds', 'seconds', 'deadline', 'source-ref',
     'generation', 'iteration', 'workflow', 'workspace', 'repository', 'request', 'bundle', 'create-pr',
     'prompt', 'checkpoint-seconds', 'checkpoint-paths']);
-  const options: Options = { ...inputs, command };
+  const options: Options = { ...normalizeOptions(inputs), command };
   for (let i = 0; i < flags.length; i++) {
     if (flags[i] === '--help') return { help: true };
     const name = flags[i].slice(2);
     if (!flags[i].startsWith('--') || !allowed.has(name) || !flags[i + 1] || flags[i + 1].startsWith('--')) {
       throw new Error(`Unknown option or missing value: ${flags[i]}`);
     }
-    options[name.replaceAll('-', '_') as keyof Omit<Options, 'help' | 'verification'>] = flags[++i];
+    options[(name === 'seconds' ? 'work_seconds' : name.replaceAll('-', '_')) as keyof Omit<Options, 'help' | 'verification'>] = flags[++i];
   }
   if (!['start', 'iterate', 'stop', 'resume', 'recover', 'worker', 'inspect', 'paths'].includes(command)) {
     throw new Error(`Unknown command: ${command}`);

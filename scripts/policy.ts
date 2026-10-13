@@ -25,8 +25,35 @@ export function credentialValues(env: NodeJS.ProcessEnv = process.env): Secrets 
   return Object.entries(env).filter(([name]) => /(?:^|_)(?:API_KEY|TOKEN|SECRET|PASSWORD|ACCESS_KEY_ID|SECRET_ACCESS_KEY)$/.test(name))
     .map(([, value]) => value);
 }
+export function normalizeOptions(inputs: Options): Options {
+  const options = { ...inputs, work_seconds: inputs['work-seconds'] ?? inputs.work_seconds ?? inputs.seconds,
+    wait_seconds: inputs['wait-seconds'] ?? inputs.wait_seconds };
+  delete options['work-seconds']; delete options['wait-seconds']; delete options.seconds;
+  return options;
+}
+export function validateWorkSeconds(value: unknown): number {
+  const seconds = Number(value);
+  if (!['number', 'string'].includes(typeof value) || !Number.isInteger(seconds) || seconds < 10 || seconds > 1800) throw new Error('work-seconds must be 10–1800');
+  return seconds;
+}
+export function validateWaitSeconds(value: unknown): number {
+  const seconds = Number(value);
+  if (!['number', 'string'].includes(typeof value) || (typeof value === 'string' && !value.trim())
+    || !Number.isSafeInteger(seconds) || seconds < 0 || !Number.isFinite(new Date(Date.now() + seconds * 1000).getTime())) {
+    throw new Error('wait-seconds must be a nonnegative integer within the timestamp range');
+  }
+  return seconds;
+}
+export function nextRunAt(control: Control, finishedAt = Date.now()): string | null {
+  const wait = validateWaitSeconds(control.waitSeconds ?? 0);
+  return wait ? new Date(finishedAt + wait * 1000).toISOString() : null;
+}
+export function ready(control: Control, now = Date.now()): boolean {
+  return !stopped(control, now) && (!control.nextRunAt || now >= Date.parse(control.nextRunAt));
+}
 export function resumeSettings(value: Control, options: Options): Control {
-  if (value.status === 'running') throw new Error('Loop already running');
+  if (value.status === 'running' && (!value.nextRunAt || value.owner)) throw new Error('Loop already running');
+  options = normalizeOptions(options);
   const reasoning = validateReasoning(options.reasoning);
   const deadline = options.deadline || null;
   if (deadline && (!Number.isFinite(Date.parse(deadline)) || Date.parse(deadline) <= Date.now())) throw new Error('Resume deadline must be in the future');
@@ -38,6 +65,8 @@ export function resumeSettings(value: Control, options: Options): Control {
   const provider = options.provider?.trim() ? validateProvider(options.provider) : priorProvider;
   if (provider !== priorProvider && !options.model?.trim()) throw new Error('Explicit model required when changing provider');
   return { ...value, generation, next, status: 'running', owner: null, deadline,
+    seconds: options.work_seconds !== undefined && options.work_seconds !== '' ? validateWorkSeconds(options.work_seconds) : value.seconds,
+    waitSeconds: options.wait_seconds !== undefined && options.wait_seconds !== '' ? validateWaitSeconds(options.wait_seconds) : (value.waitSeconds ?? 0), nextRunAt: null,
     provider, model: options.model?.trim() || value.model, reasoning,
     createPr: value.branch === value.defaultBranch ? false
       : options.create_pr === undefined ? (value.createPr ?? 'auto') : validateCreatePr(options.create_pr),
@@ -58,8 +87,8 @@ export function validateId(id: string | undefined): string {
 export function stopped(control: Control, now = Date.now()): boolean {
   return control.status !== 'running' || !!(control.deadline && now >= Date.parse(control.deadline));
 }
-export function claimable(control: Control, generation: number, iteration: number, runId: string) {
-  return !stopped(control) && control.generation === generation && control.next === iteration
+export function claimable(control: Control, generation: number, iteration: number, runId: string, now = Date.now()) {
+  return ready(control, now) && control.generation === generation && control.next === iteration
     && (!control.owner || control.owner.runId === runId);
 }
 export function trustedRecovery(event: Event, repo: string | undefined) {

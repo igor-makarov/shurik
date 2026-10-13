@@ -8,7 +8,7 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import fc from 'fast-check';
 import {
   validateId, validateReasoning, validateCreatePr, resumeSettings, claimable,
-  stopped, cancelledForLoop, trustedRecovery, classify, nextRuntime, redact, loopSnapshot, validateProvider, credentialValues,
+  stopped, ready, nextRunAt, validateWorkSeconds, validateWaitSeconds, cancelledForLoop, trustedRecovery, classify, nextRuntime, redact, loopSnapshot, validateProvider, credentialValues,
 } from '../scripts/policy.ts';
 import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, sessionPaths, workBranch, controlBranch, controlBranches, loopIdFromControlBranch } from '../scripts/paths.ts';
 import { projectConfig } from '../scripts/config.ts';
@@ -35,6 +35,61 @@ const forbiddenId = fc.oneof(
 const title = (id: string, generation: number, iteration: number, prefix = 'Shurik') =>
   prefix + ' ' + id + ' / iterate ' + generation + '-' + iteration;
 const copy = (value: unknown) => JSON.stringify(value);
+
+property('work/wait inputs round-trip through CLI and action with canonical precedence and explicit zero',
+  fc.property(fc.integer({ min: 10, max: 1800 }), fc.integer({ min: 0, max: 86400 }), (work, wait) => {
+    const input = { command: 'start', loop_id: 'loop', 'work-seconds': '10', 'wait-seconds': '1', seconds: '15' };
+    const before = copy(input);
+    const cli = parseArgs(['start', '--work-seconds', String(work), '--wait-seconds', String(wait)], input);
+    const action = actionOptions({ SHURIK_INPUTS: JSON.stringify(input), SHURIK_SECONDS: '20',
+      SHURIK_WORK_SECONDS: String(work), SHURIK_WAIT_SECONDS: String(wait) });
+    for (const parsed of [cli, action]) {
+      assert.equal(parsed.work_seconds, String(work)); assert.equal(parsed.wait_seconds, String(wait));
+      assert.equal(parsed.seconds, undefined);
+    }
+    assert.equal(parseArgs(['start', '--seconds', String(work)]).work_seconds, String(work));
+    assert.equal(copy(input), before);
+  }));
+
+property('work/wait validation rejects invalid budgets and waits while accepting bounded integer settings',
+  fc.property(fc.integer({ min: 10, max: 1800 }), fc.integer({ min: 0, max: 86400 }), (work, wait) => {
+    assert.equal(validateWorkSeconds(work), work); assert.equal(validateWaitSeconds(wait), wait);
+    for (const invalid of [-work, 9, 1801, work + 0.5, NaN, Infinity, 'garbage', false, null]) assert.throws(() => validateWorkSeconds(invalid));
+    for (const invalid of [-wait - 1, wait + 0.5, NaN, Infinity, Number.MAX_SAFE_INTEGER, 'garbage', '', false, null]) assert.throws(() => validateWaitSeconds(invalid));
+  }));
+
+property('waiting gates claims until the exact due boundary, preserves generation fences, and yields to deadlines',
+  fc.property(control, fc.integer({ min: 1, max: 86400 }), fc.integer({ min: 0, max: 86400 }), (previous, wait, deadlineSeconds) => {
+    const c = { ...previous, status: 'running', owner: null, waitSeconds: wait, deadline: new Date(now + deadlineSeconds * 1000).toISOString() };
+    const due = nextRunAt(c, now)!; const waiting = { ...c, nextRunAt: due }, before = copy(waiting);
+    for (const time of [now, Date.parse(due) - 1, Date.parse(due), Date.parse(due) + 1]) {
+      const expected = time >= Date.parse(due) && time < Date.parse(c.deadline);
+      assert.equal(ready(waiting, time), expected); assert.equal(claimable(waiting, c.generation, c.next, 'run', time), expected);
+      assert.equal(claimable(waiting, c.generation + 1, c.next, 'run', time), false);
+    }
+    assert.equal(copy(waiting), before);
+    for (const key of ['waitSeconds', 'nextRunAt']) assert.ok(!Object.hasOwn(loopSnapshot(waiting), key));
+  }));
+
+property('manual resume clears waiting, keeps contiguous numbering, and retains or explicitly overrides work/wait settings',
+  fc.property(control, fc.integer({ min: 10, max: 1800 }), fc.integer({ min: 1, max: 86400 }), fc.boolean(),
+    (previous, work, wait, override) => {
+      const c = { ...previous, status: 'running', owner: null, seconds: work, waitSeconds: wait,
+        nextRunAt: new Date(Date.now() + wait * 1000).toISOString() }, before = copy(c);
+      const resumed = resumeSettings(c, { reasoning: 'high', ...(override ? { work_seconds: '10', wait_seconds: '0' } : {}) });
+      assert.equal(resumed.next, c.next); assert.equal(resumed.generation, c.generation + 1);
+      assert.equal(resumed.nextRunAt, null); assert.equal(resumed.seconds, override ? 10 : work);
+      assert.equal(resumed.waitSeconds, override ? 0 : wait); assert.equal(ready(resumed), true);
+      assert.equal(claimable(resumed, c.generation, c.next, 'old'), false); assert.equal(copy(c), before);
+    }));
+
+property('legacy controls and zero waits preserve immediate continuous behavior without mutating saved state',
+  fc.property(control, (previous) => {
+    const c = { ...previous, status: 'running', owner: null, deadline: null }, before = copy(previous);
+    assert.equal(nextRunAt(c, now), null); assert.equal(nextRunAt({ ...c, waitSeconds: 0 }, now), null);
+    assert.equal(ready(c, now), true); assert.equal(claimable(c, c.generation, c.next, 'run', now), true);
+    assert.equal(copy(previous), before);
+  }));
 
 property('unlisted IDs preserve exact provider/model/reasoning and native adapter/auth without changing bundled metadata',
   fc.property(identifier, reasoning, fc.constantFrom('opencode-go', 'openai', 'anthropic'), (id, level, providerId) => {
@@ -134,7 +189,7 @@ property('explicit CLI flags override dispatch JSON without mutating it',
     assert.equal(options.command, 'resume');
     assert.equal(options.reasoning, level); assert.equal(options.model, 'model-' + model);
     assert.equal(validateCreatePr(options.create_pr), createPr);
-    assert.equal(options.loop_id, inputs.loop_id); assert.equal(options.seconds, inputs.seconds);
+    assert.equal(options.loop_id, inputs.loop_id); assert.equal(options.work_seconds, inputs.seconds);
     assert.equal(copy(inputs), before);
   }));
 
@@ -279,9 +334,9 @@ property('same-workflow recovery requires a completed iteration with a matching 
   fc.property(fc.constantFrom('success', 'failure', 'cancelled'), positive, text, (result, id, title) => {
     const run = runFixture({ id, name: title, status: 'in_progress', conclusion: null });
     const before = copy(run);
-    const job = { id: id + 1, name: 'iteration', status: 'completed', conclusion: result };
+    const job = { id: id + 1, name: 'iteration', status: 'completed', conclusion: result, completed_at: '2026-10-13T10:00:00Z' };
     const finished = completedIterationRun(run, result, [job]);
-    assert.deepEqual(finished, { ...run, status: 'completed', conclusion: result });
+    assert.deepEqual(finished, { ...run, status: 'completed', conclusion: result, updated_at: job.completed_at });
     for (const changed of [
       { status: 'in_progress' }, { name: 'control' }, { conclusion: 'skipped' },
       { conclusion: result === 'success' ? 'failure' : 'success' },

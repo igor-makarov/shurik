@@ -5,7 +5,7 @@ import { PATHS } from './paths.ts';
 import { join } from 'node:path';
 import { readdir } from 'node:fs/promises';
 import { api, jobLog, git, readJson, saveJson, type ControlStore } from './github.ts';
-import { redact, cancelledForLoop, stopped } from './policy.ts';
+import { redact, cancelledForLoop, stopped, ready, nextRunAt } from './policy.ts';
 import { runFence } from './iterations.ts';
 export { runFence } from './iterations.ts';
 
@@ -22,7 +22,8 @@ export function completedIterationRun(run: Run, result: string, jobs: (Job & { s
   if (!iteration || iteration.status !== 'completed' || iteration.conclusion !== result) {
     throw new Error('Iteration job has not completed with the reported result');
   }
-  return { ...run, status: 'completed', conclusion: result };
+  return { ...run, status: 'completed', conclusion: result,
+    updated_at: iteration.completed_at && Number.isFinite(Date.parse(iteration.completed_at)) ? iteration.completed_at : new Date().toISOString() };
 }
 export async function collectFailure(control: Control, run: Run, secrets: Secrets, request: typeof api = api, logs = jobLog): Promise<Failure> {
   const fence = runFence(control, run);
@@ -65,7 +66,7 @@ export async function reconcileLoop(store: ControlStore, { wake, request = api, 
   if (c.status === 'running' && cancelledForLoop(c, wake)) {
     const generation = c.generation;
     c = await store.mutate(value => value.generation === generation && cancelledForLoop(value, wake)
-      ? { ...value, status: 'stopped', stoppedAt: new Date().toISOString() } : null, 'shurik: UI cancellation is a durable stop');
+      ? { ...value, status: 'stopped', nextRunAt: null, lastDispatchAt: null, stoppedAt: new Date().toISOString() } : null, 'shurik: UI cancellation is a durable stop');
     if (c.status === 'stopped' && c.generation === generation && c.owner && c.owner.runId !== String(wake!.id))
       await request(`actions/runs/${c.owner.runId}/cancel`, 'POST').catch(() => {});
   }
@@ -77,10 +78,12 @@ export async function reconcileLoop(store: ControlStore, { wake, request = api, 
         if (value.owner?.runId !== String(run.id)) return null;
         if (value.status !== 'running' || run.conclusion === 'cancelled') return {
           ...value, status: value.status === 'running' ? 'stopped' : value.status,
-          owner: null, next: Math.max(value.next, value.owner.iteration + 1), lastDispatchAt: null,
+          owner: null, next: Math.max(value.next, value.owner.iteration + 1), lastDispatchAt: null, nextRunAt: null,
           lastRunId: String(run.id), stoppedAt: value.stoppedAt ?? new Date().toISOString()
         };
+        const finishedAt = Date.parse(run.updated_at);
         return { ...value, owner: null, next: value.next + 1, lastRunId: String(run.id),
+          nextRunAt: nextRunAt(value, Number.isFinite(finishedAt) ? finishedAt : Date.now()),
           recovery: { runId: String(run.id), conclusion: run.conclusion, at: new Date().toISOString() }, lastDispatchAt: null };
       }, 'shurik: reconcile interrupted run');
     }
@@ -99,16 +102,23 @@ export async function reconcileLoop(store: ControlStore, { wake, request = api, 
   if (c.lastRunId) {
     const run = await request<Run>(`actions/runs/${c.lastRunId}`); await retain(run);
     if (run.conclusion === 'cancelled') c = await store.mutate(value => value.lastRunId === String(run.id)
-      ? { ...value, status: 'stopped' } : null, 'shurik: honor UI cancellation during handoff');
+      ? { ...value, status: 'stopped', nextRunAt: null, lastDispatchAt: null } : null, 'shurik: honor UI cancellation during handoff');
   }
   if (stopped(c)) {
     if (c.status === 'running') await store.mutate(v => stopped(v) && v.status === 'running'
-      ? { ...v, status: 'deadline' } : null, 'shurik: deadline expired');
+      ? { ...v, status: 'deadline', nextRunAt: null, lastDispatchAt: null } : null, 'shurik: deadline expired');
     return;
   }
-  if (c.lastDispatchAt && Date.now() - Date.parse(c.lastDispatchAt) < 120000) return;
-  c = await store.mutate(v => !stopped(v) && !v.owner ? { ...v, lastDispatchAt: new Date().toISOString() } : null);
-  if (!c.owner && !stopped(c)) await dispatchNext(c);
+  if (!ready(c) || (c.lastDispatchAt && Date.now() - Date.parse(c.lastDispatchAt) < 120000)) return;
+  const generation = c.generation, iteration = c.next;
+  let reserved = false;
+  c = await store.mutate(v => {
+    const now = Date.now();
+    reserved = v.generation === generation && v.next === iteration && ready(v, now) && !v.owner
+      && (!v.lastDispatchAt || now - Date.parse(v.lastDispatchAt) >= 120000);
+    return reserved ? { ...v, nextRunAt: null, lastDispatchAt: new Date(now).toISOString() } : null;
+  });
+  if (reserved) await dispatchNext(c);
 }
 export async function importFailures(store: ControlStore, state: string, logs = join(state, PATHS.diagnostics)) {
   const { revision, value } = await store.read(); const reports: Failure[] = [];

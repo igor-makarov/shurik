@@ -10,7 +10,7 @@ These automated checks use scripted model responses and local Git remotes; the i
 
 ## Property-based tests
 
-`npm run test:pbt` runs 52 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 37,631 generated scenarios: 37 ordinary properties with 1,000 cases each, eight filesystem properties with 50–75 cases, and seven real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
+`npm run test:pbt` runs 59 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 42,647 generated scenarios: 42 ordinary properties with 1,000 cases each, eight filesystem properties with 50–75 cases, and nine real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
 
 Each property has a deterministic default seed. Fast-check shrinks failures and prints the seed, shrink path, and smallest counterexample. To replay a failing property, set `SHURIK_PBT_SEED` to its printed seed and select its test name:
 
@@ -76,6 +76,13 @@ The inventory below corresponds to named properties in [properties.test.ts](test
 50. Native image reads preserve complete bytes and MIME regardless of filename extension or absolute/relative path.
 51. Native image reads honor exact model byte and dimension boundaries without truncating attachments.
 52. Text files with image extensions retain Unicode text and line pagination.
+53. Work/wait inputs round-trip through CLI/action with canonical precedence, legacy aliases, and explicit zero.
+54. Work/wait validation accepts bounded integers and rejects invalid budgets, negative/fractional waits, and invalid timestamp ranges.
+55. Waiting gates claims at the exact due boundary, retains generation fences, and yields to deadlines.
+56. Manual resume clears waiting, keeps numbering contiguous, and retains or explicitly overrides work/wait settings.
+57. Legacy controls and zero waits preserve immediate continuation without mutating saved state.
+58. Racing recovery checks reserve exactly one due iteration and retain persisted work/wait settings.
+59. Stop or resume racing a due check prevents dispatch from its older control state.
 
 Branch tests verify exact loop-name task refs, `shurik-control/<id>` control refs, reserved namespace rejection, existing-branch tip selection from an older checkout, and rejection of conflicting explicit sources. Older control refs remain readable and mutable, with canonical refs taking precedence for fresh readers. The scripted native consumer integration starts loop `main` from a newly advanced remote tip, publishes task changes directly onto `main`, retains maintainer files, keeps journals on `shurik-control/main`, and disables PR requests even with an explicit `true` at start and resume. These checks use local remotes and make no paid requests.
 
@@ -88,6 +95,8 @@ Native image transport tests make the provider request a `read` call, then asser
 An unchanged native Pi Durable `1.0.2` fixture contains a completed tool result and an interrupted version-1 `bash` task. New workers inspect a copy, abort old pending work, start a fresh context, and retrieve the earlier transcript through both history tools. The previously saved live-demo journal is also readable through CLI inspection. Fixture provenance is recorded in [tests/fixtures/README.md](tests/fixtures/README.md).
 
 Generated cases found two defects fixed in release 1.1.4: masking an unescaped credential before its longer JSON encoding could leave a dangling backslash and corrupt evidence JSON, and an API token ending in `-` was partially masked because of a word-boundary match. Redaction now masks longer encoded forms first and consumes the complete API token. The minimized examples also have a focused unit regression.
+
+The work/wait consumer integration uses the actual CLI supervisor and scripted native worker: start persists named inputs, an iteration checkpoints and exits without redispatching, future scheduled/queued invocations do no work, the first due recovery dispatches once, and a second iteration waits again. Manual resume overrides the wait to zero and dispatches immediately with contiguous numbering; the old queued generation is skipped. Git-backed clock tests exercise same-workflow crash completion timestamps, no extension from repeated checks, deadline/cancellation during waiting, pre-claim retry, simultaneous dispatch reservations, and control CAS races. Workflow summaries expose the saved due time. All timing tests advance a test clock or saved eligibility instead of waiting hours.
 
 ## Live reusable consumer evidence
 

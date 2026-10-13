@@ -45,9 +45,10 @@ test('CLI and action input validation keep explicit reasoning and allow flags to
 test('action configuration works without a project config file and overrides legacy settings', async () => {
   const project = await mkdtemp(join(tmpdir(), 'shurik-config-'));
   assert.equal((await projectConfig(project)).checkpointSeconds, 300);
-  const inputs = { model: 'custom', seconds: '120', checkpoint_seconds: '60', prompt: 'tasks/task.md', checkpoint_paths: '["data/cache"]' };
+  const inputs = { model: 'custom', work_seconds: '120', wait_seconds: '10800', checkpoint_seconds: '60', prompt: 'tasks/task.md', checkpoint_paths: '["data/cache"]' };
   const config = await projectConfig(project, inputs);
   assert.equal(config.model, 'custom'); assert.equal(config.iterationSeconds, 120);
+  assert.equal(config.waitSeconds, 10800);
   assert.equal(config.checkpointSeconds, 60); assert.deepEqual(config.checkpointPaths, ['data/cache']);
   assert.deepEqual(await readdir(project), [], 'configuration does not create a file');
   await saveJson(join(project, PATHS.config), { version: 1, model: 'custom', checkpointSeconds: 90, prompt: 'tasks/task.md' });
@@ -163,7 +164,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
   const overrides = { GIT_CONFIG_GLOBAL: gitConfig, GITHUB_REPOSITORY: 'fixture/consumer',
     GITHUB_ACTOR: 'maintainer', GITHUB_REF: 'refs/heads/main', GITHUB_RUN_ID: '100',
     GITHUB_TOKEN: 'TEST_ONLY_TOKEN', GH_TOKEN: undefined, SHURIK_PROJECT_ROOT: project,
-    SHURIK_ENGINE_ROOT: engine, SHURIK_ENGINE_REPOSITORY: 'fixture/shurik', SHURIK_ACTION_REF: 'v1' };
+    SHURIK_ENGINE_ROOT: engine, SHURIK_ENGINE_REPOSITORY: 'fixture/shurik', SHURIK_ACTION_REF: 'v1', GITHUB_STEP_SUMMARY: join(dir, 'summary.md') };
   const previous = Object.fromEntries(Object.keys(overrides).map(key => [key, process.env[key]]));
   const originalFetch = globalThis.fetch, dispatches: { ref: string; return_run_details: boolean; inputs: Record<string, string> }[] = []; let prAllowed = false, prAttempts = 0, failDispatch = false;
   try {
@@ -198,7 +199,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     };
     const { main } = await import(`../scripts/supervisor.ts?consumer=${Date.now()}`);
     await main({ command: 'start', loop_id: 'demo', provider: 'openai', model: 'gpt-6-sol', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source',
-      seconds: '20', checkpoint_seconds: '1', prompt: 'PROMPT.md', checkpoint_paths: '[]' });
+      work_seconds: '20', checkpoint_seconds: '1', prompt: 'PROMPT.md', checkpoint_paths: '[]' });
     const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
     const store = new ControlStore(ctl, 'demo');
     const started = (await store.read()).value;
@@ -278,7 +279,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     const maintained = await commit(maintainer, 'advance main after the consumer checkout');
     await git(maintainer, 'push', 'origin', 'main');
     await assert.rejects(main({ command: 'start', loop_id: 'main', reasoning: 'high', source_ref: 'older-task-source' }), /source-ref must match/);
-    await main({ command: 'start', loop_id: 'main', reasoning: 'high', create_pr: true, seconds: '20', checkpoint_seconds: '1' });
+    await main({ command: 'start', loop_id: 'main', reasoning: 'high', create_pr: true, work_seconds: '20', checkpoint_seconds: '1' });
     const mainStore = new ControlStore(ctl, 'main'), mainStarted = (await mainStore.read()).value;
     assert.equal(mainStarted.branch, 'main'); assert.equal(mainStarted.source, maintained);
     assert.equal(mainStarted.createPr, false); assert.equal(mainStore.branch, 'shurik-control/main');
@@ -297,6 +298,40 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await main({ command: 'resume', loop_id: 'main', reasoning: 'medium', create_pr: true });
     assert.equal((await mainStore.read()).value.createPr, false, 'main cannot enable PR creation on resume');
     await main({ command: 'stop', loop_id: 'main' });
+    await main({ command: 'stop', loop_id: 'demo' });
+    await main({ command: 'stop', loop_id: 'without-pr' });
+    const beforeWaiting = dispatches.length;
+    await main({ command: 'start', loop_id: 'waiting', reasoning: 'high', create_pr: false,
+      work_seconds: '30', wait_seconds: '10800', checkpoint_seconds: '1' });
+    const waitingStore = new ControlStore(ctl, 'waiting');
+    await main({ command: 'iterate', loop_id: 'waiting', generation: '1', iteration: '1' });
+    let waiting = await waitingStore.read();
+    assert.equal(dispatches.length, beforeWaiting + 1, 'positive wait saves progress without redispatching');
+    assert.equal(waiting.value.seconds, 30); assert.equal(waiting.value.waitSeconds, 10800);
+    assert.equal(waiting.value.next, 2); assert.equal(waiting.value.owner, null); assert.equal(waiting.value.lastDispatchAt, null);
+    assert.ok(Date.parse(waiting.value.nextRunAt!) >= Date.now() + 10790000);
+    assert.equal(JSON.parse(await git(ctl, 'show', `${waiting.revision}:state/iterations/1-1.json`)).outcome, 'yielded');
+    assert.match(await readFile(overrides.GITHUB_STEP_SUMMARY, 'utf8'), /Waiting until/);
+    await main({ command: 'recover' });
+    await main({ command: 'iterate', loop_id: 'waiting', generation: '1', iteration: '2' });
+    assert.equal(dispatches.length, beforeWaiting + 1, 'scheduled and queued invocations respect the future due time');
+    assert.equal((await waitingStore.read()).value.next, 2);
+    await waitingStore.mutate(c => ({ ...c, nextRunAt: new Date(Date.now() - 1000).toISOString() }));
+    await main({ command: 'recover' }); await main({ command: 'recover' });
+    assert.equal(dispatches.length, beforeWaiting + 2, 'a due slot is dispatched once across repeated recovery');
+    assert.equal((await waitingStore.read()).value.nextRunAt, null);
+    await main({ command: 'iterate', loop_id: 'waiting', generation: '1', iteration: '2' });
+    assert.equal((await waitingStore.read()).value.next, 3);
+    await main({ command: 'resume', loop_id: 'waiting', reasoning: 'high', work_seconds: '20', wait_seconds: '0' });
+    waiting = await waitingStore.read();
+    assert.equal(waiting.value.generation, 2); assert.equal(waiting.value.next, 3); assert.equal(waiting.value.nextRunAt, null);
+    assert.equal(waiting.value.seconds, 20); assert.equal(waiting.value.waitSeconds, 0);
+    assert.equal(dispatches.length, beforeWaiting + 3, 'manual resume runs now and can restore continuous mode');
+    await main({ command: 'iterate', loop_id: 'waiting', generation: '1', iteration: '3' });
+    assert.equal(dispatches.length, beforeWaiting + 3, 'pre-resume queued run is fenced out');
+    await main({ command: 'iterate', loop_id: 'waiting', generation: '2', iteration: '3' });
+    assert.equal(dispatches.length, beforeWaiting + 4, 'zero wait dispatches immediately');
+    await main({ command: 'stop', loop_id: 'waiting' });
     failDispatch = true;
     await assert.rejects(main({ command: 'start', loop_id: 'failed-dispatch', reasoning: 'high', create_pr: false }), /INJECTED_DISPATCH_FAILURE/);
     const emergency = runtimeEmergency('fixture/consumer', 'failed-dispatch');

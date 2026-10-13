@@ -4,12 +4,13 @@ import { resolve, join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawn } from 'node:child_process';
 import { git } from '../scripts/github.ts';
-import { validateId, redact, credentialValues } from '../scripts/policy.ts';
+import { validateId, redact, credentialValues, normalizeOptions } from '../scripts/policy.ts';
 import { runtimeState, runtimeLogs, runtimeEmergency, controlBranch } from '../scripts/paths.ts';
 
 export function actionOptions(env = process.env) {
-  const options: Options = JSON.parse(env.SHURIK_INPUTS ?? '{}');
-  for (const name of ['command', 'loop_id', 'provider', 'model', 'reasoning', 'seconds', 'deadline',
+  const options: Options = normalizeOptions(JSON.parse(env.SHURIK_INPUTS ?? '{}'));
+  if (env.SHURIK_SECONDS) options.work_seconds = env.SHURIK_SECONDS;
+  for (const name of ['command', 'loop_id', 'provider', 'model', 'reasoning', 'work_seconds', 'wait_seconds', 'deadline',
     'source_ref', 'generation', 'iteration', 'workflow', 'create_pr', 'prompt', 'checkpoint_seconds', 'checkpoint_paths'] as const) {
     const value = env[`SHURIK_${name.toUpperCase()}`];
     if (value) options[name] = value;

@@ -22,8 +22,12 @@ inputs:
     description: Explicit model reasoning level; required for start and resume
   create-pr:
     description: auto (default), true or false; always disabled when the task branch is the default branch
+  work-seconds:
+    description: Work budget per iteration (10–1800 seconds); defaults to 1800 on start, retained on resume
+  wait-seconds:
+    description: Idle seconds after an iteration (nonnegative); defaults to 0 on start, retained on resume
   seconds:
-    description: Iteration budget in seconds (10–1800)
+    description: Deprecated alias for work-seconds
   deadline:
     description: Optional absolute future timestamp
   source-ref:
@@ -83,6 +87,8 @@ runs:
         SHURIK_REASONING: ${{ inputs.reasoning }}
         SHURIK_CREATE_PR: ${{ inputs.create-pr }}
         SHURIK_SECONDS: ${{ inputs.seconds }}
+        SHURIK_WORK_SECONDS: ${{ inputs.work-seconds }}
+        SHURIK_WAIT_SECONDS: ${{ inputs.wait-seconds }}
         SHURIK_DEADLINE: ${{ inputs.deadline }}
         SHURIK_SOURCE_REF: ${{ inputs.source-ref }}
         SHURIK_GENERATION: ${{ inputs.generation }}

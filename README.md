@@ -40,7 +40,11 @@ Every iteration starts a fresh model context while retaining native journals. Th
 
 The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. Blank provider/model inputs on resume keep the saved selection; changing provider requires an explicit model. A blank resume deadline clears the previous deadline. Iteration numbers continue across stops and resumes: `1, 2, 3, 4, 5 → stop → resume → 6, 7, 8`. Run titles show only the number, for example `Shurik demo / 6`. An interrupted iteration that claimed ownership consumes its number; an unclaimed queued run does not. Resume changes an internal generation so older queued invocations cannot claim the resumed loop. GitHub run IDs saved in control also keep their cancellation and recovery events separate, even when two queued runs have the same title.
 
-“Budget” refers to execution time: `seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs.
+“Budget” refers to execution time: `work-seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs.
+
+Set `work-seconds: 1800` and `wait-seconds: 10800` to work for up to 30 minutes, save progress, and wait at least three hours after each iteration finishes. The wait applies after successful and failed iterations, including an interrupted run recovered from GitHub. The job exits during the wait; no runner stays allocated. The existing recovery schedule checks every 15 minutes and starts the next iteration on its first check after the saved due time, subject to GitHub scheduling delays. Workflow summaries show **Waiting until** the saved timestamp. `wait-seconds: 0` keeps immediate continuation.
+
+Manual resume runs immediately and keeps the saved work/wait settings when inputs are blank. It can change either setting, including explicitly setting `wait-seconds: 0`. Resume while waiting changes the generation and preserves iteration numbering; an active iteration still requires stop before resume. Stop disables future work, and an overall deadline also applies during the wait. A failure before an iteration claims ownership retries without imposing another wait. Canonical action, workflow-dispatch, and CLI names are `work-seconds` / `wait-seconds` and `--work-seconds` / `--wait-seconds`. The former `seconds` input/flag remains a deprecated compatibility alias for older `@v1` consumers.
 
 Stop first records durable stopped state, then requests cancellation of the active run. GitHub cancellation is asynchronous; the worker also polls stopped state. Already queued iterations skip work while stopped and remain fenced out after resume.
 
@@ -82,7 +86,9 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `provider` | Pi AI provider ID; defaults to `opencode-go` on start, retained on resume |
 | `model`, `reasoning` | Model ID from the selected provider and explicit reasoning level |
 | `create-pr` | `auto` (default), `true`, or `false`; disabled on the default branch; denied repository PR settings become `false` without stopping the loop |
-| `seconds`, `deadline` | Iteration budget and optional absolute loop deadline |
+| `work-seconds` | Work budget per iteration, 10–1,800 seconds; defaults to 1,800 at start, retained on resume |
+| `wait-seconds` | Idle time after an iteration; nonnegative integer, defaults to 0 at start, retained on resume |
+| `deadline` | Optional absolute loop deadline |
 | `prompt` | Relative task prompt file; defaults to `PROMPT.md` at start |
 | `checkpoint-seconds` | Checkpoint interval, 1–1,800 seconds; defaults to 300 at start |
 | `checkpoint-paths` | JSON array of ignored task paths to retain with sessions; defaults to `[]` |
@@ -139,12 +145,14 @@ Set configuration in the control job's action inputs:
 - uses: igor-makarov/shurik@v1
   with:
     inputs: ${{ toJSON(inputs) }}
+    work-seconds: 1800
+    wait-seconds: 0
     checkpoint-seconds: 300
     checkpoint-paths: '["data/posts", "data/cdx"]'
     prompt: PROMPT.md
 ```
 
-Choose the provider, model, and iteration time limit with the `provider`, `model`, and `seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective provider/model pair, time limit, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
+Choose the provider, model, and iteration time limit with the `provider`, `model`, `work-seconds`, and `wait-seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective provider/model pair, work/wait settings, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
 
 The iteration time limit is 10–1,800 seconds; the checkpoint interval is 1–1,800 seconds. `prompt` names a relative project file. `checkpoint-paths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository's visibility; use artifact storage for large files.
 
