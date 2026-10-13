@@ -47,7 +47,7 @@ assert.ok(await inspectJournal(bundle, join(state, 'pi-jsonl'), stable));
 console.log('PASS: native worker receives job credentials, local files writable, partial edits and durable failure');
 
 const timed = await launchWorker({ workspace, state, bundle, stable, req: {
-  ...baseReq, id: 'native-timeout', seconds: 0.3,
+  ...baseReq, id: 'native-timeout', seconds: 2,
   script: [{ tool: 'bash', args: { command: 'printf partial > timeout-partial.txt; sleep 30' } }]
 } });
 assert.equal(timed.outcome, 'timeout', timed.log);

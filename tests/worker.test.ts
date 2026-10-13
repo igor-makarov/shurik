@@ -52,7 +52,8 @@ test('agent error retains partial coding work and next iteration can repair', as
 });
 test('time budget aborts work and journal opens in a new process', async () => {
   const f = await fixture();
-  const result = await run(f, 'timed', [{ tool: 'bash', args: { command: 'printf partial > partial.txt; sleep 10' } }], [], { seconds: 0.3 });
+  // Allow shell startup on a loaded runner; the iteration must still abort well before sleep finishes.
+  const result = await run(f, 'timed', [{ tool: 'bash', args: { command: 'printf partial > partial.txt; sleep 10' } }], [], { seconds: 2 });
   assert.equal(result.outcome, 'timeout');
   assert.equal(await readFile(join(f.cwd, 'partial.txt'), 'utf8'), 'partial');
   assert.equal((await run(f, 'after-timeout', [{ text: 'Fresh' }])).outcome, 'yielded');
@@ -177,7 +178,7 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.11');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/1.1.12');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
