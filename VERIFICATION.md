@@ -99,6 +99,8 @@ The retained-journal canary always runs against this fixture by default. Set `SH
 
 Generated cases found two defects fixed in release 1.1.4: masking an unescaped credential before its longer JSON encoding could leave a dangling backslash and corrupt evidence JSON, and an API token ending in `-` was partially masked because of a word-boundary match. Redaction now masks longer encoded forms first and consumes the complete API token. The minimized examples also have a focused unit regression.
 
+The recovery reservation property also reproduces equal-timestamp Git proposals: both readers prepare identical state, then the second pushes only after the first publishes. A unique control-transaction trailer gives each proposal a distinct commit, so the stale proposal is rejected and retries against the saved reservation. This prevents duplicate dispatch when Git would otherwise accept the second push as already up to date.
+
 The work/wait consumer integration uses the actual CLI supervisor and scripted native worker: start persists named inputs, an iteration checkpoints and exits without redispatching, future scheduled/queued invocations do no work, the first due recovery dispatches once, and a second iteration waits again. Manual resume overrides the wait to zero and dispatches immediately with contiguous numbering; the old queued generation is skipped. Git-backed clock tests exercise same-workflow crash completion timestamps, no extension from repeated checks, deadline/cancellation during waiting, pre-claim retry, simultaneous dispatch reservations, and control CAS races. Workflow summaries expose the saved due time. All timing tests advance a test clock or saved eligibility instead of waiting hours.
 
 ## Live reusable consumer evidence

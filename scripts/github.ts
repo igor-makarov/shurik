@@ -7,6 +7,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { readFile, writeFile, mkdir, cp, rm } from 'node:fs/promises';
 import { join } from 'node:path';
+import { randomUUID } from 'node:crypto';
 const exec = promisify(execFile);
 export async function command(cmd: string, args: string[], cwd: string, options: ExecFileOptions = {}) {
   const env: NodeJS.ProcessEnv = { ...process.env, GIT_TERMINAL_PROMPT: '0' };
@@ -121,7 +122,10 @@ export class ControlStore {
         // Import the task commit locally. Both remote refs are then published in one Git transaction.
         await git(this.cwd, 'fetch', checkpoint.workspace, checkpoint.workCommit);
       }
-      await saveJson(join(this.cwd, PATHS.control), next); const revisionToPush = await commit(this.cwd, message);
+      await saveJson(join(this.cwd, PATHS.control), next);
+      // Equal trees, messages and Git timestamps otherwise produce the same
+      // commit: a stale push can report success as already up to date.
+      const revisionToPush = await commit(this.cwd, `${message}\n\nControl-transaction: ${randomUUID()}`);
       const refs = [`${revisionToPush}:refs/heads/${this.branch}`];
       if (checkpoint) refs.push(`${checkpoint.workCommit}:refs/heads/${checkpoint.workBranch}`);
       try { await git(this.cwd, 'push', ...(checkpoint ? ['--atomic'] : []), 'origin', ...refs); return next; }

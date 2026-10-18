@@ -16,6 +16,19 @@ let clock = base;
 test.mock.method(Date, 'now', () => clock);
 test.beforeEach(() => { clock = base; });
 
+async function withFixedCommitDate<T>(run: () => Promise<T>) {
+  const keys = ['GIT_AUTHOR_DATE', 'GIT_COMMITTER_DATE'] as const;
+  const previous = keys.map(key => process.env[key]);
+  for (const key of keys) process.env[key] = new Date(base).toISOString();
+  try { return await run(); }
+  finally {
+    keys.forEach((key, index) => {
+      if (previous[index] === undefined) delete process.env[key];
+      else process.env[key] = previous[index];
+    });
+  }
+}
+
 async function fixture(extra: Partial<Control> = {}) {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-cadence-')), remote = join(dir, 'remote'), seed = join(dir, 'seed');
   await mkdir(seed); await git(dir, 'init', '--bare', remote); await git(seed, 'init'); await configureGit(seed);
@@ -84,16 +97,23 @@ test('failure before claim retries immediately after a wait without imposing ano
 });
 
 property('racing recovery checks reserve one due iteration and retain the persisted work/wait settings',
-  fc.asyncProperty(fc.integer({ min: 1, max: 86400 }), positive, async (waitSeconds, generation) => {
+  fc.asyncProperty(fc.integer({ min: 1, max: 86400 }), positive, (waitSeconds, generation) => withFixedCommitDate(async () => {
     const f = await fixture({ waitSeconds, generation, seconds: 1800, nextRunAt: new Date(base).toISOString() });
     try {
       const peer = await f.reader('peer'); let arrived = 0, release!: () => void;
       const gate = new Promise<void>(resolve => { release = resolve; });
+      let releasePeer!: () => void;
+      const winnerPublished = new Promise<void>(resolve => { releasePeer = resolve; });
       for (const store of [f.store, peer]) {
         const mutate = store.mutate.bind(store); let first = true;
         store.mutate = (change, ...args) => mutate(async c => {
           const next = await change(c);
-          if (first) { first = false; if (++arrived === 2) release(); await gate; }
+          if (first) {
+            first = false; if (++arrived === 2) release(); await gate;
+            // The peer proposes the same state, but starts pushing only after
+            // the winner publishes. Identical commits must not both succeed.
+            if (store === peer) await winnerPublished;
+          }
           return next;
         }, ...args);
       }
@@ -101,10 +121,10 @@ property('racing recovery checks reserve one due iteration and retain the persis
       await Promise.all([f.store, peer].map(store => reconcileLoop(store, { dispatchNext: async c => {
         dispatches++; assert.equal(c.seconds, 1800); assert.equal(c.waitSeconds, waitSeconds);
         assert.equal(c.generation, generation); assert.equal(c.nextRunAt, null);
-      } })));
+      } }).finally(() => { if (store === f.store) releasePeer(); })));
       assert.equal(dispatches, 1);
     } finally { await rm(f.dir, { recursive: true, force: true }); }
-  }), 8);
+  })), 8);
 
 property('stop or resume racing a due recovery check prevents dispatch from its older control state',
   fc.asyncProperty(fc.boolean(), positive, fc.integer({ min: 1, max: 86400 }), async (resume, generation, waitSeconds) => {
