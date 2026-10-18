@@ -18,6 +18,8 @@ Use a major version such as `@v1` or, for a future breaking release, `@v2`. Ever
 
 **Status:** reusable TypeScript CLI and action, verified in the independent demo with live DeepSeek requests, native Pi Durable journals, and recovery in the same workflow. The agent runs directly on the Actions runner with its job credentials. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
 
+This repository runs contributor CI only. Shurik loops run in [shurik-demo](https://github.com/igor-makarov/shurik-demo) and production consumer repositories, using the workflow template below.
+
 ## Add Shurik to a project
 
 1. Add a public-safe task in `PROMPT.md`. Configure Shurik through action inputs in the workflow; no project configuration directory is required.
