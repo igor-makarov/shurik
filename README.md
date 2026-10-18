@@ -197,7 +197,7 @@ node tests/runner-proof.ts
 
 Checks cover native journal persistence, fresh contexts, coding/history tools, checkpoint races, failure recovery, model reasoning, and an unrelated consumer repository. The scripted runner proof covers the legacy self-repair path. No real model credentials are needed for these checks.
 
-`npm run test:pbt` runs 36 property-based tests using `fast-check`, also included in `npm test` and CI. Each ordinary property checks 1,000 generated cases; filesystem properties use 50–75 cases, and real Git checkpoint properties use eight cases with generated payloads and races. Failures shrink to small counterexamples and print a reproducible seed. See the [property inventory and replay instructions](VERIFICATION.md#property-based-tests).
+`npm run test:pbt` runs 60 property-based tests using `fast-check`, also included in `npm test` and CI. Each ordinary property checks 1,000 generated cases; filesystem properties use 50–75 cases, real Git checkpoint properties use eight cases, and native history retrieval uses 20 cases with multiple isolated journals and optional legacy history. Failures shrink to small counterexamples and print a reproducible seed. See the [property inventory and replay instructions](VERIFICATION.md#property-based-tests).
 
 Publish tested releases with immutable version tags such as `v1.0.0`, then advance the corresponding major tag `v1`. Changes within a major version must preserve the action inputs, continuation protocol, and session layout, including reading journals written by earlier releases in that major. Breaking changes use a new major tag and documented migration. Consumers choose when to move their workflow from `@v1` to `@v2`; no engine-update control branch or per-loop version lock is required.
 

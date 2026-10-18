@@ -10,7 +10,7 @@ These automated checks use scripted model responses and local Git remotes; the i
 
 ## Property-based tests
 
-`npm run test:pbt` runs 59 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 42,647 generated scenarios: 42 ordinary properties with 1,000 cases each, eight filesystem properties with 50–75 cases, and nine real Git properties with eight cases each. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes; native Pi journal readability and model history are exercised separately by the integration tests and runner proof.
+`npm run test:pbt` runs 60 `fast-check` properties, included in `npm test`, `npm run verify`, and existing push/PR CI. Default runs cover 42,667 generated scenarios: 42 ordinary properties with 1,000 cases each, eight filesystem properties with 50–75 cases, nine real Git properties with eight cases each, and one native-journal property with 20 cases. Some Git cases publish sequences of up to four checkpoints. Git publication properties use generated task/session payloads in local bare remotes. Native history properties create multiple real Pi journals with scripted model responses, copy them to a cold workspace, and retrieve them through the worker's history tools.
 
 Each property has a deterministic default seed. Fast-check shrinks failures and prints the seed, shrink path, and smallest counterexample. To replay a failing property, set `SHURIK_PBT_SEED` to its printed seed and select its test name:
 
@@ -20,7 +20,7 @@ SHURIK_PBT_SEED=20261033 node --test --test-name-pattern='redacting serialized e
 
 `SHURIK_PBT_RUNS` changes the ordinary property's case count. For exploration, run `SHURIK_PBT_SEED=104729 SHURIK_PBT_RUNS=5000 node --test tests/properties.test.ts`. Filesystem and Git case counts stay bounded. All generated credentials are synthetic and all filesystem/Git fixtures are temporary; these checks need no provider key or GitHub writes.
 
-The inventory below corresponds to named properties in [properties.test.ts](tests/properties.test.ts) and [persistence-properties.test.ts](tests/persistence-properties.test.ts):
+The inventory below corresponds to named properties in [properties.test.ts](tests/properties.test.ts), [persistence-properties.test.ts](tests/persistence-properties.test.ts), [history-properties.test.ts](tests/history-properties.test.ts), [images.test.ts](tests/images.test.ts), and [cadence.test.ts](tests/cadence.test.ts):
 
 1. Valid loop IDs produce confined runtime paths and separate work/control refs.
 2. Unsafe loop IDs are rejected by every path/ref entry point.
@@ -83,6 +83,7 @@ The inventory below corresponds to named properties in [properties.test.ts](test
 57. Legacy controls and zero waits preserve immediate continuation without mutating saved state.
 58. Racing recovery checks reserve exactly one due iteration and retain persisted work/wait settings.
 59. Stop or resume racing a due check prevents dispatch from its older control state.
+60. Multiple isolated native journals with overlapping entry IDs retain exact readable transcripts after cold restore. Generated cases vary journal IDs, Unicode payloads, tool-round counts, failures, history order, page sizes, and optional legacy shared journals. Paginated list/read/search results match an independent oracle from native commit logs, fresh contexts exclude prior transcripts, and all archived journals and sidecars remain byte-for-byte unchanged.
 
 Branch tests verify exact loop-name task refs, `shurik-control/<id>` control refs, reserved namespace rejection, existing-branch tip selection from an older checkout, and rejection of conflicting explicit sources. Older control refs remain readable and mutable, with canonical refs taking precedence for fresh readers. The scripted native consumer integration starts loop `main` from a newly advanced remote tip, publishes task changes directly onto `main`, retains maintainer files, keeps journals on `shurik-control/main`, and disables PR requests even with an explicit `true` at start and resume. These checks use local remotes and make no paid requests.
 
