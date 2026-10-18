@@ -31,7 +31,8 @@ Options:
   --wait-seconds N   Idle time after an iteration, nonnegative (default: 0)
   --source-ref REF --generation N --iteration N --workflow FILE
   --create-pr auto|true|false  Draft PR creation (default: auto)
-  --prompt FILE --checkpoint-seconds N --checkpoint-paths JSON_ARRAY
+  --checkpoint-seconds N  Periodic saves, 1–1800; 0 disables (default: 300)
+  --prompt FILE --checkpoint-paths JSON_ARRAY
   --repository OWNER/NAME  Session namespace (default: GITHUB_REPOSITORY)
   --workspace DIR   Consumer checkout (default: GITHUB_WORKSPACE or cwd)
   --request FILE    Worker/inspection JSON request

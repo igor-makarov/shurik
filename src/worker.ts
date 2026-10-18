@@ -63,6 +63,7 @@ export async function runIteration(req: Request) {
   let iterationEndsAt = endOfIteration();
   const updateTime = () => root.configure({ instructions: `${INSTRUCTIONS}\n\n${timeRemainingInstructions(iterationEndsAt, req.deadline, Date.now(), req.checkpointSeconds || 300)}` }, context);
   async function checkpoint(force = false) {
+    // Zero disables periodic saves; the forced session-start boundary still publishes.
     if (!req.checkpointHandshake || (!force && (!req.checkpointSeconds || Date.now() - checkpointAt < req.checkpointSeconds * 1000))) return;
     const nonce = `${Date.now()}`;
     await updateTime();
@@ -83,7 +84,7 @@ export async function runIteration(req: Request) {
   const harness = await Harness.open(storage, { models, registry,
     env: ({ cwd }) => new NodeExecutionEnv({ cwd: cwd ?? req.cwd }),
     settings: { retry: { enabled: false, maxRetries: 0 }, toolExecution: 'sequential',
-      stream: { headers: { 'User-Agent': 'shurik/2.0.0' }, timeoutMs: 120000, maxRetries: 0 } } }, context);
+      stream: { headers: { 'User-Agent': 'shurik/2.0.1' }, timeoutMs: 120000, maxRetries: 0 } } }, context);
   root = await harness.root(context);
   if (req.mode === 'inspect') {
     const inspect = await harness.inspect(context); await harness.close(context);

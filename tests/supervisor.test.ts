@@ -44,6 +44,20 @@ test('stop and resume preserve the next number when the previous successor never
     display_title: 'Shurik fixture / 6' })), false);
 });
 
+test('resume can disable or re-enable periodic checkpoints and retains zero when omitted', () => {
+  const previous = Object.freeze(controlFixture({ status: 'stopped', checkpointSeconds: 300 }));
+  const disabled = resumeSettings(previous, { reasoning: 'high', checkpoint_seconds: '0' });
+  assert.equal(disabled.checkpointSeconds, 0); assert.equal(previous.checkpointSeconds, 300);
+  const stopped = { ...disabled, status: 'stopped' };
+  for (const checkpoint_seconds of [undefined, '']) {
+    assert.equal(resumeSettings(stopped, { reasoning: 'high', checkpoint_seconds }).checkpointSeconds, 0);
+  }
+  assert.equal(resumeSettings(stopped, { reasoning: 'high', 'checkpoint-seconds': '120' }).checkpointSeconds, 120);
+  for (const checkpoint_seconds of ['-1', '1801', '1.5', 'false', ' ']) {
+    assert.throws(() => resumeSettings(stopped, { reasoning: 'high', checkpoint_seconds }), /checkpoint-seconds/);
+  }
+});
+
 test('draft PR mode defaults to auto and accepts explicit boolean overrides', () => {
   assert.equal(validateCreatePr(undefined), 'auto');
   assert.equal(validateCreatePr('auto'), 'auto');

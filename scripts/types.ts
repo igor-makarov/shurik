@@ -7,7 +7,7 @@ export interface SwarmSpec { agents?: number; models?: Partial<ModelSpec>[] }
 export interface SwarmMember { id: string; index: number; agents: number }
 
 // Resolved per-loop options; model settings remain flat inside the engine.
-export type Options = Partial<Record<'command' | 'loop_id' | 'provider' | 'model' | 'reasoning' | 'work_seconds' | 'wait_seconds' | 'work-seconds' | 'wait-seconds' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean; swarm_member?: SwarmMember };
+export type Options = Partial<Record<'command' | 'loop_id' | 'provider' | 'model' | 'reasoning' | 'work_seconds' | 'wait_seconds' | 'work-seconds' | 'wait-seconds' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint-seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean; swarm_member?: SwarmMember };
 export type Inputs = Omit<Options, 'provider' | 'model' | 'reasoning' | 'swarm_member'> & {
   model?: string | Partial<ModelSpec>; swarm?: string | SwarmSpec;
 };

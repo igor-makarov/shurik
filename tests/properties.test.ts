@@ -491,7 +491,7 @@ property('time feedback respects the earlier limit, clamps expiry and omits earl
 
 property('named action configuration needs no project file and preserves explicit settings',
   fc.asyncProperty(identifier, identifier, fc.integer({ min: 10, max: 1800 }),
-    fc.integer({ min: 1, max: 1800 }), async (model, name, seconds, checkpoint) => {
+    fc.integer({ min: 0, max: 1800 }), async (model, name, seconds, checkpoint) => {
       const inputs = { provider: 'openai', model, prompt: name + '.md', seconds: String(seconds),
         checkpoint_seconds: String(checkpoint), checkpoint_paths: JSON.stringify(['data/' + name]) };
       const before = copy(inputs), config = await projectConfig(join(home, 'no-config'), inputs);

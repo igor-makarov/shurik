@@ -60,10 +60,13 @@ test('invalid swarm/model inputs fail before any launch work', () => {
 });
 
 test('workflow JSON, action fields, and CLI JSON produce the same launch plan without YAML defaults', () => {
-  const raw: Inputs = { command: 'start', loop_id: 'work', model: JSON.stringify(model), swarm: '{"agents":2}' };
+  const raw: Inputs = { command: 'start', loop_id: 'work', model: JSON.stringify(model), swarm: '{"agents":2}', 'checkpoint-seconds': '0' };
   const action = actionOptions({ SHURIK_INPUTS: JSON.stringify(raw) });
-  const cli = parseArgs(['start', '--loop-id', 'work', '--model', JSON.stringify(model), '--swarm', '{"agents":2}']);
+  const cli = parseArgs(['start', '--loop-id', 'work', '--model', JSON.stringify(model), '--swarm', '{"agents":2}', '--checkpoint-seconds', '0']);
   assert.deepEqual(planStart(action), planStart(cli));
+  assert.equal(action.checkpoint_seconds, '0'); assert.equal(cli.checkpoint_seconds, '0');
+  assert.equal(actionOptions({ SHURIK_INPUTS: JSON.stringify(raw), SHURIK_CHECKPOINT_SECONDS: '120' }).checkpoint_seconds, '120');
+  assert.equal(actionOptions({ SHURIK_LOOP_ID: 'work', SHURIK_CHECKPOINT_SECONDS: '0' }).checkpoint_seconds, '0');
   const overridden = actionOptions({ SHURIK_INPUTS: JSON.stringify(raw), SHURIK_MODEL: JSON.stringify({ ...model, reasoning: 'low' }) });
   assert.equal(planStart(overridden)[0].model.reasoning, 'low');
   const commandOverride = actionOptions({ SHURIK_INPUTS: JSON.stringify({ ...raw, command: 'stop' }), SHURIK_COMMAND: 'start' });

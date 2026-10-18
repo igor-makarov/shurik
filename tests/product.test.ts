@@ -1,4 +1,4 @@
-import type { WorkerRequest, WorkerResult, Sessions } from '../scripts/types.ts';
+import type { WorkerRequest, WorkerResult, WorkerCheckpoint, Sessions } from '../scripts/types.ts';
 import { controlFixture, iterationFixture } from './test-support.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
@@ -57,6 +57,13 @@ test('v2 operational configuration uses built-in defaults and ignores legacy pro
   await saveJson(join(project, PATHS.config), { version: 1, model: 'custom', checkpointSeconds: 90, prompt: 'tasks/task.md' });
   assert.equal((await projectConfig(project, base)).checkpointSeconds, 300);
   assert.equal((await projectConfig(project, inputs)).checkpointSeconds, 60);
+  for (const checkpoint_seconds of ['0', '1', '1800']) {
+    assert.equal((await projectConfig(project, { ...base, checkpoint_seconds })).checkpointSeconds, Number(checkpoint_seconds));
+  }
+  assert.equal((await projectConfig(project, { ...base, checkpoint_seconds: '' })).checkpointSeconds, 300);
+  for (const checkpoint_seconds of ['-1', '1801', '1.5', 'NaN', 'Infinity', 'false', ' ']) {
+    await assert.rejects(projectConfig(project, { ...base, checkpoint_seconds }), /checkpoint-seconds/);
+  }
   for (const prompt of ['../secret', '/absolute']) {
     await assert.rejects(projectConfig(project, { ...base, prompt }), /relative project file/);
   }
@@ -135,6 +142,27 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   assert.equal(await git(cold, 'status', '--porcelain'), '');
 });
 
+test('zero disables periodic worker checkpoints while preserving session start and completed journal', async () => {
+  for (const checkpointSeconds of [0, 0.001]) {
+    const dir = await mkdtemp(join(tmpdir(), 'shurik-checkpoint-toggle-'));
+    const workspace = join(dir, 'repo'); await mkdir(workspace);
+    const checkpoints: WorkerCheckpoint[] = [];
+    const report = await launchWorker({ workspace, state: join(dir, 'state'), bundle, stable: resolve('.'),
+      req: { version: 1, id: 'checkpoint-toggle', journalId: '1-1', model: 'space-bunny-free', reasoning: 'high',
+        seconds: 10, checkpointSeconds, sessions: [], prompt: 'Save useful work',
+        script: [{ delayMs: 20, tool: 'write', args: { path: 'saved.txt', content: 'CHECKPOINT_TOGGLE_NEEDLE' } },
+          { delayMs: 20, tool: 'read', args: { path: 'saved.txt' } }, { text: 'Finished' }] },
+      onCheckpoint: async checkpoint => { checkpoints.push(checkpoint); }
+    });
+    assert.equal(report.outcome, 'yielded', report.log);
+    assert.deepEqual(checkpoints.map(c => c.phase), checkpointSeconds === 0 ? ['started'] : ['started', 'tools', 'tools']);
+    assert.equal(await readFile(join(workspace, 'saved.txt'), 'utf8'), 'CHECKPOINT_TOGGLE_NEEDLE');
+    const journal = await readFile(join(dir, 'state/pi-jsonl/sessions/1-1/main.jsonl'), 'utf8');
+    assert.match(journal, /CHECKPOINT_TOGGLE_NEEDLE/); assert.match(journal, /Finished/);
+    assert.ok(report.result!.maxEntryId! > checkpoints[0].maxEntryId, 'final journal includes work after the session-start checkpoint');
+  }
+});
+
 test('supervisor starts and completes an unrelated consumer loop using the current released engine', async () => {
   const dir = await mkdtemp(join(tmpdir(), 'shurik-supervisor-consumer-'));
   const project = join(dir, 'project'), engine = join(dir, 'engine'), remote = join(dir, 'remote');
@@ -156,7 +184,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
   await writeFile(worker, (await readFile(worker, 'utf8')).replace('export async function runIteration(req: Request) {',
     `export async function runIteration(req: Request) {
       req.script = [{ tool: 'write', args: { path: 'consumer-result.txt', content: 'SUPERVISOR_CONSUMER_PROOF' } },
-        { tool: 'write', args: { path: 'provider-selection.json', content: JSON.stringify({ provider: req.provider, model: req.model, prompt: (req.prompt ?? '').includes('Swarm:') ? req.prompt : undefined }) } },
+        { tool: 'write', args: { path: 'provider-selection.json', content: JSON.stringify({ provider: req.provider, model: req.model, checkpointSeconds: req.checkpointSeconds, prompt: (req.prompt ?? '').includes('Swarm:') ? req.prompt : undefined }) } },
         { text: 'Done' }];`));
   await git(engine, 'init'); await configureGit(engine);
   const engineSHA = await commit(engine, 'scripted engine release');
@@ -235,7 +263,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await git(ctl, 'fetch', 'origin', value.branch);
     assert.equal(await git(ctl, 'show', `${value.checkpoint!.workCommit}:consumer-result.txt`), 'SUPERVISOR_CONSUMER_PROOF');
     assert.deepEqual(JSON.parse(await git(ctl, 'show', `${value.checkpoint!.workCommit}:provider-selection.json`)),
-      { provider: 'openai', model: 'gpt-6-sol' });
+      { provider: 'openai', model: 'gpt-6-sol', checkpointSeconds: 1 });
     assert.equal(dispatches.length, 2);
     assert.equal(dispatches[1].inputs.iteration, '2');
     assert.equal(dispatches[1].inputs.supervisor_ref, undefined);
@@ -260,10 +288,11 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (oldResult === undefined) delete process.env.SHURIK_ITERATION_RESULT; else process.env.SHURIK_ITERATION_RESULT = oldResult;
     }
     await main({ command: 'stop', loop_id: 'demo' });
-    await main({ command: 'resume', loop_id: 'demo', model: { provider: 'anthropic', name: 'claude-haiku-4-5', reasoning: 'medium' } });
+    await main({ command: 'resume', loop_id: 'demo', model: { provider: 'anthropic', name: 'claude-haiku-4-5', reasoning: 'medium' }, 'checkpoint-seconds': '0' });
     const resumed = (await store.read()).value;
     assert.equal(resumed.generation, 2); assert.equal(resumed.next, 3);
     assert.equal(resumed.provider, 'anthropic'); assert.equal(resumed.model, 'claude-haiku-4-5');
+    assert.equal(resumed.checkpointSeconds, 0);
     assert.equal(dispatches[3].inputs.generation, '2'); assert.equal(dispatches[3].inputs.iteration, '3');
     assert.deepEqual(resumed.dispatchedRuns?.slice(-2), [
       { runId: '102', generation: 1, iteration: 3 }, { runId: '103', generation: 2, iteration: 3 }
@@ -278,7 +307,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(resumedRecord.provider, 'anthropic'); assert.equal(resumedRecord.model, 'claude-haiku-4-5');
     await git(ctl, 'fetch', 'origin', finished.value.branch);
     assert.deepEqual(JSON.parse(await git(ctl, 'show', `${finished.value.checkpoint!.workCommit}:provider-selection.json`)),
-      { provider: 'anthropic', model: 'claude-haiku-4-5' });
+      { provider: 'anthropic', model: 'claude-haiku-4-5', checkpointSeconds: 0 });
     await main({ command: 'start', loop_id: 'without-pr', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, create_pr: false, source_ref: 'older-task-source' });
     assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
     const maintainer = join(dir, 'maintainer'); await git(dir, 'clone', remote, maintainer); await configureGit(maintainer);
@@ -346,13 +375,14 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(await git(ctl, 'ls-remote', '--heads', 'origin', 'refs/heads/invalid-swarm*', 'refs/heads/shurik-control/invalid-swarm*'), '');
     assert.equal(dispatches.length, beforeSwarm);
     await main({ command: 'start', loop_id: 'research', model: swarmModel, swarm: { agents: 2, models: [{}, { reasoning: 'medium' }] },
-      create_pr: false, work_seconds: '20', checkpoint_seconds: '1' });
+      create_pr: false, work_seconds: '20', 'checkpoint-seconds': '0' });
     const firstMember = new ControlStore(ctl, 'research-0'), secondMember = new ControlStore(ctl, 'research-1');
     assert.equal(dispatches.length, beforeSwarm + 2);
     for (const [index, member] of [firstMember, secondMember].entries()) {
       const saved = await member.read();
       assert.deepEqual(saved.value.swarm, { id: 'research', index, agents: 2 });
       assert.equal(saved.value.reasoning, index ? 'medium' : 'high');
+      assert.equal(saved.value.checkpointSeconds, 0);
       assert.deepEqual(JSON.parse(await git(ctl, 'show', `${saved.revision}:state/loop.json`)).swarm, saved.value.swarm);
     }
     await main({ command: 'iterate', loop_id: 'research-0', generation: '1', iteration: '1' });
@@ -363,10 +393,12 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     const memberState = await firstMember.read();
     await git(ctl, 'fetch', 'origin', 'research-0');
     const workerEvidence = await git(ctl, 'show', `${memberState.value.checkpoint!.workCommit}:provider-selection.json`);
+    assert.equal(JSON.parse(workerEvidence).checkpointSeconds, 0, 'continuation forwards saved zero without replacing it with the default');
     assert.match(workerEvidence, /Loop ID: research-0/); assert.match(workerEvidence, /member index: 0/);
     await main({ command: 'stop', loop_id: 'research-0' });
     await main({ command: 'resume', loop_id: 'research-0', model: { reasoning: 'low' } });
     assert.equal((await firstMember.read()).value.generation, 2);
+    assert.equal((await firstMember.read()).value.checkpointSeconds, 0);
     assert.deepEqual((await firstMember.read()).value.swarm, { id: 'research', index: 0, agents: 2 });
     await assert.rejects(main({ command: 'start', loop_id: 'research', model: swarmModel, swarm: { agents: 2 } }), /already exist/);
     failDispatchFor = 'partial-0';
