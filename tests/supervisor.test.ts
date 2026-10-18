@@ -12,7 +12,7 @@ import { expireUnstartedIteration, start } from '../scripts/supervisor.ts';
 test('start requires an explicit reasoning level before creating any loop', async () => {
   for (const value of [undefined, '', 'automatic']) {
     assert.throws(() => validateReasoning(value), /Explicit reasoning level required/);
-    await assert.rejects(start({ reasoning: value }), /Explicit reasoning level required/);
+    await assert.rejects(start({ loop_id: 'test', model: JSON.stringify({ provider: 'openai', name: 'gpt-6-sol', reasoning: value }) }), /reasoning/);
   }
   assert.equal(validateReasoning('high'), 'high');
 });

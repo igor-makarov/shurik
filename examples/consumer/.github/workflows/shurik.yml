@@ -6,23 +6,20 @@ on:
   workflow_dispatch:
     inputs:
       command:
-        description: Start, stop or resume a loop; iterate is used by Shurik
+        description: Start a loop or swarm, stop/resume a member; iterate is internal
         required: true
         type: choice
         options: [start, stop, resume, iterate]
         default: start
       loop_id:
-        description: Loop ID and task branch; use main to work directly on main
+        description: Loop ID, or swarm prefix on start; stop/resume use individual IDs
         required: true
         type: string
-      reasoning:
-        description: Required for start/resume (off, minimal, low, medium, high, xhigh, max)
-        type: string
-      provider:
-        description: Optional Pi AI provider; resume keeps the previous provider
-        type: string
       model:
-        description: Optional model; resume keeps the previous model
+        description: 'JSON model: {"provider":"openai","name":"gpt-6-sol","reasoning":"high"}; optional overrides on resume'
+        type: string
+      swarm:
+        description: 'Start-only JSON: {"agents":4} or {"models":[...]} with optional shared model'
         type: string
       create_pr:
         description: Create draft PRs when allowed (auto), always try (true), or disable (false)
@@ -32,8 +29,20 @@ on:
       source_ref:
         description: Source for a new task branch; existing branches use their current tip
         type: string
-      seconds:
-        description: Optional iteration budget for start (10–1800 seconds)
+      work-seconds:
+        description: Work budget per iteration, 10–1800; Shurik defaults to 1800 on start
+        type: string
+      wait-seconds:
+        description: Idle seconds between iterations; Shurik defaults to 0 on start
+        type: string
+      checkpoint-seconds:
+        description: Checkpoint interval, 1–1800; Shurik defaults to 300 on start
+        type: string
+      checkpoint-paths:
+        description: JSON array of ignored task paths; Shurik defaults to an empty array
+        type: string
+      prompt:
+        description: Relative task prompt path; Shurik defaults to PROMPT.md on start
         type: string
       deadline:
         description: Optional absolute UTC deadline for start/resume
@@ -64,13 +73,9 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       - id: shurik
-        uses: igor-makarov/shurik@v1
+        uses: igor-makarov/shurik@v2
         with:
           inputs: ${{ toJSON(inputs) }}
-          workflow: shurik.yml
-          checkpoint-seconds: 300
-          prompt: PROMPT.md
-          checkpoint-paths: '[]'
       - name: Preserve emergency snapshot after publication failure
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -93,7 +98,7 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       - id: shurik
-        uses: igor-makarov/shurik@v1
+        uses: igor-makarov/shurik@v2
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -123,7 +128,7 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - uses: igor-makarov/shurik@v1
+      - uses: igor-makarov/shurik@v2
         env:
           SHURIK_ITERATION_RESULT: ${{ needs.iteration.result }}
         with:

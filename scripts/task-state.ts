@@ -1,5 +1,4 @@
 import { errorCode } from './types.ts';
-import type { ProjectConfig } from './config.ts';
 import { PATHS } from './paths.ts';
 import { cp, lstat, mkdir, readdir, rm } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -36,8 +35,7 @@ async function safeTree(root: string, path: string) {
 
 // Explicitly selected ignored task state travels with the journal on the control branch.
 export async function snapshotTaskState(workspace: string, state: string, workCommit: string, checkpointPaths?: string[]) {
-  const config = checkpointPaths === undefined ? await readJson<Partial<ProjectConfig>>(join(workspace, PATHS.config), {}) : {};
-  const paths = validatePaths(checkpointPaths ?? config.checkpointPaths ?? []);
+  const paths = validatePaths(checkpointPaths ?? []);
   const root = join(state, PATHS.taskFiles);
   await rm(root, { recursive: true, force: true });
   await mkdir(root, { recursive: true });

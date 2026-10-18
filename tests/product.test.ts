@@ -29,47 +29,48 @@ test('runtime sessions are outside the checkout and scoped by repository and loo
   assert.throws(() => runtimeState('alice/..', 'demo'), /Repository/);
 });
 
-test('CLI and action input validation keep explicit reasoning and allow flags to override dispatch inputs', () => {
-  assert.equal(parseArgs(['start', '--provider', 'openai'], { provider: 'opencode-go' }).provider, 'openai');
-  assert.equal(actionOptions({ SHURIK_INPUTS: '{"loop_id":"demo","provider":"opencode-go"}', SHURIK_PROVIDER: 'anthropic' }).provider, 'anthropic');
-  assert.equal(parseArgs(['resume', '--reasoning', 'high'], { command: 'stop', reasoning: 'low' }).reasoning, 'high');
+test('CLI and action accept model JSON and reject the removed flat workflow inputs', () => {
+  const model = JSON.stringify({ provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' });
+  assert.equal(parseArgs(['start', '--model', model], { model: '{}' }).model, model);
+  assert.equal(actionOptions({ SHURIK_INPUTS: '{"loop_id":"demo","model":{}}', SHURIK_MODEL: model }).model, model);
+  assert.throws(() => parseArgs(['start', '--provider', 'openai']), /Unknown option/);
+  assert.throws(() => actionOptions({ SHURIK_INPUTS: '{"loop_id":"demo","provider":"openai"}' }), /removed in v2/);
   assert.equal(parseArgs(['start', '--create-pr', 'false'], { create_pr: 'auto' }).create_pr, 'false');
   assert.equal(actionOptions({ SHURIK_INPUTS: '{"create_pr":"auto","loop_id":"demo"}', SHURIK_CREATE_PR: 'false' }).create_pr, 'false');
-  assert.equal(actionOptions({ SHURIK_INPUTS: '{"command":"iterate","loop_id":"demo","iteration":"2"}', SHURIK_MODEL: 'model' }).command, 'iterate');
+  assert.equal(actionOptions({ SHURIK_INPUTS: '{"command":"iterate","loop_id":"demo","iteration":"2"}' }).command, 'iterate');
   assert.equal(actionOptions({ SHURIK_INPUTS: '{"command":"recover"}' }).command, 'recover');
   assert.throws(() => parseArgs(['start', '--unknown', 'value']), /Unknown option/);
   assert.throws(() => actionOptions({ SHURIK_LOOP_ID: '../main' }), /Loop ID/);
   assert.throws(() => parseArgs(['unknown']), /Unknown command/);
 });
 
-test('action configuration works without a project config file and overrides legacy settings', async () => {
+test('v2 operational configuration uses built-in defaults and ignores legacy project files', async () => {
   const project = await mkdtemp(join(tmpdir(), 'shurik-config-'));
-  assert.equal((await projectConfig(project)).checkpointSeconds, 300);
-  const inputs = { model: 'custom', work_seconds: '120', wait_seconds: '10800', checkpoint_seconds: '60', prompt: 'tasks/task.md', checkpoint_paths: '["data/cache"]' };
+  const base = { provider: 'openai', model: 'custom' };
+  assert.equal((await projectConfig(project, base)).checkpointSeconds, 300);
+  const inputs = { ...base, work_seconds: '120', wait_seconds: '10800', checkpoint_seconds: '60', prompt: 'tasks/task.md', checkpoint_paths: '["data/cache"]' };
   const config = await projectConfig(project, inputs);
   assert.equal(config.model, 'custom'); assert.equal(config.iterationSeconds, 120);
   assert.equal(config.waitSeconds, 10800);
   assert.equal(config.checkpointSeconds, 60); assert.deepEqual(config.checkpointPaths, ['data/cache']);
   assert.deepEqual(await readdir(project), [], 'configuration does not create a file');
   await saveJson(join(project, PATHS.config), { version: 1, model: 'custom', checkpointSeconds: 90, prompt: 'tasks/task.md' });
-  assert.equal((await projectConfig(project)).model, 'custom');
+  assert.equal((await projectConfig(project, base)).checkpointSeconds, 300);
   assert.equal((await projectConfig(project, inputs)).checkpointSeconds, 60);
   for (const prompt of ['../secret', '/absolute']) {
-    await saveJson(join(project, PATHS.config), { prompt });
-    await assert.rejects(projectConfig(project), /relative project file/);
+    await assert.rejects(projectConfig(project, { ...base, prompt }), /relative project file/);
   }
 });
 
-test('provider configuration requires a matching model and preserves legacy OpenCode defaults', async () => {
+test('new starts require a complete explicit model without a provider or model default', async () => {
   const project = await mkdtemp(join(tmpdir(), 'shurik-providers-'));
-  const legacy = await projectConfig(project);
-  assert.equal(legacy.provider, 'opencode-go'); assert.equal(legacy.model, 'space-bunny-free');
-  await assert.rejects(projectConfig(project, { provider: 'openai' }), /Explicit model required/);
+  await assert.rejects(projectConfig(project), /Explicit model/);
+  await assert.rejects(projectConfig(project, { provider: 'openai' }), /Explicit model/);
   const config = await projectConfig(project, { provider: 'openai', model: 'gpt-6-sol' });
   assert.equal(config.provider, 'openai'); assert.equal(config.model, 'gpt-6-sol');
   await saveJson(join(project, PATHS.config), { version: 1, provider: 'anthropic', model: 'claude-haiku-4-5' });
-  assert.equal((await projectConfig(project)).provider, 'anthropic');
-  await assert.rejects(projectConfig(project, { provider: 'openai' }), /Explicit model required/);
+  await assert.rejects(projectConfig(project), /Explicit model/);
+  await assert.rejects(projectConfig(project, { provider: 'openai' }), /Explicit model/);
   await assert.rejects(projectConfig(project, { provider: '../provider', model: 'custom' }), /Provider/);
 });
 
@@ -155,7 +156,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
   await writeFile(worker, (await readFile(worker, 'utf8')).replace('export async function runIteration(req: Request) {',
     `export async function runIteration(req: Request) {
       req.script = [{ tool: 'write', args: { path: 'consumer-result.txt', content: 'SUPERVISOR_CONSUMER_PROOF' } },
-        { tool: 'write', args: { path: 'provider-selection.json', content: JSON.stringify({ provider: req.provider, model: req.model }) } },
+        { tool: 'write', args: { path: 'provider-selection.json', content: JSON.stringify({ provider: req.provider, model: req.model, prompt: (req.prompt ?? '').includes('Swarm:') ? req.prompt : undefined }) } },
         { text: 'Done' }];`));
   await git(engine, 'init'); await configureGit(engine);
   const engineSHA = await commit(engine, 'scripted engine release');
@@ -164,9 +165,9 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
   const overrides = { GIT_CONFIG_GLOBAL: gitConfig, GITHUB_REPOSITORY: 'fixture/consumer',
     GITHUB_ACTOR: 'maintainer', GITHUB_REF: 'refs/heads/main', GITHUB_RUN_ID: '100',
     GITHUB_TOKEN: 'TEST_ONLY_TOKEN', GH_TOKEN: undefined, SHURIK_PROJECT_ROOT: project,
-    SHURIK_ENGINE_ROOT: engine, SHURIK_ENGINE_REPOSITORY: 'fixture/shurik', SHURIK_ACTION_REF: 'v1', GITHUB_STEP_SUMMARY: join(dir, 'summary.md') };
+    SHURIK_ENGINE_ROOT: engine, SHURIK_ENGINE_REPOSITORY: 'fixture/shurik', SHURIK_ACTION_REF: 'v2', GITHUB_STEP_SUMMARY: join(dir, 'summary.md') };
   const previous = Object.fromEntries(Object.keys(overrides).map(key => [key, process.env[key]]));
-  const originalFetch = globalThis.fetch, dispatches: { ref: string; return_run_details: boolean; inputs: Record<string, string> }[] = []; let prAllowed = false, prAttempts = 0, failDispatch = false;
+  const originalFetch = globalThis.fetch, dispatches: { ref: string; return_run_details: boolean; inputs: Record<string, string> }[] = []; let prAllowed = false, prAttempts = 0, failDispatch = false, failDispatchFor = '';
   try {
     for (const [key, value] of Object.entries(overrides)) {
       if (value === undefined) delete process.env[key]; else process.env[key] = value;
@@ -193,24 +194,25 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
         if (failDispatch) throw new Error('INJECTED_DISPATCH_FAILURE');
         assert.equal(typeof init.body, 'string');
         const body = JSON.parse(init.body as string); assert.equal(body.return_run_details, true);
+        if (body.inputs.loop_id === failDispatchFor) throw new Error('INJECTED_MEMBER_DISPATCH_FAILURE');
         dispatches.push(body); return Response.json({ workflow_run_id: 100 + dispatches.length - 1 });
       }
       throw new Error(`Unexpected API request: ${url}`);
     };
     const { main } = await import(`../scripts/supervisor.ts?consumer=${Date.now()}`);
-    await main({ command: 'start', loop_id: 'demo', provider: 'openai', model: 'gpt-6-sol', reasoning: 'high', workflow: 'agent.yml', source_ref: 'older-task-source',
+    await main({ command: 'start', loop_id: 'demo', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, workflow: 'agent.yml', source_ref: 'older-task-source',
       work_seconds: '20', checkpoint_seconds: '1', prompt: 'PROMPT.md', checkpoint_paths: '[]' });
     const ctl = join(dir, 'inspect-control'); await git(dir, 'clone', remote, ctl); await configureGit(ctl);
     const store = new ControlStore(ctl, 'demo');
     const started = (await store.read()).value;
     assert.equal(started.branch, 'demo'); assert.equal(store.branch, 'shurik-control/demo');
-    await assert.rejects(main({ command: 'start', loop_id: 'demo', reasoning: 'high' }), /already exists; use resume/);
+    await assert.rejects(main({ command: 'start', loop_id: 'demo', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' } }), /already exists; use resume/);
     assert.equal(started.provider, 'openai'); assert.equal(started.model, 'gpt-6-sol');
     assert.equal(await git(ctl, 'show', `${(await store.read()).revision}:.github/workflows/shurik.yml`), 'name: Current workflow');
     await git(ctl, 'fetch', 'origin', started.branch);
     assert.equal(await git(ctl, 'show', `${started.checkpoint!.workCommit}:.github/workflows/shurik.yml`), 'name: Current workflow');
     assert.equal(started.source, source); assert.notEqual(started.source, engineSHA);
-    assert.equal(started.seconds, 20); assert.deepEqual(started.engine, { repository: 'fixture/shurik', ref: 'v1' });
+    assert.equal(started.seconds, 20); assert.deepEqual(started.engine, { repository: 'fixture/shurik', ref: 'v2' });
     assert.equal(started.checkpointSeconds, 1); assert.deepEqual(started.checkpointPaths, []);
     assert.deepEqual((await readdir(project)).sort(), ['.git', '.github', 'PROMPT.md']);
     assert.equal(started.pr, null, 'PR creation being disabled does not prevent starting the loop');
@@ -258,7 +260,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       if (oldResult === undefined) delete process.env.SHURIK_ITERATION_RESULT; else process.env.SHURIK_ITERATION_RESULT = oldResult;
     }
     await main({ command: 'stop', loop_id: 'demo' });
-    await main({ command: 'resume', loop_id: 'demo', provider: 'anthropic', model: 'claude-haiku-4-5', reasoning: 'medium' });
+    await main({ command: 'resume', loop_id: 'demo', model: { provider: 'anthropic', name: 'claude-haiku-4-5', reasoning: 'medium' } });
     const resumed = (await store.read()).value;
     assert.equal(resumed.generation, 2); assert.equal(resumed.next, 3);
     assert.equal(resumed.provider, 'anthropic'); assert.equal(resumed.model, 'claude-haiku-4-5');
@@ -277,14 +279,14 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await git(ctl, 'fetch', 'origin', finished.value.branch);
     assert.deepEqual(JSON.parse(await git(ctl, 'show', `${finished.value.checkpoint!.workCommit}:provider-selection.json`)),
       { provider: 'anthropic', model: 'claude-haiku-4-5' });
-    await main({ command: 'start', loop_id: 'without-pr', reasoning: 'high', create_pr: false, source_ref: 'older-task-source' });
+    await main({ command: 'start', loop_id: 'without-pr', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, create_pr: false, source_ref: 'older-task-source' });
     assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
     const maintainer = join(dir, 'maintainer'); await git(dir, 'clone', remote, maintainer); await configureGit(maintainer);
     await writeFile(join(maintainer, 'maintainer.txt'), 'LATEST_MAIN_CHANGE');
     const maintained = await commit(maintainer, 'advance main after the consumer checkout');
     await git(maintainer, 'push', 'origin', 'main');
-    await assert.rejects(main({ command: 'start', loop_id: 'main', reasoning: 'high', source_ref: 'older-task-source' }), /source-ref must match/);
-    await main({ command: 'start', loop_id: 'main', reasoning: 'high', create_pr: true, work_seconds: '20', checkpoint_seconds: '1' });
+    await assert.rejects(main({ command: 'start', loop_id: 'main', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, source_ref: 'older-task-source' }), /source-ref must match/);
+    await main({ command: 'start', loop_id: 'main', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, create_pr: true, work_seconds: '20', checkpoint_seconds: '1' });
     const mainStore = new ControlStore(ctl, 'main'), mainStarted = (await mainStore.read()).value;
     assert.equal(mainStarted.branch, 'main'); assert.equal(mainStarted.source, maintained);
     assert.equal(mainStarted.createPr, false); assert.equal(mainStore.branch, 'shurik-control/main');
@@ -300,13 +302,13 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       '.github/workflows/shurik.yml\nPROMPT.md\nconsumer-result.txt\nmaintainer.txt\nprovider-selection.json');
     assert.equal(prAttempts, 2, 'main never attempts a PR even with create-pr true');
     await main({ command: 'stop', loop_id: 'main' });
-    await main({ command: 'resume', loop_id: 'main', reasoning: 'medium', create_pr: true });
+    await main({ command: 'resume', loop_id: 'main', model: { reasoning: 'medium' }, create_pr: true });
     assert.equal((await mainStore.read()).value.createPr, false, 'main cannot enable PR creation on resume');
     await main({ command: 'stop', loop_id: 'main' });
     await main({ command: 'stop', loop_id: 'demo' });
     await main({ command: 'stop', loop_id: 'without-pr' });
     const beforeWaiting = dispatches.length;
-    await main({ command: 'start', loop_id: 'waiting', reasoning: 'high', create_pr: false,
+    await main({ command: 'start', loop_id: 'waiting', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, create_pr: false,
       work_seconds: '30', wait_seconds: '10800', checkpoint_seconds: '1' });
     const waitingStore = new ControlStore(ctl, 'waiting');
     await main({ command: 'iterate', loop_id: 'waiting', generation: '1', iteration: '1' });
@@ -327,7 +329,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal((await waitingStore.read()).value.nextRunAt, null);
     await main({ command: 'iterate', loop_id: 'waiting', generation: '1', iteration: '2' });
     assert.equal((await waitingStore.read()).value.next, 3);
-    await main({ command: 'resume', loop_id: 'waiting', reasoning: 'high', work_seconds: '20', wait_seconds: '0' });
+    await main({ command: 'resume', loop_id: 'waiting', model: { reasoning: 'high' }, work_seconds: '20', wait_seconds: '0' });
     waiting = await waitingStore.read();
     assert.equal(waiting.value.generation, 2); assert.equal(waiting.value.next, 3); assert.equal(waiting.value.nextRunAt, null);
     assert.equal(waiting.value.seconds, 20); assert.equal(waiting.value.waitSeconds, 0);
@@ -337,8 +339,44 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await main({ command: 'iterate', loop_id: 'waiting', generation: '2', iteration: '3' });
     assert.equal(dispatches.length, beforeWaiting + 4, 'zero wait dispatches immediately');
     await main({ command: 'stop', loop_id: 'waiting' });
+    const swarmModel = { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' as const };
+    const beforeSwarm = dispatches.length;
+    await assert.rejects(main({ command: 'start', loop_id: 'invalid-swarm', model: swarmModel,
+      swarm: { agents: 2, models: [{}, { reasoning: 'invalid' as 'high' }] } }), /reasoning/);
+    assert.equal(await git(ctl, 'ls-remote', '--heads', 'origin', 'refs/heads/invalid-swarm*', 'refs/heads/shurik-control/invalid-swarm*'), '');
+    assert.equal(dispatches.length, beforeSwarm);
+    await main({ command: 'start', loop_id: 'research', model: swarmModel, swarm: { agents: 2, models: [{}, { reasoning: 'medium' }] },
+      create_pr: false, work_seconds: '20', checkpoint_seconds: '1' });
+    const firstMember = new ControlStore(ctl, 'research-0'), secondMember = new ControlStore(ctl, 'research-1');
+    assert.equal(dispatches.length, beforeSwarm + 2);
+    for (const [index, member] of [firstMember, secondMember].entries()) {
+      const saved = await member.read();
+      assert.deepEqual(saved.value.swarm, { id: 'research', index, agents: 2 });
+      assert.equal(saved.value.reasoning, index ? 'medium' : 'high');
+      assert.deepEqual(JSON.parse(await git(ctl, 'show', `${saved.revision}:state/loop.json`)).swarm, saved.value.swarm);
+    }
+    await main({ command: 'iterate', loop_id: 'research-0', generation: '1', iteration: '1' });
+    assert.equal((await firstMember.read()).value.next, 2);
+    assert.equal((await secondMember.read()).value.next, 1, 'other members advance independently');
+    assert.equal(dispatches.at(-1)!.inputs.loop_id, 'research-0');
+    assert.equal(dispatches.at(-1)!.inputs.reasoning, undefined, 'continuations carry identity/fences, not model settings');
+    const memberState = await firstMember.read();
+    await git(ctl, 'fetch', 'origin', 'research-0');
+    const workerEvidence = await git(ctl, 'show', `${memberState.value.checkpoint!.workCommit}:provider-selection.json`);
+    assert.match(workerEvidence, /Loop ID: research-0/); assert.match(workerEvidence, /member index: 0/);
+    await main({ command: 'stop', loop_id: 'research-0' });
+    await main({ command: 'resume', loop_id: 'research-0', model: { reasoning: 'low' } });
+    assert.equal((await firstMember.read()).value.generation, 2);
+    assert.deepEqual((await firstMember.read()).value.swarm, { id: 'research', index: 0, agents: 2 });
+    await assert.rejects(main({ command: 'start', loop_id: 'research', model: swarmModel, swarm: { agents: 2 } }), /already exist/);
+    failDispatchFor = 'partial-0';
+    await assert.rejects(main({ command: 'start', loop_id: 'partial', model: swarmModel, swarm: { agents: 2 }, create_pr: false }), /INJECTED_MEMBER_DISPATCH_FAILURE/);
+    assert.equal((await new ControlStore(ctl, 'partial-1').read()).value.status, 'running', 'a failed member does not prevent later launches');
+    assert.equal(dispatches.at(-1)!.inputs.loop_id, 'partial-1');
+    assert.ok(await readFile(join(runtimeEmergency('fixture/consumer', 'partial-0'), 'state/history-index.json')));
+    failDispatchFor = '';
     failDispatch = true;
-    await assert.rejects(main({ command: 'start', loop_id: 'failed-dispatch', reasoning: 'high', create_pr: false }), /INJECTED_DISPATCH_FAILURE/);
+    await assert.rejects(main({ command: 'start', loop_id: 'failed-dispatch', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, create_pr: false }), /INJECTED_DISPATCH_FAILURE/);
     const emergency = runtimeEmergency('fixture/consumer', 'failed-dispatch');
     assert.equal(await readFile(join(emergency, 'workspace/PROMPT.md'), 'utf8'), 'Implement a small consumer change');
     assert.ok(await readFile(join(emergency, 'state/history-index.json')));

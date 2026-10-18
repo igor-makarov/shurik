@@ -135,9 +135,9 @@ test('ignored task discoveries survive a cold restart without rolling back newer
 
 test('task snapshots reject paths outside the workspace and symlink traversal', async () => {
   const f = await fixture();
-  await saveJson(join(f.workspace, '.shurik/config.json'), { checkpointPaths: ['../outside'] });
+  await f.store.mutate(c => ({ ...c, checkpointPaths: ['../outside'] }));
   await assert.rejects(f.publish(), /relative task paths/);
-  await saveJson(join(f.workspace, '.shurik/config.json'), { checkpointPaths: ['data/cdx'] });
+  await f.store.mutate(c => ({ ...c, checkpointPaths: ['data/cdx'] }));
   await mkdir(join(f.workspace, 'data'), { recursive: true });
   await symlink(f.dir, join(f.workspace, 'data/cdx'));
   await assert.rejects(f.publish(), /symlink/);

@@ -1,5 +1,5 @@
 import type { ModelThinkingLevel } from '@earendil-works/pi-ai';
-import type { Control, Event, Options, Outcome, Runtime, Secrets, WorkerResult, Run } from './types.ts';
+import type { Control, Event, Inputs, Options, Outcome, Runtime, Secrets, WorkerResult, Run } from './types.ts';
 import { createHash } from 'node:crypto';
 import { readFile, writeFile, readdir, lstat } from 'node:fs/promises';
 import { join } from 'node:path';
@@ -25,7 +25,7 @@ export function credentialValues(env: NodeJS.ProcessEnv = process.env): Secrets 
   return Object.entries(env).filter(([name]) => /(?:^|_)(?:API_KEY|TOKEN|SECRET|PASSWORD|ACCESS_KEY_ID|SECRET_ACCESS_KEY)$/.test(name))
     .map(([, value]) => value);
 }
-export function normalizeOptions(inputs: Options): Options {
+export function normalizeOptions<T extends Options | Inputs>(inputs: T): T {
   const options = { ...inputs, work_seconds: inputs['work-seconds'] ?? inputs.work_seconds ?? inputs.seconds,
     wait_seconds: inputs['wait-seconds'] ?? inputs.wait_seconds };
   delete options['work-seconds']; delete options['wait-seconds']; delete options.seconds;
@@ -75,7 +75,7 @@ export function resumeSettings(value: Control, options: Options): Control {
 export function loopSnapshot(control: Control): Record<string, unknown> {
   // Task-facing metadata only. Scheduling belongs to the supervisor's control record.
   const fields = ['version', 'id', 'branch', 'defaultBranch', 'supervisor', 'status', 'generation',
-    'next', 'model', 'reasoning', 'source', 'sourceRef', 'pr', 'verification'] as const;
+    'next', 'model', 'reasoning', 'source', 'sourceRef', 'pr', 'verification', 'swarm'] as const;
   return { ...Object.fromEntries(fields.filter(key => Object.hasOwn(control, key)).map(key => [key, control[key]])),
     provider: validateProvider(control.provider) };
 }

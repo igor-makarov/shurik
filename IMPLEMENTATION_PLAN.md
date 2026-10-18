@@ -5,7 +5,7 @@ The reusable CLI/action design is documented in [ARCHITECTURE.md](ARCHITECTURE.m
 ## Current scope
 
 - Implement Shurik in TypeScript and package it as a CLI with lifecycle, native worker, journal inspection, and session-path subcommands.
-- Expose that CLI through a GitHub Action referenced by consumer workflows as `igor-makarov/shurik@v1`.
+- Expose that CLI through a GitHub Action referenced by consumer workflows as `igor-makarov/shurik@v2`.
 - Separate engine source and builds from consumer task source, prompts, and configuration.
 - Keep work branches, draft PRs, session state, and failure evidence in the consumer repository.
 - Declare layout version 1 centrally: runtime `$HOME/.shurik/state/<owner>/<repo>/<id>/`, persisted control-branch `state/`, authoritative `control.json`, and immutable `failures/`.
@@ -14,7 +14,7 @@ The reusable CLI/action design is documented in [ARCHITECTURE.md](ARCHITECTURE.m
 
 ## Version policy
 
-Each invocation follows the current release under the workflow's major tag. Loops do not pin an engine commit. Updates within `v1` must keep workflow inputs, continuation fields, and retained session data compatible. Breaking changes use a new major tag such as `v2`, adopted by changing the consumer workflow. Actual engine revisions are retained as diagnostic evidence.
+Each invocation follows the current release under the workflow's major tag. Loops do not pin an engine commit. The v2 release changes public model inputs and introduces swarm startup while retaining flat control records and native journals. Updates within `v2` must keep workflow inputs, continuation fields, and retained session data compatible. Existing `v1` tags remain unchanged; consumers opt into v2 by migrating their workflow. Actual engine revisions are retained as diagnostic evidence.
 
 New reusable loops do not automatically adopt Shurik implementation from consumer task files. Legacy self-hosted loops retain their original candidate validation and fallback helpers; this extraction does not migrate their journals or supervisor records.
 
@@ -30,3 +30,13 @@ New reusable loops do not automatically adopt Shurik implementation from consume
 - Consumer workflows parse correctly and call the public action rather than repository-local engine scripts.
 
 The prototype's runner isolation and publication limits remain explicit in the README; this step does not add a service, credential broker, Docker runtime, npm registry publication, or automatic merge policy.
+
+## Version 2 swarm scope
+
+- One `start` accepts a structured shared model plus optional `swarm.agents` and/or `swarm.models`.
+- Resolve every member and validate declared cardinality before writes; dispatch independent loops from one control job without a matrix.
+- Keep resume separate, with model overrides resolved against saved state and the existing generation fences.
+- Include stable swarm identity in control, loop metadata, and each iteration's initial context.
+- Defaults live in Shurik; ignore the legacy project config file and remove flat provider/reasoning inputs from workflows.
+- Preserve per-member failure evidence and report partial startup.
+- Inter-agent communication, shared workspaces and automatic integration are outside this release.

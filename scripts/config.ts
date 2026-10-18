@@ -1,20 +1,17 @@
 export interface ProjectConfig { version: number; provider: string; model: string; iterationSeconds: number; waitSeconds?: number; checkpointSeconds: number; prompt: string; checkpointPaths?: string[] }
-import { readJson } from './github.ts';
 import { PATHS } from './paths.ts';
 import type { Options } from './types.ts';
 import { validatePaths } from './task-state.ts';
 import { validateProvider, validateWorkSeconds, validateWaitSeconds, normalizeOptions } from './policy.ts';
 import { resolve, relative, isAbsolute } from 'node:path';
 
-export const DEFAULTS = Object.freeze({ version: 1, provider: 'opencode-go',
-  model: 'space-bunny-free', iterationSeconds: 1800, waitSeconds: 0, checkpointSeconds: 300, prompt: PATHS.prompt });
+export const DEFAULTS = Object.freeze({ version: 1,
+  iterationSeconds: 1800, waitSeconds: 0, checkpointSeconds: 300, prompt: PATHS.prompt });
 export async function projectConfig(workspace: string, options: Options = {}) {
   options = normalizeOptions(options);
-  const saved = await readJson<Partial<ProjectConfig>>(resolve(workspace, PATHS.config), {});
-  const provider = validateProvider(options.provider?.trim() || saved.provider);
-  const model = options.model?.trim() || (provider === validateProvider(saved.provider) ? saved.model : undefined)
-    || (provider === DEFAULTS.provider ? DEFAULTS.model : '');
-  const config = { ...DEFAULTS, ...saved, provider, model };
+  if (!options.provider || !options.model?.trim()) throw new Error('Explicit model provider and name required');
+  const provider = validateProvider(options.provider);
+  const config: ProjectConfig = { ...DEFAULTS, provider, model: options.model.trim(), checkpointPaths: [] };
   if (options.prompt) config.prompt = options.prompt;
   if (options.work_seconds !== undefined && options.work_seconds !== '') config.iterationSeconds = Number(options.work_seconds);
   if (options.wait_seconds !== undefined && options.wait_seconds !== '') config.waitSeconds = Number(options.wait_seconds);

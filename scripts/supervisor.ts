@@ -1,4 +1,4 @@
-import type { Control, Event, Iteration, Job, Options, Run, Runtime, Sessions, WorkerReport } from './types.ts';
+import type { Control, Event, Inputs, Iteration, Job, Options, Run, Runtime, Sessions, WorkerReport } from './types.ts';
 import { mkdtemp, mkdir, readFile, writeFile, appendFile, cp, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -10,8 +10,9 @@ import { reconcileLoop, importFailures, recoverInterrupted, upsertSession, itera
 import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
 import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, controlBranchPrefixes, controlBranches, loopIdFromControlBranch } from './paths.ts';
 import { preserveEmergency } from './emergency.ts';
-import { projectConfig } from './config.ts';
+import { DEFAULTS, projectConfig } from './config.ts';
 import { journalDirectory } from './journal-path.ts';
+import { loopOptions, planStart, resumeOptions, validateInputs } from './launch.ts';
 
 const stable = resolve(process.env.SHURIK_ENGINE_ROOT ?? process.env.GITHUB_WORKSPACE ?? '.');
 const project = resolve(process.env.SHURIK_PROJECT_ROOT ?? process.env.GITHUB_WORKSPACE ?? '.');
@@ -41,8 +42,7 @@ async function dispatch(control: Control, store: ControlStore) {
     ref: control.defaultBranch,
     return_run_details: true,
     inputs: { command: 'iterate', loop_id: control.id, generation: String(control.generation),
-      iteration: String(control.next), ...(!control.engine ? { supervisor_ref: control.supervisor } : {}),
-      reasoning: validateReasoning(control.reasoning) }
+      iteration: String(control.next), ...(!control.engine ? { supervisor_ref: control.supervisor } : {}) }
   });
   if (!Number.isSafeInteger(run?.workflow_run_id) || run.workflow_run_id < 1) throw new Error('Workflow dispatch did not return a run ID');
   const receipt = { runId: String(run.workflow_run_id), generation: control.generation, iteration: control.next };
@@ -96,7 +96,43 @@ async function createPr(control: Control, workspace: string, controlRef: string)
     throw error;
   }
 }
-export async function start(options: Options) {
+function clearEmergency() { emergencyWorkspace = emergencyState = emergencyLogs = emergencyDestination = undefined; }
+async function preserveFailure() {
+  if (!emergencyWorkspace || !emergencyDestination) return;
+  try {
+    await preserveEmergency({ workspace: emergencyWorkspace, state: emergencyState, logs: emergencyLogs,
+      destination: emergencyDestination, secrets });
+    console.error(`Emergency snapshot: ${emergencyDestination}`);
+  } catch (error) { console.error(redact(String(error), secrets)); }
+}
+export async function start(inputs: Inputs) {
+  const plan = planStart(inputs);
+  // Resolve every member and validate common settings before any remote writes.
+  for (const loop of plan) await projectConfig(project, loopOptions(inputs, loop));
+  validateCreatePr(inputs.create_pr);
+  if (inputs.deadline && (!Number.isFinite(Date.parse(inputs.deadline)) || Date.parse(inputs.deadline) <= Date.now())) throw new Error('Deadline must be an absolute future timestamp');
+  if (plan.length > 1) {
+    await authorized();
+    const preflight = await clone('swarm-preflight');
+    try {
+      const refs = await git(preflight, 'ls-remote', '--heads', 'origin', ...plan.flatMap(loop => controlBranches(loop.id).map(branch => `refs/heads/${branch}`)));
+      if (refs) throw new Error('One or more swarm loops already exist; use resume with individual loop IDs');
+    } finally { await rm(preflight, { recursive: true, force: true }); }
+  }
+  const failures: { id: string; error: string }[] = [];
+  for (const loop of plan) {
+    clearEmergency();
+    try { await startLoop(loopOptions(inputs, loop)); }
+    catch (error) {
+      await preserveFailure();
+      const detail = redact(String(error), secrets); failures.push({ id: loop.id, error: detail });
+      console.error(`Loop ${loop.id} failed to start: ${detail}`);
+      if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, `\nLoop ${loop.id} failed to start. See the control job log and emergency artifact.\n`);
+    } finally { clearEmergency(); }
+  }
+  if (failures.length) throw new Error(`Start failed for ${failures.length}/${plan.length} loops: ${JSON.stringify(failures)}. Other loops may already be running.`);
+}
+async function startLoop(options: Options) {
   options = normalizeOptions(options);
   const reasoning = validateReasoning(options.reasoning);
   const createPrMode = validateCreatePr(options.create_pr);
@@ -135,7 +171,7 @@ export async function start(options: Options) {
   const workflow = options.workflow || 'shurik.yml';
   if (!/^[a-zA-Z0-9_.-]+\.ya?ml$/.test(workflow)) throw new Error('Workflow must be a YAML filename');
   const control: Control = { version: 1, stateStorage: 'control', id, branch, defaultBranch, supervisor, status: 'running', generation: 1, next: 1,
-    engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt,
+    engine, workflow, layoutVersion: PATHS.version, prompt: config.prompt, swarm: options.swarm_member,
     checkpointSeconds: config.checkpointSeconds, checkpointPaths: config.checkpointPaths,
     owner: null, deadline, seconds: config.iterationSeconds, waitSeconds: config.waitSeconds, nextRunAt: null,
     provider: config.provider, model, reasoning, createPr: branch === defaultBranch ? false : createPrMode, source, sourceRef: options.source_ref || null, createdAt: new Date().toISOString(), lastDispatchAt: null };
@@ -222,8 +258,8 @@ export async function iterate(options: Options) {
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
     report = await launchWorker({ workspace, state, bundle, stable,
       req: { version: 1, id: `${id}:${sequence}`, journalId: record.journalId, provider: validateProvider(control.provider), model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
-        checkpointSeconds: control.checkpointSeconds ?? (await projectConfig(workspace)).checkpointSeconds,
-        sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, state, logs) },
+        checkpointSeconds: control.checkpointSeconds ?? DEFAULTS.checkpointSeconds,
+        sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, state, logs, control) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },
       onCheckpoint: async (checkpoint, log, journalSnapshot) => {
         // Update rollback only after a readable, published checkpoint. A later corruption restores this boundary.
@@ -298,7 +334,8 @@ export async function iterate(options: Options) {
   console.log(`Iteration ${sequence}: ${record.outcome}; loop ${control.status}`);
   await reportControl((await store.read()).value);
 }
-export async function controlLoop(options: Options) {
+export async function controlLoop(inputs: Inputs) {
+  const { model: _model, swarm: _swarm, ...options } = inputs;
   await authorized(); const id = validateId(options.loop_id); const ctl = await clone('control'); const store = new ControlStore(ctl, id);
   if (options.command === 'stop') {
     const old = (await store.read()).value;
@@ -308,15 +345,15 @@ export async function controlLoop(options: Options) {
     console.log(`Loop ${id} durably stopped (${stoppedControl.generation})`);
     await reportControl(stoppedControl);
   } else if (options.command === 'resume') {
-    validateReasoning(options.reasoning);
     const prior = (await store.read()).value;
+    resumeOptions(inputs, prior);
     if (!prior.engine && (await git(ctl, 'show', `${prior.supervisor}:scripts/github.ts`)).includes('shurik@users.noreply.github.com')) {
       throw new Error('Pinned supervisor uses retired commit attribution. Start a new loop from main or have the maintainer update the pinned bootstrap before resuming.');
     }
     if (prior.stateStorage !== 'control' || (!prior.engine && !(await git(ctl, 'show', `${prior.supervisor}:src/worker.ts`)).includes('thinkingLevel: req.reasoning'))) {
       throw new Error('Pinned loop predates explicit reasoning. Have the maintainer migrate its state and upgrade supervisor/runtime source references before resuming.');
     }
-    const c = await store.mutate(value => resumeSettings(value, options), 'shurik: explicit resume with new generation and model/reasoning');
+    const c = await store.mutate(value => resumeSettings(value, resumeOptions(inputs, value)), 'shurik: explicit resume with new generation and model/reasoning');
     await dispatch(c, store);
     await reportControl((await store.read()).value);
   }
@@ -352,23 +389,19 @@ export async function recover(options: Options) {
   }
   if (failed.length) throw new Error(`Recovery needs retry for: ${failed.join(', ')}`);
 }
-export async function main(options: Options = JSON.parse(process.env.SHURIK_INPUTS ?? '{}')) {
+export async function main(inputs: Inputs = JSON.parse(process.env.SHURIK_INPUTS ?? '{}')) {
   if (!remote || !repo) throw new Error('Expected GitHub Actions repository context');
-  emergencyWorkspace = emergencyState = emergencyLogs = emergencyDestination = undefined;
+  validateInputs(inputs);
+  const { model: _model, swarm: _swarm, ...options } = normalizeOptions(inputs);
+  clearEmergency();
   try {
-    if (options.command === 'start') return await start(options);
+    if (options.command === 'start') return await start(inputs);
     if (options.command === 'iterate') return await iterate(options);
-    if (['stop', 'resume'].includes(options.command!)) return await controlLoop(options);
+    if (['stop', 'resume'].includes(options.command!)) return await controlLoop(inputs);
     if (options.command === 'recover') return await recover(options);
     throw new Error('Unknown supervisor command');
   } catch (error) {
-    if (emergencyWorkspace && emergencyDestination) {
-      try {
-        await preserveEmergency({ workspace: emergencyWorkspace, state: emergencyState, logs: emergencyLogs,
-          destination: emergencyDestination, secrets });
-        console.error(`Emergency snapshot: ${emergencyDestination}`);
-      } catch (snapshotError) { console.error(redact(String(snapshotError), secrets)); }
-    }
+    await preserveFailure();
     throw error;
   }
 }

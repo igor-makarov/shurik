@@ -1,7 +1,16 @@
 import type { Request } from '../src/worker.ts';
 import type { SessionSummary } from '../src/history.ts';
+import type { ModelThinkingLevel } from '@earendil-works/pi-ai';
 
-export type Options = Partial<Record<'command' | 'loop_id' | 'provider' | 'model' | 'reasoning' | 'work_seconds' | 'wait_seconds' | 'work-seconds' | 'wait-seconds' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean };
+export interface ModelSpec { provider: string; name: string; reasoning: ModelThinkingLevel }
+export interface SwarmSpec { agents?: number; models?: Partial<ModelSpec>[] }
+export interface SwarmMember { id: string; index: number; agents: number }
+
+// Resolved per-loop options; model settings remain flat inside the engine.
+export type Options = Partial<Record<'command' | 'loop_id' | 'provider' | 'model' | 'reasoning' | 'work_seconds' | 'wait_seconds' | 'work-seconds' | 'wait-seconds' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean; swarm_member?: SwarmMember };
+export type Inputs = Omit<Options, 'provider' | 'model' | 'reasoning' | 'swarm_member'> & {
+  model?: string | Partial<ModelSpec>; swarm?: string | SwarmSpec;
+};
 export type Secrets = (string | undefined)[];
 export type Outcome = 'running' | 'yielded' | 'agent_failure' | 'timeout' | 'runner_failure' | 'interrupted';
 export interface Checkpoint { workCommit: string; generation: number; sequence: string; runId: string | null; at: string }
@@ -10,6 +19,7 @@ export interface Control {
   stateStorage: string; layoutVersion?: number; prompt?: string; workflow?: string;
   checkpointSeconds?: number; checkpointPaths?: string[];
   engine?: { repository: string; ref: string | null } | null;
+  swarm?: SwarmMember;
   status: string; generation: number; next: number;
   dispatchedRuns?: { runId: string; generation: number; iteration: number }[];
   owner: { runId: string; generation: number; iteration: number; claimedAt?: string } | null;

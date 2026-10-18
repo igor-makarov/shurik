@@ -19,6 +19,7 @@ import { builtinModels } from '@earendil-works/pi-ai/providers/all';
 import { getSupportedThinkingLevels } from '@earendil-works/pi-ai/models';
 import { parseArgs } from '../bin/shurik.ts';
 import { actionOptions } from '../action/run.ts';
+import { loopOptions, planStart } from '../scripts/launch.ts';
 import { property, text, identifier, positive, control, terminal, reasoning, sha } from './pbt-support.ts';
 
 const home = await mkdtemp(join(tmpdir(), 'shurik-pbt-home-'));
@@ -182,12 +183,13 @@ property('repository traversal and malformed namespaces cannot escape runtime st
 
 property('explicit CLI flags override dispatch JSON without mutating it',
   fc.property(reasoning, text, fc.boolean(), (level, model, createPr) => {
-    const inputs = { reasoning: 'off', model: 'previous', create_pr: !createPr, loop_id: 'loop', seconds: '120' };
+    const inputs = { model: JSON.stringify({ provider: 'openai', name: 'previous', reasoning: 'off' }), create_pr: !createPr, loop_id: 'loop', seconds: '120' };
     const before = copy(inputs);
-    const options = parseArgs(['resume', '--reasoning', level, '--model', 'model-' + model,
+    const spec = JSON.stringify({ provider: 'openai', name: 'model-' + model, reasoning: level });
+    const options = parseArgs(['resume', '--model', spec,
       '--create-pr', String(createPr)], inputs);
     assert.equal(options.command, 'resume');
-    assert.equal(options.reasoning, level); assert.equal(options.model, 'model-' + model);
+    assert.equal(options.model, spec);
     assert.equal(validateCreatePr(options.create_pr), createPr);
     assert.equal(options.loop_id, inputs.loop_id); assert.equal(options.work_seconds, inputs.seconds);
     assert.equal(copy(inputs), before);
@@ -196,10 +198,10 @@ property('explicit CLI flags override dispatch JSON without mutating it',
 property('explicit action values override JSON including a false PR setting',
   fc.property(reasoning, fc.boolean(), (level, createPr) => {
     const env = { SHURIK_INPUTS: JSON.stringify({ command: 'start', loop_id: 'loop',
-      reasoning: 'off', create_pr: !createPr }), SHURIK_COMMAND: 'resume',
-    SHURIK_REASONING: level, SHURIK_CREATE_PR: String(createPr) };
+      model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'off' }, create_pr: !createPr }), SHURIK_COMMAND: 'resume',
+    SHURIK_MODEL: JSON.stringify({ provider: 'openai', name: 'gpt-6-sol', reasoning: level }), SHURIK_CREATE_PR: String(createPr) };
     const before = copy(env), options = actionOptions(env);
-    assert.equal(options.command, 'resume'); assert.equal(options.reasoning, level);
+    assert.equal(options.command, 'resume'); assert.equal(JSON.parse(String(options.model)).reasoning, level);
     assert.equal(validateCreatePr(options.create_pr), createPr);
     assert.equal(copy(env), before);
   }));
@@ -490,7 +492,7 @@ property('time feedback respects the earlier limit, clamps expiry and omits earl
 property('named action configuration needs no project file and preserves explicit settings',
   fc.asyncProperty(identifier, identifier, fc.integer({ min: 10, max: 1800 }),
     fc.integer({ min: 1, max: 1800 }), async (model, name, seconds, checkpoint) => {
-      const inputs = { model, prompt: name + '.md', seconds: String(seconds),
+      const inputs = { provider: 'openai', model, prompt: name + '.md', seconds: String(seconds),
         checkpoint_seconds: String(checkpoint), checkpoint_paths: JSON.stringify(['data/' + name]) };
       const before = copy(inputs), config = await projectConfig(join(home, 'no-config'), inputs);
       assert.equal(config.model, model); assert.equal(config.prompt, name + '.md');
@@ -500,16 +502,16 @@ property('named action configuration needs no project file and preserves explici
 
 property('provider and model selection round-trips through CLI, action and configuration without credentials',
   fc.asyncProperty(identifier, identifier, identifier, async (provider, model, secret) => {
-    const inputs = { command: 'start', loop_id: 'loop', provider: 'opencode-go', model: 'old', reasoning: 'high' };
-    const cli = parseArgs(['start', '--provider', provider, '--model', model], inputs);
-    const action = actionOptions({ SHURIK_INPUTS: JSON.stringify(inputs), SHURIK_PROVIDER: provider,
-      SHURIK_MODEL: model, OPENAI_API_KEY: secret });
-    const config = await projectConfig(join(home, 'no-config'), action);
-    for (const value of [cli, action, config]) {
-      assert.equal(value.provider, provider); assert.equal(value.model, model);
+    const inputs = { command: 'start', loop_id: 'loop', model: { provider: 'opencode-go', name: 'old', reasoning: 'high' as const } };
+    const spec = JSON.stringify({ provider, name: model, reasoning: 'high' });
+    const cli = parseArgs(['start', '--model', spec], inputs);
+    const action = actionOptions({ SHURIK_INPUTS: JSON.stringify(inputs), SHURIK_MODEL: spec, OPENAI_API_KEY: secret });
+    for (const value of [cli, action]) {
+      const config = await projectConfig(join(home, 'no-config'), loopOptions(value, planStart(value)[0]));
+      assert.equal(config.provider, provider); assert.equal(config.model, model);
       assert.ok(!Object.hasOwn(value, 'OPENAI_API_KEY'));
     }
-    assert.equal(inputs.provider, 'opencode-go'); assert.equal(inputs.model, 'old');
+    assert.equal(inputs.model.provider, 'opencode-go'); assert.equal(inputs.model.name, 'old');
   }));
 
 property('resume preserves the saved provider/model and upgrades legacy state without mutating it',

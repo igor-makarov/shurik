@@ -5,28 +5,26 @@ Shurik runs durable coding-agent loops for your project through a reusable GitHu
 Pi Durable handles conversations, tools, and persistence; [Pi AI](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#providers-and-models) supplies model providers and authentication. See [Providers and authentication](#providers-and-authentication) for supported providers and setup examples.
 
 ```yaml
-- uses: igor-makarov/shurik@v1
+- uses: igor-makarov/shurik@v2
   with:
     command: start
     loop-id: my-task
-    provider: openai
-    model: gpt-6-sol
-    reasoning: high
+    model: '{"provider":"openai","name":"gpt-6-sol","reasoning":"high"}'
 ```
 
-Use a major version such as `@v1` or, for a future breaking release, `@v2`. Every invocation uses the current release under that tag; an existing loop can receive engine updates within the same major version. Engine commit IDs in iteration records are diagnostic evidence, not a per-loop version lock.
+Use `@v2` for this breaking structured-model and swarm API. The `@v1` release remains available for existing workflows. See [migration from v1](MIGRATION.md). Every invocation uses the current release under that tag; an existing loop can receive engine updates within the same major version. Engine commit IDs in iteration records are diagnostic evidence, not a per-loop version lock.
 
-**Status:** reusable TypeScript CLI and action, verified in the independent demo with live DeepSeek requests, native Pi Durable journals, and recovery in the same workflow. The agent runs directly on the Actions runner with its job credentials. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
+**Status:** reusable TypeScript CLI and action. The v2 input and swarm paths have native scripted-worker integration coverage; the earlier v1 consumer demo supplies the retained live DeepSeek evidence. The agent runs directly on the Actions runner with its job credentials. See [architecture](ARCHITECTURE.md), [verification evidence](VERIFICATION.md), and the [consumer demo](https://github.com/igor-makarov/shurik-demo).
 
 This repository runs contributor CI only. Shurik loops run in [shurik-demo](https://github.com/igor-makarov/shurik-demo) and production consumer repositories, using the workflow template below.
 
 ## Add Shurik to a project
 
 1. Add a public-safe task in `PROMPT.md`. Configure Shurik through action inputs in the workflow; no project configuration directory is required.
-2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. It invokes `igor-makarov/shurik@v1`; you do not copy Shurik’s source or install its dependencies in your project.
+2. Copy [shurik.yml](examples/consumer/.github/workflows/shurik.yml) to your repository’s `.github/workflows/` directory. It invokes `igor-makarov/shurik@v2`; you do not copy Shurik’s source or install its dependencies in your project.
 3. Add the selected provider's credential as a repository Actions secret and expose it in the iteration action's `env`. Pi AI resolves authentication automatically; see [Providers and authentication](#providers-and-authentication).
-4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and an explicit model reasoning level. Optionally choose a model, source branch, iteration budget, and absolute deadline.
-5. Review the task branch, or the draft PR if enabled. Stop with **Shurik → stop**, or resume with a new explicit reasoning level.
+4. In **Actions → Shurik → Run workflow**, select the default branch, command `start`, a unique lowercase loop ID, and a JSON model specification. Optionally supply a swarm, source branch, iteration budget, and absolute deadline.
+5. Review the task branch, or the draft PR if enabled. Stop with **Shurik → stop**, or resume with saved settings and optional model JSON overrides.
 
 One workflow handles start/stop/resume, iterations, and recovery in separate jobs. No separate recovery file or model secret for control/recovery is needed. Keep the workflow name `Shurik`, job name `iteration`, and its `Shurik <id> / <n>` iteration run-name format: recovery verifies them against GitHub. The default filename is `shurik.yml`; if you rename it, pass the new filename in the control job's `workflow` action input.
 
@@ -36,11 +34,49 @@ The `create_pr` workflow input defaults to `auto`: create a draft PR when GitHub
 
 The workflow uses repository-scoped `github.token`. Iteration jobs need `contents: write`, `pull-requests: write`, and `actions: write`; the control job also needs PR access, while recovery needs contents and actions write access. Contributor CI should use read-only permissions and no model key.
 
+## Model and swarm inputs
+
+Workflow inputs `model` and `swarm` are JSON strings. Action inputs also accept JSON strings, while `inputs` JSON may contain their native objects. The CLI accepts the same values through `--model` and `--swarm`.
+
+```yaml
+# One loop: exact task/control identity research.
+model: '{"provider":"openai","name":"gpt-6-sol","reasoning":"high"}'
+
+# Optional: replicate it into research-0 through research-3.
+swarm: '{"agents":4}'
+```
+
+For per-member settings, use `swarm.models`. An entry overrides fields from the shared model; without a shared model, every entry must be complete:
+
+```json
+{
+  "agents": 4,
+  "models": [{}, {"reasoning":"medium"}, {"reasoning":"low"}, {"reasoning":"high"}]
+}
+```
+
+`agents` must be a positive safe integer. With `models`, an explicit count must equal the list length; otherwise the count is inferred. Empty lists, unknown fields, missing resolved provider/name/reasoning, unsupported reasoning names, and malformed JSON fail before startup. Changing a provider in an override also requires a name. Listed-model capability checks and actual provider availability remain enforced by the worker's native adapter.
+
+One control job validates all members and common settings, checks for existing control IDs, then initializes and dispatches independent loops sequentially. No workflow matrix or parent worker is needed. Each member's iterations continue independently with their saved settings. Startup reports per-member failures and attempts remaining members; a GitHub failure can leave some loops running. Inspect the reported IDs rather than restarting the same swarm prefix blindly. Scheduled recovery can retry missing dispatches. To restart an initialized stranded member manually, stop and then resume its individual ID; initialize any missing member with its resolved model.
+
+Every member retains `swarm: {"id":"research","index":0,"agents":4}` in its control record and task-facing `loop.json`. Its initial iteration context includes its loop ID, swarm ID, zero-based index, and size. This identity survives stop/resume. There is no inter-agent messaging, shared workspace, automatic integration, or swarm-wide stop/resume command. Use the generated member IDs for stop and resume.
+
+Examples with workflow start parameters:
+
+```sh
+gh workflow run shurik.yml -f command=start -f loop_id=research \
+  -f model='{"provider":"openai","name":"gpt-6-sol","reasoning":"high"}' \
+  -f swarm='{"agents":4}'
+
+gh workflow run shurik.yml -f command=resume -f loop_id=research-1 \
+  -f model='{"reasoning":"medium"}'
+```
+
 ## Loop behavior
 
 Every iteration starts a fresh model context while retaining native journals. The agent can retrieve past work through `list_sessions`, `search_sessions`, and `read_session`. A normal model response ends one iteration; the outer loop continues after success and failure until stopped or its deadline expires. Shurik never merges its draft PR.
 
-The default agent budget is 1,800 seconds. Start and resume require explicit reasoning (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`), supported by the chosen model. There is no reasoning default or silent adjustment. Blank provider/model inputs on resume keep the saved selection; changing provider requires an explicit model. A blank resume deadline clears the previous deadline. Iteration numbers continue across stops and resumes: `1, 2, 3, 4, 5 → stop → resume → 6, 7, 8`. Run titles show only the number, for example `Shurik demo / 6`. An interrupted iteration that claimed ownership consumes its number; an unclaimed queued run does not. Resume changes an internal generation so older queued invocations cannot claim the resumed loop. GitHub run IDs saved in control also keep their cancellation and recovery events separate, even when two queued runs have the same title.
+The default agent budget is 1,800 seconds. Every new loop requires an explicit model object with `provider`, `name`, and `reasoning` (`off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max`). There is no model or reasoning default or silent adjustment. Resume with a blank model retains the saved selection; a partial object overrides its fields. Changing provider requires an explicit name. A blank resume deadline clears the previous deadline. Iteration numbers continue across stops and resumes: `1, 2, 3, 4, 5 → stop → resume → 6, 7, 8`. Run titles show only the number, for example `Shurik demo / 6`. An interrupted iteration that claimed ownership consumes its number; an unclaimed queued run does not. Resume changes an internal generation so older queued invocations cannot claim the resumed loop. GitHub run IDs saved in control also keep their cancellation and recovery events separate, even when two queued runs have the same title.
 
 “Budget” refers to execution time: `work-seconds` limits each iteration, and `deadline` bounds the whole loop. These are not monetary spending limits. Model availability depends on the provider; choose an available model in configuration or dispatch inputs.
 
@@ -67,10 +103,10 @@ node bin/shurik.ts paths --repository owner/project --loop-id my-task --workspac
 
 | Subcommand | Responsibility |
 | --- | --- |
-| `start` | Initialize the loop's task/control branches, save initial state, dispatch the first iteration |
+| `start` | Initialize one loop or a swarm, save separate control state, and dispatch each first iteration |
 | `iterate` | Run one fenced Pi Durable iteration, publish checkpoints, dispatch the successor |
 | `stop` | Save a durable stop and cancel the active run |
-| `resume` | Start a new generation with explicit reasoning and optional provider/model/deadline changes |
+| `resume` | Resume one saved loop in a new generation with optional model JSON and timing overrides |
 | `recover` | Reconcile interrupted runs, retain diagnostics, and restore missing dispatches |
 | `worker --request FILE` | Execute a versioned JSON request through the Pi Durable worker |
 | `inspect --request FILE` | Open a disposable copy of a native journal without model calls |
@@ -83,10 +119,10 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | Input | Purpose |
 | --- | --- |
 | `command` | `start`, `iterate`, `stop`, `resume`, or `recover`; defaults to `start` |
-| `loop-id` | Lowercase loop ID and task branch name; `main` writes directly to `main`; required except for recovery |
+| `loop-id` | Exact loop/task-branch ID, or swarm prefix on start; stop/resume use member IDs; `main` writes directly to `main` for a single loop |
 | `inputs` | Optional JSON from `${{ toJSON(inputs) }}`; explicit action inputs override it |
-| `provider` | Pi AI provider ID; defaults to `opencode-go` on start, retained on resume |
-| `model`, `reasoning` | Model ID from the selected provider and explicit reasoning level |
+| `model` | JSON object with `provider`, `name`, and `reasoning`; shared base for swarm entries; optional partial overrides on resume |
+| `swarm` | Start-only JSON object with `agents` and/or `models`; generates `<loop-id>-0`, `<loop-id>-1`, etc. |
 | `create-pr` | `auto` (default), `true`, or `false`; disabled on the default branch; denied repository PR settings become `false` without stopping the loop |
 | `work-seconds` | Work budget per iteration, 10–1,800 seconds; defaults to 1,800 at start, retained on resume |
 | `wait-seconds` | Idle time after an iteration; nonnegative integer, defaults to 0 at start, retained on resume |
@@ -100,7 +136,7 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `token` | Defaults to `${{ github.token }}` |
 | `opencode-api-key` | Optional compatibility alias for the `OPENCODE_API_KEY` environment variable |
 
-Outputs are `engine-revision` (the commit used by this invocation), `state-path`, `logs-path`, `emergency-path` (absolute directories outside the repository), and `control-branch`. Path outputs are written before the CLI runs, so failure artifact steps can use `emergency-path`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
+Outputs are `engine-revision` (the commit used by this invocation), `loop-ids` (a JSON array), `state-path`, `logs-path`, `emergency-path`, and `control-branch`. For a swarm, path and control-branch outputs are newline-separated values, one per member; `emergency-path` can be passed directly to `actions/upload-artifact`. Path outputs are written before the CLI runs, so failure artifact steps can use `emergency-path`. The action sets up Node and builds the engine in its own checkout; it does not run your project’s package scripts to install Shurik.
 
 ## Providers and authentication
 
@@ -112,12 +148,12 @@ Unlisted models forward text and image input and use the provider template's con
 
 The native `read` tool reads images from the task checkout or an absolute path and sends them as attachments. PNG, JPEG, GIF, and WebP files pass through unchanged within the model's image limits, normally 2000×2000 pixels and 4.5 MiB of base64 data. Images persist in the native journal and checkpoints. Larger images and BMP files return tool diagnostics; resize or convert them before reading. Shurik uses the released Pi Durable coding tools directly, without a custom reader or image processor. A listed model without image input receives Pi AI's placeholder and a diagnostic; an unlisted model receives the attachment so its provider can validate support. No additional action input or credential is needed.
 
-Set `provider` and `model` in the control action or workflow dispatch. Start saves them in `control.json`; later iterations read that saved pair. Resume retains it when both inputs are blank, or switches provider with an explicit model. Older loops without a provider field retain `opencode-go`. For compatibility, a new start with no provider/model still defaults to `opencode-go` / `space-bunny-free`; select an available model explicitly.
+Set the JSON `model` input in the control action or workflow dispatch, for example `{"provider":"openai","name":"gpt-6-sol","reasoning":"high"}`. Start resolves it to the existing flat `provider`, `model`, and `reasoning` fields in `control.json`. Iterations read that saved selection. Resume without a model retains it; a partial model object changes selected fields. A provider change must include the corresponding `name`. Older controls without a provider retain their recorded v1 interpretation (`opencode-go`) when resumed; new starts never infer a provider or model.
 
 Pi AI reads its native environment variables and ambient cloud credentials automatically. GitHub secrets must be exposed as environment variables in the iteration action; Shurik needs no new credential input. For OpenAI:
 
 ```yaml
-- uses: igor-makarov/shurik@v1
+- uses: igor-makarov/shurik@v2
   env:
     OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   with:
@@ -125,7 +161,7 @@ Pi AI reads its native environment variables and ambient cloud credentials autom
     inputs: ${{ toJSON(inputs) }}
 ```
 
-For Anthropic, use `provider: anthropic`, `model: claude-haiku-4-5`, and expose `ANTHROPIC_API_KEY` instead. Common choices are:
+For Anthropic, supply `model: '{"provider":"anthropic","name":"claude-haiku-4-5","reasoning":"high"}'` and expose `ANTHROPIC_API_KEY` instead. Common choices are:
 
 | Provider ID | Native authentication |
 | --- | --- |
@@ -144,7 +180,7 @@ Start, stop, resume, and recovery need the repository token but make no model re
 Set configuration in the control job's action inputs:
 
 ```yaml
-- uses: igor-makarov/shurik@v1
+- uses: igor-makarov/shurik@v2
   with:
     inputs: ${{ toJSON(inputs) }}
     work-seconds: 1800
@@ -154,11 +190,11 @@ Set configuration in the control job's action inputs:
     prompt: PROMPT.md
 ```
 
-Choose the provider, model, and iteration time limit with the `provider`, `model`, `work-seconds`, and `wait-seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective provider/model pair, work/wait settings, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
+Choose the model specification, optional swarm, and iteration timing with the `model`, `swarm`, `work-seconds`, and `wait-seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective provider/model pair, work/wait settings, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
 
 The iteration time limit is 10–1,800 seconds; the checkpoint interval is 1–1,800 seconds. `prompt` names a relative project file. `checkpoint-paths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository's visibility; use artifact storage for large files.
 
-Existing consumers may still provide `.shurik/config.json`; it is an optional legacy fallback at start, overridden by action inputs. New loops retain their effective configuration on the control branch, including checkpoint selections, so later task-side configuration edits do not change their settings.
+Version 2 ignores `.shurik/config.json`, including checkpoint selections. Configure loops through workflow/action inputs; resolved settings are retained on the control branch. Built-in operational defaults are 1,800 work seconds, zero wait seconds, 300 checkpoint seconds, `PROMPT.md`, an empty checkpoint-path list, and automatic draft PR creation. There is no built-in model selection.
 
 ## Canonical session paths
 
@@ -199,7 +235,7 @@ Checks cover native journal persistence, fresh contexts, coding/history tools, c
 
 `npm run test:pbt` runs 60 property-based tests using `fast-check`, also included in `npm test` and CI. Each ordinary property checks 1,000 generated cases; filesystem properties use 50–75 cases, real Git checkpoint properties use eight cases, and native history retrieval uses 20 cases with multiple isolated journals and optional legacy history. Failures shrink to small counterexamples and print a reproducible seed. See the [property inventory and replay instructions](VERIFICATION.md#property-based-tests).
 
-Publish tested releases with immutable version tags such as `v1.0.0`, then advance the corresponding major tag `v1`. Changes within a major version must preserve the action inputs, continuation protocol, and session layout, including reading journals written by earlier releases in that major. Breaking changes use a new major tag and documented migration. Consumers choose when to move their workflow from `@v1` to `@v2`; no engine-update control branch or per-loop version lock is required.
+Publish tested releases with immutable version tags such as `v2.0.0`, then advance the corresponding major tag `v2`. Leave existing v1 refs on their v1 code. Changes within a major version must preserve the action inputs, continuation protocol, and session layout, including reading journals written by earlier releases in that major. Breaking changes use a new major tag and documented migration. Consumers choose when to move their workflow from `@v1` to `@v2`; no engine-update control branch or per-loop version lock is required.
 
 ## Caveats
 
@@ -217,4 +253,4 @@ Publish tested releases with immutable version tags such as `v1.0.0`, then advan
 
 **Continued execution consumes resources.** Repeated runs use provider allowances, Actions resources, and storage. An omitted deadline means execution continues until stopped, not that usage is free or unlimited. Provider quotas, GitHub limits, service outages, and applicable usage terms still apply; chaining jobs does not remove those constraints. [Actions limits](https://docs.github.com/en/actions/reference/limits), [GitHub Actions terms](https://docs.github.com/en/site-policy/github-terms/github-terms-for-additional-products-and-features#actions)
 
-**Release scope.** `v1` is the first reusable action interface. Updates within `v1` must preserve that interface and the session layout. Operational guarantees and stronger runner isolation remain future work. License selection is pending; the CLI is packaged in this repository, not published to npm.
+**Release scope.** `v2` introduces structured model inputs and swarm startup. Updates within `v2` must preserve that interface and the session layout. Operational guarantees and stronger runner isolation remain future work. License selection is pending; the CLI is packaged in this repository, not published to npm.

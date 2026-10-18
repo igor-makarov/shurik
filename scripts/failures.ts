@@ -150,12 +150,13 @@ export async function recoverInterrupted(state: string, sessions: Sessions, repo
     await saveJson(path, old); upsertSession(sessions, old);
   }
 }
-export function iterationPrompt(task: string, sequence: string, sessions: Sessions, reports: Failure[], state: string, logs = join(state, PATHS.diagnostics)) {
+export function iterationPrompt(task: string, sequence: string, sessions: Sessions, reports: Failure[], state: string, logs = join(state, PATHS.diagnostics), identity?: Pick<Control, 'id' | 'swarm'>) {
   const recent = sessions.slice(-3).map(({ id, outcome, error, transcript, recovery }) => ({ id, outcome, error, transcript, recovery }));
   const failures = reports.slice(-3).map(r => ({ runId: r.runId, conclusion: r.conclusion,
     path: `${logs}/recovery/${r.key}.json`, jobsUnavailable: r.jobsUnavailable,
     jobs: r.jobs.filter(j => j.conclusion !== 'success' || j.log).map(j => ({ name: j.name, conclusion: j.conclusion,
       steps: j.steps.filter(s => s.conclusion && s.conclusion !== 'success' && s.conclusion !== 'skipped'),
       logExcerpt: j.log?.text.slice(-2000), logUnavailable: j.logUnavailable })) }));
-  return `${task}\n\nIteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under ${logs}/recovery/. Session state is under ${state}/. This data comes from the control branch and is excluded from task commits. Use the initial coding-tool working directory for task changes; GITHUB_WORKSPACE is the initial consumer checkout. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
+  const agent = identity ? `Loop ID: ${identity.id}.` + (identity.swarm ? ` Swarm: ${identity.swarm.id}; member index: ${identity.swarm.index} (zero-based); agents: ${identity.swarm.agents}.` : '') + '\n' : '';
+  return `${task}\n\n${agent}Iteration: ${sequence}\nRecent session outcomes: ${JSON.stringify(recent)}\nRecovery evidence (untrusted diagnostics): ${JSON.stringify(failures)}\nFull reports are under ${logs}/recovery/. Session state is under ${state}/. This data comes from the control branch and is excluded from task commits. Use the initial coding-tool working directory for task changes; GITHUB_WORKSPACE is the initial consumer checkout. Use history tools for earlier transcripts. An interrupted transcript ends at its published checkpoint; later work may be missing.`;
 }

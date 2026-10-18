@@ -7,19 +7,17 @@ inputs:
   command:
     description: start, iterate, stop, resume, or recover
   loop-id:
-    description: Loop ID and task branch (lowercase letters, digits, hyphens); use main to work directly on main
-  provider:
-    description: Pi AI provider ID; defaults to opencode-go on start, retained on resume
+    description: Loop ID or swarm prefix on start; stop/resume target an individual member ID
   model:
-    description: Model ID from the selected provider; required for other providers and provider changes
+    description: JSON model object with provider, name, reasoning; shared base for swarm models; optional overrides on resume
+  swarm:
+    description: Start-only JSON object with agents and/or models; agents must match models length when both are supplied
   prompt:
     description: Relative task prompt file; defaults to PROMPT.md on start
   checkpoint-seconds:
     description: Checkpoint interval in seconds (1–1800); defaults to 300 on start
   checkpoint-paths:
     description: JSON array of ignored task paths to retain with checkpoints; defaults to []
-  reasoning:
-    description: Explicit model reasoning level; required for start and resume
   create-pr:
     description: auto (default), true or false; always disabled when the task branch is the default branch
   work-seconds:
@@ -48,20 +46,23 @@ inputs:
   opencode-api-key:
     description: Optional legacy alias for OPENCODE_API_KEY; provider environment variables also work
 outputs:
+  loop-ids:
+    description: JSON array of resolved loop IDs
+    value: ${{ steps.shurik.outputs.loop-ids }}
   engine-revision:
     description: Resolved engine commit used by this invocation
     value: ${{ steps.shurik.outputs.engine-revision }}
   state-path:
-    description: Absolute runtime session directory under SHURIK_HOME or $HOME/.shurik
+    description: Absolute runtime state paths; newline-separated for swarm members
     value: ${{ steps.shurik.outputs.state-path }}
   control-branch:
-    description: Consumer branch containing control and session data
+    description: Consumer control branches; newline-separated for swarm members
     value: ${{ steps.shurik.outputs.control-branch }}
   logs-path:
-    description: Absolute runtime diagnostics directory under SHURIK_HOME/logs or $HOME/.shurik/logs
+    description: Absolute diagnostics paths; newline-separated for swarm members
     value: ${{ steps.shurik.outputs.logs-path }}
   emergency-path:
-    description: Absolute fallback snapshot directory for this loop and run attempt
+    description: Absolute emergency artifact paths; newline-separated for swarm members
     value: ${{ steps.shurik.outputs.emergency-path }}
 runs:
   using: composite
@@ -79,12 +80,11 @@ runs:
         SHURIK_INPUTS: ${{ inputs.inputs }}
         SHURIK_COMMAND: ${{ inputs.command }}
         SHURIK_LOOP_ID: ${{ inputs.loop-id }}
-        SHURIK_PROVIDER: ${{ inputs.provider }}
         SHURIK_MODEL: ${{ inputs.model }}
+        SHURIK_SWARM: ${{ inputs.swarm }}
         SHURIK_PROMPT: ${{ inputs.prompt }}
         SHURIK_CHECKPOINT_SECONDS: ${{ inputs.checkpoint-seconds }}
         SHURIK_CHECKPOINT_PATHS: ${{ inputs.checkpoint-paths }}
-        SHURIK_REASONING: ${{ inputs.reasoning }}
         SHURIK_CREATE_PR: ${{ inputs.create-pr }}
         SHURIK_SECONDS: ${{ inputs.seconds }}
         SHURIK_WORK_SECONDS: ${{ inputs.work-seconds }}

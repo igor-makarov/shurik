@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import type { Options } from '../scripts/types.ts';
+import type { Inputs } from '../scripts/types.ts';
 import type { Request } from '../src/worker.ts';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,22 +8,25 @@ import { mkdtemp, cp, rm, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { sessionPaths } from '../scripts/paths.ts';
 import { redact, validateId, credentialValues, normalizeOptions } from '../scripts/policy.ts';
+import { validateInputs } from '../scripts/launch.ts';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const help = `Usage: shurik <command> [options]
 
 Commands:
-  start       Initialize a loop in the consumer repository and dispatch it
+  start       Initialize a loop or swarm and dispatch independent iterations
   iterate     Execute one fenced Pi Durable iteration and save its checkpoint
   stop        Record a durable stop and cancel the active run
-  resume      Start a new generation with explicit reasoning
+  resume      Resume a saved loop, optionally overriding its model JSON
   recover     Reconcile interrupted runs and missing successors
   worker      Run Pi Durable from a versioned JSON request
   inspect     Inspect a copy of a native Pi Durable journal (no model call)
   paths       Print the canonical runtime and control-branch session paths
 
 Options:
-  --loop-id ID --provider ID --model ID --reasoning LEVEL --deadline TIMESTAMP
+  --loop-id ID --deadline TIMESTAMP
+  --model JSON      {"provider":"openai","name":"gpt-6-sol","reasoning":"high"}
+  --swarm JSON      {"agents":4} or {"models":[MODEL_OR_OVERRIDE,...]}; start only
   --work-seconds N   Iteration work budget, 10–1800 (default: 1800)
   --wait-seconds N   Idle time after an iteration, nonnegative (default: 0)
   --source-ref REF --generation N --iteration N --workflow FILE
@@ -39,28 +42,28 @@ The action supplies SHURIK_INPUTS; explicit flags override those inputs.
 Pi AI resolves model authentication from its provider environment variables.
 `;
 
-export function parseArgs(args: string[], inputs: Options = {}): Options {
+export function parseArgs(args: string[], inputs: Inputs = {}): Inputs {
   const [command, ...flags] = args;
   if (!command || ['--help', '-h', 'help'].includes(command)) return { help: true };
-  const allowed = new Set(['loop-id', 'provider', 'model', 'reasoning', 'work-seconds', 'wait-seconds', 'seconds', 'deadline', 'source-ref',
+  const allowed = new Set(['loop-id', 'model', 'swarm', 'work-seconds', 'wait-seconds', 'seconds', 'deadline', 'source-ref',
     'generation', 'iteration', 'workflow', 'workspace', 'repository', 'request', 'bundle', 'create-pr',
     'prompt', 'checkpoint-seconds', 'checkpoint-paths']);
-  const options: Options = { ...normalizeOptions(inputs), command };
+  const options: Inputs = { ...normalizeOptions(inputs), command };
   for (let i = 0; i < flags.length; i++) {
     if (flags[i] === '--help') return { help: true };
     const name = flags[i].slice(2);
     if (!flags[i].startsWith('--') || !allowed.has(name) || !flags[i + 1] || flags[i + 1].startsWith('--')) {
       throw new Error(`Unknown option or missing value: ${flags[i]}`);
     }
-    options[(name === 'seconds' ? 'work_seconds' : name.replaceAll('-', '_')) as keyof Omit<Options, 'help' | 'verification'>] = flags[++i];
+    options[(name === 'seconds' ? 'work_seconds' : name.replaceAll('-', '_')) as keyof Omit<Inputs, 'help' | 'verification'>] = flags[++i];
   }
   if (!['start', 'iterate', 'stop', 'resume', 'recover', 'worker', 'inspect', 'paths'].includes(command)) {
     throw new Error(`Unknown command: ${command}`);
   }
-  return options;
+  validateInputs(options); return options;
 }
 
-async function worker(options: Options) {
+async function worker(options: Inputs) {
   if (!options.request) throw new Error('--request FILE is required');
   let req: Request = JSON.parse(await readFile(resolve(options.request), 'utf8')), disposable: string | undefined;
   const { saveJson } = await import('../scripts/github.ts');

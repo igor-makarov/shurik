@@ -39,9 +39,8 @@ property('task snapshots round-trip bytes, preserve newer files and restore idem
     const source = join(directory, 'source'), state = join(directory, 'state'), cold = join(directory, 'cold');
     await mkdir(cold);
     const paths = generated.map((file, index) => ['data', 'entry-' + index, ...file.directories, 'file.bin'].join('/'));
-    await saveJson(join(source, PATHS.config), { checkpointPaths: [...paths, ...paths] });
     for (let i = 0; i < generated.length; i++) await put(join(source, paths[i]), generated[i].bytes);
-    await snapshotTaskState(source, state, workCommit);
+    await snapshotTaskState(source, state, workCommit, [...paths, ...paths]);
     assert.deepEqual((await readJson<{ version: number; workCommit: string; paths: string[] }>(join(state, PATHS.taskManifest))).paths, paths);
     for (let i = 0; i < generated.length; i++) {
       if (generated[i].exists) await put(join(cold, paths[i]), generated[i].newer);
@@ -60,8 +59,7 @@ property('mismatched task manifests fail before modifying the task checkout',
     const source = join(directory, 'source'), state = join(directory, 'state'), cold = join(directory, 'cold');
     await put(join(source, 'data/file.bin'), content); await mkdir(cold);
     await put(join(cold, 'sentinel.bin'), content);
-    await saveJson(join(source, PATHS.config), { checkpointPaths: ['data/file.bin'] });
-    await snapshotTaskState(source, state, workCommit);
+    await snapshotTaskState(source, state, workCommit, ['data/file.bin']);
     const manifest = await readJson<{ version: number; workCommit: string; paths: string[] }>(join(state, PATHS.taskManifest));
     await saveJson(join(state, PATHS.taskManifest), wrongVersion
       ? { ...manifest, version: 2 } : { ...manifest, workCommit: 'different-' + workCommit });
@@ -74,8 +72,7 @@ property('checkpoint paths reject traversal, hidden state and generated dependen
   fc.asyncProperty(directories, fc.constantFrom('..', '.', '.git', '.shurik', 'node_modules', 'dist', '', 'x\\y'),
     (prefix, forbidden) => withDirectory(async directory => {
       const source = join(directory, 'source'), state = join(directory, 'state');
-      await saveJson(join(source, PATHS.config), { checkpointPaths: [[...prefix, forbidden, 'file.bin'].join('/')] });
-      await assert.rejects(snapshotTaskState(source, state, 'commit'), /relative task paths/);
+      await assert.rejects(snapshotTaskState(source, state, 'commit', [[...prefix, forbidden, 'file.bin'].join('/')]), /relative task paths/);
       await assert.rejects(readFile(join(state, PATHS.taskManifest)), { code: 'ENOENT' });
     })), 75);
 
@@ -85,16 +82,15 @@ property('snapshot and restore reject symlinks at any generated path depth',
     const outside = join(directory, 'outside'), path = [...parts, 'file.bin'].join('/');
     await put(join(outside, 'sentinel.bin'), content);
     await put(join(source, path), content);
-    await saveJson(join(source, PATHS.config), { checkpointPaths: [parts[0]] });
     if (duringRestore) {
-      await snapshotTaskState(source, state, 'commit');
+      await snapshotTaskState(source, state, 'commit', [parts[0]]);
       await mkdir(cold); await mkdir(join(cold, ...parts.slice(0, -1)), { recursive: true });
       await symlink(outside, join(cold, ...parts));
       await assert.rejects(restoreTaskState(cold, state, 'commit'), /symlink|Unsupported checkpoint file/);
     } else {
       await rm(join(source, ...parts), { recursive: true });
       await symlink(outside, join(source, ...parts));
-      await assert.rejects(snapshotTaskState(source, state, 'commit'), /symlink|Unsupported checkpoint file/);
+      await assert.rejects(snapshotTaskState(source, state, 'commit', [parts[0]]), /symlink|Unsupported checkpoint file/);
     }
     assert.deepEqual(await readFile(join(outside, 'sentinel.bin')), Buffer.from(content));
     await assert.rejects(readFile(join(outside, 'file.bin')), { code: 'ENOENT' });
