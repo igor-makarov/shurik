@@ -6,7 +6,7 @@ import { commit, git, saveJson, copySession, type ControlStore } from './github.
 import { snapshotTaskState, restoreTaskState } from './task-state.ts';
 
 export async function initializeCheckpoint({ workspace, state, logs, store, control, message }: { workspace: string; state: string; logs?: string; store: ControlStore; control: Control; message: string }) {
-  const workCommit = await commit(workspace, message);
+  const workCommit = control.checkpointSeconds === 0 ? await git(workspace, 'rev-parse', 'HEAD') : await commit(workspace, message);
   await snapshotTaskState(workspace, state, workCommit, control.checkpointPaths);
   const next = { ...control, checkpoint: { workCommit, generation: control.generation,
     sequence: 'initialize', runId: null, at: new Date().toISOString() } };
@@ -41,7 +41,9 @@ export async function publishCheckpoint({ workspace, state, logs, store, generat
   const { value: initial } = await store.read();
   if (!owns(initial)) throw new Error('Stale checkpoint: control ownership or generation changed');
   // Runtime state lives outside the task checkout and cannot enter the task index.
-  const workCommit = await commit(workspace, message);
+  // With automatic checkpoints disabled, persist sessions against the agent's
+  // current commit without staging or committing any unfinished task edits.
+  const workCommit = initial.checkpointSeconds === 0 ? await git(workspace, 'rev-parse', 'HEAD') : await commit(workspace, message);
   await snapshotTaskState(workspace, state, workCommit, initial.checkpointPaths);
   if (record) {
     record.workCommit = workCommit;

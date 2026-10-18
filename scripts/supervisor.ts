@@ -150,17 +150,18 @@ async function startLoop(options: Options) {
   const existingControl = await git(workspace, 'ls-remote', '--heads', 'origin', ...controlBranches(id).map(branch => `refs/heads/${branch}`));
   if (existingControl) throw new Error(`Loop ${id} already exists; use resume`);
   const { branch, source } = await checkoutTaskBranch(workspace, id, await git(project, 'rev-parse', 'HEAD'), requestedSource);
+  const config = await projectConfig(workspace, options);
   // The Actions token cannot introduce historical/custom workflow definitions on
   // a new branch. Task source may vary; workflows must match the default branch.
   const workflowRef = `origin/${defaultBranch}`;
   if (await git(workspace, 'diff', '--name-only', source, workflowRef, '--', '.github/workflows')) {
+    if (config.checkpointSeconds === 0) throw new Error('checkpoint-seconds: 0 requires task source with the current default-branch workflows; updating workflows would require an automatic task commit');
     await rm(join(workspace, '.github/workflows'), { recursive: true, force: true });
     await git(workspace, 'rm', '-r', '--cached', '--ignore-unmatch', '--', '.github/workflows');
     if (await git(workspace, 'ls-tree', workflowRef, '--', '.github/workflows')) {
       await git(workspace, 'restore', '--source', workflowRef, '--staged', '--worktree', '--', '.github/workflows');
     }
   }
-  const config = await projectConfig(workspace, options);
   const model = config.model;
   await readFile(join(workspace, config.prompt), 'utf8');
   if (verification && process.env.SHURIK_ENGINE_REPOSITORY) throw new Error('Live self-repair verification is only available to legacy self-hosted loops');

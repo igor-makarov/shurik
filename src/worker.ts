@@ -61,10 +61,13 @@ export async function runIteration(req: Request) {
   let checkpointAt = Date.now();
   const endOfIteration = () => Math.min(Date.now() + req.seconds * 1000, req.deadline ? Date.parse(req.deadline) : Infinity);
   let iterationEndsAt = endOfIteration();
-  const updateTime = () => root.configure({ instructions: `${INSTRUCTIONS}\n\n${timeRemainingInstructions(iterationEndsAt, req.deadline, Date.now(), req.checkpointSeconds || 300)}` }, context);
+  const instructions = req.checkpointSeconds === 0
+    ? `${INSTRUCTIONS} Automatic task checkpoints are disabled. Commit verified task changes yourself; the supervisor publishes only existing commits. Uncommitted task edits do not survive the next iteration.`
+    : INSTRUCTIONS;
+  const updateTime = () => root.configure({ instructions: `${instructions}\n\n${timeRemainingInstructions(iterationEndsAt, req.deadline, Date.now(), req.checkpointSeconds || 300)}` }, context);
   async function checkpoint(force = false) {
-    // Zero disables periodic saves; the forced session-start boundary still publishes.
-    if (!req.checkpointHandshake || (!force && (!req.checkpointSeconds || Date.now() - checkpointAt < req.checkpointSeconds * 1000))) return;
+    // Zero disables every automatic checkpoint, including the session-start boundary.
+    if (!req.checkpointHandshake || req.checkpointSeconds === 0 || (!force && (!req.checkpointSeconds || Date.now() - checkpointAt < req.checkpointSeconds * 1000))) return;
     const nonce = `${Date.now()}`;
     await updateTime();
     const maxEntryId = await snapshotJournal(root, journal, req.output, context);
@@ -84,7 +87,7 @@ export async function runIteration(req: Request) {
   const harness = await Harness.open(storage, { models, registry,
     env: ({ cwd }) => new NodeExecutionEnv({ cwd: cwd ?? req.cwd }),
     settings: { retry: { enabled: false, maxRetries: 0 }, toolExecution: 'sequential',
-      stream: { headers: { 'User-Agent': 'shurik/2.0.1' }, timeoutMs: 120000, maxRetries: 0 } } }, context);
+      stream: { headers: { 'User-Agent': 'shurik/2.0.2' }, timeoutMs: 120000, maxRetries: 0 } } }, context);
   root = await harness.root(context);
   if (req.mode === 'inspect') {
     const inspect = await harness.inspect(context); await harness.close(context);
@@ -99,7 +102,7 @@ export async function runIteration(req: Request) {
     await root.reset(undefined, context);
     minEntryId = (await root.entries({}, 1, undefined, context)).items[0]?.id;
     await root.configure({ model: { provider, modelId }, thinkingLevel: req.reasoning, cwd: req.cwd,
-      instructions: INSTRUCTIONS }, context);
+      instructions }, context);
     // Publish the reset boundary before the first provider request, even if no tool round ever completes.
     await checkpoint(true);
     iterationEndsAt = endOfIteration();

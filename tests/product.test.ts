@@ -142,7 +142,7 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   assert.equal(await git(cold, 'status', '--porcelain'), '');
 });
 
-test('zero disables periodic worker checkpoints while preserving session start and completed journal', async () => {
+test('zero disables all worker checkpoints while retaining the local completed journal', async () => {
   for (const checkpointSeconds of [0, 0.001]) {
     const dir = await mkdtemp(join(tmpdir(), 'shurik-checkpoint-toggle-'));
     const workspace = join(dir, 'repo'); await mkdir(workspace);
@@ -155,11 +155,12 @@ test('zero disables periodic worker checkpoints while preserving session start a
       onCheckpoint: async checkpoint => { checkpoints.push(checkpoint); }
     });
     assert.equal(report.outcome, 'yielded', report.log);
-    assert.deepEqual(checkpoints.map(c => c.phase), checkpointSeconds === 0 ? ['started'] : ['started', 'tools', 'tools']);
+    assert.deepEqual(checkpoints.map(c => c.phase), checkpointSeconds === 0 ? [] : ['started', 'tools', 'tools']);
     assert.equal(await readFile(join(workspace, 'saved.txt'), 'utf8'), 'CHECKPOINT_TOGGLE_NEEDLE');
     const journal = await readFile(join(dir, 'state/pi-jsonl/sessions/1-1/main.jsonl'), 'utf8');
     assert.match(journal, /CHECKPOINT_TOGGLE_NEEDLE/); assert.match(journal, /Finished/);
-    assert.ok(report.result!.maxEntryId! > checkpoints[0].maxEntryId, 'final journal includes work after the session-start checkpoint');
+    assert.ok(report.result!.maxEntryId! > report.result!.minEntryId!, 'the local journal includes completed tool work');
+    if (checkpointSeconds === 0) assert.match(JSON.stringify(report.result!.captured![0]), /Automatic task checkpoints are disabled/);
   }
 });
 
@@ -185,6 +186,10 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     `export async function runIteration(req: Request) {
       req.script = [{ tool: 'write', args: { path: 'consumer-result.txt', content: 'SUPERVISOR_CONSUMER_PROOF' } },
         { tool: 'write', args: { path: 'provider-selection.json', content: JSON.stringify({ provider: req.provider, model: req.model, checkpointSeconds: req.checkpointSeconds, prompt: (req.prompt ?? '').includes('Swarm:') ? req.prompt : undefined }) } },
+        ...(req.checkpointSeconds === 0 ? [
+          { tool: 'bash', args: { command: 'git add consumer-result.txt provider-selection.json && git commit -m "Agent verified work"' } },
+          { tool: 'write', args: { path: 'uncommitted.txt', content: 'DO_NOT_CHECKPOINT_UNFINISHED_WORK' } }
+        ] : []),
         { text: 'Done' }];`));
   await git(engine, 'init'); await configureGit(engine);
   const engineSHA = await commit(engine, 'scripted engine release');
@@ -308,6 +313,8 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await git(ctl, 'fetch', 'origin', finished.value.branch);
     assert.deepEqual(JSON.parse(await git(ctl, 'show', `${finished.value.checkpoint!.workCommit}:provider-selection.json`)),
       { provider: 'anthropic', model: 'claude-haiku-4-5', checkpointSeconds: 0 });
+    assert.equal(await git(ctl, 'log', '-1', '--format=%s', finished.value.checkpoint!.workCommit), 'Agent verified work');
+    await assert.rejects(git(ctl, 'show', `${finished.value.checkpoint!.workCommit}:uncommitted.txt`));
     await main({ command: 'start', loop_id: 'without-pr', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' }, create_pr: false, source_ref: 'older-task-source' });
     assert.equal(prAttempts, 2, 'explicit false never attempts PR creation even when GitHub allows it');
     const maintainer = join(dir, 'maintainer'); await git(dir, 'clone', remote, maintainer); await configureGit(maintainer);
@@ -370,6 +377,9 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await main({ command: 'stop', loop_id: 'waiting' });
     const swarmModel = { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' as const };
     const beforeSwarm = dispatches.length;
+    await assert.rejects(main({ command: 'start', loop_id: 'no-checkpoint-old-source', model: swarmModel,
+      source_ref: 'older-task-source', checkpoint_seconds: '0' }), /current default-branch workflows/);
+    assert.equal(await git(ctl, 'ls-remote', '--heads', 'origin', 'refs/heads/no-checkpoint-old-source', 'refs/heads/shurik-control/no-checkpoint-old-source'), '');
     await assert.rejects(main({ command: 'start', loop_id: 'invalid-swarm', model: swarmModel,
       swarm: { agents: 2, models: [{}, { reasoning: 'invalid' as 'high' }] } }), /reasoning/);
     assert.equal(await git(ctl, 'ls-remote', '--heads', 'origin', 'refs/heads/invalid-swarm*', 'refs/heads/shurik-control/invalid-swarm*'), '');
@@ -383,6 +393,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
       assert.deepEqual(saved.value.swarm, { id: 'research', index, agents: 2 });
       assert.equal(saved.value.reasoning, index ? 'medium' : 'high');
       assert.equal(saved.value.checkpointSeconds, 0);
+      assert.equal(saved.value.checkpoint!.workCommit, saved.value.source, 'disabled initialization creates no task commit');
       assert.deepEqual(JSON.parse(await git(ctl, 'show', `${saved.revision}:state/loop.json`)).swarm, saved.value.swarm);
     }
     await main({ command: 'iterate', loop_id: 'research-0', generation: '1', iteration: '1' });
@@ -394,6 +405,8 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await git(ctl, 'fetch', 'origin', 'research-0');
     const workerEvidence = await git(ctl, 'show', `${memberState.value.checkpoint!.workCommit}:provider-selection.json`);
     assert.equal(JSON.parse(workerEvidence).checkpointSeconds, 0, 'continuation forwards saved zero without replacing it with the default');
+    assert.equal(await git(ctl, 'log', '-1', '--format=%s', memberState.value.checkpoint!.workCommit), 'Agent verified work');
+    await assert.rejects(git(ctl, 'show', `${memberState.value.checkpoint!.workCommit}:uncommitted.txt`));
     assert.match(workerEvidence, /Loop ID: research-0/); assert.match(workerEvidence, /member index: 0/);
     await main({ command: 'stop', loop_id: 'research-0' });
     await main({ command: 'resume', loop_id: 'research-0', model: { reasoning: 'low' } });

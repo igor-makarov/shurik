@@ -111,6 +111,56 @@ test('initialization publishes both new branches with state only on control, inc
   assert.equal(await git(f.workspace, 'ls-tree', '-r', '--name-only', f.base), 'app.txt');
 });
 
+test('disabled initialization creates the work ref without committing staged, unstaged or untracked edits', async () => {
+  const f = await fixture();
+  const control = controlFixture({ id: 'manual', branch: 'manual', checkpointSeconds: 0 });
+  await git(f.workspace, 'checkout', '--detach', f.base);
+  await writeFile(join(f.workspace, 'app.txt'), 'staged work'); await git(f.workspace, 'add', 'app.txt');
+  await writeFile(join(f.workspace, 'app.txt'), 'unfinished work');
+  await writeFile(join(f.workspace, 'unfinished.txt'), 'untracked work');
+  const status = await git(f.workspace, 'status', '--porcelain');
+  const cwd = join(f.dir, 'manual-control'); await git(f.dir, 'clone', f.remote, cwd); await configureGit(cwd);
+  await git(cwd, 'checkout', '--detach', f.base);
+  const store = new ControlStore(cwd, control.id);
+  const saved = await initializeCheckpoint({ workspace: f.workspace, state: f.state, store, control, message: 'initialize manual loop' });
+  assert.equal(saved.checkpoint!.workCommit, f.base);
+  assert.equal(await git(f.dir, '--git-dir', f.remote, 'rev-parse', 'refs/heads/manual'), f.base);
+  assert.equal(await git(f.workspace, 'status', '--porcelain'), status);
+  assert.equal(await git(f.workspace, 'show', ':app.txt'), 'staged work');
+  const { revision } = await store.read();
+  assert.equal(await git(cwd, 'show', `${revision}:state/pi-jsonl/main.jsonl`), 'OLD_JOURNAL');
+});
+
+test('disabled checkpoints persist sessions and publish agent commits without staging unfinished task work', async () => {
+  const f = await fixture(); await f.store.mutate(c => ({ ...c, checkpointSeconds: 0 }));
+  await writeFile(join(f.workspace, 'app.txt'), 'agent approved'); await git(f.workspace, 'add', 'app.txt');
+  await writeFile(join(f.workspace, 'app.txt'), 'unfinished edit');
+  await writeFile(join(f.workspace, 'unfinished.txt'), 'untracked work');
+  await writeFile(join(f.state, 'pi-jsonl/main.jsonl'), 'COMPLETED_SESSION\n');
+  const record = iterationFixture({ outcome: 'yielded' });
+  const status = await git(f.workspace, 'status', '--porcelain');
+  assert.equal(await f.publish({ record }), f.base);
+  assert.equal(await f.workHead(), f.base);
+  assert.equal(await git(f.workspace, 'status', '--porcelain'), status);
+  assert.equal(await git(f.workspace, 'show', ':app.txt'), 'agent approved');
+  await git(f.workspace, 'commit', '-m', 'agent approved work');
+  const agentCommit = await git(f.workspace, 'rev-parse', 'HEAD');
+  const unfinished = await git(f.workspace, 'status', '--porcelain');
+  assert.equal(await f.publish({ record }), agentCommit);
+  assert.equal(await f.workHead(), agentCommit);
+  assert.equal(await git(f.workspace, 'status', '--porcelain'), unfinished);
+  assert.equal(await git(f.workspace, 'show', `${agentCommit}:app.txt`), 'agent approved');
+  await assert.rejects(git(f.workspace, 'show', `${agentCommit}:unfinished.txt`));
+  const { revision } = await f.store.read();
+  assert.equal(await git(f.store.cwd, 'show', `${revision}:state/pi-jsonl/main.jsonl`), 'COMPLETED_SESSION');
+  assert.equal(JSON.parse(await git(f.store.cwd, 'show', `${revision}:state/iterations/1-1.json`)).workCommit, agentCommit);
+  const cold = join(f.dir, 'manual-cold'); await git(f.dir, 'clone', f.remote, cold); await git(cold, 'checkout', 'state-test');
+  const restored = await loadState(await f.reader('manual-cold-control'), cold, 'state-test');
+  assert.equal(await readFile(join(restored, 'pi-jsonl/main.jsonl'), 'utf8'), 'COMPLETED_SESSION\n');
+  assert.equal(await readFile(join(cold, 'app.txt'), 'utf8'), 'agent approved');
+  await assert.rejects(readFile(join(cold, 'unfinished.txt')));
+});
+
 test('ignored task discoveries survive a cold restart without rolling back newer tracked records', async () => {
   const f = await fixture();
   await f.store.mutate(c => ({ ...c, checkpointPaths: ['data/cdx', 'data/missing.jsonl'] }), 'fixture: saved action configuration');

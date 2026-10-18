@@ -36,7 +36,7 @@ on:
         description: Idle seconds between iterations; Shurik defaults to 0 on start
         type: string
       checkpoint-seconds:
-        description: Periodic checkpoint interval, 1–1800, or 0 to disable; defaults to 300 on start, retained on resume
+        description: Checkpoint interval, 1–1800, or 0 to disable all automatic task commits; defaults to 300 on start, retained on resume
         type: string
       checkpoint-paths:
         description: JSON array of ignored task paths; Shurik defaults to an empty array
