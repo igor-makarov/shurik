@@ -7,7 +7,7 @@ export interface SwarmSpec { agents?: number; models?: Partial<ModelSpec>[] }
 export interface SwarmMember { id: string; index: number; agents: number }
 
 // Resolved per-loop options; model settings remain flat inside the engine.
-export type Options = Partial<Record<'command' | 'loop_id' | 'provider' | 'model' | 'reasoning' | 'work_seconds' | 'wait_seconds' | 'work-seconds' | 'wait-seconds' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean; swarm_member?: SwarmMember };
+export type Options = Partial<Record<'command' | 'loop_id' | 'provider' | 'model' | 'reasoning' | 'work_seconds' | 'wait_seconds' | 'work-seconds' | 'wait-seconds' | 'seconds' | 'deadline' | 'source_ref' | 'generation' | 'iteration' | 'workflow' | 'workspace' | 'repository' | 'request' | 'bundle' | 'prompt' | 'checkpoint_seconds' | 'checkpoint-seconds' | 'checkpoint_paths', string>> & { create_pr?: boolean | string; verification?: boolean | string; help?: boolean; swarm_member?: SwarmMember };
 export type Inputs = Omit<Options, 'provider' | 'model' | 'reasoning' | 'swarm_member'> & {
   model?: string | Partial<ModelSpec>; swarm?: string | SwarmSpec;
 };
@@ -61,5 +61,5 @@ export interface WorkerReport { outcome: Outcome; result: WorkerResult | null; l
 export type WorkerRequest = Omit<Request, 'cwd' | 'journal' | 'output'>;
 export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string; phase: 'started' | 'tools' }
 export type Sessions = SessionSummary[];
-export interface Publication { state: string; logs?: string; workspace: string; workCommit: string; workBranch: string; journalSnapshot?: string; journalId?: string }
+export interface Publication { state: string; logs?: string; workspace: string; workCommit: string; workBranch: string; publishWork?: boolean; journalSnapshot?: string; journalId?: string }
 export function errorCode(error: unknown): string | undefined { return error instanceof Error && 'code' in error ? String(error.code) : undefined; }

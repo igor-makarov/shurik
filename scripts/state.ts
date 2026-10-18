@@ -6,8 +6,8 @@ import { commit, git, saveJson, copySession, type ControlStore } from './github.
 import { snapshotTaskState, restoreTaskState } from './task-state.ts';
 
 export async function initializeCheckpoint({ workspace, state, logs, store, control, message }: { workspace: string; state: string; logs?: string; store: ControlStore; control: Control; message: string }) {
-  const workCommit = await commit(workspace, message);
-  await snapshotTaskState(workspace, state, workCommit, control.checkpointPaths);
+  const workCommit = control.checkpointSeconds === 0 ? await git(workspace, 'rev-parse', 'HEAD') : await commit(workspace, message);
+  if (control.checkpointSeconds !== 0) await snapshotTaskState(workspace, state, workCommit, control.checkpointPaths);
   const next = { ...control, checkpoint: { workCommit, generation: control.generation,
     sequence: 'initialize', runId: null, at: new Date().toISOString() } };
   await copySession(state, join(store.cwd, PATHS.controlState), logs);
@@ -32,7 +32,7 @@ export async function loadState(store: ControlStore, workspace: string, id: stri
   try { await rename(join(state, PATHS.diagnostics), logs); }
   catch (error) { if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) throw error; }
   await mkdir(logs, { recursive: true });
-  await restoreTaskState(workspace, state, value.checkpoint?.workCommit);
+  if (value.checkpointSeconds !== 0) await restoreTaskState(workspace, state, value.checkpoint?.workCommit);
   return state;
 }
 
@@ -41,8 +41,9 @@ export async function publishCheckpoint({ workspace, state, logs, store, generat
   const { value: initial } = await store.read();
   if (!owns(initial)) throw new Error('Stale checkpoint: control ownership or generation changed');
   // Runtime state lives outside the task checkout and cannot enter the task index.
-  const workCommit = await commit(workspace, message);
-  await snapshotTaskState(workspace, state, workCommit, initial.checkpointPaths);
+  const publishWork = initial.checkpointSeconds !== 0;
+  const workCommit = publishWork ? await commit(workspace, message) : await git(workspace, 'rev-parse', 'HEAD');
+  if (publishWork) await snapshotTaskState(workspace, state, workCommit, initial.checkpointPaths);
   if (record) {
     record.workCommit = workCommit;
     await saveJson(join(state, PATHS.iterations, `${record.id}.json`), record);
@@ -51,7 +52,7 @@ export async function publishCheckpoint({ workspace, state, logs, store, generat
   const control = await store.mutate(c => {
     if (!owns(c)) return null;
     return { ...c, checkpoint };
-  }, message, {}, { state, logs, workspace, workCommit, workBranch: initial.branch, journalSnapshot, journalId: record?.journalId });
+  }, message, {}, { state, logs, workspace, workCommit, workBranch: initial.branch, publishWork, journalSnapshot, journalId: record?.journalId });
   if (control.checkpoint?.workCommit !== workCommit || control.checkpoint?.at !== checkpoint.at) {
     throw new Error('Stale checkpoint: control ownership or generation changed');
   }

@@ -51,7 +51,7 @@ export async function validateCandidate(workspace: string, stable: string, journ
 }
 export async function launchWorker({ workspace, state, bundle, req, onCheckpoint, onPoll, key, stable }: { workspace: string; state: string; bundle: string; req: WorkerRequest; onCheckpoint?: (checkpoint: WorkerCheckpoint, log: string, snapshot: string) => Promise<void>; onPoll?: () => Promise<boolean>; key?: string; stable: string }): Promise<WorkerReport> {
   const io = await temporary('shurik-io-', stable); await mkdir(join(io, 'output'));
-  await saveJson(join(io, 'request.json'), { ...req, checkpointHandshake: true, cwd: resolve(workspace),
+  await saveJson(join(io, 'request.json'), { ...req, checkpointHandshake: req.checkpointSeconds !== 0, cwd: resolve(workspace),
     journal: resolve(state, PATHS.journal), output: join(io, 'output') });
   // Prototype: run directly on the Actions runner, including its repository-scoped GitHub token.
   // A process group supports timeout/cancellation cleanup; checkpoints are cooperative Pi hooks.

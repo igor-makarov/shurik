@@ -128,7 +128,7 @@ Lifecycle commands expect the GitHub Actions repository, actor, ref, and token c
 | `wait-seconds` | Idle time after an iteration; nonnegative integer, defaults to 0 at start, retained on resume |
 | `deadline` | Optional absolute loop deadline |
 | `prompt` | Relative task prompt file; defaults to `PROMPT.md` at start |
-| `checkpoint-seconds` | Checkpoint interval, 1–1,800 seconds; defaults to 300 at start |
+| `checkpoint-seconds` | Checkpoint interval, 1–1,800 seconds; 0 disables automatic task commits/pushes and periodic checkpoints; defaults to 300 at start, retained on resume |
 | `checkpoint-paths` | JSON array of ignored task paths to retain with sessions; defaults to `[]` |
 | `source-ref` | Source for a new task branch; must match an existing branch's current tip; workflow definitions come from the default branch |
 | `generation`, `iteration` | Internal continuation fence supplied by Shurik |
@@ -192,11 +192,20 @@ Set configuration in the control job's action inputs:
 
 Choose the model specification, optional swarm, and iteration timing with the `model`, `swarm`, `work-seconds`, and `wait-seconds` action or dispatch inputs. Explicit action values override dispatch JSON. Start validates these settings and saves the effective provider/model pair, work/wait settings, prompt path, checkpoint interval, and checkpoint paths in `control.json` on the control branch. Later iterations read that control record; continuation dispatches carry the loop ID and generation/iteration fence. The controller does not write a configuration file into the task checkout. No settings file needs to be passed between Actions runners.
 
-The iteration time limit is 10–1,800 seconds; the checkpoint interval is 1–1,800 seconds. `prompt` names a relative project file. `checkpoint-paths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository's visibility; use artifact storage for large files.
+The iteration time limit is 10–1,800 seconds; a positive checkpoint interval is 1–1,800 seconds (0 disables task checkpoints). `prompt` names a relative project file. `checkpoint-paths` selects ignored task data to retain with sessions, for example `["data/posts", "data/cdx"]`. Hidden paths, dependency/build directories, traversal, and symlinks are rejected. The snapshot is paired with its work commit; restoration fills missing files without overwriting newer task records. Select only data suitable for your repository's visibility; use artifact storage for large files.
 
 Version 2 ignores `.shurik/config.json`, including checkpoint selections. Configure loops through workflow/action inputs; resolved settings are retained on the control branch. Built-in operational defaults are 1,800 work seconds, zero wait seconds, 300 checkpoint seconds, `PROMPT.md`, an empty checkpoint-path list, and automatic draft PR creation. There is no built-in model selection.
 
 ## Canonical session paths
+
+Set `checkpoint-seconds: 0` for agent-managed task commits. Shurik creates the
+initial task branch, then never commits or pushes task changes automatically.
+The agent must commit and push its own work. Periodic journal checkpoints and
+ignored-task-file snapshots are disabled; session history, diagnostics, and control
+state still persist at iteration boundaries. An abrupt interruption can lose the
+current iteration's unpushed code and session history. Stop and resume an existing
+member with `checkpoint-seconds: 0` to enable this mode. A blank resume setting
+retains the saved value; a positive interval re-enables automatic checkpoints.
 
 [scripts/paths.ts](scripts/paths.ts) declares layout version 1. `shurik paths --repository OWNER/REPO --loop-id ID --workspace DIR` prints the resolved mapping. All persisted data belongs to the **consumer repository**, including when Shurik is loaded from another repository.
 

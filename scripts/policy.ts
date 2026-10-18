@@ -27,9 +27,18 @@ export function credentialValues(env: NodeJS.ProcessEnv = process.env): Secrets 
 }
 export function normalizeOptions<T extends Options | Inputs>(inputs: T): T {
   const options = { ...inputs, work_seconds: inputs['work-seconds'] ?? inputs.work_seconds ?? inputs.seconds,
-    wait_seconds: inputs['wait-seconds'] ?? inputs.wait_seconds };
-  delete options['work-seconds']; delete options['wait-seconds']; delete options.seconds;
+    wait_seconds: inputs['wait-seconds'] ?? inputs.wait_seconds,
+    checkpoint_seconds: inputs['checkpoint-seconds'] ?? inputs.checkpoint_seconds };
+  delete options['work-seconds']; delete options['wait-seconds']; delete options.seconds; delete options['checkpoint-seconds'];
   return options;
+}
+export function validateCheckpointSeconds(value: unknown): number {
+  const seconds = Number(value);
+  if (!['number', 'string'].includes(typeof value) || (typeof value === 'string' && !value.trim())
+    || !Number.isInteger(seconds) || seconds < 0 || seconds > 1800) {
+    throw new Error('checkpoint-seconds must be 0 (agent-managed commits) or 1–1800');
+  }
+  return seconds;
 }
 export function validateWorkSeconds(value: unknown): number {
   const seconds = Number(value);
@@ -67,6 +76,8 @@ export function resumeSettings(value: Control, options: Options): Control {
   return { ...value, generation, next, status: 'running', owner: null, deadline,
     seconds: options.work_seconds !== undefined && options.work_seconds !== '' ? validateWorkSeconds(options.work_seconds) : value.seconds,
     waitSeconds: options.wait_seconds !== undefined && options.wait_seconds !== '' ? validateWaitSeconds(options.wait_seconds) : (value.waitSeconds ?? 0), nextRunAt: null,
+    checkpointSeconds: options.checkpoint_seconds !== undefined && options.checkpoint_seconds !== ''
+      ? validateCheckpointSeconds(options.checkpoint_seconds) : value.checkpointSeconds,
     provider, model: options.model?.trim() || value.model, reasoning,
     createPr: value.branch === value.defaultBranch ? false
       : options.create_pr === undefined ? (value.createPr ?? 'auto') : validateCreatePr(options.create_pr),

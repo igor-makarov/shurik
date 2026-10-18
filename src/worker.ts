@@ -59,11 +59,13 @@ export async function runIteration(req: Request) {
   let root: Conversation;
   let minEntryId: number | undefined;
   let checkpointAt = Date.now();
+  const instructions = INSTRUCTIONS + (req.checkpointSeconds === 0
+    ? ' Automatic task checkpoints are disabled. You are responsible for committing and pushing task code; the supervisor saves session/control state only.' : '');
   const endOfIteration = () => Math.min(Date.now() + req.seconds * 1000, req.deadline ? Date.parse(req.deadline) : Infinity);
   let iterationEndsAt = endOfIteration();
-  const updateTime = () => root.configure({ instructions: `${INSTRUCTIONS}\n\n${timeRemainingInstructions(iterationEndsAt, req.deadline, Date.now(), req.checkpointSeconds || 300)}` }, context);
+  const updateTime = () => root.configure({ instructions: `${instructions}\n\n${timeRemainingInstructions(iterationEndsAt, req.deadline, Date.now(), req.checkpointSeconds ?? 300)}` }, context);
   async function checkpoint(force = false) {
-    if (!req.checkpointHandshake || (!force && (!req.checkpointSeconds || Date.now() - checkpointAt < req.checkpointSeconds * 1000))) return;
+    if (!req.checkpointHandshake || req.checkpointSeconds === 0 || (!force && (!req.checkpointSeconds || Date.now() - checkpointAt < req.checkpointSeconds * 1000))) return;
     const nonce = `${Date.now()}`;
     await updateTime();
     const maxEntryId = await snapshotJournal(root, journal, req.output, context);
@@ -98,7 +100,7 @@ export async function runIteration(req: Request) {
     await root.reset(undefined, context);
     minEntryId = (await root.entries({}, 1, undefined, context)).items[0]?.id;
     await root.configure({ model: { provider, modelId }, thinkingLevel: req.reasoning, cwd: req.cwd,
-      instructions: INSTRUCTIONS }, context);
+      instructions }, context);
     // Publish the reset boundary before the first provider request, even if no tool round ever completes.
     await checkpoint(true);
     iterationEndsAt = endOfIteration();

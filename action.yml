@@ -15,7 +15,7 @@ inputs:
   prompt:
     description: Relative task prompt file; defaults to PROMPT.md on start
   checkpoint-seconds:
-    description: Checkpoint interval in seconds (1–1800); defaults to 300 on start
+    description: Checkpoint interval (1–1800); 0 disables automatic task commits/pushes and periodic checkpoints; defaults to 300
   checkpoint-paths:
     description: JSON array of ignored task paths to retain with checkpoints; defaults to []
   create-pr:

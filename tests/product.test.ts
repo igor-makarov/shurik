@@ -14,6 +14,7 @@ import { projectConfig } from '../scripts/config.ts';
 import { git, configureGit, commit, saveJson, readJson, ControlStore } from '../scripts/github.ts';
 import { initializeCheckpoint, loadState, publishCheckpoint } from '../scripts/state.ts';
 import { launchWorker } from '../scripts/runtime.ts';
+import { resumeSettings } from '../scripts/policy.ts';
 const exec = promisify(execFile);
 const cli = resolve('bin/shurik.ts'), bundle = resolve('dist/worker.cjs');
 
@@ -60,6 +61,40 @@ test('v2 operational configuration uses built-in defaults and ignores legacy pro
   for (const prompt of ['../secret', '/absolute']) {
     await assert.rejects(projectConfig(project, { ...base, prompt }), /relative project file/);
   }
+});
+
+test('checkpoint zero works for action, start and resume, retains its value, and can be re-enabled', async () => {
+  const project = await mkdtemp(join(tmpdir(), 'shurik-manual-config-'));
+  const base = { provider: 'openai', model: 'custom' };
+  assert.equal((await projectConfig(project, { ...base, checkpoint_seconds: '0' })).checkpointSeconds, 0);
+  assert.equal((await projectConfig(project, { ...base, 'checkpoint-seconds': '0' })).checkpointSeconds, 0);
+  assert.equal(actionOptions({ SHURIK_LOOP_ID: 'demo', SHURIK_CHECKPOINT_SECONDS: '0' }).checkpoint_seconds, '0');
+  const previous = controlFixture({ status: 'stopped', checkpointSeconds: 300 });
+  const disabled = resumeSettings(previous, { reasoning: 'high', checkpoint_seconds: '0' });
+  assert.equal(disabled.checkpointSeconds, 0);
+  const stopped = { ...disabled, status: 'stopped' };
+  assert.equal(resumeSettings(stopped, { reasoning: 'high' }).checkpointSeconds, 0);
+  assert.equal(resumeSettings(stopped, { reasoning: 'high', 'checkpoint-seconds': '60' }).checkpointSeconds, 60);
+  for (const value of ['-1', '1801', 'NaN', '0.5', ' ']) {
+    await assert.rejects(projectConfig(project, { ...base, checkpoint_seconds: value }), /checkpoint-seconds/);
+    assert.throws(() => resumeSettings(previous, { reasoning: 'high', checkpoint_seconds: value }), /checkpoint-seconds/);
+  }
+});
+
+test('disabled checkpoints run a native worker without invoking the publication handshake', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'shurik-manual-worker-'));
+  const workspace = join(dir, 'workspace'), state = join(dir, 'state');
+  await mkdir(workspace); await mkdir(state);
+  let publications = 0;
+  const report = await launchWorker({ workspace, state, bundle, stable: resolve('.'),
+    req: { version: 1, id: 'manual:1-1', journalId: '1-1', provider: 'openai', model: 'custom', reasoning: 'high',
+      seconds: 10, checkpointSeconds: 0, sessions: [], prompt: 'Agent handles commits',
+      script: [{ tool: 'write', args: { path: 'pending.txt', content: 'agent-owned work' } }, { text: 'Done' }] },
+    onCheckpoint: async () => { publications++; throw new Error('Publication must be disabled'); } });
+  assert.equal(report.outcome, 'yielded', report.log);
+  assert.equal(publications, 0);
+  assert.equal(await readFile(join(workspace, 'pending.txt'), 'utf8'), 'agent-owned work');
+  assert.ok(report.result!.maxEntryId! >= report.result!.minEntryId!);
 });
 
 test('new starts require a complete explicit model without a provider or model default', async () => {

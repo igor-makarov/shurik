@@ -119,15 +119,15 @@ export class ControlStore {
           await rm(journal, { recursive: true, force: true });
           await cp(checkpoint.journalSnapshot, journal, { recursive: true });
         }
-        // Import the task commit locally. Both remote refs are then published in one Git transaction.
-        await git(this.cwd, 'fetch', checkpoint.workspace, checkpoint.workCommit);
+        // Agent-managed mode persists session/control state without publishing task code.
+        if (checkpoint.publishWork !== false) await git(this.cwd, 'fetch', checkpoint.workspace, checkpoint.workCommit);
       }
       await saveJson(join(this.cwd, PATHS.control), next);
       // Equal trees, messages and Git timestamps otherwise produce the same
       // commit: a stale push can report success as already up to date.
       const revisionToPush = await commit(this.cwd, `${message}\n\nControl-transaction: ${randomUUID()}`);
       const refs = [`${revisionToPush}:refs/heads/${this.branch}`];
-      if (checkpoint) refs.push(`${checkpoint.workCommit}:refs/heads/${checkpoint.workBranch}`);
+      if (checkpoint && checkpoint.publishWork !== false) refs.push(`${checkpoint.workCommit}:refs/heads/${checkpoint.workBranch}`);
       try { await git(this.cwd, 'push', ...(checkpoint ? ['--atomic'] : []), 'origin', ...refs); return next; }
       catch (e) { if (i === 4) throw e; }
     }

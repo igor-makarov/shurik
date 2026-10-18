@@ -40,6 +40,46 @@ async function fixture() {
   return { dir, remote, base, workspace, store, state, logs, reader, publish, workHead };
 }
 
+test('disabled checkpoints retain session state without committing dirty code or pushing a diverged task branch', async () => {
+  const f = await fixture();
+  await f.store.mutate(c => ({ ...c, checkpointSeconds: 0 }));
+  await writeFile(join(f.workspace, 'app.txt'), 'agent-owned staged change');
+  await git(f.workspace, 'add', 'app.txt');
+  await writeFile(join(f.workspace, 'pending.txt'), 'agent-owned untracked work');
+  const head = await git(f.workspace, 'rev-parse', 'HEAD');
+  const status = await git(f.workspace, 'status', '--porcelain');
+  const peer = join(f.dir, 'peer'); await git(f.dir, 'clone', f.remote, peer);
+  await configureGit(peer); await git(peer, 'checkout', 'state-test');
+  await writeFile(join(peer, 'peer.txt'), 'concurrent remote change');
+  const peerCommit = await commit(peer, 'peer commit');
+  await git(peer, 'push', 'origin', 'HEAD:refs/heads/state-test');
+  await writeFile(join(f.state, 'pi-jsonl/main.jsonl'), 'MANUAL_MODE_HISTORY\n');
+  const record = iterationFixture({ outcome: 'yielded' });
+  assert.equal(await f.publish({ record }), head);
+  assert.equal(await git(f.workspace, 'rev-parse', 'HEAD'), head);
+  assert.equal(await git(f.workspace, 'status', '--porcelain'), status);
+  assert.equal(await f.workHead(), peerCommit, 'the supervisor never pushes task code in disabled mode');
+  const { revision } = await f.store.read();
+  assert.equal(await git(f.store.cwd, 'show', `${revision}:state/pi-jsonl/main.jsonl`), 'MANUAL_MODE_HISTORY');
+  assert.equal(JSON.parse(await git(f.store.cwd, 'show', `${revision}:state/iterations/1-1.json`)).workCommit, head);
+  const restored = await loadState(await f.reader('manual-cold-control'), f.workspace, 'state-test');
+  assert.equal(await readFile(join(restored, 'pi-jsonl/main.jsonl'), 'utf8'), 'MANUAL_MODE_HISTORY\n');
+  assert.equal(await git(f.workspace, 'status', '--porcelain'), status);
+});
+
+test('disabled checkpoint initialization seeds a branch without committing staged task changes', async () => {
+  const f = await fixture();
+  await writeFile(join(f.workspace, 'app.txt'), 'uncommitted initial change');
+  await git(f.workspace, 'add', 'app.txt');
+  const head = await git(f.workspace, 'rev-parse', 'HEAD');
+  const control = { ...(await f.store.read()).value, checkpointSeconds: 0, owner: null };
+  await initializeCheckpoint({ workspace: f.workspace, state: f.state, logs: f.logs, store: f.store, control, message: 'manual init' });
+  assert.equal(await f.workHead(), head);
+  assert.equal(await git(f.workspace, 'rev-parse', 'HEAD'), head);
+  assert.equal(await git(f.workspace, 'status', '--porcelain'), 'M  app.txt');
+  assert.equal(await git(f.workspace, 'show', 'HEAD:app.txt'), 'original');
+});
+
 test('journals, session index, malformed evidence and runtime source refs live only on control; cold resume restores them', async () => {
   const f = await fixture();
   assert.ok(!f.state.startsWith(f.workspace + '/'), 'session root is outside task checkout');

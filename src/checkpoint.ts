@@ -7,7 +7,7 @@ export const CHECKPOINT_JOURNAL = 'checkpoint-journal';
 
 export function timeRemainingInstructions(iterationEndsAt: number, deadline?: string | null, now = Date.now(), checkpointSeconds = 300) {
   const endsAt = Math.min(iterationEndsAt, deadline ? Date.parse(deadline) : Infinity);
-  const finalStretch = endsAt - now <= checkpointSeconds * 1000;
+  const finalStretch = endsAt - now <= (checkpointSeconds || 300) * 1000;
   const progress = 'Actively pursue verified progress and resolve blockers. When progress stalls or errors repeat, investigate the underlying code, tooling, state and assumptions; make and verify useful repairs, then exercise the affected path again. '
     + 'Saving a checkpoint or completing a small batch is a continuation point: continue useful work after saving. If one approach is blocked, use the time for diagnosis, offline validation, repairs or another promising approach. '
     + 'Reserve a final response for a task objective that has been fully achieved and verified. Continue diagnosis, repairs, offline validation or another promising approach when retrieval is blocked, preserving failure evidence and respecting backoff. Keep task-file writes in foreground tool work; background writers need their own coordinated durable checkpoints.';
