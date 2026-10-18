@@ -88,8 +88,10 @@ test('time budget aborts work and journal opens in a new process', async () => {
   assert.equal(await readFile(join(f.cwd, 'partial.txt'), 'utf8'), 'partial');
   assert.equal((await run(f, 'after-timeout', [{ text: 'Fresh' }])).outcome, 'yielded');
 });
-test('candidate can reopen a COPY of the real journal without replaying work', { skip: !process.env.SHURIK_REAL_JOURNAL }, async () => {
-  const f = await fixture(); assert.ok(process.env.SHURIK_REAL_JOURNAL); await cp(process.env.SHURIK_REAL_JOURNAL, f.journal, { recursive: true });
+test('candidate can reopen a COPY of a retained native journal without replaying work', async () => {
+  const f = await fixture();
+  const source = process.env.SHURIK_REAL_JOURNAL ?? resolve('tests/fixtures/pi-durable-1.0.2');
+  await cp(source, f.journal, { recursive: true });
   assert.equal((await run(f, 'real-state-canary', [{ tool: 'bash', args: { command: 'printf canary > canary.txt' } }, { text: 'canary done' }])).outcome, 'yielded');
   assert.equal(await readFile(join(f.cwd, 'canary.txt'), 'utf8'), 'canary');
 });
