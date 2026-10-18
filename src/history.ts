@@ -1,22 +1,46 @@
 import { Type } from '@earendil-works/pi-ai';
-import { defineExtension, defineTool, type Conversation, type EntryId } from '@earendil-works/pi-durable';
+import { defineExtension, defineTool, type Conversation, type EntryId, type Cursor } from '@earendil-works/pi-durable';
 import { BACKGROUND_CONTEXT } from '@earendil-works/chord/context';
+import { openNodeJsonlStorage } from '@earendil-works/pi-durable/storage/jsonl/node';
+import { cp, mkdtemp, rm } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
+import { journalDirectory } from '../scripts/journal-path.ts';
 
 export interface SessionSummary {
-  id: string; outcome: string; minEntryId?: number; maxEntryId?: number; error?: string;
+  id: string; outcome: string; journalId?: string; minEntryId?: number; maxEntryId?: number; error?: string;
   runId?: string; checkpointAt?: string; recovery?: string; transcript?: 'complete' | 'checkpoint' | 'unavailable';
 }
-export function historyExtension(root: () => Conversation, sessions: SessionSummary[]) {
+export function historyExtension(root: () => Conversation, sessions: SessionSummary[], journal: string, journalId?: string) {
   const page = Type.Optional(Type.Integer({ minimum: 0 }));
   const limit = Type.Optional(Type.Integer({ minimum: 1, maximum: 50 }));
   async function entries(session: SessionSummary) {
     if (session.minEntryId === undefined || session.maxEntryId === undefined) return [];
-    const all = []; let cursor;
-    do {
-      const p = await root().entries({ minEntryId: session.minEntryId as EntryId, maxEntryId: session.maxEntryId as EntryId }, 200, cursor, BACKGROUND_CONTEXT);
-      all.push(...p.items); cursor = p.next;
-    } while (cursor !== undefined);
-    return all.reverse();
+    const query = { minEntryId: session.minEntryId as EntryId, maxEntryId: session.maxEntryId as EntryId };
+    let disposable: string | undefined;
+    let storage: Awaited<ReturnType<typeof openNodeJsonlStorage>> | undefined;
+    try {
+      if (session.journalId !== journalId) {
+        const source = resolve(journalDirectory(journal, session.journalId));
+        disposable = await mkdtemp(join(tmpdir(), 'shurik-history-'));
+        const copy = join(disposable, 'journal');
+        // Opening native storage may reclaim sidecars. Never mutate retained history,
+        // and exclude the new session tree when reading the legacy shared journal.
+        await cp(source, copy, { recursive: true, filter: path => path !== join(source, 'sessions') });
+        storage = await openNodeJsonlStorage(copy, BACKGROUND_CONTEXT);
+      }
+      const all = []; let cursor: Cursor | undefined;
+      do {
+        const p = storage
+          ? await storage.scanEntries({ ...query, conversationId: root().id }, 200, cursor, BACKGROUND_CONTEXT)
+          : await root().entries(query, 200, cursor, BACKGROUND_CONTEXT);
+        all.push(...p.items); cursor = p.next;
+      } while (cursor !== undefined);
+      return all.reverse();
+    } finally {
+      try { await storage?.close(BACKGROUND_CONTEXT); }
+      finally { if (disposable) await rm(disposable, { recursive: true, force: true }); }
+    }
   }
   const text = (value: unknown) => ({ output: [{ type: 'text' as const, text: JSON.stringify(value) }] });
   return defineExtension({ name: 'history', tools: [

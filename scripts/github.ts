@@ -1,6 +1,7 @@
 import type { ExecFileOptions } from 'node:child_process';
 import { errorCode, type Control, type Publication } from './types.ts';
 import { PATHS, controlBranch, controlBranches, workBranch } from './paths.ts';
+import { journalDirectory } from './journal-path.ts';
 // Stable supervisor code. This module uses built-ins only and never executes worker source.
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
@@ -113,8 +114,9 @@ export class ControlStore {
       if (checkpoint) {
         await copySession(checkpoint.state, join(this.cwd, PATHS.controlState), checkpoint.logs);
         if (checkpoint.journalSnapshot) {
-          await rm(join(this.cwd, `${PATHS.controlState}/${PATHS.journal}`), { recursive: true, force: true });
-          await cp(checkpoint.journalSnapshot, join(this.cwd, `${PATHS.controlState}/${PATHS.journal}`), { recursive: true });
+          const journal = journalDirectory(join(this.cwd, PATHS.controlState, PATHS.journal), checkpoint.journalId);
+          await rm(journal, { recursive: true, force: true });
+          await cp(checkpoint.journalSnapshot, journal, { recursive: true });
         }
         // Import the task commit locally. Both remote refs are then published in one Git transaction.
         await git(this.cwd, 'fetch', checkpoint.workspace, checkpoint.workCommit);

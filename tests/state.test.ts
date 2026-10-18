@@ -70,6 +70,32 @@ test('journals, session index, malformed evidence and runtime source refs live o
   assert.equal(await git(freshWork, 'status', '--porcelain'), '', 'hydrated local state is ignored even without a repository .gitignore');
 });
 
+test('session snapshots preserve legacy and finished journals and publish only prepared active state', async () => {
+  const f = await fixture();
+  const previous = 'pi-jsonl/sessions/1-1/main.jsonl', active = 'pi-jsonl/sessions/1-2/main.jsonl';
+  await mkdir(join(f.state, 'pi-jsonl/sessions/1-1'), { recursive: true });
+  await mkdir(join(f.state, 'pi-jsonl/sessions/1-2'), { recursive: true });
+  await writeFile(join(f.state, previous), 'FINISHED_SESSION\n');
+  await writeFile(join(f.state, active), 'UNPUBLISHED_ACTIVE_STATE\n');
+  const snapshot = join(f.dir, 'prepared-session'); await mkdir(snapshot);
+  await writeFile(join(snapshot, 'main.jsonl'), 'PREPARED_ACTIVE_STATE\n');
+  const record = iterationFixture({ id: '1-2', journalId: '1-2', minEntryId: 7, maxEntryId: 20 });
+  await saveJson(join(f.state, 'history-index.json'), [
+    { id: 'legacy', minEntryId: 7, maxEntryId: 17 },
+    { id: '1-1', journalId: '1-1', minEntryId: 7, maxEntryId: 20 }, record
+  ]);
+  await f.publish({ record, sequence: record.id, journalSnapshot: snapshot });
+  const { revision } = await f.store.read();
+  assert.equal(await git(f.store.cwd, 'show', `${revision}:state/pi-jsonl/main.jsonl`), 'OLD_JOURNAL');
+  assert.equal(await git(f.store.cwd, 'show', `${revision}:state/${previous}`), 'FINISHED_SESSION');
+  assert.equal(await git(f.store.cwd, 'show', `${revision}:state/${active}`), 'PREPARED_ACTIVE_STATE');
+  assert.equal(await readFile(join(f.state, active), 'utf8'), 'UNPUBLISHED_ACTIVE_STATE\n');
+  const restored = await loadState(await f.reader('session-resume'), f.workspace, 'state-test');
+  assert.equal(await readFile(join(restored, previous), 'utf8'), 'FINISHED_SESSION\n');
+  assert.equal(await readFile(join(restored, active), 'utf8'), 'PREPARED_ACTIVE_STATE\n');
+  assert.equal(JSON.parse(await readFile(join(restored, 'iterations/1-2.json'), 'utf8')).journalId, '1-2');
+});
+
 test('initialization publishes both new branches with state only on control, including an empty task diff', async () => {
   const f = await fixture(); const control = controlFixture({ version: 1, stateStorage: 'control', id: 'fresh',
     branch: 'fresh', generation: 1, next: 1, owner: null, status: 'running' });

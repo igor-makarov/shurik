@@ -11,6 +11,7 @@ import { loadState, publishCheckpoint, initializeCheckpoint } from './state.ts';
 import { PATHS, runtimeState, runtimeLogs, runtimeEmergency, controlBranchPrefixes, controlBranches, loopIdFromControlBranch } from './paths.ts';
 import { preserveEmergency } from './emergency.ts';
 import { projectConfig } from './config.ts';
+import { journalDirectory } from './journal-path.ts';
 
 const stable = resolve(process.env.SHURIK_ENGINE_ROOT ?? process.env.GITHUB_WORKSPACE ?? '.');
 const project = resolve(process.env.SHURIK_PROJECT_ROOT ?? process.env.GITHUB_WORKSPACE ?? '.');
@@ -197,11 +198,11 @@ export async function iterate(options: Options) {
   const failures = await importFailures(store, state, logs);
   await recoverInterrupted(state, sessions, failures);
   const record: Iteration = { version: 1, id: sequence, runId, generation, iteration, startedAt: new Date().toISOString(),
-    outcome: 'running', source: initial, runtime: runtime.selected, provider: validateProvider(control.provider), model: control.model, reasoning: control.reasoning };
+    outcome: 'running', journalId: sequence, source: initial, runtime: runtime.selected, provider: validateProvider(control.provider), model: control.model, reasoning: control.reasoning };
   await saveJson(recordPath, record); await saveJson(join(state, PATHS.history), sessions);
   await saveJson(join(state, PATHS.loop), loopSnapshot(control));
   await publish(workspace, store, generation, state, `shurik: begin iteration ${sequence}`, initial, record);
-  const journal = join(state, PATHS.journal); await mkdir(journal, { recursive: true });
+  const journal = journalDirectory(join(state, PATHS.journal), record.journalId); await mkdir(journal, { recursive: true });
   const before = await mkdtemp(join(tmpdir(), 'shurik-journal-'));
   await cp(journal, before, { recursive: true });
   let publishedBounds: Pick<Iteration, 'minEntryId' | 'maxEntryId' | 'checkpointAt'> | undefined;
@@ -220,7 +221,7 @@ export async function iterate(options: Options) {
     bundle = await buildRuntime(engineSource, runtime.selected, stable, builds);
     const seconds = Math.max(1, Math.min(control.seconds, control.deadline ? Math.floor((Date.parse(control.deadline) - Date.now()) / 1000) : control.seconds));
     report = await launchWorker({ workspace, state, bundle, stable,
-      req: { version: 1, id: `${id}:${sequence}`, provider: validateProvider(control.provider), model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
+      req: { version: 1, id: `${id}:${sequence}`, journalId: record.journalId, provider: validateProvider(control.provider), model: control.model, reasoning: validateReasoning(control.reasoning), seconds, deadline: control.deadline,
         checkpointSeconds: control.checkpointSeconds ?? (await projectConfig(workspace)).checkpointSeconds,
         sessions, prompt: iterationPrompt(await readFile(join(workspace, control.prompt ?? PATHS.prompt), 'utf8'), sequence, sessions, failures, state, logs) },
       onPoll: async () => { const c = (await store.read()).value; return stopped(c) || c.generation !== generation; },

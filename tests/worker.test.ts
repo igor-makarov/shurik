@@ -42,6 +42,36 @@ test('standalone bundle: coding tools, native JSONL reopen, fresh context, all h
   const inspect = await run(f, 'inspect', [], [session], { mode: 'inspect' });
   assert.equal(inspect.outcome, 'readable');
 });
+test('session journals stay independent and immutable while history resolves overlapping entry IDs', async () => {
+  const f = await fixture();
+  const first = await run(f, 'first-isolated', [
+    { tool: 'write', args: { path: 'first.txt', content: 'FIRST_ISOLATED_NEEDLE' } }, { text: 'First finished' }
+  ], [], { journalId: '1-1' });
+  const firstDir = join(f.journal, 'sessions/1-1');
+  const files = await readdir(firstDir);
+  const before = await Promise.all(files.map(name => readFile(join(firstDir, name))));
+  const session: SessionSummary = { id: '1-1', journalId: '1-1', outcome: first.outcome,
+    minEntryId: first.minEntryId, maxEntryId: first.maxEntryId };
+  const second = await run(f, 'second-isolated', [
+    { tool: 'read_session', args: { id: '1-1', limit: 50 } }, { text: 'SECOND_ISOLATED_NEEDLE' }
+  ], [session], { journalId: '1-2' });
+  assert.equal(second.outcome, 'yielded');
+  assert.equal(first.minEntryId, second.minEntryId, 'entry IDs are local to each journal');
+  assert.ok(!JSON.stringify(second.captured[0]).includes('FIRST_ISOLATED_NEEDLE'));
+  assert.ok(JSON.stringify(second.captured.at(-1)).includes('FIRST_ISOLATED_NEEDLE'));
+  const third = await run(f, 'third-isolated', [
+    { tool: 'search_sessions', args: { query: 'SECOND_ISOLATED_NEEDLE' } },
+    { tool: 'read_session', args: { id: '1-1', limit: 50 } }, { text: 'Done' }
+  ], [session, { id: '1-2', journalId: '1-2', outcome: second.outcome,
+    minEntryId: second.minEntryId, maxEntryId: second.maxEntryId }], { journalId: '1-3' });
+  assert.equal(third.outcome, 'yielded');
+  const search = JSON.stringify(third.captured[1]);
+  assert.ok(search.includes('SECOND_ISOLATED_NEEDLE')); assert.ok(search.includes('1-2'));
+  assert.deepEqual(await readdir(firstDir), files);
+  assert.deepEqual(await Promise.all(files.map(name => readFile(join(firstDir, name)))), before);
+  assert.deepEqual((await readdir(join(f.journal, 'sessions'))).sort(), ['1-1', '1-2', '1-3']);
+  await assert.rejects(readFile(join(f.journal, 'main.jsonl')), { code: 'ENOENT' });
+});
 test('agent error retains partial coding work and next iteration can repair', async () => {
   const f = await fixture();
   const failed = await run(f, 'failed', [{ tool: 'write', args: { path: 'broken.txt', content: 'partial' } }, { error: 'Intentional provider failure' }]);
@@ -77,16 +107,24 @@ test('Pi Durable 1.0.2 journal with an interrupted v1 tool opens, aborts old wor
   assert.ok(JSON.stringify(fresh.captured.at(-1)).includes('LEGACY_COMPLETED_TOOL_NEEDLE'));
   assert.ok(JSON.stringify(fresh.captured.at(-1)).includes('Successfully wrote to legacy.txt'));
   await assert.rejects(readFile(join(f.cwd, 'replayed.txt')));
+  const before = await readFile(join(f.journal, 'main.jsonl'));
+  const isolated = await run(f, 'isolated-from-legacy', [
+    { tool: 'search_sessions', args: { query: 'LEGACY_COMPLETED_TOOL_NEEDLE' } },
+    { tool: 'read_session', args: { id: session.id } }, { text: 'New isolated session' }
+  ], [session], { journalId: '1-2' });
+  assert.equal(isolated.outcome, 'yielded');
+  assert.ok(JSON.stringify(isolated.captured.at(-1)).includes('LEGACY_COMPLETED_TOOL_NEEDLE'));
+  assert.deepEqual(await readFile(join(f.journal, 'main.jsonl')), before, 'legacy journal stops growing');
 });
 test('session boundaries survive more than 200 entries and oldest entries remain searchable', async () => {
   const f = await fixture();
   const script = [{ tool: 'write', args: { path: 'many.txt', content: 'OLDEST_RETAINED_ENTRY' } },
     ...Array.from({ length: 102 }, () => ({ tool: 'read', args: { path: 'many.txt' } })), { text: 'many rounds done' }];
-  const first = await run(f, 'many', script, [], { seconds: 45 });
+  const first = await run(f, 'many', script, [], { seconds: 45, journalId: 'many' });
   assert.equal(first.outcome, 'yielded');
   assert.ok(first.maxEntryId - first.minEntryId > 200);
   const second = await run(f, 'search-many', [{ tool: 'search_sessions', args: { query: 'OLDEST_RETAINED_ENTRY', limit: 1 } }, { text: 'retrieved' }],
-    [{ id: 'many', outcome: first.outcome, minEntryId: first.minEntryId, maxEntryId: first.maxEntryId }]);
+    [{ id: 'many', journalId: 'many', outcome: first.outcome, minEntryId: first.minEntryId, maxEntryId: first.maxEntryId }], { journalId: 'search-many' });
   assert.equal(second.outcome, 'yielded');
   assert.ok(JSON.stringify(second.captured.at(-1)).includes('OLDEST_RETAINED_ENTRY'));
 });
@@ -109,6 +147,7 @@ test('abrupt worker death leaves pending work that the next process aborts befor
 test('published checkpoint boundaries make a killed session searchable from a fresh process', async () => {
   const f = await fixture(); const output = join(f.dir, 'checkpoint-output'); const file = join(f.dir, 'checkpoint-request.json');
   await writeFile(file, JSON.stringify({ version: 1, id: 'loop:1-1', cwd: f.cwd, journal: f.journal, output,
+    journalId: '1-1',
     prompt: 'Write checkpoint evidence', model: 'space-bunny-free', reasoning: 'high', seconds: 20, sessions: [],
     checkpointHandshake: true, checkpointSeconds: 0.001,
     script: [{ tool: 'write', args: { path: 'survived.txt', content: 'INTERRUPTED_SESSION_NEEDLE' } }, { delayMs: 10000, text: 'never finishes' }] }));
@@ -132,13 +171,13 @@ test('published checkpoint boundaries make a killed session searchable from a fr
     assert.ok(boundary, 'a durable tool-round checkpoint was produced');
   } finally { child.kill('SIGKILL'); await closed; }
   await assert.rejects(readFile(join(output, 'result.json')), 'no final result survived');
-  const fresh = await fixture(); await cp(snapshot, fresh.journal, { recursive: true });
-  const session: SessionSummary = { id: '1-1', outcome: 'interrupted', minEntryId: boundary.minEntryId, maxEntryId: boundary.maxEntryId,
+  const fresh = await fixture(); await cp(snapshot, join(fresh.journal, 'sessions/1-1'), { recursive: true });
+  const session: SessionSummary = { id: '1-1', journalId: '1-1', outcome: 'interrupted', minEntryId: boundary.minEntryId, maxEntryId: boundary.maxEntryId,
     checkpointAt: boundary.at, transcript: 'checkpoint', recovery: 'diagnostics/recovery/123-1.json' };
   const after = await run(fresh, 'after-interruption', [
     { tool: 'list_sessions', args: {} }, { tool: 'search_sessions', args: { query: 'INTERRUPTED_SESSION_NEEDLE' } },
     { tool: 'read_session', args: { id: '1-1', limit: 50 } }, { text: 'Recovered' }
-  ], [session]);
+  ], [session], { journalId: '1-2' });
   assert.equal(after.outcome, 'yielded');
   assert.ok(!JSON.stringify(after.captured[0]).includes('INTERRUPTED_SESSION_NEEDLE'));
   const history = JSON.stringify(after.captured.at(-1));

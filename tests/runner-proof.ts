@@ -100,25 +100,25 @@ console.log('PASS: passing candidate then live fault, probation rollback, actual
 const checkpoint = join(dir, 'checkpoint');
 let checkpoints = 0;
 const checkpointRun = await launchWorker({ workspace, state, bundle, stable, req: {
-  ...baseReq, id: 'checkpoint', checkpointSeconds: 0.001,
+  ...baseReq, id: 'checkpoint', journalId: 'checkpoint', checkpointSeconds: 0.001,
   script: [{ tool: 'write', args: { path: 'checkpoint.txt', content: 'consistent' } }, { text: 'checkpoint saved' }]
 }, onCheckpoint: async (_boundary, _log, journalSnapshot) => {
   checkpoints++; await cp(journalSnapshot, checkpoint, { recursive: true });
   assert.ok(await inspectJournal(bundle, checkpoint, stable));
 } });
 assert.equal(checkpointRun.outcome, 'yielded'); assert.equal(checkpoints, 2);
-await writeFile(join(state, 'pi-jsonl/main.jsonl'), 'NOT_VALID_JSON\n');
-assert.ok(await repairJournal({ bundle, journal: join(state, 'pi-jsonl'), backup: checkpoint, diagnostics: join(dir, 'malformed'), stable }));
+await writeFile(join(state, 'pi-jsonl/sessions/checkpoint/main.jsonl'), 'NOT_VALID_JSON\n');
+assert.ok(await repairJournal({ bundle, journal: join(state, 'pi-jsonl/sessions/checkpoint'), backup: checkpoint, diagnostics: join(dir, 'malformed'), stable }));
 assert.equal(await readFile(join(dir, 'malformed/main.jsonl'), 'utf8'), 'NOT_VALID_JSON\n');
-const afterCorruption = await launchWorker({ workspace, state, bundle, stable, req: { ...baseReq, id: 'after-corruption', script: [{ text: 'fresh after restored checkpoint' }] } });
+const afterCorruption = await launchWorker({ workspace, state, bundle, stable, req: { ...baseReq, id: 'after-corruption', journalId: 'after-corruption', script: [{ text: 'fresh after restored checkpoint' }] } });
 assert.equal(afterCorruption.outcome, 'yielded');
 console.log('PASS: cooperative Pi snapshot is readable, malformed journal retained, restored fresh iteration');
 
 // Lose the supervising operation immediately after publishing a checkpoint, before final result/index cleanup.
-const interrupted = iterationFixture({ id: '1-7', runId: '789', generation: 1, iteration: 7, outcome: 'running' }); const index: Sessions = [];
+const interrupted = iterationFixture({ id: '1-7', journalId: '1-7', runId: '789', generation: 1, iteration: 7, outcome: 'running' }); const index: Sessions = [];
 const published = join(dir, 'published-work');
 await assert.rejects(launchWorker({ workspace, state, bundle, stable, req: {
-  ...baseReq, id: 'proof:1-7', checkpointSeconds: 0.001,
+  ...baseReq, id: 'proof:1-7', journalId: '1-7', checkpointSeconds: 0.001,
   script: [{ tool: 'write', args: { path: 'surviving-trail.txt', content: 'SURVIVABLE_FAILURE_NEEDLE' } }, { delayMs: 10000, text: 'unpublished' }]
 }, onCheckpoint: async (boundary, _log, journalSnapshot) => {
   interrupted.minEntryId = boundary.minEntryId; interrupted.maxEntryId = boundary.maxEntryId; interrupted.checkpointAt = boundary.at;
@@ -142,7 +142,7 @@ const reports: Failure[] = [{ version: 1, loopId: 'proof', iteration: 7, attempt
 ] }];
 await recoverInterrupted(restoredState, restoredIndex, reports);
 const recovered = await launchWorker({ workspace: published, state: restoredState, bundle, stable, req: {
-  ...baseReq, id: 'proof:1-8', sessions: restoredIndex, prompt: iterationPrompt('Inspect the failure trail', '1-8', restoredIndex, reports, restoredState),
+  ...baseReq, id: 'proof:1-8', journalId: '1-8', sessions: restoredIndex, prompt: iterationPrompt('Inspect the failure trail', '1-8', restoredIndex, reports, restoredState),
   script: [{ tool: 'list_sessions', args: {} }, { tool: 'search_sessions', args: { query: 'SURVIVABLE_FAILURE_NEEDLE' } },
     { tool: 'read_session', args: { id: '1-7', limit: 50 } }, { text: 'Recovered failure evidence' }]
 } });

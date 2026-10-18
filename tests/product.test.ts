@@ -101,13 +101,13 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   await initializeCheckpoint({ workspace: project, state, store,
     control: controlFixture({ version: 1, id: 'demo', stateStorage: 'control', branch: 'demo',
       generation: 1, next: 1, owner: null, status: 'running' }), message: 'initialize consumer' });
-  const request: WorkerRequest = { version: 1, id: 'demo:1-1', model: 'space-bunny-free', reasoning: 'high',
+  const request: WorkerRequest = { version: 1, id: 'demo:1-1', journalId: '1-1', model: 'space-bunny-free', reasoning: 'high',
     seconds: 10, sessions: [], prompt: 'Use coding tools on the consumer',
     script: [{ tool: 'write', args: { path: 'demo.txt', content: 'UNRELATED_CONSUMER_HISTORY' } }, { text: 'Saved' }] };
   const result = await launchWorker({ workspace: project, state, bundle, stable: resolve('.'), req: request });
   assert.equal(result.outcome, 'yielded', result.log);
   assert.ok(result.result);
-  const session = iterationFixture({ id: '1-1', outcome: result.outcome, minEntryId: result.result.minEntryId, maxEntryId: result.result.maxEntryId });
+  const session = iterationFixture({ id: '1-1', journalId: '1-1', outcome: result.outcome, minEntryId: result.result.minEntryId, maxEntryId: result.result.maxEntryId });
   await saveJson(join(state, PATHS.history), [session]);
   await publishCheckpoint({ workspace: project, state, store, generation: 1, owner: null,
     sequence: '1-1', message: 'save consumer history', record: session });
@@ -116,7 +116,7 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   const cold = join(dir, 'cold'); await git(dir, 'clone', remote, cold); await git(cold, 'checkout', 'demo');
   const restored = await loadState(store, cold, 'demo');
   const retrieved = await launchWorker({ workspace: cold, state: restored, bundle, stable: resolve('.'), req: {
-    ...request, id: 'demo:1-2', sessions: await readJson<Sessions>(join(restored, PATHS.history)),
+    ...request, id: 'demo:1-2', journalId: '1-2', sessions: await readJson<Sessions>(join(restored, PATHS.history)),
     script: [{ tool: 'search_sessions', args: { query: 'UNRELATED_CONSUMER_HISTORY' } }, { text: 'Retrieved' }]
   } });
   assert.equal(retrieved.outcome, 'yielded', retrieved.log);
@@ -124,10 +124,10 @@ test('an unrelated consumer with no Shurik source runs the CLI, publishes native
   assert.ok(JSON.stringify(retrieved.result.captured.at(-1)).includes('UNRELATED_CONSUMER_HISTORY'));
   const output = join(dir, 'inspect'); await mkdir(output);
   const inspectReq = join(dir, 'inspect.json'); await saveJson(inspectReq, { ...request, journal: join(restored, PATHS.journal), output });
-  const before = await readFile(join(restored, PATHS.journal, 'main.jsonl'));
+  const before = await readFile(join(restored, PATHS.journal, 'sessions/1-1/main.jsonl'));
   await exec(process.execPath, [cli, 'inspect', '--request', inspectReq]);
   assert.equal((await readJson<WorkerResult>(join(output, 'result.json'))).outcome, 'readable');
-  assert.deepEqual(await readFile(join(restored, PATHS.journal, 'main.jsonl')), before, 'inspect never mutates the canonical journal');
+  assert.deepEqual(await readFile(join(restored, PATHS.journal, 'sessions/1-1/main.jsonl')), before, 'inspect never mutates the canonical journal');
   const printed = JSON.parse((await exec(process.execPath, [cli, 'paths', '--loop-id', 'demo', '--workspace', cold])).stdout);
   assert.deepEqual(printed, sessionPaths(cold, 'demo'));
   assert.equal(printed.runtime.state, restored);
@@ -222,6 +222,8 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(value.pr, null, 'PR creation being disabled does not prevent completing an iteration');
     assert.equal(prAttempts, 1, 'later iterations do not retry a denied optional PR');
     const record = JSON.parse(await git(ctl, 'show', `${revision}:state/iterations/1-1.json`));
+    assert.equal(record.journalId, '1-1');
+    const firstJournal = await git(ctl, 'show', `${revision}:state/pi-jsonl/sessions/1-1/main.jsonl`);
     assert.equal(record.outcome, 'yielded'); assert.equal(record.runtime, engineSHA);
     assert.equal(record.provider, 'openai'); assert.equal(record.model, 'gpt-6-sol');
     const logs = runtimeLogs('fixture/consumer', 'demo');
@@ -239,6 +241,9 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await store.mutate(c => ({ ...c, createPr: true }), 'fixture: enable draft PRs');
     await main({ command: 'iterate', loop_id: 'demo', generation: '1', iteration: '2' });
     const continued = (await store.read()).value;
+    const continuedRevision = (await store.read()).revision;
+    assert.equal(await git(ctl, 'show', `${continuedRevision}:state/pi-jsonl/sessions/1-1/main.jsonl`), firstJournal);
+    assert.ok(await git(ctl, 'show', `${continuedRevision}:state/pi-jsonl/sessions/1-2/main.jsonl`));
     assert.equal(continued.next, 3); assert.equal(continued.owner, null);
     assert.equal(continued.pr, 'https://github.com/fixture/consumer/pull/1');
     assert.equal(continued.createPr, true);

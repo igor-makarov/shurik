@@ -74,7 +74,7 @@ node bin/shurik.ts paths --repository owner/project --loop-id my-task --workspac
 | `inspect --request FILE` | Open a disposable copy of a native journal without model calls |
 | `paths --loop-id ID` | Print canonical runtime and control-branch paths as JSON |
 
-Lifecycle commands expect the GitHub Actions repository, actor, ref, and token context. `--workspace` selects the consumer checkout. Explicit CLI flags override `SHURIK_INPUTS`, the dispatch JSON supplied by the action. `worker` and `inspect` need a built bundle and a version-1 request with `cwd`, `journal`, `output`, model, budget, and session fields; `worker` also requires explicit reasoning and a prompt. These are internal interfaces for local verification; ordinary consumers use the action.
+Lifecycle commands expect the GitHub Actions repository, actor, ref, and token context. `--workspace` selects the consumer checkout. Explicit CLI flags override `SHURIK_INPUTS`, the dispatch JSON supplied by the action. `worker` and `inspect` need a built bundle and a version-1 request with `cwd`, `journal`, `output`, model, budget, and session fields; `worker` also requires explicit reasoning and a prompt. `journal` selects the journal root and `journalId` selects `sessions/<journalId>/` within it; omitting `journalId` retains the legacy shared-journal interface. These are internal interfaces for local verification; ordinary consumers use the action.
 
 ## Action inputs
 
@@ -165,7 +165,7 @@ Existing consumers may still provide `.shurik/config.json`; it is an optional le
 | Data | Runtime, outside the repository | Control branch `shurik-control/<loop-id>` |
 | --- | --- | --- |
 | Session root | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/` | `state/` |
-| Native Pi Durable journal | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/pi-jsonl/` | `state/pi-jsonl/` |
+| Native Pi Durable session journals | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/pi-jsonl/sessions/<generation>-<iteration>/` | `state/pi-jsonl/sessions/<generation>-<iteration>/` |
 | History index | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/history-index.json` | `state/history-index.json` |
 | Identity/progress snapshot | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/loop.json` | `state/loop.json` |
 | Engine diagnostics | `$HOME/.shurik/state/<owner>/<repo>/<loop-id>/runtime.json` | `state/runtime.json` |
@@ -179,7 +179,9 @@ Existing consumers may still provide `.shurik/config.json`; it is an optional le
 
 Shurik uses three directories under `$HOME/.shurik`: `state/` for sessions, `logs/` for worker and recovery diagnostics, and `emergency/` for fallback snapshots. They are outside every checkout and need no ignore rules, including no blanket `*.log` rule. Worker output is retained as bounded logs in diagnostic JSON files under `logs/`. Set `SHURIK_HOME` to override `$HOME/.shurik` without changing persisted paths. Repository and loop names isolate sessions. Shurik copies the session directory to control-branch `state/` and the runtime logs to `state/diagnostics/` on every checkpoint. The next run restores them into the separate runtime `state/` and `logs/` directories. The persisted version-1 paths stay compatible with older sessions. The task branch is `<loop-id>`; every checkpoint atomically pushes both branch refs and records the task commit in `control.json.checkpoint.workCommit`. A rejected push publishes neither half, and retries preserve stop/resume decisions. Earlier loops retain their recorded task/control refs and remain readable, resumable, and discoverable by recovery; new loops use the names above.
 
-A Pi hook publishes the session boundary before the first model request and publishes later checkpoints at completed tool-round boundaries. It takes a serialized native journal snapshot and waits for Git publication before continuing. Malformed journals are retained for diagnosis and replaced with the last readable checkpoint. Unpublished work can be lost on abrupt runner failure.
+Each new iteration writes its own native journal directory, including `main.jsonl` and Pi Durable's sidecars. A journal stops growing when its session ends; later iterations create new directories. History-index entries carry a `journalId` and entry bounds, so history tools can retrieve sessions even though entry IDs restart in each journal. Older entries without a `journalId` still read the shared journal directly under `pi-jsonl/`; new iterations leave it in place without appending to it. Retained history still consumes disk space across sessions.
+
+A Pi hook publishes the session boundary before the first model request and publishes later checkpoints at completed tool-round boundaries. It takes a serialized snapshot of the active session's native journal and waits for Git publication before continuing. Publication replaces only that session's journal, preserving older sessions. Malformed active journals are retained for diagnosis and replaced with the last readable checkpoint. Unpublished work can be lost on abrupt runner failure.
 
 Temporary engine/build/worker-I/O directories live under `RUNNER_TEMP` (locally, the OS temporary directory). They are not session storage. After a supervisor failure, `emergency/<owner>/<repo>/<loop-id>/<run-id>-<attempt>/` under `$HOME/.shurik` contains `workspace/`, `state/`, and `logs/` copies. The workflow uploads that path as evidence when possible; it is not an automatic recovery source. Repository metadata, dependencies, and build output are excluded, and known credentials are redacted before copying.
 

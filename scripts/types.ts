@@ -26,7 +26,7 @@ export interface Runtime {
 export interface Iteration {
   version: number; id: string; runId: string; generation: number; iteration: number;
   startedAt: string; outcome: Outcome; source: string; runtime: string; provider?: string; model: string; reasoning: string;
-  minEntryId?: number; maxEntryId?: number; checkpointAt?: string; finishedAt?: string;
+  journalId?: string; minEntryId?: number; maxEntryId?: number; checkpointAt?: string; finishedAt?: string;
   error?: string; recovery?: string; usage?: unknown; workCommit?: string;
 }
 export interface Run {
@@ -51,5 +51,5 @@ export interface WorkerReport { outcome: Outcome; result: WorkerResult | null; l
 export type WorkerRequest = Omit<Request, 'cwd' | 'journal' | 'output'>;
 export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string; phase: 'started' | 'tools' }
 export type Sessions = SessionSummary[];
-export interface Publication { state: string; logs?: string; workspace: string; workCommit: string; workBranch: string; journalSnapshot?: string }
+export interface Publication { state: string; logs?: string; workspace: string; workCommit: string; workBranch: string; journalSnapshot?: string; journalId?: string }
 export function errorCode(error: unknown): string | undefined { return error instanceof Error && 'code' in error ? String(error.code) : undefined; }

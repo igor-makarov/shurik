@@ -51,7 +51,7 @@ export async function publishCheckpoint({ workspace, state, logs, store, generat
   const control = await store.mutate(c => {
     if (!owns(c)) return null;
     return { ...c, checkpoint };
-  }, message, {}, { state, logs, workspace, workCommit, workBranch: initial.branch, journalSnapshot });
+  }, message, {}, { state, logs, workspace, workCommit, workBranch: initial.branch, journalSnapshot, journalId: record?.journalId });
   if (control.checkpoint?.workCommit !== workCommit || control.checkpoint?.at !== checkpoint.at) {
     throw new Error('Stale checkpoint: control ownership or generation changed');
   }

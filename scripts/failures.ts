@@ -130,7 +130,7 @@ export async function importFailures(store: ControlStore, state: string, logs = 
   return reports;
 }
 export function sessionSummary(record: Iteration): SessionSummary {
-  return { id: record.id, outcome: record.outcome, runId: record.runId, minEntryId: record.minEntryId,
+  return { id: record.id, outcome: record.outcome, runId: record.runId, journalId: record.journalId, minEntryId: record.minEntryId,
     maxEntryId: record.maxEntryId, checkpointAt: record.checkpointAt, error: record.error, recovery: record.recovery,
     transcript: record.minEntryId === undefined || record.maxEntryId === undefined ? 'unavailable'
       : record.outcome === 'yielded' || record.outcome === 'agent_failure' || record.outcome === 'timeout' ? 'complete' : 'checkpoint' };
