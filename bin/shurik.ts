@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import type { Inputs } from '../scripts/types.ts';
+import { outcomeExitCode } from '../scripts/types.ts';
 import type { Request } from '../src/worker.ts';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -41,6 +42,8 @@ Options:
 Lifecycle commands require GitHub Actions repository, actor, ref and token context.
 The action supplies SHURIK_INPUTS; explicit flags override those inputs.
 Pi AI resolves model authentication from its provider environment variables.
+Exit status: 0 normal completion or work-budget expiry; 2 inference failure; 1 other errors.
+Successful iterations schedule continuation; recovery schedules after failed iterations.
 `;
 
 export function parseArgs(args: string[], inputs: Inputs = {}): Inputs {
@@ -80,6 +83,8 @@ async function worker(options: Inputs) {
     try {
       const { runIteration } = createRequire(import.meta.url)(resolve(options.bundle ?? resolve(root, 'dist/worker.cjs'))) as { runIteration: (request: Request) => Promise<void> };
       await runIteration(req);
+      const result = JSON.parse(await readFile(resolve(req.output, 'result.json'), 'utf8'));
+      return outcomeExitCode(result.outcome);
     } catch (error) {
       await saveJson(resolve(req.output, 'result.json'), { version: 1, outcome: 'runner_failure', error: String(error) });
       throw error;
@@ -96,10 +101,10 @@ export async function main(args = process.argv.slice(2)) {
   process.env.SHURIK_ENGINE_ROOT ??= root;
   process.env.SHURIK_PROJECT_ROOT = workspace;
   const { main: supervise } = await import('../scripts/supervisor.ts');
-  await supervise(options);
+  return supervise(options);
 }
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  main().catch(error => {
+  main().then(status => { process.exitCode = typeof status === 'number' ? status : 0; }).catch(error => {
     console.error(redact(String(error), credentialValues()));
     process.exitCode = 1;
   });

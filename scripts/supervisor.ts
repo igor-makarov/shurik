@@ -1,4 +1,5 @@
 import type { Control, Event, Inputs, Iteration, Job, Options, Run, Runtime, Sessions, WorkerReport } from './types.ts';
+import { outcomeExitCode } from './types.ts';
 import { mkdtemp, mkdir, readFile, writeFile, appendFile, cp, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -51,7 +52,7 @@ async function dispatch(control: Control, store: ControlStore) {
 }
 async function reportControl(control: Control) {
   const status = stopped(control) ? (control.status === 'running' ? 'deadline' : control.status)
-    : control.nextRunAt ? `Waiting until ${control.nextRunAt}` : control.owner ? 'Running' : 'Dispatched';
+    : control.nextRunAt ? `Waiting until ${control.nextRunAt}` : control.owner ? 'Running' : control.lastDispatchAt ? 'Dispatched' : 'Awaiting recovery';
   const summary = `### Shurik ${control.id}\n\n${status}\n\nIteration: ${control.next}. Work: ${control.seconds} seconds. Wait: ${control.waitSeconds ?? 0} seconds.\n\n`;
   console.log(`Loop ${control.id}: ${status}`);
   if (process.env.GITHUB_STEP_SUMMARY) await appendFile(process.env.GITHUB_STEP_SUMMARY, summary);
@@ -217,12 +218,12 @@ export async function iterate(options: Options) {
   if (!control.engine && control.supervisor !== engineSourceRevision) throw new Error('Supervisor revision mismatch');
   if (!claimable(control, generation, iteration, runId)) {
     await expireUnstartedIteration(store, generation, iteration, runId);
-    console.log('Duplicate, stale, waiting, or stopped invocation skipped'); await reportControl((await store.read()).value); return;
+    console.log('Duplicate, stale, waiting, or stopped invocation skipped'); await reportControl((await store.read()).value); return 0;
   }
   control = await store.mutate(c => claimable(c, generation, iteration, runId) ? { ...c,
     nextRunAt: null, owner: { runId, generation, iteration, claimedAt: new Date().toISOString() } } : null, `shurik: claim ${id} ${generation}/${iteration}`);
   if (control.owner?.runId !== runId || !claimable(control, generation, iteration, runId)) {
-    await expireUnstartedIteration(store, generation, iteration, runId); return;
+    await expireUnstartedIteration(store, generation, iteration, runId); return 0;
   }
   const workspace = await clone('workspace'); await git(workspace, 'checkout', control.branch);
   emergencyWorkspace = workspace;
@@ -323,17 +324,20 @@ export async function iterate(options: Options) {
     await store.mutate(c => c.generation === generation ? { ...c, ...decision } : null);
   }
   // The stable control branch is authoritative: edits or cancellation during cleanup cannot resurrect the loop.
+  const status = outcomeExitCode(record.outcome);
   control = await store.mutate(c => {
     if (c.generation !== generation || c.owner?.runId !== runId) return null;
     const stop = stopped(c), finishedAt = Date.now(), due = stop ? null : nextRunAt(c, finishedAt);
     return { ...c, status: stop ? (c.status === 'running' ? 'deadline' : c.status) : 'running',
       owner: null, next: iteration + 1, lastRunId: runId, nextRunAt: due,
-      lastDispatchAt: stop || due ? null : new Date(finishedAt).toISOString() };
+      lastDispatchAt: status !== 0 || stop || due ? null : new Date(finishedAt).toISOString() };
   }, `shurik: finalize ${sequence}`);
   await rm(before, { recursive: true, force: true });
-  if (ready(control) && control.generation === generation && control.next === iteration + 1) await dispatch(control, store);
   console.log(`Iteration ${sequence}: ${record.outcome}; loop ${control.status}`);
+  if (status !== 0) console.error(`Iteration ${sequence} failed: ${record.error ?? record.outcome}`);
   await reportControl((await store.read()).value);
+  if (status === 0 && ready(control) && control.generation === generation && control.next === iteration + 1) await dispatch(control, store);
+  return status;
 }
 export async function controlLoop(inputs: Inputs) {
   const { model: _model, swarm: _swarm, ...options } = inputs;
@@ -406,6 +410,8 @@ export async function main(inputs: Inputs = JSON.parse(process.env.SHURIK_INPUTS
     throw error;
   }
 }
-if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main().catch(error => {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main().then(status => {
+  process.exitCode = typeof status === 'number' ? status : 0;
+}).catch(error => {
   console.error(redact(String(error), secrets)); process.exitCode = 1;
 });

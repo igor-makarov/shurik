@@ -114,6 +114,8 @@ node bin/shurik.ts paths --repository owner/project --loop-id my-task --workspac
 
 Lifecycle commands expect the GitHub Actions repository, actor, ref, and token context. `--workspace` selects the consumer checkout. Explicit CLI flags override `SHURIK_INPUTS`, the dispatch JSON supplied by the action. `worker` and `inspect` need a built bundle and a version-1 request with `cwd`, `journal`, `output`, model, budget, and session fields; `worker` also requires explicit reasoning and a prompt. `journal` selects the journal root and `journalId` selects `sessions/<journalId>/` within it; omitting `journalId` retains the legacy shared-journal interface. These are internal interfaces for local verification; ordinary consumers use the action.
 
+The CLI returns `0` for normal completion, including work-budget expiry, `2` for an inference failure, and `1` for runner, configuration, persistence or dispatch errors. The action passes the CLI status through unchanged. A successful iteration schedules its next run or saves its wait time. A failed iteration saves its outcome and control state, releases ownership, and exits nonzero without dispatching; recovery schedules the next iteration, respecting the saved wait, stop and deadline settings.
+
 ## Action inputs
 
 | Input | Purpose |

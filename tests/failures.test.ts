@@ -46,6 +46,23 @@ test('a failed iteration before claim retries in the recovery job without waitin
   assert.equal(dispatches, 1);
 });
 
+test('recovery dispatches after a finalized failure exactly once and leaves a running successor alone', async () => {
+  const f = await fixture({ next: 2, owner: null, lastRunId: '123', lastDispatchAt: null });
+  let dispatches = 0;
+  const successor = { ...run, id: 124, status: 'in_progress', conclusion: null, display_title: 'Ralph trail / iterate 1-2' };
+  const check = () => reconcileLoop(f.store, { wake: run, request: requestFor(successor),
+    logs: async () => ({ text: 'INFERENCE_FAILED_AFTER_SAVE', truncated: false, downloadLimited: false }),
+    dispatchNext: async c => { dispatches++; assert.equal(c.next, 2); assert.equal(c.owner, null); } });
+  await check(); await check();
+  assert.equal(dispatches, 1);
+  assert.equal((await f.store.read()).value.next, 2, 'finalized failure already consumed its iteration number');
+  await f.store.mutate(c => ({ ...c, owner: { runId: '124', generation: 1, iteration: 2 } }));
+  await check();
+  const saved = (await f.store.read()).value;
+  assert.equal(dispatches, 1); assert.equal(saved.next, 2); assert.equal(saved.owner?.runId, '124');
+  assert.deepEqual(saved.failureTrail, ['123-1']);
+});
+
 test('a cancelled old queued run cannot stop a resumed run with the same title and iteration', async () => {
   const f = await fixture({ generation: 2, next: 6, owner: null, lastRunId: null,
     lastDispatchAt: new Date().toISOString(), dispatchedRuns: [

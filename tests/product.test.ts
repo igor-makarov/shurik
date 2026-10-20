@@ -1,5 +1,5 @@
 import type { WorkerRequest, WorkerResult, WorkerCheckpoint, Sessions } from '../scripts/types.ts';
-import { controlFixture, iterationFixture } from './test-support.ts';
+import { controlFixture, iterationFixture, runFixture } from './test-support.ts';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, mkdir, readFile, readdir, writeFile, cp } from 'node:fs/promises';
@@ -14,6 +14,7 @@ import { projectConfig } from '../scripts/config.ts';
 import { git, configureGit, commit, saveJson, readJson, ControlStore } from '../scripts/github.ts';
 import { initializeCheckpoint, loadState, publishCheckpoint } from '../scripts/state.ts';
 import { launchWorker } from '../scripts/runtime.ts';
+import { reconcileLoop } from '../scripts/failures.ts';
 const exec = promisify(execFile);
 const cli = resolve('bin/shurik.ts'), bundle = resolve('dist/worker.cjs');
 
@@ -190,7 +191,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
           { tool: 'bash', args: { command: 'git add consumer-result.txt provider-selection.json && git commit -m "Agent verified work"' } },
           { tool: 'write', args: { path: 'uncommitted.txt', content: 'DO_NOT_CHECKPOINT_UNFINISHED_WORK' } }
         ] : []),
-        { text: 'Done' }];`));
+        req.id === 'inference:1-1' ? { error: 'INJECTED_INFERENCE_FAILURE' } : { text: 'Done' }];`));
   await git(engine, 'init'); await configureGit(engine);
   const engineSHA = await commit(engine, 'scripted engine release');
   const gitConfig = join(dir, 'gitconfig');
@@ -251,7 +252,7 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     assert.equal(started.pr, null, 'PR creation being disabled does not prevent starting the loop');
     assert.equal(started.createPr, false, 'auto learns that this repository disallows PR creation');
     assert.equal(dispatches[0].inputs.supervisor_ref, undefined, 'reusable continuation does not pin an engine');
-    await main({ command: 'iterate', loop_id: 'demo', generation: '1', iteration: '1' });
+    assert.equal(await main({ command: 'iterate', loop_id: 'demo', generation: '1', iteration: '1' }), 0);
     const { value, revision } = await store.read();
     assert.equal(value.next, 2); assert.equal(value.owner, null);
     assert.equal(value.pr, null, 'PR creation being disabled does not prevent completing an iteration');
@@ -375,6 +376,44 @@ test('supervisor starts and completes an unrelated consumer loop using the curre
     await main({ command: 'iterate', loop_id: 'waiting', generation: '2', iteration: '3' });
     assert.equal(dispatches.length, beforeWaiting + 4, 'zero wait dispatches immediately');
     await main({ command: 'stop', loop_id: 'waiting' });
+    await main({ command: 'start', loop_id: 'inference', model: { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' },
+      work_seconds: '20', checkpoint_seconds: '0', create_pr: false });
+    const failedStore = new ControlStore(ctl, 'inference'), beforeFailure = dispatches.length;
+    const preload = join(dir, 'no-dispatch.mjs'), attempts = join(dir, 'unexpected-request.txt');
+    await writeFile(preload, `import { appendFile } from 'node:fs/promises';\nglobalThis.fetch = async url => {
+      await appendFile(${JSON.stringify(attempts)}, String(url)); throw new Error('Failed iteration must not dispatch');
+    };\n`);
+    await assert.rejects(exec(process.execPath, ['--import', preload, cli, 'iterate', '--loop-id', 'inference', '--generation', '1', '--iteration', '1'], {
+      env: { ...process.env, GITHUB_RUN_ID: '900' }
+    }), (error: NodeJS.ErrnoException & { code?: unknown; stdout?: string; stderr?: string }) => {
+      assert.equal(error.code, 2); assert.match(error.stderr!, /agent_failure|INJECTED_INFERENCE_FAILURE/);
+      assert.match(error.stdout!, /Awaiting recovery/); return true;
+    });
+    await assert.rejects(readFile(attempts), { code: 'ENOENT' });
+    await assert.rejects(readFile(join(runtimeEmergency('fixture/consumer', 'inference'), '..',
+      `900-${process.env.GITHUB_RUN_ATTEMPT ?? '1'}`, 'state/history-index.json')), { code: 'ENOENT' });
+    const failed = await failedStore.read();
+    assert.equal(failed.value.next, 2); assert.equal(failed.value.owner, null);
+    assert.equal(failed.value.lastDispatchAt, null); assert.equal(dispatches.length, beforeFailure);
+    const failedRecord = JSON.parse(await git(ctl, 'show', `${failed.revision}:state/iterations/1-1.json`));
+    assert.equal(failedRecord.outcome, 'agent_failure'); assert.match(failedRecord.error, /INJECTED_INFERENCE_FAILURE/);
+    assert.ok(await git(ctl, 'show', `${failed.revision}:state/pi-jsonl/sessions/1-1/main.jsonl`));
+    const failedRuntime = JSON.parse(await git(ctl, 'show', `${failed.revision}:state/runtime.json`));
+    assert.equal(failedRuntime.selected, engineSHA); assert.deepEqual(failedRuntime.quarantined, []);
+    const wake = runFixture({ id: 900, run_attempt: 1, status: 'completed', conclusion: 'failure', display_title: 'Shurik inference / 1',
+      html_url: 'https://github.com/fixture/consumer/actions/runs/900', head_sha: engineSHA,
+      run_started_at: failedRecord.startedAt, updated_at: failedRecord.finishedAt });
+    let recoveryDispatches = 0;
+    const recoverFailed = () => reconcileLoop(failedStore, { wake, request: async <T>(path: string): Promise<T> => {
+      if (path === 'actions/runs/900') return wake as T;
+      if (path.includes('/jobs?')) return { total_count: 0, jobs: [] } as T;
+      throw new Error('Unexpected recovery request: ' + path);
+    }, dispatchNext: async c => { recoveryDispatches++; assert.equal(c.next, 2); } });
+    await recoverFailed(); await recoverFailed();
+    assert.equal(recoveryDispatches, 1); assert.equal((await failedStore.read()).value.next, 2);
+    assert.equal(await main({ command: 'iterate', loop_id: 'inference', generation: '1', iteration: '2' }), 0);
+    assert.equal(dispatches.length, beforeFailure + 1, 'successful successor schedules the next iteration itself');
+    await main({ command: 'stop', loop_id: 'inference' });
     const swarmModel = { provider: 'openai', name: 'gpt-6-sol', reasoning: 'high' as const };
     const beforeSwarm = dispatches.length;
     await assert.rejects(main({ command: 'start', loop_id: 'no-checkpoint-old-source', model: swarmModel,

@@ -41,6 +41,7 @@ const failed = await launchWorker({ workspace, state, bundle, stable, key: 'TEST
 } });
 if (previousToken === undefined) delete process.env.GITHUB_TOKEN; else process.env.GITHUB_TOKEN = previousToken;
 assert.equal(failed.outcome, 'agent_failure', failed.log);
+assert.equal(failed.code, 2, 'inference failure is nonzero without quarantining a working runner');
 assert.equal(await readFile(join(workspace, 'partial.txt'), 'utf8'), 'partial');
 assert.equal(await readFile(join(workspace, '.github/attempt.yml'), 'utf8'), 'local');
 assert.ok(await inspectJournal(bundle, join(state, 'pi-jsonl'), stable));
@@ -51,6 +52,7 @@ const timed = await launchWorker({ workspace, state, bundle, stable, req: {
   script: [{ tool: 'bash', args: { command: 'printf partial > timeout-partial.txt; sleep 30' } }]
 } });
 assert.equal(timed.outcome, 'timeout', timed.log);
+assert.equal(timed.code, 0, 'normal work-budget expiry succeeds');
 assert.equal(await readFile(join(workspace, 'timeout-partial.txt'), 'utf8'), 'partial');
 const cancelled = await launchWorker({ workspace, state, bundle, stable, req: {
   ...baseReq, id: 'native-cancel', seconds: 30,

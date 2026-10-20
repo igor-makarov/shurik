@@ -57,6 +57,10 @@ export interface Failure {
   interruptedOwner: boolean; jobs: FailureJob[]; jobsTruncated?: boolean; jobsUnavailable?: string;
 }
 export interface WorkerResult { version: number; outcome: Outcome | 'readable'; provider?: string; model?: string; reasoning?: string; provisionalModel?: boolean; error?: unknown; usage?: unknown; captured?: unknown[]; minEntryId?: number; maxEntryId?: number }
+export function outcomeExitCode(outcome: WorkerResult['outcome'] | undefined): 0 | 1 | 2 {
+  if (outcome === 'yielded' || outcome === 'timeout' || outcome === 'readable') return 0;
+  return outcome === 'agent_failure' ? 2 : 1;
+}
 export interface WorkerReport { outcome: Outcome; result: WorkerResult | null; log: string; code?: number | null }
 export type WorkerRequest = Omit<Request, 'cwd' | 'journal' | 'output'>;
 export interface WorkerCheckpoint { nonce: string; id: string; minEntryId: number; maxEntryId: number; at: string; phase: 'started' | 'tools' }

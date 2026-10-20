@@ -368,13 +368,15 @@ property('run-title fences round-trip and cannot identify a different loop',
     assert.equal(runFence(c, { display_title: title('other-' + c.id, generation, iteration, prefix) }), null);
   }));
 
-property('nonzero exits and malformed worker envelopes always classify as runner failures',
+property('worker exit status preserves inference failures and rejects abnormal or malformed reports',
   fc.property(terminal, fc.integer({ min: 1, max: 255 }), (outcome, code) => {
     assert.equal(classify({ version: 1, outcome }, 0), outcome);
     for (const result of [null, { version: 0, outcome }, { version: 2, outcome }, { version: 1, outcome: 'unknown' }]) {
       assert.equal(classify(result as WorkerResult | null, 0), 'runner_failure');
+      assert.equal(classify(result as WorkerResult | null, 2), 'runner_failure');
     }
-    assert.equal(classify({ version: 1, outcome }, code), 'runner_failure');
+    assert.equal(classify({ version: 1, outcome }, 2), outcome === 'agent_failure' ? 'agent_failure' : 'runner_failure');
+    assert.equal(classify({ version: 1, outcome }, code), code === 2 && outcome === 'agent_failure' ? 'agent_failure' : 'runner_failure');
     assert.equal(classify({ version: 1, outcome }, -code), 'runner_failure');
     assert.equal(classify({ version: 1, outcome }, null), 'runner_failure');
   }));

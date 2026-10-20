@@ -116,7 +116,9 @@ export function cancelledForLoop(control: Control, run?: Run) {
   return !control.owner && !!fence && fence.generation === control.generation && fence.iteration === control.next;
 }
 export function classify(result: WorkerResult | null, exitCode: number | null): Outcome {
-  if (!result || exitCode !== 0 || result.version !== 1) return 'runner_failure';
+  if (!result || result.version !== 1) return 'runner_failure';
+  if (exitCode === 2 && result.outcome === 'agent_failure') return 'agent_failure';
+  if (exitCode !== 0) return 'runner_failure';
   return ['yielded', 'agent_failure', 'timeout', 'runner_failure'].includes(result.outcome) ? result.outcome as Outcome : 'runner_failure';
 }
 export function nextRuntime(runtime: Runtime, outcome: Outcome): Runtime {

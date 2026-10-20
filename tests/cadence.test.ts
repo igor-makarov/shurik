@@ -70,6 +70,23 @@ test('same-workflow recovery starts the wait at completed job time and does not 
   } finally { await rm(f.dir, { recursive: true, force: true }); }
 });
 
+test('recovery preserves a finalized failure wait and dispatches once when it becomes due', async () => {
+  const due = new Date(base + 10800000).toISOString();
+  const f = await fixture({ next: 2, owner: null, lastRunId: '123', lastDispatchAt: null, nextRunAt: due });
+  try {
+    const run = runFixture({ conclusion: 'failure', display_title: 'Shurik idle / iterate 1-1' });
+    let dispatches = 0;
+    const check = () => reconcileLoop(f.store, { wake: run, request: requestFor(run), dispatchNext: async c => {
+      dispatches++; assert.equal(c.next, 2); assert.equal(c.nextRunAt, null);
+    } });
+    await check(); clock = base + 10800000 - 1; await check();
+    assert.equal(dispatches, 0); assert.equal((await f.store.read()).value.nextRunAt, due);
+    assert.equal((await f.store.read()).value.next, 2);
+    clock++; await check(); await check();
+    assert.equal(dispatches, 1); assert.equal((await f.store.read()).value.next, 2);
+  } finally { await rm(f.dir, { recursive: true, force: true }); }
+});
+
 test('deadlines and cancellation during waiting prevent the next iteration', async () => {
   for (const cancelled of [false, true]) {
     const f = await fixture({ next: 2, nextRunAt: new Date(base + 10800000).toISOString(), lastRunId: '123',

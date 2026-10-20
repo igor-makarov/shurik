@@ -4,13 +4,15 @@ Current implementation: a reusable action invoking the TypeScript Shurik CLI, No
 
 ## Version 2 launch and swarm checks
 
-The v2.0.2 release passes `npm run verify`: type checking, the standalone worker build, and 143 tests. The launch suite validates native objects and JSON transport through workflow/action/CLI inputs, replication, per-member model overrides, count/list mismatches, generated IDs, removed flat input rejection, resume resolution, multiline action paths, and member identity. Its additional fast-check property exercises 1,000 generated launch plans with exact cardinality, per-member reasoning and input immutability.
+The v2.0.3 release passes `npm run verify`: type checking, the standalone worker build, and 145 tests. The launch suite validates native objects and JSON transport through workflow/action/CLI inputs, replication, per-member model overrides, count/list mismatches, generated IDs, removed flat input rejection, resume resolution, multiline action paths, and member identity. Its additional fast-check property exercises 1,000 generated launch plans with exact cardinality, per-member reasoning and input immutability.
 
 The native consumer fixture starts two members through one control invocation, verifies distinct control records and model selections, advances one while the other retains its iteration number, checks identity in the actual worker prompt, and preserves identity across stop/resume. A malformed later model creates no branches. An injected dispatch failure for the first member preserves that member's emergency state and does not prevent the next member from starting. The original single-loop checkpoint, recovery, default-branch and retained-history checks remain in the same integration fixture.
 
 Checkpoint checks cover `checkpoint-seconds: 0` through workflow JSON, action inputs, CLI flags, swarm startup and resume. The native worker emits no checkpoints with zero, emits session-start and tool-round checkpoints with a positive interval, and retains the completed local journal in both cases. Git-backed checks prove initialization and publication leave staged, unstaged and untracked task edits untouched, publish only existing agent commits, and persist session history for a cold restart. Consumer integration verifies agent instructions, explicit commits, exclusion of unfinished edits, saved control and successor dispatch. Startup rejects sources requiring workflow synchronization when automatic commits are disabled. Resume can re-enable automatic checkpoints; omitted or blank overrides preserve zero. Invalid intervals fail configuration or resume validation.
 
 The v2 workflow and action YAML parse successfully. The native runner proof also passes timeout/cancellation, candidate rejection, probation rollback and repair, malformed-journal recovery, and recovery after supervisor loss. The v2 checks use scripted providers and local bare Git repositories; they do not claim a new paid-provider or live consumer swarm run. Existing live v1 evidence is retained below.
+
+Inference-failure checks exercise both the standalone worker and a real `shurik iterate` subprocess. They verify exit status two, preserved `agent_failure` history, unchanged runner selection, saved control with ownership released and no dispatch reservation, no direct successor request, and no emergency snapshot for a handled inference failure. Recovery dispatches exactly once without consuming another iteration number, preserves configured waits, and leaves a running successor alone. A successful successor returns zero and dispatches its next iteration itself. Generated worker-report checks preserve compatibility with earlier exit-zero reports while rejecting unexpected exits and malformed reports.
 
 ## Reusable component checks
 
@@ -49,7 +51,7 @@ The inventory below corresponds to named properties in [properties.test.ts](test
 15. Same-workflow recovery requires a completed iteration with a matching result.
 16. Failure report paths distinguish runs/attempts and reject unsafe identities.
 17. Run-title fences round-trip and cannot identify another loop.
-18. Nonzero exits and malformed worker envelopes classify as runner failures.
+18. Inference-failure exit status preserves its structured outcome; abnormal exits and malformed worker envelopes classify as runner failures.
 19. Runner rollback is idempotent and retains prior quarantine evidence.
 20. Provider errors, timeout, and yield never quarantine or switch a working engine.
 21. Known credentials and supported encodings are redacted, length is preserved, and a second pass is unchanged.

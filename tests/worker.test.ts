@@ -23,8 +23,11 @@ async function run(f: Awaited<ReturnType<typeof fixture>>, id: string, script: W
   const output = join(f.dir, id); const req: WorkerRequest = { version: 1, id, cwd: f.cwd, journal: f.journal,
     output, prompt: `Iteration ${id}. Use the available tools.`, model: 'space-bunny-free', reasoning: 'high', seconds: 10, sessions, script, ...extra };
   const file = join(f.dir, `${id}.json`); await writeFile(file, JSON.stringify(req));
-  await exec(process.execPath, [bundle, file], { timeout: Math.max(20000, (req.seconds + 10) * 1000) });
-  return JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+  const status = await exec(process.execPath, [bundle, file], { timeout: Math.max(20000, (req.seconds + 10) * 1000) })
+    .then(() => 0, error => { if (typeof error.code !== 'number') throw error; return error.code as number; });
+  const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+  assert.equal(status, result.outcome === 'agent_failure' ? 2 : result.outcome === 'runner_failure' ? 1 : 0);
+  return result;
 }
 test('standalone bundle: coding tools, native JSONL reopen, fresh context, all history tools', async () => {
   const f = await fixture();
@@ -219,7 +222,7 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/2.0.2');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/2.0.3');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');

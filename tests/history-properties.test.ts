@@ -30,8 +30,11 @@ async function worker(directory: string, journal: string, id: string, script: Re
   await writeFile(request, JSON.stringify({ version: 1, id, journalId, journal, cwd: directory, output,
     prompt: 'Use the requested tools, then finish.', model: 'space-bunny-free', reasoning: 'high',
     seconds: 45, sessions, script } satisfies Request));
-  await exec(process.execPath, [bundle, request], { timeout: 55000 });
-  return JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+  const status = await exec(process.execPath, [bundle, request], { timeout: 55000 })
+    .then(() => 0, error => { if (error.code !== 2) throw error; return 2; });
+  const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+  assert.equal(status, result.outcome === 'agent_failure' ? 2 : 0);
+  return result;
 }
 
 async function snapshot(directory: string, excluded?: string): Promise<Map<string, Buffer>> {
