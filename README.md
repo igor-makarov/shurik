@@ -177,6 +177,17 @@ For Anthropic, supply `model: '{"provider":"anthropic","name":"claude-haiku-4-5"
 
 Start, stop, resume, and recovery need the repository token but make no model requests. Keep credentials outside dispatch inputs and saved control/session data. Shurik does not run interactive OAuth login or configure a persistent credential store. Custom providers/endpoints need a worker integration; see Pi AI's [custom-provider documentation](https://github.com/earendil-works/pi/blob/main/packages/ai/README.md#custom-providers). The public demo uses `opencode-go` / `deepseek-v4.1-flash` with native environment authentication.
 
+Provider request retries are enabled through Pi AI's native adapters. Shurik's built-in settings are:
+
+| Setting | Value |
+| --- | --- |
+| Provider request retries | 3 retries after the initial request, up to 4 attempts total |
+| Maximum provider-requested retry wait | 60 seconds; a longer requested wait fails rather than being shortened |
+| Provider request timeout | 120 seconds |
+| Pi Durable model-response retries | Disabled |
+
+Where supported by the adapter, request retries cover temporary HTTP errors such as 429 and server failures, honor `retry-after-ms` or `Retry-After`, and use Pi's exponential backoff with jitter when no wait is provided. The iteration's work budget can interrupt a retry wait. Exhausted retries, non-retryable errors and failed response streams still produce an inference failure and nonzero exit status; recovery handles continuation. These are engine settings, not workflow/action inputs.
+
 ## Loop configuration
 
 Set configuration in the control job's action inputs:

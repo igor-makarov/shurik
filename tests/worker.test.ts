@@ -29,6 +29,16 @@ async function run(f: Awaited<ReturnType<typeof fixture>>, id: string, script: W
   assert.equal(status, result.outcome === 'agent_failure' ? 2 : result.outcome === 'runner_failure' ? 1 : 0);
   return result;
 }
+function chatCompletionResponse(finishReason = 'stop') {
+  const chunks = [
+    { id: 'retry-test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free',
+      choices: [{ index: 0, delta: { role: 'assistant', content: 'Useful answer.' }, finish_reason: null }] },
+    { id: 'retry-test', object: 'chat.completion.chunk', created: 1, model: 'space-bunny-free',
+      choices: [{ index: 0, delta: {}, finish_reason: finishReason }] }
+  ];
+  return new Response(chunks.map(chunk => `data: ${JSON.stringify(chunk)}\n\n`).join('') + 'data: [DONE]\n\n',
+    { headers: { 'content-type': 'text/event-stream' } });
+}
 test('standalone bundle: coding tools, native JSONL reopen, fresh context, all history tools', async () => {
   const f = await fixture();
   const first = await run(f, 'first', [{ tool: 'write', args: { path: 'evidence.txt', content: 'PAST_SESSION_NEEDLE' } }, { text: 'First finished PAST_SESSION_NEEDLE' }]);
@@ -222,7 +232,7 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
     }
     assert.equal(requests.length, 2);
     assert.match(requests[0].url, /^https:\/\/opencode\.ai\/zen\/go\/v1\/chat\/completions$/);
-    assert.equal(requests[0].headers.get('user-agent'), 'shurik/2.0.3');
+    assert.equal(requests[0].headers.get('user-agent'), 'shurik/2.0.4');
     assert.equal(requests[0].body.reasoning_effort, 'high');
     assert.equal(requests[1].body.reasoning_effort, 'medium');
     const session = requests[0].headers.get('x-opencode-session');
@@ -230,6 +240,81 @@ test('native OpenCode requests send explicit reasoning, apply changes and retain
   } finally {
     globalThis.fetch = fetchOriginal;
     if (keyOriginal === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = keyOriginal;
+  }
+});
+
+test('provider retries honor rate-limit headers and stop after four total attempts', async () => {
+  const f = await fixture(), originalFetch = globalThis.fetch, originalKey = process.env.OPENCODE_API_KEY;
+  process.env.OPENCODE_API_KEY = 'SYNTHETIC_PROVIDER_RETRY_KEY';
+  try {
+    const { runIteration } = loadWorker();
+    for (const recover of [true, false]) {
+      let calls = 0; const requests: { body: string; session: string | null }[] = [];
+      globalThis.fetch = async (_url, options = {}) => {
+        calls++; requests.push({ body: String(options.body), session: new Headers(options.headers).get('x-opencode-session') });
+        if (recover && calls === 3) return chatCompletionResponse();
+        return Response.json({ error: { message: 'Too many requests', type: 'rate_limit_error' } }, { status: 429,
+          headers: calls === 1 ? { 'retry-after-ms': '20', 'retry-after': '30' } : { 'retry-after': '0.02' } });
+      };
+      const output = join(f.dir, recover ? 'retry-success' : 'retry-exhausted');
+      await runIteration({ version: 1, id: recover ? 'retry-success' : 'retry-exhausted', cwd: f.cwd, journal: f.journal, output,
+        model: 'space-bunny-free', reasoning: 'high', prompt: 'Finish the answer.', seconds: 5, sessions: [] });
+      const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+      assert.equal(result.outcome, recover ? 'yielded' : 'agent_failure', JSON.stringify(result.error));
+      assert.equal(calls, recover ? 3 : 4);
+      assert.equal(new Set(requests.map(request => request.body)).size, 1, 'provider retries repeat the same request');
+      assert.ok(requests[0].session); assert.equal(new Set(requests.map(request => request.session)).size, 1);
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = originalKey;
+  }
+});
+
+test('provider retries reject excessive waits and do not retry authentication errors or failed response streams', async () => {
+  const f = await fixture(), originalFetch = globalThis.fetch, originalKey = process.env.OPENCODE_API_KEY;
+  process.env.OPENCODE_API_KEY = 'SYNTHETIC_PROVIDER_RETRY_KEY';
+  try {
+    const { runIteration } = loadWorker();
+    for (const kind of ['authentication', 'long-wait', 'failed-stream']) {
+      let calls = 0;
+      globalThis.fetch = async () => {
+        calls++;
+        if (kind === 'failed-stream') return chatCompletionResponse('network_error');
+        return Response.json({ error: { message: kind === 'long-wait' ? 'Too many requests' : 'Invalid API key' } },
+          { status: kind === 'long-wait' ? 429 : 401, headers: { 'retry-after': '61' } });
+      };
+      const output = join(f.dir, kind);
+      await runIteration({ version: 1, id: kind, cwd: f.cwd, journal: f.journal, output,
+        model: 'space-bunny-free', reasoning: 'high', prompt: 'Finish the answer.', seconds: 5, sessions: [] });
+      const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+      assert.equal(result.outcome, 'agent_failure', JSON.stringify(result.error));
+      assert.equal(calls, 1, 'model-response retries remain disabled');
+      if (kind === 'long-wait') assert.match(JSON.stringify(result.error), /61s retry delay \(max: 60s\)/);
+    }
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = originalKey;
+  }
+});
+
+test('iteration timeout cancels a provider-requested retry wait', async () => {
+  const f = await fixture(), originalFetch = globalThis.fetch, originalKey = process.env.OPENCODE_API_KEY;
+  process.env.OPENCODE_API_KEY = 'SYNTHETIC_PROVIDER_RETRY_KEY'; let calls = 0;
+  globalThis.fetch = async () => {
+    calls++;
+    return Response.json({ error: { message: 'Too many requests' } }, { status: 429, headers: { 'retry-after': '30' } });
+  };
+  try {
+    const { runIteration } = loadWorker(), started = Date.now(), output = join(f.dir, 'retry-cancelled');
+    await runIteration({ version: 1, id: 'retry-cancelled', cwd: f.cwd, journal: f.journal, output,
+      model: 'space-bunny-free', reasoning: 'high', prompt: 'Finish the answer.', seconds: 2, sessions: [] });
+    const result = JSON.parse(await readFile(join(output, 'result.json'), 'utf8'));
+    assert.equal(result.outcome, 'timeout'); assert.equal(calls, 1);
+    assert.ok(Date.now() - started < 7000, 'the iteration does not wait the provider-requested 30 seconds');
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.OPENCODE_API_KEY; else process.env.OPENCODE_API_KEY = originalKey;
   }
 });
 
